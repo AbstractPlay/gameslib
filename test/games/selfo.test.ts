@@ -29,6 +29,14 @@ const connected = (cells: string[], g: HexTriGraph = graph): boolean => {
     return seen.size === set.size;
 };
 
+// Whether `player` could connect all their pieces with a single move, if it were their turn.
+const canWinInOne = (board: Map<string, playerid>, player: playerid, g: HexTriGraph): boolean => {
+    const own = [...board.entries()].filter(([, p]) => p === player).map(([c]) => c);
+    return own.some(from => g.neighbours(from).some(to =>
+        !board.has(to) && connected(own.map(c => c === from ? to : c), g)
+    ));
+};
+
 const corners = (graph.listCells() as string[]).filter(c => graph.neighbours(c).length === 3);
 
 describe("Selfo", () => {
@@ -58,6 +66,31 @@ describe("Selfo", () => {
                 }
             });
         }
+
+        it("never starts with a colour one move away from winning", () => {
+            // the small board is where this used to happen (about 2% of the starts)
+            for (const [variants, radius] of [[["r2f5"], 2], [["r2f5", "no-enclosure"], 2], [[], 3]] as [string[], number][]) {
+                const g = new HexTriGraph(radius + 1, radius * 2 + 1);
+                for (let i = 0; i < 200; i++) {
+                    const game = new SelfoGame(undefined, variants);
+                    expect(canWinInOne(game.board, 1, g), `black, ${variants.join(",")}`).to.be.false;
+                    expect(canWinInOne(game.board, 2, g), `white, ${variants.join(",")}`).to.be.false;
+                }
+            }
+        });
+
+        it("detects a colour that is one move away from winning", () => {
+            // c3 + n0 + t: t can step next to c3 and complete the group (see "moves and winning")
+            const nbrs = graph.neighbours("c3").sort();
+            const n0 = nbrs[0];
+            const n1 = nbrs.find(n => n !== n0 && !graph.neighbours(n0).includes(n))!;
+            const t = graph.neighbours(n1).sort().find(c => c !== "c3" && !nbrs.includes(c))!;
+            const board = new Map<string, playerid>([["c3", 1], [n0, 1], [t, 1]]);
+            expect(canWinInOne(board, 1, graph)).to.be.true;
+            // two pieces at distance 3 or more cannot be joined by a single step
+            const far = corners.find(c => c !== corners[0] && graph.path(corners[0], c)!.length > 3)!;
+            expect(canWinInOne(new Map<string, playerid>([[corners[0], 1], [far, 1]]), 1, graph)).to.be.false;
+        });
 
         it("records the starting position", () => {
             const game = new SelfoGame(undefined, ["r2f5"]);

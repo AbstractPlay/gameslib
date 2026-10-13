@@ -122,6 +122,12 @@ const after = (board: Board, from: string, to: string): Board => {
     return next;
 };
 
+/** Whether `player` could connect all their pieces with a single move (if it were their turn). */
+const canWinInOne = (graph: HexTriGraph, board: Board, player: playerid): boolean =>
+    piecesOf(board, player).some(from =>
+        graph.neighbours(from).some(to => !board.has(to) && isConnected(graph, after(board, from, to), player))
+    );
+
 /** Whether the move would enclose an opposing piece without winning the game outright. */
 const wouldEnclose = (graph: HexTriGraph, board: Board, from: string, to: string): boolean => {
     const player = board.get(from)!;
@@ -291,7 +297,7 @@ export class SelfoGame extends GameBase {
     /**
      * Random starting position: both colours scattered with no group larger
      * than the board radius (and never one big enough to be connected), no
-     * piece already enclosed, and no immediate win for the first player (and,
+     * piece already enclosed, and no colour one move away from winning (and,
      * with `no-enclosure`, at least one legal move for both).
      */
     private randomStart(): Board {
@@ -307,11 +313,9 @@ export class SelfoGame extends GameBase {
             for (const c of first) { board.set(c, 1); }
             for (const c of second) { board.set(c, 2); }
             if (hasEnclosedPiece(this.graph, board, 1) || hasEnclosedPiece(this.graph, board, 2)) { continue; }
-            // the first player must not be able to win on their first move
-            const wins = piecesOf(board, 1).some(from =>
-                this.graph.neighbours(from).some(to => !board.has(to) && isConnected(this.graph, after(board, from, to), 1))
-            );
-            if (wins) { continue; }
+            // neither colour may be one move away from winning (the second player
+            // could otherwise win at once, or take that colour with the pie rule)
+            if (canWinInOne(this.graph, board, 1) || canWinInOne(this.graph, board, 2)) { continue; }
             fallback = board;
             if (!this.noEnclosure) { return board; }
             if (legalMoves(this.graph, board, 1, true).length > 0 && legalMoves(this.graph, board, 2, true).length > 0) {

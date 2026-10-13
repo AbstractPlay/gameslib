@@ -218,7 +218,7 @@ export class SelfoGame extends GameBase {
             },
         ],
         categories: ["goal>connect", "mechanic>move", "mechanic>random>setup", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "pie", "random-start"],
+        flags: ["experimental", "random-start"],
         variants: [
             { uid: "r2f5", group: "board" },
             { uid: "#board" },

@@ -705,6 +705,10 @@
   "entropy": {
     "PASS": {
       "default": "{{player}} eligió no mover ninguna pieza este turno."
+    },
+    "status": {
+      "ORDER": "Orden",
+      "CHAOS": "Caos"
     }
   },
   "epam": {

@@ -1191,6 +1191,14 @@
     "src": "{{player}} chose not to move any pieces this turn.",
     "out": "{{player}} hat sich entschieden, in diesem Zug keine Steine zu bewegen."
   },
+  "entropy.status.CHAOS": {
+    "src": "Chaos",
+    "out": "Chaos"
+  },
+  "entropy.status.ORDER": {
+    "src": "Order",
+    "out": "Ordnung"
+  },
   "epam.PLACE.default": {
     "src": "{{player}} placed a stone at {{where}}.",
     "out": "{{player}} hat einen Stein bei {{where}} platziert."

@@ -705,6 +705,10 @@
   "entropy": {
     "PASS": {
       "default": "{{player}} hat sich entschieden, in diesem Zug keine Steine zu bewegen."
+    },
+    "status": {
+      "ORDER": "Ordnung",
+      "CHAOS": "Chaos"
     }
   },
   "epam": {

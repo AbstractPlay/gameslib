@@ -7,7 +7,7 @@ Hosting is S3 + CloudFront (same general pattern as [records.abstractplay.com](h
 ## Maintainer tooling (local only)
 
 1. Copy `bin/mirror-rules.config.example.json` to `bin/mirror-rules.config.json` (gitignored) and adjust if needed.
-2. For `bulk --tier all`, set the BGG XML API Bearer token in `bggApiToken` (same value as `bin/fetchThumbs.ts`) or export `BGG_API_TOKEN`.
+2. For `bulk --tier all`, provide a BGG XML API Bearer token via `BGG_API_TOKEN` / `BGG_BEARER_TOKEN`, `bgg_api_token` in sibling `../apsecrets.yml`, or `bggApiToken` in `mirror-rules.config.json` (env wins, then apsecrets, then config).
 3. Ensure AWS credentials can `PutObject` / `GetObject` on bucket `rules.abstractplay.com`.
 4. Run from repo root:
 
@@ -33,6 +33,6 @@ New games: obtain a PDF and use `upload <uid> <file>`; canonical links stay in `
 
 Install `npm install -D playwright` and `npx playwright install chromium` for HTML rules. Manifest `strategy` is `print` when a designer page, BGG thread, or BGG description is rendered to PDF.
 
-**BGG (`--tier all`):** Uses the XML API, not the website Files tab HTML. For each game it calls `xmlapi2/thing?id={bggid}` and reads `boardgamefile` link ids, then `xmlapi2/file?id={fileid}` for the PDF URL. You can also put a `boardgamegeek.com/filepage/…` URL in `gameinfo.urls` (file id is extracted directly). Requires a Bearer token (`BGG_API_TOKEN` or `BGG_BEARER_TOKEN` in **the same terminal** that runs the script, or `bggApiToken` in config); bulk logs `BGG API token: yes (BGG_API_TOKEN)` when it sees one. Debug one game: `npx tsx bin/mirror-rules.ts bgg-probe accasta` (shows file links and description adequacy score). Waits **2s** between BGG calls, **10s** after **429**, **5s** after **202** queued responses.
+**BGG (`--tier all`):** Uses the XML API, not the website Files tab HTML. For each game it calls `xmlapi2/thing?id={bggid}` and reads `boardgamefile` link ids, then `xmlapi2/file?id={fileid}` for the PDF URL. You can also put a `boardgamegeek.com/filepage/…` URL in `gameinfo.urls` (file id is extracted directly). Requires a Bearer token (`BGG_API_TOKEN`, `BGG_BEARER_TOKEN`, `../apsecrets.yml` `bgg_api_token`, or `bggApiToken` in config); bulk logs `BGG API token: yes (…)` with the source when it sees one. Debug one game: `npx tsx bin/mirror-rules.ts bgg-probe accasta` (shows file links and description adequacy score). Waits **2s** between BGG calls, **10s** after **429**, **5s** after **202** queued responses.
 
 If `thing` returns **0** `boardgamefile` links and the description does not pass the rules heuristic, the game may have rules only in forum threads or off-site. Use a direct `.pdf` in `gameinfo.urls` (tier **pdf**), a `thread/…` URL, or `upload`.

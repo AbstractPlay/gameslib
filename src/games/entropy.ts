@@ -11,6 +11,10 @@ export const gameApresultsEn = {
     PASS: {
         default: "{{player}} chose not to move any pieces this turn.",
     },
+    status: {
+        ORDER: "Order",
+        CHAOS: "Chaos",
+    },
 };
 
 export const gameApgamesEn = {

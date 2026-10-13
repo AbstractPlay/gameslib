@@ -11,7 +11,7 @@ export const gameApgamesEn = {
         INITIAL_INSTRUCTIONS: "Click one of your pieces to select it.",
         INITIAL_INSTRUCTIONS_PIE: "Click one of your pieces to select it, or use the pie rule to swap sides.",
         NOT_ADJACENT: "A piece can only move to an adjacent empty cell.",
-        NO_PASS: "You cannot pass in this game.",
+        NO_PASS: "You cannot pass in this game. Swapping sides (the pie rule) is only available to the second player, right after the first move.",
         PARTIAL: "Click an adjacent empty cell to move the selected piece there.",
         PIE: "Use the pie rule and swap sides.",
         PIE_UNAVAILABLE: "The pie rule can only be used by the second player right after the first move.",
@@ -218,7 +218,7 @@ export class SelfoGame extends GameBase {
             },
         ],
         categories: ["goal>connect", "mechanic>move", "mechanic>random>setup", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "pie", "random-start", "custom-buttons"],
+        flags: ["experimental", "pie", "random-start"],
         variants: [
             { uid: "r2f5", group: "board" },
             { uid: "#board" },
@@ -339,15 +339,6 @@ export class SelfoGame extends GameBase {
      */
     public isPieTurn(): boolean {
         return !this.gameover && this.stack.length === 2 && this.currplayer === 2;
-    }
-
-    /** The pie rule is offered as a button on the second player's first turn. */
-    public getButtons(): Array<{label: string; move: string}> {
-        if (this.isPieTurn()) {
-            // the button sends "pass" (like Asli's pie button), which is accepted as "pie"
-            return [{label: "apgames:buttons.swap", move: "pass"}];
-        }
-        return [];
     }
 
     public moves(player?: playerid): string[] {

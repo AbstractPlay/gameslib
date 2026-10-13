@@ -179,16 +179,7 @@ describe("Selfo", () => {
             expect(game.validateMove("pie").valid).to.be.true;
         });
 
-        it("shows a pie button only on that turn", () => {
-            const game = new SelfoGame(undefined, ["r2f5"]);
-            expect(game.getButtons()).to.deep.equal([]);
-            game.move(firstMove(game));
-            expect(game.getButtons()).to.deep.equal([{label: "apgames:buttons.swap", move: "pass"}]);
-            game.move("pie");
-            expect(game.getButtons()).to.deep.equal([]);
-        });
-
-        it("accepts the pie button's pass and plays it as pie", () => {
+        it("plays the generic Pass button as pie on the pie turn", () => {
             const game = new SelfoGame(undefined, ["r2f5"]);
             expect(game.handleClick("", -1, -1, "_btn_pass").valid).to.be.false;
             game.move(firstMove(game));

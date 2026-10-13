@@ -4592,8 +4592,8 @@
     "out": "Les espèces sont numérotées de 0 à 11 dans le sens antihoraire sur l'anneau, en commençant par l'espèce à un seul hexagone en haut. L'espèce 0 mange la 11 ; chaque autre espèce mange celle dont le numéro est directement en dessous du sien. La prédation ne se produit que lorsque vous placez une pierre qui forme une espèce adjacente à une proie. Les groupes ne peuvent pas dépasser quatre pierres. Le premier joueur à capturer 20 pierres adverses gagne, ou le joueur qui ne peut pas poser de pierre à son tour gagne (ayant rempli l'écosystème)."
   },
   "notes.clearpath": {
-    "src": "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe vital points are marked on the board. A red dot marks a point that every possible Red connection passes through, a blue dot marks a point that every possible Blue connection passes through, and a blue dot inside a red dot marks a point vital to both players. A point vital only to your opponent is illegal for you unless your placement completes your connection.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.\n\nThis implementation shortens the game by acknowledging that a player who no longer has any possible connection has lost by force.",
-    "out": "Clear Path a été conçu par Mark Steere en septembre 2026, en collaboration avec Claude Fable 5.1, un modèle d'IA développé par Anthropic.\n\nLes points vitaux sont marqués sur le plateau. Un point rouge indique un point par lequel passent toutes les connexions possibles de Rouge, un point bleu indique un point par lequel passent toutes les connexions possibles de Bleu, et un point bleu à l'intérieur d'un point rouge indique un point vital pour les deux joueurs. Un point vital uniquement pour votre adversaire est illégal pour vous, sauf si votre coup complète votre connexion.\n\nPasser n'est pas autorisé, mais le tour d'un joueur n'ayant aucun coup légal est passé. La passe est effectuée automatiquement.\n\nCette implémentation raccourcit la partie en reconnaissant qu'un joueur qui n'a plus aucune connexion possible a perdu d'office."
+    "src": "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe dots mark the points where the player to move may not place. Each dotted point is vital to the opponent (every possible connection of the opponent passes through it), not vital to the player to move, and not a winning placement. A point vital to both players is not dotted, since either player may take it, and neither is a point where the player to move completes a winning path. The dots are drawn in the opponent's colour. A player who no longer has any possible connection has no vital points.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.",
+    "out": "Clear Path a été conçu par Mark Steere en septembre 2026, en collaboration avec Claude Fable 5.1, un modèle d'IA développé par Anthropic.\n\nLes points indiquent les emplacements où le joueur ayant le trait ne peut pas poser de pièce. Chaque emplacement pointillé est vital pour l'adversaire (chaque connexion possible de l'adversaire passe par lui), n'est pas vital pour le joueur ayant le trait, et ne constitue pas un coup gagnant. Un emplacement vital pour les deux joueurs ne comporte pas de point, car l'un ou l'autre joueur peut s'en emparer, tout comme un emplacement où le joueur ayant le trait complèterait un chemin gagnant. Les points sont dessinés dans la couleur de l'adversaire. Un joueur qui n'a plus aucune connexion possible n'a aucun point vital.\n\nPasser n'est pas autorisé, mais le tour d'un joueur n'ayant aucun coup légal est sauté. Le passe est effectué automatiquement."
   },
   "notes.conspirateurs": {
     "src": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
@@ -17276,24 +17276,28 @@
     "out": "Plateau 15x15"
   },
   "variants.clearpath.#board.name": {
-    "src": "8x8 board",
-    "out": "Plateau 8x8"
-  },
-  "variants.clearpath.size-10.name": {
-    "src": "10x10 board",
-    "out": "Plateau 10x10"
+    "src": "9x9 board",
+    "out": "Plateau 9x9"
   },
   "variants.clearpath.size-11.name": {
     "src": "11x11 board",
     "out": "Plateau 11x11"
   },
+  "variants.clearpath.size-13.name": {
+    "src": "13x13 board",
+    "out": "Plateau 13x13"
+  },
+  "variants.clearpath.size-15.name": {
+    "src": "15x15 board",
+    "out": "Plateau 15x15"
+  },
+  "variants.clearpath.size-19.name": {
+    "src": "19x19 board",
+    "out": "Plateau 19x19"
+  },
   "variants.clearpath.size-7.name": {
     "src": "7x7 board",
     "out": "Plateau 7x7"
-  },
-  "variants.clearpath.size-9.name": {
-    "src": "9x9 board",
-    "out": "Plateau 9x9"
   },
   "variants.clusterfuss.#board.name": {
     "src": "Default board (8x8)",

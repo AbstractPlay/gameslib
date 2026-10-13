@@ -4641,7 +4641,7 @@
     "catsdogs": "Le jeu original, *SNORT*, a été conçu par Simon Norton en 1970. La seule règle était d'empêcher les pierres de couleurs différentes d'être adjacentes orthogonalement. Un joueur bloqué perd la partie. Norton a également proposé la version misère (le blocage est une victoire). Le jeu original est cependant cassé par une stratégie en miroir. Chris Huntoon a proposé un plateau 11x11 plus grand où le joueur ne peut pas commencer au centre (afin d'empêcher le miroir), qu'il a appelé *Cats and Dogs*, et c'est le jeu principal ici. La variante du règlement du tournoi portugais est également disponible, jouée sur le plateau plus petit 8x8, mais où le premier joueur doit commencer dans la zone centrale 2x2, et le second joueur doit répondre en dehors de cette zone. Cela permet au jeu de briser la stratégie du miroir tout en jouant sur le plateau d'origine plus petit. Consultez également l'article sur Snort dans [AGM#15](https://www.abstractgames.org/uploads/1/1/6/4/116462923/abstract_games_issue_15.pdf).",
     "chase": "Actuellement, la plupart des coups d'échange devront être édités à la main. Nous travaillons à résoudre cela.",
     "circleOfLife": "Les espèces sont numérotées de 0 à 11 dans le sens antihoraire sur l'anneau, en commençant par l'espèce à un seul hexagone en haut. L'espèce 0 mange la 11 ; chaque autre espèce mange celle dont le numéro est directement en dessous du sien. La prédation ne se produit que lorsque vous placez une pierre qui forme une espèce adjacente à une proie. Les groupes ne peuvent pas dépasser quatre pierres. Le premier joueur à capturer 20 pierres adverses gagne, ou le joueur qui ne peut pas poser de pierre à son tour gagne (ayant rempli l'écosystème).",
-    "clearpath": "Clear Path a été conçu par Mark Steere en septembre 2026, en collaboration avec Claude Fable 5.1, un modèle d'IA développé par Anthropic.\n\nLes points vitaux sont marqués sur le plateau. Un point rouge indique un point par lequel passent toutes les connexions possibles de Rouge, un point bleu indique un point par lequel passent toutes les connexions possibles de Bleu, et un point bleu à l'intérieur d'un point rouge indique un point vital pour les deux joueurs. Un point vital uniquement pour votre adversaire est illégal pour vous, sauf si votre coup complète votre connexion.\n\nPasser n'est pas autorisé, mais le tour d'un joueur n'ayant aucun coup légal est passé. La passe est effectuée automatiquement.\n\nCette implémentation raccourcit la partie en reconnaissant qu'un joueur qui n'a plus aucune connexion possible a perdu d'office.",
+    "clearpath": "Clear Path a été conçu par Mark Steere en septembre 2026, en collaboration avec Claude Fable 5.1, un modèle d'IA développé par Anthropic.\n\nLes points indiquent les emplacements où le joueur ayant le trait ne peut pas poser de pièce. Chaque emplacement pointillé est vital pour l'adversaire (chaque connexion possible de l'adversaire passe par lui), n'est pas vital pour le joueur ayant le trait, et ne constitue pas un coup gagnant. Un emplacement vital pour les deux joueurs ne comporte pas de point, car l'un ou l'autre joueur peut s'en emparer, tout comme un emplacement où le joueur ayant le trait complèterait un chemin gagnant. Les points sont dessinés dans la couleur de l'adversaire. Un joueur qui n'a plus aucune connexion possible n'a aucun point vital.\n\nPasser n'est pas autorisé, mais le tour d'un joueur n'ayant aucun coup légal est sauté. Le passe est effectué automatiquement.",
     "conspirateurs": "Dans le jeu de base, les pièces peuvent traverser les sanctuaires dans le cadre d'un saut en plusieurs étapes. Elles ne sont pas gelées tant qu'elles ne terminent pas leur déplacement dans un sanctuaire. Dans la variante stricte, les pièces sont gelées dès qu'elles entrent dans un sanctuaire.\n\nDans les parties à quatre joueurs, les joueurs 1 et 2 sont partenaires, tout comme les joueurs 3 et 4.",
     "deckfish": "Plus d'informations sur le système Decktet sont disponibles sur le [site officiel de Decktet](https://www.decktet.com).\n\nLes pouvoirs des enseignes (capacités de déplacement des jetons) sont :\n* Lunes : Sautez orthogonalement par-dessus les espaces.\n* Soleils : Déplacez une ou deux cartes en diagonale.\n* Vagues : Déplacez-vous orthogonalement jusqu'à la dernière carte sans obstacle.\n* Feuilles : Déplacez-vous orthogonalement sur n'importe quelle carte sans obstacle voisin.\n* Wyrms : Déplacez-vous orthogonalement sur la première carte occupée, poussant cette pièce vers la carte suivante.\n* Nœuds : Effectuez trois déplacements d'une carte orthogonalement, sans revenir sur vos pas.\n\nDans les règles, le \"premier\" joueur est celui qui place en second dans la phase de placement mais se déplace en premier dans la phase de déplacement, mais ici le premier joueur est celui qui place en premier mais se déplace en second. Cela est implémenté via une passe automatique pour le joueur approprié.\n\nLa règle selon laquelle, même lorsque le dernier joueur est déjà gagnant, il doit continuer à jouer jusqu'à ce qu'il n'ait plus de coups, est appliquée.",
     "domineering": "Domineering, aussi connu sous le nom de Stop-Gate, est un jeu combinatoire partisan. Le jeu a été conçu par Göran Andersson vers 1973 et a été présenté dans le livre de référence CGT *Winning Ways for Your Mathematical Plays*. Il existe une version impartiale appelée Cram, où les joueurs peuvent tous deux placer des dominos horizontaux ou verticaux. La variante \"Quelhas\" a été proposée par Carlos P. Santos et Alfie Davies en 2025, étant une version misère (le joueur sans options gagne la partie) et utilisant des polyominos plus longs semblables à des dominos.",
@@ -6074,16 +6074,19 @@
         "name": "Plateau 7x7"
       },
       "#board": {
-        "name": "Plateau 8x8"
-      },
-      "size-9": {
         "name": "Plateau 9x9"
-      },
-      "size-10": {
-        "name": "Plateau 10x10"
       },
       "size-11": {
         "name": "Plateau 11x11"
+      },
+      "size-13": {
+        "name": "Plateau 13x13"
+      },
+      "size-15": {
+        "name": "Plateau 15x15"
+      },
+      "size-19": {
+        "name": "Plateau 19x19"
       }
     },
     "clusterfuss": {

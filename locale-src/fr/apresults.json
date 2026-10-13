@@ -1,1 +1,18 @@
-{}
+{
+  "arimaa.ROLL_one": {
+    "src": "{{player}}'s die shows 1: a single step this turn.",
+    "out": "Le dé de {{player}} indique 1 : un seul déplacement ce tour."
+  },
+  "arimaa.ROLL_other": {
+    "src": "{{player}}'s die shows {{count}}: up to {{count}} steps this turn.",
+    "out": "Le dé de {{player}} indique {{count}} : jusqu'à {{count}} déplacements ce tour."
+  },
+  "oonpia.CAPTURE.one": {
+    "src": "{{player}} captured 1 stone.",
+    "out": "{{player}} a capturé 1 pierre."
+  },
+  "oonpia.CAPTURE.other": {
+    "src": "{{player}} captured {{count}} stones.",
+    "out": "{{player}} a capturé {{count}} pierres."
+  }
+}

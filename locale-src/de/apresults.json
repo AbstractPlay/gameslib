@@ -1,1 +1,18 @@
-{}
+{
+  "arimaa.ROLL_one": {
+    "src": "{{player}}'s die shows 1: a single step this turn.",
+    "out": "{{player}}s Würfel zeigt 1: ein einzelner Schritt in diesem Zug."
+  },
+  "arimaa.ROLL_other": {
+    "src": "{{player}}'s die shows {{count}}: up to {{count}} steps this turn.",
+    "out": "{{player}}s Würfel zeigt {{count}}: bis zu {{count}} Schritte in diesem Zug."
+  },
+  "oonpia.CAPTURE.one": {
+    "src": "{{player}} captured 1 stone.",
+    "out": "{{player}} hat 1 Stein geschlagen."
+  },
+  "oonpia.CAPTURE.other": {
+    "src": "{{player}} captured {{count}} stones.",
+    "out": "{{player}} hat {{count}} Steine geschlagen."
+  }
+}

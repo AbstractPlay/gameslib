@@ -3,9 +3,6 @@
     "ABANDONED": {
       "default": "Das Spiel wurde abgebrochen."
     },
-    "ACTOR": {
-      "elOso": {}
-    },
     "ADD": {
       "add_one": "{{player}} hat 1 Stein zu {{where}} hinzugefügt.",
       "add_other": "{{player}} hat {{count}} Steine zu {{where}} hinzugefügt.",
@@ -194,12 +191,784 @@
     "TIMEOUT": {
       "default": "{{player}} hat nach Zeit verloren."
     },
-    "WINNERSNONE": {
-      "default": "Es gab keine Gewinner."
-    },
     "WINNERS": {
       "one": "Folgender Spieler hat gewonnen: {{winners}}.",
       "other": "Folgende Spieler haben gewonnen: {{winners}}."
+    },
+    "WINNERSNONE": {
+      "default": "Es gab keine Gewinner."
+    }
+  },
+  "agofmars": {
+    "DECKDRAW": {
+      "default": "{{player}} zog eine {{colour}}{{count}} Pyramide aus dem Beutel."
+    },
+    "MOVE": {
+      "default": "{{player}} bewegte eine Pyramide von {{from}} nach {{to}}."
+    },
+    "OBJECTIVES": {
+      "default": "{{player}} wählte die eigenen Ziele."
+    },
+    "OBJECTIVE_SWAP": {
+      "default": "{{player}} hat die Ziel-Multiplikatoren {{columnA}} und {{columnB}} getauscht."
+    },
+    "PASS": {
+      "noObjSwap": "{{player}} tauschte keine Ziele."
+    },
+    "PLACE": {
+      "default": "{{player}} platzierte eine {{colour}}{{count}} Pyramide auf {{where}}."
+    },
+    "SWAP": {
+      "board": "{{player}} tauschte die {{colour1}}{{size1}} auf {{cell1}} und die {{colour2}}{{size2}} auf {{cell2}}.",
+      "board_cells": "{{player}} tauschte die Pyramiden auf {{cell1}} und {{cell2}}."
+    }
+  },
+  "akimbo": {
+    "REMOVE": {
+      "default": "{{player}} entfernt {{where}} aufgrund der Bildung eines Kreuzschnitts."
+    }
+  },
+  "amazons": {
+    "MOVE": {
+      "default": "{{player}} ist von {{from}} nach {{to}} gezogen und hat danach das Feld {{block}} gesperrt.",
+      "noFirstShot": "{{player}} ist von {{from}} nach {{to}} gezogen."
+    }
+  },
+  "amoeba": {
+    "UNFURL": {
+      "default": "{{player}} hat {{count}} Steine von {{from}} nach {{to}} gesät."
+    }
+  },
+  "anache": {
+    "MOVE": {
+      "dragon": "{{player}} hat eine Gruppe der Größe {{count}} mit einem Drachenzug von {{from}} in Richtung {{dir}} gezogen.",
+      "dragon_jump": "{{player}} springt mit dem Drachen von {{from}} nach {{to}}.",
+      "knight": "{{player}} hat eine Gruppe der Größe {{count}} mit einem Springerzug von {{from}} in Richtung {{dir}} gezogen.",
+      "man": "{{player}} hat eine Gruppe der Größe {{count}} von {{from}} in Richtung {{dir}} gezogen."
+    }
+  },
+  "arimaa": {
+    "ANNOUNCE": {
+      "default": "Diese Stellung kam bereits vor. Weitere Wiederholungen dieser Stellung sind verboten."
+    },
+    "DESTROY": {
+      "default": "Ein {{colour}} {{what}} saß bei {{where}} in der Falle."
+    },
+    "ROLL_one": "{{player}}s Würfel zeigt 1: ein einzelner Schritt in diesem Zug.",
+    "ROLL_other": "{{player}}s Würfel zeigt {{count}}: bis zu {{count}} Schritte in diesem Zug."
+  },
+  "armadas": {
+    "DAMAGE": {
+      "default": "Das Schiff {{myName}} von {{player}} hat auf das gegnerische Schiff {{theirName}} gefeuert."
+    },
+    "DESTROY": {
+      "default": "{{player}} hat das gegnerische Schiff {{name}} versenkt."
+    },
+    "MOVE": {
+      "default": "{{player}} hat das eigene Schiff {{name}} bewegt."
+    },
+    "PLACE": {
+      "1": "{{player}} hat ein kleines Schiff platziert und es {{name}} genannt.",
+      "2": "{{player}} hat ein mittleres Schiff platziert und es {{name}} genannt.",
+      "3": "{{player}} hat ein großes Schiff platziert und es {{name}} genannt."
+    }
+  },
+  "asli": {
+    "CAPTURE": {
+      "self": "{{player}} entfernte die eigenen gestrandeten Steine auf {{where}}."
+    },
+    "PASS": {
+      "default": "{{player}} hat einen gegnerischen Stein aus dem Gefängnis genommen und gepasst.",
+      "area": "{{player}} hat gepasst."
+    }
+  },
+  "assembly": {
+    "EJECT": {
+      "default": "Die Fertigungslinie hat sich um {{distance}} Felder vorwärts bewegt."
+    },
+    "PASS": {
+      "default": "Die Fertigungsstraße bewegt sich nicht."
+    }
+  },
+  "ataxx": {
+    "CAPTURE": {
+      "one": "1 Stein wurde umgewandelt.",
+      "other": "{{count}} Steine wurden umgewandelt."
+    },
+    "MOVE": {
+      "jump": "{{player}} ist mit einem Stein von {{from}} nach {{to}} gesprungen.",
+      "split": "{{player}} hat einen Stein von {{from}} nach {{to}} geteilt."
+    }
+  },
+  "bao": {
+    "BLOCK": {
+      "default": "Die Mulde {{pit}} befindet sich im Kutakatia (ist blockiert)."
+    },
+    "CAPTURE": {
+      "one": "{{player}} hat insgesamt {{count}} Stein aus folgenden Mulden (in Reihenfolge) geschlagen: {{pits}}",
+      "other": "{{player}} hat insgesamt {{count}} Steine aus folgenden Mulden (in Reihenfolge) geschlagen: {{pits}}"
+    },
+    "DESTROY": {
+      "default": "Die Nyumba bei {{pit}} wurde zerstört."
+    },
+    "MOVE": {
+      "default": "Startrichtung der Bewegung: {{direction}}."
+    }
+  },
+  "bashni": {
+    "EOG": {
+      "stagnation": "Das Spiel hat mit einem Unentschieden geendet, da die Anzahl und Zusammensetzung der Steine für {{count}} aufeinanderfolgende Züge unverändert blieb."
+    }
+  },
+  "biscuit": {
+    "ANNOUNCE": {
+      "default": "Die folgenden Karten befanden sich auf den gegnerischen Händen: {{cards}}."
+    },
+    "DECKDRAW": {
+      "default": "Der nächste Spieler konnte keine Karten von seiner Hand spielen und hat daher eine Karte gezogen."
+    },
+    "DECLARE": {
+      "default": "{{player}} hat fertig gespielt!"
+    },
+    "RESET": {
+      "default": "Eine neue Runde hat begonnen."
+    },
+    "SET": {
+      "biscuit_one": "{{player}} hat einen Keks erzielt.",
+      "biscuit_other": "{{player}} hat {{count}} Kekse erzielt.",
+      "cross": "{{player}} hat einen Hot-Cross-Keks erzielt.",
+      "elevensies": "{{player}} hat Elevensies erzielt. Alle anderen Spieler mussten eine Karte ziehen.",
+      "hot": "{{player}} hat einen heißen Keks erzielt.",
+      "straight": "{{player}} hat eine Straße der Länge {{count}} erzielt."
+    },
+    "STALEMATE": {
+      "default": "Die Hand ist festgefahren."
+    }
+  },
+  "bitesize": {
+    "CAPTURE": {
+      "default": "{{player}} hat die Gruppe {{where}} der Größe {{count}} geschlagen."
+    }
+  },
+  "blastradius": {
+    "CAPTURE": {
+      "one": "{{player}} hat einen gegnerischen Stein von {{where}} entfernt.",
+      "other": "{{player}} hat einen Stapel von {{count}} gegnerischen Steinen von {{where}} entfernt."
+    },
+    "PLACE": {
+      "default": "{{player}} hat einen Stein bei {{where}} hinzugefügt, wodurch ein Stapel der Höhe {{height}} entsteht."
+    },
+    "TAKE": {
+      "one": "{{player}} hat einen eigenen Stein von {{where}} entfernt.",
+      "other": "{{player}} hat einen Stapel aus {{count}} eigenen Steinen von {{where}} entfernt."
+    }
+  },
+  "blockade": {
+    "CAPTURE": {
+      "default": "{{player}} hat einen blockierenden Stein auf {{where}} geschlagen."
+    },
+    "MOVE": {
+      "default": "{{player}} hat einen Stein von {{from}} nach {{to}} gezogen."
+    },
+    "PLACE": {
+      "h": "{{player}} hat einen horizontalen Zaun bei {{where}} platziert.",
+      "v": "{{player}} hat einen vertikalen Zaun bei {{where}} platziert."
+    }
+  },
+  "blooms": {
+    "CAPTURE": {
+      "default": "{{player}} hat eine {{what}}-Gruppe der Größe {{count}} geschlagen."
+    },
+    "PLACE": {
+      "default": "{{player}} hat einen {{what}}-Stein bei {{where}} platziert."
+    }
+  },
+  "boom": {
+    "CAPTURE": {
+      "default": "{{player}} hat einen Stein auf {{where}} zerstört."
+    }
+  },
+  "boxes": {
+    "PLACE": {
+      "default": "{{player}} fügt eine Linie bei {{where}} hinzu.",
+      "claim1": "{{player}} fügt eine Linie bei {{where}} hinzu und erobert {{box}}.",
+      "claim2": "{{player}} fügt eine Linie bei {{where}} hinzu und erobert {{box1}} und {{box2}}."
+    }
+  },
+  "bridges": {
+    "CONNECT": {
+      "default": "{{player}} hat eine Brücke zwischen {{left}} und {{right}} gebaut."
+    }
+  },
+  "btt": {
+    "DELTASCORE": {
+      "opponent_gain_one": "Ein Gegner hat {{delta}} Punkt erhalten.",
+      "opponent_gain_other": "Ein Gegner hat {{delta}} Punkte erhalten."
+    },
+    "PLACE": {
+      "large": "{{player}} hat ein großes Teil bei {{where}} platziert, ausgerichtet nach {{how}}.",
+      "medium": "{{player}} hat ein mittleres Teil bei {{where}} platziert, ausgerichtet nach {{how}}.",
+      "small": "{{player}} hat ein kleines Teil bei {{where}} platziert, ausgerichtet nach {{how}}."
+    }
+  },
+  "bug": {
+    "PLACE": {
+      "bonus_grow": "Beim Schlagen wuchs ein Käfer bei {{where}} auf die Größe {{size}}.",
+      "grow": "{{player}} ließ einen Käfer bei {{where}} auf die Größe {{size}} wachsen.",
+      "new": "{{player}} hat einen neuen Käfer bei {{where}} ins Spiel gebracht."
+    }
+  },
+  "buku": {
+    "CAPTURE": {
+      "default": "{{count}} Steine wurden auf {{where}} geschlagen."
+    },
+    "CLAIM": {
+      "repetition_one": "{{player}} hat den verbleibenden 1 Stein beansprucht.",
+      "repetition_other": "{{player}} hat alle verbleibenden {{count}} Steine beansprucht.",
+      "singletons_one": "{{player}} hat den verbleibenden 1 Stein in der eigenen Farbe beansprucht.",
+      "singletons_other": "{{player}} hat die verbleibenden {{count}} Steine in der eigenen Farbe beansprucht."
+    },
+    "EOG": {
+      "singletons": "Das Spiel ist zu Ende, da alle Felder nur noch einzelne Steine enthalten."
+    },
+    "TAKE": {
+      "col_one": "{{player}} hat 1 Stein aus Spalte {{col}} genommen.",
+      "col_other": "{{player}} hat {{count}} Steine aus Spalte {{col}} genommen.",
+      "row_bonus": "{{player}} hat {{count}} Steine aus Reihe {{row}} genommen, plus einen zusätzlichen Stein.",
+      "row_one": "{{player}} hat 1 Stein aus Reihe {{row}} genommen.",
+      "row_other": "{{player}} hat {{count}} Steine aus Reihe {{row}} genommen."
+    }
+  },
+  "byte": {
+    "MOVE": {
+      "full": "{{player}} hat einen vollständigen Stapel von {{from}} nach {{to}} gezogen.",
+      "partial_one": "{{player}} hat {{count}} Stein von {{from}} nach {{to}} gezogen.",
+      "partial_other": "{{player}} hat {{count}} Steine von {{from}} nach {{to}} gezogen."
+    }
+  },
+  "c1": {
+    "CAPTURE": {
+      "default": "{{player}} entfernt ein Plättchen auf {{where}}."
+    }
+  },
+  "camelot": {
+    "EOG": {
+      "claim_draw_progression": "Das Spiel ist zu Ende, da {{player}} ein Unentschieden nach der 50-Züge-Regel beansprucht hat.",
+      "claim_draw_repetition": "Das Spiel ist zu Ende, da {{player}} ein Unentschieden durch Stellungswiederholung beansprucht hat."
+    },
+    "MOVE": {
+      "canter": "{{player}} hat einen Galoppsprung mit einem Mann von {{from}} nach {{to}} gemacht.",
+      "canter_knight": "{{player}} hat einen Galoppsprung mit einem Springer von {{from}} nach {{to}} gemacht.",
+      "castle": "{{player}} hat einen Rochade-Zug mit einem Mann von {{from}} nach {{to}} gemacht.",
+      "castle_knight": "{{player}} hat einen Rochade-Zug mit einem Springer von {{from}} nach {{to}} gemacht.",
+      "jump": "{{player}} hat einen Sprung mit einem Mann von {{from}} nach {{to}} gemacht und dabei {{captured}} geschlagen.",
+      "jump_knight": "{{player}} hat einen Sprung mit einem Springer von {{from}} nach {{to}} gemacht und dabei {{captured}} geschlagen.",
+      "plain": "{{player}} hat einen einfachen Zug mit einem Mann von {{from}} nach {{to}} gemacht.",
+      "plain_knight": "{{player}} hat einen einfachen Zug mit einem Springer von {{from}} nach {{to}} gemacht."
+    },
+    "PLACE": {
+      "tree": "{{player}} hat Bäume bei {{where}} platziert."
+    },
+    "USE": {
+      "castle_move_none": "{{player}} hat keine Burgzüge mehr übrig.",
+      "castle_move_one": "{{player}} hat noch 1 Burgzug übrig.",
+      "castle_move_other": "{{player}} hat noch {{count}} weitere Burgzüge übrig."
+    }
+  },
+  "cannon": {
+    "PLACE": {
+      "default": "{{player}} hat seine Stadt bei {{where}} platziert."
+    }
+  },
+  "canoe": {
+    "BEAROFF": {
+      "default": "{{player}} hat einen Würfel vom Spielbrett ausgetragen."
+    },
+    "CAPTURE": {
+      "default": "{{player}} hat einen Würfel auf {{where}} geschnappt."
+    },
+    "CONVERT": {
+      "default": "{{player}} hat den Würfel auf {{where}} von {{what}} zu {{into}} gedreht."
+    },
+    "PROMOTE": {
+      "default": "{{player}} hat ein Set bei {{where}} gebildet und den Würfel von {{from}} zusammengeführt."
+    },
+    "ROLL": {
+      "default": "{{player}} hat gewürfelt: {{values}}."
+    }
+  },
+  "carnac": {
+    "MOVE": {
+      "tip": "{{player}} hat den Megalithen bei {{from}} in Richtung {{how}} auf {{to}} gekippt."
+    },
+    "PASS": {
+      "default": "{{player}} hat darauf verzichtet, den Megalithen umzukippen."
+    },
+    "PLACE": {
+      "default": "{{player}} hat einen Megalithen bei {{where}} platziert (oben {{top}}, Süden {{south}})."
+    }
+  },
+  "ccorridor": {
+    "PLACE": {
+      "default": "{{player}} hat ein Plättchen bei {{where}} platziert."
+    }
+  },
+  "chase": {
+    "MOVE": {
+      "default": "{{player}} ist von {{from}} nach {{to}} gezogen (über {{through}})."
+    },
+    "PLACE": {
+      "default": "Die Kammer hat ein {{what}} bei {{where}} ausgespuckt."
+    },
+    "TAKE": {
+      "default": "Ein {{what}} wurde der Kammer zugeführt."
+    }
+  },
+  "cifra": {
+    "AFFILIATE": {
+      "db": "{{player}} hat sich entschieden, die dunklen Steine aus der obersten Reihe zu spielen.",
+      "dl": "{{player}} hat sich entschieden, die dunklen Steine aus der linken Spalte zu spielen.",
+      "dr": "{{player}} hat sich entschieden, die dunklen Steine aus der rechten Spalte zu spielen.",
+      "dt": "{{player}} hat sich entschieden, die dunklen Steine aus der obersten Reihe zu spielen.",
+      "lb": "{{player}} hat sich entschieden, die hellen Steine aus der untersten Reihe zu spielen.",
+      "ll": "{{player}} hat sich entschieden, die hellen Steine aus der linken Spalte zu spielen.",
+      "lr": "{{player}} hat sich entschieden, die hellen Steine aus der rechten Spalte zu spielen.",
+      "lt": "{{player}} hat sich entschieden, die hellen Steine aus der obersten Reihe zu spielen."
+    }
+  },
+  "circleOfLife": {
+    "CAPTURE": {
+      "one": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Stein) auf {{where}} verschlungen.",
+      "other": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Steine) auf {{where}} verschlungen."
+    }
+  },
+  "conhex": {
+    "CLAIM": {
+      "default": "{{player}} hat das Feld auf ({{where}}) beansprucht."
+    },
+    "PLACE": {
+      "default": "{{player}} hat einen Stein am Eckpunkt {{where}} platziert."
+    }
+  },
+  "connecticut": {
+    "PLACE": {
+      "default": "{{player}} hat ein Triomino bei {{where}} platziert."
+    }
+  },
+  "court": {
+    "PLACE": {
+      "default": "{{player}} hat {{where}} zu einem {{what}} befördert."
+    }
+  },
+  "courtesan": {
+    "CONVERT": {
+      "default": "König und Kurtisane haben auf {{where}} die Positionen getauscht."
+    }
+  },
+  "crosshairs": {
+    "CAPTURE": {
+      "default": "{{player}} hat ein Flugzeug auf {{where}} abgeschossen."
+    },
+    "DESTROY": {
+      "default": "Das Flugzeug von {{player}} auf {{where}} ist abgestürzt."
+    },
+    "MOVE": {
+      "default": "{{player}} hat ein Flugzeug von {{from}} nach {{to}} bewegt.",
+      "power-dive": "Das Flugzeug von {{player}} ging bei {{from}} in den Sturzflug.",
+      "swoop": "Das Flugzeug von {{player}} ist von {{from}} nach {{to}} herabgestoßen."
+    },
+    "ORIENT": {
+      "default": "{{player}} hat ein Flugzeug bei {{where}} in Richtung {{facing}} gedreht."
+    },
+    "PLACE": {
+      "cloud": "{{player}} hat eine Wolke bei {{where}} platziert.",
+      "plane": "{{player}} hat ein Flugzeug bei {{where}} eingesetzt."
+    }
+  },
+  "cubeo": {
+    "PROMOTE": {
+      "default": "{{player}} hat den Würfel bei {{where}} von {{from}} zu {{to}} aufgewertet."
+    }
+  },
+  "dameo": {
+    "CAPTURE": {
+      "king": "{{player}} hat eine Dame auf {{where}} geschlagen.",
+      "soldier": "{{player}} hat einen Soldaten auf {{where}} geschlagen."
+    }
+  },
+  "deckfish": {
+    "ANNOUNCE": {
+      "default": "{{player}} konnte nicht ziehen und muss ab jetzt passen."
+    },
+    "EJECT": {
+      "default": "{{player}} hat einen Stein von {{from}} nach {{to}} geschoben."
+    },
+    "EOG": {
+      "default": "Das Spiel ist zu Ende, da der letzte Spieler keinen Zug machen konnte."
+    },
+    "MOVE": {
+      "default": "{{player}} hat einen Stein von {{from}} nach {{to}} gezogen und dabei {{what}} eingesammelt."
+    },
+    "PASS": {
+      "default": "{{player}} konnte keinen Zug machen."
+    },
+    "PIE": {
+      "default": "{{player}} zieht als Zweites."
+    },
+    "SWAP": {
+      "default": "{{player}} hat {{what}} vom Markt gegen {{with}} bei {{where}} getauscht."
+    }
+  },
+  "druid": {
+    "HEX_EDGE": {
+      "N": "Nördlichen (N)",
+      "NE": "Nordöstlichen (NE)",
+      "NW": "Nordwestlichen (NW)",
+      "S": "Südlichen (S)",
+      "SE": "Südöstlichen (SE)",
+      "SW": "Südwestlichen (SW)",
+      "and": "und"
+    },
+    "BEAROFF": {
+      "default": "{{player}} hat seinen Druiden von {{from}} ausgetragen."
+    },
+    "EOG": {
+      "hex": "Das Spiel ist zu Ende, da {{player}} die {{edges}} Ränder verbunden hat."
+    },
+    "MOVE": {
+      "walk": "{{player}} hat den eigenen Druiden von {{from}} nach {{to}} gezogen."
+    },
+    "PLACE": {
+      "druid": "{{player}} hat einen Druiden bei {{where}} platziert.",
+      "lintel": "{{player}} hat einen Deckstein entlang {{where}} gelegt.",
+      "sarsen": "{{player}} hat einen Sarsenstein bei {{where}} platziert."
+    }
+  },
+  "elOso": {
+    "ACTOR": {
+      "bear": "Der Bär"
+    },
+    "ANNOUNCE": {
+      "bearSetup": "Bärenaufbau",
+      "playerSetup": "Spieleraufbau"
+    },
+    "CAPTURE": {
+      "one": "{{player}} hat einen Stein bei {{where}} vernichtet.",
+      "other": "{{player}} hat {{count}} Steine bei {{where}} vernichtet."
+    },
+    "PLACE": {
+      "one": "{{player}} hat einen Stein bei {{where}} platziert.",
+      "other": "{{player}} hat {{count}} Steine bei {{where}} platziert."
+    },
+    "ROLL": {
+      "default": "Der Bär hat gewürfelt: {{dice}}.",
+      "player": "{{player}} hat gewürfelt: {{dice}}."
+    }
+  },
+  "emu": {
+    "DECKDRAW": {
+      "deck": "{{player}} hat eine verdeckte Karte vom Stapel gezogen.",
+      "discard": "{{player}} hat {{what}} oben vom Ablagestapel gezogen."
+    },
+    "DECLARE": {
+      "default": "Das Jahr {{year}} ist zu Ende."
+    },
+    "DELTASCORE": {
+      "excuse": "{{player}} spielt Die Entschuldigung, um den Vogel mit der niedrigsten Punktzahl ({{delta}} Punkte) auszugleichen.",
+      "score": "Der Vogel von {{player}} mit folgenden Rängen brachte {{delta}} Punkte: {{ranks}}."
+    },
+    "PLACE": {
+      "discard": "{{player}} hat die Karte {{what}} abgelegt.",
+      "existing": "{{player}} nutzte {{what}}, um Vogel #{{where}} wachsen zu lassen.",
+      "new": "{{player}} hat mit dem {{what}} einen neuen Vogel ausgebrütet."
+    }
+  },
+  "entrapment": {
+    "CAPTURE": {
+      "opponent": "{{player}} hat den gegnerischen Streuner auf {{where}} geschlagen.",
+      "self": "{{player}} hat den eigenen Streuner auf {{where}} geschlagen."
+    },
+    "MOVE": {
+      "barrier": "{{player}} hat eine Barriere von {{from}} nach {{to}} verschoben.",
+      "roamer": "{{player}} hat einen Streuner von {{from}} nach {{to}} gezogen.",
+      "roamer_jump": "{{player}} hat einen Streuner von {{from}} nach {{to}} gezogen und dabei {{jumped}} übersprungen."
+    },
+    "PLACE": {
+      "barrier": "{{player}} hat eine Barriere bei {{where}} platziert.",
+      "roamer": "{{player}} hat einen Wanderer bei {{where}} platziert."
+    },
+    "REMOVE": {
+      "opponent": "{{player}} hat entschieden, den gegnerischen Wanderer bei {{how}} zu behalten, und den Wanderer bei {{where}} entfernt.",
+      "self": "{{player}} hat entschieden, den eigenen Wanderer bei {{how}} zu behalten, und den Wanderer bei {{where}} entfernt."
+    }
+  },
+  "entropy": {
+    "PASS": {
+      "default": "{{player}} hat sich entschieden, in diesem Zug keine Steine zu bewegen."
+    }
+  },
+  "epam": {
+    "PLACE": {
+      "default": "{{player}} hat einen Stein bei {{where}} platziert."
+    }
+  },
+  "estate": {
+    "PLACE": {
+      "one": "{{player}} hat einen Spielstein auf {{where}} platziert ({{what}} Punkt).",
+      "other": "{{player}} hat einen Spielstein auf {{where}} platziert ({{what}} Punkte)."
+    }
+  },
+  "evenatodds": {
+    "DECKDRAW": {
+      "default": "{{player}} hat einen Stein aus dem Vorrat gezogen."
+    },
+    "PLACE": {
+      "default": "{{player}} hat den Domino-Stein {{what}} bei {{where}} platziert."
+    }
+  },
+  "exxit": {
+    "CLAIM": {
+      "default": "{{player}} hat das Randfeld auf {{where}} beansprucht."
+    }
+  },
+  "fightopia": {
+    "CAPTURE": {
+      "1": "{{player}} hat einen Bauern auf {{where}} geschlagen.",
+      "2": "{{player}} hat einen Panzer auf {{where}} geschlagen."
+    },
+    "MOVE": {
+      "1": "{{player}} hat einen Bauern von {{from}} nach {{to}} gezogen.",
+      "2": "{{player}} hat einen Panzer von {{from}} nach {{to}} gezogen.",
+      "4": "{{player}} hat den eigenen Riesen von {{from}} nach {{to}} gezogen.",
+      "pivot": "{{player}} hat einen Panzer von {{from}} nach {{to}} gedreht."
+    }
+  },
+  "fnap": {
+    "CLAIM": {
+      "col": "{{player}} hat Spalte {{where}} beansprucht.",
+      "fnap": "{{player}} hat den FNAP-Marker beansprucht.",
+      "row": "{{player}} hat Reihe {{where}} beansprucht."
+    },
+    "SELECT": {
+      "default": "{{player}} hat das Plättchen {{tile}} ausgewählt."
+    },
+    "SET": {
+      "circles": "Das Kreisplättchen bei {{where}} ist isoliert.",
+      "triplets_one": "{{player}} hat {{count}} Drilling erzielt.",
+      "triplets_other": "{{player}} hat {{count}} Drillinge erzielt."
+    }
+  },
+  "forms": {
+    "CAPTURE": {
+      "one": "Der Zug von {{player}} eliminiert einen Stein.",
+      "other": "Der Zug von {{player}} eliminiert {{count}} Steine."
+    },
+    "EOG": {
+      "default": "Das Spiel ist zu Ende, da der nächste Spieler keinen Zug machen kann."
+    }
+  },
+  "fourinarow": {
+    "REMOVE": {
+      "e": "{{player}} hat eine Reihe geleert und die Steine auf dem Brett nach rechts verschoben.",
+      "n": "{{player}} hat eine Reihe geleert und die Steine auf dem Brett nach oben verschoben.",
+      "ne": "{{player}} hat zwei Reihen geleert und die Steine auf dem Brett nach oben und rechts verschoben.",
+      "nw": "{{player}} hat zwei Reihen geleert und die Steine auf dem Brett nach oben und links verschoben.",
+      "s": "{{player}} hat eine Reihe geleert und die Steine auf dem Brett nach unten verschoben.",
+      "se": "{{player}} hat zwei Reihen geleert und die Steine auf dem Brett nach unten und rechts verschoben.",
+      "sw": "{{player}} hat zwei Reihen geleert und die Steine auf dem Brett nach unten und links verschoben.",
+      "w": "{{player}} hat eine Reihe geleert und die Steine auf dem Brett nach links verschoben."
+    }
+  },
+  "frogger": {
+    "ANNOUNCE": {
+      "one": "{{player}} hat sich entschieden, den Nachziehpool aufzufüllen. Er erhält einen weiteren Zug, um seinen {{count}} verbleibenden Zug auszuführen.",
+      "other": "{{player}} hat sich entschieden, den Nachziehpool aufzufüllen. Er erhält einen weiteren Zug, um seine {{count}} verbleibenden Züge auszuführen."
+    },
+    "CLAIM": {
+      "default": "{{player}} wurde blockiert und hat {{card}} aus dem Nachziehstapel gezogen."
+    },
+    "DECKDRAW": {
+      "default": "Der Nachziehstapel wurde {{what}} wieder aufgefüllt."
+    },
+    "DECLARE": {
+      "default": "Die Krokodile sind vorgerückt."
+    },
+    "EJECT": {
+      "card": "{{player}} hat ein Ass oder eine Krone gespielt und einen Frosch von {{from}} nach {{to}} zurückgeschickt.",
+      "croc": "Der Frosch auf {{from}} wurde von Krokodilen gefressen (und nach {{to}} zurückgeschickt)."
+    },
+    "MOVE": {
+      "back": "{{player}} hat einen Frosch von {{from}} nach {{to}} zurückgezogen und {{card}} aus dem Nachziehstapel gezogen.",
+      "forward": "{{player}} hat {{card}} genutzt, um einen Frosch von {{from}} nach {{to}} vorzurücken."
+    },
+    "PASS": {
+      "default": "{{player}} hat gepasst ({{why}})."
+    }
+  },
+  "furl": {
+    "CAPTURE": {
+      "default": "{{player}} hat einen Stapel der Größe {{size}} auf {{where}} geschlagen."
+    },
+    "FURL": {
+      "default": "{{player}} rollt {{count}} Steine von {{from}} nach {{to}} auf."
+    },
+    "UNFURL": {
+      "default": "{{player}} breitet {{count}} Steine von {{from}} nach {{to}} aus."
+    }
+  },
+  "gess": {
+    "CAPTURE": {
+      "one": "{{count}} Stein wird vom Spielbrett entfernt.",
+      "other": "{{count}} Steine werden vom Spielbrett entfernt."
+    },
+    "MOVE": {
+      "one": "{{player}} hat ein 3x3-Teil mit {{count}} Stein von {{from}} nach {{to}} gezogen.",
+      "other": "{{player}} hat ein 3x3-Teil mit {{count}} Steinen von {{from}} nach {{to}} gezogen."
+    }
+  },
+  "gliss": {
+    "REMOVE": {
+      "default": "{{player}} hat seinen Gleiter bei {{where}} über den Brettrand hinaus bewegt."
+    }
+  },
+  "gonnect": {
+    "EOG": {
+      "cascading_subboard": "{{player}} hat auf dem {{size}}x{{size}}-Teilbrett gewonnen.",
+      "direct_connection": "{{player}} hat durch direkte Verbindung gewonnen."
+    }
+  },
+  "gorogo": {
+    "PLACE": {
+      "henge": "{{player}} hat ein Henge-Teil bei {{where}} platziert."
+    }
+  },
+  "guerrilla": {
+    "RESET": {
+      "default": "{{player}} hat die erste Partie gewonnen. Die zweite Partie hat begonnen, mit vertauschten Rollen."
+    }
+  },
+  "hens": {
+    "CAPTURE": {
+      "chick": "{{player}} hat ein Küken auf {{where}} geschlagen.",
+      "hen": "{{player}} hat eine Henne auf {{where}} geschlagen."
+    }
+  },
+  "hexentafl": {
+    "CAPTURE": {
+      "king": "Der König wurde auf {{where}} geschlagen."
+    },
+    "MOVE": {
+      "king": "{{player}} hat den König von {{from}} nach {{to}} gezogen."
+    }
+  },
+  "homeworlds": {
+    "BUILD": {
+      "build": "{{player}} baut ein {{what}} im System {{where}}."
+    },
+    "CAPTURE": {
+      "capture": "{{player}} hat ein {{what}} im System {{where}} erobert."
+    },
+    "CATASTROPHE": {
+      "catastrophe": "Eine Überbevölkerung von {{colour}} führte zu einer Katastrophe in {{where}}."
+    },
+    "CONVERT": {
+      "convert": "{{player}} hat ein {{what}} im System {{where}} in ein {{into}} umgewandelt."
+    },
+    "DISCOVER": {
+      "discover": "{{player}} hat ein neues {{what}}-System entdeckt und es {{name}} genannt."
+    },
+    "ESTABLISH": {
+      "land": "Ein {{ship}}-Kolonieschiff von {{player}} ist in einem {{stars}}-System gelandet."
+    },
+    "MOVE": {
+      "fly": "{{player}} flog mit dem {{what}} von {{from}} nach {{to}}."
+    },
+    "PASS": {
+      "pass": "{{player}} hat eine Aktion gepasst."
+    },
+    "SACRIFICE": {
+      "sacrifice": "{{player}} hat ein {{what}} im System {{where}} geopfert."
+    }
+  },
+  "icepalace": {
+    "ANNOUNCE": {
+      "build": "{{player}} hat die Hand gewonnen und baut den Yard mit {{count}} Pyramiden in den Eispalast ein. Eine regelkonforme Möglichkeit, ihn zu bauen, ist `{{move}}`.",
+      "nobuild": "{{player}} hat die Hand gewonnen, aber nichts aus dem Yard kann in den Eispalast eingebaut werden."
+    },
+    "REMOVE": {
+      "default": "{{what}} wurde abgeworfen und aus dem Spiel entfernt."
+    }
+  },
+  "iqishiqi": {
+    "MOVE": {
+      "default": "{{player}} hat den neutralen Stein von {{from}} nach {{to}} gezogen."
+    },
+    "PLACE": {
+      "default": "{{player}} hat einen gemeinsamen Stein bei {{where}} platziert."
+    }
+  },
+  "jacynth": {
+    "CLAIM": {
+      "default": "{{player}} hat Einfluss auf {{where}} ausgeübt."
+    }
+  },
+  "killallgo": {
+    "ANNOUNCE": {
+      "slice": "{{player}} hat die Satzgrößen auf {{a}} und {{b}} Steine festgelegt."
+    },
+    "CAPTURE": {
+      "suicide_one": "{{player}} hat einen eigenen Stein durch Selbstmord entfernt.",
+      "suicide_other": "{{player}} hat {{count}} eigene Steine durch Selbstmord entfernt."
+    },
+    "CLAIM": {
+      "attacker": "{{player}} hat sich entschieden, als Angreifer zu spielen.",
+      "defender": "{{player}} hat sich entschieden, als Verteidiger zu spielen."
+    },
+    "DECLARE": {
+      "handicap_one": "{{player}} hat die Vorgabe auf einen Stein festgelegt.",
+      "handicap_other": "{{player}} hat die Vorgabe auf {{count}} Steine festgelegt."
+    },
+    "EOG": {
+      "double_pass": "Das Spiel ist beendet, da beide Spieler gepasst haben, ohne dass der Verteidiger Leben herstellen konnte.",
+      "no_moves": "Das Spiel ist beendet, da der Spieler am Zug keine gültige Platzierung mehr vornehmen kann.",
+      "no_room": "Das Spiel ist beendet, da die bedingungslos lebenden Steine des Angreifers dem Verteidiger keinen Platz lassen, eine lebende Kette zu bilden.",
+      "pass_alive": "Das Spiel ist beendet, da der Verteidiger eine bedingungslos lebende Kette gebildet hat."
+    },
+    "PLACE": {
+      "setup": "{{player}} hat einen Angreifer-Stein auf {{where}} platziert."
+    },
+    "SELECT": {
+      "iplace": "{{player}} hat sich entschieden, den ersten Satz zu platzieren.",
+      "youplace": "{{player}} hat sich entschieden, den Gegner den ersten Satz platzieren zu lassen."
+    }
+  },
+  "knightline": {
+    "MOVE": {
+      "default": "{{player}} hat {{what}} Steine von {{from}} nach {{to}} gezogen."
+    },
+    "PLACE": {
+      "default": "{{player}} hat seinen Startstapel bei {{where}} platziert."
+    }
+  },
+  "lasca": {
+    "CAPTURE": {
+      "officer": "{{player}} hat einen Offizier auf {{where}} geschlagen.",
+      "soldier": "{{player}} hat einen Soldaten auf {{where}} geschlagen."
+    }
+  },
+  "lielow": {
+    "PROMOTE": {
+      "default": "{{player}} hat einen neuen König bei {{where}} gekrönt."
+    }
+  },
+  "lifeline": {
+    "CAPTURE": {
+      "default": "Tote Steine wurden auf {{where}} entfernt."
+    }
+  },
+  "linage": {
+    "PASS": {
+      "default": "{{player}} passt."
     }
   },
   "logger": {
@@ -248,209 +1017,241 @@
       "eight": "{{who}} hat {{values}} gewürfelt."
     }
   },
-  "twixt": {
-    "ADD": {
-      "default": "{{player}} hat eine Verbindung bei {{where}} hinzugefügt."
-    },
-    "PLACE": {
-      "default": "{{player}} hat einen Stift bei {{where}} platziert."
-    },
-    "REMOVE": {
-      "default": "{{player}} hat eine Verbindung bei {{where}} entfernt."
-    }
-  },
-  "cifra": {
-    "AFFILIATE": {
-      "db": "{{player}} hat sich entschieden, die dunklen Steine aus der obersten Reihe zu spielen.",
-      "dl": "{{player}} hat sich entschieden, die dunklen Steine aus der linken Spalte zu spielen.",
-      "dr": "{{player}} hat sich entschieden, die dunklen Steine aus der rechten Spalte zu spielen.",
-      "dt": "{{player}} hat sich entschieden, die dunklen Steine aus der obersten Reihe zu spielen.",
-      "lb": "{{player}} hat sich entschieden, die hellen Steine aus der untersten Reihe zu spielen.",
-      "ll": "{{player}} hat sich entschieden, die hellen Steine aus der linken Spalte zu spielen.",
-      "lr": "{{player}} hat sich entschieden, die hellen Steine aus der rechten Spalte zu spielen.",
-      "lt": "{{player}} hat sich entschieden, die hellen Steine aus der obersten Reihe zu spielen."
-    }
-  },
-  "witch": {
-    "AFFILIATE": {
-      "M": "{{player}} hat die Mondsteine gewählt.",
-      "S": "{{player}} hat die Sonnensteine gewählt."
-    },
+  "majorities": {
     "CAPTURE": {
-      "nowhere_C_one": "{{player}} hat {{count}} Krone geschlagen.",
-      "nowhere_C_other": "{{player}} hat {{count}} Kronen geschlagen.",
-      "nowhere_E_one": "{{player}} hat {{count}} Erdstein geschlagen.",
-      "nowhere_E_other": "{{player}} hat {{count}} Erdsteine geschlagen.",
-      "nowhere_M_one": "{{player}} hat {{count}} Mondstein geschlagen.",
-      "nowhere_M_other": "{{player}} hat {{count}} Mondsteine geschlagen.",
-      "nowhere_S_one": "{{player}} hat {{count}} Sonnenstein geschlagen.",
-      "nowhere_S_other": "{{player}} hat {{count}} Sonnensteine geschlagen.",
-      "single_C": "{{player}} hat eine Krone auf {{where}} aufgenommen.",
-      "single_E": "{{player}} hat einen Erdstein auf {{where}} aufgenommen.",
-      "single_M": "{{player}} hat einen Mondstein auf {{where}} aufgenommen.",
-      "single_S": "{{player}} hat einen Sonnenstein auf {{where}} aufgenommen."
+      "default": "{{count}} Steine wurden entfernt."
+    },
+    "CLAIM": {
+      "A": "{{player}} hat die aufsteigende Richtung beansprucht.",
+      "D": "{{player}} hat die absteigende Richtung beansprucht.",
+      "H": "{{player}} hat die horizontale Richtung beansprucht.",
+      "line": "{{player}} hat die Linie {{where}} beansprucht."
     }
   },
-  "arimaa": {
-    "ANNOUNCE": {
-      "default": "Diese Stellung kam bereits vor. Weitere Wiederholungen dieser Stellung sind verboten."
+  "mattock": {
+    "CAPTURE": {
+      "default": "{{player}} hat einen Bergmann auf {{where}} geschlagen."
     },
     "DESTROY": {
-      "default": "Ein {{colour}} {{what}} saß bei {{where}} in der Falle."
-    },
-    "ROLL": {
-      "one": "Der Würfel von {{player}} zeigt 1: ein einzelner Schritt in diesem Zug.",
-      "other": "Der Würfel von {{player}} zeigt {{count}}: bis zu {{count}} Schritte in diesem Zug."
-    }
-  },
-  "biscuit": {
-    "ANNOUNCE": {
-      "default": "Die folgenden Karten befanden sich auf den gegnerischen Händen: {{cards}}."
-    },
-    "DECKDRAW": {
-      "default": "Der nächste Spieler konnte keine Karten von seiner Hand spielen und hat daher eine Karte gezogen."
-    },
-    "DECLARE": {
-      "default": "{{player}} hat fertig gespielt!"
-    },
-    "RESET": {
-      "default": "Eine neue Runde hat begonnen."
-    },
-    "SET": {
-      "biscuit_one": "{{player}} hat einen Keks erzielt.",
-      "biscuit_other": "{{player}} hat {{count}} Kekse erzielt.",
-      "cross": "{{player}} hat einen Hot-Cross-Keks erzielt.",
-      "elevensies": "{{player}} hat Elevensies erzielt. Alle anderen Spieler mussten eine Karte ziehen.",
-      "hot": "{{player}} hat einen heißen Keks erzielt.",
-      "straight": "{{player}} hat eine Straße der Länge {{count}} erzielt."
-    },
-    "STALEMATE": {
-      "default": "Die Hand ist festgefahren."
-    }
-  },
-  "deckfish": {
-    "ANNOUNCE": {
-      "default": "{{player}} konnte nicht ziehen und muss ab jetzt passen."
-    },
-    "EJECT": {
-      "default": "{{player}} hat einen Stein von {{from}} nach {{to}} geschoben."
-    },
-    "EOG": {
-      "default": "Das Spiel ist zu Ende, da der letzte Spieler keinen Zug machen konnte."
+      "default": "{{player}} hat auf {{where}} gebaut/abgebaut."
     },
     "MOVE": {
-      "default": "{{player}} hat einen Stein von {{from}} nach {{to}} gezogen und dabei {{what}} eingesammelt."
-    },
-    "PASS": {
-      "default": "{{player}} konnte keinen Zug machen."
-    },
-    "PIE": {
-      "default": "{{player}} zieht als Zweites."
+      "default": "{{player}} hat einen Bergmann von {{from}} nach {{to}} gezogen."
     },
     "PLACE": {
-      "default": "{{player}} hat einen Stein bei {{where}} platziert."
+      "default": "{{player}} hat einen Bergmann bei {{where}} platziert."
+    }
+  },
+  "mchess": {
+    "DECLARE": {
+      "default": "{{player}} hat die Uhr reklamiert. Wenn in den nächsten sieben Zügen kein Stein geschlagen wird, endet das Spiel und wird gewertet."
+    },
+    "PROMOTE": {
+      "default": "Dadurch wurde ein {{into}} erzeugt."
+    }
+  },
+  "meg": {
+    "CLAIM": {
+      "default": "{{player}} hat die Kugel genommen und auf {{where}} platziert."
+    },
+    "MOVE": {
+      "default": "{{player}} hat den Ball von {{from}} nach {{to}} gepasst."
+    },
+    "PLACE": {
+      "cap": "{{player}} hat eine Sperre bei {{where}} platziert.",
+      "cup": "{{player}} hat einen Empfänger bei {{where}} platziert."
+    }
+  },
+  "meridians": {
+    "CAPTURE": {
+      "default": "Eine tote Gruppe der Größe {{count}} wird entfernt."
+    }
+  },
+  "monkey": {
+    "CAPTURE": {
+      "queen": "Eine Dame wurde geschlagen.",
+      "single": "Ein einzelner Stein wurde geschlagen."
+    },
+    "MOVE": {
+      "queen": "{{player}} hat die eigene Dame von {{from}} nach {{to}} gezogen.",
+      "single": "{{player}} hat einen einzelnen Stein von {{from}} nach {{to}} gezogen."
+    }
+  },
+  "moonsquad": {
+    "CONVERT": {
+      "default": "{{player}} hat einen Trupp rekrutiert."
+    },
+    "PLACE": {
+      "default": "{{player}} hat einen Trupp bei {{where}} platziert."
+    },
+    "SACRIFICE": {
+      "default": "{{player}} hat ein Erz ({{ore}}) geopfert, um eigene Trupps zu bewegen."
+    },
+    "TAKE": {
+      "default": "{{player}} hat ein Erz ({{ore}}) genommen."
+    }
+  },
+  "murus": {
+    "CAPTURE": {
+      "double": "{{player}} hat zwei Steine auf {{where}} geschlagen."
+    },
+    "FIRE": {
+      "default": "{{player}} hat ein Katapult von {{from}} nach {{to}} abgefeuert."
+    }
+  },
+  "nex": {
+    "PLACE": {
+      "default": "{{player}} hat einen Stein in eigener Farbe bei {{where}} platziert.",
+      "neutral": "{{player}} hat einen neutralen Stein bei {{where}} platziert."
     },
     "SWAP": {
-      "default": "{{player}} hat {{what}} vom Markt gegen {{with}} bei {{where}} getauscht."
+      "default": "{{player}} hat einen Stein eigener Farbe bei {{where}} gegen einen neutralen Stein getauscht.",
+      "neutral": "{{player}} hat einen neutralen Stein bei {{where}} gegen einen Stein eigener Farbe getauscht."
     }
   },
-  "elOso": {
-    "ANNOUNCE": {
-      "bearSetup": "Bärenaufbau",
-      "playerSetup": "Spieleraufbau"
-    },
-    "CAPTURE": {
-      "one": "{{player}} hat einen Stein bei {{where}} vernichtet.",
-      "other": "{{player}} hat {{count}} Steine bei {{where}} vernichtet."
-    },
+  "onager": {
     "MOVE": {
-      "one": "{{player}} hat einen Stein von {{from}} nach {{to}} bewegt.",
-      "other": "{{player}} hat {{count}} Steine von {{from}} nach {{to}} bewegt."
-    },
-    "PASS": {
-      "default": "{{player}} hat gepasst."
+      "jump": "{{player}} ist mit einem Stein von {{from}} nach {{to}} gesprungen.",
+      "walk": "{{player}} ist mit einem Stein von {{from}} nach {{to}} gezogen."
     },
     "PLACE": {
-      "one": "{{player}} hat einen Stein bei {{where}} platziert.",
-      "other": "{{player}} hat {{count}} Steine bei {{where}} platziert."
-    },
-    "ROLL": {
-      "default": "Der Bär hat gewürfelt: {{dice}}.",
-      "player": "{{player}} hat gewürfelt: {{dice}}."
-    },
-    "ACTOR": {
-      "bear": "Der Bär"
+      "default": "{{player}} hat einen See bei {{where}} platziert."
     }
   },
-  "frogger": {
-    "ANNOUNCE": {
-      "one": "{{player}} hat sich entschieden, den Nachziehpool aufzufüllen. Er erhält einen weiteren Zug, um seinen {{count}} verbleibenden Zug auszuführen.",
-      "other": "{{player}} hat sich entschieden, den Nachziehpool aufzufüllen. Er erhält einen weiteren Zug, um seine {{count}} verbleibenden Züge auszuführen."
+  "onyx": {
+    "CAPTURE": {
+      "default": "Ein Paar von Steinen wurde auf {{where1}} und {{where2}} geschlagen."
+    }
+  },
+  "oonpia": {
+    "CAPTURE": {
+      "one": "{{player}} hat 1 Stein geschlagen.",
+      "other": "{{player}} hat {{count}} Steine geschlagen."
+    }
+  },
+  "orb": {
+    "CAPTURE": {
+      "1": "{{player}} hat eine Kugel auf {{where}} geschlagen.",
+      "2": "{{player}} hat ein Sphäroid auf {{where}} geschlagen."
     },
+    "MOVE": {
+      "1": "{{player}} hat eine Kugel von {{from}} nach {{to}} bewegt.",
+      "2": "{{player}} hat ein Sphäroid von {{from}} nach {{to}} bewegt.",
+      "3": "{{player}} hat einen Globus von {{from}} nach {{to}} bewegt.",
+      "2S": "{{player}} hat ein geteiltes Sphäroid von {{from}} nach {{to}} bewegt."
+    },
+    "PLACE": {
+      "default": "Der Kugel-Generator von {{player}} hat eine Kugel bei {{where}} erzeugt."
+    },
+    "PROMOTE": {
+      "12": "{{player}} hat eine Kugel bei {{where}} zu einem Spheroid befördert.",
+      "13": "{{player}} hat eine Kugel bei {{where}} zu einem Globus befördert.",
+      "23": "{{player}} hat den Spheroid bei {{where}} zu einem Globus befördert."
+    }
+  },
+  "owlman": {
+    "CAPTURE": {
+      "approach": "{{player}} hat den Helfer bei {{where}} aus dem Wald vertrieben.",
+      "replacement": "{{player}} hat den Stein auf {{where}} verschlungen."
+    }
+  },
+  "pacru": {
+    "CONVERT": {
+      "default": "{{player}} hat {{where}} umgewandelt."
+    }
+  },
+  "pahtum": {
+    "PLACE": {
+      "block": "{{player}} hat {{where}} blockiert."
+    }
+  },
+  "paintbucket": {
+    "CONVERT": {
+      "one": "{{player}} hat 1 Stein auf {{where}} umgewandelt.",
+      "other": "{{player}} hat {{count}} Steine beginnend bei {{where}} umgewandelt."
+    }
+  },
+  "penguin": {
     "CLAIM": {
-      "default": "{{player}} wurde blockiert und hat {{card}} aus dem Nachziehstapel gezogen."
-    },
-    "DECKDRAW": {
-      "default": "Der Nachziehstapel wurde {{what}} wieder aufgefüllt."
-    },
-    "DECLARE": {
-      "default": "Die Krokodile sind vorgerückt."
+      "default": "Der Pinguin auf {{where}} hat die Kugel beansprucht!"
     },
     "EJECT": {
-      "card": "{{player}} hat ein Ass oder eine Krone gespielt und einen Frosch von {{from}} nach {{to}} zurückgeschickt.",
-      "croc": "Der Frosch auf {{from}} wurde von Krokodilen gefressen (und nach {{to}} zurückgeschickt)."
-    },
-    "MOVE": {
-      "back": "{{player}} hat einen Frosch von {{from}} nach {{to}} zurückgezogen und {{card}} aus dem Nachziehstapel gezogen.",
-      "forward": "{{player}} hat {{card}} genutzt, um einen Frosch von {{from}} nach {{to}} vorzurücken."
-    },
-    "PASS": {
-      "default": "{{player}} hat gepasst ({{why}})."
+      "ball": "{{player}} hat den Ball von {{from}} nach {{to}} gekickt.",
+      "penguin": "Ein Pinguin wurde von {{from}} nach {{to}} geschoben."
     }
   },
-  "icepalace": {
-    "ANNOUNCE": {
-      "build": "{{player}} hat die Hand gewonnen und baut den Yard mit {{count}} Pyramiden in den Eispalast ein. Eine regelkonforme Möglichkeit, ihn zu bauen, ist `{{move}}`.",
-      "nobuild": "{{player}} hat die Hand gewonnen, aber nichts aus dem Yard kann in den Eispalast eingebaut werden."
-    },
-    "PASS": {
-      "default": "{{player}} hat gepasst."
+  "pente": {
+    "CAPTURE": {
+      "default": "{{player}} hat {{count}} Steine geschlagen.",
+      "self": "{{player}} hat {{count}} der eigenen Steine geschlagen."
+    }
+  },
+  "phutball": {
+    "MOVE": {
+      "default": "{{player}} hat den Ball von {{from}} nach {{to}} bewegt,",
+      "last": "{{player}} hat den Ball von {{from}} nach {{to}} bewegt.",
+      "to": "nach {{to}},",
+      "to_last": "nach {{to}}."
     },
     "PLACE": {
-      "default": "{{player}} hat {{what}} auf {{where}} platziert."
+      "default": "{{player}} hat einen Spieler bei {{where}} platziert."
     },
     "REMOVE": {
-      "default": "{{what}} wurde abgeworfen und aus dem Spiel entfernt."
+      "one": "{{count}} Spieler wurde entfernt.",
+      "other": "{{count}} Spieler wurden entfernt."
     }
   },
-  "killallgo": {
-    "ANNOUNCE": {
-      "slice": "{{player}} hat die Satzgrößen auf {{a}} und {{b}} Steine festgelegt."
+  "pigs": {
+    "DAMAGE": {
+      "default": "{{player}} hat {{opponent}} auf {{where}} getroffen."
     },
-    "CAPTURE": {
-      "suicide_one": "{{player}} hat einen eigenen Stein durch Selbstmord entfernt.",
-      "suicide_other": "{{player}} hat {{count}} eigene Steine durch Selbstmord entfernt."
+    "FIRE": {
+      "F": "{{player}} hat den Laser in Richtung {{direction}} abgefeuert.",
+      "H": "{{player}} hat den mächtigen Rüssel geschwungen!"
     },
-    "CLAIM": {
-      "attacker": "{{player}} hat sich entschieden, als Angreifer zu spielen.",
-      "defender": "{{player}} hat sich entschieden, als Verteidiger zu spielen."
-    },
-    "DECLARE": {
-      "handicap_one": "{{player}} hat die Vorgabe auf einen Stein festgelegt.",
-      "handicap_other": "{{player}} hat die Vorgabe auf {{count}} Steine festgelegt."
-    },
-    "EOG": {
-      "double_pass": "Das Spiel ist beendet, da beide Spieler gepasst haben, ohne dass der Verteidiger Leben herstellen konnte.",
-      "no_moves": "Das Spiel ist beendet, da der Spieler am Zug keine gültige Platzierung mehr vornehmen kann.",
-      "no_room": "Das Spiel ist beendet, da die bedingungslos lebenden Steine des Angreifers dem Verteidiger keinen Platz lassen, eine lebende Kette zu bilden.",
-      "pass_alive": "Das Spiel ist beendet, da der Verteidiger eine bedingungslos lebende Kette gebildet hat."
-    },
+    "PASS": {
+      "default": "{{player}} setzt aus."
+    }
+  },
+  "pippinzip": {
+    "PASS": {
+      "default": "{{player}} entscheidet sich zu passen und wird Zip"
+    }
+  },
+  "pollux": {
     "PLACE": {
-      "setup": "{{player}} hat einen Angreifer-Stein auf {{where}} platziert."
-    },
-    "SELECT": {
-      "iplace": "{{player}} hat sich entschieden, den ersten Satz zu platzieren.",
-      "youplace": "{{player}} hat sich entschieden, den Gegner den ersten Satz platzieren zu lassen."
+      "default": "{{player}} blockiert {{where}}."
+    }
+  },
+  "pontedd": {
+    "CONNECT": {
+      "default": "{{player}} hat eine Brücke zwischen {{left}} und {{right}} platziert."
+    }
+  },
+  "posit": {
+    "MOVE": {
+      "default": "{{player}} hat seinen Stein von {{from}} nach {{to}} gezogen."
+    }
+  },
+  "prudh": {
+    "SOW": {
+      "default": "{{player}} hat Steine von {{from}} nach {{to}} gesät."
+    }
+  },
+  "quax": {
+    "PLACE": {
+      "diag": "{{player}} hat eine diagonale Verbindung bei {{where}} platziert."
+    }
+  },
+  "queensland": {
+    "RESET": {
+      "default": "Das zweite Spiel hat begonnen."
+    }
+  },
+  "query": {
+    "PLACE": {
+      "c4": "{{player}} hat zwei Steine an den Eckpunkten {{where}} platziert.",
+      "c8": "{{player}} hat einen Stein am Eckpunkt {{where}} platziert."
     }
   },
   "quincunx": {
@@ -479,6 +1280,37 @@
       "sets_other": "{{player}} hat {{count}} Sets erzielt.",
       "straights_one": "{{player}} hat {{count}} Straße erzielt.",
       "straights_other": "{{player}} hat {{count}} Straßen erzielt."
+    }
+  },
+  "realm": {
+    "IMMOBILIZE": {
+      "default": "{{player}} hat den Vollstrecker auf {{where}} immobilisiert."
+    }
+  },
+  "renju": {
+    "DECLARE": {
+      "default": "{{player}} hat {{count}} vorläufige Fünferreihen deklariert."
+    },
+    "PLACE": {
+      "tentative": "{{player}} hat einen vorläufigen fünften Stein bei {{where}} platziert.",
+      "tentative_choose": "{{player}} hat den fünften Stein bei {{where}} gewählt."
+    }
+  },
+  "reversi": {
+    "CAPTURE": {
+      "one": "Ein Stein wird gedreht.",
+      "other": "{{count}} Steine werden gedreht."
+    }
+  },
+  "rincala": {
+    "SOW": {
+      "one": "{{player}} hat {{count}} {{pieces}}-Stein von {{from}} nach {{to}} gesät.",
+      "other": "{{player}} hat {{count}} Steine von {{from}} in folgende Mulden gesät: {{pieces}} -> {{to}}."
+    }
+  },
+  "saltire": {
+    "MOVE": {
+      "default": "{{player}} hat die Steine auf {{from}} und {{to}} getauscht."
     }
   },
   "scribe": {
@@ -523,6 +1355,77 @@
         "2_2": "unten rechts"
       },
       "no_formation": "keine Formationen"
+    }
+  },
+  "selfo": {
+    "EOG": {
+      "mutual_enclosure": "Das Spiel endet unentschieden, da beide Spieler eingeschlossene Steine haben und keiner mehr eine Verbindung herstellen kann."
+    }
+  },
+  "siegeofj": {
+    "PLACE": {
+      "default": "{{player}} hat \"{{what}}\" neben {{where}} platziert."
+    }
+  },
+  "slyde": {
+    "MOVE": {
+      "default": "{{player}} hat einen Stein von {{from}} nach {{to}} geschoben."
+    },
+    "SELECT": {
+      "fixed_opponent": "{{player}} hat den Zustand des gegnerischen Steins bei {{where}} von beweglich zu fixiert geändert.",
+      "fixed_self": "{{player}} hat den Zustand des eigenen Steins bei {{where}} von beweglich zu fixiert geändert.",
+      "mobile_opponent": "{{player}} hat den Zustand des gegnerischen Steins bei {{where}} von fixiert zu beweglich geändert.",
+      "mobile_self": "{{player}} hat den Zustand des eigenen Steins bei {{where}} von fixiert zu beweglich geändert."
+    }
+  },
+  "spire": {
+    "PLACE": {
+      "neutral": "{{player}} hat eine neutrale Kugel bei {{where}} platziert.",
+      "player": "{{player}} hat eine Kugel in eigener Farbe bei {{where}} platziert."
+    }
+  },
+  "sploof": {
+    "TAKE": {
+      "default": "{{player}} hat eine neutrale Kugel bei {{from}} genommen."
+    }
+  },
+  "spook": {
+    "CAPTURE": {
+      "drop_opponent": "{{player}} hat 1 gegnerische Kugel durch Spooky darunter auf {{where}} geschlagen.",
+      "drop_self": "{{player}} hat 1 eigene Kugel durch Spooky darunter auf {{where}} geschlagen.",
+      "lateral_opponent_one": "{{player}} hat 1 gegnerische Kugel durch Spooky auf derselben Ebene auf {{where}} geschlagen.",
+      "lateral_opponent_other": "{{player}} hat {{count}} gegnerische Kugeln durch Spooky auf derselben Ebene auf {{where}} geschlagen.",
+      "lateral_self_one": "{{player}} hat 1 eigene Kugel durch Spooky auf derselben Ebene auf {{where}} geschlagen.",
+      "lateral_self_other": "{{player}} hat {{count}} eigene Kugeln durch Spooky auf derselben Ebene auf {{where}} geschlagen."
+    },
+    "MOVE": {
+      "default": "{{player}} hat Spooky von {{from}} nach {{to}} gezogen."
+    },
+    "PLACE": {
+      "spooky": "Spooky ist bei {{where}} auf das Spielbrett gekommen."
+    },
+    "REMOVE": {
+      "default": "{{player}} hat eine gegnerische Kugel bei {{where}} entfernt.",
+      "drop_one": "{{player}} hat eine Kugel bei {{where}} entfernt, wodurch 1 Kugel von {{how}} herabfiel.",
+      "drop_other": "{{player}} hat eine Kugel bei {{where}} entfernt, wodurch {{count}} Kugeln von {{how}} herabfielen."
+    }
+  },
+  "spora": {
+    "CAPTURE": {
+      "one": "{{player}} hat einen Stein umzingelt und geschlagen: {{group}}.",
+      "other": "{{player}} hat {{count}} Steine umzingelt und geschlagen: {{group}}."
+    },
+    "MOVE": {
+      "default": "{{player}} hat von {{from}} nach {{to}} gesät."
+    },
+    "PLACE": {
+      "one": "{{player}} hat einen Stein zum Stapel bei {{where}} hinzugefügt.",
+      "other": "{{player}} hat {{size}} Steine zum Stapel bei {{where}} hinzugefügt."
+    }
+  },
+  "spree": {
+    "SELECT": {
+      "default": "{{player}} hat dem Gegner eine Kugel der Farbe {{who}} übergeben."
     }
   },
   "squares": {
@@ -604,527 +1507,6 @@
     },
     "MOVE": {
       "default": "{{player}} hat einen Stein von {{from}} nach {{to}} gezogen und {{what}} auf {{how}} geschlagen."
-    },
-    "PLACE": {
-      "default": "{{player}} hat einen Stein bei {{where}} platziert."
-    }
-  },
-  "canoe": {
-    "BEAROFF": {
-      "default": "{{player}} hat einen Würfel vom Spielbrett ausgetragen."
-    },
-    "CAPTURE": {
-      "default": "{{player}} hat einen Würfel auf {{where}} geschnappt."
-    },
-    "CONVERT": {
-      "default": "{{player}} hat den Würfel auf {{where}} von {{what}} zu {{into}} gedreht."
-    },
-    "PASS": {
-      "default": "{{player}} hat gepasst."
-    },
-    "PROMOTE": {
-      "default": "{{player}} hat ein Set bei {{where}} gebildet und den Würfel von {{from}} zusammengeführt."
-    },
-    "ROLL": {
-      "default": "{{player}} hat gewürfelt: {{values}}."
-    }
-  },
-  "druid": {
-    "BEAROFF": {
-      "default": "{{player}} hat seinen Druiden von {{from}} ausgetragen."
-    },
-    "EOG": {
-      "hex": "Das Spiel ist zu Ende, da {{player}} die {{edges}} Ränder verbunden hat."
-    },
-    "MOVE": {
-      "walk": "{{player}} hat den eigenen Druiden von {{from}} nach {{to}} gezogen."
-    },
-    "PASS": {
-      "default": "{{player}} hat gepasst."
-    },
-    "PLACE": {
-      "druid": "{{player}} hat einen Druiden bei {{where}} platziert.",
-      "lintel": "{{player}} hat einen Deckstein entlang {{where}} gelegt.",
-      "sarsen": "{{player}} hat einen Sarsenstein bei {{where}} platziert."
-    },
-    "HEX_EDGE": {
-      "N": "Nördlichen (N)",
-      "NE": "Nordöstlichen (NE)",
-      "NW": "Nordwestlichen (NW)",
-      "S": "Südlichen (S)",
-      "SE": "Südöstlichen (SE)",
-      "SW": "Südwestlichen (SW)",
-      "and": "und"
-    }
-  },
-  "bao": {
-    "BLOCK": {
-      "default": "Die Mulde {{pit}} befindet sich im Kutakatia (ist blockiert)."
-    },
-    "CAPTURE": {
-      "one": "{{player}} hat insgesamt {{count}} Stein aus folgenden Mulden (in Reihenfolge) geschlagen: {{pits}}",
-      "other": "{{player}} hat insgesamt {{count}} Steine aus folgenden Mulden (in Reihenfolge) geschlagen: {{pits}}"
-    },
-    "DESTROY": {
-      "default": "Die Nyumba bei {{pit}} wurde zerstört."
-    },
-    "MOVE": {
-      "default": "Startrichtung der Bewegung: {{direction}}."
-    }
-  },
-  "veletas": {
-    "BLOCK": {
-      "default": "{{player}} hat einen Stein auf {{where}} platziert."
-    },
-    "CLAIM": {
-      "default": "Schütze auf {{where}} ist gefangen und wird von {{who}} beansprucht."
-    },
-    "MOVE": {
-      "default": "{{player}} hat den Schützen von {{from}} nach {{to}} bewegt."
-    },
-    "PLACE": {
-      "default": "{{player}} hat ein {{what}} bei {{where}} platziert."
-    }
-  },
-  "bitesize": {
-    "CAPTURE": {
-      "default": "{{player}} hat die Gruppe {{where}} der Größe {{count}} geschlagen."
-    }
-  },
-  "blastradius": {
-    "CAPTURE": {
-      "one": "{{player}} hat einen gegnerischen Stein von {{where}} entfernt.",
-      "other": "{{player}} hat einen Stapel von {{count}} gegnerischen Steinen von {{where}} entfernt."
-    },
-    "PLACE": {
-      "default": "{{player}} hat einen Stein bei {{where}} hinzugefügt, wodurch ein Stapel der Höhe {{height}} entsteht."
-    },
-    "TAKE": {
-      "one": "{{player}} hat einen eigenen Stein von {{where}} entfernt.",
-      "other": "{{player}} hat einen Stapel aus {{count}} eigenen Steinen von {{where}} entfernt."
-    }
-  },
-  "blooms": {
-    "CAPTURE": {
-      "default": "{{player}} hat eine {{what}}-Gruppe der Größe {{count}} geschlagen."
-    },
-    "PLACE": {
-      "default": "{{player}} hat einen {{what}}-Stein bei {{where}} platziert."
-    }
-  },
-  "buku": {
-    "CAPTURE": {
-      "default": "{{count}} Steine wurden auf {{where}} geschlagen."
-    },
-    "CLAIM": {
-      "repetition_one": "{{player}} hat den verbleibenden 1 Stein beansprucht.",
-      "repetition_other": "{{player}} hat alle verbleibenden {{count}} Steine beansprucht.",
-      "singletons_one": "{{player}} hat den verbleibenden 1 Stein in der eigenen Farbe beansprucht.",
-      "singletons_other": "{{player}} hat die verbleibenden {{count}} Steine in der eigenen Farbe beansprucht."
-    },
-    "EOG": {
-      "singletons": "Das Spiel ist zu Ende, da alle Felder nur noch einzelne Steine enthalten."
-    },
-    "TAKE": {
-      "col_one": "{{player}} hat 1 Stein aus Spalte {{col}} genommen.",
-      "col_other": "{{player}} hat {{count}} Steine aus Spalte {{col}} genommen.",
-      "row_bonus": "{{player}} hat {{count}} Steine aus Reihe {{row}} genommen, plus einen zusätzlichen Stein.",
-      "row_one": "{{player}} hat 1 Stein aus Reihe {{row}} genommen.",
-      "row_other": "{{player}} hat {{count}} Steine aus Reihe {{row}} genommen."
-    }
-  },
-  "c1": {
-    "CAPTURE": {
-      "default": "{{player}} entfernt ein Plättchen auf {{where}}."
-    }
-  },
-  "circleOfLife": {
-    "CAPTURE": {
-      "one": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Stein) auf {{where}} verschlungen.",
-      "other": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Steine) auf {{where}} verschlungen."
-    }
-  },
-  "crosshairs": {
-    "CAPTURE": {
-      "default": "{{player}} hat ein Flugzeug auf {{where}} abgeschossen."
-    },
-    "DESTROY": {
-      "default": "Das Flugzeug von {{player}} auf {{where}} ist abgestürzt."
-    },
-    "MOVE": {
-      "default": "{{player}} hat ein Flugzeug von {{from}} nach {{to}} bewegt.",
-      "power-dive": "Das Flugzeug von {{player}} ging bei {{from}} in den Sturzflug.",
-      "swoop": "Das Flugzeug von {{player}} ist von {{from}} nach {{to}} herabgestoßen."
-    },
-    "ORIENT": {
-      "default": "{{player}} hat ein Flugzeug bei {{where}} in Richtung {{facing}} gedreht."
-    },
-    "PLACE": {
-      "cloud": "{{player}} hat eine Wolke bei {{where}} platziert.",
-      "plane": "{{player}} hat ein Flugzeug bei {{where}} eingesetzt."
-    }
-  },
-  "dameo": {
-    "CAPTURE": {
-      "king": "{{player}} hat eine Dame auf {{where}} geschlagen.",
-      "soldier": "{{player}} hat einen Soldaten auf {{where}} geschlagen."
-    }
-  },
-  "entrapment": {
-    "CAPTURE": {
-      "opponent": "{{player}} hat den gegnerischen Streuner auf {{where}} geschlagen.",
-      "self": "{{player}} hat den eigenen Streuner auf {{where}} geschlagen."
-    },
-    "MOVE": {
-      "barrier": "{{player}} hat eine Barriere von {{from}} nach {{to}} verschoben.",
-      "roamer": "{{player}} hat einen Streuner von {{from}} nach {{to}} gezogen.",
-      "roamer_jump": "{{player}} hat einen Streuner von {{from}} nach {{to}} gezogen und dabei {{jumped}} übersprungen."
-    },
-    "PLACE": {
-      "barrier": "{{player}} hat eine Barriere bei {{where}} platziert.",
-      "roamer": "{{player}} hat einen Wanderer bei {{where}} platziert."
-    },
-    "REMOVE": {
-      "opponent": "{{player}} hat entschieden, den gegnerischen Wanderer bei {{how}} zu behalten, und den Wanderer bei {{where}} entfernt.",
-      "self": "{{player}} hat entschieden, den eigenen Wanderer bei {{how}} zu behalten, und den Wanderer bei {{where}} entfernt."
-    }
-  },
-  "fightopia": {
-    "CAPTURE": {
-      "1": "{{player}} hat einen Bauern auf {{where}} geschlagen.",
-      "2": "{{player}} hat einen Panzer auf {{where}} geschlagen."
-    },
-    "MOVE": {
-      "1": "{{player}} hat einen Bauern von {{from}} nach {{to}} gezogen.",
-      "2": "{{player}} hat einen Panzer von {{from}} nach {{to}} gezogen.",
-      "4": "{{player}} hat den eigenen Riesen von {{from}} nach {{to}} gezogen.",
-      "pivot": "{{player}} hat einen Panzer von {{from}} nach {{to}} gedreht."
-    }
-  },
-  "forms": {
-    "CAPTURE": {
-      "one": "Der Zug von {{player}} eliminiert einen Stein.",
-      "other": "Der Zug von {{player}} eliminiert {{count}} Steine."
-    },
-    "EOG": {
-      "default": "Das Spiel ist zu Ende, da der nächste Spieler keinen Zug machen kann."
-    }
-  },
-  "furl": {
-    "CAPTURE": {
-      "default": "{{player}} hat einen Stapel der Größe {{size}} auf {{where}} geschlagen."
-    },
-    "FURL": {
-      "default": "{{player}} rollt {{count}} Steine von {{from}} nach {{to}} auf."
-    },
-    "UNFURL": {
-      "default": "{{player}} breitet {{count}} Steine von {{from}} nach {{to}} aus."
-    }
-  },
-  "gess": {
-    "CAPTURE": {
-      "one": "{{count}} Stein wird vom Spielbrett entfernt.",
-      "other": "{{count}} Steine werden vom Spielbrett entfernt."
-    },
-    "MOVE": {
-      "one": "{{player}} hat ein 3x3-Teil mit {{count}} Stein von {{from}} nach {{to}} gezogen.",
-      "other": "{{player}} hat ein 3x3-Teil mit {{count}} Steinen von {{from}} nach {{to}} gezogen."
-    }
-  },
-  "hens": {
-    "CAPTURE": {
-      "chick": "{{player}} hat ein Küken auf {{where}} geschlagen.",
-      "hen": "{{player}} hat eine Henne auf {{where}} geschlagen."
-    }
-  },
-  "hexentafl": {
-    "CAPTURE": {
-      "king": "Der König wurde auf {{where}} geschlagen."
-    },
-    "MOVE": {
-      "king": "{{player}} hat den König von {{from}} nach {{to}} gezogen."
-    }
-  },
-  "lasca": {
-    "CAPTURE": {
-      "officer": "{{player}} hat einen Offizier auf {{where}} geschlagen.",
-      "soldier": "{{player}} hat einen Soldaten auf {{where}} geschlagen."
-    }
-  },
-  "lifeline": {
-    "CAPTURE": {
-      "default": "Tote Steine wurden auf {{where}} entfernt."
-    }
-  },
-  "majorities": {
-    "CAPTURE": {
-      "default": "{{count}} Steine wurden entfernt."
-    },
-    "CLAIM": {
-      "A": "{{player}} hat die aufsteigende Richtung beansprucht.",
-      "D": "{{player}} hat die absteigende Richtung beansprucht.",
-      "H": "{{player}} hat die horizontale Richtung beansprucht.",
-      "line": "{{player}} hat die Linie {{where}} beansprucht."
-    }
-  },
-  "mattock": {
-    "CAPTURE": {
-      "default": "{{player}} hat einen Bergmann auf {{where}} geschlagen."
-    },
-    "DESTROY": {
-      "default": "{{player}} hat auf {{where}} gebaut/abgebaut."
-    },
-    "MOVE": {
-      "default": "{{player}} hat einen Bergmann von {{from}} nach {{to}} gezogen."
-    },
-    "PLACE": {
-      "default": "{{player}} hat einen Bergmann bei {{where}} platziert."
-    }
-  },
-  "meridians": {
-    "CAPTURE": {
-      "default": "Eine tote Gruppe der Größe {{count}} wird entfernt."
-    }
-  },
-  "monkey": {
-    "CAPTURE": {
-      "queen": "Eine Dame wurde geschlagen.",
-      "single": "Ein einzelner Stein wurde geschlagen."
-    },
-    "MOVE": {
-      "queen": "{{player}} hat die eigene Dame von {{from}} nach {{to}} gezogen.",
-      "single": "{{player}} hat einen einzelnen Stein von {{from}} nach {{to}} gezogen."
-    }
-  },
-  "murus": {
-    "CAPTURE": {
-      "double": "{{player}} hat zwei Steine auf {{where}} geschlagen."
-    },
-    "FIRE": {
-      "default": "{{player}} hat ein Katapult von {{from}} nach {{to}} abgefeuert."
-    }
-  },
-  "onyx": {
-    "CAPTURE": {
-      "default": "Ein Paar von Steinen wurde auf {{where1}} und {{where2}} geschlagen."
-    }
-  },
-  "orb": {
-    "CAPTURE": {
-      "1": "{{player}} hat eine Kugel auf {{where}} geschlagen.",
-      "2": "{{player}} hat ein Sphäroid auf {{where}} geschlagen."
-    },
-    "MOVE": {
-      "1": "{{player}} hat eine Kugel von {{from}} nach {{to}} bewegt.",
-      "2": "{{player}} hat ein Sphäroid von {{from}} nach {{to}} bewegt.",
-      "3": "{{player}} hat einen Globus von {{from}} nach {{to}} bewegt.",
-      "2S": "{{player}} hat ein geteiltes Sphäroid von {{from}} nach {{to}} bewegt."
-    },
-    "PLACE": {
-      "default": "Der Kugel-Generator von {{player}} hat eine Kugel bei {{where}} erzeugt."
-    },
-    "PROMOTE": {
-      "12": "{{player}} hat eine Kugel bei {{where}} zu einem Spheroid befördert.",
-      "13": "{{player}} hat eine Kugel bei {{where}} zu einem Globus befördert.",
-      "23": "{{player}} hat den Spheroid bei {{where}} zu einem Globus befördert."
-    }
-  },
-  "owlman": {
-    "CAPTURE": {
-      "approach": "{{player}} hat den Helfer bei {{where}} aus dem Wald vertrieben.",
-      "replacement": "{{player}} hat den Stein auf {{where}} verschlungen."
-    }
-  },
-  "pente": {
-    "CAPTURE": {
-      "default": "{{player}} hat {{count}} Steine geschlagen.",
-      "self": "{{player}} hat {{count}} der eigenen Steine geschlagen."
-    }
-  },
-  "reversi": {
-    "CAPTURE": {
-      "one": "Ein Stein wird gedreht.",
-      "other": "{{count}} Steine werden gedreht."
-    }
-  },
-  "spook": {
-    "CAPTURE": {
-      "drop_opponent": "{{player}} hat 1 gegnerische Kugel durch Spooky darunter auf {{where}} geschlagen.",
-      "drop_self": "{{player}} hat 1 eigene Kugel durch Spooky darunter auf {{where}} geschlagen.",
-      "lateral_opponent_one": "{{player}} hat 1 gegnerische Kugel durch Spooky auf derselben Ebene auf {{where}} geschlagen.",
-      "lateral_opponent_other": "{{player}} hat {{count}} gegnerische Kugeln durch Spooky auf derselben Ebene auf {{where}} geschlagen.",
-      "lateral_self_one": "{{player}} hat 1 eigene Kugel durch Spooky auf derselben Ebene auf {{where}} geschlagen.",
-      "lateral_self_other": "{{player}} hat {{count}} eigene Kugeln durch Spooky auf derselben Ebene auf {{where}} geschlagen."
-    },
-    "MOVE": {
-      "default": "{{player}} hat Spooky von {{from}} nach {{to}} gezogen."
-    },
-    "REMOVE": {
-      "default": "{{player}} hat eine gegnerische Kugel bei {{where}} entfernt.",
-      "drop_one": "{{player}} hat eine Kugel bei {{where}} entfernt, wodurch 1 Kugel von {{how}} herabfiel.",
-      "drop_other": "{{player}} hat eine Kugel bei {{where}} entfernt, wodurch {{count}} Kugeln von {{how}} herabfielen."
-    },
-    "PLACE": {
-      "spooky": "Spooky ist bei {{where}} auf das Spielbrett gekommen."
-    }
-  },
-  "spora": {
-    "CAPTURE": {
-      "one": "{{player}} hat einen Stein umzingelt und geschlagen: {{group}}.",
-      "other": "{{player}} hat {{count}} Steine umzingelt und geschlagen: {{group}}."
-    },
-    "MOVE": {
-      "default": "{{player}} hat von {{from}} nach {{to}} gesät."
-    },
-    "PLACE": {
-      "one": "{{player}} hat einen Stein zum Stapel bei {{where}} hinzugefügt.",
-      "other": "{{player}} hat {{size}} Steine zum Stapel bei {{where}} hinzugefügt."
-    }
-  },
-  "swarm": {
-    "CAPTURE": {
-      "default": "{{player}} hat den Stapel auf {{where}} mit {{count}} einzelnen Steinen geschlagen."
-    }
-  },
-  "tafl": {
-    "CAPTURE": {
-      "default": "{{player}} hat einen Stein auf {{where}} geschlagen."
-    },
-    "EOG": {
-      "encirclement": "Das Spiel ist zu Ende, da die Verteidiger umzingelt sind.",
-      "exit_fort": "Das Spiel ist zu Ende, da die Verteidiger eine Ausfallfestung errichtet haben.",
-      "king_captured": "Das Spiel ist zu Ende, da der König geschlagen wurde.",
-      "king_escaped": "Das Spiel ist zu Ende, da der König entkommen ist."
-    },
-    "MOVE": {
-      "default": "{{player}} hat einen Stein von {{from}} nach {{to}} gezogen.",
-      "jump": "{{player}} ist mit einem Stein von {{from}} nach {{to}} gesprungen."
-    }
-  },
-  "terrace": {
-    "CAPTURE": {
-      "other": "{{player}} hat einen Stein der Größe {{what}} auf {{where}} geschlagen.",
-      "self": "{{player}} hat den eigenen Stein der Größe {{what}} auf {{where}} geschlagen."
-    },
-    "PLACE": {
-      "default": "{{player}} hat einen Stein der Größe {{size}} von {{from}} nach {{to}} bewegt."
-    }
-  },
-  "tricouleur": {
-    "CAPTURE": {
-      "default": "{{count}} Steine haben die Farbe gewechselt."
-    },
-    "MOVE": {
-      "duplicate": "{{player}} hat einen Stein von {{from}} nach {{to}} dupliziert.",
-      "jump": "{{player}} ist mit einem Stein von {{from}} nach {{to}} gesprungen."
-    }
-  },
-  "tumbleweed": {
-    "CAPTURE": {
-      "default": "{{player}} hat einen Stapel der Größe {{count}} auf {{where}} geschlagen.",
-      "self": "{{player}} verstärkt einen Stapel der Größe {{count}} auf {{where}}."
-    },
-    "PLACE": {
-      "default": "{{player}} hat einen Stapel der Größe {{count}} bei {{where}} platziert."
-    }
-  },
-  "conhex": {
-    "CLAIM": {
-      "default": "{{player}} hat das Feld auf ({{where}}) beansprucht."
-    },
-    "PLACE": {
-      "default": "{{player}} hat einen Stein am Eckpunkt {{where}} platziert."
-    }
-  },
-  "exxit": {
-    "CLAIM": {
-      "default": "{{player}} hat das Randfeld auf {{where}} beansprucht."
-    }
-  },
-  "fnap": {
-    "CLAIM": {
-      "col": "{{player}} hat Spalte {{where}} beansprucht.",
-      "fnap": "{{player}} hat den FNAP-Marker beansprucht.",
-      "row": "{{player}} hat Reihe {{where}} beansprucht."
-    },
-    "SELECT": {
-      "default": "{{player}} hat das Plättchen {{tile}} ausgewählt."
-    },
-    "SET": {
-      "circles": "Das Kreisplättchen bei {{where}} ist isoliert.",
-      "triplets_one": "{{player}} hat {{count}} Drilling erzielt.",
-      "triplets_other": "{{player}} hat {{count}} Drillinge erzielt."
-    }
-  },
-  "jacynth": {
-    "CLAIM": {
-      "default": "{{player}} hat Einfluss auf {{where}} ausgeübt."
-    }
-  },
-  "meg": {
-    "CLAIM": {
-      "default": "{{player}} hat die Kugel genommen und auf {{where}} platziert."
-    },
-    "MOVE": {
-      "default": "{{player}} hat den Ball von {{from}} nach {{to}} gepasst."
-    },
-    "PLACE": {
-      "cap": "{{player}} hat eine Sperre bei {{where}} platziert.",
-      "cup": "{{player}} hat einen Empfänger bei {{where}} platziert."
-    }
-  },
-  "penguin": {
-    "CLAIM": {
-      "default": "Der Pinguin auf {{where}} hat die Kugel beansprucht!"
-    },
-    "EJECT": {
-      "ball": "{{player}} hat den Ball von {{from}} nach {{to}} gekickt.",
-      "penguin": "Ein Pinguin wurde von {{from}} nach {{to}} geschoben."
-    }
-  },
-  "toguz": {
-    "CLAIM": {
-      "default": "Mulde {{pit}} wurde zu einer Tuz."
-    }
-  },
-  "bridges": {
-    "CONNECT": {
-      "default": "{{player}} hat eine Brücke zwischen {{left}} und {{right}} gebaut."
-    }
-  },
-  "pontedd": {
-    "CONNECT": {
-      "default": "{{player}} hat eine Brücke zwischen {{left}} und {{right}} platziert."
-    }
-  },
-  "courtesan": {
-    "CONVERT": {
-      "default": "König und Kurtisane haben auf {{where}} die Positionen getauscht."
-    }
-  },
-  "moonsquad": {
-    "CONVERT": {
-      "default": "{{player}} hat einen Trupp rekrutiert."
-    },
-    "PLACE": {
-      "default": "{{player}} hat einen Trupp bei {{where}} platziert."
-    },
-    "SACRIFICE": {
-      "default": "{{player}} hat ein Erz ({{ore}}) geopfert, um eigene Trupps zu bewegen."
-    },
-    "TAKE": {
-      "default": "{{player}} hat ein Erz ({{ore}}) genommen."
-    }
-  },
-  "pacru": {
-    "CONVERT": {
-      "default": "{{player}} hat {{where}} umgewandelt."
-    }
-  },
-  "paintbucket": {
-    "CONVERT": {
-      "one": "{{player}} hat 1 Stein auf {{where}} umgewandelt.",
-      "other": "{{player}} hat {{count}} Steine beginnend bei {{where}} umgewandelt."
     }
   },
   "storisende": {
@@ -1133,453 +1515,9 @@
       "wall": "Das Plättchen auf {{where}} wurde zu einer Mauer."
     }
   },
-  "armadas": {
-    "DAMAGE": {
-      "default": "Das Schiff {{myName}} von {{player}} hat auf das gegnerische Schiff {{theirName}} gefeuert."
-    },
-    "DESTROY": {
-      "default": "{{player}} hat das gegnerische Schiff {{name}} versenkt."
-    },
-    "MOVE": {
-      "default": "{{player}} hat das eigene Schiff {{name}} bewegt."
-    },
-    "PLACE": {
-      "1": "{{player}} hat ein kleines Schiff platziert und es {{name}} genannt.",
-      "2": "{{player}} hat ein mittleres Schiff platziert und es {{name}} genannt.",
-      "3": "{{player}} hat ein großes Schiff platziert und es {{name}} genannt."
-    }
-  },
-  "pigs": {
-    "DAMAGE": {
-      "default": "{{player}} hat {{opponent}} auf {{where}} getroffen."
-    },
-    "FIRE": {
-      "F": "{{player}} hat den Laser in Richtung {{direction}} abgefeuert.",
-      "H": "{{player}} hat den mächtigen Rüssel geschwungen!"
-    },
-    "PASS": {
-      "default": "{{player}} setzt aus."
-    }
-  },
-  "agofmars": {
-    "DECKDRAW": {
-      "default": "{{player}} zog eine {{colour}}{{count}} Pyramide aus dem Beutel."
-    },
-    "MOVE": {
-      "default": "{{player}} bewegte eine Pyramide von {{from}} nach {{to}}."
-    },
-    "OBJECTIVES": {
-      "default": "{{player}} wählte die eigenen Ziele."
-    },
-    "OBJECTIVE_SWAP": {
-      "default": "{{player}} hat die Ziel-Multiplikatoren {{columnA}} und {{columnB}} getauscht."
-    },
-    "PASS": {
-      "noObjSwap": "{{player}} tauschte keine Ziele."
-    },
-    "PLACE": {
-      "default": "{{player}} platzierte eine {{colour}}{{count}} Pyramide auf {{where}}."
-    },
-    "SWAP": {
-      "board": "{{player}} tauschte die {{colour1}}{{size1}} auf {{cell1}} und die {{colour2}}{{size2}} auf {{cell2}}.",
-      "board_cells": "{{player}} tauschte die Pyramiden auf {{cell1}} und {{cell2}}."
-    }
-  },
-  "emu": {
-    "DECKDRAW": {
-      "deck": "{{player}} hat eine verdeckte Karte vom Stapel gezogen.",
-      "discard": "{{player}} hat {{what}} oben vom Ablagestapel gezogen."
-    },
-    "DECLARE": {
-      "default": "Das Jahr {{year}} ist zu Ende."
-    },
-    "DELTASCORE": {
-      "excuse": "{{player}} spielt Die Entschuldigung, um den Vogel mit der niedrigsten Punktzahl ({{delta}} Punkte) auszugleichen.",
-      "score": "Der Vogel von {{player}} mit folgenden Rängen brachte {{delta}} Punkte: {{ranks}}."
-    },
-    "PLACE": {
-      "discard": "{{player}} hat die Karte {{what}} abgelegt.",
-      "existing": "{{player}} nutzte {{what}}, um Vogel #{{where}} wachsen zu lassen.",
-      "new": "{{player}} hat mit dem {{what}} einen neuen Vogel ausgebrütet."
-    }
-  },
-  "evenatodds": {
-    "DECKDRAW": {
-      "default": "{{player}} hat einen Stein aus dem Vorrat gezogen."
-    },
-    "PLACE": {
-      "default": "{{player}} hat den Domino-Stein {{what}} bei {{where}} platziert."
-    }
-  },
-  "mchess": {
-    "DECLARE": {
-      "default": "{{player}} hat die Uhr reklamiert. Wenn in den nächsten sieben Zügen kein Stein geschlagen wird, endet das Spiel und wird gewertet."
-    },
-    "PROMOTE": {
-      "default": "Dadurch wurde ein {{into}} erzeugt."
-    }
-  },
-  "renju": {
-    "DECLARE": {
-      "default": "{{player}} hat {{count}} vorläufige Fünferreihen deklariert."
-    },
-    "PLACE": {
-      "tentative": "{{player}} hat einen vorläufigen fünften Stein bei {{where}} platziert.",
-      "tentative_choose": "{{player}} hat den fünften Stein bei {{where}} gewählt."
-    }
-  },
-  "btt": {
-    "DELTASCORE": {
-      "opponent_gain_one": "Ein Gegner hat {{delta}} Punkt erhalten.",
-      "opponent_gain_other": "Ein Gegner hat {{delta}} Punkte erhalten."
-    },
-    "PLACE": {
-      "default": "{{player}} hat ein {{what}} bei {{where}} platziert.",
-      "large": "{{player}} hat ein großes Teil bei {{where}} platziert, ausgerichtet nach {{how}}.",
-      "medium": "{{player}} hat ein mittleres Teil bei {{where}} platziert, ausgerichtet nach {{how}}.",
-      "small": "{{player}} hat ein kleines Teil bei {{where}} platziert, ausgerichtet nach {{how}}."
-    }
-  },
-  "assembly": {
-    "EJECT": {
-      "default": "Die Fertigungslinie hat sich um {{distance}} Felder vorwärts bewegt."
-    },
-    "PASS": {
-      "default": "Die Fertigungsstraße bewegt sich nicht."
-    }
-  },
-  "bashni": {
-    "EOG": {
-      "stagnation": "Das Spiel hat mit einem Unentschieden geendet, da die Anzahl und Zusammensetzung der Steine für {{count}} aufeinanderfolgende Züge unverändert blieb."
-    }
-  },
-  "camelot": {
-    "EOG": {
-      "claim_draw_progression": "Das Spiel ist zu Ende, da {{player}} ein Unentschieden nach der 50-Züge-Regel beansprucht hat.",
-      "claim_draw_repetition": "Das Spiel ist zu Ende, da {{player}} ein Unentschieden durch Stellungswiederholung beansprucht hat."
-    },
-    "MOVE": {
-      "canter": "{{player}} hat einen Galoppsprung mit einem Mann von {{from}} nach {{to}} gemacht.",
-      "canter_knight": "{{player}} hat einen Galoppsprung mit einem Springer von {{from}} nach {{to}} gemacht.",
-      "castle": "{{player}} hat einen Rochade-Zug mit einem Mann von {{from}} nach {{to}} gemacht.",
-      "castle_knight": "{{player}} hat einen Rochade-Zug mit einem Springer von {{from}} nach {{to}} gemacht.",
-      "jump": "{{player}} hat einen Sprung mit einem Mann von {{from}} nach {{to}} gemacht und dabei {{captured}} geschlagen.",
-      "jump_knight": "{{player}} hat einen Sprung mit einem Springer von {{from}} nach {{to}} gemacht und dabei {{captured}} geschlagen.",
-      "plain": "{{player}} hat einen einfachen Zug mit einem Mann von {{from}} nach {{to}} gemacht.",
-      "plain_knight": "{{player}} hat einen einfachen Zug mit einem Springer von {{from}} nach {{to}} gemacht."
-    },
-    "PLACE": {
-      "tree": "{{player}} hat Bäume bei {{where}} platziert."
-    },
-    "USE": {
-      "castle_move_none": "{{player}} hat keine Burgzüge mehr übrig.",
-      "castle_move_one": "{{player}} hat noch 1 Burgzug übrig.",
-      "castle_move_other": "{{player}} hat noch {{count}} weitere Burgzüge übrig."
-    }
-  },
-  "gonnect": {
-    "EOG": {
-      "cascading_subboard": "{{player}} hat auf dem {{size}}x{{size}}-Teilbrett gewonnen.",
-      "direct_connection": "{{player}} hat durch direkte Verbindung gewonnen."
-    }
-  },
-  "selfo": {
-    "EOG": {
-      "mutual_enclosure": "Das Spiel endet unentschieden, da beide Spieler eingeschlossene Steine haben und keiner mehr eine Verbindung herstellen kann."
-    }
-  },
-  "susan": {
-    "EOG": {
-      "nonplacement": "Das Spiel ist zu Ende, da 6 Halbzüge lang kein Spieler einen Stein platziert hat."
-    },
-    "MOVE": {
-      "default": "{{player}} hat einen Stein von {{from}} nach {{to}} geschoben."
-    }
-  },
-  "unlur": {
-    "EOG": {
-      "foul": "Das Spiel ist zu Ende, da ein Spieler die Siegbedingung des Gegners erfüllt hat, ohne seine eigene zu erreichen."
-    },
-    "PIE": {
-      "default": "{{player}} hat gepasst, um Y-Spieler zu sein."
-    }
-  },
-  "realm": {
-    "IMMOBILIZE": {
-      "default": "{{player}} hat den Vollstrecker auf {{where}} immobilisiert."
-    }
-  },
-  "amazons": {
-    "MOVE": {
-      "default": "{{player}} ist von {{from}} nach {{to}} gezogen und hat danach das Feld {{block}} gesperrt.",
-      "noFirstShot": "{{player}} ist von {{from}} nach {{to}} gezogen."
-    }
-  },
-  "anache": {
-    "MOVE": {
-      "dragon": "{{player}} hat eine Gruppe der Größe {{count}} mit einem Drachenzug von {{from}} in Richtung {{dir}} gezogen.",
-      "dragon_jump": "{{player}} springt mit dem Drachen von {{from}} nach {{to}}.",
-      "knight": "{{player}} hat eine Gruppe der Größe {{count}} mit einem Springerzug von {{from}} in Richtung {{dir}} gezogen.",
-      "man": "{{player}} hat eine Gruppe der Größe {{count}} von {{from}} in Richtung {{dir}} gezogen."
-    }
-  },
-  "ataxx": {
-    "MOVE": {
-      "jump": "{{player}} ist mit einem Stein von {{from}} nach {{to}} gesprungen.",
-      "split": "{{player}} hat einen Stein von {{from}} nach {{to}} geteilt."
-    },
-    "CAPTURE": {
-      "one": "1 Stein wurde umgewandelt.",
-      "other": "{{count}} Steine wurden umgewandelt."
-    }
-  },
-  "byte": {
-    "MOVE": {
-      "full": "{{player}} hat einen vollständigen Stapel von {{from}} nach {{to}} gezogen.",
-      "partial_one": "{{player}} hat {{count}} Stein von {{from}} nach {{to}} gezogen.",
-      "partial_other": "{{player}} hat {{count}} Steine von {{from}} nach {{to}} gezogen."
-    }
-  },
-  "carnac": {
-    "MOVE": {
-      "tip": "{{player}} hat den Megalithen bei {{from}} in Richtung {{how}} auf {{to}} gekippt."
-    },
-    "PASS": {
-      "default": "{{player}} hat darauf verzichtet, den Megalithen umzukippen."
-    },
-    "PLACE": {
-      "default": "{{player}} hat einen Megalithen bei {{where}} platziert (oben {{top}}, Süden {{south}})."
-    }
-  },
-  "chase": {
-    "MOVE": {
-      "default": "{{player}} ist von {{from}} nach {{to}} gezogen (über {{through}})."
-    },
-    "PLACE": {
-      "default": "Die Kammer hat ein {{what}} bei {{where}} ausgespuckt."
-    },
-    "TAKE": {
-      "default": "Ein {{what}} wurde der Kammer zugeführt."
-    }
-  },
-  "iqishiqi": {
-    "MOVE": {
-      "default": "{{player}} hat den neutralen Stein von {{from}} nach {{to}} gezogen."
-    },
-    "PLACE": {
-      "default": "{{player}} hat einen gemeinsamen Stein bei {{where}} platziert."
-    }
-  },
-  "knightline": {
-    "MOVE": {
-      "default": "{{player}} hat {{what}} Steine von {{from}} nach {{to}} gezogen."
-    },
-    "PLACE": {
-      "default": "{{player}} hat seinen Startstapel bei {{where}} platziert."
-    }
-  },
-  "onager": {
-    "MOVE": {
-      "jump": "{{player}} ist mit einem Stein von {{from}} nach {{to}} gesprungen.",
-      "walk": "{{player}} ist mit einem Stein von {{from}} nach {{to}} gezogen."
-    },
-    "PLACE": {
-      "default": "{{player}} hat einen See bei {{where}} platziert."
-    }
-  },
-  "phutball": {
-    "MOVE": {
-      "default": "{{player}} hat den Ball von {{from}} nach {{to}} bewegt,",
-      "last": "{{player}} hat den Ball von {{from}} nach {{to}} bewegt.",
-      "to": "nach {{to}},",
-      "to_last": "nach {{to}}."
-    },
-    "PLACE": {
-      "default": "{{player}} hat einen Spieler bei {{where}} platziert."
-    },
-    "REMOVE": {
-      "one": "{{count}} Spieler wurde entfernt.",
-      "other": "{{count}} Spieler wurden entfernt."
-    }
-  },
-  "posit": {
-    "MOVE": {
-      "default": "{{player}} hat seinen Stein von {{from}} nach {{to}} gezogen."
-    }
-  },
-  "saltire": {
-    "MOVE": {
-      "default": "{{player}} hat die Steine auf {{from}} und {{to}} getauscht."
-    }
-  },
-  "slyde": {
-    "MOVE": {
-      "default": "{{player}} hat einen Stein von {{from}} nach {{to}} geschoben."
-    },
-    "SELECT": {
-      "fixed_opponent": "{{player}} hat den Zustand des gegnerischen Steins bei {{where}} von beweglich zu fixiert geändert.",
-      "fixed_self": "{{player}} hat den Zustand des eigenen Steins bei {{where}} von beweglich zu fixiert geändert.",
-      "mobile_opponent": "{{player}} hat den Zustand des gegnerischen Steins bei {{where}} von fixiert zu beweglich geändert.",
-      "mobile_self": "{{player}} hat den Zustand des eigenen Steins bei {{where}} von fixiert zu beweglich geändert."
-    }
-  },
-  "volo": {
-    "MOVE": {
-      "one": "{{player}} hat einen Schwarm von 1 Vogel von {{from}} in Richtung {{how}} bewegt.",
-      "other": "{{player}} hat einen Schwarm von {{count}} Vögeln von {{from}} in Richtung {{how}} bewegt."
-    },
-    "PLACE": {
-      "default": "{{player}} fügt einen Vogel bei {{where}} hinzu."
-    },
-    "REMOVE": {
-      "default": "{{player}} hat entschieden, die Region bei {{how}} zu behalten, und {{num}} gegnerische Vögel entfernt."
-    }
-  },
-  "asli": {
-    "PASS": {
-      "default": "{{player}} hat einen gegnerischen Stein aus dem Gefängnis genommen und gepasst.",
-      "area": "{{player}} hat gepasst."
-    },
-    "CAPTURE": {
-      "self": "{{player}} entfernte die eigenen gestrandeten Steine auf {{where}}."
-    }
-  },
-  "entropy": {
-    "PASS": {
-      "default": "{{player}} hat sich entschieden, in diesem Zug keine Steine zu bewegen."
-    }
-  },
-  "linage": {
-    "PASS": {
-      "default": "{{player}} passt."
-    }
-  },
-  "pippinzip": {
-    "PASS": {
-      "default": "{{player}} entscheidet sich zu passen und wird Zip"
-    }
-  },
-  "tablero": {
-    "PASS": {
-      "default": "{{player}} hat ausgesetzt!"
-    },
-    "ROLL": {
-      "default": "Die Würfel wurden gewürfelt: {{values}}."
-    },
-    "TAKE": {
-      "default": "{{player}} hat einen eigenen Stein vom Stapel bei {{from}} genommen."
-    }
-  },
-  "blockade": {
-    "PLACE": {
-      "h": "{{player}} hat einen horizontalen Zaun bei {{where}} platziert.",
-      "v": "{{player}} hat einen vertikalen Zaun bei {{where}} platziert."
-    },
-    "CAPTURE": {
-      "default": "{{player}} hat einen blockierenden Stein auf {{where}} geschlagen."
-    },
-    "MOVE": {
-      "default": "{{player}} hat einen Stein von {{from}} nach {{to}} gezogen."
-    }
-  },
-  "boxes": {
-    "PLACE": {
-      "default": "{{player}} fügt eine Linie bei {{where}} hinzu.",
-      "claim1": "{{player}} fügt eine Linie bei {{where}} hinzu und erobert {{box}}.",
-      "claim2": "{{player}} fügt eine Linie bei {{where}} hinzu und erobert {{box1}} und {{box2}}."
-    }
-  },
-  "bug": {
-    "PLACE": {
-      "bonus_grow": "Beim Schlagen wuchs ein Käfer bei {{where}} auf die Größe {{size}}.",
-      "grow": "{{player}} ließ einen Käfer bei {{where}} auf die Größe {{size}} wachsen.",
-      "new": "{{player}} hat einen neuen Käfer bei {{where}} ins Spiel gebracht."
-    }
-  },
-  "cannon": {
-    "PLACE": {
-      "default": "{{player}} hat seine Stadt bei {{where}} platziert."
-    }
-  },
-  "ccorridor": {
-    "PLACE": {
-      "default": "{{player}} hat ein Plättchen bei {{where}} platziert."
-    }
-  },
-  "connecticut": {
-    "PLACE": {
-      "default": "{{player}} hat ein Triomino bei {{where}} platziert."
-    }
-  },
-  "court": {
-    "PLACE": {
-      "default": "{{player}} hat {{where}} zu einem {{what}} befördert."
-    }
-  },
-  "epam": {
-    "PLACE": {
-      "default": "{{player}} hat einen Stein bei {{where}} platziert."
-    }
-  },
-  "estate": {
-    "PLACE": {
-      "one": "{{player}} hat einen Spielstein auf {{where}} platziert ({{what}} Punkt).",
-      "other": "{{player}} hat einen Spielstein auf {{where}} platziert ({{what}} Punkte)."
-    }
-  },
-  "gorogo": {
-    "PLACE": {
-      "henge": "{{player}} hat ein Henge-Teil bei {{where}} platziert.",
-      "piece": "{{player}} hat einen Stein bei {{where}} platziert."
-    }
-  },
-  "nex": {
-    "PLACE": {
-      "default": "{{player}} hat einen Stein in eigener Farbe bei {{where}} platziert.",
-      "neutral": "{{player}} hat einen neutralen Stein bei {{where}} platziert."
-    },
-    "SWAP": {
-      "default": "{{player}} hat einen Stein eigener Farbe bei {{where}} gegen einen neutralen Stein getauscht.",
-      "neutral": "{{player}} hat einen neutralen Stein bei {{where}} gegen einen Stein eigener Farbe getauscht."
-    }
-  },
-  "pahtum": {
-    "PLACE": {
-      "block": "{{player}} hat {{where}} blockiert.",
-      "piece": "{{player}} hat einen Stein bei {{where}} platziert."
-    }
-  },
-  "pollux": {
-    "PLACE": {
-      "default": "{{player}} blockiert {{where}}."
-    }
-  },
-  "quax": {
-    "PLACE": {
-      "diag": "{{player}} hat eine diagonale Verbindung bei {{where}} platziert."
-    }
-  },
-  "query": {
-    "PLACE": {
-      "c4": "{{player}} hat zwei Steine an den Eckpunkten {{where}} platziert.",
-      "c8": "{{player}} hat einen Stein am Eckpunkt {{where}} platziert."
-    }
-  },
-  "siegeofj": {
-    "PLACE": {
-      "default": "{{player}} hat \"{{what}}\" neben {{where}} platziert."
-    }
-  },
-  "spire": {
-    "PLACE": {
-      "neutral": "{{player}} hat eine neutrale Kugel bei {{where}} platziert.",
-      "player": "{{player}} hat eine Kugel in eigener Farbe bei {{where}} platziert."
-    }
-  },
   "strands": {
     "PLACE": {
       "initial": "{{player}} hat einen Stein auf einem Feld mit der Aufschrift 2 bei {{where}} platziert.",
-      "one": "{{player}} hat einen Stein bei {{where}} platziert.",
       "other": "{{player}} hat {{count}} Steine bei {{where}} platziert."
     }
   },
@@ -1607,9 +1545,27 @@
       "take_default": "{{player}} hat ein Gebäudelimit von {{from}} genommen."
     }
   },
+  "strings": {
+    "DESTROY": {
+      "string": "Die Schnur {{where}} ist unter der Belastung gerissen."
+    }
+  },
   "subdivision": {
     "PLACE": {
       "park": "{{player}} hat einen Park bei {{where}} platziert."
+    }
+  },
+  "susan": {
+    "EOG": {
+      "nonplacement": "Das Spiel ist zu Ende, da 6 Halbzüge lang kein Spieler einen Stein platziert hat."
+    },
+    "MOVE": {
+      "default": "{{player}} hat einen Stein von {{from}} nach {{to}} geschoben."
+    }
+  },
+  "swarm": {
+    "CAPTURE": {
+      "default": "{{player}} hat den Stapel auf {{where}} mit {{count}} einzelnen Steinen geschlagen."
     }
   },
   "synapse": {
@@ -1617,14 +1573,101 @@
       "default": "{{player}} hat bei {{where}} einen Stein der Größe {{size}} in Richtung {{dir}} platziert."
     }
   },
+  "tablero": {
+    "PASS": {
+      "default": "{{player}} hat ausgesetzt!"
+    },
+    "ROLL": {
+      "default": "Die Würfel wurden gewürfelt: {{values}}."
+    },
+    "TAKE": {
+      "default": "{{player}} hat einen eigenen Stein vom Stapel bei {{from}} genommen."
+    }
+  },
+  "tafl": {
+    "EOG": {
+      "encirclement": "Das Spiel ist zu Ende, da die Verteidiger umzingelt sind.",
+      "exit_fort": "Das Spiel ist zu Ende, da die Verteidiger eine Ausfallfestung errichtet haben.",
+      "king_captured": "Das Spiel ist zu Ende, da der König geschlagen wurde.",
+      "king_escaped": "Das Spiel ist zu Ende, da der König entkommen ist."
+    },
+    "MOVE": {
+      "default": "{{player}} hat einen Stein von {{from}} nach {{to}} gezogen.",
+      "jump": "{{player}} ist mit einem Stein von {{from}} nach {{to}} gesprungen."
+    }
+  },
+  "terrace": {
+    "CAPTURE": {
+      "other": "{{player}} hat einen Stein der Größe {{what}} auf {{where}} geschlagen.",
+      "self": "{{player}} hat den eigenen Stein der Größe {{what}} auf {{where}} geschlagen."
+    },
+    "PLACE": {
+      "default": "{{player}} hat einen Stein der Größe {{size}} von {{from}} nach {{to}} bewegt."
+    }
+  },
+  "thricewise": {
+    "SELECT": {
+      "default": "{{player}} hat {{card}} ausgewählt."
+    }
+  },
+  "toguz": {
+    "CLAIM": {
+      "default": "Mulde {{pit}} wurde zu einer Tuz."
+    }
+  },
   "trax": {
     "PLACE": {
       "default": "{{player}} hat ein {{piece}} bei {{algebraic}} ({{where}}) platziert."
     }
   },
+  "tricouleur": {
+    "CAPTURE": {
+      "default": "{{count}} Steine haben die Farbe gewechselt."
+    },
+    "MOVE": {
+      "duplicate": "{{player}} hat einen Stein von {{from}} nach {{to}} dupliziert.",
+      "jump": "{{player}} ist mit einem Stein von {{from}} nach {{to}} gesprungen."
+    }
+  },
+  "tritium": {
+    "PLACE": {
+      "flag": "{{player}} hat eine Flagge bei {{where}} gespielt.",
+      "green": "{{player}} hat ein grünes Plättchen bei {{where}} gespielt.",
+      "orange": "{{player}} hat ein oranges Plättchen bei {{where}} gespielt.",
+      "purple": "{{player}} hat ein violettes Plättchen bei {{where}} gespielt."
+    }
+  },
+  "tumbleweed": {
+    "CAPTURE": {
+      "default": "{{player}} hat einen Stapel der Größe {{count}} auf {{where}} geschlagen.",
+      "self": "{{player}} verstärkt einen Stapel der Größe {{count}} auf {{where}}."
+    },
+    "PLACE": {
+      "default": "{{player}} hat einen Stapel der Größe {{count}} bei {{where}} platziert."
+    }
+  },
+  "twixt": {
+    "ADD": {
+      "default": "{{player}} hat eine Verbindung bei {{where}} hinzugefügt."
+    },
+    "PLACE": {
+      "default": "{{player}} hat einen Stift bei {{where}} platziert."
+    },
+    "REMOVE": {
+      "default": "{{player}} hat eine Verbindung bei {{where}} entfernt."
+    }
+  },
   "unane": {
     "PLACE": {
       "default": "{{player}} hat sich bei {{where}} selbst geschlagen."
+    }
+  },
+  "unlur": {
+    "EOG": {
+      "foul": "Das Spiel ist zu Ende, da ein Spieler die Siegbedingung des Gegners erfüllt hat, ohne seine eigene zu erreichen."
+    },
+    "PIE": {
+      "default": "{{player}} hat gepasst, um Y-Spieler zu sein."
     }
   },
   "upperhand": {
@@ -1640,134 +1683,54 @@
       "worker": "{{player}} hat einen Architekten bei {{where}} platziert."
     }
   },
+  "veletas": {
+    "CLAIM": {
+      "default": "Schütze auf {{where}} ist gefangen und wird von {{who}} beansprucht."
+    },
+    "MOVE": {
+      "default": "{{player}} hat den Schützen von {{from}} nach {{to}} bewegt."
+    }
+  },
   "viruswar": {
     "PLACE": {
       "default": "{{player}} hat Viren/Mauern bei {{where}} platziert."
     }
   },
-  "cubeo": {
-    "PROMOTE": {
-      "default": "{{player}} hat den Würfel bei {{where}} von {{from}} zu {{to}} aufgewertet."
-    }
-  },
-  "lielow": {
-    "PROMOTE": {
-      "default": "{{player}} hat einen neuen König bei {{where}} gekrönt."
-    }
-  },
-  "akimbo": {
+  "volo": {
+    "MOVE": {
+      "one": "{{player}} hat einen Schwarm von 1 Vogel von {{from}} in Richtung {{how}} bewegt.",
+      "other": "{{player}} hat einen Schwarm von {{count}} Vögeln von {{from}} in Richtung {{how}} bewegt."
+    },
+    "PLACE": {
+      "default": "{{player}} fügt einen Vogel bei {{where}} hinzu."
+    },
     "REMOVE": {
-      "default": "{{player}} entfernt {{where}} aufgrund der Bildung eines Kreuzschnitts."
+      "default": "{{player}} hat entschieden, die Region bei {{how}} zu behalten, und {{num}} gegnerische Vögel entfernt."
     }
   },
-  "fourinarow": {
-    "REMOVE": {
-      "e": "{{player}} hat eine Reihe geleert und die Steine auf dem Brett nach rechts verschoben.",
-      "n": "{{player}} hat eine Reihe geleert und die Steine auf dem Brett nach oben verschoben.",
-      "ne": "{{player}} hat zwei Reihen geleert und die Steine auf dem Brett nach oben und rechts verschoben.",
-      "nw": "{{player}} hat zwei Reihen geleert und die Steine auf dem Brett nach oben und links verschoben.",
-      "s": "{{player}} hat eine Reihe geleert und die Steine auf dem Brett nach unten verschoben.",
-      "se": "{{player}} hat zwei Reihen geleert und die Steine auf dem Brett nach unten und rechts verschoben.",
-      "sw": "{{player}} hat zwei Reihen geleert und die Steine auf dem Brett nach unten und links verschoben.",
-      "w": "{{player}} hat eine Reihe geleert und die Steine auf dem Brett nach links verschoben."
-    }
-  },
-  "gliss": {
-    "REMOVE": {
-      "default": "{{player}} hat seinen Gleiter bei {{where}} über den Brettrand hinaus bewegt."
-    }
-  },
-  "guerrilla": {
-    "RESET": {
-      "default": "{{player}} hat die erste Partie gewonnen. Die zweite Partie hat begonnen, mit vertauschten Rollen."
-    }
-  },
-  "queensland": {
-    "RESET": {
-      "default": "Das zweite Spiel hat begonnen."
-    }
-  },
-  "spree": {
-    "SELECT": {
-      "default": "{{player}} hat dem Gegner eine Kugel der Farbe {{who}} übergeben."
-    }
-  },
-  "thricewise": {
-    "SELECT": {
-      "default": "{{player}} hat {{card}} ausgewählt."
-    }
-  },
-  "prudh": {
-    "SOW": {
-      "default": "{{player}} hat Steine von {{from}} nach {{to}} gesät."
-    }
-  },
-  "rincala": {
-    "SOW": {
-      "one": "{{player}} hat {{count}} {{pieces}}-Stein von {{from}} nach {{to}} gesät.",
-      "other": "{{player}} hat {{count}} Steine von {{from}} in folgende Mulden gesät: {{pieces}} -> {{to}}."
+  "witch": {
+    "AFFILIATE": {
+      "M": "{{player}} hat die Mondsteine gewählt.",
+      "S": "{{player}} hat die Sonnensteine gewählt."
+    },
+    "CAPTURE": {
+      "nowhere_C_one": "{{player}} hat {{count}} Krone geschlagen.",
+      "nowhere_C_other": "{{player}} hat {{count}} Kronen geschlagen.",
+      "nowhere_E_one": "{{player}} hat {{count}} Erdstein geschlagen.",
+      "nowhere_E_other": "{{player}} hat {{count}} Erdsteine geschlagen.",
+      "nowhere_M_one": "{{player}} hat {{count}} Mondstein geschlagen.",
+      "nowhere_M_other": "{{player}} hat {{count}} Mondsteine geschlagen.",
+      "nowhere_S_one": "{{player}} hat {{count}} Sonnenstein geschlagen.",
+      "nowhere_S_other": "{{player}} hat {{count}} Sonnensteine geschlagen.",
+      "single_C": "{{player}} hat eine Krone auf {{where}} aufgenommen.",
+      "single_E": "{{player}} hat einen Erdstein auf {{where}} aufgenommen.",
+      "single_M": "{{player}} hat einen Mondstein auf {{where}} aufgenommen.",
+      "single_S": "{{player}} hat einen Sonnenstein auf {{where}} aufgenommen."
     }
   },
   "wunchunk": {
     "SWAP": {
       "default": "{{player}} hat die Plätze getauscht und gewählt, als Erster zu spielen."
-    }
-  },
-  "sploof": {
-    "TAKE": {
-      "default": "{{player}} hat eine neutrale Kugel bei {{from}} genommen."
-    }
-  },
-  "amoeba": {
-    "UNFURL": {
-      "default": "{{player}} hat {{count}} Steine von {{from}} nach {{to}} gesät."
-    }
-  },
-  "homeworlds": {
-    "BUILD": {
-      "build": "{{player}} baut ein {{what}} im System {{where}}."
-    },
-    "CAPTURE": {
-      "capture": "{{player}} hat ein {{what}} im System {{where}} erobert."
-    },
-    "CATASTROPHE": {
-      "catastrophe": "Eine Überbevölkerung von {{colour}} führte zu einer Katastrophe in {{where}}."
-    },
-    "CONVERT": {
-      "convert": "{{player}} hat ein {{what}} im System {{where}} in ein {{into}} umgewandelt."
-    },
-    "DISCOVER": {
-      "discover": "{{player}} hat ein neues {{what}}-System entdeckt und es {{name}} genannt."
-    },
-    "ESTABLISH": {
-      "land": "Ein {{ship}}-Kolonieschiff von {{player}} ist in einem {{stars}}-System gelandet."
-    },
-    "MOVE": {
-      "fly": "{{player}} flog mit dem {{what}} von {{from}} nach {{to}}."
-    },
-    "PASS": {
-      "pass": "{{player}} hat eine Aktion gepasst."
-    },
-    "SACRIFICE": {
-      "sacrifice": "{{player}} hat ein {{what}} im System {{where}} geopfert."
-    }
-  },
-  "tritium": {
-    "PLACE": {
-      "flag": "{{player}} hat eine Flagge bei {{where}} gespielt.",
-      "green": "{{player}} hat ein grünes Plättchen bei {{where}} gespielt.",
-      "orange": "{{player}} hat ein oranges Plättchen bei {{where}} gespielt.",
-      "purple": "{{player}} hat ein violettes Plättchen bei {{where}} gespielt."
-    }
-  },
-  "boom": {
-    "CAPTURE": {
-      "default": "{{player}} hat einen Stein auf {{where}} zerstört."
-    }
-  },
-  "strings": {
-    "DESTROY": {
-      "string": "Die Schnur {{where}} ist unter der Belastung gerissen."
     }
   }
 }

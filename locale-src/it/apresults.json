@@ -1,1 +1,18 @@
-{}
+{
+  "arimaa.ROLL_one": {
+    "src": "{{player}}'s die shows 1: a single step this turn.",
+    "out": "Il dado di {{player}} mostra 1: un solo passo in questo turno."
+  },
+  "arimaa.ROLL_other": {
+    "src": "{{player}}'s die shows {{count}}: up to {{count}} steps this turn.",
+    "out": "Il dado di {{player}} mostra {{count}}: fino a {{count}} passi in questo turno."
+  },
+  "oonpia.CAPTURE.one": {
+    "src": "{{player}} captured 1 stone.",
+    "out": "{{player}} ha catturato 1 pietra."
+  },
+  "oonpia.CAPTURE.other": {
+    "src": "{{player}} captured {{count}} stones.",
+    "out": "{{player}} ha catturato {{count}} pietre."
+  }
+}

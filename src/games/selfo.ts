@@ -221,7 +221,7 @@ export class SelfoGame extends GameBase {
             "A connection game on a hexagonal board. Each player starts with the same number of pieces scattered at random, and on your turn you slide one piece to an adjacent empty cell. The first player to bring all of their own pieces together into a single group wins.",
         notes:
             "The starting position is random: both players' pieces are scattered over the board, with no piece already enclosed, no player already connected, and no immediate win for the first player.\n\nOn your turn, move one of your pieces to an adjacent empty cell. You win by moving so that all of your pieces form one group of mutually adjacent pieces; only the player who has just moved can win this way. A player who has no legal move loses.\n\nA piece is _enclosed_ when your pieces cannot all reach each other through cells not occupied by your opponent, because opposing pieces and the board edge wall some of them off. If, after a move, both players have enclosed pieces, neither can ever connect and the game is a draw. With the **No enclosure** variant, a move that would enclose an opposing piece is not allowed, unless that move wins the game outright.\n\nThe second player may use the pie rule to swap sides after the first move.",
-        urls: [],
+        urls: ["https://en.wikipedia.org/wiki/Selfo"],
         people: [
             {
                 type: "designer",

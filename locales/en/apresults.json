@@ -526,6 +526,11 @@
     "CAPTURE_one": "{{player}} devoured opponent species {{prey}} ({{count}} stone) at {{where}}.",
     "CAPTURE_other": "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}."
   },
+  "clearpath": {
+    "EOG": {
+      "cutoff": "{{player}} no longer has any possible connecting path."
+    }
+  },
   "conhex": {
     "CLAIM": {
       "default": "{{player}} claimed the space at ({{where}})."

@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import "mocha";
 import { expect } from "chai";
-import { ClearPathGame, cpHasWinningPath, cpLegalPlacements, cpVitalPoints } from "../../src/games/clearpath";
+import { ClearPathGame, cpConnects, cpEdgeChain, cpHasWinningPath, cpLegalPlacements, cpVitalPoints } from "../../src/games/clearpath";
+import { assertChatLogParity } from "../fixtures/chat/helpers";
+import { addResource } from "../../src";
 
 // Board notation: columns a-e left to right, rows 1-5 bottom to top.
 // Red (player 1) connects the top and bottom rows.  Blue (player 2) connects
@@ -31,6 +33,16 @@ function dotsOf(g: ClearPathGame): Array<{colour: number | string | undefined; p
     return (board.markers ?? [])
         .filter(m => m.type === "dots")
         .map(m => ({colour: m.colour, points: m.points!.map(p => g.coords2algebraic(p.col, p.row))}));
+}
+
+/** The chain drawn at the end of the game, in algebraic notation. */
+function chainOf(g: ClearPathGame): string[] {
+    const annotations = (g.render().annotations ?? []) as Array<{type: string; targets?: Array<{row: number; col: number}>}>;
+    const move = annotations.find(a => a.type === "move");
+    if (move === undefined) {
+        return [];
+    }
+    return move.targets!.map(p => g.coords2algebraic(p.col, p.row));
 }
 
 describe("Clear Path", () => {
@@ -111,11 +123,15 @@ describe("Clear Path", () => {
             expect(g.gameover).to.be.true;
             expect(g.winner).to.deep.equal([1]);
             expect(g.moves()).to.deep.equal([]);
-            // nothing is marked once the game is over
+            // nothing is dotted once the game is over, and the winning path is drawn
             expect(dotsOf(g)).to.deep.equal([]);
+            expect(chainOf(g)).to.deep.equal(["c5", "c4", "c3", "c2", "c1"]);
             const results = g.stack[g.stack.length - 1]._results;
-            expect(results.some(r => r.type === "eog")).to.be.true;
-            expect(results.some(r => r.type === "winners")).to.be.true;
+            expect(results).to.deep.equal([
+                {type: "place", where: "c3"},
+                {type: "eog"},
+                {type: "winners", players: [1]},
+            ]);
         });
 
         it("allows either player to take a point vital to both", () => {
@@ -129,13 +145,15 @@ describe("Clear Path", () => {
             const asBlue = g.clone();
             asBlue.currplayer = 2;
             expect(asBlue.moves()).to.include("c3");
+            // Red takes it: Blue has no possible connecting path left, so Red wins at once
             g.move("c3");
-            // Blue is now cut off but still has placements (no point is vital to Red only)
-            expect(g.gameover).to.be.false;
-            const cells = cellsOf(g);
-            const vitalBlue = cpVitalPoints(cells, 5, 5, 2);
-            expect(Array.from(vitalBlue).every(v => v === 0)).to.be.true;
-            expect(g.moves()).to.not.include("pass");
+            expect(g.gameover).to.be.true;
+            expect(g.winner).to.deep.equal([1]);
+            expect(cpConnects(cellsOf(g), 5, 5, 2, true)).to.be.false;
+            // Blue takes it instead: Blue wins at once
+            asBlue.move("c3");
+            expect(asBlue.gameover).to.be.true;
+            expect(asBlue.winner).to.deep.equal([2]);
         });
     });
 
@@ -160,39 +178,102 @@ describe("Clear Path", () => {
         });
 
         it("dots every empty point when the player to move has no legal placement", () => {
-            const g = play(5, ["a5", "c1", "c3", "e1", "e4", "b1", "a1", "b3", "b2", "d3", "c4", "a2", "e2", "a3", "e3", "c2", "e5", "d1", "a4", "d4"]);
+            const g = play(4, cutOffTurn);
             expect(g.moves()).to.deep.equal(["pass"]);
-            expect(dotsOf(g)).to.deep.equal([{colour: 2, points: ["b5", "c5", "d5", "b4", "d2"]}]);
+            expect(dotsOf(g)).to.deep.equal([{colour: 2, points: ["a4", "b3", "c3", "d3"]}]);
         });
     });
 
-    describe("Skipped turns", () => {
-        // After these twenty placements Red is cut off and every empty point
-        // (b4, b5, c5, d5, d2) is vital to Blue, so Red has no legal placement.
-        const cutOff = ["a5", "c1", "c3", "e1", "e4", "b1", "a1", "b3", "b2", "d3", "c4", "a2", "e2", "a3", "e3", "c2", "e5", "d1", "a4", "d4"];
+    // 4x4, Red to move.  Both players still have possible connections, but
+    // every empty point (a4, b3, c3, d3) lies on every possible Blue
+    // connection and on no vital point of Red, and none of them completes
+    // a red path, so Red has no legal placement.
+    const cutOffTurn = ["a3", "a1", "b1", "a2", "b2", "b4", "c4", "c1", "d1", "c2", "d2", "d4"];
 
+    describe("Skipped turns", () => {
         it("offers only a pass when there is no legal placement", () => {
-            const g = play(5, cutOff);
+            const g = play(4, cutOffTurn);
             expect(g.currplayer).to.equal(1);
+            expect(g.gameover).to.be.false;
             const cells = cellsOf(g);
-            expect(Array.from(cpLegalPlacements(cells, 5, 5, 1)).every(v => v === 0)).to.be.true;
+            expect(cpConnects(cells, 4, 4, 1, true)).to.be.true;
+            expect(cpConnects(cells, 4, 4, 2, true)).to.be.true;
+            expect(Array.from(cpLegalPlacements(cells, 4, 4, 1)).every(v => v === 0)).to.be.true;
             expect(g.moves()).to.deep.equal(["pass"]);
             expect(g.validateMove("pass").valid).to.be.true;
-            expect(g.validateMove("b4").valid).to.be.false;
+            expect(g.validateMove("b3").valid).to.be.false;
         });
 
         it("records the pass and hands the turn over", () => {
-            const g = play(5, [...cutOff, "pass"]);
+            const g = play(4, [...cutOffTurn, "pass"]);
             expect(g.currplayer).to.equal(2);
             expect(g.gameover).to.be.false;
             expect(g.stack[g.stack.length - 1]._results).to.deep.equal([{type: "pass"}]);
-            expect(g.moves()).to.include("b4");
+            expect(g.moves()).to.include("b3");
+        });
+    });
+
+    describe("Cut-off", () => {
+        // 7x7.  Red's stones b7, b6, b5, c4, e2, f1 leave the single gap d3
+        // in a chain from the top edge to the bottom edge.  Blue's only
+        // possible connections run through d3.
+        const before = ["b7", "e5", "d7", "f5", "b6", "g5", "b5", "e4", "c4", "a2", "e2", "b2", "f1", "c2"];
+
+        it("ends the game when a placement leaves the opponent without any possible connection", () => {
+            const g = play(7, before);
+            expect(g.currplayer).to.equal(1);
+            expect(g.moves()).to.include("d3");
+            g.move("d3");
+            expect(g.gameover).to.be.true;
+            expect(g.winner).to.deep.equal([1]);
+            const cells = cellsOf(g);
+            expect(cpHasWinningPath(cells, 7, 7, 1)).to.be.false;
+            expect(cpConnects(cells, 7, 7, 2, true)).to.be.false;
+            expect(g.moves()).to.deep.equal([]);
+            expect(() => g.move("a1")).to.throw();
+            expect(g.stack[g.stack.length - 1]._results).to.deep.equal([
+                {type: "place", where: "d3"},
+                {type: "eog", reason: "cutoff"},
+                {type: "winners", players: [1]},
+            ]);
+        });
+
+        it("draws the chain of stones that cuts the opponent off", () => {
+            const g = play(7, [...before, "d3"]);
+            expect(chainOf(g)).to.deep.equal(["b7", "b6", "b5", "c4", "d3", "e2", "f1"]);
+            expect(dotsOf(g)).to.deep.equal([]);
+            // the chain is a chain of red stones, orthogonal or diagonal steps, edge to edge
+            const chain = cpEdgeChain(cellsOf(g), 7, 7, 1, true).map(idx => g.coords2algebraic(idx % 7, Math.floor(idx / 7)));
+            expect(chain).to.deep.equal(["b7", "b6", "b5", "c4", "d3", "e2", "f1"]);
+        });
+
+        it("explains the ending in the move log", () => {
+            addResource("en");
+            const g = play(7, [...before, "d3"]);
+            const names = ["Red player", "Blue player"];
+            const entries = g.chatLogEntries(names);
+            const last = entries[entries.length - 1];
+            const keys = last.lines.map(l => l.textKey);
+            expect(keys).to.deep.equal([
+                "apresults:_general.PLACE.nowhat",
+                "apresults:clearpath.EOG.cutoff",
+                "apresults:_general.WINNERS",
+            ]);
+            expect(last.lines[1].textParams).to.deep.equal({player: "Blue player"});
+            assertChatLogParity(g, names);
+        });
+
+        it("counts a winning placement as a win by connection, not a cut-off", () => {
+            const g = play(5, ["c1", "a1", "c2", "a2", "c4", "e1", "c5", "e2", "c3"]);
+            expect(g.winner).to.deep.equal([1]);
+            expect(g.stack[g.stack.length - 1]._results.some(r => r.type === "eog" && r.reason === "cutoff")).to.be.false;
         });
     });
 
     describe("Random play", () => {
-        it("always ends with exactly one winner who has a winning path", () => {
-            for (let i = 0; i < 20; i++) {
+        it("always ends with exactly one winner, by connection or by cut-off", () => {
+            let cutoffs = 0;
+            for (let i = 0; i < 30; i++) {
                 const g = new ClearPathGame(undefined, ["size-7"]);
                 let plies = 0;
                 while (!g.gameover) {
@@ -206,13 +287,26 @@ describe("Clear Path", () => {
                 const cells = cellsOf(g);
                 const winner = g.winner[0];
                 const loser = winner === 1 ? 2 : 1;
-                expect(cpHasWinningPath(cells, 7, 7, winner)).to.be.true;
-                expect(cpHasWinningPath(cells, 7, 7, loser)).to.be.false;
+                const results = g.stack[g.stack.length - 1]._results;
+                const byCutoff = results.some(r => r.type === "eog" && r.reason === "cutoff");
+                if (byCutoff) {
+                    cutoffs++;
+                    expect(cpHasWinningPath(cells, 7, 7, winner)).to.be.false;
+                    expect(cpConnects(cells, 7, 7, loser, true)).to.be.false;
+                } else {
+                    expect(cpHasWinningPath(cells, 7, 7, winner)).to.be.true;
+                }
+                // the loser never has a possible connection left, and the winner's chain is drawn
+                expect(cpConnects(cells, 7, 7, loser, true)).to.be.false;
+                expect(chainOf(g).length).to.be.greaterThan(1);
+                expect(dotsOf(g)).to.deep.equal([]);
                 // serialisation round trip
                 const g2 = new ClearPathGame(g.serialize());
                 expect(g2.board.size).to.equal(g.board.size);
                 expect(g2.winner).to.deep.equal(g.winner);
+                expect(g2.gameover).to.be.true;
             }
+            expect(cutoffs).to.be.greaterThan(0);
         });
     });
 });

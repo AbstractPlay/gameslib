@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
@@ -221,7 +221,7 @@ export class SelfoGame extends GameBase {
             "A connection game on a hexagonal board. Each player starts with the same number of pieces scattered at random, and on your turn you slide one piece to an adjacent empty cell. The first player to bring all of their own pieces together into a single group wins.",
         notes:
             "The starting position is random: both players' pieces are scattered over the board, with no piece already enclosed, no player already connected, and no immediate win for the first player.\n\nOn your turn, move one of your pieces to an adjacent empty cell. You win by moving so that all of your pieces form one group of mutually adjacent pieces; only the player who has just moved can win this way. A player who has no legal move loses.\n\nA piece is _enclosed_ when your pieces cannot all reach each other through cells not occupied by your opponent, because opposing pieces and the board edge wall some of them off. If, after a move, both players have enclosed pieces, neither can ever connect and the game is a draw. With the **No enclosure** variant, a move that would enclose an opposing piece is not allowed, unless that move wins the game outright.\n\nThe second player may use the pie rule to swap sides after the first move.",
-        urls: [],
+        urls: ["https://en.wikipedia.org/wiki/Selfo"],
         people: [
             {
                 type: "designer",
@@ -252,6 +252,9 @@ export class SelfoGame extends GameBase {
     private pieces = 9;
     private noEnclosure = false;
     private graph!: HexTriGraph;
+    /** Piece being moved and the cells it can reach: only set while a move is half entered (see move()). */
+    private selected: string | undefined;
+    private dots: string[] = [];
 
     constructor(state?: ISelfoState | string, variants?: string[]) {
         super();
@@ -411,6 +414,7 @@ export class SelfoGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;
             result.message = i18next.t(this.isPieTurn()
                 ? "apgames:validation.selfo.INITIAL_INSTRUCTIONS_PIE"
                 : "apgames:validation.selfo.INITIAL_INSTRUCTIONS");
@@ -466,6 +470,7 @@ export class SelfoGame extends GameBase {
         if (to === undefined || to === "") {
             result.valid = true;
             result.complete = -1;
+            result.canrender = true;
             result.message = i18next.t("apgames:validation.selfo.PARTIAL");
             return result;
         }
@@ -503,7 +508,7 @@ export class SelfoGame extends GameBase {
         return result;
     }
 
-    public move(m: string, {trusted = false} = {}): SelfoGame {
+    public move(m: string, {trusted = false, partial = false} = {}): SelfoGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
@@ -516,9 +521,21 @@ export class SelfoGame extends GameBase {
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (! this.moves().includes(m)) {
+            if (!partial && ! this.moves().includes(m)) {
                 throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
+        }
+
+        this.selected = undefined;
+        this.dots = [];
+        // A move that is only half entered: just mark the selected piece and where it
+        // can go, without playing anything (the front end previews it on a copy).
+        if (partial && (m === "" || this.graph.graph.hasNode(m))) {
+            if (m !== "") {
+                this.selected = m;
+                this.dots = this.moves().filter(mv => mv.startsWith(`${m}-`)).map(mv => mv.split("-")[1]);
+            }
+            return this;
         }
 
         this.results = [];
@@ -648,6 +665,20 @@ export class SelfoGame extends GameBase {
             }
             if (rep.annotations.length === 0) {
                 delete rep.annotations;
+            }
+        }
+
+        // A half-entered move: ring the selected piece and dot the cells it can reach
+        if (this.selected !== undefined) {
+            rep.annotations ??= [];
+            const [sx, sy] = this.graph.algebraic2coords(this.selected);
+            rep.annotations.push({type: "enter", targets: [{row: sy, col: sx}], shape: "circle"});
+            if (this.dots.length > 0) {
+                const targets: RowCol[] = this.dots.map(cell => {
+                    const [x, y] = this.graph.algebraic2coords(cell);
+                    return {row: y, col: x};
+                });
+                rep.annotations.push({type: "dots", targets: targets as [RowCol, ...RowCol[]]});
             }
         }
 

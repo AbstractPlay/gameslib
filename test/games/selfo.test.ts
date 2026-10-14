@@ -191,6 +191,78 @@ describe("Selfo", () => {
         });
     });
 
+    describe("half-entered moves", () => {
+        type Mark = {type: string; targets: {row: number; col: number}[]};
+        const marks = (game: SelfoGame, type: string): Mark | undefined =>
+            game.render().annotations?.find(a => a.type === type) as unknown as Mark | undefined;
+        const rc = (cell: string): {row: number; col: number} => {
+            const [x, y] = graph.algebraic2coords(cell);
+            return {row: y, col: x};
+        };
+
+        for (const variants of [["r2f5"], ["r2f5", "no-enclosure"]]) {
+            it(`rings the selected piece and dots the cells it can reach (${variants.join(",")})`, () => {
+                const game = setup(variants, ["c3", "a1"], ["e1", "e3"]);
+                game.move("c3", {partial: true});
+                const reach = game.moves().filter(m => m.startsWith("c3-")).map(m => rc(m.split("-")[1]));
+                expect(reach.length).to.be.greaterThan(0);
+                expect(marks(game, "dots")!.targets).to.have.deep.members(reach);
+                expect(marks(game, "enter")!.targets).to.deep.equal([rc("c3")]);
+            });
+        }
+
+        it("tells the front end that a half-entered move can be rendered", () => {
+            const game = setup(["r2f5"], ["c3", "a1"], ["e1", "e3"]);
+            const [fx, fy] = graph.algebraic2coords("c3");
+            const click = game.handleClick("", fy, fx);
+            expect(click.valid).to.be.true;
+            expect(click.complete).to.equal(-1);
+            expect(click.canrender).to.be.true;
+            expect(game.validateMove("c3").canrender).to.be.true;
+            expect(game.validateMove("").canrender).to.be.true;
+            expect(game.validateMove("e1").canrender).to.be.undefined; // not your piece
+        });
+
+        it("does not play anything", () => {
+            const game = setup(["r2f5"], ["c3", "a1"], ["e1", "e3"]);
+            const board = [...game.board.entries()];
+            const stack = game.stack.length;
+            game.move("c3", {partial: true});
+            expect(game.currplayer).to.equal(1);
+            expect(game.stack.length).to.equal(stack);
+            expect([...game.board.entries()]).to.deep.equal(board);
+            expect(game.gameover).to.be.false;
+        });
+
+        it("marks nothing for an empty move, and the marks go away once a move is played", () => {
+            const game = setup(["r2f5"], ["c3", "a1"], ["e1", "e3"]);
+            game.move("", {partial: true});
+            expect(marks(game, "dots")).to.be.undefined;
+            expect(marks(game, "enter")).to.be.undefined;
+            game.move("c3", {partial: true});
+            expect(marks(game, "dots")).to.not.be.undefined;
+            const free = graph.neighbours("c3").find(c => !game.board.has(c))!;
+            game.move(`c3-${free}`);
+            expect(marks(game, "dots")).to.be.undefined;
+            expect(marks(game, "enter")).to.be.undefined;
+            expect(game.currplayer).to.equal(2);
+        });
+
+        it("still plays a complete move that is flagged as partial", () => {
+            const game = setup(["r2f5"], ["c3", "a1"], ["e1", "e3"]);
+            const free = graph.neighbours("c3").find(c => !game.board.has(c))!;
+            game.move(`c3-${free}`, {partial: true});
+            expect(game.board.get(free)).to.equal(1);
+            expect(game.board.has("c3")).to.be.false;
+            expect(game.currplayer).to.equal(2);
+        });
+
+        it("rejects an invalid selection even when partial", () => {
+            const game = setup(["r2f5"], ["c3", "a1"], ["e1", "e3"]);
+            expect(() => game.move("e1", {partial: true})).to.throw();
+        });
+    });
+
     describe("pie rule", () => {
         // a first move that does not end the game
         const firstMove = (game: SelfoGame): string => game.moves().find(m => !game.clone().move(m).gameover)!;

@@ -526,6 +526,11 @@
     "CAPTURE_one": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Stein) auf {{where}} verschlungen.",
     "CAPTURE_other": "{{player}} hat die gegnerische Spezies {{prey}} ({{count}} Steine) auf {{where}} verschlungen."
   },
+  "clearpath": {
+    "EOG": {
+      "cutoff": "{{player}} hat keinen möglichen Verbindungspfad mehr."
+    }
+  },
   "conhex": {
     "CLAIM": {
       "default": "{{player}} hat das Feld auf ({{where}}) beansprucht."

@@ -526,6 +526,11 @@
     "CAPTURE_one": "{{player}} devoró la especie rival {{prey}} ({{count}} piedra) en {{where}}.",
     "CAPTURE_other": "{{player}} devoró la especie rival {{prey}} ({{count}} piedras) en {{where}}."
   },
+  "clearpath": {
+    "EOG": {
+      "cutoff": "{{player}} ya no tiene ningún camino de conexión posible."
+    }
+  },
   "conhex": {
     "CLAIM": {
       "default": "{{player}} reclamó el espacio en ({{where}})."

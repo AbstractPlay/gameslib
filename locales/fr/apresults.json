@@ -526,6 +526,11 @@
     "CAPTURE_one": "{{player}} a dévoré l'espèce adverse {{prey}} ({{count}} pierre) en {{where}}.",
     "CAPTURE_other": "{{player}} a dévoré l'espèce adverse {{prey}} ({{count}} pierres) en {{where}}."
   },
+  "clearpath": {
+    "EOG": {
+      "cutoff": "{{player}} n'a plus aucun chemin de connexion possible."
+    }
+  },
   "conhex": {
     "CLAIM": {
       "default": "{{player}} a réclamé l'emplacement en ({{where}})."

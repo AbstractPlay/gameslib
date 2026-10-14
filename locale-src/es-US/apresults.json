@@ -939,6 +939,10 @@
     "src": "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}.",
     "out": "{{player}} devoró la especie rival {{prey}} ({{count}} piedras) en {{where}}."
   },
+  "clearpath.EOG.cutoff": {
+    "src": "{{player}} no longer has any possible connecting path.",
+    "out": "{{player}} ya no tiene ningún camino de conexión posible."
+  },
   "conhex.CLAIM.default": {
     "src": "{{player}} claimed the space at ({{where}}).",
     "out": "{{player}} reclamó el espacio en ({{where}})."

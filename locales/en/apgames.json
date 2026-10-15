@@ -5009,6 +5009,12 @@
         "name": "Hide restriction indicators"
       }
     },
+    "killallgo": {
+      "pass-alive-throughout": {
+        "name": "Mark pass-alive stones throughout the game",
+        "description": "Mark unconditionally alive (pass-alive) stones in every position, not only once the game has ended."
+      }
+    },
     "knightline": {
       "show-origin": {
         "description": "Mark the position of the first piece.",

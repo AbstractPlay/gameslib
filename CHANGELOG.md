@@ -17,6 +17,14 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ## [1.0.0-ci] - 2026-10-15
 
+### Fixed
+
+- **i18n (`apresults`):** `apresults-path-map.json` entry for `clearpath.EOG.cutoff` (path-map drift since Clearpath cutoff copy landed).
+
+### Changed
+
+- **CI:** Dev Server CI (`develop` pushes) runs `npm run test:scripts` after `npm run build`, matching PR validation.
+
 ### Removed
 
 - **AiAi (embedded bot):** `aiai` game flag; `state2aiai`, `translateAiai`, and `aiaiMgl` on engines; `src/common/aiai.ts` coordinate helpers. Standalone registered bots use **bot-aiai** dialect code instead.

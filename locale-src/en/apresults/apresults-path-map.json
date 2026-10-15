@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-13",
+  "generatedAt": "2026-10-15",
   "schemaVersion": 1,
   "entries": [
     {
@@ -2351,6 +2351,16 @@
       "newPath": "circleOfLife.CAPTURE_other",
       "newFullKey": "apresults:circleOfLife.CAPTURE_other",
       "english": "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}."
+    },
+    {
+      "oldPath": "EOG.clearpath_cutoff",
+      "oldFullKey": "apresults:EOG.clearpath_cutoff",
+      "uid": "clearpath",
+      "resultType": "EOG",
+      "newLeaf": "cutoff",
+      "newPath": "clearpath.EOG.cutoff",
+      "newFullKey": "apresults:clearpath.EOG.cutoff",
+      "english": "{{player}} no longer has any possible connecting path."
     },
     {
       "oldPath": "CLAIM.conhex",

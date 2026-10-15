@@ -143,6 +143,7 @@ jobs:
             file_pattern: ci-deps.dev.json package-lock.json package.json
             disable_globbing: true
         - run: npm run build
+        - run: npm run test:scripts
         - run: npm run test:postbuild
         - run: npm pack
         - run: npm run test:consumer

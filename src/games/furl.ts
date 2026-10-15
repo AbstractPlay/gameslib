@@ -2,7 +2,7 @@ import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IVali
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
-import { hexhexAi2Ap, hexhexAp2Ai, reviver, UserFacingError } from "../common/index.js";
+import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
 export const gameApgamesEn = {
@@ -79,7 +79,7 @@ export class FurlGame extends GameBase {
             },
         ],
         categories: ["goal>breakthrough", "mechanic>capture", "mechanic>stack", "mechanic>move>sow", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["check", "perspective", "aiai", ],
+        flags: ["check", "perspective", ],
         variants: [
             // { uid: "size-5", group: "board" },
         ],
@@ -714,53 +714,5 @@ export class FurlGame extends GameBase {
         return new FurlGame(this.serialize());
     }
 
-    public state2aiai(): string[] {
-        const moves = this.moveHistory();
-        const lst: string[] = [];
-        for (const round of moves) {
-            for (const move of round) {
-                let split = "<";
-                if (move.includes(">")) {
-                    split = ">";
-                } else if (move.includes("x")) {
-                    split = "x";
-                }
-                let [from,to] = move.split(split);
-                from = hexhexAp2Ai(from, 4);
-                to = hexhexAp2Ai(to, 4);
-                if (split === "<") {
-                    lst.push(`Furl ${from}:${to}`);
-                } else {
-                    lst.push(`Unfurl ${from}:${to}`);
-                }
-            }
-        }
-        return lst;
-    }
-
-    public translateAiai(move: string): string {
-        let sub: string;
-        let op: string;
-        if (move.startsWith("Furl")) {
-            sub = move.substring(5);
-            op = "<";
-        } else {
-            sub = move.substring(7);
-            op = ">";
-        }
-        let [from,to] = sub.split(":");
-        from = hexhexAi2Ap(from, 4);
-        to = hexhexAi2Ap(to, 4);
-        const fContents = this.board.get(from);
-        const tContents = this.board.get(to);
-        // check for captures first
-        if (fContents !== undefined && tContents !== undefined && fContents[0] !== tContents[0]) {
-            return `${from}x${to}`;
-        }
-        // otherwise, just go with the arrow operator
-        else {
-            return `${from}${op}${to}`;
-        }
-    }
 }
 

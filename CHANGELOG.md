@@ -17,6 +17,10 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ## [1.0.0-ci] - 2026-10-15
 
+### Removed
+
+- **AiAi (embedded bot):** `aiai` game flag; `state2aiai`, `translateAiai`, and `aiaiMgl` on engines; `src/common/aiai.ts` coordinate helpers. Standalone registered bots use **bot-aiai** dialect code instead.
+
 ### Added
 
 - **Ops:** `ap:service` and `ap:stage` cost-allocation tags on the `abstractplay-gameslib-playground` Serverless stack and S3 bucket (via `serverless client deploy`).

@@ -2,7 +2,7 @@ import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IV
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
-import { reviver, UserFacingError, triAi2Ap, triAp2Ai, cloneState } from "../common/index.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 export const gameApgamesEn = {
     validation: {
@@ -84,7 +84,7 @@ export class TrikeGame extends GameBase {
             {uid: "standard-15", group: "board"},
         ],
         categories: ["goal>majority", "mechanic>place",  "mechanic>move", "mechanic>enclose", "mechanic>share", "board>shape>tri", "board>connect>hex", "components>simple>3c"],
-        flags: ["pie", "automove", "aiai", "custom-rotation"],
+        flags: ["pie", "automove", "custom-rotation"],
         displays: [{uid: "hide-moves"}],
     };
     public numplayers = 2;
@@ -541,62 +541,6 @@ export class TrikeGame extends GameBase {
     public clone(): TrikeGame {
         return Object.assign(new TrikeGame(), cloneState(this) as TrikeGame);
         // return new TrikeGame(this.serialize());
-    }
-
-    public aiaiMgl(): string {
-        let mgl = "trike";
-        if (this.variants.includes("standard-7")) {
-            mgl = "trike-7";
-        } else if (this.variants.includes("standard-13")) {
-            mgl = "trike-13";
-        } else if (this.variants.includes("standard-15")) {
-            mgl = "trike-15";
-        }
-        return mgl;
-    }
-
-    public state2aiai(): string[] {
-        let width = 11;
-        if (this.variants.includes("standard-7")) {
-            width = 7;
-        } else if (this.variants.includes("standard-13")) {
-            width = 13;
-        } else if (this.variants.includes("standard-15")) {
-            width = 15;
-        }
-        const moves = this.moveHistory();
-        const lst: string[] = [];
-        let last: string|undefined;
-        for (const round of moves) {
-            for (const move of round) {
-                const to = triAp2Ai(move, width);
-                if (last !== undefined) {
-                    lst.push(`${last}-${to}`);
-                } else {
-                    lst.push(to);
-                }
-                last = to;
-            }
-        }
-        return lst;
-    }
-
-    public translateAiai(move: string): string {
-        let width = 11;
-        if (this.variants.includes("standard-7")) {
-            width = 7;
-        } else if (this.variants.includes("standard-13")) {
-            width = 13;
-        } else if (this.variants.includes("standard-15")) {
-            width = 15;
-        }
-        if (! move.includes("-")) {
-            return triAi2Ap(move, width);
-        } else {
-            let [,to] = move.split("-");
-            to = triAi2Ap(to, width);
-            return to;
-        }
     }
 
     public getCustomRotation(): number | undefined {

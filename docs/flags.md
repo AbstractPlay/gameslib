@@ -24,7 +24,7 @@ The categories below describe **typical** usage, not hard rules. Any flag may be
 - Games that vary flags should list them on `gameinfo.flags` when they apply in the **default** challenge configuration; use `resolveFlags()` to add or remove flags for other contexts.
 - Flags that are never true in the default config (for example Basalt `pie-even` without the `pie` variant) belong only in `resolveFlags()`, not on static `gameinfo.flags`.
 
-**Structural caveat:** `simultaneous`, `aiai`, and `experimental` affect engine class selection, registry inclusion, or build filtering. Gameslib reads these from `ctor.gameinfo.flags` at factory/registry time. You may reflect them in `getFlags()` for display, but they cannot change which base class was instantiated.
+**Structural caveat:** `simultaneous` and `experimental` affect engine class selection, registry inclusion, or build filtering. Gameslib reads these from `ctor.gameinfo.flags` at factory/registry time. You may reflect them in `getFlags()` for display, but they cannot change which base class was instantiated.
 
 **Deferred requests (no overrides yet):** `random-start`, `no-moves`, and `perspective` have been requested as variant- or context-dependent. Use `resolveFlags()` when implementing them — not ad-hoc helper methods.
 
@@ -47,7 +47,6 @@ public static resolveFlags(context: FlagContext = {}): readonly GameFlag[] {
 | Flag | Meaning |
 |------|---------|
 | `simultaneous` | Use `GameBaseSimultaneous`; affects resign and chat-log behaviour |
-| `aiai` | AiAi bot support (`state2aiai`, `translateAiai`) |
 | `experimental` | Omitted from production registry and `gameinfo` export |
 
 Variants marked `experimental: true` in `gameinfo.variants` are omitted from production `gameinfo` exports and from `challengeVariants()`, but remain in `allvariants()` for historical games. Incompatible variant **combinations** are declared separately — see [Variants](/gameslib/variants/).
@@ -118,7 +117,6 @@ Front enables pie UI when the resolved flag is present **and** uses `isPieTurn()
 
 | Flag | Meaning |
 |------|---------|
-| `aiai` | AiAi bot support |
 | `automove` | Often only one legal move — auto-execute when detected |
 | `autopass` | Like automove but only for pass |
 | `check` | Implement `inCheck() => number[]` |
@@ -147,7 +145,6 @@ Front enables pie UI when the resolved flag is present **and** uses `isPieTurn()
 
 | Flag |
 | --- |
-| `aiai` |
 | `automove` |
 | `autopass` |
 | `check` |

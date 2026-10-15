@@ -113,7 +113,7 @@ export class AmazonsGame extends GameBase {
             {uid: "noFirstShot" },
         ],
         categories: ["goal>immobilize", "mechanic>block", "mechanic>move", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
-        flags: ["perspective", "pie", "aiai"],
+        flags: ["perspective", "pie"],
         displays: [
             { uid: "bricks", group: "block" },
             { uid: "blackbloc", group: "block" },
@@ -847,21 +847,5 @@ export class AmazonsGame extends GameBase {
         return new AmazonsGame(this.serialize());
     }
 
-    public state2aiai(): string[] {
-        const moves = this.moveHistory();
-        const lst: string[] = [];
-        for (const round of moves) {
-            for (const move of round) {
-                const [mv,shot] = move.split("/");
-                lst.push(mv, shot);
-            }
-        }
-        return lst;
-    }
-
-    public translateAiai(move: string): string {
-        const [mv,shot] = move.split("|");
-        return `${mv}/${shot}`;
-    }
 }
 

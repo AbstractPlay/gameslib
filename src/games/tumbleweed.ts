@@ -373,23 +373,7 @@ export class TumbleweedGame extends GameBase {
         }
         const moves: string[] = [];
         if (this.stack.length === 1) {
-            if (this.variants.includes("free-neutral")) {
-                return ["No movelist in opening"];
-            } else {
-                // On first move, first player places two stones.
-                const centre = this.getCentre();
-                const cells = this.listCells() as string[];
-                const playableCells = cells.filter(c => c !== centre);
-                for (let i = 0; i < playableCells.length; i++) {
-                    for (let j = 0; j < playableCells.length; j++) {
-                        if (i === j) {
-                            continue;
-                        }
-                        moves.push(`${playableCells[i]},${playableCells[j]}`);
-                    }
-                }
-                return moves;
-            }
+            return ["No movelist in opening"];
         } else if (this.stack.length === 2 && player === 2) {
             return ["pass"];
         }
@@ -514,6 +498,40 @@ export class TumbleweedGame extends GameBase {
             }
         }
         return los;
+    }
+
+    private computeLosPair(board: Map<string, [playerid, number]> = this.board): {
+        los1: Map<string, number>;
+        los2: Map<string, number>;
+    } {
+        return {
+            los1: this.computeLosForPlayer(1, board),
+            los2: this.computeLosForPlayer(2, board),
+        };
+    }
+
+    private cellOwnerFromLosMaps(
+        cell: string,
+        board: Map<string, [playerid, number]>,
+        los1: Map<string, number>,
+        los2: Map<string, number>,
+    ): playerid | undefined {
+        if (board.has(cell)) {
+            const [player] = board.get(cell)!;
+            if (player === 3) {
+                return undefined;
+            }
+            return player;
+        }
+        const player1Los = los1.get(cell) ?? 0;
+        const player2Los = los2.get(cell) ?? 0;
+        if (player1Los > player2Los) {
+            return 1;
+        }
+        if (player2Los > player1Los) {
+            return 2;
+        }
+        return undefined;
     }
 
     private liveVisibleOnBoard(board: Map<string, [playerid, number]>, player: playerid): Set<string> {
@@ -1014,7 +1032,7 @@ export class TumbleweedGame extends GameBase {
         }
         let result;
         if (m === "No movelist in opening") {
-            result = {valid: false, message: i18next.t("apgames:validation._inarow.NO_MOVELIST")};
+            result = {valid: false, message: i18next.t("apgames:validation.tumbleweed.NO_MOVELIST")};
             throw new UserFacingError("VALIDATION_GENERAL", result.message);
         }
         m = m.toLowerCase();
@@ -1023,9 +1041,6 @@ export class TumbleweedGame extends GameBase {
             result = this.validateMove(m);
             if (!result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
-            }
-            if (!partial && !this.moves().includes(m) && !(this.stack.length === 1 && this.variants.includes("free-neutral"))) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
             }
         }
         if (m === "") { return this; }
@@ -1098,29 +1113,11 @@ export class TumbleweedGame extends GameBase {
         return this;
     }
 
-    private cellOwner(cell: string): playerid | undefined {
-        // A cell is owned by a player if they have a stack on it
-        // or if they have the highest LOS to it.
-        if (this.board.has(cell)) {
-            const [player, ] = this.board.get(cell)!;
-            if (player === 3) { return undefined; }
-            return player;
-        }
-        const player1Los = this.getLosCount(cell, 1);
-        const player2Los = this.getLosCount(cell, 2);
-        if (player1Los > player2Los) {
-            return 1;
-        } else if (player2Los > player1Los) {
-            return 2;
-        }
-        return undefined;
-    }
-
     private updateScores(): void {
-        // Updates `this.scores` with total influence for each player.
+        const { los1, los2 } = this.computeLosPair();
         this.scores = [0, 0];
         for (const cell of this.listCells() as string[]) {
-            const owner = this.cellOwner(cell);
+            const owner = this.cellOwnerFromLosMaps(cell, this.board, los1, los2);
             if (owner !== undefined) {
                 this.scores[owner - 1]++;
             }
@@ -1211,17 +1208,21 @@ export class TumbleweedGame extends GameBase {
         return state;
     }
 
-    private threatenedPiecesOnBoard(board: Map<string, [playerid, number]>): Set<string> {
+    private threatenedPiecesOnBoard(
+        board: Map<string, [playerid, number]>,
+        losPair?: { los1: Map<string, number>; los2: Map<string, number> },
+    ): Set<string> {
+        const { los1, los2 } = losPair ?? this.computeLosPair(board);
         const threatenedPieces = new Set<string>();
-        for (const cell of this.listCells() as string[]) {
-            if (board.has(cell)) {
-                const [player, size] = board.get(cell)!;
-                const otherPlayer = player === 1 ? 2 : 1;
-                const losCount = this.getLosCount(cell, player as playerid, board);
-                const otherPlayerLosCount = this.getLosCount(cell, otherPlayer as playerid, board);
-                if (otherPlayerLosCount >= losCount && otherPlayerLosCount > size) {
-                    threatenedPieces.add(cell);
-                }
+        for (const [cell, [player, size]] of board) {
+            if (player === 3) {
+                continue;
+            }
+            const otherPlayer = player === 1 ? 2 : 1;
+            const losCount = (player === 1 ? los1 : los2).get(cell) ?? 0;
+            const otherPlayerLosCount = (otherPlayer === 1 ? los1 : los2).get(cell) ?? 0;
+            if (otherPlayerLosCount >= losCount && otherPlayerLosCount > size) {
+                threatenedPieces.add(cell);
             }
         }
         return threatenedPieces;
@@ -1279,6 +1280,7 @@ export class TumbleweedGame extends GameBase {
     private fogCellView(
         cell: string,
         viewSeat: playerid | undefined,
+        liveBoth?: { live1: Set<string>; live2: Set<string> },
     ): { kind: "hidden" | "live" | "stale"; stack?: [playerid, number] } {
         if (this.boardIsPrePlacementOpening(this.board)) {
             const centre = this.standardOpeningCentreCell(this.board);
@@ -1289,8 +1291,8 @@ export class TumbleweedGame extends GameBase {
         if (this.stack.length === 1 && this.board.has(cell)) {
             return { kind: "live", stack: this.board.get(cell)! };
         }
-        const live1 = this.liveVisible(1);
-        const live2 = this.liveVisible(2);
+        const live1 = liveBoth?.live1 ?? this.liveVisible(1);
+        const live2 = liveBoth?.live2 ?? this.liveVisible(2);
         if (viewSeat === undefined) {
             if (!live1.has(cell) || !live2.has(cell)) {
                 return { kind: "hidden" };
@@ -1365,8 +1367,12 @@ export class TumbleweedGame extends GameBase {
         return undefined;
     }
 
-    private cellVisibleToViewer(cell: string, viewSeat: playerid | undefined): boolean {
-        return this.fogCellView(cell, viewSeat).kind !== "hidden";
+    private cellVisibleToViewer(
+        cell: string,
+        viewSeat: playerid | undefined,
+        liveBoth?: { live1: Set<string>; live2: Set<string> },
+    ): boolean {
+        return this.fogCellView(cell, viewSeat, liveBoth).kind !== "hidden";
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
@@ -1375,6 +1381,10 @@ export class TumbleweedGame extends GameBase {
         const showThreatened = !fog && !this.hasDisplay(opts, "hide-threatened");
         const showInfluence = !fog && !this.hasDisplay(opts, "hide-influence");
         const showUnseenClouds = fog && this.hasDisplay(opts, "fog-unseen-clouds");
+        const losPair = showThreatened || showInfluence ? this.computeLosPair() : undefined;
+        const fogLiveBoth = fog
+            ? { live1: this.liveVisible(1), live2: this.liveVisible(2) }
+            : undefined;
 
         // Build piece string
         const legendNames: Set<string> = new Set();
@@ -1387,7 +1397,9 @@ export class TumbleweedGame extends GameBase {
         // G - neutral threatened by player2
         // H - neutral threatened by both
         let pstr = "";
-        const threatenedPieces: Set<string> = showThreatened ? this.threatenedPiecesOnBoard(this.board) : new Set();
+        const threatenedPieces: Set<string> = showThreatened && losPair !== undefined
+            ? this.threatenedPiecesOnBoard(this.board, losPair)
+            : new Set();
         for (const row of this.listCells(true)) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -1395,7 +1407,7 @@ export class TumbleweedGame extends GameBase {
             let pieces: string[] = [];
             for (const cell of row) {
                 if (fog) {
-                    const view = this.fogCellView(cell, viewSeat);
+                    const view = this.fogCellView(cell, viewSeat, fogLiveBoth);
                     if (view.kind === "hidden") {
                         if (showUnseenClouds) {
                             legendNames.add(TumbleweedGame.FOG_UNSEEN_LEGEND);
@@ -1490,8 +1502,8 @@ export class TumbleweedGame extends GameBase {
 
         let points1: {row: number, col: number}[] = [];
         let points2: {row: number, col: number}[] = [];
-        if (showInfluence) {
-            const points = this.influenceMarkers();
+        if (showInfluence && losPair !== undefined) {
+            const points = this.influenceMarkers(losPair);
             points1 = points.get(1)!;
             points2 = points.get(2)!;
         }
@@ -1525,7 +1537,7 @@ export class TumbleweedGame extends GameBase {
             for (const move of this.stack[this.stack.length - 1]._results) {
                 if (move.type === "place") {
                     const where = move.where!;
-                    if (fog && !this.cellVisibleToViewer(where, viewSeat)) {
+                    if (fog && !this.cellVisibleToViewer(where, viewSeat, fogLiveBoth)) {
                         continue;
                     }
                     const [x, y] = this.getGraph().algebraic2coords(where);
@@ -1536,26 +1548,28 @@ export class TumbleweedGame extends GameBase {
         return rep;
     }
 
-    private influenceMarkers(): Map<playerid, {row: number, col: number}[]> {
-        // Get cells that are occupied by each player or have equal or greater LOS by each player.
-        // Unoccupied cells with equal LOS will be in both groups.
+    private influenceMarkers(losPair: { los1: Map<string, number>; los2: Map<string, number> }): Map<playerid, {row: number, col: number}[]> {
+        const { los1, los2 } = losPair;
         const markers = new Map<playerid, {row: number, col: number}[]>([
             [1, []],
             [2, []],
         ]);
         for (const cell of this.listCells() as string[]) {
             if (this.board.has(cell)) {
-                const [player, ] = this.board.get(cell)!;
-                if (player === 3) { continue; }
+                const [player] = this.board.get(cell)!;
+                if (player === 3) {
+                    continue;
+                }
                 const [x, y] = this.getGraph().algebraic2coords(cell);
-                const cellCoords = {row: y, col: x};
-                markers.get(player)!.push(cellCoords);
+                markers.get(player)!.push({ row: y, col: x });
             } else {
-                const player1Los = this.getLosCount(cell, 1);
-                const player2Los = this.getLosCount(cell, 2);
-                if (player1Los === 0 && player2Los === 0) { continue; }
+                const player1Los = los1.get(cell) ?? 0;
+                const player2Los = los2.get(cell) ?? 0;
+                if (player1Los === 0 && player2Los === 0) {
+                    continue;
+                }
                 const [x, y] = this.getGraph().algebraic2coords(cell);
-                const cellCoords = {row: y, col: x};
+                const cellCoords = { row: y, col: x };
                 if (player1Los >= player2Los) {
                     markers.get(1)!.push(cellCoords);
                 }

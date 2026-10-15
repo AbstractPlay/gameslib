@@ -69,19 +69,7 @@ export function movesReference(g: TumbleweedGame, player?: playerid): string[] {
     const board = g.board;
 
     if (g.stack.length === 1) {
-        if (g.variants.includes("free-neutral")) {
-            return ["No movelist in opening"];
-        }
-        const centre = getCentre(g);
-        for (const cell of listCells(g)) {
-            for (const cell2 of listCells(g)) {
-                if (cell === cell2 || cell === centre || cell2 === centre) {
-                    continue;
-                }
-                moves.push(`${cell},${cell2}`);
-            }
-        }
-        return moves;
+        return ["No movelist in opening"];
     }
     if (g.stack.length === 2 && mover === 2) {
         return ["pass"];
@@ -119,6 +107,35 @@ export function movesReference(g: TumbleweedGame, player?: playerid): string[] {
         moves.push("pass");
     }
     return moves;
+}
+
+/** All legal first-ply wires (test oracle only — runtime `moves()` uses the no-movelist sentinel). */
+export function enumerateOpeningWires(g: TumbleweedGame): string[] {
+    if (g.stack.length !== 1) {
+        throw new Error("enumerateOpeningWires: game is not at opening");
+    }
+    const wires: string[] = [];
+    if (g.variants.includes("free-neutral")) {
+        return wires;
+    }
+    const centre = getCentre(g);
+    for (const cell of listCells(g)) {
+        for (const cell2 of listCells(g)) {
+            if (cell === cell2 || cell === centre || cell2 === centre) {
+                continue;
+            }
+            wires.push(`${cell},${cell2}`);
+        }
+    }
+    return wires;
+}
+
+export function sampleOpeningWire(g: TumbleweedGame): string {
+    const wires = enumerateOpeningWires(g);
+    if (wires.length === 0) {
+        throw new Error("sampleOpeningWire: no opening wires");
+    }
+    return wires[0]!;
 }
 
 export function sortedMoves(moves: string[]): string[] {

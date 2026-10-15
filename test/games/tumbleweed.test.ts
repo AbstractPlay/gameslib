@@ -11,8 +11,11 @@ import {
     expectMovesMatchReference,
     getLosCountReference,
     movesReference,
+    sampleOpeningWire,
     sortedMoves,
 } from "../fixtures/tumbleweed/movesReference.js";
+import { tumbleweedScoresGolden } from "../fixtures/tumbleweed/scoresGolden.js";
+import { UserFacingError } from "../../src/common/errors.js";
 
 type BoardCell = [string, [playerid, number]];
 
@@ -67,11 +70,13 @@ const regressionFixtures: {
         name: "default-opening",
         build: () => new TumbleweedGame(),
         players: [1],
+        skipValidate: true,
     },
     {
         name: "size-6-opening",
         build: () => new TumbleweedGame(undefined, ["size-6"]),
         players: [1],
+        skipValidate: true,
     },
     {
         name: "free-neutral-opening",
@@ -82,7 +87,7 @@ const regressionFixtures: {
         name: "ply2-p2-pass-only",
         build: () => {
             const g0 = new TumbleweedGame();
-            return g0.move(g0.moves()[0]!, { trusted: true });
+            return g0.move(sampleOpeningWire(g0), { trusted: true });
         },
         players: [2],
     },
@@ -91,7 +96,7 @@ const regressionFixtures: {
         build: () => {
             const g0 = new TumbleweedGame();
             return g0
-                .move(g0.moves()[0]!, { trusted: true })
+                .move(sampleOpeningWire(g0), { trusted: true })
                 .move("pass", { trusted: true });
         },
     },
@@ -270,17 +275,23 @@ describe("Tumbleweed", () => {
     });
 
     describe("moves() contracts", () => {
-        it("standard opening move count excludes centre and pass", () => {
+        it("standard opening uses no-movelist sentinel instead of enumerating wires", () => {
             const g = new TumbleweedGame();
-            const cells = (g.graph!.listCells() as string[]).length;
-            expect(g.moves().length).to.equal((cells - 1) * (cells - 2));
-            expect(g.moves()).to.not.include("pass");
+            expect(g.moves()).to.deep.equal(["No movelist in opening"]);
+            expect(g.validateMove("No movelist in opening").valid).to.be.false;
+        });
+
+        it("validates sampled opening wires without listing them in moves()", () => {
+            const g = new TumbleweedGame();
+            const opening = sampleOpeningWire(g);
+            expect(g.validateMove(opening).valid).to.be.true;
+            expect(g.moves()).to.not.include(opening);
         });
 
         it("ply 3 omits pass", () => {
             const g0 = new TumbleweedGame();
             const g = g0
-                .move(g0.moves()[0]!, { trusted: true })
+                .move(sampleOpeningWire(g0), { trusted: true })
                 .move("pass", { trusted: true });
             expect(g.moves()).to.not.include("pass");
         });
@@ -326,7 +337,7 @@ describe("Tumbleweed", () => {
 
         it("records fogMemory on stack entries after the opening", () => {
             const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
-            const g = g0.move(g0.moves()[0]!, { trusted: true });
+            const g = g0.move(sampleOpeningWire(g0), { trusted: true });
             const mem = g.stack[g.stack.length - 1].fogMemory;
             expect(mem).to.not.be.undefined;
             expect(mem![0].size).to.be.greaterThan(0);
@@ -422,7 +433,7 @@ describe("Tumbleweed", () => {
 
         it("partial pass keeps committed fog until the pass is saved", () => {
             const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
-            const opening = g0.moves()[0]!;
+            const opening = sampleOpeningWire(g0);
             const g = g0.move(opening, { trusted: true });
             const before = g.render({ perspective: 2 });
             const gPartial = new TumbleweedGame(g.serialize());
@@ -435,7 +446,7 @@ describe("Tumbleweed", () => {
 
         it("opening ply move string is the full wire for move history", () => {
             const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
-            const opening = g0.moves()[0]!;
+            const opening = sampleOpeningWire(g0);
             const g = g0.move(opening, { trusted: true });
             const ply = g.getPlies().find(p => p.stackIndex === 1)!;
             expect(ply.move).to.equal(opening);
@@ -445,7 +456,7 @@ describe("Tumbleweed", () => {
 
         it("moveHistory shows full opening wire from place results when lastmove is incomplete", () => {
             const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
-            const opening = g0.moves()[0]!;
+            const opening = sampleOpeningWire(g0);
             const g = g0.move(opening, { trusted: true });
             g.stack[1]!.lastmove = opening.split(",")[0]!;
             const round = g.moveHistory()[0]!;
@@ -454,7 +465,7 @@ describe("Tumbleweed", () => {
 
         it("reconstructs opening wire from board delta when lastmove and results are incomplete", () => {
             const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
-            const opening = g0.moves()[0]!;
+            const opening = sampleOpeningWire(g0);
             const g = g0.move(opening, { trusted: true });
             const p1 = opening.split(",")[0]!;
             g.stack[1]!.lastmove = p1;
@@ -467,7 +478,7 @@ describe("Tumbleweed", () => {
 
         it("load repairs legacy opening lastmove on stack[1] from place results", () => {
             const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
-            const opening = g0.moves()[0]!;
+            const opening = sampleOpeningWire(g0);
             const g = g0.move(opening, { trusted: true });
             g.stack[1]!.lastmove = opening.split(",")[0]!;
             const reloaded = new TumbleweedGame(g.serialize());
@@ -498,7 +509,7 @@ describe("Tumbleweed", () => {
 
         it("redacts opponent lastmoves in stripped state but keeps the opening ply public", () => {
             const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
-            const opening = g0.moves()[0]!;
+            const opening = sampleOpeningWire(g0);
             let g = g0.move(opening, { trusted: true });
             g = g.move("pass", { trusted: true });
             const placement = g.moves().find(m => m !== "pass")!;
@@ -538,7 +549,7 @@ describe("Tumbleweed", () => {
 
         it("fog-unseen-clouds does not replace live line-of-sight stones", () => {
             const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
-            const g = g0.move(g0.moves()[0]!, { trusted: true });
+            const g = g0.move(sampleOpeningWire(g0), { trusted: true });
             const rep = g.render({ perspective: 1, altDisplays: ["fog-unseen-clouds"] });
             expect(rep.pieces).to.include("A1");
             expect(rep.pieces).to.include("B1");
@@ -548,7 +559,7 @@ describe("Tumbleweed", () => {
 
         it("fog-unseen-clouds has no effect without the fog variant", () => {
             const g0 = new TumbleweedGame(undefined, ["size-6"]);
-            const g = g0.move(g0.moves()[0]!, { trusted: true });
+            const g = g0.move(sampleOpeningWire(g0), { trusted: true });
             const rep = g.render({ altDisplays: ["fog-unseen-clouds"] });
             expect(rep.pieces).to.not.include("fogCloud");
         });
@@ -588,6 +599,51 @@ describe("Tumbleweed", () => {
             expect(god.pieces).to.include("A1");
             expect(god.pieces).to.include("B1");
             expect(god.pieces).to.include("E2");
+        });
+    });
+
+    describe("territory and threat goldens", () => {
+        type ScorePriv = {
+            updateScores(): void;
+            threatenedPiecesOnBoard(board: Map<string, [playerid, number]>): Set<string>;
+        };
+
+        function asScorePriv(g: TumbleweedGame): ScorePriv {
+            return g as unknown as ScorePriv;
+        }
+
+        for (const { name, scores, threatened } of tumbleweedScoresGolden) {
+            it(`scores and threatened cells for ${name}`, () => {
+                const fixture = regressionFixtures.find((f) => f.name === name);
+                expect(fixture, name).to.not.equal(undefined);
+                const g = fixture!.build();
+                asScorePriv(g).updateScores();
+                expect(g.scores).to.deep.equal(scores);
+                const threatenedSet = asScorePriv(g).threatenedPiecesOnBoard(g.board);
+                expect([...threatenedSet].sort()).to.deep.equal(threatened);
+            });
+        }
+
+        it("render shows threatened overlay on capture fixture", () => {
+            const g = regressionFixtures.find((f) => f.name === "capture-notation")!.build();
+            const rep = g.render();
+            expect(rep.pieces).to.match(/D1/);
+        });
+    });
+
+    describe("move() without trusted", () => {
+        it("commits a legal midgame move after validateMove only", () => {
+            const g = regressionFixtures.find((f) => f.name === "midgame-sparse")!.build();
+            const m = g.moves().find((x) => x !== "pass");
+            expect(m).to.not.equal(undefined);
+            const depth = g.stack.length;
+            g.move(m!, { trusted: false });
+            expect(g.stack.length).to.equal(depth + 1);
+        });
+
+        it("rejects an illegal cell without building the full movelist failsafe", () => {
+            const g = regressionFixtures.find((f) => f.name === "midgame-sparse")!.build();
+            expect(() => g.move("z99")).to.throw(UserFacingError);
         });
     });
 

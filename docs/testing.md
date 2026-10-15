@@ -8,10 +8,6 @@ npm test
 
 Game-specific tests live in `test/games/`. Good unit tests will save future you (and future maintainers) a lot of headaches. No need to test basic stuff tested elsewhere (like graph/grid functions), but it's wise to test end-of-game resolution and any edge cases. See existing tests for patterns.
 
-## Tumbleweed performance bench (manual)
-
-Not part of CI. See [bench-tumbleweed.md](bench-tumbleweed.md) — run `npm run bench:tumbleweed` before/after perf work.
-
 ## CLI example
 
 `bin/example.ts` — run moves from the command line:

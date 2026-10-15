@@ -97,7 +97,7 @@ export class DagEnNachtGame extends GameBase {
             },
         ],
         categories: ["goal>arrange", "mechanic>place", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["aiai"],
+        flags: [],
     };
 
     public coords2algebraic(x: number, y: number): string {
@@ -570,17 +570,4 @@ export class DagEnNachtGame extends GameBase {
         return new DagEnNachtGame(this.serialize());
     }
 
-    public aiaiMgl(): string {
-        let mgl = "dagnacht";
-        if (this.variants.includes("11x11")) {
-            mgl = "dagnacht-11";
-        } else if (this.variants.includes("13x13")) {
-            mgl = "dagnacht-13";
-        } else if (this.variants.includes("17x17")) {
-            mgl = "dagnacht-17";
-        } else if (this.variants.includes("19x19")) {
-            mgl = "dagnacht-19";
-        }
-        return mgl;
-    }
 }

@@ -1526,26 +1526,6 @@ export abstract class GameBase  {
         return this.cheapSerialize(opts);
     }
 
-    public state2aiai(): string[] {
-        const moves = this.moveHistory();
-        const lst: string[] = [];
-        for (const round of moves) {
-            for (const move of round) {
-                lst.push(move);
-            }
-        }
-        return lst;
-    }
-
-    public translateAiai(move: string): string {
-        return move;
-    }
-
-    public aiaiMgl(): string {
-        const ctor = this.constructor as typeof GameBase;
-        return ctor.gameinfo.uid;
-    }
-
     public botContext(): null|Record<string, any> {
         return null;
     }

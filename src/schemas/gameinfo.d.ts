@@ -73,7 +73,6 @@ export interface APGamesInformation {
    * A list of flags to signal to the front end the presence or absence of a particular feature.
    */
   flags?: (
-    | "aiai"
     | "automove"
     | "autopass"
     | "check"

@@ -42,8 +42,6 @@ Cross-index of helpers and modules to games that import them. Auto-generated fro
 | `graphs.bao` | [Bao](https://play.abstractplay.com/games/bao) |
 | `graphs.hextri` | [Druid](https://play.abstractplay.com/games/druid), [Halma Climbers](https://play.abstractplay.com/games/halmaclimbers), [Lines of Action](https://play.abstractplay.com/games/loa), [Squirm](https://play.abstractplay.com/games/squirm), [Yavalath](https://play.abstractplay.com/games/yavalath) |
 | `hexes` | [Abande](https://play.abstractplay.com/games/abande), [Exxit](https://play.abstractplay.com/games/exxit), [Storisende](https://play.abstractplay.com/games/storisende), [Streetcar Suburb](https://play.abstractplay.com/games/streetcar), [Tintas](https://play.abstractplay.com/games/tintas) |
-| `hexhexAi2Ap` | [Furl](https://play.abstractplay.com/games/furl), [Tumbleweed](https://play.abstractplay.com/games/tumbleweed) |
-| `hexhexAp2Ai` | [Furl](https://play.abstractplay.com/games/furl), [Tumbleweed](https://play.abstractplay.com/games/tumbleweed) |
 | `intersects` | [Adere](https://play.abstractplay.com/games/agere), [Basalt](https://play.abstractplay.com/games/basalt), [Moon Squad](https://play.abstractplay.com/games/moonsquad), [Y](https://play.abstractplay.com/games/y) |
 | `matrixRectRot90` | [Four](https://play.abstractplay.com/games/four) |
 | `matrixRectRotN90` | [Four](https://play.abstractplay.com/games/four) |
@@ -63,8 +61,6 @@ Cross-index of helpers and modules to games that import them. Auto-generated fro
 | `setsIntersect` | [Gyve](https://play.abstractplay.com/games/gyve) |
 | `shuffle` | [Alien City](https://play.abstractplay.com/games/acity), [Arimaa](https://play.abstractplay.com/games/arimaa), [Asli](https://play.abstractplay.com/games/asli), [Assembly Line](https://play.abstractplay.com/games/assembly), [Basalt](https://play.abstractplay.com/games/basalt), [CIFRA](https://play.abstractplay.com/games/cifra), [Conspirateurs](https://play.abstractplay.com/games/conspirateurs), [Deckfish](https://play.abstractplay.com/games/deckfish) (+23 more) |
 | `smallestDegreeDiff` | [Armadas](https://play.abstractplay.com/games/armadas), [Azacru](https://play.abstractplay.com/games/azacru), [Pacru](https://play.abstractplay.com/games/pacru), [Penguin Soccer](https://play.abstractplay.com/games/penguin) |
-| `triAi2Ap` | [Trike](https://play.abstractplay.com/games/trike) |
-| `triAp2Ai` | [Trike](https://play.abstractplay.com/games/trike) |
 | `unbounded-square-board` | [Trax](https://play.abstractplay.com/games/trax) |
 | `x2uid` | [Four](https://play.abstractplay.com/games/four), [Storisende](https://play.abstractplay.com/games/storisende) |
 | Player-named pieces areas | [Streetcar Suburb](https://play.abstractplay.com/games/streetcar), [Volcano](https://play.abstractplay.com/games/volcano), [Deckfish](https://play.abstractplay.com/games/deckfish), [Magnate](https://play.abstractplay.com/games/magnate), [Even at Odds](https://play.abstractplay.com/games/evenatodds) |

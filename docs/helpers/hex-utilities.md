@@ -43,7 +43,7 @@ Coordinates use axial `(q, r)` values. Edge and vertex records (`IEdge`, `IVerte
 | `IHexCoord` | Axial coordinate `{ q, r }` |
 | `IEdge` / `IVertex` | `IQRDir` — `{ q, r, dir, uid, orientation }` identifying an edge or vertex |
 
-Also see `src/common/aiai.ts` for AiAi coordinate conversion (`hexhexAp2Ai`, `triAp2Ai`, etc.).
+Registered AiAi bots keep hex/tri coordinate conversion in the standalone **bot-aiai** dialect package, not in gameslib.
 
 ## Example games
 

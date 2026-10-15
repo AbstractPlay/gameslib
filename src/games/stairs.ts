@@ -5,6 +5,14 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { SquareGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        NORMAL_MOVE: "Choose a piece to move.",
+        INVALID_MOVE: "You must move a piece to a neighboring stack of the same height. You must move one of your lowest movable pieces.",
+        MUST_PASS: "The only move available to you is to pass.",
+    },
+};
+
 
 export type PlayerId = 1|2;
 
@@ -27,8 +35,7 @@ export class StairsGame extends GameBase {
         playercounts: [2],
         version: "20250619",
         dateAdded: "2025-07-10",
-        // i18next.t("apgames:descriptions.stairs")
-        description: "apgames:descriptions.stairs",
+        description: "Stack higher than your opponent in this game of one-space, one-level jumps where you also have to move your lowest pieces first. To take the lead and win, you must surpass your opponent's tallest stack height or, failing that, their number of stacks at the tallest height.",
         urls: [
             "https://kanare-abstract.com/en/pages/stairs",
             "https://boardgamegeek.com/boardgame/383703/stairs"
@@ -346,7 +353,7 @@ export class StairsGame extends GameBase {
 
     public move(m: string, { trusted = false } = {}): StairsGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (m.length === 0) return this;
@@ -522,16 +529,16 @@ export class StairsGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "lead":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:LEAD", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.LEAD.default", {});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete_what", { from: r.from!, to: r.to!, what: "piece" });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete_what", { from: r.from!, to: r.to!, what: "piece" });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -544,3 +551,4 @@ export class StairsGame extends GameBase {
     }
 
 }
+

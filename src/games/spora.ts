@@ -6,6 +6,59 @@ import { reviver, SquareOrthGraph, UserFacingError } from "../common/index.js";
 import { connectedComponents } from "graphology-components";
 
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_SETUP: "Choose a number of points to add to the second player's score, and the next player will choose sides.",
+        INSTRUCTIONS: "Place between one to four pieces either an empty intersection or on a friendly stack (self-captures are illegal). Then, optionally, select a different friendly stack, click on it as many times as pieces to move, then click on a orthogonal path that starts adjacent to this sowing stack (one piece per intersection). The path must follow Spora's rules.",
+        END_PHASE_INSTRUCTIONS: "The adversary ended his reserve. You need to place the remaining {{remaining}} pieces from your reserve.",
+        END_PHASE_LAST: "This is your last stone to place! The game will end next.",
+        ENEMY_PIECE: "It is illegal to add pieces to an opponent stack.",
+        INVALID_KOMI: "You must choose an number in increments of 0.5 (like 4 or 4.5) to add to the second player's score.",
+        INVALID_PLAYSECOND: "You cannot choose to play second from this board state.",
+        INVALID_SOW_PATH: "The selected path does not follow Spora rules: (a) pick (part of) a stack and leave one piece per orthogonal adjacent intersection, (b) sowing can turn left/right after each placed piece, (c) sowing a stack is only legal if the player can legally place all pieces of the stack, (d) a stack can never have more than four pieces, (e) sowing onto intersections vacated by captures in the same turn is not allowed.",
+        KOMI_CHOICE: "You may either make the first move on the board and let your opponent keep the bonus points (an integer) or you may choose \"Play second\" and take the bonus points for yourself.",
+        MAXIMUM_STACK: "A stack can have, at most, four friendly pieces.",
+        NOT_ENOUGH_PIECES: "The pieces in reserve are not enough for this placement.",
+        SAME_PLACE_SOW_STACK: "The sowing stack cannot be the stack just created/enlarged.",
+        SELF_CAPTURE: "You may not place your stones in self-capture.",
+        SOW_FRIENDLY: "Only friendly stacks can be sowed.",
+        SOW_INSTRUCTIONS: "Either select more pieces to sow, or start sowing with the ones already selected. When sowing, the next intersection must be adjacent to the previous one. Left and right turns are valid. Cannot sow over (and capture) opponent stacks with more than half the size of the number of pieces that still need to be sowed.",
+        SOW_SIZE_SELECTION: "Either place more pieces (up to four), select a different friendly stack to sow (if any), or just finish your move.",
+        SOW_TOO_LARGE: "The current sowing is larger than the available pieces at the sowing stack.",
+    },
+    variants: {
+        "size-9": {
+            name: "9x9 board (48 pieces)",
+        },
+        "#board": {
+            name: "13x13 board (99 pieces)",
+        },
+        "size-15": {
+            name: "15x15 board (132 pieces)",
+        },
+        "size-19": {
+            name: "19x19 board (211 pieces)",
+        },
+        "size-25": {
+            name: "25x25 board (365 pieces)",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        one: "{{player}} surrounded and captured one piece: {{group}}.",
+        other: "{{player}} surrounded and captured {{count}} pieces: {{group}}.",
+    },
+    MOVE: {
+        default: "{{player}} sowed from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        one: "{{player}} added one piece to stack at {{where}}.",
+        other: "{{player}} added {{size}} pieces to stack at {{where}}.",
+    },
+};
+
+
 
 
 type playerid = 1 | 2;
@@ -39,9 +92,8 @@ export class SporaGame extends GameBase {
         playercounts: [2],
         version: "20260407",
         dateAdded: "2026-05-27",
-        // i18next.t("apgames:descriptions.spora")
-        description: "apgames:descriptions.spora",
-        notes: "apgames:notes.spora",
+        description: "A territorial game with limited pieces to build stacks that capture by enclosure and/or by sowing.",
+        notes: "Spora takes the concepts like group, liberty and territory, known from territorial games like Go, and adds support for stacks. Stacks can sow their pieces to adjacent intersections, capturing enemy pieces or supporting near friendly structures. The total number of pieces is limited, so players need to manage their finite budget to reach endgame controlling as much territory as possible. The limited budget implies that players must measure well when and how to deploy stacks with multiple pieces (like having an arsenal of daggers, but always being hesitant when to use them)\n\nSpora is the Greek σπορά, meaning 'sowing'.",
         urls: [
                 "https://boardgamegeek.com/thread/3493284/rules-of-spora"
               ],
@@ -722,7 +774,7 @@ export class SporaGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SporaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1044,22 +1096,22 @@ export class SporaGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "komi":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:KOMI", { value: r.value! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.KOMI.default", { value: r.value! });
                 return true;
             case "play-second":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLAYSECOND", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLAYSECOND.default", {});
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.spora", { where: r.where!, size: r.count!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spora.PLACE", { where: r.where!, size: r.count!, count: r.count! });
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.spora", { from: r.from!, to : r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spora.MOVE.default", { from: r.from!, to : r.to! });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.spora", { group: r.where!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spora.CAPTURE", { group: r.where!, count: r.count! });
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -1072,3 +1124,4 @@ export class SporaGame extends GameBase {
         return new SporaGame(this.serialize());
     }
 }
+

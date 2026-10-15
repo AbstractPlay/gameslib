@@ -8,6 +8,86 @@ import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import { connectedComponents } from "graphology-components";
 import { HexTriGraph, type HexDir } from "../common/graphs/hextri.js";
+export const gameApgamesEn = {
+    validation: {
+        INVALID_LINTEL: "{{move}} is not a valid lintel placement.",
+        INVALID_SARSEN: "You cannot place a sarsen at {{where}}.",
+        SARSEN_OR_LINTEL: "Place the sarsen here, or click a cell two steps away to lay a lintel.",
+        SELECT_DRUID_DEST: "Select where your Druid should move.",
+        SELECT_LINTEL_END: "Select the other end of the lintel.",
+        SELECT_MOVE: "Place a sarsen, lay a lintel, move your Druid, or pass.",
+    },
+    variants: {
+        "size-8": {
+            name: "Small board (8×8)",
+        },
+        "#board": {
+            name: "Standard board (10×10)",
+        },
+        "size-12": {
+            name: "Large board (12×12)",
+        },
+        "y-7": {
+            name: "Druid's Y (size 7)",
+        },
+        "y-8": {
+            name: "Druid's Y (size 8)",
+        },
+        "y-9": {
+            name: "Druid's Y (size 9)",
+        },
+        "hex-4": {
+            name: "Druid's Hex (size 4)",
+        },
+        "hex-5": {
+            name: "Druid's Hex (size 5)",
+        },
+        "hex-6": {
+            name: "Druid's Hex (size 6)",
+        },
+        walk: {
+            description: "Each player has a Druid that enters on the first stone placed on either of their edges and must be borne off the opposite edge. Druids move on topmost stones (including lintel segments). You may place a stone or move your Druid each turn, but not both. This variant applies only to the rectangular board; it is ignored on Druid's Y and Druid's Hex boards.",
+            name: "Druid's Walk",
+        },
+        "#ruleset": { name: "Default ruleset" }
+    },
+    displays: {
+        "#projection": {
+            name: "Isometric view",
+        },
+        flat: {
+            description: "Overhead view with stack heights labelled on each cell.",
+            name: "Overhead view",
+        },
+    },
+};
+export const gameApresultsEn = {
+    HEX_EDGE: {
+        N: "north (N)",
+        NE: "northeast (NE)",
+        NW: "northwest (NW)",
+        S: "south (S)",
+        SE: "southeast (SE)",
+        SW: "southwest (SW)",
+        and: "and",
+    },
+    BEAROFF: {
+        default: "{{player}} bore their Druid off from {{from}}.",
+    },
+    EOG: {
+        hex: "The game has ended because {{player}} connected the {{edges}} edges.",
+    },
+    MOVE: {
+        walk: "{{player}} moved their Druid from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        druid: "{{player}} placed a Druid at {{where}}.",
+        lintel: "{{player}} laid a lintel along {{where}}.",
+        sarsen: "{{player}} placed a sarsen at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1 | 2;
 type Dir = "N" | "E" | "S" | "W";
@@ -63,8 +143,8 @@ export class DruidGame extends GameBase {
         // version: "20260706",
         version: "20260815",
         dateAdded: "2026-08-03",
-        description: "apgames:descriptions.druid",
-        notes: "apgames:notes.druid",
+        description: "Place sarsens and lintels to connect your edges of the board. On the standard rectangular board, player 1 connects north and south; player 2 connects east and west. On Druid's Y, connect all three sides (corners count for both adjacent edges). On Druid's Hex, connect any three alternating (non-adjacent) sides. Only the topmost stone on each cell counts toward a connection.",
+        notes: "A lintel must be supported at both ends (not on bare ground) and rest on exactly two of your stones (which need not both be at the ends). Lintels must lie flat: both ends must rest on stacks of equal height. Lintels may cross one another, but you may not thread a new lintel through the gap beneath an existing lintel's centre. Only the topmost stone on each cell counts toward connections.\n\nWith the Druid's Walk variant on the rectangular board, your Druid appears the first time you place a stone on either of your edges (west or east for player 2, north or south for player 1). To win, the druid must be borne off the board on the opposite edge. Each turn you either place a stone or move your Druid — not both. Druids move onto orthogonally adjacent stones of their colour and always stand on the topmost stone; they cannot step into bare gaps under lintels. Stones cannot be placed on a Druid. The first player to bear their Druid off wins. Druid's Walk does not apply to Druid's Y or Druid's Hex boards.",
         urls: [
             "https://cambolbro.com/games/druid/",
             "https://web.archive.org/web/20250712151400/http://www.gamerz.net/pbmserv/druid.html",
@@ -553,14 +633,14 @@ export class DruidGame extends GameBase {
     }
 
     private hexEdgeListLabel(edges: HexEdge[]): string {
-        const labels = edges.map(e => i18next.t(`apresults:DRUID_HEX_EDGE.${e}`));
+        const labels = edges.map(e => i18next.t(`apresults:druid.HEX_EDGE.${e}`));
         if (labels.length <= 1) {
             return labels.join("");
         }
         if (labels.length === 2) {
-            return `${labels[0]} ${i18next.t("apresults:DRUID_HEX_EDGE.and")} ${labels[1]}`;
+            return `${labels[0]} ${i18next.t("apresults:druid.HEX_EDGE.and")} ${labels[1]}`;
         }
-        return `${labels.slice(0, -1).join(", ")}, ${i18next.t("apresults:DRUID_HEX_EDGE.and")} ${labels[labels.length - 1]}`;
+        return `${labels.slice(0, -1).join(", ")}, ${i18next.t("apresults:druid.HEX_EDGE.and")} ${labels[labels.length - 1]}`;
     }
 
     private permute<T>(items: T[]): T[][] {
@@ -1101,7 +1181,7 @@ export class DruidGame extends GameBase {
         const result: IValidationResult = { valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER") };
 
         if (this.gameover) {
-            result.message = i18next.t("apgames:MOVES_GAMEOVER");
+            result.message = i18next.t("apgames:validation._general.MOVES_GAMEOVER");
             return result;
         }
 
@@ -1264,7 +1344,7 @@ export class DruidGame extends GameBase {
 
     public move(m: string, { trusted = false, partial = false } = {}): DruidGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1766,30 +1846,30 @@ export class DruidGame extends GameBase {
                 if (winResult?.type === "winners" && winResult.players.length > 0) {
                     winnerSeat = winResult.players[0];
                 }
-                this.pushSeatChatLine(lines, winnerSeat, "apresults:EOG.druid_hex", {
+                this.pushSeatChatLine(lines, winnerSeat, "apresults:druid.EOG.hex", {
                     edges: this.hexEdgeListLabel(edges),
                 });
                 return true;
             }
             case "place":
                 if (r.what === "lintel") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.druid_lintel", {where: r.where!});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:druid.PLACE.lintel", {where: r.where!});
                 } else if (r.what === "druid") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.druid_druid", {where: r.where!});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:druid.PLACE.druid", {where: r.where!});
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.druid_sarsen", {where: r.where!});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:druid.PLACE.sarsen", {where: r.where!});
                 }
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.druid_walk", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:druid.MOVE.walk", {
                     from: r.from!, to: r.to!,
                 });
                 return true;
             case "bearoff":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:BEAROFF.druid", {from: r.from!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:druid.BEAROFF.default", {from: r.from!});
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.druid", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.simple", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

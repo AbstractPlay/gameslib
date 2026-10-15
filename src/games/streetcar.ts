@@ -8,6 +8,63 @@ import { CompassDirection, IEdge, IVertex, edge2hexes, edge2verts, hex2edges, ve
 import { UndirectedGraph } from "graphology";
 import {connectedComponents} from 'graphology-components';
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        ADJ_TO_BLDG: "You may not remove a housing limit next to a building.",
+        ALREADY_CLAIMED: "The edge '{{edge}}' is already claimed.",
+        FIRST_HOUSE: "You may not remove a housing limit on the first turn.",
+        INITIAL_INSTRUCTIONS_initial: "Click one or two hex edges to start your streetcar empire.",
+        INITIAL_INSTRUCTIONS_normal: "In any order, click a hex to remove a housing limit, and click one or two hex edges to expand your streetcar empire.",
+        INVALID_EDGE: "The edge provided does not appear to be valid: {{edge}}.",
+        MAY_NOT_TOUCH: "Opposing lines may not touch.",
+        MUST_TOUCH: "When claiming two edges, they must touch.",
+        NO_REMOVE_BLDGS: "You may not remove buildings from the board.",
+        ONLY_TWO: "You may only claim two edges per turn.",
+        TAKEN_LABEL: "{{player}}'s housing limits",
+        TWO_LINES: "You must place a second line if extending your first line is legal.",
+        VALID_PARTIAL_haveedge: "So far so good. Select a housing limit to remove.",
+        VALID_PARTIAL_havehouse: "So far so good. Select at least one edge.",
+    },
+    variants: {
+        "#penalty": {
+            name: "Default penalty (-10)",
+        },
+        "5point": {
+            description: "The lower penalty makes it easier to steal enemy territory with a new line, leading to a more aggressive game.",
+            name: "Lower penalty (-5)",
+        },
+        "15point": {
+            description: "The higher penalty makes invading enemy territory more expensive, leading to a euro-style game that focuses on building.",
+            name: "Higher penalty (-15)",
+        },
+    },
+};
+export const gameApresultsEn = {
+    PLACE: {
+        place_11: "A height-1 ORANGE building was placed at {{where}}.",
+        place_12: "A height-2 ORANGE building was placed at {{where}}.",
+        place_13: "A height-3 ORANGE building was placed at {{where}}.",
+        place_21: "A height-1 YELLOW building was placed at {{where}}.",
+        place_22: "A height-2 YELLOW building was placed at {{where}}.",
+        place_23: "A height-3 YELLOW building was placed at {{where}}.",
+        place_31: "A height-1 BLACK building was placed at {{where}}.",
+        place_32: "A height-2 BLACK building was placed at {{where}}.",
+        place_33: "A height-3 BLACK building was placed at {{where}}.",
+        place_41: "A height-1 WHITE building was placed at {{where}}.",
+        place_42: "A height-2 WHITE building was placed at {{where}}.",
+        place_43: "A height-3 WHITE building was placed at {{where}}.",
+        place_default: "A building was placed at {{where}}.",
+    },
+    TAKE: {
+        take_1: "{{player}} took an ORANGE housing limit from {{from}}.",
+        take_2: "{{player}} took a YELLOW housing limit from {{from}}.",
+        take_3: "{{player}} took a BLACK housing limit from {{from}}.",
+        take_4: "{{player}} took a WHITE housing limit from {{from}}.",
+        take_default: "{{player}} took a housing limit from {{from}}.",
+    },
+};
+
+
 
 type playerid = 1|2;
 type Colour = 1|2|3|4;
@@ -110,8 +167,7 @@ export class StreetcarGame extends GameBase {
         playercounts: [2],
         version: "20230629",
         dateAdded: "2023-07-03",
-        // i18next.t("apgames:descriptions.streetcar")
-        description: "apgames:descriptions.streetcar",
+        description: "It's against the law to build housing or transit in this wealthy neighborhood. Remove single-family housing limits to let citizens build, making the neighborhood more affordable and diverse. Then connect new buildings with streetcar lines of your own color to score points.",
         urls: [
             "https://streetcar.drew-edwards.com/rules",
             "https://boardgamegeek.com/boardgame/355847/streetcar-suburb",
@@ -631,7 +687,7 @@ export class StreetcarGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): StreetcarGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         // Normalize
         m = m.toLowerCase();
@@ -1198,10 +1254,10 @@ export class StreetcarGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "take":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.streetcar_take", {from: r.from!, context: r.what! || "default"});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:streetcar.TAKE.take_${r.what! || "default"}`, {from: r.from!, context: r.what! || "default"});
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.streetcar_place", {where: r.where!, context: r.what! || "default"});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:streetcar.PLACE.place_${r.what! || "default"}`, {where: r.where!, context: r.what! || "default"});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -1264,3 +1320,4 @@ export class StreetcarGame extends GameBase {
         return colours.join("");
     }
 }
+

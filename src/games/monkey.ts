@@ -4,6 +4,26 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, allDirections, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select one of your pieces.",
+        MOVE_CLOSER: "When singletons make noncapturing moves, they must move closer to the enemy queen (straight-line distance).",
+        PARTIAL: "Select a destination.",
+        QUEEN_DEPLETED: "Your queen can no longer make noncapturing moves.",
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        queen: "A queen was captured.",
+        single: "A singleton was captured.",
+    },
+    MOVE: {
+        queen: "{{player}} moved their queen from {{from}} to {{to}}.",
+        single: "{{player}} moved a singleton from {{from}} to {{to}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 type CellContents = [playerid, number];
@@ -26,8 +46,7 @@ export class MonkeyQueenGame extends GameBase {
         playercounts: [2],
         version: "20211213",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.monkey")
-        description: "apgames:descriptions.monkey",
+        description: "You start with a single queen, composed of a stack of checkers. When you make noncapturing moves, the queen leaves a singleton behind. Queens and singletons move and capture like chess queens. To win, capture the opposing queen or leave them with no legal moves.",
         urls: [
             "http://www.marksteeregames.com/Monkey_Queen_rules.html",
             "https://boardgamegeek.com/boardgame/95757/monkey-queen",
@@ -332,7 +351,7 @@ export class MonkeyQueenGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): MonkeyQueenGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -543,16 +562,16 @@ export class MonkeyQueenGame extends GameBase {
         switch (r.type) {
             case "move":
                 if (r.what === "queen") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.monkey", {context: "queen", from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:monkey.MOVE.queen", {from: r.from!, to: r.to!});
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.monkey", {context: "single", from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:monkey.MOVE.single", {from: r.from!, to: r.to!});
                 }
                 return true;
             case "capture":
                 if (r.what === "queen") {
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.monkey", {context: "queen"});
+                this.pushNeutralChatLine(lines, "apresults:monkey.CAPTURE.queen");
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.monkey", {context: "single"});
+                this.pushNeutralChatLine(lines, "apresults:monkey.CAPTURE.single");
                 }
                 return true;
             default:
@@ -600,3 +619,4 @@ export class MonkeyQueenGame extends GameBase {
         return new MonkeyQueenGame(this.serialize());
     }
 }
+

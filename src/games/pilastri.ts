@@ -5,6 +5,30 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        NORMAL_MOVE: "Choose a piece to move.",
+        INVALID_MOVE: "You must move a piece in a straight line to the next stack. The piece must end higher. And 1-stacks may only move onto other 1-stacks.",
+        INVALID_MOVE_JUMPERS: "You must move a piece in a straight line to the next stack. The piece must end higher. And 1-stacks may only move onto other 1-stacks.",
+    },
+    variants: {
+        "#board": {
+            name: "Size 6 board",
+        },
+        "size-8": {
+            name: "Size 8 board",
+        },
+        "#rules": {
+            name: "Default rules",
+            description: "A piece must move higher and pieces that start with nothing beneath them can only end with a single piece beneath them.",
+        },
+        jumpers: {
+            name: "High jumpers",
+            description: "A piece must move higher, but pieces that start with nothing beneath them are allowed to land on any other stack.",
+        },
+    },
+};
+
 
 export type PlayerId = 1|2;
 
@@ -26,8 +50,7 @@ export class PilastriGame extends GameBase {
         playercounts: [2],
         version: "20250424",
         dateAdded: "2025-04-25",
-        // i18next.t("apgames:descriptions.pilastri")
-        description: "apgames:descriptions.pilastri",
+        description: "Outlast your opponent in this game of blocking and moving, as pieces are forced to climb higher and higher until they run out of moves.",
         urls: [
             "https://cjffield.com/rules/pilastri.pdf",
             "https://boardgamegeek.com/boardgame/445080/pilastri"
@@ -271,7 +294,7 @@ export class PilastriGame extends GameBase {
 
     public move(m: string, { trusted = false } = {}): PilastriGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (m.length === 0) return this;
@@ -437,3 +460,4 @@ export class PilastriGame extends GameBase {
     }
 
 }
+

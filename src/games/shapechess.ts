@@ -6,6 +6,58 @@ import { reviver, UserFacingError } from "../common/index.js";
 import { SquareGraph } from "../common/graphs/index.js";
 import { connectedComponents } from 'graphology-components';
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "On this turn the player either (a) places a stone on an empty cell, (b) relocates a friendly stone to any empty cell, or (c) places a stone over an opponent stone that is pushed to an adjacent (orthogonal or diagonal) empty cell.",
+        JUMP_INSTRUCTIONS: "Now select an empty cell to place the selected stone.",
+        PUSH_INSTRUCTIONS: "Now select an adjacent empty cell to push the selected opponent's stone.",
+        JUMP_OCCUPIED: "Jumps must end on empty cells!",
+        PUSH_NO_FREEDOM: "No available adjacent cells to push!",
+        PUSH_NEIGHBOR: "Pushes must be to adjacent empty cells!",
+    },
+    variants: {
+        "size-10": {
+            name: "10x10 board",
+        },
+        "#board": {
+            name: "12x12 board",
+        },
+        "size-14": {
+            name: "14x14 board",
+        },
+        "size-16": {
+            name: "16x16 board",
+        },
+        "size-18": {
+            name: "18x18 board",
+        },
+        "#ruleset": {
+            description: "Score 4 points from symmetric groups.",
+            name: "Standard Rules",
+        },
+        "5-pts": {
+            description: "Needs 5 points for victory.",
+            name: "5 points scoring",
+        },
+        "6-pts": {
+            description: "Needs 6 points for victory.",
+            name: "6 points scoring",
+        },
+        "7-pts": {
+            description: "Needs 7 points for victory.",
+            name: "7 points scoring",
+        },
+        "8-pts": {
+            description: "Needs 8 points for victory.",
+            name: "8 points scoring",
+        },
+        "9-pts": {
+            description: "Needs 9 points for victory.",
+            name: "9 points scoring",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2;
 
@@ -28,9 +80,8 @@ export class ShapeChessGame extends GameBase {
         playercounts: [2],
         version: "20260502",
         dateAdded: "2026-05-27",
-        // i18next.t("apgames:descriptions.shapechess")
-        description: "apgames:descriptions.shapechess",
-        notes: "apgames:notes.shapechess",
+        description: "Shape Chess is a game in which players use their pieces to create line-symmetric shapes. Using three types of actions (placements, jumps, pushes), players aim to create symmetrical groups of six or more pieces, scoring more points for larger groups.",
+        notes: "Shape Chess, 形棋 (shape - board game), was designed c.2010 by 日出 (Richu) from Guangzhou, China. The game has evolved into its current form through years of refinement within the Chinese game design community (quoted from Kanare_Abstract). This is not a Chess-like game, but one that uses a very original concept by making players build reflectional symmetric shapes. This implementation includes several board sizes, and also different winning scores, for players who prefer shorter or longer matches.",
         urls: [
             "https://boardgamegeek.com/boardgame/367618",
             "https://www.abstractgames.org/shapechess.html",
@@ -425,7 +476,7 @@ export class ShapeChessGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): ShapeChessGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();

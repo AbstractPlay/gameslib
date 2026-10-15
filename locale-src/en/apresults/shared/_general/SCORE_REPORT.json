@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "SCORE_REPORT": {
+      "default": "{{player}}'s score is now {{score}}."
+    }
+  }
+}

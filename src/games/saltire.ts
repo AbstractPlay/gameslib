@@ -6,6 +6,47 @@ import { RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        EMPTY_FROM: "You are indicating to swap but there is no piece at {{where}}.",
+        INITIAL_INSTRUCTIONS: "Select a point to place a piece, or select a piece to swap.",
+        INVALID_SWAP: "Swapping {{from}} with {{to}} is not valid.",
+        NO_SWAPPABLE: "The piece at {{where}} cannot make a swap with any adjacent piece to reduce the number of crosscuts or supercuts.",
+        SELECT_TO: "Select an adjacent piece to swap with.",
+    },
+    variants: {
+        "#board": {
+            name: "13x13 board",
+        },
+        "#rules": {
+            description: "A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
+            name: "Default rules"
+        },
+        basic: {
+            description: "A swap must decrease the number of crosscuts. Draws are possible.",
+            name: "Basic rules",
+        },
+        "size-9": {
+            name: "9x9 board",
+        },
+        "size-11": {
+            name: "11x11 board",
+        },
+        "size-15": {
+            name: "15x15 board",
+        },
+        "size-17": {
+            name: "17x17 board",
+        },
+    },
+};
+export const gameApresultsEn = {
+    MOVE: {
+        default: "{{player}} swapped the pieces at {{from}} and {{to}}.",
+    },
+};
+
+
 
 type playerid = 1 | 2;
 type PlayerLines = [string[], string[]];
@@ -31,8 +72,7 @@ export class SaltireGame extends GameBase {
         playercounts: [2],
         version: "20240316",
         dateAdded: "2024-03-17",
-        // i18next.t("apgames:descriptions.saltire")
-        description: "apgames:descriptions.saltire",
+        description: "Connect your two opposite sides of the board by placing stones and swapping pairs of orthogonally or diagonally adjacent stones. A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
         urls: ["https://boardgamegeek.com/boardgame/402546/saltire"],
         bggid: "402546",
         people: [
@@ -318,7 +358,7 @@ export class SaltireGame extends GameBase {
         const normalised = this.normaliseMove(m);
         if (normalised !== m) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.saltire.NORMALISE", { move: m, normalised });
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
         result.valid = true;
@@ -461,7 +501,7 @@ export class SaltireGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SaltireGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -662,10 +702,10 @@ export class SaltireGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.saltire", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:saltire.MOVE.default", {
                     from: r.from!, to: r.to!,
                 });
                 return true;
@@ -680,3 +720,4 @@ export class SaltireGame extends GameBase {
         return new SaltireGame(this.serialize());
     }
 }
+

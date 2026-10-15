@@ -5,6 +5,69 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or 'pass' if all spaces are occupied or controlled. The game ends when both players pass in sequence.",
+        INITIAL_INSTRUCTIONS_BUTTON: "Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or \"Take button\" (worth .5 points).",
+        INITIAL_SETUP: "Enter a number to set the bonus to the second mover's score. Your opponent will choose to move first or second.",
+        INSUFFICIENT_LOS: "You cannot replace a piece on {{cell}}. You do not control the space.",
+        INVALIDBUTTON: "The button is already taken or is not in use this game.",
+        INVALIDKOMI: "You must choose a number of points for the second mover to start with. You may not offer a komi greater than the number of cells on the board plus one.",
+        INVALIDPASS: "You cannot pass while uncontrolled spaces exist or if the button is still available for taking.",
+        INVALIDPLAYSECOND: "You cannot choose to play second from this board state.",
+        KOMI_CHOICE: "You may either make the first move on the board and let your opponent keep the bonus points or you may choose \"Play second\" and take the bonus points for yourself.",
+        OPPONENT_CONTROL: "You cannot place onto the empty space {{cell}}. It is controlled by the opponent.",
+    },
+    variants: {
+        "#board": {
+            name: "Default board (base 8)",
+        },
+        "#komi": {
+            description: "One player will enter a number to choose the second mover bonus for the game. The other player will be given the option to move first or second.",
+            name: "Komi offer",
+        },
+        "#rules": {
+            description: "You control a space by controlling more than half of its lines of sight.",
+            name: "Default rules"
+        },
+        nokomi: {
+            description: "The game will be played without a second mover bonus. Good for beginners.",
+            name: "No komi offer",
+        },
+        "size-7": {
+            name: "Smaller board (base 7)",
+        },
+        "size-9": {
+            name: "Larger board (base 9)",
+        },
+        "size-10": {
+            name: "Largest board (base 10)",
+        },
+        tumpletore: {
+            description: "You control a space by controlling more of its lines of sight than your opponent.",
+            name: "Tumpletore",
+        },
+    },
+    displays: {
+        "hide-both": {
+            description: "Don't highlight empty controlled spaces nor possible replacements.",
+            name: "Hide Both",
+        },
+        "hide-influence": {
+            description: "Don't highlight empty controlled spaces.",
+            name: "Hide influence",
+        },
+        "hide-threatened": {
+            description: "Don't highlight possible replacements.",
+            name: "Hide threatened",
+        },
+        "vertex-style": {
+            description: "Display the board using vertexes instead of hexes.",
+            name: "Vertex style",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
@@ -36,10 +99,8 @@ export class StigmergyGame extends GameBase {
         playercounts: [2],
         version: "20250607",
         dateAdded: "2024-06-08",
-        // i18next.t("apgames:descriptions.stigmergy")
-        description: "apgames:descriptions.stigmergy",
-        // i18next.t("apgames:notes.stigmergy")
-        notes: "apgames:notes.stigmergy",
+        description: "Territorial line-of-sight game. Cells are controlled and pieces on them are flipped based on how many pieces of a color can see them. The winner is the player who occupies more of the board at the end.",
+        notes: "You control a space if more than half of the lines of sight to it end at a piece of your color. Your score is the sum of the number of pieces of your color on the board and the number of empty spaces you control, plus a komi bonus and a button bonus. The button is used when the komi value plus the number of spaces on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
         urls: ["https://boardgamegeek.com/boardgame/333767/stigmergy"],
         bggid: "333767",
         people: [
@@ -460,7 +521,7 @@ export class StigmergyGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): StigmergyGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (m.length === 0) return this;
@@ -779,3 +840,4 @@ export class StigmergyGame extends GameBase {
     }
 
 }
+

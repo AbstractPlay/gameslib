@@ -5,6 +5,39 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a cell to place a piece.",
+        SECOND_PIECE: "Place a second piece for your first turn.",
+        ADJACENT: "Your second piece cannot be adjacent to your first (immediate loss).",
+        TOO_MANY_PIECES: "Too many pieces.",
+        INCURSION: "The cell at {{cell}} has no path to a friendly group.",
+    },
+    variants: {
+        "#board": {
+            name: "Size 8 board",
+        },
+        "size-6": {
+            name: "Size 6 board",
+        },
+        "size-7": {
+            name: "Size 7 board",
+        },
+        "size-10": {
+            name: "Size 10 board",
+        },
+        "size-12": {
+            name: "Size 12 board",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "Dead pieces were removed at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 export type Region = {
@@ -44,7 +77,7 @@ export class LifelineGame extends GameBase {
         playercounts: [2],
         version: "1.0",
         dateAdded: "2024-09-01",
-        description: "apgames:descriptions.lifeline",
+        description: "Conquer territory and capture enemy groups by cutting them off from all their allies. A group is cut off when it has no free path (straight or otherwise) to other groups of its color. Win by leaving your opponent with no moves.",
         urls: ["https://boardgamegeek.com/boardgame/358196/lifeline"],
         bggid: "358196",
         people: [
@@ -383,7 +416,7 @@ export class LifelineGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): LifelineGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -569,10 +602,10 @@ export class LifelineGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "capture":
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.lifeline", {where: r.where!});
+                this.pushNeutralChatLine(lines, "apresults:lifeline.CAPTURE.default", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

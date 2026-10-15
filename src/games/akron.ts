@@ -6,6 +6,35 @@ import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        CANNOT_MOVE: "The selected ball at {{where}} cannot be moved.",
+        CANNOT_PLACE: "{{where}} is not a valid place to put a ball.",
+        INITIAL_INSTRUCTIONS: "Place a ball on the board, or move an existing ball to a playable connected point.",
+        INVALID_TO: "The selected ball at {{from}} cannot move to {{to}}",
+        LEVEL1: "You may only place on the bottom level.",
+        MOVE_TO: "Select a destination to move your ball.",
+        NO_TOS: "The selected ball at {{where}} has no possible destinations.",
+    },
+    variants: {
+        "#board": {
+            name: "size-9 board",
+        },
+        "size-7": {
+            name: "size-7 board (smaller)",
+        },
+        "size-11": {
+            name: "size-11 board (larger)",
+        },
+    },
+    displays: {
+        "orb-3d": {
+            description: "Use plain 3D orb textures.",
+            name: "3D orbs",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 type PlayerLines = [string[], string[]];
@@ -34,8 +63,7 @@ export class AkronGame extends GameBase {
         playercounts: [2],
         version: "20240421",
         dateAdded: "2024-04-30",
-        // i18next.t("apgames:descriptions.akron")
-        description: "apgames:descriptions.akron",
+        description: "Akron is an extension of standard connection games to three dimensions. On their turn, players may introduce new balls of their colour on the lowest layer of the board, or move a ball that is not pinned (having balls resting on it in two or more directions) to a space that is connected to the same group both before and after movement. When balls move, balls resting on it will drop, changing the connections on the board.",
         urls: [
             "http://cambolbro.com/games/akron",
             "https://boardgamegeek.com/boardgame/10889/akron"
@@ -588,7 +616,7 @@ export class AkronGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): AkronGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -1042,13 +1070,13 @@ export class AkronGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ball", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.ball", { where: r.where! });
                 return true;
             case "move":
                 if (r.how === "drop") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.ball_drop", { from: r.from!, to: r.to!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.ball_drop", { from: r.from!, to: r.to!, count: r.count! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.ball", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.ball", { from: r.from!, to: r.to! });
                 }
                 return true;
             default:
@@ -1061,3 +1089,4 @@ export class AkronGame extends GameBase {
         return new AkronGame(this.serialize());
     }
 }
+

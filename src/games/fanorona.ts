@@ -6,6 +6,22 @@ import { SquareFanoronaGraph } from "../common/graphs/index.js";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        ADJACENT: "Pieces may only move to adjacent empty spaces.",
+        BAD_PAIKA: "You have capture moves available. You may not make a noncapturing move.",
+        DISAMBIGUATE: "You may not make further moves until you have selected a capture type for the previous move.",
+        EXPLICIT_CAPTURE: "Each capture type must be explicitly stated. If you are clicking, then click the first enemy piece to capture. If typing, enter a '+' for approach and '-' for withdrawal.",
+        INITIAL_INSTRUCTIONS: "Click a piece to move.",
+        INVALID_CAPTURE: "The capture you signalled ({{type}}) is not valid.",
+        MUST_CAPTURE: "Each step in a piece's movement must capture.",
+        PAIKA_STOP: "You may not move again after making a noncapturing move.",
+        PARTIAL: "Select an empty adjacent space.",
+        REVISIT: "When making multiple moves, the piece may never revisit the same space.",
+        SAME_DIR: "When making multiple moves, the piece may never move in the same direction twice in a row.",
+    },
+};
+
 
 type playerid = 1|2;
 
@@ -27,8 +43,7 @@ export class FanoronaGame extends GameBase {
         playercounts: [2],
         version: "20230604",
         dateAdded: "2023-06-22",
-        // i18next.t("apgames:descriptions.fanorona")
-        description: "apgames:descriptions.fanorona",
+        description: "Fanorona is the national game of Madagascar, and it is believed to have been derived from the game of Alquerque. Checkers can move to adjacent empty spaces and capture opposing pieces by approach or withdrawal. As long as you can keep capturing, you may continue to move. Continue until you capture all your opponent's pieces!",
         urls: [
             "https://en.wikipedia.org/wiki/Fanorona",
             "https://boardgamegeek.com/boardgame/4386/fanorona",
@@ -518,7 +533,7 @@ export class FanoronaGame extends GameBase {
     // Most validation offloaded to `validateMove`
     public move(m: string, {partial = false, trusted = false} = {}): FanoronaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -713,11 +728,11 @@ export class FanoronaGame extends GameBase {
     //     let resolved = false;
     //     switch (r.type) {
     //         case "place":
-    //             node.push(i18next.t("apresults:PLACE.cannon", {player, where: r.where}));
+    //             node.push(i18next.t("apresults:cannon.PLACE.default", {player, where: r.where}));
     //             resolved = true;
     //             break;
     //         case "capture":
-    //             node.push(i18next.t("apresults:CAPTURE.nowhat", {player, where: r.where}));
+    //             node.push(i18next.t("apresults:_general.CAPTURE.nowhat", {player, where: r.where}));
     //             resolved = true;
     //             break;
     //     }
@@ -737,9 +752,9 @@ export class FanoronaGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "eog") {
             if (r.reason === "repetition") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 4 });
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 4 });
             } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
             }
             return true;
         }
@@ -756,7 +771,7 @@ export class FanoronaGame extends GameBase {
             const currplayer = state.currplayer as number;
             const seat = this.frameChatActorSeat(currplayer);
             const moves = state._results.filter((r) => r.type === "move");
-            this.pushSeatChatLine(lines, seat, "apresults:MOVE.multiple", {
+            this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.multiple", {
                 moves: moves.map((m) => {
                     if (m.type === "move") {
                         return `${m.from}-${m.to}`;
@@ -766,7 +781,7 @@ export class FanoronaGame extends GameBase {
             });
             const captures = state._results.filter((r) => r.type === "capture");
             if (captures.length > 0) {
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.nowhere_count", {
+                this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.noperson.nowhere_count", {
                     count: captures.length,
                 });
             }
@@ -887,3 +902,4 @@ export class FanoronaGame extends GameBase {
         return 180;
     }
 }
+

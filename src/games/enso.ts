@@ -4,6 +4,14 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, reviver, SquareGraph, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a piece to move.",
+        NO_MOVES: "The piece at {{cell}} does not have any legal moves.",
+        PARTIAL: "Select a destination.",
+    },
+};
+
 
 export type playerid = 1|2;
 export type ConnectionStatus = "enemy"|"self"|"isolated";
@@ -26,8 +34,7 @@ export class EnsoGame extends GameBase {
         playercounts: [2],
         version: "20260108",
         dateAdded: "2026-01-12",
-        // i18next.t("apgames:descriptions.enso")
-        description: "apgames:descriptions.enso",
+        description: "A Zen-inspired game of movement and capture in which you attempt to fully surround one of your pieces with emptiness.",
         urls: [
             "https://spielstein.com/games/enso",
             "https://boardgamegeek.com/boardgame/460838/enso",
@@ -292,7 +299,7 @@ export class EnsoGame extends GameBase {
     // It leaves the object in an invalid state, so only use it on cloned objects, or call `load()` before submitting again.
     public move(m: string, {partial = false, trusted = false} = {}): EnsoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -499,3 +506,4 @@ export class EnsoGame extends GameBase {
         return cloned;
     }
 }
+

@@ -5,6 +5,65 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, Direction, oppositeDirections, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { UnboundedSquareBoard } from "../common/unbounded-square-board.js";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PASS: "You may not pass if legal moves are available.",
+        BAD_OPENING_MOVE: "The opening move in this variant must be a legal cell for initial stack placement.",
+        BAD_START_PLACE: "The cell {{cell}} is not a legal initial placement.",
+        BAD_VALUE: "The value {{what}} is not a legal split of your stack.",
+        INITIAL_INSTRUCTIONS: "Select a stack, then select a cell to jump to.",
+        INITIAL_INSTRUCTIONS_VARIANTS: "Select a cell to place your initial stack.",
+        INVALID_FIRST_MOVE: "In the first move of a two-player game, you may only split one piece off your stack.",
+        INVALID_NOTATION: "The move notation '{{move}}' is invalid.",
+        INVALID_STACK: "The stack at '{{cell}}' is not yours.",
+        INVALID_TARGET: "The cell '{{cell}}' is occupied.",
+        MUST_PASS: "The only move available to you is to pass.",
+        NO_KNIGHT: "The selected cell '{{cell}}' is not a knight's move away.",
+        NO_NEIGHBORS: "The selected cell '{{cell}}' is not connected to the board.",
+        NO_STACK: "There is no stack at '{{cell}}'.",
+        SELECT_CELL: "Select a target cell.",
+        SHORT_STACK: "The stack at '{{cell}}' cannot be split.",
+        SPLIT_STACK: "Click either cell to redistribute the split of the stack.  Click an empty cell or the Complete Move button to finish your turn.",
+    },
+    variants: {
+        "#setup": {
+            name: "Default setup",
+            description: "No special pieces, and stacks begin in a set configuration.",
+        },
+        blocker: {
+            name: "Blocker",
+            description: "The game begins with a central neutral piece, and stacks are placed by players.",
+        },
+        wildcard: {
+            name: "Wildcard",
+            description: "A central neutral piece may be counted by any player, and stacks are placed by players.",
+        },
+        "#size": {
+            name: "Default stack size",
+            description: "All players start with a stack of 20 pieces.",
+        },
+        "size-24": {
+            name: "Stack of 24",
+            description: "All players start with a stack of 24 pieces.",
+        },
+    },
+    displays: {
+        "show-origin": {
+            description: "Mark the position of the first piece.",
+            name: "Show origin",
+        },
+    },
+};
+export const gameApresultsEn = {
+    MOVE: {
+        default: "{{player}} moved {{what}} pieces from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        default: "{{player}} placed their initial stack at {{where}}.",
+    },
+};
+
+
 
 type playerid = 1 | 2 | 3 ;
 type ColorID = 0 | 1 | 2 | 3 ;
@@ -48,10 +107,8 @@ export class KnightLineGame extends GameBase {
         playercounts: [2, 3],
         version: "20260721",
         dateAdded: "2026-08-03",
-        // i18next.t("apgames:descriptions.knightline")
-        description: "apgames:descriptions.knightline",
-        // i18next.t("apgames:notes.knightline")
-        notes: "apgames:notes.knightline",
+        description: "A four-in-a-row connection game played by splitting a stack of knights on an unbounded grid.",
+        notes: "For convenience, your stack is split approximately in half on your first click.  Subsequent clicks on the source or target stack move one piece at a time.  When done, click on an empty cell or use the Complete Move button.\n\nThe coordinate system is adapted from the coder's coordinate system for Hive, a game on an unbounded (but still reasonably sized) hex board.  The y axis is labeled with Cartesian coordinates (positive and negative integers).  The x axis is labeled with letters in alphabetical order, with the origin at (m, 0).  If motion on the x-axis exceeds the confines of the alphabet in either direction, the letters are prefixed with another letter (z is followed by aa, ab, ac, etc., and a is preceded by zz, zy, zx, etc.).  The game is not expected to reach a width that requires more double coordinates, but for the record, az is followed by ba, za is preceded by yz, and so forth.  The board cannot reach a size that would result in ambiguity.",
         urls: [
             "http://www.nestorgames.com/rulebooks/KNIGHTLINE_EN.pdf",
             "https://boardgamegeek.com/boardgame/146989/knight-line",
@@ -634,7 +691,11 @@ export class KnightLineGame extends GameBase {
 
         if (mm.errorID !== undefined) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.knightline." + mm.errorID, { move: m });
+            if (mm.errorID === "INVALID_NOTATION") {
+                result.message = i18next.t("apgames:validation.knightline.INVALID_NOTATION", { move: m });
+            } else {
+                result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });
+            }
             return result;
         }
 
@@ -762,7 +823,7 @@ export class KnightLineGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): KnightLineGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -1157,22 +1218,22 @@ export class KnightLineGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.knightline", { from: r.from!, to: r.to!, what: r.what! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:knightline.MOVE.default", { from: r.from!, to: r.to!, what: r.what! });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.knightline", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:knightline.PLACE.default", { where: r.where! });
                 return true;
             case "eliminated":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ELIMINATED", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.ELIMINATED.default", {});
                 return true;
             case "eog":
                 if (r.reason === "stalemate") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.stalemate_all");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate_all");
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:
@@ -1185,3 +1246,4 @@ export class KnightLineGame extends GameBase {
         return new KnightLineGame(this.serialize());
     }
 }
+

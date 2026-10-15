@@ -4,6 +4,36 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, SquareDiagGraph, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        ADJ_ONLY: "Stacks may only move to adjacent cells.",
+        DIAG_ONLY: "Stacks may only move diagonally.",
+        INITIAL_INSTRUCTIONS: "Select a stack to move. If merging stacks, select the bottom checker you wish to move.",
+        INVALID_INDEX: "There is no checker at position {{index}} in the stack at {{where}}.",
+        INVALID_MVMT: "When moving whole stacks, the destination space must be empty.",
+        INVALID_PASS: "You may not pass if you have any legal moves available, even if those moves would benefit your opponent.",
+        MUST_APPROACH: "When moving a stack to an empty space, you must move closer to the closest stacks.",
+        MUST_CLIMB: "When merging, the bottom checker must end up at a higher position than where it started.",
+        TOO_HIGH_one: "Moving {{count}} checker from {{from}} to {{to}} would result in a stack that is too high.",
+        TOO_HIGH_other: "Moving {{count}} checkers from {{from}} to {{to}} would result in a stack that is too high.",
+        UNOWNED_INDEX: "You don't control the checker at position {{index}} in the stack at {{where}}.",
+    },
+    variants: {
+        "10x10": {
+            name: "Larger board: 10x10",
+        },
+        "#board": { name: "Default board" }
+    },
+};
+export const gameApresultsEn = {
+    MOVE: {
+        full: "{{player}} moved a full stack from {{from}} to {{to}}.",
+        partial_one: "{{player}} moved {{count}} checker from {{from}} to {{to}}.",
+        partial_other: "{{player}} moved {{count}} checkers from {{from}} to {{to}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 
@@ -26,8 +56,7 @@ export class ByteGame extends GameBase {
         playercounts: [2],
         version: "20231223",
         dateAdded: "2023-12-24",
-        // i18next.t("apgames:descriptions.byte")
-        description: "apgames:descriptions.byte",
+        description: "Manoeuvre and merge stacks of checkers while attempting to be the one on top when the stack reaches a certain height.",
         urls: [
             "https://www.marksteeregames.com/Byte_rules.pdf",
             "https://boardgamegeek.com/boardgame/19360/byte",
@@ -447,7 +476,7 @@ export class ByteGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): ByteGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -673,28 +702,28 @@ export class ByteGame extends GameBase {
         switch (r.type) {
             case "move":
                 if ("count" in r && r.count !== undefined) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.byte.partial", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:byte.MOVE.partial", {
                         from: r.from!, to: r.to!, count: r.count as number,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.byte.full", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:byte.MOVE.full", {
                         from: r.from!, to: r.to!,
                     });
                 }
                 return true;
             case "capture":
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.simple", {
+                this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.noperson.simple", {
                     what: "stack", where: r.where!,
                 });
                 return true;
             case "deltaScore": {
                 const who = (r as { who?: number }).who!;
                 const scorer = this.resolveChatPlayerName(who, ctx.players);
-                this.pushNeutralChatLine(lines, "apresults:DELTA_SCORE_GAIN", {
+                this.pushNeutralChatLine(lines, "apresults:_general.DELTA_SCORE_GAIN", {
                     player: scorer, delta: r.delta as number, count: r.delta as number,
                 });
                 if (scores !== undefined) {
-                    this.pushNeutralChatLine(lines, "apresults:SCORE_REPORT", {
+                    this.pushNeutralChatLine(lines, "apresults:_general.SCORE_REPORT.default", {
                         player: scorer, score: scores[who - 1],
                     });
                 }
@@ -709,3 +738,4 @@ export class ByteGame extends GameBase {
         return new ByteGame(this.serialize());
     }
 }
+

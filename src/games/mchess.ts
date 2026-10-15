@@ -6,6 +6,35 @@ import { Direction } from "../common/index.js";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_CALL: "You may not \"call the clock\" before seven moves have passed without capture or when the countdown is already active.",
+        INITIAL_INSTRUCTIONS: "Select a piece on your side of the board to move.",
+        INVALID_MOVE: "You're either trying to move too far or jump another piece.",
+        INVALID_PROMOTION: "Invalid field promotion. You can only promote to piece sizes you don't already control.",
+        NO_MIRROR_MOVE: "You can't just undo you opponent's move.",
+        PARTIAL: "Select a destination.",
+        VALID_MOVE_counter: "Looks like a valid move.",
+        VALID_MOVE_nocounter: "Looks like a valid move. You may add an asterisk (*) to the end of the move to \"call the clock\" if you believe the game is deadlocked.",
+    },
+    variants: {
+        ofkk: {
+            description: "Pawns move like Chess kings, and drones move like Chess knights.",
+            name: "Of Knights and Kings",
+        },
+        "#movement": { name: "Default movement rules" }
+    },
+};
+export const gameApresultsEn = {
+    DECLARE: {
+        default: "{{player}} has \"called the clock.\" If no capture is made in the next seven turns, the game will end and be scored.",
+    },
+    PROMOTE: {
+        default: "A {{into}} was created as a result.",
+    },
+};
+
+
 
 interface ILegendObj {
     [key: string]: Glyph|[Glyph, ...Glyph[]];
@@ -63,10 +92,8 @@ export class MchessGame extends GameBase {
         playercounts: [2],
         version: "20211012",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.mchess")
-        description: "apgames:descriptions.mchess",
-        // i18next.t("apgames:notes.mchess")
-        notes: "apgames:notes.mchess",
+        description: "A Looney pyramid game for two players played on half of a standard chess board. It is a chess-like strategy game in which location, rather than piece color, determines which pieces you may move. Like Chess, each type of piece has its own way of moving, and you capture by moving onto an opponent's square; but unlike Chess, you can only move pieces sitting in your own quadrant, and only attack those in other quadrants, which may include your own former pieces. The game ends when someone runs out of pieces, and the winner is the player who captured the most points.",
+        notes: "If there have been seven consecutive turns without a capture, someone can \"call the clock\" by adding an asterisk (*) to the end of their move. This can only be done by selecting the move from the drop-down list. After another seven turns with no capture, the game will end and be scored.",
         urls: [
             "https://www.looneylabs.com/sites/default/files/literature/MartianChess_Rules5.pdf",
             "https://boardgamegeek.com/boardgame/19803/martian-chess",
@@ -629,7 +656,7 @@ export class MchessGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): MchessGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -989,7 +1016,7 @@ export class MchessGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "declare":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECLARE.mchess", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:mchess.DECLARE.default", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -1013,3 +1040,4 @@ export class MchessGame extends GameBase {
         return new MchessGame(this.serialize());
     }
 }
+

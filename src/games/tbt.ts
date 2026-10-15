@@ -4,6 +4,17 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { randomInt, reviver, UserFacingError, SquareOrthGraph, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PASS: "You must move a stack if it's possible to do so.",
+        INITIAL_INSTRUCTIONS: "Select a stack to move.",
+        LABEL_PREVIOUS: "Previous roll",
+        NO_REVERSE: "You may not simply reverse your opponent's last move.",
+        PARTIAL: "Select a destination.",
+        TOO_SHORT: "The stack at {{where}} is too short (it needs at least {{roll}} pieces).",
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -26,10 +37,8 @@ export class TBTGame extends GameBase {
         playercounts: [2],
         version: "20240209",
         dateAdded: "2024-02-13",
-        // i18next.t("apgames:descriptions.tbt")
-        description: "apgames:descriptions.tbt",
-        // i18next.t("apgames:notes.tbt")
-        notes: "apgames:notes.tbt",
+        description: "A simple dice game where you attempt to form stacks of equal height on your home row.",
+        notes: "When it's your turn, you will see the die you have to work with, but once your move is complete, the die will reroll. Exploration is not helpful because the die roll is not finalized until after the move is submitted. As you scroll back through the game history, the die you see is for the *next* turn. The die used to make the move you're seeing is displayed below the board.",
         urls: [
             "https://static1.squarespace.com/static/5e1ce8815cb76d3000d347f2/t/642651dba939a00630eae0d7/1680232925727/TBTRules2023.pdf",
             "https://boardgamegeek.com/boardgame/98978/take-back-toe",
@@ -277,7 +286,7 @@ export class TBTGame extends GameBase {
             // orthogonally adjacent
             if (! g.neighbours(from).includes(to)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.tbt.NOT_ORTH", {from, to});
+                result.message = i18next.t("apgames:validation._general.NOT_ORTH", {from, to});
                 return result;
             }
 
@@ -306,7 +315,7 @@ export class TBTGame extends GameBase {
 
     public move(m: string, {trusted = false, emulation = false} = {}): TBTGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -563,13 +572,13 @@ export class TBTGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete", {from: r.from!, to: r.to!, count: parseInt(r.what!, 10)});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete", {from: r.from!, to: r.to!, count: parseInt(r.what!, 10)});
                 return true;
             case "roll":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ROLL.single", {values: r.values!.join(",")});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.ROLL.single", {values: r.values!.join(",")});
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -585,3 +594,4 @@ export class TBTGame extends GameBase {
         return new TBTGame(this.serialize());
     }
 }
+

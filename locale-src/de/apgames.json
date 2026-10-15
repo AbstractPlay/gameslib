@@ -1,20 +1,4 @@
 {
-  "INITIAL_UNDO": {
-    "src": "You can't undo the initial starting position of the game.",
-    "out": "Du kannst die anfängliche Startposition des Spiels nicht rückgängig machen."
-  },
-  "MOVES_GAMEOVER": {
-    "src": "You cannot make moves in concluded games.",
-    "out": "Du kannst in beendeten Spielen keine Züge machen."
-  },
-  "MOVES_INVALID": {
-    "src": "The move '{{move}}' is invalid. Please check the rules and try again.",
-    "out": "Der Zug '{{move}}' ist ungültig. Bitte überprüfe die Regeln und versuche es erneut."
-  },
-  "MOVES_SIMULTANEOUS_PARTIAL": {
-    "src": "In simultaneous games, both players' moves must be submitted at the same time.",
-    "out": "In simultanen Spielen müssen die Züge beider Spieler gleichzeitig übermittelt werden."
-  },
   "buttons.acceptpie": {
     "src": "Play second",
     "out": "Als zweiter spielen"
@@ -1447,6 +1431,10 @@
     "src": "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
     "out": "Ein Gebietskontrollspiel, bei dem richtungsgebundene Steine über ein unterteiltes Brett navigieren, um Felder zu beanspruchen."
   },
+  "descriptions.baghchal": {
+    "src": "A traditional hunt game: one side moves tigers to capture goats; the other places and moves goats to surround the tigers.",
+    "out": "Ein traditionelles Jagdspiel: Eine Seite bewegt Tiger, um Ziegen zu schlagen; die andere platziert und bewegt Ziegen, um die Tiger einzukesseln."
+  },
   "descriptions.bamboo": {
     "src": "Place stones such that no group has more pieces than the number of your groups on the board. Then, be the last player able to move.",
     "out": "Platziere Steine so, dass keine Gruppe mehr Steine hat als die Anzahl deiner Gruppen auf dem Brett. Sei dann der letzte Spieler, der noch ziehen kann."
@@ -2235,6 +2223,10 @@
     "src": "A pen-and-paper game on a 9×9 super grid of nine 3×3 mini grids. Win the most mini grids, or in the advanced game, form the highest-value super glyph from your victories.",
     "out": "Ein Stift-und-Papier-Spiel auf einem 9×9-Supergitter aus neun 3×3-Minigittern. Gewinne die meisten Minigitter oder bilde in der fortgeschrittenen Variante die wertvollste Superglyphe aus deinen Siegen."
   },
+  "descriptions.selfo": {
+    "src": "A connection game on a hexagonal board. Each player starts with the same number of pieces scattered at random, and on your turn you slide one piece to an adjacent empty cell. The first player to bring all of their own pieces together into a single group wins.",
+    "out": "Ein Verbindungsspiel auf einem sechseckigen Spielbrett. Beide Spieler beginnen mit derselben Anzahl zufällig verstreuter Steine. Wenn Sie an der Reihe sind, schieben Sie einen Stein auf ein angrenzendes freies Feld. Der erste Spieler, der alle seine eigenen Steine zu einer einzigen Gruppe zusammenführt, gewinnt."
+  },
   "descriptions.sentinel": {
     "src": "A vigil game using a sowing mechanism with stacks. A vigil game is one where some board position must always have line-of-sight to some or all of the player's pieces. In Sentinel, players are required to see the board center at the end of each one of their turns.",
     "out": "Ein Wachsamkeitsspiel mit einem Sämechanismus mit Stapeln. Ein Wachsamkeitsspiel ist ein Spiel, bei dem eine bestimmte Brettposition immer eine Sichtlinie zu einigen oder allen Figuren des Spielers haben muss. In Sentinel müssen die Spieler am Ende jedes ihrer Züge die Brettmitte sehen können."
@@ -2334,10 +2326,6 @@
   "descriptions.storisende": {
     "src": "A unique territory control game where the movement of pieces create territories and walls, eventually creating enclosed nations. Control the most territory to win.",
     "out": "Ein einzigartiges Gebietskontrollspiel, bei dem die Bewegung von Steinen Gebiete und Mauern schafft, die schließlich umschlossene Nationen bilden. Kontrollieren Sie das meiste Gebiet, um zu gewinnen."
-  },
-  "descriptions.stormc": {
-    "src": "An annihilation game with asymmetrical piece movement.",
-    "out": "Ein Vernichtungsspiel mit asymmetrischer Steinbewegung."
   },
   "descriptions.strands": {
     "src": "In Strands, players take turns placing the number of pieces of their colour on the board corresponding to the number on the spaces. The goal is to form the largest contiguous group of stones. If the largest groups are tied, compare the second-largest groups, and so on. The first player starts the game by placing one piece on a space labelled with a 2.",
@@ -3347,170 +3335,6 @@
     "src": "Isometric: Subtle Elevation",
     "out": "Isometrisch: Dezente Erhöhung"
   },
-  "homeworlds.CMD_ATK_OWNER": {
-    "src": "In games with more than two players, you have to always specify the owner of the ship you are attacking.",
-    "out": "In Spielen mit mehr als zwei Spielern müssen Sie immer den Besitzer des Schiffs angeben, das Sie angreifen."
-  },
-  "homeworlds.CMD_ATK_SELF": {
-    "src": "You may not attack yourself.",
-    "out": "Sie dürfen sich nicht selbst angreifen."
-  },
-  "homeworlds.CMD_ATK_SIZE": {
-    "src": "You don't have a ship large enough to attack the ship {{target}}.",
-    "out": "Sie besitzen kein Schiff, das groß genug ist, um das Schiff {{target}} anzugreifen."
-  },
-  "homeworlds.CMD_BUILD_TEMPLATE": {
-    "src": "You do not have a model from which to build a new ship.",
-    "out": "Sie besitzen kein Modell, aus dem Sie ein neues Schiff bauen könnten."
-  },
-  "homeworlds.CMD_CATA_ACTIONS": {
-    "src": "You may not trigger a catastrophe while you still have actions to use.",
-    "out": "Sie dürfen keine Katastrophe auslösen, solange Sie noch Aktionen zur Verfügung haben."
-  },
-  "homeworlds.CMD_CATA_INVALID": {
-    "src": "There is no overpopulation of {{colour}} in the {{system}} system.",
-    "out": "Es gibt keine Überbevölkerung von {{colour}} im System {{system}}."
-  },
-  "homeworlds.CMD_DISC_DOUBLE": {
-    "src": "A system by the name {{name}} has already been charted.",
-    "out": "Ein System mit dem Namen {{name}} wurde bereits kartografiert."
-  },
-  "homeworlds.CMD_HOME_COLOURS": {
-    "src": "You're requesting a home world with fewer than three technologies available. This is almost never wise. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
-    "out": "Sie fordern eine Heimatwelt mit weniger als drei verfügbaren Technologien an. Das ist fast nie ratsam. Wenn Sie sicher sind, senden Sie den Befehl erneut und setzen Sie ein Sternchen (*) ans Ende."
-  },
-  "homeworlds.CMD_HOME_DOUBLE": {
-    "src": "You already have a home world.",
-    "out": "Sie besitzen bereits eine Heimatwelt."
-  },
-  "homeworlds.CMD_HOME_RHO_DIRECT": {
-    "src": "Your homeworld is directly connected to your right-hand opponent (none of your homeworld stars are the same size as theirs). This creates what's called a \"microverse,\" and it is not recommended for new players. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
-    "out": "Ihre Heimatwelt ist direkt mit Ihrem rechten Gegenspieler verbunden (keiner der Sterne Ihrer Heimatwelt hat dieselbe Größe wie dessen Sterne). Dies erzeugt ein sogenanntes \"Mikroversum\" und wird für neue Spieler nicht empfohlen. Wenn Sie sicher sind, senden Sie den Befehl erneut und setzen Sie ein Sternchen (*) ans Ende."
-  },
-  "homeworlds.CMD_HOME_RHO_SMALL": {
-    "src": "You are choosing to put yourself only two jumps away from your right-hand opponent (what's called a \"small\" universe), but it's possible for you to create a \"large\" universe (putting your right-hand opponent at the maximum three jumps away) if you choose one of your opponent's star sizes and the size their homeworld does *not* include. For new players, starting with a large universe is recommended. If you're sure you want a small universe, resubmit the command and put an asterisk (*) at the end of it.",
-    "out": "Sie wählen eine Position, die nur zwei Sprünge von Ihrem rechten Gegenspieler entfernt ist (ein sogenanntes \"kleines\" Universum), aber Sie könnten ein \"großes\" Universum erstellen (wodurch Ihr rechter Gegenspieler maximal drei Sprünge entfernt ist), wenn Sie eine der Sterngrößen Ihres Gegners wählen, die dessen Heimatwelt *nicht* enthält. Für neue Spieler wird der Start in einem großen Universum empfohlen. Wenn Sie sicher sind, dass Sie ein kleines Universum möchten, senden Sie den Befehl erneut und setzen Sie ein Sternchen (*) ans Ende."
-  },
-  "homeworlds.CMD_HOME_SINGLE": {
-    "src": "You're requesting a home world with only one star. This puts you at a strong disadvantage. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
-    "out": "Sie fordern eine Heimatwelt mit nur einem Stern an. Dies bringt Ihnen einen starken Nachteil. Wenn Sie sicher sind, senden Sie den Befehl erneut und setzen Sie ein Sternchen (*) ans Ende."
-  },
-  "homeworlds.CMD_HOME_SMALLSHIP": {
-    "src": "You are requesting a home world without a large ship. This puts you at a disadvantage. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
-    "out": "Sie fordern eine Heimatwelt ohne großes Schiff an. Dies bringt Ihnen einen Nachteil. Wenn Sie sicher sind, senden Sie den Befehl erneut und setzen Sie ein Sternchen (*) ans Ende."
-  },
-  "homeworlds.CMD_HOME_TECHS": {
-    "src": "You're requesting a home world that does not contain Green or Blue technologies. This is almost never wise. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
-    "out": "Sie fordern eine Heimatwelt an, die keine grünen oder blauen Technologien enthält. Das ist fast nie ratsam. Wenn Sie sicher sind, senden Sie den Befehl erneut und setzen Sie ein Sternchen (*) ans Ende."
-  },
-  "homeworlds.CMD_MOVE_CONNECTION": {
-    "src": "The systems {{from}} and {{to}} are not connected. You can only travel between systems that do not share any of the same-sized stars.",
-    "out": "Die Systeme {{from}} und {{to}} sind nicht verbunden. Sie können nur zwischen Systemen reisen, die keine gleich großen Sterne teilen."
-  },
-  "homeworlds.CMD_NOACTIONS": {
-    "src": "You have no actions remaining.",
-    "out": "Sie haben keine Aktionen mehr übrig."
-  },
-  "homeworlds.CMD_NOACTIONS_B": {
-    "src": "You have no more trade actions remaining.",
-    "out": "Sie haben keine Handelsaktionen mehr übrig."
-  },
-  "homeworlds.CMD_NOACTIONS_G": {
-    "src": "You have no construction actions remaining.",
-    "out": "Sie haben keine Bauaktionen mehr übrig."
-  },
-  "homeworlds.CMD_NOACTIONS_R": {
-    "src": "You do not have any attack actions remaining.",
-    "out": "Sie haben keine Angriffsaktionen mehr übrig."
-  },
-  "homeworlds.CMD_NOACTIONS_Y": {
-    "src": "You have no movement actions remaining.",
-    "out": "Sie haben keine Bewegungsaktionen mehr übrig."
-  },
-  "homeworlds.CMD_NOSYSTEM": {
-    "src": "Could not find a system with the name {{system}}.",
-    "out": "Ein System mit dem Namen {{system}} konnte nicht gefunden werden."
-  },
-  "homeworlds.CMD_NOTECH_B": {
-    "src": "You do not have access to refurbishers (BLUE) in this system.",
-    "out": "Sie haben in diesem System keinen Zugriff auf Umrüster (BLAU)."
-  },
-  "homeworlds.CMD_NOTECH_G": {
-    "src": "You do not have access to shipyards (GREEN) in this system.",
-    "out": "Sie haben in diesem System keinen Zugriff auf Werften (GRÜN)."
-  },
-  "homeworlds.CMD_NOTECH_R": {
-    "src": "You do not have access to weapons technology (RED) in this system.",
-    "out": "Sie haben in diesem System keinen Zugriff auf Waffentechnologie (ROT)."
-  },
-  "homeworlds.CMD_NOTECH_Y": {
-    "src": "You do not have access to propulsion technology (YELLOW) in this system.",
-    "out": "Sie haben in diesem System keinen Zugriff auf Antriebstechnologie (GELB)."
-  },
-  "homeworlds.CMD_PARAMETERS": {
-    "src": "The wrong number of parameters were provided.",
-    "out": "Es wurde eine falsche Anzahl von Parametern angegeben."
-  },
-  "homeworlds.CMD_PASS_FREE": {
-    "src": "You may not pass your free action.",
-    "out": "Sie dürfen Ihre freie Aktion nicht passen."
-  },
-  "homeworlds.CMD_PASS_TOOMANY": {
-    "src": "You tried to pass more actions than you have remaining.",
-    "out": "Sie haben versucht, mehr Aktionen zu passen, als Ihnen verbleiben."
-  },
-  "homeworlds.CMD_STARSHIP_NAME": {
-    "src": "The following ship/star designation could not be understood: {{arg}}.",
-    "out": "Die folgende Schiff/Stern-Bezeichnung konnte nicht verstanden werden: {{arg}}."
-  },
-  "homeworlds.CMD_TRADE_DOUBLE": {
-    "src": "You can't trade a ship for one of the same colour.",
-    "out": "Sie können ein Schiff nicht gegen ein Schiff derselben Farbe tauschen."
-  },
-  "homeworlds.CMD_TRADE_NOSIZE": {
-    "src": "There is no size {{size}} piece in the colour {{colour}}.",
-    "out": "Es gibt kein Spielstein der Größe {{size}} in der Farbe {{colour}}."
-  },
-  "homeworlds.MOVE_MOREACTIONS": {
-    "src": "You still have actions to spend.",
-    "out": "Sie haben noch Aktionen auszuführen."
-  },
-  "homeworlds.MOVE_SELFELIMINATE": {
-    "src": "You may not eliminate yourself.",
-    "out": "Sie dürfen sich nicht selbst eliminieren."
-  },
-  "homeworlds.MOVE_UNRECOGNIZED": {
-    "src": "Unrecognized command: {{cmd}}.",
-    "out": "Unbekannter Befehl: {{cmd}}."
-  },
-  "homeworlds.STASH_EMPTY": {
-    "src": "The stash has no more {{colour}} pieces left.",
-    "out": "Im Vorrat sind keine {{colour}} Spielsteine mehr übrig."
-  },
-  "homeworlds.SYSTEM_BADNAME": {
-    "src": "The system name you requested ({{name}}) is invalid. Names may be no longer than 25 characters, must start with a letter or a number, and may only contain numbers, letters, hyphens, and underscores. No spaces are allowed.",
-    "out": "Der von Ihnen angeforderte Systemname ({{name}}) ist ungültig. Namen dürfen maximal 25 Zeichen lang sein, müssen mit einem Buchstaben oder einer Zahl beginnen und dürfen nur Zahlen, Buchstaben, Bindestriche und Unterstriche enthalten. Leerzeichen sind nicht erlaubt."
-  },
-  "homeworlds.SYSTEM_FULL": {
-    "src": "The {{system}} system is full. Home systems can only accommodate 16 ships. Periphery systems can accommodate 24.",
-    "out": "Das System {{system}} ist voll. Heimatsysteme fassen maximal 16 Schiffe. Peripheriesysteme fassen 24."
-  },
-  "homeworlds.SYSTEM_NOSHIP": {
-    "src": "Could not find the ship {{ship}} in the {{system}} system.",
-    "out": "Das Schiff {{ship}} konnte im System {{system}} nicht gefunden werden."
-  },
-  "icepalace.HAND": {
-    "src": "{{player}}'s hand",
-    "out": "Hand von {{player}}"
-  },
-  "icepalace.POOL": {
-    "src": "Pyramids in the Pool",
-    "out": "Pyramiden im Pool"
-  },
-  "icepalace.STOCK": {
-    "src": "Pyramids from the Yard, to be built into the Palace",
-    "out": "Pyramiden aus dem Yard, die in den Palast eingebaut werden sollen"
-  },
   "names.abande": {
     "src": "Abande",
     "out": "Abande"
@@ -4395,6 +4219,10 @@
     "src": "Scribe",
     "out": "Scribe"
   },
+  "names.selfo": {
+    "src": "Selfo",
+    "out": "Selfo"
+  },
   "names.sentinel": {
     "src": "Sentinel",
     "out": "Sentinel"
@@ -4735,10 +4563,6 @@
     "src": "The threshold value is X(n) = 5n, where n is the base of the hexhex board (e.g., the default board is base 6, so the threshold is 30).",
     "out": "Der Schwellenwert ist X(n) = 5n, wobei n die Basis des Hexhex-Bretts ist (z. B. hat das Standardbrett die Basis 6, sodass der Schwellenwert 30 beträgt)."
   },
-  "notes.btt": {
-    "src": "Unusual numbers of players (3, 5, or 6) are supported, but on a normal rectangular board of an appropriate size rather than a Martian Chessboard.",
-    "out": "Ungewöhnliche Spielerzahlen (3, 5 oder 6) werden unterstützt, jedoch auf einem normalen rechteckigen Brett entsprechender Größe anstelle eines Martian-Chess-Bretts."
-  },
   "notes.bug": {
     "src": "In this implementation, after the initial placement, if the player has bugs that must eat, the edible bugs will be highlighted. Eating and bonus grow will be performed simultaneously, so performing a bonus grow on a bug by selecting a legal space next to it will cause all highlighted edible bugs adjacent to it to disappear. It is possible to bonus grow onto a space that an edible bug is on. Note that this implies that when selecting a bug to perform the eating action, ALL edible bugs of the same shape next to it will be removed, and this might differ from some other implementations where there a separate edible bug selection phase, which may allow some edible bugs to be left behind for another bug to eat.",
     "out": "In dieser Implementierung werden nach der Erstplatzierung, falls der Spieler Käfer hat, die fressen müssen, die essbaren Käfer hervorgehoben. Fressen und Bonus-Wachsen werden gleichzeitig ausgeführt; die Durchführung eines Bonus-Wachstums bei einem Käfer durch Auswahl eines gültigen Feldes daneben führt dazu, dass alle daran angrenzenden hervorgehobenen essbaren Käfer verschwinden. Es ist möglich, auf ein Feld mit einem essbaren Käfer ein Bonus-Wachstum durchzuführen. Beachten Sie, dass bei der Auswahl eines Käfers für die Fressaktion ALLE essbaren Käfer derselben Form neben ihm entfernt werden. Dies kann sich von einigen anderen Implementierungen unterscheiden, bei denen es eine separate Auswahlphase für essbare Käfer gibt, wodurch einige essbare Käfer für einen anderen Käfer zum Fressen übrig bleiben können."
@@ -4768,16 +4592,12 @@
     "out": "Die Arten sind auf dem Ring gegen den Uhrzeigersinn von 0–11 nummeriert, beginnend mit der Einzel-Hex-Art ganz oben. Art 0 frisst 11; jede andere Art frisst die direkt darunter nummerierte Art. Räuberisches Fressen findet nur statt, wenn du einen Stein platzierst, der eine Art angrenzend an Beute bildet. Gruppen dürfen nicht mehr als vier Steine umfassen. Wer zuerst 20 gegnerische Steine schlägt, gewinnt, oder der Spieler gewinnt, der in seinem Zug nicht mehr platzieren kann (nachdem das Ökosystem gefüllt wurde)."
   },
   "notes.clearpath": {
-    "src": "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe vital points are marked on the board. A red dot marks a point that every possible Red connection passes through, a blue dot marks a point that every possible Blue connection passes through, and a blue dot inside a red dot marks a point vital to both players. A point vital only to your opponent is illegal for you unless your placement completes your connection.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.\n\nThis implementation shortens the game by acknowledging that a player who no longer has any possible connection has lost by force.",
-    "out": "Clear Path wurde im September 2026 von Mark Steere in Zusammenarbeit mit Claude Fable 5.1 entwickelt, einem KI-Modell von Anthropic.\n\nDie vitalen Punkte sind auf dem Spielbrett markiert. Ein roter Punkt markiert einen Punkt, durch den jede mögliche Verbindung von Rot verläuft, ein blauer Punkt markiert einen Punkt, durch den jede mögliche Verbindung von Blau verläuft, und ein blauer Punkt innerhalb eines roten Punktes markiert einen Punkt, der für beide Spieler vital ist. Ein Punkt, der nur für deinen Gegner vital ist, ist für dich regelwidrig, es sei denn, dein Zug vollendet deine Verbindung.\n\nPassen ist nicht erlaubt, aber wenn ein Spieler keinen legalen Zug hat, wird sein Zug übersprungen. Das Passen erfolgt automatisch.\n\nDiese Implementierung verkürzt das Spiel, indem sie berücksichtigt, dass ein Spieler, der keine mögliche Verbindung mehr hat, zwangsläufig verloren hat."
+    "src": "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe dots mark the points where the player to move may not place. Each dotted point is vital to the opponent (every possible connection of the opponent passes through it), not vital to the player to move, and not a winning placement. A point vital to both players is not dotted, since either player may take it, and neither is a point where the player to move completes a winning path. The dots are drawn in the opponent's colour. A player who no longer has any possible connection has no vital points.\n\nA placement that leaves the opponent without any possible connecting path ends the game at once, and the player who placed wins: the opponent can never connect and can never take the winner's vital points, so the winner's connection can no longer be stopped. The chain of stones that cuts the opponent off is drawn on the board, as is a completed winning path.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.",
+    "out": "Clear Path wurde im September 2026 von Mark Steere in Zusammenarbeit mit Claude Fable 5.1, einem KI-Modell von Anthropic, entwickelt.\n\nDie Punkte markieren die Stellen, an denen der am Zug befindliche Spieler nicht setzen darf. Jeder so markierte Punkt ist für den Gegner vital (jede mögliche Verbindung des Gegners verläuft durch ihn), für den am Zug befindlichen Spieler jedoch nicht vital und keine gewinnbringende Platzierung. Ein für beide Spieler vitaler Punkt wird nicht markiert, da jeder Spieler ihn besetzen kann; ebenso wenig ein Punkt, an dem der am Zug befindliche Spieler einen Gewinnpfad vollendet. Die Punkte werden in der Farbe des Gegners dargestellt. Ein Spieler, der keine mögliche Verbindung mehr hat, hat keine vitalen Punkte.\n\nPassen ist nicht erlaubt, aber der Zug eines Spielers ohne legale Platzierung wird übersprungen. Das Passen erfolgt automatisch."
   },
   "notes.conspirateurs": {
     "src": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
     "out": "Im Grundspiel dürfen sich Steine als Teil eines Mehrfachsprungs durch Zufluchtsorte bewegen. Sie sind erst eingefroren, wenn sie ihren Zug in einem Zufluchtsort beenden. In der strikten Variante werden Steine eingefroren, sobald sie einen Zufluchtsort betreten.\n\nIn Spielen mit vier Spielern bilden Spieler 1 und 2 ein Team, ebenso wie Spieler 3 und 4."
-  },
-  "notes.crosshairs": {
-    "src": "Turbulence follows the designer's clarified rule: resolve the maneuver first (movement, turning, and its normal height change), then lose one height if the plane moved from a non-cloud hex into a cloud hex at any point during that maneuver. A plane already at height 0 when that loss applies crashes. Flying from cloud to cloud within the same bank costs nothing, and placing a new plane on a cloudy starting hex costs nothing. Every hex traversed counts, including the middle hex of a two-space level flight. Each swoop in a dive is a separate maneuver resolved before the next, so a dive can pay Turbulence more than once.",
-    "out": "Turbulenz folgt der klargestellten Regel des Autors: Zuerst wird das Manöver abgehandelt (Bewegung, Drehung und die normale Höhenänderung). Danach verliert das Flugzeug eine Höhe, wenn es sich zu irgendeinem Zeitpunkt während dieses Manövers von einem wolkenfreien Feld auf ein Wolkenfeld bewegt hat. Ein Flugzeug, das sich bei diesem Verlust bereits auf Höhe 0 befindet, stürzt ab. Das Fliegen von Wolke zu Wolke innerhalb derselben Wolkenbank kostet nichts, und das Platzieren eines neuen Flugzeugs auf einem Startfeld mit Wolke kostet ebenfalls nichts. Jedes überquerte Feld zählt, einschließlich des mittleren Feldes eines Horizontalflugs über zwei Felder. Jeder Teilabschnitt eines Sturzflugs ist ein separates Manöver, das vor dem nächsten abgehandelt wird, sodass ein Sturzflug mehr als einmal Turbulenz kosten kann."
   },
   "notes.deckfish": {
     "src": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
@@ -4967,10 +4787,6 @@
     "src": "A game consists of as many rounds as there are players. Highest accumulated score wins.\n\nBasic scoring: For each orthogonally adjacent card, add the ranks together.\n* 2-9 w/ matching Ace: gain, otherwise lose\n* 10: no effect\n* 11: draw a card\n* 12-19: gain sum - 10\n* 20: draw a card\n\nPairs: For each orthogonally adjacent card that is the same rank, gain 5 points. (**Exception:** If that pair is also part of a set, it does *not* also score as a pair.)\n\nSets: If the placed card creates a line (including diagonal) of three *or more* cards of the same rank, gain 30 pts for each line.\n\nStraights: If the placed card creates or extends sequence of three or more cards in rank order along a line (including diagonal), gain 20 points for each line.\n\nPower play: If you played an Ace or Crown orthogonally adjacent to the matching Ace or Crown, score the number of points equal to the sum of the ranks of all the *other* cards in the tableau that share that suit.\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
     "out": "Ein Spiel besteht aus so vielen Runden, wie es Spieler gibt. Die höchste angesammelte Punktzahl gewinnt.\n\nGrundwertung: Addiere für jede orthogonal angrenzende Karte die Ränge zusammen.\n* 2-9 mit passendem Ass: Gewinn, ansonsten Verlust\n* 10: keine Wirkung\n* 11: eine Karte ziehen\n* 12-19: Gewinn Summe - 10\n* 20: eine Karte ziehen\n\nPaare: Für jede orthogonal angrenzende Karte desselben Rangs erhältst du 5 Punkte. (**Ausnahme:** Wenn dieses Paar auch Teil eines Sets ist, wird es *nicht* zusätzlich als Paar gewertet.)\n\nSets: Wenn die platzierte Karte eine Linie (einschließlich diagonal) aus drei *oder mehr* Karten desselben Rangs bildet, erhältst du 30 Punkte für jede Linie.\n\nStraßen: Wenn die platzierte Karte eine Sequenz von drei oder mehr Karten in Rangfolge entlang einer Linie (einschließlich diagonal) bildet oder erweitert, erhältst du 20 Punkte für jede Linie.\n\nPower Play: Wenn du ein Ass oder eine Krone orthogonal angrenzend an das passende Ass oder die passende Krone gespielt hast, erhältst du die Anzahl an Punkten, die der Summe der Ränge aller *anderen* Karten im Tableau entspricht, die diese Farbe teilen.\n\nWeitere Informationen zum Decktet-System findest du auf der [offiziellen Decktet-Website](https://www.decktet.com). Karten auf den Händen der Spieler sind vor Beobachtern und Gegnern verborgen."
   },
-  "notes.razzle": {
-    "src": "The implementation here is the so called tournament rules.",
-    "out": "Die Implementierung hier sind die sogenannten Turnierregeln."
-  },
   "notes.rincala": {
     "src": "For reasons, the colours are instead red (4 pts), blue (3 pts), green (2 pts), yellow (1 pt). Also, the game terminates as soon as one player earns more than half the points (>=26 pts).",
     "out": "Aus bestimmten Gründen sind die Farben stattdessen Rot (4 Punkte), Blau (3 Punkte), Grün (2 Punkte), Gelb (1 Punkt). Außerdem endet das Spiel, sobald ein Spieler mehr als die Hälfte der Punkte erzielt (>=26 Punkte)."
@@ -4982,6 +4798,10 @@
   "notes.scribe": {
     "src": "The glyph reference chart is shown in the left margin. A dot marks each player's most recent placement. When a mini grid fills, glyph points are tallied and the higher score wins that grid (ties go to the player who completed it).",
     "out": "Die Glyphen-Referenztabelle wird am linken Rand angezeigt. Ein Punkt markiert die jeweils letzte Platzierung jedes Spielers. Wenn sich ein Minigitter füllt, werden die Glyphenpunkte zusammengezählt und die höhere Punktzahl gewinnt dieses Gitter (bei Gleichstand gewinnt der Spieler, der es fertiggestellt hat)."
+  },
+  "notes.selfo": {
+    "src": "The starting position is random: both players' pieces are scattered over the board, with no piece already enclosed, no player already connected, and no immediate win for the first player.\n\nOn your turn, move one of your pieces to an adjacent empty cell. You win by moving so that all of your pieces form one group of mutually adjacent pieces; only the player who has just moved can win this way. A player who has no legal move loses.\n\nA piece is _enclosed_ when your pieces cannot all reach each other through cells not occupied by your opponent, because opposing pieces and the board edge wall some of them off. If, after a move, both players have enclosed pieces, neither can ever connect and the game is a draw. With the **No enclosure** variant, a move that would enclose an opposing piece is not allowed, unless that move wins the game outright.\n\nThe second player may use the pie rule to swap sides after the first move.",
+    "out": "Die Startaufstellung ist zufällig: Die Steine beider Spieler sind über das Spielbrett verstreut, wobei kein Stein bereits eingeschlossen ist, kein Spieler bereits verbunden ist und es keinen sofortigen Sieg für den ersten Spieler gibt.\n\nWenn Sie an der Reihe sind, bewegen Sie einen Ihrer Steine auf ein angrenzendes freies Feld. Sie gewinnen, indem Sie so ziehen, dass alle Ihre Steine eine einzige Gruppe aus untereinander angrenzenden Steinen bilden; nur der Spieler, der gerade gezogen hat, kann auf diese Weise gewinnen. Ein Spieler, der keinen legalen Zug hat, verliert.\n\nEin Stein ist _eingeschlossen_, wenn Ihre Steine sich nicht mehr alle über Felder erreichen können, die nicht vom Gegner besetzt sind, weil gegnerische Steine und der Brettrand sie begrenzen. Wenn nach einem Zug beide Spieler eingeschlossene Steine haben, kann keiner mehr alle Steine verbinden und das Spiel endet unentschieden. In der Variante **Kein Einschließen** ist ein Zug, der einen gegnerischen Stein einschließen würde, nicht erlaubt, es sei denn, dieser Zug gewinnt das Spiel direkt.\n\nDer zweite Spieler darf nach dem ersten Zug die Pie-Regel anwenden, um die Seiten zu tauschen."
   },
   "notes.sentinel": {
     "src": "Vigil Games are a class of strategy games in which players must maintain an uninterrupted line of sight between their pieces and a designated reference point or region of the board. The first vigil game on record is 1892's Kastellet.\n\nSentinel is a vigil game where players always need to have at least one line-of-sight to the board's center. Sentinel is the second abstract game of this genre (after more than 130 years!), mixing typical movement and capture ludemes with permanent line-of-sight control of the central square.\n\nThe game mixes forward movement with sowing stacks which are the only way for armies to increase their size.",
@@ -5030,10 +4850,6 @@
   "notes.stapeldammen": {
     "src": "Stapeldammen II is a 1960s game designed by Tim ter Kuile. This is a game from the Bashni family of Checkers games. [Bashni](https://boardgamegeek.com/boardgame/36550/bashni), from 1875, is the first game that uses true stacks (Checkers' Kings are not stacks). This concept became well-known with the much more famous 1911's [Lasca](https://play.abstractplay.com/games/lasca). Stapeldammen is one of the games in this lineage and is, arguably, one of its best designs. It is also one of the games that influenced Christian Freeling and Ed van Zon when designing [Emergo](https://play.abstractplay.com/games/emergo).",
     "out": "Stapeldammen II ist ein Spiel aus den 1960er Jahren, das von Tim ter Kuile entworfen wurde. Es gehört zur Bashni-Familie der Dame-Spiele. [Bashni](https://boardgamegeek.com/boardgame/36550/bashni) aus dem Jahr 1875 ist das erste Spiel, das echte Stapel verwendet (die Damen im Dame-Spiel sind keine Stapel). Dieses Konzept wurde mit dem viel berühmteren [Lasca](https://play.abstractplay.com/games/lasca) von 1911 bekannt. Stapeldammen ist eines der Spiele in dieser Tradition und wohl eines ihrer besten Designs. Es ist auch eines der Spiele, die Christian Freeling und Ed van Zon beim Entwurf von [Emergo](https://play.abstractplay.com/games/emergo) beeinflusst haben."
-  },
-  "notes.stawvs": {
-    "src": "For clarity, the game pieces are represented as circles, though in real life, caps (small pyramids of distinct player colors) are usually used.  The UI will sort and score your trees (trios consisting of one of each pyramid size) for you as in Mega-Volcano, but for reference the point values are: 7 points for each monochrome tree, 5 points for multicolor trees, and 1 point each for loose pyramids.  Except in the variant where final pyramids aren't collected, the pyramids under player pieces are added to the players' collections and scored, but greyed-out pyramids remain on the board under the pieces to clarify the final position.",
-    "out": "Zur Verdeutlichung werden die Spielsteine als Kreise dargestellt, obwohl im echten Leben meist Kappen (kleine Pyramiden in den jeweiligen Spielerfarben) verwendet werden. Die Benutzeroberfläche sortiert und wertet Ihre Bäume (Trios bestehend aus jeweils einer Pyramide jeder Größe) wie in Mega-Volcano für Sie aus. Als Referenz gelten folgende Punktwerte: 7 Punkte für jeden einfarbigen Baum, 5 Punkte für mehrfarbige Bäume und jeweils 1 Punkt für einzelne Pyramiden. Außer in der Variante, in der am Ende keine Pyramiden gesammelt werden, werden die Pyramiden unter den Spielsteinen den Sammlungen der Spieler hinzugefügt und gewertet, aber ausgegraute Pyramiden bleiben unter den Steinen auf dem Brett, um die Endposition zu verdeutlichen."
   },
   "notes.stigmergy": {
     "src": "You control a space if more than half of the lines of sight to it end at a piece of your color. Your score is the sum of the number of pieces of your color on the board and the number of empty spaces you control, plus a komi bonus and a button bonus. The button is used when the komi value plus the number of spaces on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
@@ -5112,8 +4928,8 @@
     "out": "Die Spieler spielen zwei Spiele nacheinander. In der ersten Runde spielt Spieler 1 auf Farben und Spieler 2 auf Höhen. Am Ende der ersten Runde werden die Punkte zusammengezählt und die wertenden Gruppen hervorgehoben. In der zweiten Runde spielt dann Spieler 2 zuerst und spielt auf Farben, während Spieler 1 auf Höhen spielt."
   },
   "notes.witch": {
-    "src": "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses their colour on their first turn, after which, removing your opponent's pieces is no longer possible.",
-    "out": "Der erste Spieler besitzt zu Beginn keine Steine und darf in seinem ersten Zug jeden beliebigen Stein (außer einer Krone) entfernen. Der zweite Spieler wählt in seinem ersten Zug seine Farbe, wonach das Entfernen gegnerischer Steine nicht mehr möglich ist."
+    "src": "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses sun or moon stones on their first turn; both players then appear in those colours. Until then, both seats are grey. Removing your opponent's pieces is no longer possible after affiliations are set.",
+    "out": "Der erste Spieler besitzt zu Beginn keine Steine und darf in seinem ersten Zug einen beliebigen Stein (außer einer Krone) entfernen. Der zweite Spieler wählt in seinem ersten Zug Sonnen- oder Mondsteine; beide Spieler erscheinen daraufhin in diesen Farben. Bis dahin sind beide Plätze grau. Das Entfernen gegnerischer Steine ist nach der Festlegung der Zugehörigkeiten nicht mehr möglich."
   },
   "notes.xana": {
     "src": "Players, on their turns, drop/move a stack (there's a limited amount of stackable pieces) and optionally drop two walls into empty hexes. Stacks without liberties are captured. A stack has liberty if at least one of the adjacent hexes is empty (there is no concept of group of stacks). A hex is accessible if it is empty and connected to a friendly stack by a path of empty hexes. The goal is to build the highest score of territory plus captures. Xana was designed in 2005.",
@@ -5219,10 +5035,6 @@
     "src": "Objective pyramids",
     "out": "Zielpyramiden"
   },
-  "status.amazons.ISOLATEDQUEENS": {
-    "src": "The queens are now isolated",
-    "out": "Die Damen sind jetzt isoliert"
-  },
   "status.amazons.TERRITORY": {
     "src": "Territory",
     "out": "Territorium"
@@ -5266,14 +5078,6 @@
   "status.bashni.STEPS": {
     "src": "Maneuverability",
     "out": "Manövrierfähigkeit"
-  },
-  "status.blam.NUMPIECES_one": {
-    "src": "{{count}} piece",
-    "out": "{{count}} Stein"
-  },
-  "status.blam.NUMPIECES_other": {
-    "src": "{{count}} pieces",
-    "out": "{{count}} Steine"
   },
   "status.blam.SCORE_one": {
     "src": "{{score}} ({{count}} piece)",
@@ -5363,25 +5167,9 @@
     "src": "Barriers remaining",
     "out": "Verbleibende Barrieren"
   },
-  "status.entropy.CHAOS": {
-    "src": "Chaos",
-    "out": "Chaos"
-  },
-  "status.entropy.ORDER": {
-    "src": "Order",
-    "out": "Ordnung"
-  },
   "status.evenatodds.BONEYARD": {
     "src": "Boneyard",
     "out": "Friedhof"
-  },
-  "status.fnap": {
-    "src": "FNAP token",
-    "out": "FNAP-Marker"
-  },
-  "status.focus": {
-    "src": "Controlled",
-    "out": "Kontrolliert"
   },
   "status.guerrilla.G1_SCORE": {
     "src": "Game 1 insurgent score",
@@ -5399,6 +5187,14 @@
     "src": "Insurgents remaining",
     "out": "Verbleibende Aufständische"
   },
+  "status.icepalace.HAND": {
+    "src": "{{player}}'s hand",
+    "out": "Hand von {{player}}"
+  },
+  "status.icepalace.IN_POOL": {
+    "src": "Pyramids in the Pool",
+    "out": "Pyramiden im Pool"
+  },
   "status.icepalace.PLACED": {
     "src": "Pyramids placed",
     "out": "Platzierte Pyramiden"
@@ -5407,9 +5203,9 @@
     "src": "Pyramids left in the Pool",
     "out": "Verbleibende Pyramiden im Pool"
   },
-  "status.jacynth": {
-    "src": "Influence tokens",
-    "out": "Einflussmarker"
+  "status.icepalace.STOCK": {
+    "src": "Pyramids from the Yard, to be built into the Palace",
+    "out": "Pyramiden aus dem Yard, die in den Palast eingebaut werden sollen"
   },
   "status.killallgo.ATTACKER": {
     "src": "Attacker",
@@ -5483,10 +5279,6 @@
     "src": "Moves until suicide",
     "out": "Züge bis zum Selbstmord"
   },
-  "status.majorities": {
-    "src": "Scores (─, ⟋, ⟍)",
-    "out": "Punktestände (─, ⟋, ⟍)"
-  },
   "status.meg.COUNTDOWN": {
     "src": "Plies remaining",
     "out": "Verbleibende Halbzüge"
@@ -5514,14 +5306,6 @@
   "status.pacru.TILES": {
     "src": "Tiles on board",
     "out": "Plättchen auf dem Spielplan"
-  },
-  "status.pontedd.BRIDGES": {
-    "src": "Bridges available",
-    "out": "Verfügbare Brücken"
-  },
-  "status.pontedd.TILES": {
-    "src": "Tiles in hand",
-    "out": "Plättchen auf der Hand"
   },
   "status.queensland.GAME1": {
     "src": "Game 1",
@@ -5591,14 +5375,6 @@
     "src": "Monochrome potential",
     "out": "Monochromes Potenzial"
   },
-  "status.tumbleweed": {
-    "src": "Score (pieces + influence)",
-    "out": "Punktestand (Steine + Einfluss)"
-  },
-  "status.valley": {
-    "src": "Moon Tokens",
-    "out": "Mond-Marker"
-  },
   "status.waldmeister.COLOUR": {
     "src": "colours",
     "out": "Farben"
@@ -5619,6 +5395,10 @@
     "src": "This is the default handler and should never be called directly. Please inform the administrator.",
     "out": "Dies ist der Standard-Handler und sollte nie direkt aufgerufen werden. Bitte informiere den Administrator."
   },
+  "validation._general.DUPLICATE": {
+    "src": "You have already placed a piece at {{where}}.",
+    "out": "Du hast bereits einen Stein bei {{where}} platziert."
+  },
   "validation._general.FAILSAFE": {
     "src": "The move '{{move}}' passed validation but does not appear to be legal. Please inform the administrator.",
     "out": "Der Zug '{{move}}' hat die Validierung bestanden, scheint aber nicht legal zu sein. Bitte informiere den Administrator."
@@ -5631,9 +5411,17 @@
     "src": "This move looks incomplete.",
     "out": "Dieser Zug sieht unvollständig aus."
   },
+  "validation._general.INITIAL_UNDO": {
+    "src": "You can't undo the initial starting position of the game.",
+    "out": "Du kannst die anfängliche Startposition des Spiels nicht rückgängig machen."
+  },
   "validation._general.INVALIDCELL": {
     "src": "Could not find the cell '{{cell}}' on the board.",
     "out": "Feld '{{cell}}' konnte auf dem Spielfeld nicht gefunden werden."
+  },
+  "validation._general.INVALID_DRAGON_TO": {
+    "src": "That dragon cannot move to {{to}}.",
+    "out": "Dieser Drache kann nicht nach {{to}} ziehen."
   },
   "validation._general.INVALID_MOVE": {
     "src": "'{{move}}' doesn't look like a valid move.",
@@ -5643,9 +5431,41 @@
     "src": "{{num}} could not be processed as a number.",
     "out": "{{num}} konnte nicht als Zahl verarbeitet werden."
   },
+  "validation._general.INVALID_PASS": {
+    "src": "You may only pass if you have no other moves available.",
+    "out": "Du darfst nur passen, wenn dir keine anderen Züge zur Verfügung stehen."
+  },
+  "validation._general.INVALID_PLACEMENT": {
+    "src": "Unable to interpret the move notation: {{move}}.",
+    "out": "Die Zugnotation konnte nicht interpretiert werden: {{move}}."
+  },
   "validation._general.MOVE4CAPTURE": {
     "src": "You signalled a regular move, but {{where}} is occupied.",
     "out": "Du hast einen normalen Zug signalisiert, aber {{where}} ist besetzt."
+  },
+  "validation._general.MOVES_GAMEOVER": {
+    "src": "You cannot make moves in concluded games.",
+    "out": "Du kannst in beendeten Spielen keine Züge machen."
+  },
+  "validation._general.MOVES_INVALID": {
+    "src": "The move '{{move}}' is invalid. Please check the rules and try again.",
+    "out": "Der Zug '{{move}}' ist ungültig. Bitte überprüfe die Regeln und versuche es erneut."
+  },
+  "validation._general.MOVES_SIMULTANEOUS_PARTIAL": {
+    "src": "In simultaneous games, both players' moves must be submitted at the same time.",
+    "out": "In simultanen Spielen müssen die Züge beider Spieler gleichzeitig übermittelt werden."
+  },
+  "validation._general.MOVE_EMPTY": {
+    "src": "You must move to an empty cell.",
+    "out": "Du musst auf ein leeres Feld ziehen."
+  },
+  "validation._general.MOVE_OCCUPIED": {
+    "src": "You must move to an occupied cell.",
+    "out": "Du musst auf ein besetztes Feld ziehen."
+  },
+  "validation._general.MOVE_OPP": {
+    "src": "You cannot move onto an opponent's piece.",
+    "out": "Du kannst nicht auf eine gegnerische Figur ziehen."
   },
   "validation._general.NEED_DESTINATION": {
     "src": "Provide the destination.",
@@ -5662,6 +5482,10 @@
   "validation._general.NOPIECES": {
     "src": "You have no pieces to place.",
     "out": "Du hast keine Steine zum Einsetzen."
+  },
+  "validation._general.NORMALISE": {
+    "src": "The move needs to be normalised. Try {{normalised}}.",
+    "out": "Der Zug muss normalisiert werden. Versuche {{normalised}}."
   },
   "validation._general.NOT_ORTH": {
     "src": "The cells {{from}} and {{to}} are not orthogonal to each other.",
@@ -5683,6 +5507,18 @@
     "src": "The cell {{where}} is already occupied.",
     "out": "Das Feld {{where}} ist bereits besetzt."
   },
+  "validation._general.OCCUPIED_MOVE": {
+    "src": "The piece must move to an occupied space.",
+    "out": "Die Figur muss auf ein besetztes Feld ziehen."
+  },
+  "validation._general.PLACEMENT_MADE": {
+    "src": "You have already made a move at {{where}}.",
+    "out": "Du hast bereits einen Zug bei {{where}} gemacht."
+  },
+  "validation._general.SAME_CELL": {
+    "src": "You have already placed at {{cell}}.",
+    "out": "Du hast bereits bei {{cell}} platziert."
+  },
   "validation._general.SAME_FROM_TO": {
     "src": "The 'from' and 'to' cells have to be different.",
     "out": "Start- und Zielfeld müssen unterschiedlich sein."
@@ -5703,6 +5539,10 @@
     "src": "I don't know how to interpret that click.",
     "out": "Dieser Klick kann nicht interpretiert werden."
   },
+  "validation._general.UNOCCUPIED": {
+    "src": "The cell {{where}} is not occupied.",
+    "out": "Das Feld {{where}} ist nicht besetzt."
+  },
   "validation._general.VALID_MOVE": {
     "src": "Looks like a valid move.",
     "out": "Sieht nach einem gültigen Zug aus."
@@ -5718,10 +5558,6 @@
   "validation._inarow.CENTRE_OFFCENTRE": {
     "src": "You must place your first stone in the centre of the board in the normal opening.",
     "out": "In der normalen Eröffnung musst du deinen ersten Stein in die Mitte des Spielfelds setzen."
-  },
-  "validation._inarow.DUPLICATE": {
-    "src": "You have already placed a piece at {{where}}.",
-    "out": "Du hast bereits einen Stein bei {{where}} platziert."
   },
   "validation._inarow.EXCESS": {
     "src": "You have placed too many stones. You may only place 1 stone.",
@@ -5775,10 +5611,6 @@
     "src": "Select an intersection to place a stone, or pass to swap colours.",
     "out": "Wähle einen Schnittpunkt, um einen Stein zu platzieren, oder passe, um die Farben zu tauschen."
   },
-  "validation._inarow.INVALID_PLACEMENT": {
-    "src": "Unable to interpret the move notation: {{move}}.",
-    "out": "Die Zugnotation konnte nicht interpretiert werden: {{move}}."
-  },
   "validation._inarow.LONGPRO_RESTRICTION_FIRST": {
     "src": "You must place your first stone in the centre of the board in the long pro opening.",
     "out": "In der Long-Pro-Eröffnung musst du deinen ersten Stein in die Mitte des Spielfelds setzen."
@@ -5786,10 +5618,6 @@
   "validation._inarow.LONGPRO_RESTRICTION_THIRD": {
     "src": "Your third stone must be at least four intersections away from the centre of the board in the long pro opening.",
     "out": "Dein dritter Stein muss in der Long-Pro-Eröffnung mindestens vier Schnittpunkte von der Mitte des Spielfelds entfernt sein."
-  },
-  "validation._inarow.NORMALISE": {
-    "src": "The move needs to be normalised. Try {{normalised}}.",
-    "out": "Der Zug muss normalisiert werden. Versuche {{normalised}}."
   },
   "validation._inarow.NO_MOVELIST": {
     "src": "Move list not available during this opening move. Click on the board to place stones.",
@@ -5802,6 +5630,10 @@
   "validation._inarow.PRO_RESTRICTION_THIRD": {
     "src": "Your third stone must be at least three intersections away from the centre of the board in the pro opening.",
     "out": "Dein dritter Stein muss in der Pro-Eröffnung mindestens drei Schnittpunkte von der Mitte des Spielfelds entfernt sein."
+  },
+  "validation._inarow.SELF_CAPTURE_FORBIDDEN": {
+    "src": "In this variant, you may not make a placement that results in a self-capture.",
+    "out": "In dieser Variante darfst du keine Platzierung vornehmen, die zu einem Selbstschlag führt."
   },
   "validation._inarow.SWAP21_EXCESS": {
     "src": "You have placed too many stones. You may only place 3 stones.",
@@ -5942,10 +5774,6 @@
   "validation.acity.INITIAL_INSTRUCTIONS": {
     "src": "Select a piece from your stash, or type 'pass' if you have no legal moves remaining.",
     "out": "Wähle ein Bauwerk aus deinem Vorrat oder gib 'pass' ein, wenn du keine legalen Züge mehr hast."
-  },
-  "validation.acity.INVALID_PASS": {
-    "src": "You may only pass if you have no other moves available.",
-    "out": "Du darfst nur passen, wenn dir keine anderen Züge zur Verfügung stehen."
   },
   "validation.acity.INVALID_PIECE": {
     "src": "You don't have {{piece}} in your stash to place.",
@@ -6126,14 +5954,6 @@
   "validation.akimbo.INSTRUCTIONS_OKIMBA": {
     "src": "Select a point to place a piece. There must be only have one naked diagonal in the entire board.",
     "out": "Wähle einen Punkt zum Platzieren eines Steins. Es darf nur eine unbedeckte Diagonale auf dem gesamten Spielplan geben."
-  },
-  "validation.akimbo.NO_CROSSINGS": {
-    "src": "Lines may not cross.",
-    "out": "Linien dürfen sich nicht kreuzen."
-  },
-  "validation.akimbo.OCCUPIED": {
-    "src": "Select an empty cell to place a friendly piece.",
-    "out": "Wähle ein leeres Feld, um einen eigenen Stein zu platzieren."
   },
   "validation.akron.CANNOT_MOVE": {
     "src": "The selected ball at {{where}} cannot be moved.",
@@ -6338,14 +6158,6 @@
   "validation.anache.INVALID_DIR": {
     "src": "The direction {{dir}} is not a valid direction to move the group to.",
     "out": "Die Richtung {{dir}} ist keine gültige Richtung zum Bewegen der Gruppe."
-  },
-  "validation.anache.INVALID_DRAGON_TO": {
-    "src": "The destination space {{to}} is invalid.",
-    "out": "Das Zielfeld {{to}} ist ungültig."
-  },
-  "validation.anache.NORMALISE": {
-    "src": "The move needs to be normalised. Try {{normalised}}.",
-    "out": "Der Zug muss normalisiert werden. Versuche {{normalised}}."
   },
   "validation.anache.NOT_CONNECTED": {
     "src": "The selected group is not connected.",
@@ -7115,10 +6927,6 @@
     "src": "Select the cell where you want to place the card.",
     "out": "Wähle das Feld, auf das du die Karte legen möchtest."
   },
-  "validation.bitesize.CANNOT_PASS": {
-    "src": "Cannot pass, there are still valid placements (like {{move}})!",
-    "out": "Passen nicht möglich, es gibt noch gültige Platzierungen (wie {{move}})!"
-  },
   "validation.bitesize.GROUP_TOO_LARGE": {
     "src": "This placement would make a creature bigger than four pieces!",
     "out": "Diese Platzierung würde eine Kreatur größer als vier Steine machen!"
@@ -7142,10 +6950,6 @@
   "validation.blam.NOPIECE": {
     "src": "You do not have a piece of size {{size}} to place.",
     "out": "Du hast keinen Stein der Größe {{size}} zum Platzieren."
-  },
-  "validation.blam.PARTIAL": {
-    "src": "Provide the destination.",
-    "out": "Gib das Ziel an."
   },
   "validation.blam.SIZEFIRST": {
     "src": "First provide the size of the piece to place. You can click on your stash.",
@@ -7379,10 +7183,6 @@
     "src": "Pieces may only move forward.",
     "out": "Steine dürfen sich nur vorwärts bewegen."
   },
-  "validation.breakthrough.PARTIAL": {
-    "src": "Provide the destination.",
-    "out": "Gib das Ziel an."
-  },
   "validation.breakthrough.TOOFAR": {
     "src": "Pieces can only move one space at a time.",
     "out": "Steine können sich jeweils nur ein Feld weit bewegen."
@@ -7531,10 +7331,6 @@
     "src": "The move {{move}} is invalid.",
     "out": "Der Zug {{move}} ist ungültig."
   },
-  "validation.buku.NORMALISE": {
-    "src": "The move needs to be normalised. Try '{{normalised}}'.",
-    "out": "Der Zug muss normalisiert werden. Versuche '{{normalised}}'."
-  },
   "validation.buku.NOT_NEIGHBOURS": {
     "src": "The cells {{curr}} and {{prev}} are not neighbours.",
     "out": "Die Felder {{curr}} und {{prev}} sind keine Nachbarn."
@@ -7582,10 +7378,6 @@
   "validation.byte.INVALID_INDEX": {
     "src": "There is no checker at position {{index}} in the stack at {{where}}.",
     "out": "An Position {{index}} im Stapel bei {{where}} befindet sich kein Stein."
-  },
-  "validation.byte.INVALID_MERGE": {
-    "src": "When merging stacks, the destination space must be occupied",
-    "out": "Beim Zusammenfügen von Stapeln muss das Zielfeld besetzt sein"
   },
   "validation.byte.INVALID_MVMT": {
     "src": "When moving whole stacks, the destination space must be empty.",
@@ -7739,10 +7531,6 @@
     "src": "You have a piece in your own castle at {{where}}. You must move it out of the castle.",
     "out": "Du hast eine Figur in deiner eigenen Burg bei {{where}}. Du musst sie aus der Burg herausbewegen."
   },
-  "validation.camelot.IN_OWN_CASTLE": {
-    "src": "You must move the piece at {{where}} out of your own castle.",
-    "out": "Du musst die Figur bei {{where}} aus deiner eigenen Burg herausbewegen."
-  },
   "validation.camelot.JUMP_NOTATION": {
     "src": "The move from {{from}} to {{to}} is a jump move. Use the notation 'x' to indicate a jump.",
     "out": "Der Zug von {{from}} nach {{to}} ist ein Sprungzug. Verwende die Notation 'x', um einen Sprung anzuzeigen."
@@ -7766,10 +7554,6 @@
   "validation.camelot.NEED_TO_JUMP": {
     "src": "You have to continue making a capture.",
     "out": "Du musst das Schlagen fortsetzen."
-  },
-  "validation.camelot.NORMALISED": {
-    "src": "The move needs to be normalised. Try {{normalised}}.",
-    "out": "Der Zug muss normalisiert werden. Versuche {{normalised}}."
   },
   "validation.camelot.NOT_TREE_PLACEABLE": {
     "src": "You may not place a tree at {{where}}.",
@@ -7923,10 +7707,6 @@
     "src": "Continue your move.",
     "out": "Setze deinen Zug fort."
   },
-  "validation.carnac.INVALID_HOLE_ORIENTATION": {
-    "src": "{{orient}} is not valid at {{where}} — enclosed spaces only allow south face colour 1 (11 or 21).",
-    "out": "{{orient}} ist bei {{where}} nicht gültig — umschlossene Felder erlauben nur die Südseitenfarbe 1 (11 oder 21)."
-  },
   "validation.carnac.INVALID_ORIENTATION": {
     "src": "{{orient}} is not a valid placement (use top+front digits 11, 12, 21, or 22).",
     "out": "{{orient}} ist keine gültige Platzierung (verwende Oben+Vorne-Ziffern 11, 12, 21 oder 22)."
@@ -7942,10 +7722,6 @@
   "validation.carnac.NOT_PLACE_PHASE": {
     "src": "You must tip and place or pass; you cannot place a megalith now.",
     "out": "Du musst kippen und platzieren oder passen; du kannst jetzt keinen Megalithen platzieren."
-  },
-  "validation.carnac.NOT_TIP_PHASE": {
-    "src": "You cannot tip a megalith now.",
-    "out": "Du kannst jetzt keinen Megalithen kippen."
   },
   "validation.carnac.NO_RESERVE": {
     "src": "There are no megaliths left in the reserve.",
@@ -7990,10 +7766,6 @@
   "validation.catapult.PARTIAL_DAGGER": {
     "src": "Looks like a valid move. Because you have the dagger, you may make a second move now and pass the dagger to your opponent, or you may click the \"Complete move\" button to pass the turn and retain the dagger for later.",
     "out": "Sieht nach einem gültigen Zug aus. Da du den Dolch hast, kannst du jetzt einen zweiten Zug machen und den Dolch an deinen Gegner weitergeben, oder du kannst auf die Schaltfläche \"Zug abschließen\" klicken, um den Zug zu beenden und den Dolch für später zu behalten."
-  },
-  "validation.catchup.DUPLICATE": {
-    "src": "You have already placed a piece at {{where}}.",
-    "out": "Du hast bereits einen Stein bei {{where}} platziert."
   },
   "validation.catchup.INITIAL_INSTRUCTIONS_one": {
     "src": "Place {{count}} piece on the board.",
@@ -8227,10 +7999,6 @@
     "src": "Lines may only cross if the group created by the piece placed is larger than each individual opposing group in the crosscut.",
     "out": "Linien dürfen sich nur kreuzen, wenn die durch den platzierten Stein entstandene Gruppe größer ist als jede einzelne gegnerische Gruppe im Kreuzungspunkt."
   },
-  "validation.clearcut.BAD_PASS": {
-    "src": "You may not pass if legal moves are available.",
-    "out": "Du darfst nicht passen, wenn legale Züge verfügbar sind."
-  },
   "validation.clearcut.INITIAL_INSTRUCTIONS": {
     "src": "Select a point to place a piece.",
     "out": "Wähle einen Punkt, um einen Stein zu platzieren."
@@ -8367,10 +8135,6 @@
     "src": "Move list not available for this game. Click on the board to place stones.",
     "out": "Zugliste für dieses Spiel nicht verfügbar. Klicke auf das Brett, um Steine zu platzieren."
   },
-  "validation.connect6.ONE_MORE": {
-    "src": "Place 1 more stone on the board.",
-    "out": "Platziere 1 weiteren Stein auf dem Brett."
-  },
   "validation.connect6.SWAP3RD2_INVALID": {
     "src": "You may only place your stones in the centre 5x5 area for the second move in the swap-3rd opening.",
     "out": "Für den zweiten Zug in der Swap-3rd-Eröffnung darfst du deine Steine nur im zentralen 5x5-Bereich platzieren."
@@ -8394,10 +8158,6 @@
   "validation.connecticut.INVALID_TO": {
     "src": "You may not place a triomino at {{from}}-{{to}}.",
     "out": "Du darfst kein Triomino auf {{from}}-{{to}} platzieren."
-  },
-  "validation.connecticut.NORMALISE": {
-    "src": "The move needs to be normalised. Try {{normalised}}.",
-    "out": "Der Zug muss normalisiert werden. Versuche {{normalised}}."
   },
   "validation.connecticut.PARTIAL": {
     "src": "You may select another vertex to complete a 1x3 triomino, or complete the move to finish your turn with the single piece.",
@@ -8519,10 +8279,6 @@
     "src": "You cannot replace a piece on {{cell}}. You do not control the space.",
     "out": "Du kannst den Stein auf {{cell}} nicht ersetzen. Du kontrollierst dieses Feld nicht."
   },
-  "validation.crosscontrol.INVALIDBUTTON": {
-    "src": "The button is already taken or is not in use this game.",
-    "out": "Der Button ist bereits vergeben oder wird in diesem Spiel nicht verwendet."
-  },
   "validation.crosscontrol.INVALIDKOMI": {
     "src": "You must choose a number of points for the second mover to start with. You may not offer a komi greater than the number of cells on the board plus one.",
     "out": "Du musst eine Punktzahl wählen, mit der der zweite Spieler startet. Du darfst kein Komi anbieten, das größer ist als die Anzahl der Felder auf dem Brett plus eins."
@@ -8631,10 +8387,6 @@
     "src": "Click an adjacent cell to choose which direction your plane will face.",
     "out": "Klicke auf ein angrenzendes Feld, um auszuwählen, in welche Richtung dein Flugzeug zeigen soll."
   },
-  "validation.crosshairs.PARTIAL_MOVE": {
-    "src": "Continue selecting the move destination and direction.",
-    "out": "Setze die Auswahl von Bewegungsziel und -richtung fort."
-  },
   "validation.crosshairs.PARTIAL_MOVEMENT": {
     "src": "Click an adjacent cell to choose which direction your plane will face after moving.",
     "out": "Klicke auf ein angrenzendes Feld, um auszuwählen, in welche Richtung dein Flugzeug nach dem Zug zeigen soll."
@@ -8654,10 +8406,6 @@
   "validation.crosshairs.PLACE_CLOUD_UNBOUNDED": {
     "src": "Click on an empty cell to place a cloud.",
     "out": "Klicke auf ein leeres Feld, um eine Wolke zu platzieren."
-  },
-  "validation.crossway.BAD_PASS": {
-    "src": "You may not pass if legal moves are available.",
-    "out": "Du darfst nicht passen, wenn legale Züge verfügbar sind."
   },
   "validation.crossway.INITIAL_INSTRUCTIONS": {
     "src": "Select a point to place a piece.",
@@ -8699,14 +8447,6 @@
     "src": "Place a piece on a dark square or move a piece one square orthogonally.",
     "out": "Setze einen Stein auf ein dunkles Feld oder bewege einen Stein um ein Feld orthogonal."
   },
-  "validation.dagnacht.MOVE_EMPTY": {
-    "src": "There is no piece at {{where}} to move.",
-    "out": "Auf {{where}} befindet sich kein Stein zum Ziehen."
-  },
-  "validation.dagnacht.MOVE_OCCUPIED": {
-    "src": "You can only move a piece to an empty square. There is already a piece at {{where}}.",
-    "out": "Du kannst einen Stein nur auf ein leeres Feld ziehen. Auf {{where}} befindet sich bereits ein Stein."
-  },
   "validation.dagnacht.NOT_BLACK": {
     "src": "You can only place pieces on dark squares.",
     "out": "Du kannst Steine nur auf dunkle Felder setzen."
@@ -8714,10 +8454,6 @@
   "validation.dagnacht.NOT_ORTH_ADJ": {
     "src": "You can only move pieces one square orthogonally.",
     "out": "Du kannst Steine nur um ein Feld orthogonal bewegen."
-  },
-  "validation.dagnacht.OCCUPIED": {
-    "src": "You must place a piece on an empty square. There is already a piece at {{where}}.",
-    "out": "Du musst einen Stein auf ein leeres Feld setzen. Auf {{where}} befindet sich bereits ein Stein."
   },
   "validation.dagnacht.PARTIAL_MOVE": {
     "src": "Looks like you would like to move the piece at {{cell}}. Provide the destination.",
@@ -9307,10 +9043,6 @@
     "src": "You cannot move the workers such that you have no valid placements available.",
     "out": "Du kannst die Arbeiter nicht so bewegen, dass du keine gültigen Platzierungen mehr zur Verfügung hast."
   },
-  "validation.fabrik.PARTIAL_MOVE": {
-    "src": "Provide the destination.",
-    "out": "Gib das Ziel an."
-  },
   "validation.fabrik.PARTIAL_PLACE": {
     "src": "Choose a cell to place a piece in.",
     "out": "Wähle ein Feld, um einen Stein zu platzieren."
@@ -9395,10 +9127,6 @@
     "src": "Provide the direction where you wish to place a fence. If clicking, click on the adjacent cell you want to block.",
     "out": "Gib die Richtung an, in der du einen Zaun platzieren möchtest. Wenn du klickst, klicke auf das benachbarte Feld, das du blockieren möchtest."
   },
-  "validation.fendo.PARTIAL_MOVE": {
-    "src": "Provide the destination.",
-    "out": "Gib das Ziel an."
-  },
   "validation.fendo.PLACE_IN_OPEN": {
     "src": "You may only place pieces in the open area.",
     "out": "Du darfst Steine nur im offenen Bereich platzieren."
@@ -9414,10 +9142,6 @@
   "validation.fightopia.BAD_CAPTURE_tank": {
     "src": "Tanks can only be captured if they are in direct contact with the enemy giant.",
     "out": "Panzer können nur geschlagen werden, wenn sie in direktem Kontakt mit dem gegnerischen Riesen stehen."
-  },
-  "validation.fightopia.FRIENDLY_FIRE": {
-    "src": "You may not capture your own pieces.",
-    "out": "Du darfst deine eigenen Steine nicht schlagen."
   },
   "validation.fightopia.INITIAL_INSTRUCTIONS": {
     "src": "Select one of your own pieces to move, or select the opposing piece to capture. If moving/pivoting a tank, it matters which end you click on.",
@@ -9551,10 +9275,6 @@
     "src": "The piece must capture by replacement any opponent piece!",
     "out": "Der Stein muss durch Ersetzen einen beliebigen gegnerischen Stein schlagen!"
   },
-  "validation.forms.INVALID_NUM_GROUPS": {
-    "src": "A move must create at least two separate groups of pieces!",
-    "out": "Ein Zug muss mindestens zwei getrennte Gruppen von Steinen erzeugen!"
-  },
   "validation.forms.INVALID_SELECTION": {
     "src": "Click on a friendly piece!",
     "out": "Klicke auf einen eigenen Stein!"
@@ -9574,10 +9294,6 @@
   "validation.four.LABEL_SELECTED": {
     "src": "Selected piece",
     "out": "Ausgewählter Stein"
-  },
-  "validation.four.LABEL_STASH": {
-    "src": "{{player}}'s stash",
-    "out": "{{player}}s Vorrat"
   },
   "validation.four.MUST_CONNECT": {
     "src": "Each piece placed after the first must orthogonally connect to at least one other piece.",
@@ -9687,10 +9403,6 @@
     "src": "Click an empty cell to add a piece to the board.",
     "out": "Klicke auf ein freies Feld, um einen Stein zum Brett hinzuzufügen."
   },
-  "validation.frogger.ADDITIONAL_INSTRUCTIONS": {
-    "src": "You may make up to three moves. Choose another card or frog to start another move, or press the complete move button to finish your turn.",
-    "out": "Du kannst bis zu drei Züge machen. Wähle eine andere Karte oder einen anderen Frosch, um einen weiteren Zug zu beginnen, oder drücke die Schaltfläche zum Beenden des Zugs, um deinen Zug abzuschließen."
-  },
   "validation.frogger.CARD_FIRST": {
     "src": "Please select a hand card before moving a frog forward.",
     "out": "Bitte wähle eine Handkarte aus, bevor du einen Frosch vorwärts bewegst."
@@ -9735,10 +9447,6 @@
     "src": "The move '{{move}}' could not be parsed.",
     "out": "Der Zug '{{move}}' konnte nicht verarbeitet werden."
   },
-  "validation.frogger.INVALID_NON-MOVE": {
-    "src": "Unless you're blocked, you must move a frog on each of your moves.",
-    "out": "Sofern du nicht blockiert bist, musst du in jedem deiner Teilzüge einen Frosch bewegen."
-  },
   "validation.frogger.LABEL_DISCARDS": {
     "src": "Discard pile",
     "out": "Ablagestapel"
@@ -9775,10 +9483,6 @@
     "src": "You must pass to allow another player to complete their turn.",
     "out": "Du musst passen, damit ein anderer Spieler seinen Zug beenden kann."
   },
-  "validation.frogger.NOT_BLOCKED": {
-    "src": "You're not blocked, so you must move back before claiming a pool card.",
-    "out": "Du bist nicht blockiert, daher musst du dich zurückbewegen, bevor du eine Pool-Karte nimmst."
-  },
   "validation.frogger.NO_CARDS_BLOCKED": {
     "src": "If, at the start of your turn, you have no hand cards, none of your frogs can move back, and if the draw pool is empty, you must pass.",
     "out": "Wenn du zu Beginn deines Zugs keine Handkarten hast, keiner deiner Frösche zurückziehen kann und der Auslagen-Pool leer ist, musst du passen."
@@ -9814,10 +9518,6 @@
   "validation.frogger.NO_SUCH_MARKET_CARD": {
     "src": "The card \"{{card}}\" does not appear to be in the draw pool.",
     "out": "Die Karte \"{{card}}\" befindet sich scheinbar nicht im Auslagen-Pool."
-  },
-  "validation.frogger.OCCUPIED": {
-    "src": "Only one frog per suit space.",
-    "out": "Nur ein Frosch pro Farbfeld."
   },
   "validation.frogger.OFFSIDES": {
     "src": "Please click on your desired suit space, not the informational icons on the top row.",
@@ -10018,10 +9718,6 @@
   "validation.go.INVALID_PASS": {
     "src": "You cannot pass currently.",
     "out": "Du kannst derzeit nicht passen."
-  },
-  "validation.go.INVALID_PIE": {
-    "src": "You cannot accept or reject a pie offer now.",
-    "out": "Du kannst jetzt kein Pie-Angebot annehmen oder ablehnen."
   },
   "validation.go.INVALID_PLAYSECOND": {
     "src": "You cannot choose to play second from this board state.",
@@ -10283,6 +9979,126 @@
     "src": "Select an empty cell. If you select a perimeter cell, the mirror piece will be placed automatically.",
     "out": "Wähle ein leeres Feld. Wenn du ein Randfeld auswählst, wird die Spiegel-Figur automatisch platziert."
   },
+  "validation.homeworlds.CMD_ATK_OWNER": {
+    "src": "In games with more than two players, you have to always specify the owner of the ship you are attacking.",
+    "out": "In Spielen mit mehr als zwei Spielern müssen Sie immer den Besitzer des Schiffs angeben, das Sie angreifen."
+  },
+  "validation.homeworlds.CMD_ATK_SELF": {
+    "src": "You may not attack yourself.",
+    "out": "Sie dürfen sich nicht selbst angreifen."
+  },
+  "validation.homeworlds.CMD_ATK_SIZE": {
+    "src": "You don't have a ship large enough to attack the ship {{target}}.",
+    "out": "Sie besitzen kein Schiff, das groß genug ist, um das Schiff {{target}} anzugreifen."
+  },
+  "validation.homeworlds.CMD_BUILD_TEMPLATE": {
+    "src": "You do not have a model from which to build a new ship.",
+    "out": "Sie besitzen kein Modell, aus dem Sie ein neues Schiff bauen könnten."
+  },
+  "validation.homeworlds.CMD_CATA_INVALID": {
+    "src": "There is no overpopulation of {{colour}} in the {{system}} system.",
+    "out": "Es gibt keine Überbevölkerung von {{colour}} im System {{system}}."
+  },
+  "validation.homeworlds.CMD_DISC_DOUBLE": {
+    "src": "A system by the name {{name}} has already been charted.",
+    "out": "Ein System mit dem Namen {{name}} wurde bereits kartografiert."
+  },
+  "validation.homeworlds.CMD_HOME_COLOURS": {
+    "src": "You're requesting a home world with fewer than three technologies available. This is almost never wise. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
+    "out": "Sie fordern eine Heimatwelt mit weniger als drei verfügbaren Technologien an. Das ist fast nie ratsam. Wenn Sie sicher sind, senden Sie den Befehl erneut und setzen Sie ein Sternchen (*) ans Ende."
+  },
+  "validation.homeworlds.CMD_HOME_DOUBLE": {
+    "src": "You already have a home world.",
+    "out": "Sie besitzen bereits eine Heimatwelt."
+  },
+  "validation.homeworlds.CMD_HOME_RHO_DIRECT": {
+    "src": "Your homeworld is directly connected to your right-hand opponent (none of your homeworld stars are the same size as theirs). This creates what's called a \"microverse,\" and it is not recommended for new players. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
+    "out": "Ihre Heimatwelt ist direkt mit Ihrem rechten Gegenspieler verbunden (keiner der Sterne Ihrer Heimatwelt hat dieselbe Größe wie dessen Sterne). Dies erzeugt ein sogenanntes \"Mikroversum\" und wird für neue Spieler nicht empfohlen. Wenn Sie sicher sind, senden Sie den Befehl erneut und setzen Sie ein Sternchen (*) ans Ende."
+  },
+  "validation.homeworlds.CMD_HOME_RHO_SMALL": {
+    "src": "You are choosing to put yourself only two jumps away from your right-hand opponent (what's called a \"small\" universe), but it's possible for you to create a \"large\" universe (putting your right-hand opponent at the maximum three jumps away) if you choose one of your opponent's star sizes and the size their homeworld does *not* include. For new players, starting with a large universe is recommended. If you're sure you want a small universe, resubmit the command and put an asterisk (*) at the end of it.",
+    "out": "Sie wählen eine Position, die nur zwei Sprünge von Ihrem rechten Gegenspieler entfernt ist (ein sogenanntes \"kleines\" Universum), aber Sie könnten ein \"großes\" Universum erstellen (wodurch Ihr rechter Gegenspieler maximal drei Sprünge entfernt ist), wenn Sie eine der Sterngrößen Ihres Gegners wählen, die dessen Heimatwelt *nicht* enthält. Für neue Spieler wird der Start in einem großen Universum empfohlen. Wenn Sie sicher sind, dass Sie ein kleines Universum möchten, senden Sie den Befehl erneut und setzen Sie ein Sternchen (*) ans Ende."
+  },
+  "validation.homeworlds.CMD_HOME_SINGLE": {
+    "src": "You're requesting a home world with only one star. This puts you at a strong disadvantage. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
+    "out": "Sie fordern eine Heimatwelt mit nur einem Stern an. Dies bringt Ihnen einen starken Nachteil. Wenn Sie sicher sind, senden Sie den Befehl erneut und setzen Sie ein Sternchen (*) ans Ende."
+  },
+  "validation.homeworlds.CMD_HOME_SMALLSHIP": {
+    "src": "You are requesting a home world without a large ship. This puts you at a disadvantage. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
+    "out": "Sie fordern eine Heimatwelt ohne großes Schiff an. Dies bringt Ihnen einen Nachteil. Wenn Sie sicher sind, senden Sie den Befehl erneut und setzen Sie ein Sternchen (*) ans Ende."
+  },
+  "validation.homeworlds.CMD_HOME_TECHS": {
+    "src": "You're requesting a home world that does not contain Green or Blue technologies. This is almost never wise. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
+    "out": "Sie fordern eine Heimatwelt an, die keine grünen oder blauen Technologien enthält. Das ist fast nie ratsam. Wenn Sie sicher sind, senden Sie den Befehl erneut und setzen Sie ein Sternchen (*) ans Ende."
+  },
+  "validation.homeworlds.CMD_MOVE_CONNECTION": {
+    "src": "The systems {{from}} and {{to}} are not connected. You can only travel between systems that do not share any of the same-sized stars.",
+    "out": "Die Systeme {{from}} und {{to}} sind nicht verbunden. Sie können nur zwischen Systemen reisen, die keine gleich großen Sterne teilen."
+  },
+  "validation.homeworlds.CMD_NOACTIONS": {
+    "src": "You have no actions remaining.",
+    "out": "Sie haben keine Aktionen mehr übrig."
+  },
+  "validation.homeworlds.CMD_NOACTIONS_B": {
+    "src": "You have no more trade actions remaining.",
+    "out": "Sie haben keine Handelsaktionen mehr übrig."
+  },
+  "validation.homeworlds.CMD_NOACTIONS_G": {
+    "src": "You have no construction actions remaining.",
+    "out": "Sie haben keine Bauaktionen mehr übrig."
+  },
+  "validation.homeworlds.CMD_NOACTIONS_R": {
+    "src": "You do not have any attack actions remaining.",
+    "out": "Sie haben keine Angriffsaktionen mehr übrig."
+  },
+  "validation.homeworlds.CMD_NOACTIONS_Y": {
+    "src": "You have no movement actions remaining.",
+    "out": "Sie haben keine Bewegungsaktionen mehr übrig."
+  },
+  "validation.homeworlds.CMD_NOSYSTEM": {
+    "src": "Could not find a system with the name {{system}}.",
+    "out": "Ein System mit dem Namen {{system}} konnte nicht gefunden werden."
+  },
+  "validation.homeworlds.CMD_NOTECH_B": {
+    "src": "You do not have access to refurbishers (BLUE) in this system.",
+    "out": "Sie haben in diesem System keinen Zugriff auf Umrüster (BLAU)."
+  },
+  "validation.homeworlds.CMD_NOTECH_G": {
+    "src": "You do not have access to shipyards (GREEN) in this system.",
+    "out": "Sie haben in diesem System keinen Zugriff auf Werften (GRÜN)."
+  },
+  "validation.homeworlds.CMD_NOTECH_R": {
+    "src": "You do not have access to weapons technology (RED) in this system.",
+    "out": "Sie haben in diesem System keinen Zugriff auf Waffentechnologie (ROT)."
+  },
+  "validation.homeworlds.CMD_NOTECH_Y": {
+    "src": "You do not have access to propulsion technology (YELLOW) in this system.",
+    "out": "Sie haben in diesem System keinen Zugriff auf Antriebstechnologie (GELB)."
+  },
+  "validation.homeworlds.CMD_PARAMETERS": {
+    "src": "The wrong number of parameters were provided.",
+    "out": "Es wurde eine falsche Anzahl von Parametern angegeben."
+  },
+  "validation.homeworlds.CMD_PASS_FREE": {
+    "src": "You may not pass your free action.",
+    "out": "Sie dürfen Ihre freie Aktion nicht passen."
+  },
+  "validation.homeworlds.CMD_PASS_TOOMANY": {
+    "src": "You tried to pass more actions than you have remaining.",
+    "out": "Sie haben versucht, mehr Aktionen zu passen, als Ihnen verbleiben."
+  },
+  "validation.homeworlds.CMD_STARSHIP_NAME": {
+    "src": "The following ship/star designation could not be understood: {{arg}}.",
+    "out": "Die folgende Schiff/Stern-Bezeichnung konnte nicht verstanden werden: {{arg}}."
+  },
+  "validation.homeworlds.CMD_TRADE_DOUBLE": {
+    "src": "You can't trade a ship for one of the same colour.",
+    "out": "Sie können ein Schiff nicht gegen ein Schiff derselben Farbe tauschen."
+  },
+  "validation.homeworlds.CMD_TRADE_NOSIZE": {
+    "src": "There is no size {{size}} piece in the colour {{colour}}.",
+    "out": "Es gibt kein Spielstein der Größe {{size}} in der Farbe {{colour}}."
+  },
   "validation.homeworlds.INITIAL_INSTRUCTIONS_fresh": {
     "src": "You need to establish a homeworld. Choose a piece from the global stash to be your first star.",
     "out": "Du musst eine Heimatwelt gründen. Wähle eine Figur aus dem allgemeinen Vorrat als deinen ersten Stern."
@@ -10291,6 +10107,18 @@
     "src": "Click the ship you want to move, build, or trade, or select an enemy ship to attack. Click the 'Sacrifice' button to sacrifice a ship.",
     "out": "Klicke auf das Schiff, das du bewegen, bauen oder tauschen möchtest, oder wähle ein gegnerisches Schiff zum Angreifen aus. Klicke auf die Schaltfläche 'Opfern', um ein Schiff zu opfern."
   },
+  "validation.homeworlds.MOVE_MOREACTIONS": {
+    "src": "You still have actions to spend.",
+    "out": "Sie haben noch Aktionen auszuführen."
+  },
+  "validation.homeworlds.MOVE_SELFELIMINATE": {
+    "src": "You may not eliminate yourself.",
+    "out": "Sie dürfen sich nicht selbst eliminieren."
+  },
+  "validation.homeworlds.MOVE_UNRECOGNIZED": {
+    "src": "Unrecognized command: {{cmd}}.",
+    "out": "Unbekannter Befehl: {{cmd}}."
+  },
   "validation.homeworlds.NEW_FRIENDLY_PARTIAL": {
     "src": "To move, click the destination system or the void between systems. To build, click the same ship again. To trade, click a piece of the new colour in the stash.",
     "out": "Um dich zu bewegen, klicke auf das Zielsystem oder den leeren Raum zwischen Systemen. Um zu bauen, klicke erneut auf dasselbe Schiff. Um zu tauschen, klicke auf eine Figur der neuen Farbe im Vorrat."
@@ -10298,6 +10126,22 @@
   "validation.homeworlds.NEW_MOVE_PARTIAL": {
     "src": "Choose a piece from the global stash to become the new star.",
     "out": "Wähle eine Figur aus dem allgemeinen Vorrat als neuen Stern."
+  },
+  "validation.homeworlds.STASH_EMPTY": {
+    "src": "The stash has no more {{colour}} pieces left.",
+    "out": "Im Vorrat sind keine {{colour}} Spielsteine mehr übrig."
+  },
+  "validation.homeworlds.SYSTEM_BADNAME": {
+    "src": "The system name you requested ({{name}}) is invalid. Names may be no longer than 25 characters, must start with a letter or a number, and may only contain numbers, letters, hyphens, and underscores. No spaces are allowed.",
+    "out": "Der von Ihnen angeforderte Systemname ({{name}}) ist ungültig. Namen dürfen maximal 25 Zeichen lang sein, müssen mit einem Buchstaben oder einer Zahl beginnen und dürfen nur Zahlen, Buchstaben, Bindestriche und Unterstriche enthalten. Leerzeichen sind nicht erlaubt."
+  },
+  "validation.homeworlds.SYSTEM_FULL": {
+    "src": "The {{system}} system is full. Home systems can only accommodate 16 ships. Periphery systems can accommodate 24.",
+    "out": "Das System {{system}} ist voll. Heimatsysteme fassen maximal 16 Schiffe. Peripheriesysteme fassen 24."
+  },
+  "validation.homeworlds.SYSTEM_NOSHIP": {
+    "src": "Could not find the ship {{ship}} in the {{system}} system.",
+    "out": "Das Schiff {{ship}} konnte im System {{system}} nicht gefunden werden."
   },
   "validation.homeworlds.VALID_W_ACTIONS": {
     "src": "Looks like a valid move, but you still have actions to spend.",
@@ -10462,10 +10306,6 @@
   "validation.intermedium.SOW_TOO_LARGE": {
     "src": "The current sowing is larger than the available pieces at the sowing stack.",
     "out": "Der aktuelle Sä-Zug umfasst mehr Figuren als auf dem Säh-Stapel verfügbar sind."
-  },
-  "validation.invector.CANNOT_MOVE": {
-    "src": "This piece cannot move!",
-    "out": "Diese Figur kann sich nicht bewegen!"
   },
   "validation.invector.INITIAL_INSTRUCTIONS": {
     "src": "Select a friendly piece.",
@@ -10771,10 +10611,6 @@
     "src": "In the first move of a two-player game, you may only split one piece off your stack.",
     "out": "Im ersten Zug eines Zwei-Spieler-Spiels darfst du nur eine einzelne Figur von deinem Stapel abspalten."
   },
-  "validation.knightline.INVALID_MOVE": {
-    "src": "You must select a stack with a jump to an unoccupied space.",
-    "out": "Du musst einen Stapel mit einem Sprung auf ein unbesetztes Feld auswählen."
-  },
   "validation.knightline.INVALID_NOTATION": {
     "src": "The move notation '{{move}}' is invalid.",
     "out": "Die Zugnotation '{{move}}' ist ungültig."
@@ -10947,13 +10783,13 @@
     "src": "Click an empty space adjacent to your logger to plant, click a mature tree adjacent to your logger to cut it down, or click one of your protestors to place it.",
     "out": "Klicke auf ein leeres Feld angrenzend an deinen Holzfäller, um zu pflanzen, klicke auf einen ausgewachsenen Baum angrenzend an deinen Holzfäller, um ihn zu fällen, oder klicke auf einen deiner Demonstranten, um ihn zu platzieren."
   },
+  "validation.logger.DUPE_PROTEST": {
+    "src": "You can't protest the tree at {{tree}}. You already protested it earlier in your move.",
+    "out": "Du kannst gegen den Baum auf {{tree}} nicht demonstrieren. Du hast bereits früher in deinem Zug dagegen demonstriert."
+  },
   "validation.logger.DUPE_SPAWN": {
     "src": "You can't spawn a sapling from {{tree}} to {{plot}}. You have already assigned that tree or plot earlier in your move.",
     "out": "Du kannst keinen Setzling von {{tree}} auf {{plot}} erzeugen. Du hast diesen Baum oder dieses Feld bereits früher in deinem Zug zugewiesen."
-  },
-  "validation.logger.DUPE_TREE": {
-    "src": "You can't protest the tree at {{tree}}. You already protested it earlier in your move.",
-    "out": "Du kannst gegen den Baum auf {{tree}} nicht demonstrieren. Du hast bereits früher in deinem Zug dagegen demonstriert."
   },
   "validation.logger.INITIAL_INSTRUCTIONS_move": {
     "src": "Click your logger to stay in place, or click a reachable cell within two spaces to move.",
@@ -11039,10 +10875,6 @@
     "src": "Click a button to select your next action.",
     "out": "Klicke auf einen Button, um deine nächste Aktion auszuwählen."
   },
-  "validation.magnate.CARD_NOT_DONE_INSTRUCTIONS": {
-    "src": "Click a hand card to buy, deed, or sell, click a deed to add tokens to it, or select tokens to trade.",
-    "out": "Klicke auf eine Handkarte, um sie zu kaufen, zu beurkunden oder zu verkaufen, klicke auf eine Urkunde, um Marker hinzuzufügen, oder wähle Marker zum Tauschen aus."
-  },
   "validation.magnate.CHOICE_BUTTON_INSTRUCTIONS": {
     "src": "Click a highlighted deed card to choose which suit token to collect.",
     "out": "Klicke auf eine hervorgehobene Urkundenkarte, um auszuwählen, welchen Farb-Marker du nehmen möchtest."
@@ -11071,17 +10903,9 @@
     "src": "Click a button to select your first action.",
     "out": "Klicke auf einen Button, um deine erste Aktion auszuwählen."
   },
-  "validation.magnate.INITIAL_PLACEMENT_INSTRUCTIONS": {
-    "src": "Click a hand card to deed, buy, or sell.",
-    "out": "Klicke auf eine Handkarte, um sie zu beurkunden, zu kaufen oder zu verkaufen."
-  },
   "validation.magnate.INVALID_ACTION": {
     "src": "You cannot consume another card from your hand, so you may not take another Buy, Deed, or Build action this turn.",
     "out": "Du kannst keine weitere Karte von deiner Hand ausspielen, daher darfst du in diesem Zug keine weitere Kaufen-, Beurkundungs- oder Bauen-Aktion ausführen."
-  },
-  "validation.magnate.INVALID_BUY": {
-    "src": "You do not have the suit tokens necessary to buy this card.",
-    "out": "Du hast nicht die notwendigen Farb-Marker, um diese Karte zu kaufen."
   },
   "validation.magnate.INVALID_DEED_PAYMENT": {
     "src": "You do not have the suit tokens necessary to deed this card.",
@@ -11119,10 +10943,6 @@
     "src": "{{player}}'s hand and suit tokens",
     "out": "{{player}}s Hand- und Farbmarker"
   },
-  "validation.magnate.LABEL_COLLECTION": {
-    "src": "{{player}}'s suit tokens",
-    "out": "Farbenmarker von {{player}}"
-  },
   "validation.magnate.LABEL_DECK": {
     "src": "Cards in deck",
     "out": "Karten im Deck"
@@ -11134,10 +10954,6 @@
   "validation.magnate.LABEL_DISCARDS_ONE": {
     "src": "Discard pile (one shuffle left)",
     "out": "Ablagestapel (eine Mischung übrig)"
-  },
-  "validation.magnate.LABEL_HAND": {
-    "src": "{{player}}'s hand",
-    "out": "Hand von {{player}}"
   },
   "validation.magnate.LABEL_STACKED_DECK": {
     "src": "{{player}}'s deck",
@@ -11171,25 +10987,13 @@
     "src": "Click the suit tokens you want to use.",
     "out": "Klicke auf die Farb-Marker, die du verwenden möchtest."
   },
-  "validation.magnate.TOKEN_ADD_INSTRUCTIONS": {
-    "src": "Click the tokens to add to this deed.",
-    "out": "Klicke auf die Marker, die du dieser Urkunde hinzufügen möchtest."
-  },
   "validation.magnate.TOKEN_TRADE_INSTRUCTIONS": {
     "src": "Click the suit you want in exchange.",
     "out": "Klicke auf die Farbe, die du im Gegenzug haben möchtest."
   },
-  "validation.magnate.VALID_PLACEMENT": {
-    "src": "Looks like a good placement.",
-    "out": "Sieht nach einer guten Platzierung aus."
-  },
   "validation.majorities.ANOTHER": {
     "src": "Select one more cell to place your piece.",
     "out": "Wähle ein weiteres Feld aus, um deinen Stein zu platzieren."
-  },
-  "validation.majorities.DUPLICATE": {
-    "src": "You have already placed a piece at {{where}}.",
-    "out": "Du hast bereits einen Stein auf {{where}} platziert."
   },
   "validation.majorities.HOLE": {
     "src": "The cell at {{where}} is blocked.",
@@ -11202,10 +11006,6 @@
   "validation.majorities.INITIAL_INSTRUCTIONS_FIRST": {
     "src": "Select a cell to place the first piece.",
     "out": "Wähle ein Feld aus, um den ersten Stein zu platzieren."
-  },
-  "validation.majorities.NORMALISE": {
-    "src": "The move needs to be normalised. Try '{{normalised}}'.",
-    "out": "Der Zug muss normalisiert werden. Versuche '{{normalised}}'."
   },
   "validation.majorities.TOO_MANY_MOVES": {
     "src": "You may only place two pieces.",
@@ -11419,10 +11219,6 @@
     "src": "You may not make a move which undoes the previous turn.",
     "out": "Du darfst keinen Zug machen, der den vorherigen Zug rückgängig macht."
   },
-  "validation.minefield.BAD_PASS": {
-    "src": "You may not pass if legal moves are available.",
-    "out": "Du darfst nicht passen, wenn legale Züge verfügbar sind."
-  },
   "validation.minefield.FORBIDDEN": {
     "src": "You may not form forbidden glyphs.",
     "out": "Du darfst keine verbotenen Glyphen bilden."
@@ -11438,14 +11234,6 @@
   "validation.minimize.INSTRUCTIONS": {
     "src": "Players place, on empty hexes, one or two stones of either color. Click the cell multiple times to cycle between player colours and empty hexes.",
     "out": "Spieler platzieren auf leeren Hex-Feldern einen oder zwei Steine einer beliebigen Farbe. Klicke mehrmals auf das Feld, um zwischen den Spielerfarben und leeren Feldern zu wechseln."
-  },
-  "validation.minimize.INVALID_PLACEMENT": {
-    "src": "Unable to interpret the move notation: {{move}}.",
-    "out": "Zugnotation kann nicht interpretiert werden: {{move}}."
-  },
-  "validation.minimize.NORMALISE": {
-    "src": "The move needs to be normalised. Try {{normalised}}.",
-    "out": "Der Zug muss normalisiert werden. Versuche {{normalised}}."
   },
   "validation.minimize.TOO_MANY_MOVES": {
     "src": "Only one or two placements are allowed.",
@@ -11819,10 +11607,6 @@
     "src": "Select a cap to move.",
     "out": "Wähle eine Kappe zum Ziehen aus."
   },
-  "validation.nakatta.BAD_PASS": {
-    "src": "You may not pass if legal moves are available.",
-    "out": "Du darfst nicht passen, wenn legale Züge verfügbar sind."
-  },
   "validation.nakatta.BAD_PLACE": {
     "src": "You may not create hard corners or naked attachments (see the rules for details).",
     "out": "Du darfst keine harten Ecken oder ungeschützten Anbauten (naked attachments) erzeugen (siehe Regeln für Details)."
@@ -11850,10 +11634,6 @@
   "validation.narrows.INVALID_SELECTION": {
     "src": "Click on a friendly piece.",
     "out": "Klicke auf eine eigene Figur."
-  },
-  "validation.necklace.BAD_PASS": {
-    "src": "You may not pass if legal moves are available.",
-    "out": "Du darfst nicht passen, wenn legale Züge verfügbar sind."
   },
   "validation.necklace.BLOCKS_PATH": {
     "src": "Placement at {{where}} blocks the only path of some free spaces to the edge.",
@@ -11902,10 +11682,6 @@
   "validation.nex.INITIAL_INSTRUCTIONS": {
     "src": "Either place your piece on an empty cell followed by a neutral piece on another empty cell, or choose two neutral pieces to swap to your colour and one of your piece to swap to the neutral colour.",
     "out": "Platziere entweder deinen Stein auf einem leeren Feld, gefolgt von einem neutralen Stein auf einem anderen leeren Feld, oder wähle zwei neutrale Steine, um sie in deine Farbe zu tauschen, und einen deiner Steine, um ihn in die neutrale Farbe zu tauschen."
-  },
-  "validation.nex.NORMALISE": {
-    "src": "The move needs to be normalised. Try {{normalised}}.",
-    "out": "Der Zug muss normalisiert werden. Versuche {{normalised}}."
   },
   "validation.nex.PARTIAL_PLACE": {
     "src": "Select an empty cell to place a neutral piece.",
@@ -12006,6 +11782,10 @@
   "validation.onager.CENTRE_PLACEMENT": {
     "src": "The lake cannot be placed at the centre cell, {{where}}.",
     "out": "Der See kann nicht auf dem zentralen Feld, {{where}}, platziert werden."
+  },
+  "validation.onager.CONTINUE": {
+    "src": "A walk ends after one step; you cannot add further destinations.",
+    "out": "Ein Lauf endet nach einem Schritt; du kannst keine weiteren Ziele hinzufügen."
   },
   "validation.onager.INITIAL_INSTRUCTIONS": {
     "src": "Select one of your pieces to walk or jump.",
@@ -12150,10 +11930,6 @@
   "validation.oust.INITIAL_INSTRUCTIONS": {
     "src": "Select a cell to place a piece.",
     "out": "Wähle ein Feld, um einen Stein zu platzieren."
-  },
-  "validation.oust.INVALID_MOVE_STRING": {
-    "src": "Unable to interpret the move notation: {{move}}.",
-    "out": "Die Zugnotation konnte nicht interpretiert werden: {{move}}."
   },
   "validation.oust.MORE": {
     "src": "You have just made a capture placement. You must continue making placements.",
@@ -12319,14 +12095,6 @@
     "src": "In this variant, you may not make a placement that creates an overline.",
     "out": "In dieser Variante darfst du keine Steine so platzieren, dass eine Überlänge entsteht."
   },
-  "validation.pente.SELF_CAPTURE_FORBIDDEN": {
-    "src": "In this variant, you may not make a placement that results in a self-capture.",
-    "out": "In dieser Variante darfst du keine Platzierung vornehmen, die zu einem Selbstschlag führt."
-  },
-  "validation.pente.SWAP2_CAPTURE": {
-    "src": "This placement will result in a capture.",
-    "out": "Diese Platzierung wird zu einem Schlagen führen."
-  },
   "validation.phutball.BAD_DIRECTION": {
     "src": "You can only jump orthogonally or diagonally. The jump from {{from}} to {{to}} is invalid.",
     "out": "Du kannst nur orthogonal oder diagonal springen. Der Sprung von {{from}} nach {{to}} ist ungültig."
@@ -12454,6 +12222,10 @@
   "validation.pilastri.INVALID_MOVE": {
     "src": "You must move a piece in a straight line to the next stack. The piece must end higher. And 1-stacks may only move onto other 1-stacks.",
     "out": "Du musst eine Figur in gerader Linie zum nächsten Stapel bewegen. Die Figur muss höher enden. Und 1er-Stapel dürfen sich nur auf andere 1er-Stapel bewegen."
+  },
+  "validation.pilastri.INVALID_MOVE_JUMPERS": {
+    "src": "You must move a piece in a straight line to the next stack. The piece must end higher. And 1-stacks may only move onto other 1-stacks.",
+    "out": "Du musst eine Figur in gerader Linie zum nächsten Stapel ziehen. Die Figur muss höher enden. Und 1er-Stapel dürfen nur auf andere 1er-Stapel ziehen."
   },
   "validation.pilastri.NORMAL_MOVE": {
     "src": "Choose a piece to move.",
@@ -12614,10 +12386,6 @@
   "validation.plurality.INVALID_PASS": {
     "src": "You cannot pass currently.",
     "out": "Du kannst derzeit nicht passen."
-  },
-  "validation.plurality.INVALID_PIE": {
-    "src": "You cannot accept or reject a pie offer now.",
-    "out": "Du kannst ein Kuchen-Angebot (Pie Offer) jetzt weder annehmen noch ablehnen."
   },
   "validation.plurality.INVALID_PLAYSECOND": {
     "src": "You cannot choose to play second from this board state.",
@@ -12831,14 +12599,6 @@
     "src": "Players place, on empty hexes, two stones of either color. Click current friendly stone to flip color, click again to empty hex.",
     "out": "Spieler platzieren auf leeren Hexfeldern zwei Steine beliebiger Farbe. Klicke auf den aktuellen eigenen Stein, um die Farbe zu wechseln, klicke erneut, um das Hexfeld zu leeren."
   },
-  "validation.product.INVALID_PLACEMENT": {
-    "src": "Unable to interpret the move notation: {{move}}.",
-    "out": "Die Zugnotation konnte nicht interpretiert werden: {{move}}."
-  },
-  "validation.product.NORMALISE": {
-    "src": "The move needs to be normalised. Try {{normalised}}.",
-    "out": "Der Zug muss normalisiert werden. Versuche {{normalised}}."
-  },
   "validation.product.TOO_MANY_MOVES": {
     "src": "Only two placements are allowed.",
     "out": "Es sind nur zwei Platzierungen erlaubt."
@@ -12971,10 +12731,6 @@
     "src": "Diagonal connection {{from}} with {{to}} is not valid.",
     "out": "Diagonale Verbindung von {{from}} mit {{to}} ist ungültig."
   },
-  "validation.quax.NORMALISE": {
-    "src": "The move needs to be normalised. Try {{normalised}}.",
-    "out": "Der Zug muss normalisiert werden. Versuchen Sie {{normalised}}."
-  },
   "validation.quax.NO_DIAGS": {
     "src": "The piece at {{where}} cannot make a diagonal connection with any neighbouring piece.",
     "out": "Der Stein bei {{where}} kann keine diagonale Verbindung mit einem benachbarten Stein herstellen."
@@ -13027,10 +12783,6 @@
     "src": "The intersection at {{where}} is not a four-way intersection.",
     "out": "Die Kreuzung bei {{where}} ist keine 4-Wege-Kreuzung."
   },
-  "validation.query.PARTIAL": {
-    "src": "Select a destination.",
-    "out": "Wählen Sie ein Ziel aus."
-  },
   "validation.query.SAMECELL": {
     "src": "You have already placed at {{where}}.",
     "out": "Sie haben bereits bei {{where}} platziert."
@@ -13046,10 +12798,6 @@
   "validation.quincunx.INITIAL_INSTRUCTIONS": {
     "src": "Select a card from your hand to place on the board.",
     "out": "Wählen Sie eine Karte aus Ihrer Hand aus, um sie auf dem Spielbrett zu platzieren."
-  },
-  "validation.quincunx.PARTIAL": {
-    "src": "Provide the destination.",
-    "out": "Geben Sie das Ziel an."
   },
   "validation.rampart.BAD_PLACEMENT": {
     "src": "One of the cells you're trying to place a piece on is either nonexistent or occupied.",
@@ -13691,10 +13439,6 @@
     "src": "Swapping {{from}} with {{to}} is not valid.",
     "out": "Das Tauschen von {{from}} mit {{to}} ist ungültig."
   },
-  "validation.saltire.NORMALISE": {
-    "src": "The move needs to be normalised. Try {{normalised}}.",
-    "out": "Der Zug muss normalisiert werden. Versuchen Sie {{normalised}}."
-  },
   "validation.saltire.NO_SWAPPABLE": {
     "src": "The piece at {{where}} cannot make a swap with any adjacent piece to reduce the number of crosscuts or supercuts.",
     "out": "Der Stein bei {{where}} kann mit keinem benachbarten Stein getauscht werden, um die Anzahl der Crosscuts oder Supercuts zu verringern."
@@ -13726,6 +13470,38 @@
   "validation.scribe.WRONG_MINI": {
     "src": "You must play in the mini grid indicated by your last move.",
     "out": "Du musst in dem Minigitter spielen, das durch deinen letzten Zug vorgegeben wird."
+  },
+  "validation.selfo.ENCLOSURE": {
+    "src": "In this game you may not enclose an opposing piece, unless the move wins the game.",
+    "out": "In diesem Spiel dürfen Sie keinen gegnerischen Stein einschließen, es sei denn, der Zug gewinnt das Spiel."
+  },
+  "validation.selfo.INITIAL_INSTRUCTIONS": {
+    "src": "Click one of your pieces to select it.",
+    "out": "Klicken Sie auf einen Ihrer Steine, um ihn auszuwählen."
+  },
+  "validation.selfo.INITIAL_INSTRUCTIONS_PIE": {
+    "src": "Click one of your pieces to select it, or use the pie rule to swap sides.",
+    "out": "Klicken Sie auf einen Ihrer Steine, um ihn auszuwählen, oder nutzen Sie die Pie-Regel, um die Seiten zu tauschen."
+  },
+  "validation.selfo.NOT_ADJACENT": {
+    "src": "A piece can only move to an adjacent empty cell.",
+    "out": "Ein Stein kann nur auf ein angrenzendes freies Feld gezogen werden."
+  },
+  "validation.selfo.NO_PASS": {
+    "src": "You cannot pass in this game. Swapping sides (the pie rule) is only available to the second player, right after the first move.",
+    "out": "Du kannst in diesem Spiel nicht passen. Das Tauschen der Seiten (die Pie-Regel) steht nur dem zweiten Spieler direkt nach dem ersten Zug zur Verfügung."
+  },
+  "validation.selfo.PARTIAL": {
+    "src": "Click an adjacent empty cell to move the selected piece there.",
+    "out": "Klicken Sie auf ein angrenzendes freies Feld, um den ausgewählten Stein dorthin zu ziehen."
+  },
+  "validation.selfo.PIE": {
+    "src": "Use the pie rule and swap sides.",
+    "out": "Nutzen Sie die Pie-Regel und tauschen Sie die Seiten."
+  },
+  "validation.selfo.PIE_UNAVAILABLE": {
+    "src": "The pie rule can only be used by the second player right after the first move.",
+    "out": "Die Pie-Regel kann nur vom zweiten Spieler direkt nach dem ersten Zug angewendet werden."
   },
   "validation.sentinel.EDGE_INSTRUCTIONS": {
     "src": "Move the piece one step forward (orthogonally or diagonally). The piece can be moved off the board by clicking at the center.",
@@ -13859,10 +13635,6 @@
     "src": "Select a point to place a piece.",
     "out": "Wähle einen Punkt, um einen Spielstein zu platzieren."
   },
-  "validation.slither.INVALID_PASS": {
-    "src": "You may only pass if you have no other moves available.",
-    "out": "Du darfst nur passen, wenn du keine anderen Züge zur Verfügung hast."
-  },
   "validation.slither.NEED_PLACEMENT": {
     "src": "You must place a piece.",
     "out": "Du musst einen Spielstein platzieren."
@@ -13878,10 +13650,6 @@
   "validation.slither.NO_VALID_FOLLOWUP": {
     "src": "Movement to {{to}} will not result in a valid follow-up move.",
     "out": "Ein Zug nach {{to}} führt zu keinem gültigen Folgezug."
-  },
-  "validation.slither.PLACEMENT_MADE": {
-    "src": "You have already made a move at {{where}}.",
-    "out": "Du hast bereits einen Zug bei {{where}} gemacht."
   },
   "validation.slyde.FIXED_PIECE_FROM": {
     "src": "The selected piece at {{from}} is fixed and cannot be moved.",
@@ -13982,10 +13750,6 @@
   "validation.spire.PLACE_PLAYER_MANDATORY": {
     "src": "Select another space to place a ball of your colour.",
     "out": "Wähle ein anderes Feld, um einen Ball deiner Farbe zu platzieren."
-  },
-  "validation.spire.SAME_CELL": {
-    "src": "You have already placed at {{cell}}.",
-    "out": "Du hast bereits bei {{cell}} platziert."
   },
   "validation.spire.TOO_MANY_MOVES": {
     "src": "You may only place up to two balls on your turn.",
@@ -14118,10 +13882,6 @@
   "validation.spook.INITIAL_INSTRUCTIONS_REMOVE": {
     "src": "There are no adjacent free balls. Select an unpinned opponent ball to be removed.",
     "out": "Es gibt keine angrenzenden freien Bälle. Wähle einen ungefesselten gegnerischen Ball, der entfernt werden soll."
-  },
-  "validation.spook.INVALID_PASS": {
-    "src": "You may only pass if you have no other moves available.",
-    "out": "Du darfst nur passen, wenn du keine anderen Züge zur Verfügung hast."
   },
   "validation.spook.NOT_ADJACENT": {
     "src": "The ball at {{where}} is not orthogonally adjacent to Spooky.",
@@ -14643,10 +14403,6 @@
     "src": "Select a destination. Capturing is compulsory, and you must capture the most pieces you can.",
     "out": "Wähle ein Ziel. Schlagen ist Pflicht, und du musst so viele Spielsteine wie möglich schlagen."
   },
-  "validation.stapeldammen.WHITE_SQUARE": {
-    "src": "Pieces may only be placed on the dark squares.",
-    "out": "Spielsteine dürfen nur auf den dunklen Feldern platziert werden."
-  },
   "validation.stawvs.BAD_CLAIM": {
     "src": "You must claim a pyramid in a straight, unobstructed line from your new position.",
     "out": "Du musst eine Pyramide in einer geraden, unversperrten Linie von deiner neuen Position aus beanspruchen."
@@ -14847,21 +14603,9 @@
     "src": "Pieces may only jump over a wall tile if that tile contains at least one of your own pieces.",
     "out": "Spielsteine dürfen nur dann über ein Wandfeld springen, wenn dieses Feld mindestens einen deiner eigenen Spielsteine enthält."
   },
-  "validation.stormc.INITIAL_INSTRUCTIONS": {
-    "src": "Select one of your pieces to move.",
-    "out": "Wähle einen deiner Spielsteine zum Bewegen."
-  },
-  "validation.stormc.PARTIAL": {
-    "src": "Select a destination.",
-    "out": "Wähle ein Ziel."
-  },
   "validation.strands.DIFFERENT_NUMS": {
     "src": "You have to select spaces with the same number.",
     "out": "Du musst Felder mit derselben Nummer auswählen."
-  },
-  "validation.strands.DUPLICATE": {
-    "src": "You have already placed a piece at {{where}}.",
-    "out": "Du hast bereits einen Spielstein bei {{where}} platziert."
   },
   "validation.strands.INITIAL_INSTRUCTIONS": {
     "src": "Select the spaces to place your pieces.",
@@ -14878,14 +14622,6 @@
   "validation.strands.INITIAL_TWO": {
     "src": "You must place a piece on a space numbered 2 for the first move.",
     "out": "Du musst für den ersten Zug einen Spielstein auf ein Feld mit der Nummer 2 platzieren."
-  },
-  "validation.strands.INVALID_PLACEMENT": {
-    "src": "Unable to interpret the move notation: {{move}}.",
-    "out": "Zugnotation konnte nicht interpretiert werden: {{move}}."
-  },
-  "validation.strands.NORMALISE": {
-    "src": "The move needs to be normalised. Try {{normalised}}.",
-    "out": "Der Zug muss normalisiert werden. Versuche {{normalised}}."
   },
   "validation.strands.PLACE_MORE_one": {
     "src": "Place 1 more piece on a space numbered {{num}}.",
@@ -14999,10 +14735,6 @@
     "src": "{{player}}'s stash",
     "out": "{{player}}s Vorrat"
   },
-  "validation.subdivision.MALFORMED": {
-    "src": "Your move could not be interpreted. If this persists, please let an administrator know.",
-    "out": "Ihr Zug konnte nicht interpretiert werden. Wenn dies weiterhin auftritt, informieren Sie bitte einen Administrator."
-  },
   "validation.subdivision.NEED_PARKS": {
     "src": "You may not place a piece until all parks are placed. Click an empty cell to place a park.",
     "out": "Sie dürfen keinen Stein platzieren, bis alle Parks platziert wurden. Klicken Sie auf ein leeres Feld, um einen Park zu platzieren."
@@ -15086,10 +14818,6 @@
   "validation.swarm.CANNOT_CAPTURE": {
     "src": "Not enough singletons to capture stack {{move}}!",
     "out": "Nicht genügend Einzelsteine, um den Stapel {{move}} zu schlagen!"
-  },
-  "validation.swarm.CANNOT_PASS": {
-    "src": "Cannot pass! There are still other moves available (like {{move}}).",
-    "out": "Passieren nicht möglich! Es sind noch andere Züge verfügbar (wie {{move}})."
   },
   "validation.swarm.CAPTURES_MANDATORY": {
     "src": "Captures are mandatory (e.g., there's a capture at {{move}}).",
@@ -15231,10 +14959,6 @@
     "src": "The piece at {{from}} cannot move to {{to}}.",
     "out": "Der Stein bei {{from}} kann sich nicht nach {{to}} bewegen."
   },
-  "validation.tafl.NORMALISE": {
-    "src": "The move needs to be normalised. Try {{normalised}}.",
-    "out": "Der Zug muss normalisiert werden. Versuchen Sie {{normalised}}."
-  },
   "validation.tafl.NO_MOVES": {
     "src": "The piece at {{from}} does not have any valid cells to move to.",
     "out": "Der Stein bei {{from}} hat keine gültigen Felder, auf die er sich bewegen kann."
@@ -15282,10 +15006,6 @@
   "validation.tbt.LABEL_PREVIOUS": {
     "src": "Previous roll",
     "out": "Vorheriger Wurf"
-  },
-  "validation.tbt.NOT_ORTH": {
-    "src": "The cells {{from}} and {{to}} are not orthogonal to each other.",
-    "out": "Die Felder {{from}} und {{to}} liegen nicht orthogonal zueinander."
   },
   "validation.tbt.NO_REVERSE": {
     "src": "You may not simply reverse your opponent's last move.",
@@ -15415,6 +15135,10 @@
     "src": "The pawn must move to an occupied space.",
     "out": "Der Bauer muss sich auf ein besetztes Feld bewegen."
   },
+  "validation.tintas.PAWN_START": {
+    "src": "The move must start from the pawn's current location.",
+    "out": "Der Zug muss am aktuellen Standort des Bauern beginnen."
+  },
   "validation.tintas.SAME_COLOUR": {
     "src": "When capturing multiple pieces, they must all be the same colour.",
     "out": "Beim Schlagen mehrerer Steine müssen diese alle dieselbe Farbe haben."
@@ -15491,10 +15215,6 @@
     "src": "You have indicated a jump when it's supposed to be a duplicate. Try {{move}}.",
     "out": "Sie haben einen Sprung angegeben, obwohl es ein Duplizieren sein sollte. Versuchen Sie {{move}}."
   },
-  "validation.tricouleur.MUST_PASS": {
-    "src": "The only move available to you is to pass.",
-    "out": "Der einzige verfügbare Zug für Sie ist zu passen."
-  },
   "validation.tricouleur.NO_TOS": {
     "src": "The selected piece at {{from}} has no possible destinations to duplicate or jump to.",
     "out": "Der ausgewählte Stein bei {{from}} hat keine möglichen Zielfelder zum Duplizieren oder Springen."
@@ -15546,10 +15266,6 @@
   "validation.tumbleweed.CAPTURE_NOTATION": {
     "src": "Capture moves must be suffixed with 'x'. Try '{{move}}'",
     "out": "Schlagzüge müssen mit 'x' enden. Versuchen Sie '{{move}}'"
-  },
-  "validation.tumbleweed.DUPLICATE": {
-    "src": "You have already placed a piece at {{where}}.",
-    "out": "Sie haben bereits einen Stein bei {{where}} platziert."
   },
   "validation.tumbleweed.FREENEUTRAL1": {
     "src": "Select a cell to place a piece of your colour.",
@@ -15607,10 +15323,6 @@
     "src": "Reinforcement moves must be suffixed with '+'. Try '{{move}}'",
     "out": "Verstärkungszüge müssen mit '+' enden. Versuchen Sie '{{move}}'"
   },
-  "validation.tumbleweed.SAME_CELL": {
-    "src": "In the setup phase, place two pieces on different cells.",
-    "out": "Platzieren Sie in der Aufbauphase zwei Steine auf verschiedenen Feldern."
-  },
   "validation.tumbleweed.TOO_MANY": {
     "src": "You may only place one piece per turn after the setup phase.",
     "out": "Nach der Aufbauphase dürfen Sie nur einen Stein pro Zug platzieren."
@@ -15634,14 +15346,6 @@
   "validation.twinflames.INSTRUCTIONS": {
     "src": "Players place, on empty hexes, two stones of either color. Click the cell multiple times to cycle through the different options.",
     "out": "Spieler platzieren auf leeren Hex-Feldern zwei Steine beliebiger Farbe. Klicken Sie mehrmals auf das Feld, um die verschiedenen Optionen zu durchlaufen."
-  },
-  "validation.twinflames.INVALID_PLACEMENT": {
-    "src": "Unable to interpret the move notation: {{move}}.",
-    "out": "Die Zugnotation konnte nicht interpretiert werden: {{move}}."
-  },
-  "validation.twinflames.NORMALISE": {
-    "src": "The move needs to be normalised. Try {{normalised}}.",
-    "out": "Der Zug muss normalisiert werden. Versuchen Sie {{normalised}}."
   },
   "validation.twinflames.TOO_MANY_MOVES": {
     "src": "Only two placements are allowed.",
@@ -15667,10 +15371,6 @@
     "src": "Select a space to place a peg",
     "out": "Wählen Sie ein Feld, um einen Stift zu platzieren"
   },
-  "validation.twixt.INVALID_LINK": {
-    "src": "The link at from {{from}} to {{to}} is invalid.",
-    "out": "Die Verbindung von {{from}} nach {{to}} ist ungültig."
-  },
   "validation.twixt.INVALID_MOVE_SEGMENT": {
     "src": "The move {{move}} is invalid.",
     "out": "Der Zug {{move}} ist ungültig."
@@ -15690,10 +15390,6 @@
   "validation.twixt.LINK_PRESENT": {
     "src": "There is already a link between at {{link}}.",
     "out": "Es gibt bereits eine Verbindung bei {{link}}."
-  },
-  "validation.twixt.NORMALISED": {
-    "src": "The move needs to be normalised. Try {{normalised}}.",
-    "out": "Der Zug muss normalisiert werden. Versuchen Sie {{normalised}}."
   },
   "validation.twixt.NO_PEG": {
     "src": "When placing a link at {{link}}, there is no peg at {{peg}}.",
@@ -15811,10 +15507,6 @@
     "src": "Select an architect to move or select the size of a piece to place.",
     "out": "Wählen Sie einen Architekten zum Bewegen oder die Größe eines zu platzierenden Steins."
   },
-  "validation.urbino.INVALID_PASS": {
-    "src": "You may only pass if you have no other moves available.",
-    "out": "Sie dürfen nur passen, wenn Sie keine anderen Züge zur Verfügung haben."
-  },
   "validation.urbino.INVALID_PIECE": {
     "src": "You don't have a {{piece}} in your stash to place.",
     "out": "Sie haben kein {{piece}} in Ihrem Vorrat zum Platzieren."
@@ -15842,10 +15534,6 @@
   "validation.urbino.NOPLACEMENTS": {
     "src": "You cannot move the workers such that you have no valid placements available.",
     "out": "Sie können die Arbeiter nicht so bewegen, dass Sie keine gültigen Platzierungen mehr zur Verfügung haben."
-  },
-  "validation.urbino.PARTIAL_MOVE": {
-    "src": "Provide the destination.",
-    "out": "Geben Sie das Ziel an."
   },
   "validation.urbino.PARTIAL_PLACE": {
     "src": "Choose a cell to place a piece in.",
@@ -15918,10 +15606,6 @@
   "validation.veletas.INITIAL_INSTRUCTIONS_PLACE_other": {
     "src": "Place {{count}} more shooters on empty spaces on the board, then place a piece of your colour on the board.",
     "out": "Platziere {{count}} weitere Schützen auf leeren Feldern des Brets, dann platziere einen Stein deiner Farbe auf dem Brett."
-  },
-  "validation.veletas.INVALID_PLACEMENT": {
-    "src": "Unable to interpret the move notation: {{move}}.",
-    "out": "Zugnotation kann nicht interpretiert werden: {{move}}."
   },
   "validation.veletas.MOVE_NON_SHOOTER": {
     "src": "You may only move free shooters.",
@@ -16091,10 +15775,6 @@
     "src": "Select a destination to move the flock to.",
     "out": "Wähle ein Ziel, um den Schwarm dorthin zu bewegen."
   },
-  "validation.volo.NORMALISE": {
-    "src": "The move needs to be normalised. Try '{{normalised}}'.",
-    "out": "Der Zug muss normalisiert werden. Versuche '{{normalised}}'."
-  },
   "validation.volo.NO_REGIONS_TO_SELECT": {
     "src": "You have indicated a region selection, but there are no regions to select from.",
     "out": "Du hast eine Regionenauswahl angegeben, aber es stehen keine Regionen zur Auswahl."
@@ -16143,7 +15823,7 @@
     "src": "Choose which piece you wish to play by clicking any sun or moon piece.",
     "out": "Wähle, welchen Stein du spielen möchtest, indem du auf einen beliebigen Sonnen- oder Mondstein klickst."
   },
-  "validation.witch.ALREADY_AFFLIATED": {
+  "validation.witch.ALREADY_AFFILIATED": {
     "src": "Pieces have already been chosen.",
     "out": "Die Steine wurden bereits ausgewählt."
   },
@@ -16415,14 +16095,6 @@
     "src": "Complete or clear your placement before passing.",
     "out": "Schließe deine Platzierung ab oder setze sie zurück, bevor du passt."
   },
-  "validation.yodd.INVALID_PLACEMENT": {
-    "src": "Unable to interpret the move notation: {{move}}.",
-    "out": "Die Zugnotation konnte nicht interpretiert werden: {{move}}."
-  },
-  "validation.yodd.NORMALISED": {
-    "src": "The move needs to be normalised. Try {{normalised}}.",
-    "out": "Der Zug muss normalisiert werden. Versuche {{normalised}}."
-  },
   "validation.yodd.NO_PASS_OPENING": {
     "src": "You may not pass on the opening turn.",
     "out": "Im Eröffnungszug darfst du nicht passen."
@@ -16479,125 +16151,13 @@
     "src": "Select a destination.",
     "out": "Wähle ein Ziel."
   },
-  "variants._default.bases.name": {
-    "src": "Default bases",
-    "out": "Standard-Basen"
-  },
-  "variants._default.blockers.name": {
-    "src": "Default blockers",
-    "out": "Standard-Blocker"
-  },
-  "variants._default.board.name": {
-    "src": "Default board",
-    "out": "Standard-Spielfeld"
-  },
-  "variants._default.boardtype.name": {
-    "src": "Default board type",
-    "out": "Standard-Spielfeldtyp"
-  },
-  "variants._default.capture.name": {
-    "src": "Default capture rules",
-    "out": "Standard-Schlagregeln"
-  },
-  "variants._default.dice.name": {
-    "src": "Default die size",
-    "out": "Standard-Würfelgröße"
-  },
-  "variants._default.enforcers.name": {
-    "src": "Default enforcers",
-    "out": "Standard-Enforcer"
-  },
-  "variants._default.eog.name": {
-    "src": "Default end condition",
-    "out": "Standard-Endbedingung"
-  },
-  "variants._default.fleet.name": {
-    "src": "Default fleet",
-    "out": "Standard-Flotte"
-  },
-  "variants._default.form.name": {
-    "src": "Default form",
-    "out": "Standard-Form"
-  },
-  "variants._default.groups.name": {
-    "src": "Default groups",
-    "out": "Standard-Gruppen"
-  },
-  "variants._default.komi.name": {
-    "src": "Default komi",
-    "out": "Standard-Komi"
-  },
-  "variants._default.length.name": {
-    "src": "Default game length",
-    "out": "Standard-Spieldauer"
-  },
-  "variants._default.movement.name": {
-    "src": "Default movement rules",
-    "out": "Standard-Zugregeln"
-  },
-  "variants._default.moves.name": {
-    "src": "Default movement rules",
-    "out": "Standard-Zugregeln"
-  },
-  "variants._default.objective.name": {
-    "src": "Default objective",
-    "out": "Standard-Spielziel"
-  },
-  "variants._default.obstacles.name": {
-    "src": "Default obstacles",
-    "out": "Standard-Hindernisse"
-  },
-  "variants._default.opening.name": {
-    "src": "Default opening",
-    "out": "Standard-Eröffnung"
-  },
-  "variants._default.parks.name": {
-    "src": "Default park placement",
-    "out": "Standard-Parkplatzierung"
-  },
-  "variants._default.penalty.name": {
-    "src": "Default penalty",
-    "out": "Standard-Strafe"
-  },
-  "variants._default.powers.name": {
-    "src": "Default powers",
-    "out": "Standard-Kräfte"
-  },
-  "variants._default.rules.name": {
-    "src": "Default rules",
-    "out": "Standard-Regeln"
-  },
-  "variants._default.ruleset.name": {
-    "src": "Default ruleset",
-    "out": "Standard-Regelwerk"
-  },
-  "variants._default.scoring.name": {
-    "src": "Default scoring",
-    "out": "Standard-Wertung"
-  },
-  "variants._default.setup.name": {
-    "src": "Default setup",
-    "out": "Standard-Aufbau"
-  },
-  "variants._default.size.name": {
-    "src": "Default stack size",
-    "out": "Standard-Stapelgröße"
-  },
-  "variants._default.tiebreaker.name": {
-    "src": "Default tiebreaker",
-    "out": "Standard-Feinwertung"
-  },
-  "variants._default.ties.name": {
-    "src": "Default ties",
-    "out": "Standard-Unentschieden-Regel"
-  },
-  "variants._default.variant.name": {
-    "src": "Default variant",
-    "out": "Standard-Variante"
-  },
   "variants.abande.#board.description": {
     "src": "7x7 square board",
     "out": "7x7 quadratisches Brett"
+  },
+  "variants.abande.#board.name": {
+    "src": "Default board",
+    "out": "Standard-Brett"
   },
   "variants.abande.hex.description": {
     "src": "A 37-space hexagonal board.",
@@ -16835,6 +16395,10 @@
     "src": "Queens of each colour are on opposite halves of the board.",
     "out": "Damen jeder Farbe befinden sich auf gegenüberliegenden Hälften des Bretts."
   },
+  "variants.amazons.#setup.name": {
+    "src": "Default setup",
+    "out": "Standard-Aufstellung"
+  },
   "variants.amazons.cross.description": {
     "src": "Queens of the same colour are situated across from each other.",
     "out": "Damen derselben Farbe befinden sich gegenüber voneinander."
@@ -16923,6 +16487,10 @@
     "src": "Free placement",
     "out": "Freie Aufstellung"
   },
+  "variants.armadas.#fleet.name": {
+    "src": "Default fleet",
+    "out": "Standard-Flotte"
+  },
   "variants.armadas.#obstacles.name": {
     "src": "One obstacle",
     "out": "Ein Hindernis"
@@ -16962,6 +16530,10 @@
   "variants.asli.#rules.description": {
     "src": "Incursions are legal.",
     "out": "Inkursionen sind legal."
+  },
+  "variants.asli.#rules.name": {
+    "src": "Default rules",
+    "out": "Standard-Regeln"
   },
   "variants.asli.area.description": {
     "src": "Suicide is legal, passing is always legal and blocks the opponent's next minimal incursion, and the game ends on two consecutive passes. The winner is whoever holds the most area: their stones on the board, plus their territory, plus komi.",
@@ -17078,6 +16650,10 @@
   "variants.atoll.size-19.name": {
     "src": "size-19 board",
     "out": "Größe-19-Brett"
+  },
+  "variants.attangle.#board.name": {
+    "src": "Default board",
+    "out": "Standard-Brett"
   },
   "variants.attangle.grand.description": {
     "src": "Played on a larger board, with more voids, and the goal now is to create five triple stacks.",
@@ -17363,6 +16939,10 @@
     "src": "Bombardment",
     "out": "Bombardierung"
   },
+  "variants.btt.#setup.name": {
+    "src": "Default setup",
+    "out": "Standard-Aufbau"
+  },
   "variants.btt.arcade.description": {
     "src": "Scaled down to 9 pyramids per player (from 15) for Pyramid Arcade and a quicker game.",
     "out": "Skaliert auf 9 Pyramiden pro Spieler (statt 15) für Pyramid Arcade und ein schnelleres Spiel."
@@ -17403,6 +16983,10 @@
     "src": "Size-6 board",
     "out": "Brett der Größe 6"
   },
+  "variants.byte.#board.name": {
+    "src": "Default board",
+    "out": "Standard-Spielfeld"
+  },
   "variants.byte.10x10.name": {
     "src": "Larger board: 10x10",
     "out": "Größeres Brett: 10x10"
@@ -17438,6 +17022,10 @@
   "variants.calculus.width-15.name": {
     "src": "Larger board",
     "out": "Größeres Brett"
+  },
+  "variants.camelot.#board.name": {
+    "src": "Default board",
+    "out": "Standard-Brett"
   },
   "variants.camelot.anti.description": {
     "src": "The player wins if they run out of moves or if the opponent moves a single piece into the player's castle.",
@@ -17522,6 +17110,10 @@
   "variants.catapult.#goal.description": {
     "src": "Annihilate your opponent.",
     "out": "Vernichte deinen Gegner."
+  },
+  "variants.catapult.#goal.name": {
+    "src": "Default goal",
+    "out": "Standard-Ziel"
   },
   "variants.catapult.dagger.description": {
     "src": "The second player starts with the dagger. The player with the dagger may make two consecutive moves and pass the dagger to their opponent.",
@@ -17684,24 +17276,28 @@
     "out": "15x15-Brett"
   },
   "variants.clearpath.#board.name": {
-    "src": "8x8 board",
-    "out": "8x8-Brett"
-  },
-  "variants.clearpath.size-10.name": {
-    "src": "10x10 board",
-    "out": "10x10-Brett"
+    "src": "9x9 board",
+    "out": "9x9-Brett"
   },
   "variants.clearpath.size-11.name": {
     "src": "11x11 board",
     "out": "11x11-Brett"
   },
+  "variants.clearpath.size-13.name": {
+    "src": "13x13 board",
+    "out": "13x13-Brett"
+  },
+  "variants.clearpath.size-15.name": {
+    "src": "15x15 board",
+    "out": "15x15-Brett"
+  },
+  "variants.clearpath.size-19.name": {
+    "src": "19x19 board",
+    "out": "19x19-Brett"
+  },
   "variants.clearpath.size-7.name": {
     "src": "7x7 board",
     "out": "7x7-Brett"
-  },
-  "variants.clearpath.size-9.name": {
-    "src": "9x9 board",
-    "out": "9x9-Brett"
   },
   "variants.clusterfuss.#board.name": {
     "src": "Default board (8x8)",
@@ -17839,9 +17435,17 @@
     "src": "Pieces may pass through sanctuary spaces as they jump.",
     "out": "Steine dürfen bei Sprüngen durch Zufluchtsfelder ziehen."
   },
+  "variants.conspirateurs.#movement.name": {
+    "src": "Default movement rules",
+    "out": "Standard-Bewegungsregeln"
+  },
   "variants.conspirateurs.#setup.description": {
     "src": "Players first drop all their pieces.",
     "out": "Die Spieler setzen zuerst alle ihre Steine ein."
+  },
+  "variants.conspirateurs.#setup.name": {
+    "src": "Default setup",
+    "out": "Standard-Aufstellung"
   },
   "variants.conspirateurs.quick.description": {
     "src": "Randomly places the initial pieces.",
@@ -17930,6 +17534,10 @@
   "variants.crosshairs.#clouds.name": {
     "src": "16 clouds",
     "out": "16 Wolken"
+  },
+  "variants.crosshairs.#setup.name": {
+    "src": "Default setup",
+    "out": "Standard-Aufstellung"
   },
   "variants.crosshairs.asymmetric-random-start.description": {
     "src": "There is no cloud placing phase. The system places the clouds randomly without requiring symmetry.",
@@ -18131,6 +17739,10 @@
     "src": "8x8 board",
     "out": "8x8-Brett"
   },
+  "variants.domineering.#ruleset.name": {
+    "src": "Default ruleset",
+    "out": "Standard-Regelsatz"
+  },
   "variants.domineering.quelhas.description": {
     "src": "Player can drop larger 1xN pieces. Misère game.",
     "out": "Spieler können größere 1xN-Teile einsetzen. Misère-Spiel."
@@ -18167,6 +17779,10 @@
     "src": "Draws are triggered automatically.",
     "out": "Remis werden automatisch ausgelöst."
   },
+  "variants.dragoneyes.#rules.name": {
+    "src": "Default rules",
+    "out": "Standard-Regeln"
+  },
   "variants.dragoneyes.claimdraw.description": {
     "src": "You must choose to claim a draw on your turn.",
     "out": "Du musst in deinem Zug entscheiden, ein Remis einzufordern."
@@ -18178,6 +17794,10 @@
   "variants.druid.#board.name": {
     "src": "Standard board (10×10)",
     "out": "Standardbrett (10×10)"
+  },
+  "variants.druid.#ruleset.name": {
+    "src": "Default ruleset",
+    "out": "Standard-Regelwerk"
   },
   "variants.druid.hex-4.name": {
     "src": "Druid's Hex (size 4)",
@@ -18279,6 +17899,10 @@
     "src": "6x6 board",
     "out": "6x6-Brett"
   },
+  "variants.epam.#setup.name": {
+    "src": "Default setup",
+    "out": "Standard-Aufstellung"
+  },
   "variants.epam.stones.description": {
     "src": "In this variant, the players place three impassable stones in the middle of the board.",
     "out": "In dieser Variante platzieren die Spieler drei unpassierbare Steine in der Mitte des Bretts."
@@ -18294,6 +17918,10 @@
   "variants.exxit.#setup.description": {
     "src": "Starts with a \"cross\" of two tiles of each colour.",
     "out": "Beginnt mit einem \"Kreuz\" aus zwei Plättchen jeder Farbe."
+  },
+  "variants.exxit.#setup.name": {
+    "src": "Default setup",
+    "out": "Standard-Aufstellung"
   },
   "variants.exxit.19tiles.description": {
     "src": "Ideal for learning the rules",
@@ -18338,6 +17966,10 @@
   "variants.fendo.size-9.name": {
     "src": "9x9 board",
     "out": "9x9-Brett"
+  },
+  "variants.flume.#board.name": {
+    "src": "Default board",
+    "out": "Standard-Brett"
   },
   "variants.flume.11x11.name": {
     "src": "Larger board: 11x11",
@@ -18402,6 +18034,10 @@
   "variants.fourinarow.#clear.name": {
     "src": "No clear",
     "out": "Kein Leeren"
+  },
+  "variants.fourinarow.#opening.name": {
+    "src": "Default opening",
+    "out": "Standard-Eröffnung"
   },
   "variants.fourinarow.#placement.description": {
     "src": "Pieces must always be placed such that they're supported by at least one piece from below.",
@@ -18715,6 +18351,10 @@
     "src": "16x16 board",
     "out": "16x16-Brett"
   },
+  "variants.halma.#ruleset.name": {
+    "src": "Default ruleset",
+    "out": "Standard-Regelsatz"
+  },
   "variants.halma.superhalma.name": {
     "src": "Super Halma (allows long-jumps)",
     "out": "Super-Halma (erlaubt Weitsprünge)"
@@ -18863,6 +18503,10 @@
     "src": "19x19 board",
     "out": "19x19-Brett"
   },
+  "variants.irensei.#opening.name": {
+    "src": "Default opening",
+    "out": "Standard-Eröffnung"
+  },
   "variants.irensei.#overline.description": {
     "src": "The first player loses if they make an overline, but the second player may win by overline.",
     "out": "Der erste Spieler verliert, wenn er eine Überlänge bildet, aber der zweite Spieler kann durch eine Überlänge gewinnen."
@@ -18930,6 +18574,10 @@
   "variants.jacynth.#deck.description": {
     "src": "The basic 36-card deck (aces through crowns)",
     "out": "Das Standard-Deck mit 36 Karten (Asse bis Kronen)"
+  },
+  "variants.jacynth.#deck.name": {
+    "src": "Default deck",
+    "out": "Standard-Deck"
   },
   "variants.jacynth.#setup.description": {
     "src": "The board starts with six cards in a diagonal line.",
@@ -19323,6 +18971,10 @@
     "src": "Default base-7 board",
     "out": "Standardbrett (Basis 7)"
   },
+  "variants.mattock.#setup.name": {
+    "src": "Default setup",
+    "out": "Standard-Aufstellung"
+  },
   "variants.mattock.freestyle.description": {
     "src": "Players take turn placing their miners on the board. When all miners are placed, player 2 starts.",
     "out": "Die Spieler setzen abwechselnd ihre Bergmänner auf das Brett. Wenn alle Bergmänner platziert sind, beginnt Spieler 2."
@@ -19346,6 +18998,10 @@
   "variants.mattock.size-5.name": {
     "src": "Smaller board (base-5)",
     "out": "Kleineres Brett (Basis 5)"
+  },
+  "variants.mchess.#movement.name": {
+    "src": "Default movement rules",
+    "out": "Standard-Bewegungsregeln"
   },
   "variants.mchess.ofkk.description": {
     "src": "Pawns move like Chess kings, and drones move like Chess knights.",
@@ -19439,6 +19095,10 @@
     "src": "40x40 board",
     "out": "40x40-Brett"
   },
+  "variants.mixtour.#scores.name": {
+    "src": "Default scores",
+    "out": "Standard-Wertung"
+  },
   "variants.mixtour.five.description": {
     "src": "The winner is the first to score three points.",
     "out": "Gewinner ist, wer zuerst drei Punkte erzielt."
@@ -19482,6 +19142,10 @@
   "variants.morphos.#board.name": {
     "src": "13x13 board",
     "out": "13x13-Brett"
+  },
+  "variants.morphos.#rules.name": {
+    "src": "Default rules",
+    "out": "Standard-Regeln"
   },
   "variants.morphos.double.description": {
     "src": "On each turn, place two new stones (orthogonally adjacent to each other) or capture one. Minimorph formations apply.",
@@ -19963,6 +19627,10 @@
     "src": "Swap-5 opening",
     "out": "Swap-5-Eröffnung"
   },
+  "variants.pikemen.#eog.name": {
+    "src": "Default end condition",
+    "out": "Standard-Endbedingung"
+  },
   "variants.pikemen.15pts.description": {
     "src": "The game doesn't end until you have 15 points worth of enemy soldiers.",
     "out": "Das Spiel endet erst, wenn du gegnerische Soldaten im Wert von 15 Punkten hast."
@@ -19998,6 +19666,10 @@
   "variants.pinch.#board.name": {
     "src": "17x17 board",
     "out": "17x17-Brett"
+  },
+  "variants.pinch.#ruleset.name": {
+    "src": "Default ruleset",
+    "out": "Standard-Regelsatz"
   },
   "variants.pinch.original.description": {
     "src": "Captured stones flip color, eventually resulting in more flips.",
@@ -20167,6 +19839,10 @@
     "src": "The board starts empty, and the first half of the game is the players placing their pyramids.",
     "out": "Das Brett ist zu Beginn leer, und die erste Hälfte des Spiels besteht darin, dass die Spieler ihre Pyramiden platzieren."
   },
+  "variants.pylon.#setup.name": {
+    "src": "Default setup",
+    "out": "Standard-Aufstellung"
+  },
   "variants.pylon.quickStart.description": {
     "src": "A learning mode that randomly places the pyramids for you, so players start directly at the stacking half of the game.",
     "out": "Ein Lernmodus, der die Pyramiden zufällig für dich platziert, sodass die Spieler direkt mit der Stapelhälfte des Spiels beginnen."
@@ -20182,6 +19858,10 @@
   "variants.quagmire.#setup.description": {
     "src": "The starting position will be an empty board.",
     "out": "Die Startposition ist ein leeres Brett."
+  },
+  "variants.quagmire.#setup.name": {
+    "src": "Default setup",
+    "out": "Standard-Aufstellung"
   },
   "variants.quagmire.large.name": {
     "src": "Larger board (61 cells)",
@@ -20250,6 +19930,22 @@
   "variants.rampart.hex7.name": {
     "src": "Hexagonal board (base-7)",
     "out": "Hexagonales Brett (Basis 7)"
+  },
+  "variants.realm.#bases.name": {
+    "src": "Default bases",
+    "out": "Standard-Basen"
+  },
+  "variants.realm.#enforcers.name": {
+    "src": "Default enforcers",
+    "out": "Standard-Enforcer"
+  },
+  "variants.realm.#powers.name": {
+    "src": "Default powers",
+    "out": "Standard-Kräfte"
+  },
+  "variants.realm.#ties.name": {
+    "src": "Default ties",
+    "out": "Standard-Unentschieden-Regel"
   },
   "variants.realm.TEST.description": {
     "src": "Do not select.",
@@ -20407,6 +20103,10 @@
     "src": "Default 8x8 board",
     "out": "Standard 8x8-Brett"
   },
+  "variants.reversi.#objective.name": {
+    "src": "Default objective",
+    "out": "Standard-Spielziel"
+  },
   "variants.reversi.anti.description": {
     "src": "The player who has the fewest pieces at the end of the game wins.",
     "out": "Der Spieler, der am Ende des Spiels die wenigsten Steine hat, gewinnt."
@@ -20463,6 +20163,10 @@
     "src": "A swap must decrease either the number of crosscuts or the number of supercuts on the board, and it must not increase the number of crosscuts.",
     "out": "Ein Tausch muss entweder die Anzahl der Crosscuts oder die Anzahl der Supercuts auf dem Brett verringern, und er darf die Anzahl der Crosscuts nicht erhöhen."
   },
+  "variants.saltire.#rules.name": {
+    "src": "Default rules",
+    "out": "Standard-Regeln"
+  },
   "variants.saltire.basic.description": {
     "src": "A swap must decrease the number of crosscuts. Draws are possible.",
     "out": "Ein Tausch muss die Anzahl der Crosscuts verringern. Unentschieden sind möglich."
@@ -20502,6 +20206,30 @@
   "variants.scribe.advanced.name": {
     "src": "Advanced",
     "out": "Fortgeschritten"
+  },
+  "variants.selfo.#board.name": {
+    "src": "Radius-3 board, 9 pieces each",
+    "out": "Radius-3-Brett, je 9 Steine"
+  },
+  "variants.selfo.no-enclosure.description": {
+    "src": "A move that would enclose an opposing piece is not allowed, unless it wins the game outright.",
+    "out": "Ein Zug, der einen gegnerischen Stein einschließen würde, ist nicht erlaubt, es sei denn, er gewinnt das Spiel direkt."
+  },
+  "variants.selfo.no-enclosure.name": {
+    "src": "No enclosure",
+    "out": "Kein Einschließen"
+  },
+  "variants.selfo.r2f5.name": {
+    "src": "Radius-2 board, 5 pieces each",
+    "out": "Radius-2-Brett, je 5 Steine"
+  },
+  "variants.selfo.r4f12.name": {
+    "src": "Radius-4 board, 12 pieces each",
+    "out": "Radius-4-Brett, je 12 Steine"
+  },
+  "variants.selfo.r5f20.name": {
+    "src": "Radius-5 board, 20 pieces each",
+    "out": "Radius-5-Brett, je 20 Steine"
   },
   "variants.sentinel.#board.name": {
     "src": "9x9 board",
@@ -20662,6 +20390,10 @@
   "variants.soccolot.#board.name": {
     "src": "7x7 board (5 men)",
     "out": "7x7-Brett (5 Mann)"
+  },
+  "variants.soccolot.#ruleset.name": {
+    "src": "Default ruleset",
+    "out": "Standard-Regelsatz"
   },
   "variants.soccolot.original.name": {
     "src": "8x8 board (6 men)",
@@ -20891,6 +20623,10 @@
     "src": "You control a space by controlling more than half of its lines of sight.",
     "out": "Du kontrollierst ein Feld, wenn du mehr als die Hälfte seiner Sichtlinien kontrollierst."
   },
+  "variants.stigmergy.#rules.name": {
+    "src": "Default rules",
+    "out": "Standard-Regeln"
+  },
   "variants.stigmergy.nokomi.description": {
     "src": "The game will be played without a second mover bonus. Good for beginners.",
     "out": "Das Spiel wird ohne Bonus für den Zweitziehenden gespielt. Gut für Anfänger."
@@ -20922,6 +20658,10 @@
   "variants.stiletto.#board.name": {
     "src": "19x19 board",
     "out": "19x19-Brett"
+  },
+  "variants.stiletto.#ruleset.name": {
+    "src": "Default ruleset",
+    "out": "Standard-Regelsatz"
   },
   "variants.stiletto.open4.description": {
     "src": "Cannot use both stones to form an open-4.",
@@ -21018,6 +20758,10 @@
   "variants.subdivision.#scoring.description": {
     "src": "Parks offer no bonuses",
     "out": "Parks bieten keine Boni"
+  },
+  "variants.subdivision.#scoring.name": {
+    "src": "Default scoring",
+    "out": "Standard-Wertung"
   },
   "variants.subdivision.manualParks.description": {
     "src": "Players take turns placing parks at the beginning of the game (ignored for three-player games)",
@@ -21118,6 +20862,10 @@
   "variants.tablero.#scoring.description": {
     "src": "One point per pip",
     "out": "Ein Punkt pro Pip"
+  },
+  "variants.tablero.#scoring.name": {
+    "src": "Default scoring",
+    "out": "Standard-Wertung"
   },
   "variants.tablero.5-10.description": {
     "src": "By adding 4 to the value of each centre space, the ratio of highest space to lowest is compressed from 6:1 to 2:1. This incentivizes more active competition for lower spaces.",
@@ -21275,6 +21023,10 @@
     "src": "Play on a size-5 board where plant growth destroys dirt.",
     "out": "Spiele auf einem Brett der Größe 5, auf dem Pflanzenwachstum Erde zerstört."
   },
+  "variants.take.#rules.name": {
+    "src": "Default rules",
+    "out": "Standard-Regeln"
+  },
   "variants.take.high-churn.description": {
     "src": "Play on a size-4 board where plant growth does not destroy dirt.",
     "out": "Spiele auf einem Brett der Größe 4, auf dem Pflanzenwachstum Erde nicht zerstört."
@@ -21351,6 +21103,10 @@
     "src": "A round-ish hex field of 49 spaces",
     "out": "Ein rundliches Hexagonalfeld mit 49 Feldern"
   },
+  "variants.tintas.#board.name": {
+    "src": "Default board",
+    "out": "Standard-Brett"
+  },
   "variants.tintas.modular.description": {
     "src": "Modular boards are composed of a certain number of 7-cell modules (hexhex 2s) distributed randomly but ensuring that each module touches another at two points.",
     "out": "Modulare Bretter bestehen aus einer bestimmten Anzahl von 7-Zellen-Modulen (Hexhex 2), die zufällig verteilt sind, aber sicherstellen, dass jedes Modul ein anderes an zwei Punkten berührt."
@@ -21358,6 +21114,10 @@
   "variants.tintas.modular.name": {
     "src": "Modular board (7 cells, 49 spaces)",
     "out": "Modulares Brett (7 Zellen, 49 Felder)"
+  },
+  "variants.trax.#variant.name": {
+    "src": "Default variant",
+    "out": "Standard-Variante"
   },
   "variants.trax.loop.description": {
     "src": "The game must be won by a closed loop. Lines do not count in Loop Trax.",
@@ -21531,6 +21291,10 @@
     "src": "Links cannot cross. You may rearrange your links before you place your peg.",
     "out": "Verbindungen dürfen sich nicht kreuzen. Sie dürfen Ihre Verbindungen vor dem Setzen Ihres Stifts umsetzen."
   },
+  "variants.twixt.#ruleset.name": {
+    "src": "Default ruleset",
+    "out": "Standard-Regelsatz"
+  },
   "variants.twixt.pp.description": {
     "src": "Players' own links are allowed to cross each other. There are no link rearrangements.",
     "out": "Eigene Verbindungen dürfen sich überschneiden. Verbindungen können nicht umgesetzt werden."
@@ -21599,6 +21363,10 @@
     "src": "Monuments",
     "out": "Denkmäler"
   },
+  "variants.valley.#rules.name": {
+    "src": "Default rules",
+    "out": "Standard-Regeln"
+  },
   "variants.valley.king-swap.description": {
     "src": "Kings start on the opposing side of the board.",
     "out": "Könige starten auf der gegenüberliegenden Seite des Spielfelds."
@@ -21634,6 +21402,10 @@
   "variants.veletas.#setup.description": {
     "src": "The first player places shooters and a stone of their colour, then the second player chooses if they want to invoke the pie rule. After that the second player places more shooters and a stone, and the game begins.",
     "out": "Der erste Spieler platziert Schützen und einen Stein seiner Farbe, danach entscheidet der zweite Spieler, ob er die Kuchenregel anwenden möchte. Anschließend platziert der zweite Spieler weitere Schützen sowie einen Stein und das Spiel beginnt."
+  },
+  "variants.veletas.#setup.name": {
+    "src": "Default setup",
+    "out": "Standard-Aufstellung"
   },
   "variants.veletas.no-corners.name": {
     "src": "No corner squares",

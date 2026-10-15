@@ -9,6 +9,120 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { Card, Deck, cardSortAsc, cardsBasic, cardsExtended, suits } from "../common/decktet/index.js";
+export const gameApgamesEn = {
+    validation: {
+        CARD_FIRST: "Please select a hand card before moving a frog forward.",
+        CARD_NEXT: "You may click on a card in the draw pool to add it to your hand, or submit your move.",
+        CARD_NEXT_OR: "You may click on a card in the draw pool to add it to your hand, or start another move.",
+        INITIAL_INSTRUCTIONS: "Click a card in your hand to use to move a frog forward.",
+        LATER_INSTRUCTIONS: "Click a card in your hand to use to move a frog forward, or click a frog to move it back (and possibly draw a card from the draw pool).",
+        INVALID_MARKET_CARD: "Your chosen pool card must not include the suit your frog landed on.",
+        INVALID_FROG: "You may only move your own frogs.",
+        INVALID_HOP_FORWARD: "When advancing, your frog must land on the first available spot of a given suit.",
+        INVALID_HOP_FORWARD_ADVANCED: "Under the advanced rules, when playing a two-suited card from your hand, your frog must land on the first available spot of either suit (not your choice). If both suits are present on the same board card (that is, in the same column), you may choose either spot.",
+        INVALID_HOP_BACKWARD: "When hopping back, your frog must land on the nearest available card. If there is more than one spot available in that column, you may choose any one of them.",
+        INVALID_HOP_BACKWARD_EXCUSE: "Your frog cannot hop backward from the Excuse.",
+        INVALID_MOVE: "The move '{{move}}' could not be parsed.",
+        LABEL_MARKET: "Draw pool",
+        LABEL_REMAINING: "Cards in deck",
+        LABEL_DISCARDS: "Discard pile",
+        LABEL_STASH: "{{player}}'s hand",
+        MISPLACED_REFILL: "Please request a refill before you move a frog backward.",
+        MUST_HOP_FORWARD: "When using a hand card, your frog must hop forward.",
+        MUST_MOVE: "Your frog must move to a different card/column.",
+        MUST_PASS: "You must pass to allow another player to complete their turn.",
+        NO_CARDS_FOR_REFILL: "There are no cards left with which to refill the draw pool.",
+        NO_CARDS_BLOCKED: "If, at the start of your turn, you have no hand cards, none of your frogs can move back, and if the draw pool is empty, you must pass.",
+        NO_CHOICE_BLOCKED: "If, at the start of your turn, you have no hand cards and none of your frogs can move back, you must draw a single card from the draw pool and end your turn.",
+        NO_MOVE_BLOCKED: "You cannot move after claiming a card for being blocked.",
+        NO_PASSING: "There is no passing as such in Frogger. If you are blocked, you must draw a single card from the draw pool.",
+        NO_REFILLS: "Refilling the draw pool is not allowed in this variant.",
+        NO_RETURN: "Frogs may not leave home once they've reached it.",
+        NO_SUCH_HAND_CARD: "The card \"{{card}}\" does not appear to be in your hand.",
+        NO_SUCH_MARKET_CARD: "The card \"{{card}}\" does not appear to be in the draw pool.",
+        OFF_BOARD: "Frogs must be placed at home, at the Excuse, or on locations with suits.",
+        OFFSIDES: "Please click on your desired suit space, not the informational icons on the top row.",
+        PIECE_NEXT: "Click on a frog to move it.",
+        PLACE_NEXT: "Click on a new location for your frog.",
+        TOO_HOPPY: "You may not make more than {{count}} moves on your turn.",
+        TOO_EARLY_FOR_REFILL: "Please submit your refill request before making your remaining moves.",
+        TOO_LATE_FOR_BLOCKED: "You do not count as blocked if you've already moved on this turn.",
+        TOO_LATE_FOR_REFILL: "There is no need to force a refill of the draw pool after your third move. It will refill automatically after you submit.",
+        VALID_REFILL_one: "Please submit your move to trigger the refill. You will get another turn automatically, and you will have one move remaining in your partial turn (as well as the option to pass).",
+        VALID_REFILL_other: "Please submit your move to trigger the refill. You will get another turn automatically, and you will have {{count}} moves remaining in your partial turn (as well as the option to pass).",
+    },
+    variants: {
+        "#market": {
+            description: "The draw pool does not refill until the next player's turn.",
+            name: "No refills",
+        },
+        advanced: {
+            description: "The advanced game has a shorter track and a more restrictive movement rule.",
+            name: "Advanced",
+        },
+        continuous: {
+            description: "The draw pool is smaller but refills after each turn.",
+            name: "Continuous refills",
+        },
+        courtpawns: {
+            description: "For variety, the roles of pawns and courts may be reversed.",
+            name: "Courts for Pawns",
+        },
+        courts: {
+            description: "The four courts are added to the draw deck.  When playing a court, advance a frog to the next available spot in your choice of the three suits (even in the advanced game). When swapping courts for pawns, pawns will be added instead.",
+            name: "Courts",
+        },
+        crocodiles: {
+            description: "Add hungry crocodiles to the pawn cards. Crocodiles advance at the end of each round, sending any frog on their new space back to the Excuse. This variant is intended for a two-player game, but you may add crocodiles at any player count.",
+            name: "Crocodiles",
+        },
+        freeswim: {
+            description: "There is no restriction on cards drawn from the draw pool.",
+            name: "Free swim",
+        },
+        refills: {
+            description: "The draw pool may be refilled during a player's turn, by splitting their actions over two partial turns.",
+            name: "Refills",
+        },
+    },
+    displays: {
+        "#piece": {
+            name: "Standard pieces",
+        },
+        "frog-pieces": {
+            description: "Use frog-shaped pieces.",
+            name: "Frog pieces",
+        },
+    },
+};
+export const gameApresultsEn = {
+    ANNOUNCE: {
+        one: "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining move.",
+        other: "{{player}} chose to refill the draw pool.  He gets another turn to take his {{count}} remaining moves.",
+    },
+    CLAIM: {
+        default: "{{player}} was blocked and drew {{card}} from the draw pool.",
+    },
+    DECKDRAW: {
+        default: "The draw pool was {{what}} refilled.",
+    },
+    DECLARE: {
+        default: "The crocodiles advanced.",
+    },
+    EJECT: {
+        card: "{{player}} played an Ace or Crown and returned a frog from {{from}} to {{to}}.",
+        croc: "The frog at {{from}} was eaten by crocodiles (and returned to {{to}}).",
+    },
+    MOVE: {
+        back: "{{player}} moved a frog back from {{from}} to {{to}}, and drew {{card}} from the draw pool.",
+        forward: "{{player}} used {{card}} to move a frog forward from {{from}} to {{to}}.",
+    },
+    PASS: {
+        default: "{{player}} passed {{why}}.",
+    },
+};
+
+
 
 
 export type playerid = 1|2|3|4|5;
@@ -64,10 +178,8 @@ export class FroggerGame extends GameBase {
         playercounts: [2,3,4,5],
         version: "20260822",
         dateAdded: "2026-01-26",
-        // i18next.t("apgames:descriptions.frogger")
-        description: "apgames:descriptions.frogger",
-        // i18next.t("apgames:notes.frogger")
-        notes: "apgames:notes.frogger",
+        description: "A racing game for the Decktet inspired by the eponymous videogame and the classic boardgame Cartagena.  Move your frogs along a dangerous path to reach home first.",
+        notes: "As in other Decktet games at Abstract Play, the deck is displayed at the bottom of the board and includes both cards in the deck and unknown cards in other players' hands. After the first hand, all cards are drawn from the open draw pool, so hands gradually become open. The discards pile is also displayed.\n\nForced passes are no longer used when a player refills the draw pool (and submits) in the middle of his turn.  That player's second partial turn is handled automatically by the server.  There's also a draw pool variant that avoids the double-ply, if desired.\n\nThe Crocodiles variant is by Jorge Arroyo, the translator of the English rules. The Advanced rules and other minor variants are by P. D. Magnus; they appear in The Decktet Book, where the game is called Xing.",
         urls: [
             "http://wiki.decktet.com/game:frogger",
             "https://boardgamegeek.com/boardgame/41859/frogger",
@@ -1023,7 +1135,7 @@ export class FroggerGame extends GameBase {
         //  but these results are weighted so keeping them.
 
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         //Refill/skipto case.  Not reachable from the move list, but useful for testing.
@@ -1114,7 +1226,7 @@ export class FroggerGame extends GameBase {
                 valid: false,
                 complete: -1,
                 move: "",
-                message: i18next.t("apgames:MOVES_GAMEOVER")
+                message: i18next.t("apgames:validation._general.MOVES_GAMEOVER")
             };
         }
 
@@ -1299,7 +1411,7 @@ export class FroggerGame extends GameBase {
             if (m.length === 0) {
                 result.message = "";
             } else {
-                result.message = i18next.t("apgames:MOVES_GAMEOVER");
+                result.message = i18next.t("apgames:validation._general.MOVES_GAMEOVER");
             }
             return result;
         }
@@ -1653,7 +1765,7 @@ export class FroggerGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false, emulation = false} = {}): FroggerGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         //m = m.toLowerCase();
@@ -2419,44 +2531,44 @@ export class FroggerGame extends GameBase {
     private collectFroggerChatLine(lines: ChatLogLine[], r: APMoveResult, seat: number): boolean {
         switch (r.type) {
             case "announce":
-                this.pushSeatChatLine(lines, seat, "apresults:ANNOUNCE.frogger", {
+                this.pushSeatChatLine(lines, seat, "apresults:frogger.ANNOUNCE", {
                     count: Number((r.payload as number[])[0]),
                 });
                 return true;
             case "claim":
-                this.pushSeatChatLine(lines, seat, "apresults:CLAIM.frogger", {card: r.what!});
+                this.pushSeatChatLine(lines, seat, "apresults:frogger.CLAIM.default", {card: r.what!});
                 return true;
             case "deckDraw":
-                this.pushNeutralChatLine(lines, "apresults:DECKDRAW.frogger", {what: r.what!});
+                this.pushNeutralChatLine(lines, "apresults:frogger.DECKDRAW.default", {what: r.what!});
                 return true;
             case "declare":
-                this.pushNeutralChatLine(lines, "apresults:DECLARE.frogger");
+                this.pushNeutralChatLine(lines, "apresults:frogger.DECLARE.default");
                 return true;
             case "eject":
                 if (r.what === "crocodiles") {
-                    this.pushSeatChatLine(lines, seat, "apresults:EJECT.frogger_croc", {from: r.from!, to: r.to!});
+                    this.pushSeatChatLine(lines, seat, "apresults:frogger.EJECT.croc", {from: r.from!, to: r.to!});
                 } else {
-                    this.pushSeatChatLine(lines, seat, "apresults:EJECT.frogger_card", {from: r.from!, to: r.to!});
+                    this.pushSeatChatLine(lines, seat, "apresults:frogger.EJECT.card", {from: r.from!, to: r.to!});
                 }
                 return true;
             case "move":
                 if (r.how === "forward") {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.frogger_forward", {
+                    this.pushSeatChatLine(lines, seat, "apresults:frogger.MOVE.forward", {
                         from: r.from!, to: r.to!, card: r.what!,
                     });
                 } else if (r.how === "back") {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.frogger_back", {
+                    this.pushSeatChatLine(lines, seat, "apresults:frogger.MOVE.back", {
                         from: r.from!, to: r.to!, card: r.what!,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.frogger_blocked", {card: r.what!});
+                    this.pushSeatChatLine(lines, seat, "apresults:frogger.CLAIM.default", {card: r.what!});
                 }
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, seat, "apresults:PASS.frogger", {why: r.why!});
+                this.pushSeatChatLine(lines, seat, "apresults:frogger.PASS.default", {why: r.why!});
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return false;
@@ -2514,3 +2626,4 @@ export class FroggerGame extends GameBase {
         return Object.assign(new FroggerGame(this.numplayers), cloneState(this) as FroggerGame);
     }
 }
+

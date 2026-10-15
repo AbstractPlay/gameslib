@@ -21,6 +21,54 @@ import {
     starBuildConnPathForWin,
 } from "../common/graphs/index.js";
 import type { RowCol } from "@abstractplay/renderer/build/schemas/schema";
+export const gameApgamesEn = {
+    validation: {
+        ADJACENCY: "You can only capture adjacent stacks.",
+        EMPTY_MOVE: "You may not move to an empty space.",
+        FRIENDLY_CAPTURE: "You may not cover your own stacks.",
+        INITIAL_INSTRUCTIONS: "Select an empty space to place a piece, or select a piece to move.",
+        PARTIAL: "Select where you want to move the piece.",
+        SAME_HEIGHT: "Pieces may only move between stacks of the same height.",
+    },
+    variants: {
+        "#board": {
+            name: "Triangle board (8 wide)",
+        },
+        cobweb: {
+            name: "Cobweb (4 rings)",
+        },
+        "cobweb-small": {
+            description: "A variant played on a round board where you try to connect two opposite sides.",
+            name: "Cobweb (3 rings)",
+        },
+        limping: {
+            name: "Limping 5-6 (75 spaces)",
+        },
+        moon: {
+            description: "A hexhex5 board with a subdivided centre cell and tweaked edges to form a moon-type surface.",
+            name: "Moon (63 spaces)",
+        },
+        "slanted-8": {
+            name: "Slanted hex (8x8)",
+        },
+        "slanted-10": {
+            name: "Slanted hex (10x10)",
+        },
+        "standard-11": {
+            description: "A larger version of the standard board.",
+            name: "Triangle (11 wide)",
+        },
+        "standard-14": {
+            description: "A larger version of the standard board.",
+            name: "Triangle (14 wide)",
+        },
+        "star-11": {
+            name: "Star (11 wide)",
+            description: "Pentagonal star board. Connect any three outer sides that form a legal Y, or four or more sides.",
+        },
+    },
+};
+
 
 type playerid = 1|2;
 
@@ -44,8 +92,7 @@ export class AgereGame extends GameBase {
         playercounts: [2],
         version: "20230727",
         dateAdded: "2023-07-31",
-        // i18next.t("apgames:descriptions.agere")
-        description: "apgames:descriptions.agere",
+        description: "A connection game where you can also stack pieces. Played either on a triangle board where you try to connect all three sides, or a circular \"cobweb\" board where you connect opposite sides.",
         urls: [
             "https://agere.drew-edwards.com/",
             "https://boardgamegeek.com/boardgame/397893/adere",
@@ -536,7 +583,7 @@ export class AgereGame extends GameBase {
         // valid cell
         if (! graph.nodes().includes(from)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.agere.INVALIDCELL", {cell: from});
+            result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
             return result;
         }
 
@@ -566,7 +613,7 @@ export class AgereGame extends GameBase {
             // valid cell
             if (! graph.nodes().includes(to)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.agere.INVALIDCELL", {cell: to});
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
                 return result;
             }
 
@@ -609,7 +656,7 @@ export class AgereGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): AgereGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         // Normalize
         m = m.toLowerCase();
@@ -1549,3 +1596,4 @@ export class AgereGame extends GameBase {
         // return new AgereGame(this.serialize());
     }
 }
+

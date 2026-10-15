@@ -5,6 +5,26 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Plant a new seed in dirt, or grow a plant by placing adjacent to exactly one ally piece (dirt or no dirt).",
+    },
+    variants: {
+        "#rules": {
+            description: "Play on a size-5 board where plant growth destroys dirt.",
+            name: "Default rules"
+        },
+        "high-churn": {
+            description: "Play on a size-4 board where plant growth does not destroy dirt.",
+            name: "High Churn",
+        },
+        "quick-churn": {
+            description: "Play on a size-3 board where plant growth does not destroy dirt.",
+            name: "Small, High Churn",
+        },
+    },
+};
+
 
 type PlayerId = 1|2;
 type ContentType = "empty"|"red-dirt"|"blue-dirt"|"red"|"blue";
@@ -31,8 +51,7 @@ export class TakeGame extends GameBase {
         playercounts: [2],
         version: "20240220",
         dateAdded: "2024-02-25",
-        // i18next.t("apgames:descriptions.take")
-        description: "apgames:descriptions.take",
+        description: "Grow root-like formations of stones from seeds. Plants die when they run out of room to grow. The winner is the last player with a plant alive on the board.",
         urls: [
             "https://www.marksteeregames.com/Take_rules.pdf",
             "https://boardgamegeek.com/boardgame/432220/take",
@@ -302,7 +321,7 @@ export class TakeGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): TakeGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -498,3 +517,4 @@ export class TakeGame extends GameBase {
         return new TakeGame(this.serialize());
     }
 }
+

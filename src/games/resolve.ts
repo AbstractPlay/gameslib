@@ -6,6 +6,25 @@ import { Direction, RectGrid, reviver, UserFacingError } from "../common/index.j
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select an intersection to place a piece.",
+        INITIAL_INSTRUCTIONS_SWAP: "Select a piece in a crosscut to swap.",
+        CHOOSE_OWN: "You must choose one of your own pieces in a crosscut to swap.",
+        CANNOT_SWAP: "The piece at {{where}} is not in a crosscut.",
+        SWAP: "Select a piece in the crosscut to swap.",
+        INVALID_SWAP: "The piece at {{from}} cannot swap to {{to}}.",
+    },
+    variants: {
+        "#board": {
+            name: "9x9 board",
+        },
+        "size-13": {
+            name: "13x13 board",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 type PlayerLines = [string[], string[]];
@@ -29,8 +48,7 @@ export class ResolveGame extends GameBase {
         playercounts: [2],
         version: "20240917",
         dateAdded: "2024-09-22",
-        // i18next.t("apgames:descriptions.resolve")
-        description: "apgames:descriptions.resolve",
+        description: "A square grid connection game. If a crosscut is formed, swap the placed piece until it is no longer part of a crosscut. If the board is full and there is no winner, choose one of your stones in a crosscut and resolve.",
         urls: ["https://boardgamegeek.com/boardgame/314106/resolve"],
         bggid: "314106",
         people: [
@@ -378,7 +396,7 @@ export class ResolveGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): ResolveGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -587,13 +605,13 @@ export class ResolveGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "swap":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SWAP.resolve", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.SWAP.resolve", { where: r.where! });
                 return true;
             case "select":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SELECT.resolve", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.SELECT.resolve", { where: r.where! });
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -605,3 +623,4 @@ export class ResolveGame extends GameBase {
         return new ResolveGame(this.serialize());
     }
 }
+

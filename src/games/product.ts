@@ -5,6 +5,38 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "At the start, place one stone of either color. Click current friendly stone to flip color, click again to empty hex.",
+        INSTRUCTIONS: "Players place, on empty hexes, two stones of either color. Click current friendly stone to flip color, click again to empty hex.",
+        INCOMPLETE_TURN: "To complete the turn you need two placements.",
+        TOO_MANY_MOVES: "Only two placements are allowed.",
+        TOO_MANY_MOVES_START: "At the start, only one placement is allowed.",
+    },
+    variants: {
+        "size-4": {
+            name: "Hexagonal board (base-4)",
+        },
+        "#board": {
+            name: "Hexagonal board (base-5)",
+        },
+        "size-6": {
+            name: "Hexagonal board (base-6)",
+        },
+        "size-7": {
+            name: "Hexagonal board (base-7)",
+        },
+        "#ruleset": {
+            description: "Only one group results in a score of zero.",
+            name: "Two groups needed",
+        },
+        "1-group": {
+            description: "Only one group results in a score of its size.",
+            name: "One group needed",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -26,8 +58,7 @@ export class ProductGame extends GameBase {
         playercounts: [2],
         version: "20240219",
         dateAdded: "2026-03-07",
-        // i18next.t("apgames:descriptions.product")
-        description: "apgames:descriptions.product",
+        description: "Players score by multiplying their two largest groups. Largest score wins. If tied, the second player wins.",
         urls: [
                 "https://boardgamegeek.com/boardgame/136995/produto",
                 "https://jpneto.github.io/world_abstract_games/product.htm"
@@ -369,7 +400,7 @@ export class ProductGame extends GameBase {
         const regex = new RegExp(`^[12][a-z]\\d+(,[12][a-z]\\d+)?$`);
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.product.INVALID_PLACEMENT", {move: m});
+            result.message = i18next.t("apgames:validation._general.INVALID_PLACEMENT", {move: m});
             return result;
         }
 
@@ -377,7 +408,7 @@ export class ProductGame extends GameBase {
         const normalised = this.normaliseMove(m);
         if (! this.sameMove(m, normalised)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.product.NORMALISED", {move: normalised});
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
 
@@ -412,7 +443,7 @@ export class ProductGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): ProductGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (!trusted) {
@@ -548,13 +579,13 @@ export class ProductGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {
                     where: r.where!,
                     what: this.board.get(r.where!)! !== this.currplayer ? "friendly piece" : "opponent piece",
                 });
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -565,3 +596,4 @@ export class ProductGame extends GameBase {
         return new ProductGame(this.serialize());
     }
 }
+

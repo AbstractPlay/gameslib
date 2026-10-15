@@ -4,6 +4,49 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        ADJACENT: "Pieces must be placed adjacent to each other. Diagonal placement is only permitted in the \"Tonga\" variant.",
+        INITIAL_INSTRUCTIONS: "Place a light piece in an empty space.",
+        NO_NEIGHBOUR: "That space has no valid empty neighbour.",
+        PARTIAL: "Place the dark piece in an adjacent empty space.",
+    },
+    variants: {
+        "#board": {
+            name: "Default board: 9x9",
+        },
+        "#groups": {
+            name: "Scoring: Largest two groups",
+        },
+        "#scoring": {
+            name: "Simple sum",
+        },
+        "7x7": {
+            name: "Smaller board: 7x7",
+        },
+        "11x11": {
+            name: "Larger board: 11x11",
+        },
+        onegroup: {
+            name: "Scoring: Single largest group",
+        },
+        products: {
+            description: "Multiplies together the sizes of your n largest groups.",
+            name: "Product",
+        },
+        squares: {
+            description: "Adds together the square of each of your n largest groups.",
+            name: "Sum of Squares",
+        },
+        threegroups: {
+            name: "Scoring: Largest three groups",
+        },
+        tonga: {
+            name: "Tonga (Diagonal Placement)",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -25,10 +68,8 @@ export class TaijiGame extends GameBase {
         playercounts: [2],
         version: "20211118",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.taiji")
-        description: "apgames:descriptions.taiji",
-        // i18next.t("apgames:notes.taiji")
-        notes: "apgames:notes.taiji",
+        description: "Two players take turns placing one piece of each colour next to each other. The winner is the one who forms the largest orthogonal groups of their own colour.",
+        notes: "Moves are done with two clicks. The first tile you place is always the light one, and then the dark one.",
         urls: ["https://boardgamegeek.com/boardgame/31926/taiji", "https://nestorgames.com/rulebooks/TAIJIDELUXE_EN.pdf"],
         bggid: "31926",
         people: [
@@ -308,7 +349,7 @@ export class TaijiGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): TaijiGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -507,3 +548,4 @@ export class TaijiGame extends GameBase {
         return new TaijiGame(this.serialize());
     }
 }
+

@@ -4,6 +4,24 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        CENTRE_START: "On the first turn of the game, you may not place on the centre space.",
+        INITIAL_INSTRUCTIONS: "Select an empty cell.",
+        INVALID_CONTINUATION: "You may only continue placing if your last placement connected with three or more other pieces.",
+        KEEP_GOING: "If you make a connection with three or more pieces, you must continue placing pieces.",
+    },
+    variants: {
+        "7x7": {
+            name: "Smaller board: 7x7",
+        },
+        "11x11": {
+            name: "Larger board: 11x11",
+        },
+        "#board": { name: "Default board" }
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -26,8 +44,7 @@ export class FlumeGame extends GameBase {
         playercounts: [2],
         version: "20230716",
         dateAdded: "2023-07-17",
-        // i18next.t("apgames:descriptions.flume")
-        description: "apgames:descriptions.flume",
+        description: "Place stones to make connections. Connecting to three or four other pieces allows you to place another stone. When the board is full, the player with the most stones on the board wins.",
         urls: [
             "https://www.marksteeregames.com/Flume_Go_rules.pdf",
             "https://boardgamegeek.com/boardgame/67080/flume",
@@ -290,7 +307,7 @@ export class FlumeGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): FlumeGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -465,3 +482,4 @@ export class FlumeGame extends GameBase {
         return new FlumeGame(this.serialize());
     }
 }
+

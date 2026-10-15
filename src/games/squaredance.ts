@@ -4,6 +4,14 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, RectGrid, reviver, SquareDirectedGraph, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select the pivot stone. This is the stone that won't move.",
+        PARTIAL_DESTINATION: "Select the point where the end stone will end up. You may not cover friendly pieces, and any covered enemy pieces will be captured.",
+        PARTIAL_ENDSTONE: "Select the end stone. This is the stone that will move the furthest.",
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -25,8 +33,7 @@ export class SquaredanceGame extends GameBase {
         playercounts: [2],
         version: "20250125",
         dateAdded: "2025-01-25",
-        // i18next.t("apgames:descriptions.squaredance")
-        description: "apgames:descriptions.squaredance",
+        description: "A game where you move groups of pieces by rotation, trying to force your opponent into a position where they cannot move.",
         urls: ["https://jpneto.github.io/world_abstract_games/squaredance.htm"],
         bggid: "27725",
         people: [
@@ -248,7 +255,7 @@ export class SquaredanceGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): SquaredanceGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -438,10 +445,10 @@ export class SquaredanceGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.multiple", {count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.multiple", {count: r.count!});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", {count: r.count!, from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.nowhat", {count: r.count!, from: r.from!, to: r.to!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -453,3 +460,4 @@ export class SquaredanceGame extends GameBase {
         return new SquaredanceGame(this.serialize());
     }
 }
+

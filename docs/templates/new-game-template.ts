@@ -13,9 +13,16 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
 import { RectGrid, reviver, UserFacingError } from "../common";
 /**
- * Throughout this file you'll see strings like `apgames:description.blah`. These are keys to the internationalization (i18n) database found in the `locales` folders. We wanted it to be possible for people to translate the site and the games into different languages. That may never happen, but it's still a helpful way of organizing all the strings. As you add new strings, you will need to populate `apgames.json` and possibly `apresults.json`. This topic is discussed elsewhere.
+ * Per-game English lives in `gameApgamesEn`; `npm run locale-en -- merge apgames --write` writes `locales/en/apgames.json`.
+ * Shared validation strings still use `apgames:validation._general.*`. See /gameslib/i18n/.
  */
 import i18next from "i18next";
+
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select the column into which to drop your stone.",
+    },
+};
 
 /**
  * I'm a type freak. I create them all the time simply because they help me when coming back to code months later. Use them if you find them helpful. Another typical type I create is `CellContents`. See game files like Cannon and Volcano for examples.
@@ -57,8 +64,8 @@ export class ComplicaGame extends GameBase {
         uid: "complica",
         playercounts: [2],
         version: "20230617",
-        // i18next.t("apgames:descriptions.complica")
-        description: "apgames:descriptions.complica",
+        description:
+            "A simple connect-4 game played on a narrow field where the columns never fill up.",
         urls: ["https://jpneto.github.io/world_abstract_games/complica.htm"],
         people: [
             {
@@ -187,7 +194,7 @@ export class ComplicaGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.complica.INITIAL_INSTRUCTIONS")
+            result.message = i18next.t("apgames:validation.complica.INITIAL_INSTRUCTIONS");
             return result;
         }
 
@@ -209,7 +216,7 @@ export class ComplicaGame extends GameBase {
      */
     public move(m: string, {trusted = false} = {}): ComplicaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         /**

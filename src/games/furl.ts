@@ -5,6 +5,34 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { hexhexAi2Ap, hexhexAp2Ai, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        CAPTURE4UNFURL: "You signalled a capture unfurl move, but {{to}} not is occupied by the opponent. Use \">\" to denote non-capture unfurl.",
+        FURL4UNFURL: "You signalled a furl move with \"<\", but the selected stack has a height of {{size}}, which is greater than 1.",
+        INITIAL_INSTRUCTIONS: "Select a piece to furl or a stack to unfurl.",
+        INVALID_FURL: "It is not possible to furl from {{from}} to {{to}}. You may only furl towards a cell where you have two or more of your 1-piece stacks in an unbroken line.",
+        INVALID_UNFURL: "It is not possible to unfurl from {{from}} to {{to}}. You may only unfurl towards an empty cell or an opponent's stack exactly {{size}} spaces away. Intermediate cells must be empty.",
+        NO_FURLS: "There are no furl moves possible from piece at {{from}}.",
+        NO_UNFURLS: "There are no unfurl moves possible from stack at {{from}}.",
+        PARTIAL_FURL: "Select destination to furl.",
+        PARTIAL_UNFURL: "Select destination to unfurl.",
+        UNFURL4CAPTURE: "You signalled a non-capture unfurl move, but a capture can be made at {{to}}. Use \"x\" to denote capture.",
+        UNFURL4FURL: "You signalled an unfurl move with \">\", but the selected stack only has a height of 1.",
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{player}} captured a stack of size {{size}} at {{where}}.",
+    },
+    FURL: {
+        default: "{{player}} furls {{count}} pieces from {{from}} to {{to}}.",
+    },
+    UNFURL: {
+        default: "{{player}} unfurls {{count}} pieces from {{from}} to {{to}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW"
@@ -33,8 +61,7 @@ export class FurlGame extends GameBase {
         // version: "20231229",
         version: "20240309",
         dateAdded: "2023-12-29",
-        // i18next.t("apgames:descriptions.furl")
-        description: "apgames:descriptions.furl",
+        description: "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
         urls: ["https://boardgamegeek.com/boardgame/325422/furl"],
         bggid: "325422",
         people: [
@@ -418,7 +445,7 @@ export class FurlGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): FurlGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -654,13 +681,13 @@ export class FurlGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "furl":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:FURL.furl", {from: r.from!, to: r.to!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:furl.FURL.default", {from: r.from!, to: r.to!, count: r.count!});
                 return true;
             case "unfurl":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:UNFURL.furl", {from: r.from!, to: r.to!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:furl.UNFURL.default", {from: r.from!, to: r.to!, count: r.count!});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.furl", {where: r.where!, size: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:furl.CAPTURE.default", {where: r.where!, size: r.count!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -736,3 +763,4 @@ export class FurlGame extends GameBase {
         }
     }
 }
+

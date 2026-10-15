@@ -6,6 +6,26 @@ import { reviver, shuffle, RectGrid, UserFacingError, cloneState } from "../comm
 import { volcanoStashColumn } from "../common/localStashColumn.js";
 import { CartesianProduct } from "js-combinatorics";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a cap to move.",
+        CAPTURED_LABEL: "{{player}}: Captured Pieces",
+    },
+    displays: {
+        "#stack": {
+            name: "3D stacks",
+        },
+        expanding: {
+            description: "Two dimensional board, with stacks expanding when hovered over.",
+            name: "Expanding",
+        },
+    },
+    status: {
+        PYRAMIDSCAPTURED: "Pyramids captured",
+        UNCAPTUREDCOLOURS: "Colours not yet captured",
+    },
+};
+
 
 interface ILegendObj {
     [key: string]: Glyph|[Glyph, ...Glyph[]];
@@ -54,8 +74,7 @@ export class MvolcanoGame extends GameBase {
         playercounts: [2],
         version: "20211107",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.mvolcano")
-        description: "apgames:descriptions.mvolcano",
+        description: "An Icehouse puzzle game for 2 players. Stacks of pyramids are volcanos, some of which are capped. As you move caps around, you cause eruptions that may lead to you capturing pieces. This is an older version of the game. It is played on a 6x6 board, and the game ends as soon as someone captures at least one piece of each colour or all three white pieces. Scores are then calculated. Highest score wins.",
         urls: [
             "http://www.wunderland.com/WTS/Kristin/Games/Volcano.html#MegaVolcano",
             "https://boardgamegeek.com/boardgame/13084/volcano",
@@ -338,7 +357,7 @@ export class MvolcanoGame extends GameBase {
      */
     public move(m: string, {partial = false, trusted = false} = {}): MvolcanoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1038,16 +1057,16 @@ export class MvolcanoGame extends GameBase {
             const currplayer = state.currplayer as number;
             const seat = this.frameChatActorSeat(currplayer);
             const moves = state._results.filter((r) => r.type === "move") as { type: "move"; from: string; to: string }[];
-            this.pushSeatChatLine(lines, seat, "apresults:MOVE.multiple", {
+            this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.multiple", {
                 moves: moves.map((m) => `${m.from}-${m.to}`).join(", "),
             });
             const eruptions = state._results.filter((r) => r.type === "eject") as { type: "eject"; what: string }[];
-            this.pushNeutralChatLine(lines, "apresults:ERUPTIONS", {
+            this.pushNeutralChatLine(lines, "apresults:_general.ERUPTIONS.default", {
                 eruptions: eruptions.map((m) => m.what).join(", "),
             });
             const captures = state._results.filter((r) => r.type === "capture") as { type: "capture"; what: string }[];
             if (captures.length > 0) {
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.multiple", {
+                this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.noperson.multiple", {
                     capped: captures.map((m) => m.what).join(", "),
                 });
             }
@@ -1078,3 +1097,4 @@ export class MvolcanoGame extends GameBase {
         return new MvolcanoGame(this.serialize());
     }
 }
+

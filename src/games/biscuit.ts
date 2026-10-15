@@ -14,6 +14,74 @@ import {
 } from "../common/decktet/index.js";
 import { BiscuitBoard } from "./biscuit/board.js";
 import { BiscuitCard } from "./biscuit/card.js";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PASS: "You may not pass if legal moves are available.",
+        INITIAL_INSTRUCTIONS: "Select a card from your hand to place on the board.",
+        INVALID_MOVE: "That move is invalid. You may only place cards next to cards with at least one matching suit.",
+        PARTIAL: "Select the cell where you want to place the card.",
+    },
+    variants: {
+        excuse: {
+            name: "The Excuse",
+            description: "The excuse can be played next to any card but never scores any points. It is not included in any straights",
+        },
+        "#extended": {
+            name: "No pawns or courts",
+        },
+        "pawns-only": {
+            name: "Pawns only",
+            description: "Pawns count as either 1 or 10 when making elevensies and lie between 9s and Crowns in straights. Pawns in opposing hands are worth 3 points to the player who goes out.",
+        },
+        "pawns+courts": {
+            name: "Pawns and Courts",
+            description: "Pawns and Courts can only make elevensies with each other. In straights, the order is 9, Pawn, Court, Crown. Both Pawns and Courts are worth 3 points to the player who goes out.",
+        },
+        "#eog": {
+            name: "Goal score: 60 points",
+            description: "The game ends after the round in which someone reaches the goal score. Highest score wins.",
+        },
+        "goal-40": {
+            name: "Goal score: 40 points",
+            description: "The game ends after the round in which someone reaches the goal score. Highest score wins.",
+        },
+        "goal-80": {
+            name: "Goal score: 80 points",
+            description: "The game ends after the round in which someone reaches the goal score. Highest score wins.",
+        },
+        "goal-120": {
+            name: "Goal score: 120 points",
+            description: "The game ends after the round in which someone reaches the goal score. Highest score wins.",
+        },
+    },
+};
+export const gameApresultsEn = {
+    ANNOUNCE: {
+        default: "The following cards were in opposing hands: {{cards}}.",
+    },
+    DECKDRAW: {
+        default: "The next player was unable to play any cards in their hand, so they drew a card.",
+    },
+    DECLARE: {
+        default: "{{player}} has gone out!",
+    },
+    RESET: {
+        default: "A new round has begun.",
+    },
+    SET: {
+        biscuit_one: "{{player}} scored a biscuit.",
+        biscuit_other: "{{player}} scored {{count}} biscuits.",
+        cross: "{{player}} scored a hot cross biscuit.",
+        elevensies: "{{player}} scored elevensies. All other players were forced to draw a card.",
+        hot: "{{player}} scored a hot biscuit.",
+        straight: "{{player}} scored a straight of length {{count}}.",
+    },
+    STALEMATE: {
+        default: "The hand has gone stale.",
+    },
+};
+
+
 
 export type playerid = 1|2|3;
 
@@ -44,10 +112,8 @@ export class BiscuitGame extends GameBase {
         playercounts: [2,3],
         version: "20250428",
         dateAdded: "2025-05-20",
-        // i18next.t("apgames:descriptions.biscuit")
-        description: "apgames:descriptions.biscuit",
-        // i18next.t("apgames:notes.biscuit")
-        notes: "apgames:notes.biscuit",
+        description: "A domino-style Decktet game where you play cards to immediately score points and try to be the first to play all the cards in your hand. A game is played over multiple rounds to a specified target.",
+        notes: "Game ends when, at the end of a round, someone has reached or surpassed the target score. Highest score wins. Draws are possible.\n\nWhen calculating biscuits, a single card cannot be counted more than once. For example, if the root card is a 6, and the end of the main line is also a 6 (a cross card), and you play a 6 above that cross card, you score the \"hot cross biscuit\" (top and bottom of the cross line match) but you don't *also* get a regular \"biscuit\" for matching the end of the main line (they're both the same card). Furthermore, cross lines don't get counted at all unless there are at least two cards in the line. So playing a new cross card (in our example, a 6) does not automatically score you a \"biscuit\" (playing a card on the main line that matches a cross line).\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
         urls: [
             "http://wiki.decktet.com/game:biscuit",
             "https://boardgamegeek.com/boardgame/37096/biscuit",
@@ -614,7 +680,7 @@ export class BiscuitGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false, emulation = false} = {}): BiscuitGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1160,28 +1226,28 @@ export class BiscuitGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.decktet", {where: r.where!, what: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.decktet", {where: r.where!, what: r.what!});
                 return true;
             case "set":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SET.biscuit", {count: r.count!, context: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:biscuit.SET.${r.what!}`, {count: r.count!, context: r.what!});
                 return true;
             case "deltaScore":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {count: r.delta!, delta: r.delta!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_GAIN", {count: r.delta!, delta: r.delta!});
                 return true;
             case "declare":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECLARE.biscuit", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:biscuit.DECLARE.default", {});
                 return true;
             case "announce":
-                this.pushNeutralChatLine(lines, "apresults:ANNOUNCE.biscuit", {cards: (r.payload! as string[]).join(", ")});
+                this.pushNeutralChatLine(lines, "apresults:biscuit.ANNOUNCE.default", {cards: (r.payload! as string[]).join(", ")});
                 return true;
             case "stalemate":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:STALEMATE.biscuit", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:biscuit.STALEMATE.default", {});
                 return true;
             case "reset":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:RESET.biscuit", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:biscuit.RESET.default", {});
                 return true;
             case "deckDraw":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DECKDRAW.biscuit", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:biscuit.DECKDRAW.default", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -1193,3 +1259,4 @@ export class BiscuitGame extends GameBase {
         return Object.assign(new BiscuitGame(this.numplayers), cloneState(this) as BiscuitGame);
     }
 }
+

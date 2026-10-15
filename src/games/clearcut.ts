@@ -6,6 +6,30 @@ import { Direction, RectGrid, reviver, UserFacingError } from "../common/index.j
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_CROSSING: "Lines may only cross if the group created by the piece placed is larger than at least one opposing group in the crosscut.",
+        BAD_CROSSING_CLEARCUT: "Lines may only cross if the group created by the piece placed is larger than each individual opposing group in the crosscut.",
+        INITIAL_INSTRUCTIONS: "Select a point to place a piece.",
+    },
+    variants: {
+        "#board": {
+            name: "19x19 board",
+        },
+        "#ruleset": {
+            description: "Captures can only be made if the crosscut group is larger than at least one opposing group in a crosscut.",
+            name: "Halfcut ruleset",
+        },
+        clearcut: {
+            description: "Captures can only be made if the crosscut group is larger than  both opposing groups in a crosscut. Full rulesheet: <https://www.marksteeregames.com/Clearcut_rules.pdf>",
+            name: "Clearcut ruleset",
+        },
+        "size-15": {
+            name: "15x15 board",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -40,8 +64,7 @@ export class HalfcutGame extends GameBase {
         playercounts: [2],
         version: "20230725",
         dateAdded: "2023-07-31",
-        // i18next.t("apgames:descriptions.clearcut")
-        description: "apgames:descriptions.clearcut",
+        description: "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
         urls: [
             "https://www.marksteeregames.com/Halfcut_rules.pdf",
             "https://boardgamegeek.com/boardgame/399723/halfcut",
@@ -394,7 +417,7 @@ export class HalfcutGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): HalfcutGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -624,3 +647,4 @@ export class HalfcutGame extends GameBase {
         return new HalfcutGame(this.serialize());
     }
 }
+

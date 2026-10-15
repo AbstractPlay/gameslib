@@ -4,6 +4,20 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, SquareDiagGraph, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a piece to move.",
+        PARTIAL: "Select a destination.",
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        approach: "{{player}} scared the helper at {{where}} out of the forest.",
+        replacement: "{{player}} devoured the piece at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 export type Piece = "O"|"D"|"H";
@@ -26,8 +40,7 @@ export class OwlmanGame extends GameBase {
         playercounts: [2],
         version: "20250125",
         dateAdded: "2025-01-25",
-        // i18next.t("apgames:descriptions.owlman")
-        description: "apgames:descriptions.owlman",
+        description: "An asymmetrical game where a professor and his assistants are trying to track down the mythical Owlman and his lair, while the Owlman tries to scare them all out of the forest.",
         urls: [
             "https://owlmanthegame.blogspot.com/",
             "https://boardgamegeek.com/boardgame/86598/owlman",
@@ -331,7 +344,7 @@ export class OwlmanGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): OwlmanGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -542,7 +555,7 @@ export class OwlmanGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.owlman", {where: r.where!, context: r.how!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:owlman.CAPTURE.${r.how!}`, {where: r.where!, context: r.how!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -562,3 +575,4 @@ export class OwlmanGame extends GameBase {
         return new OwlmanGame(this.serialize());
     }
 }
+

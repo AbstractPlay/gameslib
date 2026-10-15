@@ -4,6 +4,14 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { DirectionDiagonal, RectGrid, reviver, SquareDiagGraph, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a stack with your piece on top to move.",
+        INVALID_MOVE: "The move does not appear to be legal. Capturing is compulsory, and you must capture the most pieces you can.",
+        VALID_PARTIAL: "Select a destination. Capturing is compulsory, and you must capture the most pieces you can."
+    },
+};
+
 
 
 const BOARD_SIZE = 10;
@@ -29,9 +37,8 @@ export class StapeldammenGame extends GameBase {
         playercounts: [2],
         version: "20260621",
         dateAdded: "2026-07-13",
-        // i18next.t("apgames:descriptions.stapeldammen")
-        description: "apgames:descriptions.stapeldammen",
-        notes: "apgames:notes.stapeldammen",
+        description: "A Draughts variant where captured pieces remain on the board and can be freed later. Bring as many pieces as possible to your last row. Derived from Lasca, the percursor of Emergo.",
+        notes: "Stapeldammen II is a 1960s game designed by Tim ter Kuile. This is a game from the Bashni family of Checkers games. [Bashni](https://boardgamegeek.com/boardgame/36550/bashni), from 1875, is the first game that uses true stacks (Checkers' Kings are not stacks). This concept became well-known with the much more famous 1911's [Lasca](https://play.abstractplay.com/games/lasca). Stapeldammen is one of the games in this lineage and is, arguably, one of its best designs. It is also one of the games that influenced Christian Freeling and Ed van Zon when designing [Emergo](https://play.abstractplay.com/games/emergo).",
         urls: [
             "https://boardgamegeek.com/boardgame/124716/stapeldammen",
             "https://boardgamegeek.com/thread/1566423/stapeldammen-variant-ii-the-review",
@@ -391,7 +398,7 @@ export class StapeldammenGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): StapeldammenGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -581,10 +588,10 @@ export class StapeldammenGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "add":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ADD.add", {where: r.where!, count: r.num!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.ADD.add", {where: r.where!, count: r.num!});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.nowhat", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -623,3 +630,4 @@ export class StapeldammenGame extends GameBase {
         return new StapeldammenGame(this.serialize());
     }
 }
+

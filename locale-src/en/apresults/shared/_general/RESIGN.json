@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "RESIGN": {
+      "default": "{{player}} has resigned."
+    }
+  }
+}

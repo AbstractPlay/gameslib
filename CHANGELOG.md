@@ -13,23 +13,40 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
-- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Thricewise, Yodd.
+- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Yodd.
 
-## [1.0.0-ci] - 2026-10-10
+## [1.0.0-ci] - 2026-10-15
 
 ### Added
 
+- **Ops:** `ap:service` and `ap:stage` cost-allocation tags on the `abstractplay-gameslib-playground` Serverless stack and S3 bucket (via `serverless client deploy`).
+- **Docs:** [Rules PDF mirrors](/gameslib/rules-mirror/) — maintainer `bin/mirror-rules.ts` tooling and `rules.abstractplay.com` hosting convention (`{uid}.pdf`, `rules-mirrors.json`).
 - **Render:** `pieces` areas may set `veiled` so the renderer dims the opponent stash grid; perfect-information stash/hand games (Alien City, Four, Fnap, Pylon, Subdivision, WaldMeister, Gyges, Penguin, Rincala, Moon Squad) set it from `render({ perspective })` via `GameBase.stashAreaVeiled()` (requires matching `@abstractplay/renderer` with `AreaPieces.veiled`).
 
 ### Changed
 
+- **Witch Stones:** Player seat colours show grey until the second player chooses sun or moon; affiliations then use the usual red/blue palettes (`custom-colours`, `getPlayerColour`). Sidebar affiliation stash removed; earthstones use Customize palette slot 3.
+
+- **Rules mirror (`bin/mirror-rules.ts`):** `bulk --tier all` resolves in order: direct PDF URLs → designer sites (scan for PDF, else Playwright print) → BGG `thread/…` forum posts (Playwright print) → BGG filepage/boardgame (`gameinfo.bggid` preferred among boardgame links). BGG file discovery uses `api.geekdo.com/api/files` when `xmlapi2/thing` omits `boardgamefile` links; downloads try XML file API, authenticated file download URLs, then Playwright with a persistent browser profile (`bgg-browser-login`, default `bin/.bgg-browser-profile`) for Cloudflare. When BGG has no rules-like file PDF, a description heuristic may Playwright-print the thing description (e.g. Luis Bolaños Mures BGG-only games); `bgg-probe` reports geekdo files and description score. BGG token may be read from sibling `../apsecrets.yml` (`bgg_api_token`).
+
+- **i18n (English tooling):** `npm run locale-en` is the single router for merged English `apgames` and `apresults` (`check` both by default; `merge`, `keys`, `remap`, `prune`, `audit` subcommands). Replaces separate `merge-*-en` / `check-*` npm scripts. Lint runs `locale-en` plus `locale-en -- keys --warn --strict --summary`; develop/production CI run `locale-en` after tests. `npm run playground` (`predist-dev`) runs `locale-en -- merge --write` before copying locales into `dist/`. `translate.mjs` copies duplicate normalized English from existing managed-locale strings before calling Gemini and dedupes API requests per unique English text.
+- **i18n (`apgames`):** Integrators still load a single `locales/{lang}/apgames.json` per language with the same `apgames:` key paths. English is authored in `locale-src/en/apgames/shared/`, each game’s `gameinfo`, and `gameApgamesEn` in `src/games/<uid>.ts`; `npm run locale-en -- merge --write` writes `locales/en/apgames.json` (do not hand-edit). Legacy root paths are normalized (`validation._general.*` for global move/undo, `validation.homeworlds.*` for Homeworlds commands, `status.icepalace.*` for Ice Palace UI). Registry games export per-game English via `gameApgamesEn`; `GameBase.description()` / `notes()` use uid-derived keys with `defaultValue`. `locale-en keys --strict` enforces full-registry catalog ↔ TypeScript coverage in lint; duplicate English vs shared shards remains **warn-only**. Variant group defaults use `variants.<uid>.#<group>.name`; shared validation stems live under `validation._general` and `validation._inarow` where appropriate.
+- **i18n (`apresults`):** English move-log strings use nested `apresults:<uid>.<Type>.<leaf>` paths (shared stems under `apresults:_general.*`). Author `locale-src/en/apresults/shared/_general/` and per-game **`gameApresultsEn`** in `src/games/<uid>.ts`; merge via `locale-en` into `locales/en/apresults.json` (do not hand-edit). `locale-en keys --strict` enforces catalog ↔ TypeScript coverage (like `apgames`); duplicate English vs `_general` stays warn-only. `node scripts/translate.mjs` asserts merged English before translating `apresults.json`.
 - **Symple:** enter highlights persist for the current and previous turn, colour-coded by the player who placed those stones.
+- **Clear Path:** cut-off wins when a placement leaves the opponent with no possible connection; end-of-game chain overlay and move-log line (`gameApresultsEn`); skipped-turn fixture uses 4×4 (`version` `20261014`).
 
 ### Fixed
 
+- **i18n merge:** `gameApgamesEn` extraction no longer wraps quoted variant ids (e.g. `size-9`, `#board`) in extra quote characters, so merged `variants.*` keys match `i18next.t("apgames:variants.<uid>.…")` and game-record variant labels resolve again.
+- **Squares / Ice Palace / Kill-All Go:** Replaced dynamic `apgames:` template keys with literal `i18next.t` / `gameApgamesUidKey` anchors so `locale-en keys --strict --uid` passes (variant/display copy still resolved in `GameBase` where applicable).
 - **Tumbleweed:** move log again interpolates cell coordinates and attributes plies to the mover after the opening (regression from overly broad opening-setup detection in structured chat).
 - **Entropy:** structured move log emits place/move/pass lines for in-progress simultaneous (partial) rounds, with correct seat attribution via `lastmove`; stack frames that would produce no lines are omitted.
 - **Entropy:** partial-round move/place arrows use the submitting seat from the comma wire (fixes P2 arrows drawn on the wrong board).
+- **i18n (`apresults`):** Merged and remapped `apresults.json` plural keys use i18next `_one` / `_other` suffixes again (nested `{ one, other }` objects broke chat log lines such as `_general.DELTA_SCORE_GAIN`).
+
+### Removed
+
+- **stormc:** Dropped never-shipped game copy from English legacy slice and pruned matching `apgames` keys from all locale files.
 
 ## [1.0.0-ci] - 2026-10-05
 

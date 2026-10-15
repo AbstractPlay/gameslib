@@ -5,6 +5,52 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, Direction, allDirections } from "../common/index.js";
 import { Permutation } from "js-combinatorics";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_CAP: "Adjacent pieces may only be captured by towers, and only walls and catapults can be captured in this way.",
+        BAD_CATA_DIR: "Catapults may only fire laterally or towards the opposing home row.",
+        BAD_CATA_DIST: "Catapults must fire into a space exactly two or three spaces away.",
+        BAD_CATA_MOVE: "Catapults must fire into an empty space or an enemy-controlled space.",
+        BAD_DBL_CAP: "Only towers may double capture, and they may only double capture adjacent catapults.",
+        BAD_TOWER_CAP: "Towers may only capture adjacent pieces.",
+        DIFF_REDIST: "You must redistribute the tower to two different cells.",
+        INELIGIBLE: "For a tower to move, each space must either be empty or be occupied by a friendly stack that can receive another piece.",
+        INITIAL_INSTRUCTIONS: "Select one of your own pieces to move.",
+        INITIAL_INSTRUCTIONS_redist: "Select one of your own towers to redistribute.",
+        NOROOM: "Movement requires at least two eligible spaces in a row.",
+        PARTIAL: "Select the space to move to or capture.",
+        PARTIAL_REDIST: "Select an empty space on your second row.",
+        REDIST_ROW: "You may only redistribute onto your second row.",
+        SACRIFICE_POSSIBLE: "The move is valid, but if you wish to fully sacrifice the tower, click the target again.",
+        STRAIGHTLINE: "Pieces may only move in straight lines.",
+        TOOFAR: "Towers may only move two spaces.",
+        WALLS_IMMOBILE: "Walls may not move or capture.",
+    },
+    variants: {
+        basic: {
+            description: "Only walls and towers can be built (maximum stack size is 2). Breakthrough is an immediate win.",
+            name: "Basic MG",
+        },
+        escape: {
+            description: "The winning condition is to stalemate your opponent. Breaking through is not sufficient.",
+            name: "Escape",
+        },
+        static: {
+            description: "No initial redistribution of a starting tower.",
+            name: "Static Start",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        double: "{{player}} captured two pieces at {{where}}.",
+    },
+    FIRE: {
+        default: "{{player}} fired a catapult from {{from}} to {{to}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 export type cellcontents = [playerid, number];
@@ -27,10 +73,8 @@ export class MurusGame extends GameBase {
         playercounts: [2],
         version: "20231024",
         dateAdded: "2023-10-24",
-        // i18next.t("apgames:descriptions.murus")
-        description: "apgames:descriptions.murus",
-        // i18next.t("apgames:notes.murus")
-        notes: "apgames:notes.murus",
+        description: "Murus Gallicus is a two-player breakthrough game in which players try to create impenetrable walls of stone as menacing formations approach, reminiscent of Julius Caesar's Gallic Wars.",
+        notes: "The default ruleset is \"Advanced Murus Gallicus\" (with catapults). By default, your first move is to redistribute one of your starting towers as walls on your second row. Additionally, the standard pie rule is also available. There are three variants you can mix and match:\n\n* \"Basic\" reverts the game to the \"no catapult\" state.\n* \"Static\" disables the initial tower redistribution.\n* \"Escape\" eliminates the breakthrough win condition.",
         urls: [
             "https://sites.google.com/site/theowlsnest02/home/murus-gallicus",
             "https://boardgamegeek.com/boardgame/55131/murus-gallicus",
@@ -606,7 +650,7 @@ export class MurusGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): MurusGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -904,13 +948,13 @@ export class MurusGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "fire":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:FIRE.murus", {from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:murus.FIRE.default", {from: r.from!, to: r.to!});
                 return true;
             case "capture":
                 if ("count" in r) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.murus_double", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:murus.CAPTURE.double", {where: r.where!});
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.nowhat", {where: r.where!});
                 }
                 return true;
             default:
@@ -923,3 +967,4 @@ export class MurusGame extends GameBase {
         return new MurusGame(this.serialize());
     }
 }
+

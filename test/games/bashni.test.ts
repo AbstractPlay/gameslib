@@ -17,8 +17,14 @@ describe("Bashni", () => {
         ]);
         g.currplayer = 2;
         const moves = g.moves(2);
-        expect(moves.length).equal(3);
-        expect(moves).to.deep.equal(["c1xa3xc5xa7", "c1xa3xc5xe3xg1", "c1xa3xc5xe7"]);
+        expect(moves.length).equal(5);
+        expect(moves).to.deep.equal([
+            "c1xa3xc5xa7xe3xg1",
+            "c1xa3xc5xe3xa7xg1",
+            "c1xa3xc5xe3xg1xa7",
+            "c1xa3xc5xe7",
+            "c1xa3xc5xf8",
+        ]);
     });
 
     it("continues capturing after crowning on the king row", () => {
@@ -32,6 +38,58 @@ describe("Bashni", () => {
         const moves = g.moves(1);
         expect(moves).to.include("a3xc5xa7");
         expect(moves).to.not.include("a3xc5");
+    });
+
+    it("flying king slides along open diagonals", () => {
+        const g = new BashniGame();
+        g.board = new Map<string, CellContents[]>([
+            ["d8", [[2, 2]]],
+        ]);
+        g.currplayer = 2;
+        const moves = g.moves(2);
+        expect(moves).to.include("d8-h4");
+        expect(moves).to.include("d8-a5");
+        expect(moves).to.include("d8-e7");
+    });
+
+    it("flying king must continue capturing after crowning on the king row", () => {
+        const g = new BashniGame();
+        g.board = new Map<string, CellContents[]>([
+            ["b6", [[2, 1]]],
+            ["c7", [[1, 1]]],
+            ["e7", [[1, 1]]],
+        ]);
+        g.currplayer = 2;
+        const moves = g.moves(2);
+        expect(moves).to.include("b6xd8xf6");
+        expect(moves).to.not.include("b6xd8");
+    });
+
+    it("flying king capture after crowning may land on g5 or h4 (d4xb6xd8 sequence)", () => {
+        const g = new BashniGame();
+        g.board = new Map<string, CellContents[]>([
+            ["f8", [[2, 1]]],
+            ["h8", [[2, 1]]],
+            ["a7", [[2, 1]]],
+            ["g7", [[2, 1]]],
+            ["h6", [[2, 1]]],
+            ["b2", [[1, 1]]],
+            ["h2", [[1, 1]]],
+            ["a1", [[1, 1]]],
+            ["c1", [[1, 1]]],
+            ["e1", [[1, 1]]],
+            ["f6", [[2, 1], [2, 1]]],
+            ["e3", [[1, 1], [1, 1]]],
+            ["d2", [[2, 1], [1, 1]]],
+            ["f2", [[1, 1]]],
+            ["d4", [[1, 1]]],
+            ["c5", [[1, 1], [2, 1]]],
+            ["c7", [[2, 1], [2, 1]]],
+            ["b8", [[1, 1], [2, 1]]],
+        ]);
+        g.currplayer = 1;
+        const moves = g.moves(1).filter((mv) => mv.startsWith("d4"));
+        expect(moves).to.deep.equal(["d4xb6xd8xg5", "d4xb6xd8xh4"]);
     });
 
     it("crowns only the top man in a column on the king row", () => {

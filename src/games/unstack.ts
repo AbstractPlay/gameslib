@@ -5,6 +5,20 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, SquareOrthGraph, UserFacingError } from "../common/index.js";
 import { connectedComponents } from "graphology-components";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INSTRUCTIONS: "Select a friendly stack; click on it as many times as pieces to move then click on a orthogonal path that starts adjacent to this sowing stack (one or more pieces per square), making 90º turns.",
+        NOT_FRIENDLY_STACK: "Select a friendly stack with two or more pieces to sow.",
+        CAN_SOW: "It is only possible to pass when no legal sowing exists!",
+        PASS_ONLY: "Now sowing left; player must pass!",
+        CAPTURES_MANDATORY: "Captures are available and mandatory. For example, {{from}} can capture {{to}}.",
+        MULTIPLE_CAPTURES: "Only one capture per sowing is admissible!",
+        INVALID_SOW_PATH: "The selected path does not follow Unstack rules: (a) pick one or more pieces of a stack and leave one or more pieces per orthogonal adjacent intersection, (b) sowing can turn left/right after each placed piece, (c) sowing a stack is only legal if the player can legally place all pieces of the stack, (d) capturing enemy stacks is only legal if the number of pieces in-hand are at least as many as the size of that enemy stack.",
+        SOW_INSTRUCTIONS: "Either select more pieces to sow or start sowing with the ones already selected. When sowing, the next intersection must be adjacent to the previous one. Left and right turns are valid. Cannot sow over (and capture) opponent stacks with more than the size of the number of pieces that still need to be sowed.",
+        SOW_TOO_LARGE: "The current sowing is larger than the available pieces at the sowing stack.",
+    },
+};
+
 
 type playerid = 1 | 2;
 export type cellcontents = [playerid, number];
@@ -29,8 +43,7 @@ export class UnstackGame extends GameBase {
         playercounts: [2],
         version: "20260614",
         dateAdded: "2026-07-13",
-        // i18next.t("apgames:descriptions.unstack")
-        description: "apgames:descriptions.unstack",
+        description: "Sow your stacks to capture the adversary pieces and be the one with more pieces at the end.",
         urls: [
                 "https://jpneto.github.io/world_abstract_games/unstack.htm",
                 "https://boardgamegeek.com/boardgame/27013/unstack",
@@ -456,7 +469,7 @@ export class UnstackGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): UnstackGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         if (m.length === 0) { return this; }
         m = m.toLowerCase();
@@ -694,3 +707,4 @@ export class UnstackGame extends GameBase {
         return new UnstackGame(this.serialize());
     }
 }
+

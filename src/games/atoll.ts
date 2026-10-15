@@ -6,6 +6,29 @@ import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a cell to place a piece.",
+    },
+    variants: {
+        "#board": {
+            name: "size-11 board",
+        },
+        "size-15": {
+            name: "size-15 board",
+        },
+        "size-19": {
+            name: "size-19 board",
+        },
+    },
+    displays: {
+        "show-labels": {
+            description: "Show labels for each cell.",
+            name: "Show cell labels",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 type PlayerLines = [string[], string[], string[], string[]];
@@ -36,8 +59,7 @@ export class AtollGame extends GameBase {
         playercounts: [2],
         version: "20240317",
         dateAdded: "2024-04-02",
-        // i18next.t("apgames:descriptions.atoll")
-        description: "apgames:descriptions.atoll",
+        description: "Atoll is a generalisation of Hex where you have to connect two islands of your colour on opposite sides of the board with a contiguous chain of stones of your colour. The islands themselves can be part of the chain. So, for example, you could form one bridge between your north and west islands and a second bridge between your west and south islands to win.",
         urls: [
             "http://www.marksteeregames.com/Atoll_rules.pdf",
             "https://boardgamegeek.com/boardgame/34221/atoll",
@@ -264,7 +286,7 @@ export class AtollGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): AtollGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -578,3 +600,4 @@ export class AtollGame extends GameBase {
         return new AtollGame(this.serialize());
     }
 }
+

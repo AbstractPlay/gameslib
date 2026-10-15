@@ -4,6 +4,59 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema"
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, SquareGraph } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Either place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or 'pass' if all spaces are occupied or controlled. The game ends when both players pass in sequence.",
+        INITIAL_INSTRUCTIONS_BUTTON: "Either Place a piece onto an empty space not controlled by the opponent, replace an enemy piece on a space you control, or \"Take button\" (worth .5 points).",
+        INITIAL_SETUP: "Enter a number to set the bonus to the second mover's score. Your opponent will choose to move first or second.",
+        INSUFFICIENT_LOS: "You cannot replace a piece on {{cell}}. You do not control the space.",
+        INVALIDKOMI: "You must choose a number of points for the second mover to start with. You may not offer a komi greater than the number of cells on the board plus one.",
+        INVALIDPASS: "You cannot pass while uncontrolled spaces exist or if the button is still available for taking.",
+        INVALIDPLAYSECOND: "You cannot choose to play second from this board state.",
+        KOMI_CHOICE: "You may either make the first move on the board and let your opponent keep the bonus points or you may choose \"Play second\" and take the bonus points for yourself.",
+        OPPONENT_CONTROL: "You cannot place onto the empty space {{cell}}. It is controlled by the opponent.",
+    },
+    variants: {
+        "size-9": {
+            name: "9x9 board",
+        },
+        "#board": {
+            name: "13x13 board",
+        },
+        "size-15": {
+            name: "15x15 board",
+        },
+        "size-19": {
+            name: "19x19 board",
+        },
+        "size-25": {
+            name: "25x25 board",
+        },
+        "#komi": {
+            description: "One player will enter a number to choose the second mover bonus for the game. The other player will be given the option to move first or second.",
+            name: "Komi offer",
+        },
+        nokomi: {
+            description: "The game will be played without a second mover bonus. Good for beginners.",
+            name: "No komi offer",
+        },
+    },
+    displays: {
+        "hide-both": {
+            description: "Don't highlight empty controlled spaces or possible replacements.",
+            name: "Hide Both",
+        },
+        "hide-influence": {
+            description: "Don't highlight empty controlled spaces.",
+            name: "Hide influence",
+        },
+        "hide-threatened": {
+            description: "Don't highlight possible replacements.",
+            name: "Hide threatened",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2;
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW"|"N"|"S";
@@ -34,8 +87,7 @@ export class CrossControlGame extends GameBase {
         playercounts: [2],
         version: "20260613",
         dateAdded: "2026-06-22",
-        // i18next.t("apgames:descriptions.crosscontrol")
-        description: "apgames:descriptions.crosscontrol",
+        description: "Territorial line-of-sight game. Cells are controlled and pieces on them are flipped based on how many pieces of a color can see them. The winner is the player who occupies more of the board at the end.",
         urls: ["https://boardgamegeek.com/boardgame/143767/crosscontrol"],
         bggid: "143767",
         people: [
@@ -412,7 +464,7 @@ export class CrossControlGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): CrossControlGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (m.length === 0) return this;
@@ -687,3 +739,4 @@ export class CrossControlGame extends GameBase {
         return new CrossControlGame(this.serialize());
     }
 }
+

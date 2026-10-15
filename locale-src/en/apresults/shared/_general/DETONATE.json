@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "DETONATE": {
+      "nowhat": "{{player}} detonated a piece at {{where}}."
+    }
+  }
+}

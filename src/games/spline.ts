@@ -4,6 +4,35 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema"
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        CANNOT_MOVE: "The selected ball at {{where}} cannot be moved.",
+        CANNOT_PLACE: "{{where}} is not a valid place to put a ball.",
+        INITIAL_INSTRUCTIONS: "Select a space to place a ball, or select a ball to move.",
+        INVALID_TO: "The selected ball at {{from}} cannot move to {{to}}",
+        MOVE_TO: "Select a destination to move your ball.",
+        NO_TOS: "The selected ball at {{where}} has no possible destinations.",
+    },
+    variants: {
+        "#board": {
+            name: "4x4 board",
+        },
+        plus: {
+            description: "On your turn, you may place a ball or move an unpinned ball. In the case of several lines being created as a result of balls dropping, the largest line prevails.",
+            name: "Spline+",
+        },
+        "size-5": {
+            name: "5x5 board",
+        },
+    },
+    displays: {
+        "orb-3d": {
+            description: "Use plain 3D orb textures.",
+            name: "3D orbs",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -30,8 +59,7 @@ export class SplineGame extends GameBase {
         playercounts: [2],
         version: "20240530",
         dateAdded: "2024-06-08",
-        // i18next.t("apgames:descriptions.spline")
-        description: "apgames:descriptions.spline",
+        description: "Make a full line of your colour in any layer to win.",
         urls: ["https://boardgamegeek.com/boardgame/93164/spline"],
         bggid: "93164",
         people: [
@@ -495,7 +523,7 @@ export class SplineGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SplineGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -842,15 +870,15 @@ export class SplineGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ball", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.ball", { where: r.where! });
                 return true;
             case "move":
                 if (r.how === "drop") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.ball_drop", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.ball_drop", {
                         from: r.from!, to: r.to!, count: r.count!,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.ball", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.ball", {
                         from: r.from!, to: r.to!,
                     });
                 }
@@ -866,3 +894,4 @@ export class SplineGame extends GameBase {
         return new SplineGame(this.serialize());
     }
 }
+

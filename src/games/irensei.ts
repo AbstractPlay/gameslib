@@ -5,6 +5,59 @@ import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase.js";
 import { APRenderRep } from "@abstractplay/renderer";
+export const gameApgamesEn = {
+    validation: {
+        KO: "Ko rule: you may not immediately recapture your opponent's single stone if they just used it to capture one of yours.",
+        SELF_CAPTURE: "You may not place your stones in self-capture unless it is a winning move.",
+    },
+    variants: {
+        "#board": {
+            name: "19x19 board",
+        },
+        "#overline": {
+            description: "The first player loses if they make an overline, but the second player may win by overline.",
+            name: "Asymmetric overline",
+        },
+        "#tiebreaker": {
+            name: "No tiebreak",
+        },
+        pass: {
+            description: "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, then the second player wins.",
+            name: "Pass tiebreak",
+        },
+        "sym-no-overline": {
+            description: "The overline rule applies to both players: either player loses if they make an overline, so only a line of exactly seven wins.",
+            name: "Symmetric overline loss",
+        },
+        "sym-overline": {
+            description: "The overline rule applies to neither player: either player may win by overline, so any line of seven or more wins.",
+            name: "Symmetric overline win",
+        },
+        "swap-1st": {
+            description: "The first player places a stone anywhere on the board. The next player has the option to swap colours.",
+            name: "Swap-1st opening",
+        },
+        "swap-2": {
+            description: "The first player places three stones. The next player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2.",
+            name: "Swap-2 opening",
+        },
+        "swap-5": {
+            description: "For the first five stones on the board, after placement, the next player has the option to swap colours.",
+            name: "Swap-5 opening",
+        },
+        "toroidal-15": {
+            name: "Toroidal 15x15 board",
+        },
+        "#opening": { name: "Default opening" }
+    },
+    displays: {
+        "hide-restrictions": {
+            description: "Don't show intersections where a player would lose by overline.",
+            name: "Hide restriction indicators",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -29,8 +82,7 @@ export class IrenseiGame extends InARowBase {
         playercounts: [2],
         version: "20240328",
         dateAdded: "2024-04-20",
-        // i18next.t("apgames:descriptions.irensei")
-        description: "apgames:descriptions.irensei",
+        description: "Irensei (Japanese: 囲連星) is a mixture of Go and Gomoku. Get a seven in a row inside the middle 15x15 region of the Go board to win. To reduce the first player's advantage, the first player loses if they make an overline (even if it extends beyond the 15x15 region), but the second player may win by overline.",
         urls: ["https://boardgamegeek.com/boardgame/48871/irensei"],
         bggid: "48871",
         people: [
@@ -389,7 +441,7 @@ export class IrenseiGame extends InARowBase {
             }
             if (duplicates.size > 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._inarow.DUPLICATE", { where: [...duplicates].join(",") });
+                result.message = i18next.t("apgames:validation._general.DUPLICATE", { where: [...duplicates].join(",") });
                 return result;
             }
         }
@@ -442,13 +494,13 @@ export class IrenseiGame extends InARowBase {
         const regex = new RegExp(`^([a-z]+[1-9][0-9]*)(,[a-z]+[1-9][0-9]*)*$`);
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._inarow.INVALID_PLACEMENT", {move: m});
+            result.message = i18next.t("apgames:validation._general.INVALID_PLACEMENT", {move: m});
             return result;
         }
         const normalised = this.normalisePlacement(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._inarow.NORMALISE", {normalised});
+            result.message = i18next.t("apgames:validation._general.NORMALISE", {normalised});
             return result;
         }
         result.valid = true;
@@ -519,7 +571,7 @@ export class IrenseiGame extends InARowBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): IrenseiGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -827,21 +879,21 @@ export class IrenseiGame extends InARowBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.noperson.group_nowhere", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.noperson.group_nowhere", {
                     count: r.count!,
                 });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.pie", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.pie", {});
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 1 });
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 1 });
                 } else {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
 
@@ -855,3 +907,4 @@ export class IrenseiGame extends InARowBase {
         return new IrenseiGame(this.serialize());
     }
 }
+

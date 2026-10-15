@@ -6,6 +6,44 @@ import { deg2dir, dir2deg, Direction, normDeg, oppositeDirections, RectGrid, rev
 import i18next from "i18next";
 import { PacruGraph } from "./pacru/graph.js";
 import { Glyph } from "@abstractplay/renderer";
+export const gameApgamesEn = {
+    validation: {
+        BAD_CAPTURE: "The move {{move}} does not appear to be valid. Remember that captures require that at least two chevrons are attacking the same piece.",
+        BAD_CONNECTION: "You requested a connection change even though one was not made.",
+        ENEMY_TILE: "You can't land on opposing tiles except by pincer.",
+        INITIAL_INSTRUCTIONS: "Select a chevron to move.",
+        NEED_DESTINATION: "Select the destination (valid targets are highlighted) or select the same piece again to begin reorientation.",
+        NOT_ENOUGH_any: "You do not have enough unoccupied tiles on the board to reorient any pieces.",
+        NOT_ENOUGH_45: "You do not have enough unoccupied tiles on the board to rotate 45 degrees.",
+        NOT_ENOUGH_90: "You do not have enough unoccupied tiles on the board to rotate 90 degrees.",
+        ONLY_NEUTRAL: "During a borderland change, you may only convert unoccupied neutral cells.",
+        ONLY_OPPOSING: "During a borderland transformation or meeting, you may only convert unoccupied opposing cells.",
+        ONLY_UNOCCUPIED: "You may never claim/convert a space with a chevron, except when claiming the neutral tile you're moving onto in a borderland change.",
+        OVER_ORIENT: "You may not reorient more than 90 degrees in a single turn.",
+        RELINQUISH_EMPTY: "The tile at {{where}} has a chevron. Occupied tiles cannot be relinquished.",
+        RELINQUISH_OWN: "The tile at {{where}} does not belong to you and cannot be relinquished.",
+        REORIENT: "Click a neighbouring cell or edge zone to select the direction you want to face.",
+        SELECT_CELL_blChange: "Borderland change: Select a neutral cell to convert to your colour.",
+        SELECT_CELL_blTransform: "Borderland transformation: Select an opposing cell to convert to your colour.",
+        SELECT_CELL_both: "You changed borderlands *and* made a connection. Select one of the highlighted cells to convert it to your colour, or select your starting cell to trigger the connection change. You can't do both.",
+        SELECT_CELL_meeting: "A meeting has occurred! Select any cell to convert to your colour.",
+        SELECT_CELL_orientation_one: "Reorientation: Select one more highlighted cell to relinquish.",
+        SELECT_CELL_orientation_other: "Reorientation: Select {{count}} more highlighted cells to relinquish.",
+        TOO_MANY_CELLS: "You have selected more cells than allowed by the triggered side effects.",
+        WITHIN_BL: "Claimed/converted cells as a result of a borderland change must be within the destination borderland.",
+    },
+    status: {
+        TARGET: "Tiles to win",
+        TILES: "Tiles on board",
+    },
+};
+export const gameApresultsEn = {
+    CONVERT: {
+        default: "{{player}} converted {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2|3|4;
 export type Chevron = {
@@ -74,10 +112,8 @@ export class PacruGame extends GameBase {
         playercounts: [2,3,4],
         version: "20250205",
         dateAdded: "2025-02-19",
-        // i18next.t("apgames:descriptions.pacru")
-        description: "apgames:descriptions.pacru",
-        // i18next.t("apgames:notes.pacru")
-        notes: "apgames:notes.pacru",
+        description: "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
+        notes: "This implementation adheres to the 2011 rule change that requires at least one opponent to have at least nine tiles on the board before meetings will trigger.",
         urls: ["https://boardgamegeek.com/boardgame/6803/pacru"],
         bggid: "6803",
         people: [
@@ -1135,7 +1171,7 @@ export class PacruGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): PacruGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1494,10 +1530,10 @@ export class PacruGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "sacrifice":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SACRIFICE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.SACRIFICE.nowhat", {where: r.where!});
                 return true;
             case "convert":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.pacru", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:pacru.CONVERT.default", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -1511,3 +1547,4 @@ export class PacruGame extends GameBase {
         return cloned;
     }
 }
+

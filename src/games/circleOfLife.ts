@@ -10,6 +10,20 @@ import {
     preyIndex,
     speciesIndex,
 } from "./circleOfLife/species.js";
+export const gameApgamesEn = {
+    validation: {
+        INSTRUCTIONS: "Place a friendly piece on an empty hex. It is invalid to make a species bigger than four pieces.",
+        GROUP_TOO_LARGE: "This placement would make a species bigger than four pieces!",
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        one: "{{player}} devoured opponent species {{prey}} ({{count}} stone) at {{where}}.",
+        other: "{{player}} devoured opponent species {{prey}} ({{count}} stones) at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 
@@ -34,10 +48,8 @@ export class CircleOfLifeGame extends GameBase {
         playercounts: [2],
         version: "20260808",
         dateAdded: "2026-08-25",
-        // i18next.t("apgames:descriptions.circleOfLife")
-        description: "apgames:descriptions.circleOfLife",
-        // i18next.t("apgames:notes.circleOfLife")
-        notes: "apgames:notes.circleOfLife",
+        description: "Place stones on a hex ecosystem to form species shapes. Each species devours the next lower species on the food chain. Capture 20 opponent stones, or fill the board as much as you can.",
+        notes: "Species are numbered 0–11 counterclockwise on the ring, starting with the single-hex species at the top. Species 0 eats 11; each other species eats the one numbered directly below it. Predation only occurs when you place a stone that forms a species adjacent to prey. Groups may not exceed four stones. The first player to capture 20 opponent stones wins, or the player who cannot place on their turn wins (having filled the ecosystem).",
         urls: [
             "https://web.archive.org/web/20230224011604/https://www.nickbentley.games/circle-of-life-an-ecosystem-simulation-with-rules-that-fit-on-a-napkin/",
             "https://boardgamegeek.com/boardgame/184730/circle-of-life",
@@ -284,7 +296,7 @@ export class CircleOfLifeGame extends GameBase {
 
     public move(m: string, { trusted = false } = {}): CircleOfLifeGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         if (!trusted) {
             const result = this.validateMove(m);
@@ -423,17 +435,17 @@ export class CircleOfLifeGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {
                     where: r.where!, what: "piece",
                 });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.circleOfLife", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:circleOfLife.CAPTURE", {
                     prey: r.what!, count: r.count!, where: r.where!,
                 });
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -469,3 +481,4 @@ export class CircleOfLifeGame extends GameBase {
         return new CircleOfLifeGame(this.serialize());
     }
 }
+

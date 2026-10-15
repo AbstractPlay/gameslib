@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "ERUPTIONS": {
+      "default": "The following pieces erupted: {{eruptions}}."
+    }
+  }
+}

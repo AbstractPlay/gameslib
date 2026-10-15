@@ -4,6 +4,45 @@ import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a piece to duplicate or jump. Rocks are represented as circles, Paper as squares, and Scissors as Xs.",
+        INITIAL_INSTRUCTIONS_PASS: "You have no moves so you must pass.",
+        SECOND_MOVE: "Please make your second move.",
+        INVALID_TO: "The piece at {{from}} cannot duplicate or jump to {{to}}.",
+        ILLEGAL_PASS: "You may only pass has a whole move.",
+        SAME_PIECE: "The second move must be from a different piece than the ones moved or changed in the first.",
+        NO_TOS: "The selected piece at {{from}} has no possible destinations to duplicate or jump to.",
+        SELECT_TO: "Select a destination to duplicate or jump to.",
+        SPLIT4JUMP: "You have indicated a duplicate when it's supposed to be a jump. Try {{move}}.",
+        JUMP4SPLIT: "You have indicated a jump when it's supposed to be a duplicate. Try {{move}}.",
+    },
+    variants: {
+        "hex-7": {
+            name: "Size 7 board",
+        },
+        "#board": {
+            name: "Size 8 board",
+        },
+        "hex-9": {
+            name: "Size 9 board",
+        },
+        "hex-10": {
+            name: "Size 10 board",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{count}} pieces changed colour.",
+    },
+    MOVE: {
+        duplicate: "{{player}} duplicated a piece from {{from}} to {{to}}.",
+        jump: "{{player}} jumped a piece from {{from}} to {{to}}.",
+    },
+};
+
+
 
 type playerid = 1 | 2;
 export type cellcontents = [playerid, number]; // 1--Rock (o), 2--Paper ([]), 3--Scissor (x)
@@ -30,9 +69,8 @@ export class TricouleurGame extends GameBase {
         playercounts: [2],
         version: "20260606",
         dateAdded: "2026-06-22",
-        // i18next.t("apgames:descriptions.tricouleur")
-        description: "apgames:descriptions.tricouleur",
-        notes: "apgames:notes.tricouleur",
+        description: "A game where Ataxx meets Rock-Paper-Scissors.",
+        notes: "Tricouleur is a 2005 game designed by Bill Taylor. Each player has a army of three types of pieces that are able to capture the next type, in a cyclic way: think Rock-Paper-Scissors (Circle-Square-Ex). The move sequence is 12* where a player must use different pieces (it is also possible to pass the entire turn). A piece may move to an empty neighboring cell (in which case it leaves an unmoved duplicate behind) or to an empty cell among the twelve 2nd-neighbours, regardless of what is in between. Any weaker opposing pieces that the moved piece becomes adjacent to are recolored as the moving piece. Any same-strength opposing pieces that the moved piece becomes adjacent to, are removed from the board.\n\nThe game ends when either (a) both players pass consecutively, (b) the board is full, (c) one army is destroyed, (d) a position is repeated three times.  Whoever has the most pieces of their own colours in total, wins.",
         urls: ["https://jpneto.github.io/world_abstract_games/tri_hexxagon.htm"],
         people: [
             {
@@ -542,7 +580,7 @@ export class TricouleurGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): TricouleurGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -712,22 +750,22 @@ export class TricouleurGame extends GameBase {
         switch (r.type) {
             case "move":
                 if (r.how === "split") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.tricouleur_duplicate", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tricouleur.MOVE.duplicate", { from: r.from!, to: r.to! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.tricouleur_jump", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tricouleur.MOVE.jump", { from: r.from!, to: r.to! });
                 }
                 return true;
             case "capture":
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.tricouleur", { count: r.count! });
+                this.pushNeutralChatLine(lines, "apresults:tricouleur.CAPTURE.default", { count: r.count! });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 3 });
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 3 });
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:
@@ -776,3 +814,4 @@ export class TricouleurGame extends GameBase {
         return new TricouleurGame(this.serialize());
     }
 }
+

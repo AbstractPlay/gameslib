@@ -5,6 +5,15 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, reviver, SquareDirectedGraph, SquareOrthGraph, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_play: "Select a pawn to move.",
+        INITIAL_INSTRUCTIONS_setup: "Select an empty space to place a pawn.",
+        PARTIAL_dest: "Select the destination.",
+        PARTIAL_place: "Select a cell to place one of your pieces.",
+    },
+};
+
 
 export type playerid = 1|2;
 export type Pawn = "R"|"B"|"G";
@@ -33,8 +42,7 @@ export class BloqueoGame extends GameBase {
         playercounts: [2],
         version: "20250420",
         dateAdded: "2025-04-22",
-        // i18next.t("apgames:descriptions.bloqueo")
-        description: "apgames:descriptions.bloqueo",
+        description: "Manipulate pawns to create towers of player pieces. Score points based on connected groups of controlled towers. Highest score wins.",
         urls: [
             "https://misutmeeple.com/2023/06/resena-bloqueo/",
             "https://boardgamegeek.com/boardgame/292218/bloqueo",
@@ -348,7 +356,7 @@ export class BloqueoGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): BloqueoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -679,7 +687,7 @@ export class BloqueoGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
 
             default:
@@ -692,3 +700,4 @@ export class BloqueoGame extends GameBase {
         return new BloqueoGame(this.serialize());
     }
 }
+

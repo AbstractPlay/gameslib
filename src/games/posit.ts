@@ -5,6 +5,28 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { SquareGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INSTRUCTIONS: "Select your piece.",
+        SELECT_MOVE: "Select a square to move your piece. The piece cannot go down, move up two or more levels at once, or climb on top of a 3-stack.",
+        SELECT_PLACEMENT: "Select a square to place a neutral piece. Stacks cannot have more than three neutral pieces. It is invalid to place a neutral stone on top of a player's piece.",
+        NOT_ADJACENT: "The piece may only move to adjacent squares!",
+        SELECT_ERROR: "The player needs first to move their piece!",
+        CANNOT_GO_DOWN: "The piece cannot move to a smaller stack!",
+        CANNOT_GO_UPUP: "The piece cannot move up two or more levels at once!",
+        CANNOT_CLIMB: "The piece cannot climb on top of a 3-stack!",
+        OPPONENT_MOVE: "Cannot move on top of a player's piece!",
+        PLACE_ON_PIECE: "Neutral pieces cannot be placed on top of a player's piece!",
+        STACK_TOO_BIG: "Stacks cannot have more than three neutral pieces!",
+    },
+};
+export const gameApresultsEn = {
+    MOVE: {
+        default: "{{player}} moved his piece from {{from}} to {{to}}.",
+    },
+};
+
+
 
 export type playerid = 1 | 2 | 3; // 3 is for stacks with only neutral stacks
 export type cellcontents = [playerid, number]; // number is the amount of neutral pieces
@@ -31,9 +53,8 @@ export class PositGame extends GameBase {
         playercounts: [2],
         version: "20260607",
         dateAdded: "2026-06-22",
-        // i18next.t("apgames:descriptions.posit")
-        description: "apgames:descriptions.posit",
-        notes: "apgames:notes.posit",
+        description: "Try to stalemate the adversary by building unscalable stacks.",
+        notes: "Posit was designed by Shinichi Tobita in 1991. The game was published by Yonezawa corp. as a videogame called **Posit: 3-D board**.\n\nPosit is played on a 6x6 square board. Each player has a pawn. Initially, the pawns are placed on the c6 and d1 squares. In each turn, players move their pawn to an adjacent square (orthogonally or diagonally), and then place a neutral piece in any square that does not have a pawn. Neutral pieces can be stacked up to three levels. Pawns can climb one level up, but cannot go down, climb two levels at once, or climb on top of three levels. A player wins by stalemating the adversary.",
         urls: [
             "https://boardgamegeek.com/boardgame/186367/posit-3-d-board-game"
         ],
@@ -316,7 +337,7 @@ export class PositGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): PositGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -474,13 +495,13 @@ export class PositGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", { where: r.where!, what: "neutral piece" });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", { where: r.where!, what: "neutral piece" });
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.posit", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:posit.MOVE.default", { from: r.from!, to: r.to! });
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -492,3 +513,4 @@ export class PositGame extends GameBase {
         return new PositGame(this.serialize());
     }
 }
+

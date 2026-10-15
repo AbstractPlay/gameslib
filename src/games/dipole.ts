@@ -4,6 +4,27 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema"
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, allDirections, Direction, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        FORWARD: "Noncapturing movement must be in a forward direction.",
+        INITIAL_INSTRUCTIONS: "Select one of your own stacks.",
+        INVALID_PASS: "You may not pass if you have other valid moves.",
+        MERGE4CAPTURE: "You signalled a merge, but the destination is occupied by enemy pieces.",
+        MERGE4MOVE: "You signalled a merge, but the destination is empty.",
+        MOVE4MERGE: "You signalled a move, but the destination already contains some of your own pieces.",
+        NOTDARKSQUARE: "You can only play on the dark squares.",
+        PARTIAL: "Select a destination.",
+        STACK_SIZE: "You may only capture stacks of equal or smaller size.",
+        TOOFAR: "You can only move as far as your stack is high.",
+        TOOFAR_edge: "The stack at {{from}} can't reach the edge from there.",
+    },
+    variants: {
+        international: {
+            name: "Larger board: 10x10",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 type CellContents = [playerid, number];
@@ -32,8 +53,7 @@ export class DipoleGame extends GameBase {
         playercounts: [2],
         version: "20211213",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.dipole")
-        description: "apgames:descriptions.dipole",
+        description: "An anti-race game where you inexorably lose pieces, but you try to be the last one to run out.",
         urls: [
             "http://www.marksteeregames.com/Dipole_rules.pdf",
             "https://boardgamegeek.com/boardgame/29491/dipole",
@@ -425,7 +445,7 @@ export class DipoleGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): DipoleGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -677,10 +697,10 @@ export class DipoleGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete", {count: parseInt(r.what!, 10), from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete", {count: parseInt(r.what!, 10), from: r.from!, to: r.to!});
                 return true;
             case "capture":
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.noperson.nowhere_count", {count: parseInt(r.what!, 10)});
+                this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.noperson.nowhere_count", {count: parseInt(r.what!, 10)});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -719,3 +739,4 @@ export class DipoleGame extends GameBase {
         return new DipoleGame(this.serialize());
     }
 }
+

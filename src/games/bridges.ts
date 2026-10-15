@@ -6,6 +6,25 @@ import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
 import type { HexDir } from "../common/graphs/hextri.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_FIRST_TURN: "Select an empty space (except the middle) to place a new base, or you may pass.",
+        INITIAL_INSTRUCTIONS: "Make two moves: Select an empty space not adjacent to an existing base (except the middle) to place a new base, or select one of your existing bases to begin building a bridge. Or you may pass your entire turn.",
+        BASE_HAS_BRIDGE_one: "Bases cannot support more than one bridge. You must still make 1 more move.",
+        BASE_HAS_BRIDGE_other: "Bases cannot support more than one bridge. You must still make {{count}} more moves.",
+        NO_LINE_OF_SIGHT_one: "This base has no line of sight to another friendly base. You must still make 1 more move.",
+        NO_LINE_OF_SIGHT_other: "This base has no line of sight to another friendly base. You must still make {{count}} more moves.",
+        ONE_MORE: "You must still make one more move. Select an empty space not adjacent to an existing base (except the middle) to place a new base, or select one of your existing bases to begin building a bridge. Or you may pass your entire turn.",
+        SELECT_BRIDGE_END: "Select another friendly base within line of sight to build the bridge.",
+    },
+};
+export const gameApresultsEn = {
+    CONNECT: {
+        default: "{{player}} built a bridge between {{left}} and {{right}}.",
+    },
+};
+
+
 
 export type PlayerId = 1|2;
 export type PieceType = 1|2;
@@ -31,8 +50,7 @@ export class BridgesGame extends GameBase {
         playercounts: [2],
         version: "20260817",
         dateAdded: "2026-09-09",
-        // i18next.t("apgames:descriptions.bridges")
-        description: "apgames:descriptions.bridges",
+        description: "Bridges is a two-player game played on a hexagonal board, designed by Marc Rebillet. Players place bases and join them with bridges. The player with the most bridge pieces on the board at the end wins. Longer bridge breaks ties.",
         urls: [
             "https://boardgamegeek.com/thread/3746400/new-game-bridges"
         ],
@@ -436,7 +454,7 @@ export class BridgesGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): BridgesGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -662,7 +680,7 @@ export class BridgesGame extends GameBase {
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "connect") {
-            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONNECT.bridges", {left: r.p1!, right: r.p2!});
+            this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:bridges.CONNECT.default", {left: r.p1!, right: r.p2!});
             return true;
         }
         return super.collectChatLogLine(lines, r, ctx);
@@ -679,3 +697,4 @@ export class BridgesGame extends GameBase {
         return new BridgesGame(this.serialize());
     }
 }
+

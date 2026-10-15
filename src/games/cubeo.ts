@@ -9,6 +9,50 @@ import { CubeoDie } from "./cubeo/die.js";
 import { UndirectedGraph } from "graphology";
 import { Combination } from "js-combinatorics";
 import { Glyph } from "@abstractplay/renderer";
+export const gameApgamesEn = {
+    validation: {
+        BAD_MERGE: "You may only merge when you have at least three dice in the formation, and you may not remove a pinned die or a die that cannot be slid out of the formation.",
+        BAD_MOVE_standard: "When moving, the die must move its full distance (though it may backtrack at any point), end in a space that keeps the formation connected, and may not end where it started.",
+        BAD_MOVE_strict: "When moving, the die must move its full distance (though it may backtrack at any point), end in a space that keeps the formation connected, and it must change the formation (meaning you can't move such that you simply create a rotation or reflection of the starting formation).",
+        BAD_PLACE: "You may only place new dice such that they share an edge with at least one of your own dice and do not share *any* edges with opposing dice. The die must also be able to be slid into the formation from the outside.",
+        INITIAL_INSTRUCTIONS: "Click an empty cell to place a new die, or one of your own dice to start a move or merge.",
+        MAX_DICE: "You may only have {{dice}} dice on the board.",
+        PINNED: "Pinned dice can't act.",
+    },
+    variants: {
+        "#moves": {
+            name: "Default movement rules",
+            description: "A valid move is any one where the moving piece ends in a different position than where it started.",
+        },
+        strict: {
+            name: "Stricter movement constraints",
+            description: "A valid move must materially change the formation, meaning the final formation can't just be a rotation/reflection of the starting formation.",
+        },
+        "#dice": {
+            name: "Default die size (d6)",
+            description: "Each player has six d6, and the merge goal is 7.",
+        },
+        d8: {
+            name: "d8",
+            description: "Each player has eight 8-sided, yet cubical, dice, and the merge goal is 9.",
+        },
+        d10: {
+            name: "d10",
+            description: "Each player has ten 10-sided, yet cubical, dice, and the merge goal is 11.",
+        },
+        d12: {
+            name: "d12",
+            description: "Each player has twelve 12-sided, yet cubical, dice, and the merge goal is 13.",
+        },
+    },
+};
+export const gameApresultsEn = {
+    PROMOTE: {
+        default: "{{player}} promoted the die at {{where}} from a {{from}} to a {{to}}.",
+    },
+};
+
+
 
 
 export type playerid = 1|2;
@@ -47,8 +91,7 @@ export class CubeoGame extends GameBase {
         playercounts: [2],
         version: "20250105",
         dateAdded: "2025-01-09",
-        // i18next.t("apgames:descriptions.cubeo")
-        description: "apgames:descriptions.cubeo",
+        description: "A boardless, perfect-information dice game where you attempt to promote your dice faster than your opponent or manoeuvre your opponent into a position where they cannot move.",
         urls: ["https://boardgamegeek.com/boardgame/191916/cubeo"],
         bggid: "191916",
         people: [
@@ -410,7 +453,7 @@ export class CubeoGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): CubeoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -640,13 +683,13 @@ export class CubeoGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete_what", {what: r.what!, from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete_what", {what: r.what!, from: r.from!, to: r.to!});
                 return true;
             case "promote":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PROMOTE.cubeo", {where: r.where!, from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:cubeo.PROMOTE.default", {where: r.where!, from: r.from!, to: r.to!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -662,3 +705,4 @@ export class CubeoGame extends GameBase {
         return Object.assign(new CubeoGame(), cloneState(this) as CubeoGame);
     }
 }
+

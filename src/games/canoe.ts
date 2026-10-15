@@ -4,6 +4,62 @@ import { APRenderRep, MarkerDots, MarkerFlood, MarkerLabel, MarkerLine, RowCol }
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { randomInt, reviver, UserFacingError, SquareOrthGraph, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        SETUP_INSTRUCTIONS: "Place your six cubes on the bank, then submit.",
+        STYMIE_ROLL: "Stymie! Choose whether to roll one die or two.",
+        INITIAL_INSTRUCTIONS: "Select a die, then a cube or set, then a destination.",
+        NO_PASS: "You may only pass when you have not yet begun a move and no legal moves exist.",
+        BAD_ROLL: "You may only roll when Stymie applies and no dice are showing.",
+        BAD_SETUP: "Invalid setup placement: {{part}}.",
+        BAD_FACE: "{{face}} is not a valid cube face.",
+        BAD_SETUP_CELL: "{{cell}} is not a valid bank cell for setup.",
+        DUP_CELL: "You have already placed a cube at {{cell}}.",
+        BAD_FACE_COUNT: "You do not have another {{face}} cube to place.",
+        SETUP_PARTIAL: "Continue placing cubes on your bank.",
+        SETUP_COMPLETE: "All six cubes are placed. Review your layout, then submit.",
+        TOO_MANY_SETUP: "You may only place six cubes during setup.",
+        SETUP_INCOMPLETE: "You must place all six cubes before submitting.",
+        VALID_PARTIAL: "Continue your move.",
+        INVALID_MOVE: "{{move}} is not a legal move.",
+        MUST_USE_BOTH_DICE: "You must either use both dice or none of the dice.",
+        NO_COMBINED_MOVES: "You have no sets that can move with the combined dice ({{die}}).",
+        SETUP_HAND: "Setup dice",
+    },
+    variants: {
+        "#scoring": {
+            description: "On the first bear-off of the game, both cubes of a set are pocketed for points.",
+            name: "Canoe scoring",
+        },
+        "no-canoe": {
+            description: "The first bear-off of the game scores only one cube, even from a set.",
+            name: "No Canoe",
+        },
+        "leaky-canoe": {
+            description: "The first bear-off of the game is worth only half the points of one cube.",
+            name: "Leaky Canoe",
+        },
+    },
+};
+export const gameApresultsEn = {
+    BEAROFF: {
+        default: "{{player}} bore a cube off the board.",
+    },
+    CAPTURE: {
+        default: "{{player}} pinched a cube at {{where}}.",
+    },
+    CONVERT: {
+        default: "{{player}} rotated the cube at {{where}} from {{what}} to {{into}}.",
+    },
+    PROMOTE: {
+        default: "{{player}} formed a set at {{where}}, merging the cube from {{from}}.",
+    },
+    ROLL: {
+        default: "{{player}} rolled: {{values}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 export type CubeFace = 1|8|16|24|32|40;
@@ -52,8 +108,8 @@ export class CanoeGame extends GameBase {
         playercounts: [2],
         version: "20260809",
         dateAdded: "2026-08-03",
-        description: "apgames:descriptions.canoe",
-        notes: "apgames:notes.canoe",
+        description: "A dice-driven race to pinch opponent cubes and bear your own off the board for points.",
+        notes: "Dice for your turn appear on f2 and g1 after the previous player finishes. During setup, click a bank cell to place a cube (the highest unplaced value is used if you have not selected one). Click an occupied bank cell to pick a cube back up. Submit when all six cubes are placed.\n\nDuring play, click a die, then a cube or set, then a highlighted destination. Click a second die before selecting a cube to combine dice for a set move (notated as 3+4:, using the f2 die first). Pass is only available before you begin a move. Instead of stacking, sets are represented by flat hexes.\n\nSets cannot be formed in the bank. When one die can bear off all your remaining cubes, you may play only that die. The seventh cube (your last cube on the board) must take the most direct route to bear-off, like a set; it may use both dice as two separate moves (rotating once per die) but not combined 3+4: notation; bearing it off still sweeps the opponent's remaining cubes.",
         urls: [
             "https://boardgamegeek.com/boardgame/18867/canoe",
             "https://web.archive.org/web/20210516215829/http://www.canoegame.com/faq_setup.asp",
@@ -2161,7 +2217,7 @@ export class CanoeGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false, emulation = false} = {}): CanoeGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         this.emulated = emulation;
@@ -2760,37 +2816,37 @@ export class CanoeGame extends GameBase {
         switch (r.type) {
             case "roll": {
                 const seat = r.who ?? ctx.defaultSeat;
-                this.pushSeatChatLine(lines, seat, "apresults:ROLL.canoe", {
+                this.pushSeatChatLine(lines, seat, "apresults:canoe.ROLL.default", {
                     values: r.values!.join(","),
                 });
                 return true;
             }
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.canoe", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.simple", {});
                 return true;
             case "convert":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.canoe", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:canoe.CONVERT.default", {
                     where: r.where!, what: r.what!, into: r.into!,
                 });
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete_what", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete_what", {
                     what: r.what!, from: r.from!, to: r.to!,
                 });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.canoe", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:canoe.CAPTURE.default", {where: r.where!});
                 return true;
             case "bearoff":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:BEAROFF.canoe", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:canoe.BEAROFF.default", {});
                 return true;
             case "promote":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PROMOTE.canoe", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:canoe.PROMOTE.default", {
                     where: r.where!, from: r.from!,
                 });
                 return true;
             case "deltaScore":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_GAIN", {
                     delta: r.delta!, count: r.delta!,
                 });
                 return true;

@@ -8,6 +8,61 @@ import { IGraph3D, SquareDiag3DGraph, SquareOrth3DGraph } from "../common/graphs
 import { Square3DGraph } from "../common/graphs/index.js";
 import { connectedComponents } from "graphology-components";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        BAD_CAPTURE_ranked: "All captures must be adjacent. When capturing straight up, you must be larger (except that a smallest-size may assassinate a largest-size piece). When capturing same level, you must be at least the same size. When capturing diagonally down, you may be one rank smaller.",
+        BAD_CAPTURE_standard: "You may only capture a piece your size or smaller, diagonally down.",
+        INITIAL_INSTRUCTIONS: "Select one of your pieces to move.",
+        MOVE_DOWN: "You may only move straight down and only one level at a time.",
+        MOVE_SAME_LEVEL: "You may not jump over enemy pieces when moving on the same level.",
+        MOVE_UP: "You may only move one level at a time to an adjacent cell.",
+        NO_MOVES: "The piece at {{cell}} does not have any valid moves.",
+    },
+    variants: {
+        "#board": {
+            name: "6x6 board",
+        },
+        "#setup": {
+            description: "Players start with fewer pieces.",
+            name: "Short game",
+        },
+        "#capture": {
+            description: "The only capture possibility is diagonally down.",
+            name: "Default capture rules",
+        },
+        "board-8": {
+            name: "8x8 board",
+        },
+        long: {
+            name: "Long game",
+            description: "Each player starts with more pieces.",
+        },
+        assassination: {
+            name: "Assassination",
+            description: "This variant expands the capturing options, leading to a more aggressive game.",
+        },
+    },
+    displays: {
+        "#projection": {
+            name: "Isometric view",
+        },
+        flat: {
+            description: "A flat view that uses shading to indicate height.",
+            name: "Flat view",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        other: "{{player}} captured a size {{what}} piece at {{where}}.",
+        self: "{{player}} cannibalized their own size {{what}} piece at {{where}}.",
+    },
+    PLACE: {
+        default: "{{player}} moved a size {{size}} piece from {{from}} to {{to}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 export type size = 1|2|3|4;
@@ -38,10 +93,8 @@ export class TerraceGame extends GameBase {
         playercounts: [2],
         version: "20250104",
         dateAdded: "2025-01-07",
-        // i18next.t("apgames:descriptions.terrace")
-        description: "apgames:descriptions.terrace",
-        // i18next.t("apgames:notes.terrace")
-        notes: "apgames:notes.terrace",
+        description: "A royal capture/escape game played on a three-dimensional board with pieces of various sizes.",
+        notes: "The Assassination variant is described in [this BGG thread](https://boardgamegeek.com/thread/551125/variant-for-more-aggressive-less-drawish-play), summarized below:\n\n- Up straight, you must be larger or a smallest-size piece can assassinate a largest-size piece.\n\n- Same level (orthogonally adjacent only), you must be at least the same size.\n\n- Down diagonal, you may be one rank smaller.",
         urls: [
             "https://boardgamegeek.com/boardgame/2872/terrace",
             "https://boardgamegeek.com/boardgame/15676/terrace-6x6",
@@ -466,7 +519,7 @@ export class TerraceGame extends GameBase {
             g.algebraic2coords(fCell);
         } catch {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._general.INVALID_CELL", {cell: fCell});
+            result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: fCell});
             return result;
         }
         const fElev = g.elevation(fCell);
@@ -506,7 +559,7 @@ export class TerraceGame extends GameBase {
                 g.algebraic2coords(to);
             } catch {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._general.INVALID_CELL", {cell: to});
+                result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
                 return result;
             }
 
@@ -544,7 +597,7 @@ export class TerraceGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): TerraceGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -923,10 +976,10 @@ export class TerraceGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.terrace", {context: r.what?.startsWith("*") ? "self" : "other", where: r.where!, what: r.what?.substring(1) ?? ""});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:terrace.CAPTURE", {context: r.what?.startsWith("*") ? "self" : "other", where: r.where!, what: r.what?.substring(1) ?? ""});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.terrace", {size: r.what!, from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:terrace.PLACE.default", {size: r.what!, from: r.from!, to: r.to!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -939,3 +992,4 @@ export class TerraceGame extends GameBase {
         return Object.assign(new TerraceGame(), cloneState(this) as TerraceGame);
     }
 }
+

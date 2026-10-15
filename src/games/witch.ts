@@ -1,15 +1,56 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, IStashEntry, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, IScores, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, type Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, shuffle, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        "2P_PRIVILEGE": "Only the second player may choose the pieces they wish to play.",
+        AFFILIATE: "Choose which piece you wish to play by clicking any sun or moon piece.",
+        ALREADY_AFFILIATED: "Pieces have already been chosen.",
+        BOTH_EMPTY: "When selecting a line of pieces, both the start and end cells must be empty.",
+        EMPTY_CAPTURE: "Captures must include at least one piece.",
+        INCOMPLETE_AFFILIATION: "To choose your affiliation, the move must start with '(S)' or '(M)'.",
+        INITIAL_INSTRUCTIONS: "Click a piece to remove or an empty space to start removing a line of pieces.",
+        NO_CROWNS: "You may not pick up crowns directly.",
+        NO_ENEMY: "You may not pick up your opponent's pieces.",
+        ORTHOGONAL: "Lines of pieces must be horizontal or vertical, never diagonal.",
+        PARTIAL: "Select another empty space to remove the pieces in between.",
+        UNBROKEN: "Lines of pieces must be unbroken by empty cells.",
+    },
+};
+export const gameApresultsEn = {
+    AFFILIATE: {
+        M: "{{player}} chose the Moonstones.",
+        S: "{{player}} chose the Sunstones.",
+    },
+    CAPTURE: {
+        nowhere_C_one: "{{player}} captured {{count}} Crown.",
+        nowhere_C_other: "{{player}} captured {{count}} Crowns.",
+        nowhere_E_one: "{{player}} captured {{count}} Earthstone.",
+        nowhere_E_other: "{{player}} captured {{count}} Earthstones.",
+        nowhere_M_one: "{{player}} captured {{count}} Moonstone.",
+        nowhere_M_other: "{{player}} captured {{count}} Moonstones.",
+        nowhere_S_one: "{{player}} captured {{count}} Sunstone.",
+        nowhere_S_other: "{{player}} captured {{count}} Sunstones.",
+        single_C: "{{player}} picked up a Crown at {{where}}.",
+        single_E: "{{player}} picked up an Earthstone at {{where}}.",
+        single_M: "{{player}} picked up a Moonstone at {{where}}.",
+        single_S: "{{player}} picked up a Sunstone at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 export type CellContents = "S"|"M"|"C"|"E";
 type Affiliation = "S"|"M"|undefined;
 
 const startingBag = "SSSSSSSSSSMMMMMMMMMMEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"
+
+const UNDECIDED_COLOUR = "#999999";
+const EARTH_STONE: Colourfuncs = { func: "custom", default: "#ffffff", palette: 3 };
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -36,10 +77,8 @@ export class WitchGame extends GameBase {
         playercounts: [2],
         version: "20230612",
         dateAdded: "2023-06-22",
-        // i18next.t("apgames:descriptions.witch")
-        description: "apgames:descriptions.witch",
-        // i18next.t("apgames:notes.witch")
-        notes: "apgames:notes.witch",
+        description: "Four types of pieces are arrayed randomly on a grid. Each player takes turns removing pieces until one reaches a score of 50.",
+        notes: "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses sun or moon stones on their first turn; both players then appear in those colours. Until then, both seats are grey. Removing your opponent's pieces is no longer possible after affiliations are set.",
         urls: ["https://boardgamegeek.com/boardgame/20517/witch-stones"],
         bggid: "20517",
         people: [
@@ -55,7 +94,31 @@ export class WitchGame extends GameBase {
             },
         ],
         categories: ["goal>score>race", "mechanic>capture",  "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>simple>4c"],
-        flags: ["shared-pieces", "player-stashes", "scores", "random-start"]
+        flags: ["custom-colours", "scores", "random-start"],
+        customizations: [
+            {
+                num: 1,
+                default: 1,
+                explanation: "Colour of player 1",
+                player: 1,
+            },
+            {
+                num: 2,
+                default: 2,
+                explanation: "Colour of player 2",
+                player: 2,
+            },
+            {
+                num: 3,
+                default: "#ffffff",
+                explanation: "Colour of earthstones",
+            },
+            {
+                num: 4,
+                default: 4,
+                explanation: "Colour of crowns",
+            },
+        ],
     };
 
     public static coords2algebraic(x: number, y: number): string {
@@ -181,23 +244,17 @@ export class WitchGame extends GameBase {
         return score;
     }
 
-    public getPlayerStash(player: number): IStashEntry[] | undefined {
-        const entry: IStashEntry[] = [];
-        const aff = this.affiliations[player - 1];
-        if ( (aff !== undefined) && (aff !== null) ) {
-            let glyph: Glyph;
-            if (aff === "M") {
-                glyph = {"name":"piecepack-suit-moons","colour": 2};
-            } else {
-                glyph = {"name":"piecepack-suit-suns","colour": 1};
-            }
-            entry.push({
-                glyph,
-                movePart: aff,
-                count: 1,
-            });
+    private affiliationForSeat(p: playerid): Affiliation | undefined {
+        const aff = this.affiliations[p - 1];
+        return aff === null ? undefined : aff;
+    }
+
+    public getPlayerColour(p: playerid): number | string {
+        const aff = this.affiliationForSeat(p);
+        if (aff === undefined) {
+            return UNDECIDED_COLOUR;
         }
-        return entry;
+        return aff === "S" ? 1 : 2;
     }
 
     public sidebarScores(): IScores[] {
@@ -463,7 +520,7 @@ export class WitchGame extends GameBase {
     // It leaves the object in an invalid state, so only use it on cloned objects, or call `load()` before submitting again.
     public move(m: string, {partial = false, trusted = false} = {}): WitchGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -668,7 +725,8 @@ export class WitchGame extends GameBase {
                     }
                 ],
                 "E": {
-                    "name": "piece"
+                    "name": "piece",
+                    "colour": EARTH_STONE,
                 },
             },
             pieces: pstr
@@ -705,16 +763,16 @@ export class WitchGame extends GameBase {
         switch (r.type) {
             case "capture":
                 if ("where" in r) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.witch.single", {where: r.where!, context: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:witch.CAPTURE.single_${r.what!}`, {where: r.where!, context: r.what!});
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.witch.nowhere", {context: r.what!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:witch.CAPTURE.nowhere_${r.what!}`, {context: r.what!, count: r.count!});
                 }
                 return true;
             case "affiliate":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:AFFILIATE.witch", {context: r.which!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:witch.AFFILIATE.${r.which!}`, {context: r.which!});
                 return true;
             case "deltaScore":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {delta: r.delta!, count: r.delta!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_GAIN", {delta: r.delta!, count: r.delta!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -734,3 +792,4 @@ export class WitchGame extends GameBase {
         return new WitchGame(this.serialize());
     }
 }
+

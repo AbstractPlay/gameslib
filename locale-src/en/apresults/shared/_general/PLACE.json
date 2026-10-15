@@ -1,0 +1,17 @@
+{
+  "_general": {
+    "PLACE": {
+      "PYRAMID_1": "{{player}} placed a small piece at {{where}}.",
+      "PYRAMID_2": "{{player}} placed a medium piece at {{where}}.",
+      "PYRAMID_3": "{{player}} placed a large piece at {{where}}.",
+      "ball": "{{player}} placed a ball at {{where}}.",
+      "complete": "{{player}} placed a {{what}} at {{where}}.",
+      "decktet": "{{player}} placed \"{{what}}\" at {{where}}.",
+      "mine": "{{player}} placed one of their own pieces at {{where}}.",
+      "neutral": "A neutral piece was placed at {{where}}.",
+      "nowhat": "{{player}} placed a piece at {{where}}.",
+      "theirs": "{{player}} placed an enemy piece at {{where}}.",
+      "theirs_specific": "{{player}} placed a {{enemy}} piece at {{where}}."
+    }
+  }
+}

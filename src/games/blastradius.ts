@@ -6,6 +6,44 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Click a cell to add a piece to the board.",
+        INVALID: "You may not place pieces within radiation exclusion zones, and you must always create the smallest stack legally possible.",
+    },
+    variants: {
+        "#board": {
+            name: "Hexagonal board (base-6)",
+        },
+        "board-5": {
+            name: "Hexagonal board (base-5)",
+        },
+        "board-7": {
+            name: "Hexagonal board (base-7)",
+        },
+    },
+    displays: {
+        nums: {
+            name: "Numbers",
+            description: "Stacks as numbers",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        one: "{{player}} removed one enemy piece from {{where}}.",
+        other: "{{player}} removed a stack of {{count}} enemy pieces from {{where}}.",
+    },
+    PLACE: {
+        default: "{{player}} added a piece to {{where}}, creating a stack of height {{height}}.",
+    },
+    TAKE: {
+        one: "{{player}} removed one of their own pieces from {{where}}.",
+        other: "{{player}} removed a stack of {{count}} of their own pieces from {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 
@@ -31,8 +69,7 @@ export class BlastRadiusGame extends GameBase {
         playercounts: [2],
         version: "20241126",
         dateAdded: "2024-11-27",
-        // i18next.t("apgames:descriptions.blastradius")
-        description: "apgames:descriptions.blastradius",
+        description: "An abstract war game where pieces irradiate the spaces around them. Eliminate all opposing pieces.",
         urls: [
             "https://www.marksteeregames.com/Blast_Radius_rules.pdf",
             "https://boardgamegeek.com/boardgame/434293/blast-radius",
@@ -251,7 +288,7 @@ export class BlastRadiusGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): BlastRadiusGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -475,16 +512,16 @@ export class BlastRadiusGame extends GameBase {
         switch (r.type) {
             case "place":
             case "add":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.blastradius", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blastradius.PLACE.default", {
                     where: r.where!,
                     height: r.type === "place" ? 1 : r.num!,
                 });
                 return true;
             case "take":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.blastradius", { where: r.from!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blastradius.TAKE", { where: r.from!, count: r.count! });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.blastradius", { where: r.where!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blastradius.CAPTURE", { where: r.where!, count: r.count! });
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -496,3 +533,4 @@ export class BlastRadiusGame extends GameBase {
         return new BlastRadiusGame(this.serialize());
     }
 }
+

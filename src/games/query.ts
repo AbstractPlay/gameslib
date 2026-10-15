@@ -6,6 +6,32 @@ import { reviver, SquareFanoronaGraph, UserFacingError } from "../common/index.j
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Place 1 piece on an eight-way intersection, or two pieces on four-way intersections.",
+        CONTINUE: "You have placed on a four-way intersection. Select one more four-way intersection to place your second piece.",
+        SAMECELL: "You have already placed at {{where}}.",
+        NOTC4: "The intersection at {{where}} is not a four-way intersection.",
+        TOOMANY1: "You may only place one piece on eight-way intersections.",
+        TOOMANY2: "You may only place two pieces on four-way intersections.",
+    },
+    variants: {
+        "#board": {
+            name: "13x13 board",
+        },
+        "size-9": {
+            name: "9x9 board",
+        },
+    },
+};
+export const gameApresultsEn = {
+    PLACE: {
+        c4: "{{player}} two pieces at vertices {{where}}.",
+        c8: "{{player}} one piece at vertex {{where}}.",
+    },
+};
+
+
 
 type playerid = 1 | 2;
 type PlayerLines = [string[], string[]];
@@ -29,8 +55,7 @@ export class QueryGame extends GameBase {
         playercounts: [2],
         version: "20240831",
         dateAdded: "2024-09-05",
-        // i18next.t("apgames:descriptions.query")
-        description: "apgames:descriptions.query",
+        description: "A connection game on an Alquerque board. Place a piece on an eight-way intersection, or two pieces on four-way intersections.",
         urls: [
             "https://mindsports.nl/index.php/the-pit/548-query",
             "https://boardgamegeek.com/boardgame/432215/query",
@@ -313,7 +338,7 @@ export class QueryGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): QueryGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -496,9 +521,9 @@ export class QueryGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.how === "c4") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.query_c4", { where: r.where!.split(",").join(", ") });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:query.PLACE.c4", { where: r.where!.split(",").join(", ") });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.query_c8", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:query.PLACE.c8", { where: r.where! });
                 }
                 return true;
             default:
@@ -511,3 +536,4 @@ export class QueryGame extends GameBase {
         return new QueryGame(this.serialize());
     }
 }
+

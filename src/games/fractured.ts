@@ -4,6 +4,17 @@ import { AnnotationBasic, APRenderRep, AreaTrack, Colourfuncs, MarkerFlood, Mark
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { FracturedFlatGraph, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_MOVE: "That move is not legal.",
+        BAD_PLACE: "You may not place a stone there.",
+        CLOSED: "That region is not open for placement.",
+        INITIAL_INSTRUCTIONS: "Place a stone in an open region, or select one of your stones to move.",
+        NO_RESERVE: "You have no stones left in reserve.",
+        PARTIAL_MOVE: "Select a destination one size larger.",
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -52,7 +63,7 @@ export class FracturedGame extends GameBase {
         playercounts: [2],
         version: "20260810",
         dateAdded: "2026-08-25",
-        description: "apgames:descriptions.fractured",
+        description: "An area-control game on a unique \"fractured\" board. Scoring happens on a shared track.",
         urls: [
             "https://crabfragmentlabs.com/fractured-flat",
             "https://boardgamegeek.com/boardgame/427272/the-fractured-flat",
@@ -377,7 +388,7 @@ export class FracturedGame extends GameBase {
 
     public move(m: string, { trusted = false, partial = false } = {}): FracturedGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase().replace(/\s+/g, "");
@@ -672,7 +683,7 @@ export class FracturedGame extends GameBase {
             case "deltaScore":
                 lines.push({
                     actor: this.getChatActorRef(ctx.defaultSeat),
-                    textKey: "apresults:DELTA_SCORE_GAIN",
+                    textKey: "apresults:_general.DELTA_SCORE_GAIN",
                     textParams: {
                         count: r.delta!,
                         delta: r.delta!,

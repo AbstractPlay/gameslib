@@ -1,6 +1,7 @@
 [
   { "slug": "index", "title": "Overview" },
   { "slug": "creating-games", "title": "Creating games" },
+  { "slug": "rules-mirror", "title": "Rules PDF mirrors" },
   { "slug": "meta-games", "title": "Meta-game catalog" },
   { "slug": "categories", "title": "Categories & tags" },
   { "slug": "testing" },

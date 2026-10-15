@@ -5,6 +5,22 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { PentaHexGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_FIRST_TURN: "Place one piece onto any empty intersection.",
+        INITIAL_INSTRUCTIONS: "Place one or two pieces onto empty intersections.",
+        FULL_INSTRUCTIONS: "Place one or two pieces onto empty intersections. You cannot place both pieces as a part of the same group or where they would be immediately removed.",
+    },
+    variants: {
+        "#board": {
+            name: "Default board (25 blue stones)",
+        },
+        "size-8": {
+            name: "Larger board (35 blue stones)",
+        },
+    },
+};
+
 
 // To match external schemas, this needs to be 1 based
 type PlayerId = 1|2;
@@ -35,8 +51,7 @@ export class BluestoneGame extends GameBase {
         playercounts: [2],
         version: "20250830",
         dateAdded: "2025-09-03",
-        // i18next.t("apgames:descriptions.bluestone")
-        description: "apgames:descriptions.bluestone",
+        description: "Connect your groups to the most blue pieces on the perimeter of the board, in this mixture of territory and connection game.",
         urls: ["https://boardgamegeek.com/boardgame/444241/bluestone"],
         bggid: "444241",
         people: [
@@ -310,7 +325,7 @@ export class BluestoneGame extends GameBase {
 
     public move(m: string, { trusted = false } = {}): BluestoneGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (m.length === 0) return this;
@@ -684,3 +699,4 @@ export class BluestoneGame extends GameBase {
     }
 
 }
+

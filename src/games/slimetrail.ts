@@ -5,6 +5,23 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { SquareGraph, reviver, UserFacingError } from "../common/index.js";
 import { HexSlantedGraph } from "../common/graphs/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Move the ball to an adjacent empty cell.",
+        INVALID_MOVE: "The chosen cell must be empty and adjacent to the ball.",
+    },
+    variants: {
+        "#board": {
+            description: "8x8 board game",
+            name: "8x8 board",
+        },
+        rhombus11: {
+            name: "Hex board",
+            description: "Hex board of size 11.",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2; // regarding pieces: 1 is the ball, 2 are the walls
 
@@ -26,10 +43,8 @@ export class SlimetrailGame extends GameBase {
         playercounts: [2],
         version: "20260508",
         dateAdded: "2026-05-13",
-        // i18next.t("apgames:descriptions.slimetrail")
-        description: "apgames:descriptions.slimetrail",
-        // i18next.t("apgames:notes.slimetrail")
-        notes: "apgames:notes.slimetrail",
+        description: "Push the ball piece to an adjacent empty cell and bring it to your goal, or stalemate the adversary.",
+        notes: "Slimetrail was designed by Bill Taylor in 1992. Initially the game was played on the Hex board and a stalemate was a draw. The game evolved to be played on a 8x8 board, where a stalemated player loses the match. This version was used in the Portuguese Tournament of Board Games for several years. There are some 1970s precursors of this theme, like Knight Chase, Blokeo, ZigZag, and Tesoro (cf. WAG's page in the links).",
         urls: [
             "https://boardgamegeek.com/boardgame/31467/slimetrail",
             "https://jpneto.github.io/world_abstract_games/slimetrail.htm",
@@ -193,7 +208,7 @@ export class SlimetrailGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SlimetrailGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -372,3 +387,4 @@ export class SlimetrailGame extends GameBase {
         return new SlimetrailGame(this.serialize());
     }
 }
+

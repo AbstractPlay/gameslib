@@ -5,6 +5,39 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import _ from "lodash";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select an edge to draw a line.",
+        INVALID_WALL: "The wall {{wall}} is not valid.",
+        DUPLICATE: "You have drawn a wall at {{where}}.",
+        OCCUPIED: "There is already a wall at {{where}}.",
+        CONTINUE: "You have completed a box. Select another edge to draw a line.",
+        INVALID_CONTINUE: "You cannot draw more lines.",
+    },
+    variants: {
+        "#board": {
+            name: "5x5 board",
+        },
+        "size-4x4": {
+            name: "4x4 board",
+        },
+        "size-5x7": {
+            name: "5x7 board",
+        },
+        "size-7x7": {
+            name: "7x7 board",
+        },
+    },
+};
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} adds a line at {{where}}.",
+        claim1: "{{player}} adds a line at {{where}}, claiming {{box}}.",
+        claim2: "{{player}} adds a line at {{where}}, claiming {{box1}} and {{box2}}.",
+    },
+};
+
+
 
 type playerid = 1 | 2;
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -28,8 +61,7 @@ export class BoxesGame extends GameBase {
         playercounts: [2],
         version: "20240908",
         dateAdded: "2024-09-14",
-        // i18next.t("apgames:descriptions.boxes")
-        description: "apgames:descriptions.boxes",
+        description: "A territorial game where you try to complete boxes by drawing lines to connect the dots. If a box is claimed, you may make another move.",
         urls: [
             "https://en.wikipedia.org/wiki/Dots_and_Boxes",
             "https://boardgamegeek.com/boardgame/17106/boxes",
@@ -398,7 +430,7 @@ export class BoxesGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): BoxesGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -575,14 +607,14 @@ export class BoxesGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.count === undefined) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.boxes", {where: r.where!});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:boxes.PLACE.default", {where: r.where!});
                 } else if (r.count === 1) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.boxes_claim1", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:boxes.PLACE.claim1", {
                         where: r.where!, box: r.how!,
                     });
                 } else {
                     const cells = r.how!.split(",");
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.boxes_claim2", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:boxes.PLACE.claim2", {
                         where: r.where!, box1: cells[0]!, box2: cells[1]!,
                     });
                 }
@@ -596,3 +628,4 @@ export class BoxesGame extends GameBase {
         return new BoxesGame(this.serialize());
     }
 }
+

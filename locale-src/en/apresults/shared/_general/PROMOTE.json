@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "PROMOTE": {
+      "basicWhere": "The piece at {{where}} was promoted."
+    }
+  }
+}

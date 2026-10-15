@@ -5,6 +5,22 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, HexTriGraph, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_move: "Select a piece on the board to move.",
+        INITIAL_INSTRUCTIONS_place: "Select one of your pieces to place on the board.",
+        LABEL_STASH: "{{player}}'s stash",
+        PARTIAL_MOVE: "Select the destination.",
+        PARTIAL_MOVE_PLACE: "Select a piece from your hand to place on the board.",
+        PARTIAL_PLACE: "Select a space on the board to place your {{piece}} piece.",
+    },
+    status: {
+        COLOUR: "colours",
+        GOALS: "Goals",
+        HEIGHT: "heights",
+    },
+};
+
 
 type playerid = 1|2|3|4|5;
 type Colour = "G"|"L"|"Y";
@@ -53,10 +69,8 @@ export class WaldMeisterGame extends GameBase {
         version: "20260117",
         dateAdded: "2026-02-12",
         // version: "20231225",
-        // i18next.t("apgames:descriptions.waldmeister")
-        description: "apgames:descriptions.waldmeister",
-        // i18next.t("apgames:notes.waldmeister")
-        notes: "apgames:notes.waldmeister",
+        description: "Players take turns planting trees in an attempt to create groups of either colours or heights. Highest score after two rounds wins.",
+        notes: "Players play two games sequentially. In the first round, Player 1 is playing for colours and Player 2 is playing for heights. At the end of the first round, scores are tabulated and scoring groups highlighted. Then in the second round, Player 2 plays first and plays for colours, and Player 1 plays for heights.",
         urls: ["https://boardgamegeek.com/boardgame/371135/waldmeister"],
         bggid: "371135",
         people: [
@@ -410,7 +424,7 @@ export class WaldMeisterGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false, emulation = false} = {}): WaldMeisterGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         // Normalize
         m = m.replace(/\s+/g, "");
@@ -897,7 +911,7 @@ export class WaldMeisterGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "deltaScore":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {player: `Player ${r.who!}`, delta: r.delta!, count: r.delta!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_GAIN", {player: `Player ${r.who!}`, delta: r.delta!, count: r.delta!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -910,3 +924,4 @@ export class WaldMeisterGame extends GameBase {
         // return new WaldMeisterGame(this.serialize());
     }
 }
+

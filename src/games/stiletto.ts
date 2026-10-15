@@ -6,6 +6,29 @@ import { InARowBase } from "./in_a_row/InARowBase.js";
 import { APRenderRep } from "@abstractplay/renderer";
 
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Place a piece onto an empty space. The second player initially has the active dagger (i.e., the power to make two placements). The dagger is temporarily inactive if it was used in the player's last turn and the opponent just used it. The only exception is if there is the need to protect against an immediate winning threat by the opponent.",
+        INSTRUCTIONS: "Place a piece onto an empty space.",
+        INSTRUCTIONS_DAGGER: "Place a piece onto an empty space. You have the dagger and can use it to place a second stone on an empty square (note that the dagger will then go to the opponent).",
+        INSTRUCTIONS_INACTIVE_DAGGER: "Place a piece onto an empty space. You have the dagger but it is inactive, since you used it last turn and there is no immediate losing threat.",
+        EXCESS: "You may only place two stones if you have an active dagger. Place just one stone.",
+        EXCESS_FIRST: "You have placed too many stones. At the start you may only place one stone as the first player.",
+        EXTENSION: "It is illegal to use the dagger to extend three friendly stones, in the same line, to make a 5 in-a-row.",
+        ILLEGAL_OPEN4: "It is illegal to use the dagger to create an open-4 with both stones.",
+    },
+    variants: {
+        "#board": {
+            name: "19x19 board",
+        },
+        open4: {
+            description: "Cannot use both stones to form an open-4.",
+            name: "Open-4 restriction",
+        },
+        "#ruleset": { name: "Default ruleset" }
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -30,9 +53,8 @@ export class StilettoGame extends InARowBase {
         playercounts: [2],
         version: "20260221",
         dateAdded: "2026-03-07",
-        // i18next.t("apgames:descriptions.Stiletto")
-        description: "apgames:descriptions.stiletto",
-        notes: "apgames:notes.stiletto",
+        description: "Make a 5 in-a-row where players alternate the power of the dagger (i.e., an option to make a double placement).",
+        notes: "A dagger represents an option for a double move. Stiletto is a 2003 game from the family of Gomoku, where players try to make a five in-a-row. The main difference is that the second player (traditionally White) starts with a dagger. This allows to compensate for Black's strong initial advantage. When players use the dagger, they pass it to the adversary.\n\nIn terms of 'power' available to players, this variant lies between Gomoku and Connect6. The fact that the power to play two stones in not shared, adds tension to the gameplay.\n\nThe **Open-4** variant makes it illegal to create an open-4 with both dagger stones, which removes part of the dagger's power.\n\n_Stiletto_, from the Italian, is a small, slender dagger with a long, narrow blade designed primarily for thrusting.",
         urls: [
                 "https://boardgamegeek.com/boardgame/465550/stiletto",
                 "https://jpneto.github.io/world_abstract_games/dagger_gomoku.htm",
@@ -433,7 +455,7 @@ export class StilettoGame extends InARowBase {
         const normalised = this.normaliseMove(m);
         if (! this.sameMove(m, normalised)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.product.NORMALISED", {move: normalised});
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
 
@@ -458,7 +480,7 @@ export class StilettoGame extends InARowBase {
         if (moves.length == 2) {
             if (moves[0] == moves[1]) { // placements must be on different cells
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._inarow.DUPLICATE",
+                result.message = i18next.t("apgames:validation._general.DUPLICATE",
                                            { where: moves[0] });
                 return result;
             }
@@ -505,7 +527,7 @@ export class StilettoGame extends InARowBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): StilettoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -680,3 +702,4 @@ export class StilettoGame extends InARowBase {
         return new StilettoGame(this.serialize());
     }
 }
+

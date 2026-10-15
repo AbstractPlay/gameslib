@@ -7,6 +7,42 @@ import { DirectedGraph } from "graphology";
 import { bidirectional } from 'graphology-shortest-path/unweighted.js';
 import { allSimplePaths } from "graphology-simple-path";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select one of your own pieces to move.",
+        SEED_PARTIAL: "Select a destination.",
+        SEED_PARTIAL_SPHERE: "Select a destination, or select the same cell again to split the spheroid.",
+        SPHERES_SPLIT: "You can only split spheroids. Select a different cell.",
+    },
+    variants: {
+        noglobes: {
+            description: "Neither player starts with any globes.",
+            name: "No Starting Globes",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        "1": "{{player}} captured an orb at {{where}}.",
+        "2": "{{player}} captured a spheroid at {{where}}.",
+    },
+    MOVE: {
+        "1": "{{player}} moved an orb from {{from}} to {{to}}.",
+        "2": "{{player}} moved a spheroid from {{from}} to {{to}}.",
+        "3": "{{player}} moved a globe from {{from}} to {{to}}.",
+        "2S": "{{player}} moved a split spheroid from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        default: "{{player}}'s orb generator created an orb at {{where}}.",
+    },
+    PROMOTE: {
+        "12": "{{player}} promoted an orb to a spheroid at {{where}}.",
+        "13": "{{player}} promoted an orb to a globe at {{where}}.",
+        "23": "{{player}} promoted spheroid to a globe at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 export type Size = 1|2|3;
@@ -35,8 +71,7 @@ export class OrbGame extends GameBase {
         playercounts: [2],
         version: "20230622",
         dateAdded: "2023-07-01",
-        // i18next.t("apgames:descriptions.orb")
-        description: "apgames:descriptions.orb",
+        description: "Generatorb is 2-player game played on a standard chess board. Players start in opposite corners and attempt to reach their opponent's generator core or occupy the majority of cells on the front line. During play, you can stack up to three checkers in a space. Stacks of different heights behave differently, leading to engaging strategic options.",
         urls: ["https://boardgamegeek.com/boardgame/18728/generatorb"],
         bggid: "18728",
         people: [
@@ -566,7 +601,7 @@ export class OrbGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): OrbGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -852,16 +887,16 @@ export class OrbGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.orb", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:orb.PLACE.default", {where: r.where!});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.orb", {from: r.from!, to: r.to!, context: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:orb.MOVE.${r.what!}`, {from: r.from!, to: r.to!, context: r.what!});
                 return true;
             case "promote":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PROMOTE.orb", {where: r.where!, context: `${r.from!}${r.to!}`});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:orb.PROMOTE.${r.from!}${r.to!}`, {where: r.where!, context: `${r.from!}${r.to!}`});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.orb", {where: r.where!, context: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:orb.CAPTURE.${r.what!}`, {where: r.where!, context: r.what!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -894,3 +929,4 @@ export class OrbGame extends GameBase {
         return new OrbGame(this.serialize());
     }
 }
+

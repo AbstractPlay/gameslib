@@ -325,7 +325,7 @@ describe("Thricewise", () => {
         expect(selects.length).to.equal(2);
         expect(selects.map(s => s.what)).to.deep.equal([fives[0], threes[1]]);
         const lines = g.chatLogEntries(["Alice", "Bob"]).flatMap(e => e.lines);
-        const selectLines = lines.filter(l => l.textKey === "apresults:SELECT.thricewise");
+        const selectLines = lines.filter(l => l.textKey === "apresults:thricewise.SELECT.default");
         expect(selectLines.length).to.equal(2);
     });
 

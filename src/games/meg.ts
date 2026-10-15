@@ -7,6 +7,33 @@ import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { allSimplePaths } from "graphology-simple-path";
 import { linesIntersect } from "../common/plotting.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_defense: "Place a blocker in any empty space.",
+        INITIAL_INSTRUCTIONS_offense: "Place a receiver in any empty space or select the ball to make a shot.",
+        INITIAL_INSTRUCTIONS_setup: "Place a receiver in any empty space or select an existing piece to \"take the ball\" and play as offense.",
+        PARTIAL: "Continue selecting receivers or click \"Complete move\" to stop the shot here.",
+        SHOT_START: "Select a receiver.",
+    },
+    status: {
+        OFFENSE: "Offensive player",
+        COUNTDOWN: "Plies remaining",
+    },
+};
+export const gameApresultsEn = {
+    CLAIM: {
+        default: "{{player}} has taken the ball and placed it at {{where}}.",
+    },
+    MOVE: {
+        default: "{{player}} passed the ball from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        cap: "{{player}} placed a blocker at {{where}}.",
+        cup: "{{player}} placed a receiver at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 export type Piece = "CUP"|"CAP"|"BALL";
@@ -32,8 +59,7 @@ export class MegGame extends GameBase {
         playercounts: [2],
         version: "20250126",
         dateAdded: "2025-01-26",
-        // i18next.t("apgames:descriptions.meg")
-        description: "apgames:descriptions.meg",
+        description: "Meg is an asymmetric, push-your-luck game in which one player attempts to 'meg' their opponent by passing the ball between their legs.",
         urls: ["https://drive.google.com/file/d/1F3Xk9tj_3FIhAHhoR00_2JHtTjkeHkHO/view"],
         people: [
             {
@@ -331,7 +357,7 @@ export class MegGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): MegGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -598,13 +624,13 @@ export class MegGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.meg", {context: r.what!, where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:meg.PLACE.${r.what!}`, {context: r.what!, where: r.where!});
                 return true;
             case "claim":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.meg", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:meg.CLAIM.default", {where: r.where!});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.meg", {from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:meg.MOVE.default", {from: r.from!, to: r.to!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -632,3 +658,4 @@ export class MegGame extends GameBase {
         return new MegGame(this.serialize());
     }
 }
+

@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "SACRIFICE": {
+      "nowhat": "{{player}} sacrificed a piece at {{where}}."
+    }
+  }
+}

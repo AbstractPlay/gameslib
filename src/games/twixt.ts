@@ -6,6 +6,61 @@ import { reviver, UserFacingError, generateColumnLabel } from "../common/index.j
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        CORNER: "You may not place a peg at the corner of the board.",
+        CROSSING: "The link at {{link}} is making an illegal cross.",
+        INITIAL_INSTRUCTIONS: "Select a space to place a peg. You may rearrange your links before you place your peg.",
+        INITIAL_INSTRUCTIONS_PP: "Select a space to place a peg",
+        INVALID_MOVE_SEGMENT: "The move {{move}} is invalid.",
+        INVALID_PARTIAL: "The partial move {{move}} is invalid.",
+        LINK_ABSENT: "There is no link between {{link}} to remove.",
+        LINK_ON_WRONG_PLAYER: "You may only place a link on a peg of your own colour.",
+        LINK_PRESENT: "There is already a link between at {{link}}.",
+        NO_PEG: "When placing a link at {{link}}, there is no peg at {{peg}}.",
+        OCCUPIED: "The space {{move}} is already occupied by a peg.",
+        OPPONENTS_AREA: "You may not place a peg in your opponent's area.",
+        PARTIAL_EMPTY: "Trying to begin a partial move at an empty space {{move}}.",
+        PARTIAL_LINK: "Select another peg to add or remove a link to.",
+        PARTIAL_OPPONENT: "You may not rearrange your opponent's links.",
+        TOO_MANY_PEGS: "You may only place one peg per turn.",
+    },
+    variants: {
+        "#board": {
+            name: "Default board (24x24)",
+        },
+        "#ruleset": {
+            description: "Links cannot cross. You may rearrange your links before you place your peg.",
+            name: "Default ruleset"
+        },
+        pp: {
+            description: "Players' own links are allowed to cross each other. There are no link rearrangements.",
+            name: "Paper and pencil",
+        },
+        "size-30": {
+            name: "Larger board (30x30)",
+        },
+    },
+    displays: {
+        "hide-diagonals": {
+            description: "Don't show diagonal lines.",
+            name: "Hide diagonals",
+        },
+    },
+};
+export const gameApresultsEn = {
+    ADD: {
+        default: "{{player}} added a link at {{where}}.",
+    },
+    PLACE: {
+        default: "{{player}} placed a peg at {{where}}.",
+    },
+    REMOVE: {
+        default: "{{player}} removed a link at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 
@@ -31,10 +86,8 @@ export class TwixtGame extends GameBase {
         playercounts: [2],
         version: "20240220",
         dateAdded: "2024-02-24",
-        // i18next.t("apgames:descriptions.twixt")
-        description: "apgames:descriptions.twixt",
-        // i18next.t("apgames:notes.twixt")
-        notes: "apgames:notes.twixt",
+        description: "Twixt is a connection game where players alternate turns placing pegs and links on a pegboard in an attempt to link their opposite sides.",
+        notes: "The notation is based on Hansel notation at <http://www.ibiblio.org/twixtpuzzles/>. Some modifications are that link removal specifically specifies the link direction, and commas separate the moves. To add/remove links, click on the pegs between them. You can also remove a link by clicking on the line itself.",
         urls: ["https://boardgamegeek.com/boardgame/949/twixt"],
         bggid: "949",
         people: [
@@ -574,7 +627,7 @@ export class TwixtGame extends GameBase {
             const normalised = this.normaliseMove(m);
             if (normalised !== m) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.twixt.NORMALISED", { normalised });
+                result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
                 return result;
             }
             for (const move of moves) {
@@ -699,7 +752,7 @@ export class TwixtGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): TwixtGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1025,13 +1078,13 @@ export class TwixtGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.twixt", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:twixt.PLACE.default", { where: r.where! });
                 return true;
             case "add":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ADD.twixt", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:twixt.ADD.default", { where: r.where! });
                 return true;
             case "remove":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.twixt", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:twixt.REMOVE.default", { where: r.where! });
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -1043,3 +1096,4 @@ export class TwixtGame extends GameBase {
         return new TwixtGame(this.serialize());
     }
 }
+

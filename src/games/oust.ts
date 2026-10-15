@@ -4,6 +4,37 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        ALREADY_WON: "There are no more enemy pieces to capture. You have already won.",
+        ILLEGAL_PASS: "You may only pass if you have no legal moves.",
+        ILLEGAL_PLACEMENT: "Placement at {{where}} is not legal.",
+        INITIAL_INSTRUCTIONS: "Select a cell to place a piece.",
+        MORE: "You have just made a capture placement. You must continue making placements.",
+        PLACEMENT_AFTER_NONCAPTURE: "You may not make any more placements after a non-capture placement.",
+    },
+    variants: {
+        "#board": {
+            name: "size-7 hex",
+        },
+        "hex-6": {
+            name: "size-6 hex",
+        },
+        "hex-8": {
+            name: "size-8 hex",
+        },
+        "square-11": {
+            name: "size-11 square",
+        },
+    },
+    displays: {
+        "hide-moves": {
+            description: "Don't show possible moves.",
+            name: "Hide moves",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -26,8 +57,7 @@ export class OustGame extends GameBase {
         playercounts: [2],
         version: "20240505",
         dateAdded: "2024-05-13",
-        // i18next.t("apgames:descriptions.oust")
-        description: "apgames:descriptions.oust",
+        description: "Oust is the classic \"exnihilation\" game where the game starts with an empty board and the goal is to eliminate all of your opponent's pieces. On your turn, you may make multiple capturing placements if available, but you must end it with a non-capturing placement. You must pass if you are not able to make any placements.",
         urls: [
             "https://www.marksteeregames.com/Oust_rules.pdf",
             "https://boardgamegeek.com/boardgame/30936/oust",
@@ -363,7 +393,7 @@ export class OustGame extends GameBase {
         if (m === "No movelist") {
             result.valid = false;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.oust.NO_MOVELIST");
+            result.message = i18next.t("apgames:validation._inarow.NO_MOVELIST");
             return result;
         }
         if (m.length === 0) {
@@ -406,7 +436,7 @@ export class OustGame extends GameBase {
             const regex = new RegExp(`^([a-z]+[1-9][0-9]*)(,[a-z]+[1-9][0-9]*)*$`);
             if (!regex.test(m)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.oust.INVALID_MOVE_STRING", {move: m});
+                result.message = i18next.t("apgames:validation._general.INVALID_PLACEMENT", {move: m});
                 return result;
             }
             const placed: string[] = [];
@@ -454,11 +484,11 @@ export class OustGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): OustGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         let result;
         if (m === "No movelist") {
-            result = {valid: false, message: i18next.t("apgames:validation.oust.NO_MOVELIST")};
+            result = {valid: false, message: i18next.t("apgames:validation._inarow.NO_MOVELIST")};
             throw new UserFacingError("VALIDATION_GENERAL", result.message);
         }
         m = m.toLowerCase();
@@ -718,13 +748,13 @@ export class OustGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.noperson.group_nowhere", { count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.noperson.group_nowhere", { count: r.count! });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -736,3 +766,4 @@ export class OustGame extends GameBase {
         return new OustGame(this.serialize());
     }
 }
+

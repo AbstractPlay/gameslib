@@ -4,6 +4,25 @@ import { APRenderRep, RowCol, Colourfuncs } from "@abstractplay/renderer/build/s
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, reviver, UserFacingError, SquareGraph, Direction } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Move to an adjacent empty cell, or do a multiple short-jump with a friendly piece. Players cannot re-enter their home-base and cannot leave the enemy home-base once inside. Forward jumps over enemy stones inside the player's home-base takes precedence.",
+        NONEXISTENT: "Trying to interact with a friendly piece that doesn't exist at {{where}}.",
+        ILLEGAL_MOVE: "No piece can return to his home-base, nor can pieces inside the opponent's home-base leave again.",
+        FORCED_MOVES: "Pieces still at home-base are forced to forward-jump over enemy neighbors: pick {{forced}}.",
+        BAD_MOVE: "This movement is illegal!",
+    },
+    variants: {
+        "#board": {
+            name: "16x16 board",
+        },
+        superhalma: {
+            name: "Super Halma (allows long-jumps)",
+        },
+        "#ruleset": { name: "Default ruleset" }
+    },
+};
+
 
 export type playerid = 1 |2;
 
@@ -25,10 +44,8 @@ export class HalmaGame extends GameBase {
         playercounts: [2],
         version: "20260513",
         dateAdded: "2026-05-27",
-        // i18next.t("apgames:descriptions.halma")
-        description: "apgames:descriptions.halma",
-        // i18next.t("apgames:notes.halma")
-        notes: "apgames:notes.halma",
+        description: "The original traversal game. Players need to be the first to move all their armies to the opponent's home base.",
+        notes: "To prevent the [drawish nature](https://boardgamegeek.com/thread/3706389/unspoiling-halma-redux) of the game, the following rules apply: (a) a player wins if the opposite home-base is complete with at least one friendly stone (David Parlett's criteria); (b) Any piece in the player's home-base must make progress towards the enemy camp whenever this is possible by jumping over an enemy piece. (Zillions rule, to remove drawish strategies); (c) No stone can return to its home-base.\n\n[Halma](https://en.wikipedia.org/wiki/Halma) was one of the first commercial successes for an abstract game. The game was designed by [George Howard Monks](https://en.wikipedia.org/wiki/George_Howard_Monks) in 1883/4. It is said that Halma was inspired by an older British game called *Hoppity*. However, this game has no documentation or surviving boards, turning this lineal statement into a historical mystery. Halma was later adapted (c.1892/3) into an even bigger success: [Chinese Checkers](https://boardgamegeek.com/boardgame/2386/chinese-checkers) (which could easily be played by three or six players).\n\nSuper Halma is a more dynamic, uncredited variant, presented in the 1992 book **New Rules for Classic Games** by Wayne Schmittberger. This variant proposes long jumps, where the number of empty cells before and after the jumped stone must be equal. The base's move restrictions still apply in this implementation of Super Halma.",
         urls: [
             "https://en.wikipedia.org/wiki/Halma",
             "https://boardgamegeek.com/boardgame/38950/halma",
@@ -390,7 +407,7 @@ export class HalmaGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): HalmaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -609,3 +626,4 @@ export class HalmaGame extends GameBase {
         return new HalmaGame(this.serialize());
     }
 }
+

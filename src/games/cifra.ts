@@ -5,6 +5,66 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, reviver, shuffle, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { CifraGraph } from "./cifra/graph.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_choose: "Use the buttons to select your play colour and board side. Your opponent will then make the first move. \"Light\" refers to cells that are the background colour. \"Bottom\" refers to row 1.",
+        INITIAL_INSTRUCTIONS_play: "Select a piece to move.",
+        INITIAL_INSTRUCTIONS_setup: "Select a piece from your stash to place on the board. In \"King\" mode, the 5 (or 9) will become the actual king.",
+        INVALID_MOVE: "The move {{move}} does not appear to be valid. Remember that you may not move or capture pieces that have made it to the far row.",
+        NO_DUPES_cell: "You may only place one piece per cell.",
+        NO_DUPES_pc: "You may only place one of each piece type on the board.",
+        ONLY_HOME: "You may only place pieces on your home row.",
+        PARTIAL: "Select a destination.",
+        PARTIAL_PLACE: "Select the cell on your home row to place your {{piece}} piece.",
+        PARTIAL_SETUP_one: "Place your last piece.",
+        PARTIAL_SETUP_other: "You have {{count}} more pieces to place.",
+        LABEL_STASH: "{{player}}'s stash",
+    },
+    variants: {
+        "#board": {
+            name: "5x5 board",
+        },
+        "size-9": {
+            name: "9x9 board",
+        },
+        "#mode": {
+            name: "Dash",
+            description: "Move more of your pieces to the opponent's home row than your opponent does to yours",
+        },
+        king: {
+            name: "King",
+            description: "Capture the opposing king or get yours to the opposing home row",
+        },
+        sum: {
+            name: "Sum",
+            description: "Get the highest total value of pieces to the opponent's home row than your opponent can to yours",
+        },
+    },
+    buttons: {
+        lt: "Light, Top",
+        lb: "Light, Bottom",
+        dt: "Dark, Top",
+        db: "Dark, Bottom",
+        ll: "Light, Left",
+        lr: "Light, Right",
+        dl: "Dark, Left",
+        dr: "Dark, Right",
+    },
+};
+export const gameApresultsEn = {
+    AFFILIATE: {
+        db: "{{player}} chose to play the dark pieces from the top row.",
+        dl: "{{player}} chose to play the dark pieces from the left column.",
+        dr: "{{player}} chose to play the dark pieces from the right column.",
+        dt: "{{player}} chose to play the dark pieces from the top row.",
+        lb: "{{player}} chose to play the light pieces from the bottom row.",
+        ll: "{{player}} chose to play the light pieces from the left column.",
+        lr: "{{player}} chose to play the light pieces from the right column.",
+        lt: "{{player}} chose to play the light pieces from the top row.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 export type ContentsDash = playerid;
@@ -42,8 +102,7 @@ export class CifraGame extends GameBase {
         playercounts: [2],
         version: "20250215",
         dateAdded: "2025-03-04",
-        // i18next.t("apgames:descriptions.cifra")
-        description: "apgames:descriptions.cifra",
+        description: "A breakthrough-style game where the board configuration changes from game to game.",
         urls: ["https://boardgamegeek.com/boardgame/360439/cifra-code25"],
         bggid: "360439",
         people: [
@@ -542,7 +601,7 @@ export class CifraGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): CifraGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1081,7 +1140,7 @@ export class CifraGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {
                     where: r.where!, what: r.what!,
                 });
                 return true;
@@ -1090,7 +1149,7 @@ export class CifraGame extends GameBase {
                 const context = shade === "light" ?
                     (pos === "top" ? "lt" : pos === "bottom" ? "lb" : pos === "left" ? "ll" : "lr") :
                     (pos === "top" ? "dt" : pos === "bottom" ? "db" : pos === "left" ? "dl" : "dr");
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:AFFILIATE.cifra", {context});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:cifra.AFFILIATE.${context}`, {context});
                 return true;
             }
             default:
@@ -1102,3 +1161,4 @@ export class CifraGame extends GameBase {
         return new CifraGame(this.serialize());
     }
 }
+

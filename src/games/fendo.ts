@@ -5,6 +5,33 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { Direction, oppositeDirections, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        DUPLICATE_FENCE: "A fence already exists between these two cells.",
+        INITIAL_INSTRUCTIONS: "Select a piece to move or an empty space to place a piece.",
+        INVALID_DESTINATION: "You cannot reach {{to}} from {{from}}. Remember that pieces can only make one ninety-degree turn as they move.",
+        INVALID_DIRECTION: "The direction {{dir}} is not valid. It must 'N', 'E', 'S', or 'W'.",
+        INVALID_FENCE: "Placing a fence here would either create an empty closed area or create multiple open areas.",
+        INVALID_PASS: "You may not pass if you have moves available.",
+        NO_EDGE_FENCES: "You may not place fences on the edge of the board.",
+        ONLY_MOVE_OPEN: "You may only move pieces in open areas.",
+        PARTIAL_FENCE: "Provide the direction where you wish to place a fence. If clicking, click on the adjacent cell you want to block.",
+        PLACE_IN_OPEN: "You may only place pieces in the open area.",
+        PLACE_IN_RANGE: "You may only place pieces that are within one regular move of an existing piece.",
+    },
+    variants: {
+        "#board": {
+            name: "Default 7x7 board",
+        },
+        "size-9": {
+            name: "9x9 board",
+        },
+        "size-11": {
+            name: "11x11 board",
+        },
+    },
+};
+
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const clonelst = (items: Array<any>): Array<any> => items.map((item: any) => Array.isArray(item) ? clonelst(item) : item);
@@ -37,8 +64,7 @@ export class FendoGame extends GameBase {
         playercounts: [2],
         version: "20211119",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.fendo")
-        description: "apgames:descriptions.fendo",
+        description: "In Fendo, players manoeuvre their pieces to build fences, eventually creating closed off areas that hopefully only they control. Once all the pieces are isolated, the player who controls the most area wins.",
         urls: ["https://spielstein.com/games/fendo", "https://boardgamegeek.com/boardgame/159333/fendo"],
         bggid: "159333",
         people: [
@@ -773,7 +799,7 @@ export class FendoGame extends GameBase {
                     // good enough for a partial success
                     result.valid = true;
                     result.complete = -1;
-                    result.message = i18next.t("apgames:validation.fendo.PARTIAL_MOVE");
+                    result.message = i18next.t("apgames:validation._general.NEED_DESTINATION");
                     return result;
                 }
             }
@@ -784,7 +810,7 @@ export class FendoGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): FendoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -1044,13 +1070,13 @@ export class FendoGame extends GameBase {
                 const last = moves[moves.length - 1];
                 const rest = moves.slice(0, moves.length - 1);
                 if (moves.length > 2) {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.chase", {
+                    this.pushSeatChatLine(lines, seat, "apresults:chase.MOVE.default", {
                         from: first.from,
                         to: last.to,
                         through: rest.map((m) => m.to).join(", "),
                     });
                 } else {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", {
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.nowhat", {
                         from: first.from,
                         to: last.to,
                     });
@@ -1059,16 +1085,16 @@ export class FendoGame extends GameBase {
             for (const r of state._results) {
                 switch (r.type) {
                     case "place":
-                        this.pushSeatChatLine(lines, seat, "apresults:PLACE.nowhat", { where: r.where });
+                        this.pushSeatChatLine(lines, seat, "apresults:_general.PLACE.nowhat", { where: r.where });
                         break;
                     case "block":
-                        this.pushSeatChatLine(lines, seat, "apresults:BLOCK.between", {
+                        this.pushSeatChatLine(lines, seat, "apresults:_general.BLOCK.between", {
                             cell1: r.between![0],
                             cell2: r.between![1],
                         });
                         break;
                     case "pass":
-                        this.pushSeatChatLine(lines, seat, "apresults:PASS.simple");
+                        this.pushSeatChatLine(lines, seat, "apresults:_general.PASS.simple");
                         break;
                 }
             }
@@ -1095,3 +1121,4 @@ export class FendoGame extends GameBase {
         return new FendoGame(this.serialize());
     }
 }
+

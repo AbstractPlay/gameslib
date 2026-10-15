@@ -6,6 +6,20 @@ import { deg2dir, dir2deg, Direction, normDeg, RectGrid, reviver, rotateFacing, 
 import i18next from "i18next";
 import { PacruGraph } from "./pacru/graph.js";
 import { Glyph } from "@abstractplay/renderer";
+export const gameApgamesEn = {
+    validation: {
+        BAD_MOVE: "That move does not appear to be valid. Pieces may only move straight ahead or at a 45 degree angle, may not land on enemy tiles or chevrons, and can't normally jump other chevrons.",
+        BAD_ORIENTATION: "The only valid orientation notations are \">\", \"<\", and \".\".",
+        BAD_PASS: "You may not pass if legal moves are available.",
+        ENEMY_TILE: "You can't land on opposing tiles.",
+        INITIAL_INSTRUCTIONS: "Select a chevron to move.",
+        NEED_DESTINATION: "Select the destination (valid targets are highlighted).",
+        NO_CAPTURES: "You may not move onto a cell with another chevron.",
+        REORIENT: "Click a neighbouring cell or edge zone to select the direction you want to face, or click \"Complete move\" to keep pointing straight ahead.",
+        TOO_FAR: "You can't move further than your power of movement (currently {{pom}}).",
+    },
+};
+
 
 
 export type playerid = 1|2|3|4;
@@ -76,8 +90,7 @@ export class AzacruGame extends GameBase {
         playercounts: [2,3,4],
         version: "20250215",
         dateAdded: "2025-02-19",
-        // i18next.t("apgames:descriptions.azacru")
-        description: "apgames:descriptions.azacru",
+        description: "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
         urls: ["https://boardgamegeek.com/boardgame/21065/azacru"],
         bggid: "21065",
         people: [
@@ -775,7 +788,7 @@ export class AzacruGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): AzacruGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1038,10 +1051,10 @@ export class AzacruGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "sacrifice":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SACRIFICE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.SACRIFICE.nowhat", {where: r.where!});
                 return true;
             case "convert":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.simple", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CONVERT.simple", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -1054,3 +1067,4 @@ export class AzacruGame extends GameBase {
         return cloned;
     }
 }
+

@@ -7,6 +7,25 @@ import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
 import _ from "lodash";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_one: "Place {{count}} piece on the board.",
+        INITIAL_INSTRUCTIONS_other: "Place up to {{count}} pieces on the board.",
+        MAKE_MORE_MOVES_one: "Place {{count}} more piece or complete your turn.",
+        MAKE_MORE_MOVES_other: "Place up to {{count}} more pieces or complete your turn.",
+        TOO_MANY_MOVES_one: "You may only place {{count}} piece on the board.",
+        TOO_MANY_MOVES_other: "You may only place up to {{count}} pieces on the board.",
+    },
+    variants: {
+        "#board": {
+            name: "Default board (base 5)",
+        },
+        "size-6": {
+            name: "Larger board (base 6)",
+        },
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -31,8 +50,7 @@ export class CatchupGame extends GameBase {
         playercounts: [2],
         version: "20240109",
         dateAdded: "2024-01-18",
-        // i18next.t("apgames:descriptions.catchup")
-        description: "apgames:descriptions.catchup",
+        description: "Catchup is a simple abstract game with a devilish dynamic. The goal is to have the largest group of stones on the board when the board is full of stones, but as you get closer to winning, your opponent gets more powerful. Whereas most stone-placement games are about position, Catchup is about timing, position, and the interplay between them.",
         urls: ["https://boardgamegeek.com/boardgame/68199/catchup"],
         bggid: "68199",
         people: [
@@ -353,7 +371,7 @@ export class CatchupGame extends GameBase {
         const regex = new RegExp(`^[a-z]\\d+(,[a-z]\\d+){0,${maxMoves - 1}}$`);
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.catchup.INVALID_PLACEMENT", {move: m});
+            result.message = i18next.t("apgames:validation._general.INVALID_PLACEMENT", {move: m});
             return result;
         }
 
@@ -368,7 +386,7 @@ export class CatchupGame extends GameBase {
         }
         if (duplicates.size > 0) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.catchup.DUPLICATE", {where: [...duplicates].join(", ")});
+            result.message = i18next.t("apgames:validation._general.DUPLICATE", {where: [...duplicates].join(", ")});
             return result;
         }
 
@@ -376,7 +394,7 @@ export class CatchupGame extends GameBase {
         const normalised = this.normaliseMove(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.catchup.NORMALISED", {move: normalised});
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
 
@@ -396,7 +414,7 @@ export class CatchupGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): CatchupGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (!trusted) {
@@ -589,3 +607,4 @@ export class CatchupGame extends GameBase {
         return new CatchupGame(this.serialize());
     }
 }
+

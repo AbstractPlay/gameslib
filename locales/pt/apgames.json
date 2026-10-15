@@ -205,6 +205,11 @@
       "full": "Objetivo > Controlo de Área",
       "tag": "G: Controlo de Área"
     },
+    "goal>arrange": {
+      "description": "Organizar peças em formas ou comprimentos específicos (por exemplo, n numa linha)",
+      "full": "Subjetivo > Arranjo",
+      "tag": "G: Arranjo"
+    },
     "goal>breakthrough": {
       "description": "Alcance a fileira inicial do oponente ou a área inicial com poder suficiente",
       "full": "Objetivo > Avanço Imediato",
@@ -274,6 +279,11 @@
       "description": "Junta todas as suas peças",
       "full": "Objetivo > Unificar",
       "tag": "G: Unificar"
+    },
+    "goal>vigil": {
+      "description": "Todos (ou algum subconjunto definido de) peças devem ter linha de visão para algum elemento de tabuleiro",
+      "full": "Objetivo > Vigilância",
+      "tag": "G: Vigílancia"
     },
     "mechanic": {
       "description": "Descreve as mecânicas gerais do jogo",
@@ -405,6 +415,11 @@
       "full": "Mecânica > Empilhar",
       "tag": "M: Empilhar"
     },
+    "mechanic>vigil": {
+      "description": "Pelo menos uma peça deve ter linha de visão para algum elemento de tabuleiro",
+      "full": "Mecânica > Vigilância",
+      "tag": "M: Vigilânia"
+    },
     "other>traditional": {
       "description": "O jogo é tradicional",
       "full": "Outro > Tradicional",
@@ -414,21 +429,10 @@
       "description": "Suporta mais que 2 jogadores",
       "full": "Outro > 2+ Jogadores",
       "tag": "O: 2+ Jogadores"
-    },
-    "goal>arrange": {
-      "description": "Organizar peças em formas ou comprimentos específicos (por exemplo, n numa linha)",
-      "full": "Subjetivo > Arranjo",
-      "tag": "G: Arranjo"
-    },
-    "mechanic>vigil": {
-      "description": "Pelo menos uma peça deve ter linha de visão para algum elemento de tabuleiro",
-      "full": "Mecânica > Vigilância",
-      "tag": "M: Vigilânia"
-    },
-    "goal>vigil": {
-      "description": "Todos (ou algum subconjunto definido de) peças devem ter linha de visão para algum elemento de tabuleiro",
-      "full": "Objetivo > Vigilância",
-      "tag": "G: Vigílancia"
     }
+  },
+  "status": {},
+  "validation": {
+    "_general": {}
   }
 }

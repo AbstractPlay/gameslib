@@ -5,6 +5,25 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BLOCKED: "The neutral stone cannot move {{spaces}} spaces away from the group of shared stones formed by placement at {{place}}.",
+        INITIAL_INSTRUCTIONS: "Drop a shared stone to push the neutral stone.",
+        INVALID_DESTINATION: "Placement at {{place}} cannot move the neutral stone from {{from}} to {{to}}.",
+        NEED_DESTINATION: "Provide the destination for the neutral stone.",
+        NOLOS: "The group of shared stones formed by placement at {{place}} cannot see the neutral stone at {{from}}.",
+    },
+};
+export const gameApresultsEn = {
+    MOVE: {
+        default: "{{player}} moved neutral stone {{from}} to {{to}}.",
+    },
+    PLACE: {
+        default: "{{player}} placed a shared stone at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2|3;
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW"
@@ -47,8 +66,7 @@ export class IqishiqiGame extends GameBase {
         playercounts: [2,3],
         version: "20231227",
         dateAdded: "2023-12-27",
-        // i18next.t("apgames:descriptions.iqishiqi")
-        description: "apgames:descriptions.iqishiqi",
+        description: "Iqishiqi (pronounced EE-chee-shee-chee) is an abstract strategy game that is played on a hexagonal board composed of hexagonal cells. Players own designated edges of the board, and by clever placement of stones they push a neutral stone around the board. A player wins if he/she moves the neutral stone to one of his/her edges, or leaves his/her opponent unable to move.",
         urls: ["https://boardgamegeek.com/boardgame/172250/iqishiqi"],
         bggid: "172250",
         people: [
@@ -350,7 +368,7 @@ export class IqishiqiGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): IqishiqiGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -544,10 +562,10 @@ export class IqishiqiGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.iqishiqi", {count: parseInt(r.what!, 10), from: r.from!, to: r.to!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:iqishiqi.MOVE.default", {count: parseInt(r.what!, 10), from: r.from!, to: r.to!});
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.iqishiqi", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:iqishiqi.PLACE.default", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -559,3 +577,4 @@ export class IqishiqiGame extends GameBase {
         return new IqishiqiGame(this.serialize());
     }
 }
+

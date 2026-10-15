@@ -8,6 +8,37 @@ import i18next from "i18next";
 import { HexConeGraph, HexSlantedGraph } from "../common/graphs/index.js";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a cell to place a piece.",
+        NO_CENTRE: "On a narrow cone, the cell {{cell}} does not exist.",
+        WRONG_CELL: "The cell {{cell}} is equivalent to {{other}}. We use the latter, which is the one on the southern edge.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-11 board",
+        },
+        "#cone": {
+            name: "Wide cone",
+        },
+        narrow: {
+            name: "Narrow cone",
+        },
+        "size-13": {
+            name: "Size-13 board",
+        },
+        "size-15": {
+            name: "Size-15 board",
+        },
+    },
+    displays: {
+        "display-hex": {
+            description: "Display game on the rhombus board.",
+            name: "Display on rhombus",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -30,8 +61,7 @@ export class ConectGame extends GameBase {
         playercounts: [2],
         version: "20240614",
         dateAdded: "2024-06-17",
-        // i18next.t("apgames:descriptions.conect")
-        description: "apgames:descriptions.conect",
+        description: "A connection game played on the curved surface of a cone. The goal is to create a closed loop from the player's edge to the centre, or to connect a path to the centre. The game can be played on a projection, which is isomorphic to the usual Hex rhombus with some cells overlapping or removed.",
         urls: [
             "https://www.marksteeregames.com/Conect_rules.pdf",
             "https://boardgamegeek.com/boardgame/432207/conect",
@@ -267,7 +297,7 @@ export class ConectGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): ConectGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -773,3 +803,4 @@ export class ConectGame extends GameBase {
         return new ConectGame(this.serialize());
     }
 }
+

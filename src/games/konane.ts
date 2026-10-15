@@ -5,6 +5,41 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        FIRST_MOVE: "Remove one of your pieces from the center 2x2 or from a corner.",
+        SECOND_MOVE: "Remove one of your pieces adjacent to the piece your opponent removed.",
+        NORMAL_MOVE: "Choose a piece to jump one or more of your opponent's pieces in a straight line.",
+        INVALID_MOVE: "You must move a piece that can jump over an opponent's piece.",
+    },
+    variants: {
+        "#board": {
+            name: "6x6 board",
+            description: "Opening: Players will remove stones from the center square or the corners to start.",
+        },
+        "size-7": {
+            name: "7x6 board",
+            description: "Opening: The center two spaces will start empty.",
+        },
+        "size-8": {
+            name: "8x8 board",
+            description: "Opening: Players will remove stones from the center square or the corners to start.",
+        },
+        "size-9": {
+            name: "9x8 board",
+            description: "Opening: The center two spaces will start empty.",
+        },
+        "size-11": {
+            name: "11x8 board",
+            description: "Opening: The center two spaces will start empty.",
+        },
+        "size-15": {
+            name: "15x12 board",
+            description: "Opening: The center two spaces will start empty.",
+        },
+    },
+};
+
 
 
 export type PlayerId = 1|2;
@@ -27,10 +62,8 @@ export class KonaneGame extends GameBase {
         playercounts: [2],
         version: "20260308",
         dateAdded: "2024-11-01",
-        // i18next.t("apgames:descriptions.konane")
-        description: "apgames:descriptions.konane",
-        // i18next.t("apgames:notes.konane")
-        notes: "apgames:notes.konane",
+        description: "A traditional Hawaiian game that was almost completely lost to time but for the memory of a single woman, Kaʻahaʻaina Naihe of Kailua-Kona. Played on a rectangular board, each player captures by jumping over their opponent's pieces. Last to move wins.",
+        notes: "Several competing opening protocols exist, but the most common ruleset is the Naihe Ruleset, used by tournaments at the Bishop Museum in Hawaii and described in the BGG reference. This is what is implemented here.",
         urls: ["https://boardgamegeek.com/boardgame/8122/konane"],
         bggid: "8122",
         people: [
@@ -324,7 +357,7 @@ export class KonaneGame extends GameBase {
 
     public move(m: string, { trusted = false } = {}): KonaneGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (m.length === 0) return this;
@@ -505,3 +538,4 @@ export class KonaneGame extends GameBase {
     }
 
 }
+

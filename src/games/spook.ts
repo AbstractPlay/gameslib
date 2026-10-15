@@ -4,6 +4,79 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema"
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        CANNOT_PLACE: "You may not place at {{where}}.",
+        CHAIN_WRONG_PLAYER: "You may only make chain captures of balls of the same colour.",
+        CONTINUE: "You may have Spooky continue to capture more balls of the same colour, or end your turn.",
+        INITIAL_INSTRUCTIONS_CAPTURE: "Select an adjacent ball to capture.",
+        INITIAL_INSTRUCTIONS_ISOLATED: "Spooky is isolated. Select a new space to move Spooky.",
+        INITIAL_INSTRUCTIONS_PARITY_PASS: "Player 1 starts the getaway phase. You must pass.",
+        INITIAL_INSTRUCTIONS_PASS: "There are no adjacent free balls and unpinned opponent balls. You must pass.",
+        INITIAL_INSTRUCTIONS_PLACEMENT: "Select a space to place a ball.",
+        INITIAL_INSTRUCTIONS_REMOVE: "There are no adjacent free balls. Select an unpinned opponent ball to be removed.",
+        NO_ADJACENT: "The space at {{where}} is also not adjacent to any balls.",
+        NO_BALL: "There is no ball at {{where}}",
+        NOT_ADJACENT: "The ball at {{where}} is not orthogonally adjacent to Spooky.",
+        NOT_CAPTURABLE: "The ball at {{where}} is not capturable.",
+        NOT_FREE: "The ball at {{where}} is not free to be captured.",
+        PINNED: "The ball at {{where}} is pinned.",
+        REMOVE_WRONG_PLAYER: "You must remove your opponent's ball; not your own.",
+        SINGLE_MOVE_DROP: "When performing drop captures, you may only capture one ball.",
+        SINGLE_MOVE_MOVE: "You may not select more than one location to move Spooky.",
+        SINGLE_MOVE_PLACE: "You may only place one ball.",
+        SINGLE_MOVE_REMOVE: "You may only remove one ball.",
+        WRONG_PREFIX_CAPTURE: "Captures should be prefixed with 'c'.",
+        WRONG_PREFIX_MOVE: "Movements should be prefixed with 'm'.",
+        WRONG_PREFIX_PLACE: "Placements should not include a prefix.",
+        WRONG_PREFIX_REMOVE: "Removals should be prefixed with 'r'.",
+    },
+    variants: {
+        "#board": {
+            name: "4x4 board",
+        },
+        "#setup": {
+            description: "Players take turn placing balls until the pyramid is filled at the start of the game.",
+            name: "Manual setup",
+        },
+        random: {
+            description: "The pyramid is randomly filled so the game begins in the getaway phase.",
+            name: "Random setup",
+        },
+        "size-5": {
+            name: "5x5 board",
+        },
+    },
+    displays: {
+        "orb-3d": {
+            description: "Use plain 3D orb textures.",
+            name: "3D orbs",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        drop_opponent: "{{player}} has 1 of their opponent's ball captured by Spooky below at {{where}}.",
+        drop_self: "{{player}} has 1 of their own ball captured by Spooky below at {{where}}.",
+        lateral_opponent_one: "{{player}} has 1 of their opponent's ball captured by Spooky on the same level at {{where}}.",
+        lateral_opponent_other: "{{player}} has {{count}} of their opponent's balls captured by Spooky on the same level at {{where}}.",
+        lateral_self_one: "{{player}} has 1 of their own ball captured by Spooky on the same level at {{where}}.",
+        lateral_self_other: "{{player}} has {{count}} of their own balls captured by Spooky on the same level at {{where}}.",
+    },
+    MOVE: {
+        default: "{{player}} moved Spooky from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        spooky: "Spooky has entered the board at {{where}}.",
+    },
+    REMOVE: {
+        default: "{{player}} removed an opponent's ball at {{where}}.",
+        drop_one: "{{player}} removed a ball at {{where}}, dropping 1 ball from {{how}}.",
+        drop_other: "{{player}} removed a ball at {{where}}, dropping {{count}} balls from {{how}}.",
+    },
+};
+
+
 
 type playerid = 1 | 2 | 3;
 // The move number after which spooky is placed for each board size.
@@ -36,10 +109,8 @@ export class SpookGame extends GameBase {
         playercounts: [2],
         version: "20240501",
         dateAdded: "2024-05-26",
-        // i18next.t("apgames:descriptions.spook")
-        description: "apgames:descriptions.spook",
-        // i18next.t("apgames:notes.spook")
-        notes: "apgames:notes.spook",
+        description: "Guide Spooky the ghost around the pyramid and try to be the first player to have all balls of your colour removed. The game takes place in two phases: the setup phase where the pyramid is built, and the getaway phase, where Spooky starts at the top of the pyramid and starts eliminating balls.",
+        notes: "When using the randomised board setup, the only fairness heuristics that we currently have are that (1) the number of balls in solid 5-ball pyramids of the same colour are equal for both players and (2), the second-highest layer must contain balls of both colours. Feel free to contact us on Discord if you think of other ways to make the game fairer.",
         urls: [
             "https://spielstein.com/games/spook",
             "https://boardgamegeek.com/boardgame/115077/spook",
@@ -498,7 +569,7 @@ export class SpookGame extends GameBase {
                 return result;
             }
             result.valid = false;
-            result.message = i18next.t("apgames:validation.spook.INVALID_PASS");
+            result.message = i18next.t("apgames:validation._general.INVALID_PASS");
             return result;
         }
         const moves = m.split("-");
@@ -847,7 +918,7 @@ export class SpookGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SpookGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -1154,38 +1225,38 @@ export class SpookGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.what === "spooky") {
-                this.pushNeutralChatLine(lines, "apresults:PLACE.spooky", { where: r.where! });
+                this.pushNeutralChatLine(lines, "apresults:spook.PLACE.spooky", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ball", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.ball", { where: r.where! });
                 }
                 return true;
             case "capture":
                 if (r.how === "drop") {
                 if (r.what === "self") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.spook_drop_self", { where: r.where!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spook.CAPTURE.drop_self", { where: r.where!, count: r.count! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.spook_drop_opponent", { where: r.where!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spook.CAPTURE.drop_opponent", { where: r.where!, count: r.count! });
                 }
                 } else {
                 if (r.what === "self") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.spook_lateral_self", { where: r.where!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spook.CAPTURE", { where: r.where!, count: r.count! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.spook_lateral_opponent", { where: r.where!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spook.CAPTURE", { where: r.where!, count: r.count! });
                 }
                 }
                 return true;
             case "remove":
                 if (r.num === 0) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.spook", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spook.REMOVE.default", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.spook_drop", { where: r.where!, count: r.num!, how: r.how! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spook.REMOVE.drop", { where: r.where!, count: r.num!, how: r.how! });
                 }
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.spook", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spook.MOVE.default", { from: r.from!, to: r.to! });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -1224,3 +1295,4 @@ export class SpookGame extends GameBase {
         return new SpookGame(this.serialize());
     }
 }
+

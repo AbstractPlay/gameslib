@@ -4,6 +4,36 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema"
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        CANNOT_PLACE: "{{where}} is not a valid place to put a ball.",
+        INITIAL_INSTRUCTIONS: "Select a location to place a ball.",
+        KO: "Ko rule: you may not immediately recapture your opponent's single ball if they just used it to capture one of yours.",
+        SELF_CAPTURE: "You may not place your balls in self-capture.",
+        SUPERKO: "Superko rule: you may not recreate a previous board position with the same player to play.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-7 board",
+        },
+        "size-4": {
+            name: "Size-4 board (Spargo)",
+        },
+        "size-6": {
+            name: "Size-6 board (small)",
+        },
+        "size-9": {
+            name: "Size-9 board (large)",
+        },
+    },
+    displays: {
+        "orb-3d": {
+            description: "Use plain 3D orb textures.",
+            name: "3D orbs",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -31,8 +61,7 @@ export class MargoGame extends GameBase {
         playercounts: [2],
         version: "20240421",
         dateAdded: "2024-04-30",
-        // i18next.t("apgames:descriptions.margo")
-        description: "apgames:descriptions.margo",
+        description: "Margo is a stacking Go variant. Players may not pass. The game ends when one player is not able to move, and the player with the most balls on the board wins.",
         urls: [
             "http://cambolbro.com/games/margo",
             "https://boardgamegeek.com/boardgame/24923/margo"
@@ -663,7 +692,7 @@ export class MargoGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): MargoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -915,16 +944,16 @@ export class MargoGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ball", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.ball", { where: r.where! });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.noperson.group_nowhere", { count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.noperson.group_nowhere", { count: r.count! });
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 1 });
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 1 });
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:
@@ -937,3 +966,4 @@ export class MargoGame extends GameBase {
         return new MargoGame(this.serialize());
     }
 }
+

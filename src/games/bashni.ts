@@ -4,6 +4,24 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { DirectionDiagonal, RectGrid, reviver, SquareDiagGraph, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a stack with your piece on top to move.",
+        INVALID_MOVE: "The move does not appear to be legal. Capturing is compulsory, and you must continue as long as further captures are possible.",
+        VALID_PARTIAL: "Select a destination. Capturing is compulsory, and you must continue as long as further captures are possible.",
+    },
+    status: {
+        STEPS: "Maneuverability",
+        MATERIAL: "Material",
+    },
+};
+export const gameApresultsEn = {
+    EOG: {
+        stagnation: "The game has ended in a draw because the piece count and composition were unchanged for {{count}} consecutive moves.",
+    },
+};
+
+
 
 
 const BOARD_SIZE = 8;
@@ -33,10 +51,8 @@ export class BashniGame extends GameBase {
         playercounts: [2],
         version: "20260925",
         dateAdded: "2026-09-25",
-        // i18next.t("apgames:descriptions.bashni")
-        description: "apgames:descriptions.bashni",
-        // i18next.t("apgames:notes.bashni")
-        notes: "apgames:notes.bashni",
+        description: "A traditional Russian column draughts game on an 8×8 board. Captured pieces are placed under the jumper instead of leaving the board.",
+        notes: "Maneuverability is a measure of how close your stacks are to crowning. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have a king on top of that stack.",
         urls: [
             "https://en.wikipedia.org/wiki/Bashni",
             "https://boardgamegeek.com/boardgame/36550/bashni",
@@ -193,27 +209,64 @@ export class BashniGame extends GameBase {
             moveDirs = ["SE", "SW"];
         }
 
-        for (const dir of captureDirs) {
-            const ray = g.ray(...g.algebraic2coords(cell), dir).map(c => g.coords2algebraic(...c));
-            if (ray.length >= 2) {
-                const [next, far] = [...ray];
-                if (this.board.has(next) && !this.board.has(far)) {
-                    const nStack = this.board.get(next)!;
-                    const [nOwner,] = nStack[nStack.length - 1];
-                    if (nOwner !== owner) {
+        if (type === 2) {
+            for (const dir of captureDirs) {
+                const ray = g.ray(...g.algebraic2coords(cell), dir).map(c => g.coords2algebraic(...c));
+                const idx = ray.findIndex(n => this.board.has(n));
+                if (idx === -1) {
+                    continue;
+                }
+                const adj = ray[idx];
+                const nStack = this.board.get(adj)!;
+                const [nOwner,] = nStack[nStack.length - 1];
+                if (nOwner === owner) {
+                    continue;
+                }
+                let rayAfter = ray.slice(idx + 1);
+                const blockIdx = rayAfter.findIndex(n => this.board.has(n));
+                if (blockIdx !== -1) {
+                    rayAfter = rayAfter.slice(0, blockIdx);
+                }
+                for (const far of rayAfter) {
+                    if (!this.board.has(far)) {
                         moves.push(`${cell}x${far}`);
+                    }
+                }
+            }
+        } else {
+            for (const dir of captureDirs) {
+                const ray = g.ray(...g.algebraic2coords(cell), dir).map(c => g.coords2algebraic(...c));
+                if (ray.length >= 2) {
+                    const [next, far] = [...ray];
+                    if (this.board.has(next) && !this.board.has(far)) {
+                        const nStack = this.board.get(next)!;
+                        const [nOwner,] = nStack[nStack.length - 1];
+                        if (nOwner !== owner) {
+                            moves.push(`${cell}x${far}`);
+                        }
                     }
                 }
             }
         }
 
         if (moves.length === 0) {
-            for (const dir of moveDirs) {
-                const coords = g.move(...g.algebraic2coords(cell), dir);
-                if (coords !== undefined) {
-                    const next = g.coords2algebraic(...coords);
-                    if (!this.board.has(next)) {
+            if (type === 2) {
+                for (const dir of moveDirs) {
+                    const ray = g.ray(...g.algebraic2coords(cell), dir).map(c => g.coords2algebraic(...c));
+                    const blockIdx = ray.findIndex(n => this.board.has(n));
+                    const empty = blockIdx === -1 ? ray : ray.slice(0, blockIdx);
+                    for (const next of empty) {
                         moves.push(`${cell}-${next}`);
+                    }
+                }
+            } else {
+                for (const dir of moveDirs) {
+                    const coords = g.move(...g.algebraic2coords(cell), dir);
+                    if (coords !== undefined) {
+                        const next = g.coords2algebraic(...coords);
+                        if (!this.board.has(next)) {
+                            moves.push(`${cell}-${next}`);
+                        }
                     }
                 }
             }
@@ -222,28 +275,53 @@ export class BashniGame extends GameBase {
         return moves;
     }
 
-    private static captured(g: SquareDiagGraph, parts: string[]): string[] {
+    private static jumpedSquare(
+        board: Map<string, CellContents[]>,
+        g: SquareDiagGraph,
+        from: string,
+        to: string,
+        player: playerid,
+    ): string|undefined {
+        const [fx, fy] = g.algebraic2coords(from);
+        const [tx, ty] = g.algebraic2coords(to);
+        const between = RectGrid.between(fx, fy, tx, ty).map(c => g.coords2algebraic(...c));
+        for (const cell of between) {
+            if (board.has(cell)) {
+                const stack = board.get(cell)!;
+                if (stack[stack.length - 1][0] !== player) {
+                    return cell;
+                }
+            }
+        }
+        return undefined;
+    }
+
+    private static capturedSquares(
+        board: Map<string, CellContents[]>,
+        g: SquareDiagGraph,
+        parts: string[],
+        player: playerid,
+    ): string[] {
         const capped: string[] = [];
         for (let i = 1; i < parts.length; i++) {
-            const from = parts[i-1];
-            const to = parts[i];
-            const [fx, fy] = g.algebraic2coords(from);
-            const [tx, ty] = g.algebraic2coords(to);
-            const between = RectGrid.between(fx, fy, tx, ty).map(c => g.coords2algebraic(...c));
-            capped.push(between[0]);
+            const jumped = BashniGame.jumpedSquare(board, g, parts[i - 1], parts[i], player);
+            if (jumped !== undefined) {
+                capped.push(jumped);
+            }
         }
         return capped;
     }
 
     private recurseCaps(stubs: string[], complete: string[]): void {
         const g = new SquareDiagGraph(this.boardsize, this.boardsize);
+        const player = this.currplayer;
         const toVisit: string[] = [...stubs];
         while (toVisit.length > 0) {
             const mv = toVisit.shift()!;
             const cloned = BashniGame.clone(this);
             cloned.move(mv, {partial: true, trusted: true});
             const parts = mv.split("x");
-            const capped = BashniGame.captured(g, parts);
+            const capped = BashniGame.capturedSquares(this.board, g, parts, player);
             const last = parts[parts.length - 1];
             const moves = cloned.movesFor(last);
             if (moves.length === 0 || moves.join(",").includes("-")) {
@@ -251,8 +329,8 @@ export class BashniGame extends GameBase {
             } else {
                 for (const m of moves) {
                     const [,next] = m.split("x");
-                    const toCap = BashniGame.captured(g, [last, next]);
-                    if (!capped.includes(toCap[0])) {
+                    const jumped = BashniGame.jumpedSquare(cloned.board, g, last, next, player);
+                    if (jumped !== undefined && !capped.includes(jumped)) {
                         toVisit.push(`${mv}x${next}`);
                     } else {
                         complete.push(mv);
@@ -444,7 +522,7 @@ export class BashniGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): BashniGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -742,18 +820,18 @@ export class BashniGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.lasca", {where: r.where!, context: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:lasca.CAPTURE.${r.what!}`, {where: r.where!, context: r.what!});
                 return true;
             case "promote":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PROMOTE.basicWhere", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PROMOTE.basicWhere", {where: r.where!});
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.repetition", {count: 3});
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", {count: 3});
                 } else if (r.reason === "stagnation") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.bashni_stagnation", {count: STAGNATION_DRAW});
+                    this.pushNeutralChatLine(lines, "apresults:bashni.EOG.stagnation", {count: STAGNATION_DRAW});
                 } else {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:
@@ -771,3 +849,4 @@ export class BashniGame extends GameBase {
         return new BashniGame(this.serialize());
     }
 }
+

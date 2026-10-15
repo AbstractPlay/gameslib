@@ -4,6 +4,36 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema"
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        CANNOT_PLACE: "You may not place at {{move}}.",
+        INITIAL_INSTRUCTIONS: "Select a space to place a ball.",
+    },
+    variants: {
+        "#board": {
+            name: "5x5 board",
+        },
+        "size-7": {
+            name: "7x7 board",
+        },
+        "size-9": {
+            name: "9x9 board",
+        },
+    },
+    displays: {
+        "orb-3d": {
+            description: "Use plain 3D orb textures.",
+            name: "3D orbs",
+        },
+    },
+};
+export const gameApresultsEn = {
+    PLACE: {
+        chain: "A ball of {{whose}} was placed at {{where}}.",
+    },
+};
+
+
 
 type playerid = 1 | 2 | 3;
 
@@ -30,8 +60,7 @@ export class UpperHandGame extends GameBase {
         playercounts: [2],
         version: "20240501",
         dateAdded: "2024-05-05",
-        // i18next.t("apgames:descriptions.upperhand")
-        description: "apgames:descriptions.upperhand",
+        description: "A shedding game where you try to be the first to place all your pieces. If a platform is created and at least three of the pieces are of a player's colour, an additional piece of that colour is automatically placed on top of it, causing chain reactions. The pie rule applies.",
         urls: ["https://boardgamegeek.com/boardgame/4545/upper-hand"],
         bggid: "4545",
         people: [
@@ -379,7 +408,7 @@ export class UpperHandGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): UpperHandGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -633,12 +662,12 @@ export class UpperHandGame extends GameBase {
                     const creditedSeat = (r as { who?: number }).who === ctx.currplayer
                         ? ctx.defaultSeat
                         : opponentSeat;
-                    this.pushNeutralChatLine(lines, "apresults:PLACE.upperhand_chain", {
+                    this.pushNeutralChatLine(lines, "apresults:upperhand.PLACE.chain", {
                         whose: this.resolveChatPlayerName(creditedSeat, ctx.players),
                         where: r.where!,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ball", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.ball", {
                         where: r.where!,
                     });
                 }
@@ -652,3 +681,4 @@ export class UpperHandGame extends GameBase {
         return new UpperHandGame(this.serialize());
     }
 }
+

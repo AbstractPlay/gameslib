@@ -292,10 +292,10 @@ describe("Ice Palace: building the Palace", () => {
         expect(stacks[2]).to.deep.equal(["a1L,a1M"]);
         expect(new Set(reps.map(rep => `${rep.pieces.length}x${rep.pieces[0].length}`)).size).to.equal(1);
         // The stock dwindles through the frames, then the next hand is offered.
-        expect(reps[0].areas![0].label?.textKey).to.equal("apgames:icepalace.STOCK");
+        expect(reps[0].areas![0].label?.textKey).to.equal("apgames:status.icepalace.STOCK");
         expect(reps[0].areas![0].stash!.flat()).to.deep.equal(["s1M", "s1L"]);
         expect(reps[1].areas![0].stash!.flat()).to.deep.equal(["s1M"]);
-        expect(reps[2].areas![0].label?.textKey).to.equal("apgames:icepalace.HAND");
+        expect(reps[2].areas![0].label?.textKey).to.equal("apgames:status.icepalace.HAND");
         // Rendering leaves the game as it was, and the frames survive a round trip.
         expect(g.phase).to.equal("hand");
         expect(g.palace.get("0.0")).to.deep.equal(["1L", "1M"]);
@@ -585,7 +585,7 @@ describe("Ice Palace: board interaction", () => {
         expect(rep.areas).to.have.length(2);
         expect(rep.areas[0].type).to.equal("localStash");
         expect(rep.areas[1].type).to.equal("localStash");
-        expect(rep.areas[1].label?.textKey).to.equal("apgames:icepalace.POOL");
+        expect(rep.areas[1].label?.textKey).to.equal("apgames:status.icepalace.IN_POOL");
         // One dense column per colour, largest at the bottom; the renderer stacks 3D silhouettes.
         expect(rep.areas[1].stash).to.deep.equal([
             ["b1L", "b1S"],
@@ -985,7 +985,7 @@ describe("Ice Palace: event log", () => {
         g.move("pass");
         expect(g.phase).to.equal("build");
         const lines = lastLines(g);
-        const announce = lines.find(l => l.textKey === "apresults:ANNOUNCE.icepalace_build")!;
+        const announce = lines.find(l => l.textKey === "apresults:icepalace.ANNOUNCE.build")!;
         expect(announce).to.not.be.undefined;
         expect(announce.textParams).to.include({ count: 1, move: "1M@0.0" });
         // The suggested move is a complete, legal build as it stands.
@@ -1009,8 +1009,8 @@ describe("Ice Palace: event log", () => {
         expect(g.buildMin).to.equal(0);
         expect(g.moves()).to.deep.equal(["pass"]);
         const keys = lastLines(g).map(l => l.textKey);
-        expect(keys).to.include("apresults:ANNOUNCE.icepalace_nobuild");
-        expect(keys).to.include("apresults:PASS.icepalace");
+        expect(keys).to.include("apresults:icepalace.ANNOUNCE.nobuild");
+        expect(keys).to.include("apresults:_general.PASS.simple");
     });
 });
 
@@ -1201,7 +1201,7 @@ describe("Ice Palace: sequenced turn model and record export", () => {
         expect(types).to.not.include("announce");
         // The chat log still carries it.
         const keys = g.chatLogEntries(["A", "B", "C"]).flatMap(e => e.lines.map(l => l.textKey));
-        expect(keys).to.include("apresults:ANNOUNCE.icepalace_build");
+        expect(keys).to.include("apresults:icepalace.ANNOUNCE.build");
     });
 });
 

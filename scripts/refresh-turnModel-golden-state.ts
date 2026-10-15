@@ -12,12 +12,12 @@ import {
     loadTurnModelManifest,
     normalizeGameState,
     TURN_MODEL_FIXTURES_DIR,
-    turnModelFixturesAvailable,
+    turnModelFixturesOnDisk,
     gameFromTurnModelFixture,
 } from "../test/fixtures/turnModel/helpers";
 
 function main(): void {
-    if (!turnModelFixturesAvailable()) {
+    if (!turnModelFixturesOnDisk()) {
         console.error(`No fixtures at ${TURN_MODEL_FIXTURES_DIR}. Run fetch-turnModel-fixtures first.`);
         process.exit(1);
     }

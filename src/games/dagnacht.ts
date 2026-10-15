@@ -10,6 +10,33 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { Direction, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Place a piece on a dark square or move a piece one square orthogonally.",
+        NOT_BLACK: "You can only place pieces on dark squares.",
+        NOT_ORTH_ADJ: "You can only move pieces one square orthogonally.",
+        PARTIAL_MOVE: "Looks like you would like to move the piece at {{cell}}. Provide the destination.",
+        TOO_MANY: "You can only move one piece one space",
+    },
+    variants: {
+        "#board": {
+            name: "Default 15x15 board",
+        },
+        "11x11": {
+            name: "11x11 board",
+        },
+        "13x13": {
+            name: "13x13 board",
+        },
+        "17x17": {
+            name: "17x17 board",
+        },
+        "19x19": {
+            name: "19x19 board",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2;
 const winningDirs: [Direction, Direction, number][] = [["N", "S", 5], ["E", "W", 5], ["NE", "SW", 4], ["NW", "SE", 4]];
@@ -32,7 +59,7 @@ export class DagEnNachtGame extends GameBase {
         playercounts: [2],
         version: "20230904",
         dateAdded: "2023-09-16",
-        description: "apgames:descriptions.dagnacht",
+        description: "An n-in-a-row game on a checkered board. You can only place pieces on the dark squares, but you can then move pieces onto the light squares. Win by getting 5 in a row orthogonally (including 3 light squares if you are player 1) or 4 in a row on a light diagonal. Winner of the Abstract Games magazine's 2021 \"Unequal Board Spaces Game Design Competition\".",
         urls: [
             "https://www.abstractgames.org/unequalspaces.html",
             "https://boardgamegeek.com/boardgame/347536/dag-en-nacht",
@@ -351,7 +378,7 @@ export class DagEnNachtGame extends GameBase {
         if (this.gameover) {
             throw new UserFacingError(
                 "MOVES_GAMEOVER",
-                i18next.t("apgames:MOVES_GAMEOVER")
+                i18next.t("apgames:validation._general.MOVES_GAMEOVER")
             );
         }
 

@@ -1,0 +1,20 @@
+---
+description: English apgames — author sources and merge; never hand-edit merged apgames.json
+globs: locales/en/apgames.json, locale-src/en/apgames/**, src/games/**/*.ts
+alwaysApply: false
+---
+
+# `locales/en/apgames.json` is merge output
+
+Do **not** add or change user-visible English strings only in `locales/en/apgames.json`. CI (`npm run locale-en`) rejects commits where the file differs from merge sources.
+
+**Author English here instead:**
+
+- Shared copy: `locale-src/en/apgames/shared/**`
+- Per game: `gameinfo` + `export const gameApgamesEn` in `src/games/<uid>.ts`
+
+Then run `npm run locale-en -- merge apgames --write` and commit the regenerated `locales/en/apgames.json`.
+
+For move-log English (`apresults`), see [`.cursor/rules/apresults-en-sources.mdc`](apresults-en-sources.mdc).
+
+Details: [docs/i18n.md](docs/i18n.md), [locales/en/README.md](locales/en/README.md).

@@ -5,6 +5,43 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Place a piece on the board.",
+        INITIAL_INSTRUCTIONS_PASS: "Either click the 'Swap player seats' button to play as first player or pass to play as second. If seats were swapped, then your only option is to pass.",
+        INITIAL_INSTRUCTIONS_SETUP: "Setup phase: place a piece of each colour on the board. Your opponent will then choose what colour to play.",
+        NOLOS: "There is no line of sight to {{where}} from any of your pieces.",
+        ONE_MORE: "Place a piece of the other colour.",
+        SAME_CELL: "In the setup phase, place two pieces on different cells.",
+        SECOND_PLAYER_PASS: "Either invoke the pie rule to play as first player or pass to play as second. If pie was already invoked, your only option is to pass.",
+        SECOND_STONE_NEIGHBOUR: "The second stone placed must have a path to the first stone (cannot be adjacent).",
+        TOO_MANY_MOVES: "You may only make one move per turn, or two at in the setup phase as first player.",
+    },
+    variants: {
+        "#board": {
+            name: "Default board (base 7)",
+        },
+        "size-6": {
+            name: "Smaller board (base 6)",
+        },
+        "size-8": {
+            name: "Larger board (base 8)",
+        },
+    },
+    displays: {
+        "hide-threatened": {
+            description: "Don't show threatened stones.",
+            name: "Hide threatened",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "A dead group of size {{count}} is removed.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
@@ -28,8 +65,7 @@ export class MeridiansGame extends GameBase {
         playercounts: [2],
         version: "20240105",
         dateAdded: "2024-01-05",
-        // i18next.t("apgames:descriptions.meridians")
-        description: "apgames:descriptions.meridians",
+        description: "Meridians is a territorial game with the goal of annihilating the opponent's stones. Starting with an empty board, players alternate turns placing a stone on an empty point as in Go. Groups should be \"seen\" by other friendly stone through a straight path or they will be removed on your opponent's turn.",
         urls: [
             "https://kanare-abstract.com/en/pages/meridians",
             "https://boardgamegeek.com/boardgame/333775/meridians",
@@ -330,7 +366,7 @@ export class MeridiansGame extends GameBase {
         const moves = m.split(",");
         if (moves.length > 2) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.meridians.TOOMANYMOVES", {cell: moves[2]});
+            result.message = i18next.t("apgames:validation.meridians.TOO_MANY_MOVES", {cell: moves[2]});
             return result;
         }
         // valid cell
@@ -394,7 +430,7 @@ export class MeridiansGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): MeridiansGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -579,10 +615,10 @@ export class MeridiansGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "capture":
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.meridians", {count: r.count!});
+                this.pushNeutralChatLine(lines, "apresults:meridians.CAPTURE.default", {count: r.count!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -594,3 +630,4 @@ export class MeridiansGame extends GameBase {
         return new MeridiansGame(this.serialize());
     }
 }
+

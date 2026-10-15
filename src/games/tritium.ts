@@ -5,6 +5,44 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError, cloneState } from "../common/index.js";
 import { Glyph } from "@abstractplay/renderer";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a tile or your own flag.",
+        INITIAL_INSTRUCTIONS2: "Select a destination space.",
+        NON_EMPTY: "Cell {{cell}} is not empty.",
+        EMPTY: "Cell {{cell}} is empty, flags must be placed on top of existing regions.",
+        NON_FREE_REGION: "The region at {{cell}} is not free.",
+        NO_PREPARED_FLAG: "You do not have a prepared flag.",
+    },
+    variants: {
+        "#board": {
+            name: "Small board (size 5)",
+        },
+        "#form": {
+            description: "Play continues until all regions are claimed.",
+            name: "Long form",
+        },
+        "short-form": {
+            description: "Play with only three flags each.",
+            name: "Short form.",
+        },
+        "hex-6": {
+            name: "Medium board (size 6)",
+        },
+        "hex-7": {
+            name: "Large board (size 7)",
+        },
+    },
+};
+export const gameApresultsEn = {
+    PLACE: {
+        flag: "{{player}} played a flag at {{where}}.",
+        green: "{{player}} played a green tile at {{where}}.",
+        orange: "{{player}} played an orange tile at {{where}}.",
+        purple: "{{player}} played a purple tile at {{where}}.",
+    },
+};
+
 
 export type tileid = 1|2|3;
 export type playerid = 1|2;
@@ -35,7 +73,7 @@ export class TritiumGame extends GameBase {
         uid: "tritium",
         playercounts: [2],
         version: "1.0",
-        description: "apgames:descriptions.tritium",
+        description: "Two players take turns creating and growing regions and claiming them. Once the board is full, the player who controls most tiles wins.",
         urls: ["https://boardgamegeek.com/boardgame/430859/tritium"],
         bggid: "430859",
         people: [
@@ -323,7 +361,7 @@ export class TritiumGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): TritiumGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (!trusted) {
@@ -594,7 +632,7 @@ export class TritiumGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:PLACE.tritium-${r.what}`, { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:tritium.PLACE.${r.what}`, { where: r.where! });
                 return true;
 
             default:

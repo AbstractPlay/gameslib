@@ -5,6 +5,40 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError } from "../common/index.js";
 import type { HexDir } from "../common/graphs/hextri.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Drop a friendly stone on an empty cell. Only snake-like groups are valid. A snake is a group where each stone has, at most, two friendly neighbors, and there are no three friendly stones in line.",
+        INVALID_3ROW: "The stone cannot make a three in-a-row.",
+        INVALID_NEIGH: "The stone cannot have more than two friendly neighbors.",
+    },
+    variants: {
+        "#board": {
+            name: "Hexagonal board (bases 3-5)",
+        },
+        "size-4": {
+            name: "Hexagonal board (bases 4-6)",
+        },
+        "size-5": {
+            name: "Hexagonal board (bases 5-7)",
+        },
+        "size-6": {
+            name: "Hexagonal board (bases 6-8)",
+        },
+        "#ruleset": {
+            description: "Largest group decides (recursively)",
+            name: "Original rules",
+        },
+        tromp: {
+            description: "A group of size N scores 2^N",
+            name: "Tromp variant",
+        },
+        neto: {
+            description: "A group of size N scores N^2",
+            name: "Neto variant",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -26,9 +60,8 @@ export class SquirmGame extends GameBase {
         playercounts: [2],
         version: "20260417",
         dateAdded: "2026-04-22",
-        // i18next.t("apgames:descriptions.squirm")
-        description: "apgames:descriptions.squirm",
-        notes: "apgames:notes.squirm",
+        description: "Players fight to create the longest snake-like group.",
+        notes: "Squirm is one of the first snake/serpent/root games, where groups are defined with at most two friendly connections per stone. But instead of being a territorial or stalemate-oriented game, Squirm is a scoring game, where players need to build the longest possible snake-like group (following the original ruleset), or adding has much points as possible (following either available variant).",
         urls: ["https://jpneto.github.io/world_abstract_games/squirm.htm"],
         people: [
             {
@@ -331,7 +364,7 @@ export class SquirmGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): SquirmGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -469,7 +502,7 @@ export class SquirmGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

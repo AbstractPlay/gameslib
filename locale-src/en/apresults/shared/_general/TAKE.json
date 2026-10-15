@@ -1,0 +1,8 @@
+{
+  "_general": {
+    "TAKE": {
+      "general_one": "{{player}} took a piece from {{from}}.",
+      "general_other": "{{player}} took {{count}} pieces from {{from}}."
+    }
+  }
+}

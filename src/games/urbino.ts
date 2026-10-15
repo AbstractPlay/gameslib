@@ -5,6 +5,41 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { CartesianProduct } from "js-combinatorics";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_first: "Select a cell in sight to place a piece, or you may pass if your opponent just placed the second architect.",
+        INITIAL_INSTRUCTIONS_fresh: "Place an architect in an empty cell.",
+        INITIAL_INSTRUCTIONS_inprogress: "Select an architect to move or select the size of a piece to place.",
+        INVALID_PIECE: "You don't have a {{piece}} in your stash to place.",
+        INVALID_PLACE_CELL: "The cell {{where}} is not visible to both architects.",
+        INVALID_PLACE_PIECE: {
+            house: "You may not place a house here because it would create multiple blocks of one colour.",
+            palace: "You may not place a palace here either because there is a palace adjacent or it would create multiple blocks of one colour.",
+            tower: "You may not place a tower here either because there is a tower adjacent or it would create multiple blocks of one colour.",
+        },
+        MUST_PASS_PLAY: "The first turn after the second worker has been placed must be a pass or placement.",
+        NOPLACEMENTS: "You cannot move the workers such that you have no valid placements available.",
+        PARTIAL_PLACE: "Choose a cell to place a piece in.",
+        PARTIAL_PLACE_SIZE: "Select the size of a piece to place.",
+        VALID_MOVE: "Looks like a valid move. You can also click the cell again to select the next available piece size.",
+    },
+    variants: {
+        monuments: {
+            description: "Monuments are combinations of specific pieces in a row. Each district will score the most valuable monument present for each colour. Most valuable monument becomes the first tie breaker in districts, but not when breaking end-of-game ties.",
+            name: "Monuments",
+        },
+    },
+};
+export const gameApresultsEn = {
+    PLACE: {
+        house: "{{player}} placed a house at {{where}}.",
+        palace: "{{player}} placed a palace at {{where}}.",
+        tower: "{{player}} placed a tower at {{where}}.",
+        worker: "{{player}} placed an architect at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 0|1|2;
 export type Size = 0|1|2|3;
@@ -31,8 +66,7 @@ export class UrbinoGame extends GameBase {
         playercounts: [2],
         version: "20211119",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.urbino")
-        description: "apgames:descriptions.urbino",
+        description: "In Urbino, one manipulates architects (like in the game Fabrik) to build districts of different building types according to a handful of placement rules. When no more moves are possible, districts are scored, and the highest score wins. Also includes the \"Monuments\" variant.",
         urls: [
             "https://spielstein.com/games/urbino",
             "https://boardgamegeek.com/boardgame/237009/urbino",
@@ -555,7 +589,7 @@ export class UrbinoGame extends GameBase {
         if (m === "pass") {
             if (! this.moves().includes("pass")) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.urbino.INVALID_PASS");
+                result.message = i18next.t("apgames:validation._general.INVALID_PASS");
                 return result;
             }
             result.valid = true;
@@ -616,7 +650,7 @@ export class UrbinoGame extends GameBase {
                 if (to === undefined) {
                     result.valid = true;
                     result.complete = -1;
-                    result.message = i18next.t("apgames:validation.urbino.PARTIAL_MOVE");
+                    result.message = i18next.t("apgames:validation._general.NEED_DESTINATION");
                     return result;
                 }
             }
@@ -734,7 +768,7 @@ export class UrbinoGame extends GameBase {
     // It leaves the object in an invalid state, so only use it on cloned objects, or call `load()` before submitting again.
     public move(m: string, {partial = false, trusted = false} = {}): UrbinoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -767,7 +801,7 @@ export class UrbinoGame extends GameBase {
             this.board.set(to, contents);
             this.results.push({type: "move", from, to});
             if ( (! partial) && (place === undefined) ) {
-                throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+                throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:validation._general.MOVES_INVALID", {move: m}));
             }
             if (place !== undefined) {
                 const piece = parseInt(place[0], 10) as Size;
@@ -1189,16 +1223,16 @@ export class UrbinoGame extends GameBase {
             case "place":
                 switch (r.what) {
                     case "0":
-                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.urbino.worker", { where: r.where! });
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:urbino.PLACE.worker", { where: r.where! });
                         return true;
                     case "1":
-                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.urbino.house", { where: r.where! });
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:urbino.PLACE.house", { where: r.where! });
                         return true;
                     case "2":
-                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.urbino.palace", { where: r.where! });
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:urbino.PLACE.palace", { where: r.where! });
                         return true;
                     case "3":
-                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.urbino.tower", { where: r.where! });
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:urbino.PLACE.tower", { where: r.where! });
                         return true;
                     default:
                         return false;
@@ -1237,3 +1271,4 @@ export class UrbinoGame extends GameBase {
         return new UrbinoGame(this.serialize());
     }
 }
+

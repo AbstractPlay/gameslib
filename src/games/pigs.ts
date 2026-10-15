@@ -5,6 +5,41 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { Direction, RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import { forEachGroupResult } from "../common/chat-log.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Enter 'R' to spend your whole turn repairing, or type five of the following characters: ^ (forward), v (backward), \\ (forward left), / (forward right), < (turn left), > (turn right), F (fire laser), H (hit with snout), X (when damaged)",
+        INVALID_CMD: "The character '{{cmd}}' is not a recognized command.",
+        REPAIR_SINGLE: "The repair command takes your entire turn and is entered with a single 'R' character.",
+        TOOLONG: "You may only enter five commands.",
+        UNDAMAGED: "You can't repair until you've taken damage.",
+        X_TOOFEW: "You must enter an 'X' for every point of damage taken.",
+        X_TOOMANY: "You entered too many 'X' commands. You only need to enter one for every point of damage taken.",
+    },
+    buttons: {
+        back: "Move backward",
+        forward: "Move forward",
+        left: "Move forward left",
+        right: "Move forward right",
+        cw: "Rotate clockwise",
+        ccw: "Rotate counterclockwise",
+        fire: "Fire laser",
+        hit: "Swing snout",
+    },
+};
+export const gameApresultsEn = {
+    DAMAGE: {
+        default: "{{player}} struck {{opponent}} at {{where}}.",
+    },
+    FIRE: {
+        F: "{{player}} fired their laser at {{direction}}.",
+        H: "{{player}} swung their mighty snout!",
+    },
+    PASS: {
+        default: "{{player}} idles.",
+    },
+};
+
+
 
 type playerid = 1|2|3|4;
 type Facing = "N"|"E"|"S"|"W"|"U";
@@ -75,10 +110,8 @@ export class PigsGame extends GameBaseSimultaneous {
         playercounts: [2,3,4],
         version: "20230618",
         dateAdded: "2023-06-27",
-        // i18next.t("apgames:descriptions.pigs")
-        description: "apgames:descriptions.pigs",
-        // i18next.t("apgames:notes.pigs")
-        notes: "apgames:notes.pigs",
+        description: "This is the base-rules version of Robo Battle Pigs, a game of robot combat where you program a series of moves in an attempt to destroy all opposing pigs. This implementation supports 2–4 players, and each player programs five moves each turn.",
+        notes: "Unlike the old Super Duper Games implementation, this one implements the core rule set. Each player enters all five moves, and they are resolved at once.\n\nMovement is resolved before damage is applied.",
         urls: [
             "http://cox-tv.com/games/mygames/robobattlepigs.html",
             "https://boardgamegeek.com/boardgame/3704/robo-battle-pigs",
@@ -275,11 +308,11 @@ export class PigsGame extends GameBaseSimultaneous {
 
     public move(m: string, {partial = false, trusted = false} = {}): PigsGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         const moves: string[] = m.split(/\s*,\s*/);
         if (moves.length !== this.numplayers) {
-            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
+            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:validation._general.MOVES_SIMULTANEOUS_PARTIAL"));
         }
         for (let i = 0; i < moves.length; i++) {
             if ( (partial) && ( (moves[i] === undefined) || (moves[i] === "") ) ) {
@@ -702,22 +735,22 @@ export class PigsGame extends GameBaseSimultaneous {
         switch (r.type) {
             case "move":
                 if (r.from !== r.to) {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", { from: r.from!, to: r.to! });
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.nowhat", { from: r.from!, to: r.to! });
                 } else {
-                    this.pushSeatChatLine(lines, seat, "apresults:MOVE.collision", { from: r.from!, to: r.to! });
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.collision", { from: r.from!, to: r.to! });
                 }
                 break;
             case "orient":
-                this.pushSeatChatLine(lines, seat, "apresults:ORIENT.nowhat", {
+                this.pushSeatChatLine(lines, seat, "apresults:_general.ORIENT.nowhat", {
                     where: r.where!,
                     facing: r.facing!,
                 });
                 break;
             case "pass":
-                this.pushSeatChatLine(lines, seat, "apresults:PASS.pigs");
+                this.pushSeatChatLine(lines, seat, "apresults:pigs.PASS.default");
                 break;
             case "fire":
-                this.pushSeatChatLine(lines, seat, "apresults:FIRE.pigs", {
+                this.pushSeatChatLine(lines, seat, `apresults:pigs.FIRE.${r.which!}`, {
                     context: r.which as string,
                     direction: r.to!,
                 });
@@ -725,18 +758,18 @@ export class PigsGame extends GameBaseSimultaneous {
             case "damage":
                 if (r.amount !== undefined && r.amount > 0) {
                     const oppSeat = parseInt(r.who as string, 10);
-                    this.pushSeatChatLine(lines, seat, "apresults:DAMAGE.pigs", {
+                    this.pushSeatChatLine(lines, seat, "apresults:pigs.DAMAGE.default", {
                         where: r.where as string,
                         opponent: this.resolveChatPlayerName(oppSeat, players),
                     });
                 }
                 break;
             case "repair":
-                this.pushSeatChatLine(lines, seat, "apresults:REPAIR.simple");
+                this.pushSeatChatLine(lines, seat, "apresults:_general.REPAIR.simple");
                 break;
             case "eliminated": {
                 const oppSeat = parseInt(r.who as string, 10);
-                this.pushNeutralChatLine(lines, "apresults:ELIMINATED", {
+                this.pushNeutralChatLine(lines, "apresults:_general.ELIMINATED.default", {
                     player: this.resolveChatPlayerName(oppSeat, players),
                 });
                 break;
@@ -776,3 +809,15 @@ export class PigsGame extends GameBaseSimultaneous {
         return new PigsGame(this.serialize());
     }
 }
+
+/** Shared with pigs2 `getButtons()` — string literals for strict ref collection. */
+export const pigsButtonLabelRefs = [
+    "apgames:buttons.pigs.back",
+    "apgames:buttons.pigs.forward",
+    "apgames:buttons.pigs.left",
+    "apgames:buttons.pigs.right",
+    "apgames:buttons.pigs.cw",
+    "apgames:buttons.pigs.ccw",
+    "apgames:buttons.pigs.fire",
+    "apgames:buttons.pigs.hit",
+];

@@ -4,6 +4,66 @@ import { APRenderRep, MarkerLine } from "@abstractplay/renderer/build/schemas/sc
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BARRIER_EXISTS: "There is already a barrier at {{wall}}.",
+        CHOOSE_SPARE: "There are more than one roamers in forced positions at {{where}}. Select which one to retain.",
+        ENDED: "The game has already ended because one player has run out of roamers.",
+        FORCED_FREE: "You have to relieve the roamer at {{where}} if you are making a movement action.",
+        INITIAL_INSTRUCTIONS: "Select a roamer to move.",
+        INITIAL_INSTRUCTIONS_FIRST: "Select a roamer to move or select an edge to place a barrier.",
+        INITIAL_INSTRUCTIONS_FORCED: "The roamer at {{where}} is in a forced position. Your first action must be to relieve it.",
+        INITIAL_INSTRUCTIONS_SETUP: "Select a space to place a roamer",
+        INVALID_BARRIER: "The edge at {{wall}} is not a valid edge.",
+        INVALID_SPARE: "You must choose one of the roamers at {{where}} to retain.",
+        INVALID_TO: "You may not move the roamer from {{from}} to {{to}}.",
+        MISSING_DASH: "To indicate movement, use a '-' followed by where you wish to move to.",
+        MOVE_FIRST: "You must move a roamer first.",
+        NO_SPARE: "You do not need to select any roamer to retain.",
+        NONEXISTENT_BARRIER: "There is no barrier at {{where}} to move.",
+        OCCUPIED: "The space at {{cell}} is already occupied.",
+        SECOND_ACTION: "Select a roamer to move or select an edge to place a barrier.",
+        SECOND_ACTION_MOVE_WALL: "Select a roamer to move or select a barrier to move to another edge.",
+        SELECT_TO_BARRIER: "Select an edge to move the barrier to.",
+        SELECT_TO_PIECE: "Select a space to move the roamer to.",
+        STILL_HAVE_BARRIERS: "You are indicating a barrier movement with '-', but you still have barriers in your stash.",
+        TOO_MANY_ACTIONS: "You may only perform two actions per turn.",
+        TOO_MANY_ACTIONS_FIRST: "You may only perform one action on the first move after the setup phase.",
+        UNCONTROLLED_BARRIER: "You may only move barriers that you control.",
+    },
+    variants: {
+        "#board": {
+            name: "Default board (6x7)",
+        },
+        "size-7x7": {
+            name: "Board (7x7)",
+        },
+    },
+    status: {
+        BARRIERS_REMAINING: "Barriers remaining",
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        opponent: "{{player}} captured an opponent's roamer at {{where}}.",
+        self: "{{player}} captured their own roamer at {{where}}.",
+    },
+    MOVE: {
+        barrier: "{{player}} moved a barrier from {{from}} to {{to}}.",
+        roamer: "{{player}} moved a roamer from {{from}} to {{to}}.",
+        roamer_jump: "{{player}} moved a roamer from {{from}} to {{to}}, jumping over {{jumped}}.",
+    },
+    PLACE: {
+        barrier: "{{player}} placed a barrier at {{where}}.",
+        roamer: "{{player}} placed a roamer at {{where}}.",
+    },
+    REMOVE: {
+        opponent: "{{player}} chose to retain the opponent's roamer at {{how}}, removing the roamer at {{where}}.",
+        self: "{{player}} chose to retain their own roamer at {{how}}, removing the roamer at {{where}}.",
+    },
+};
+
+
 
 type playerid = 1 | 2;
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -32,8 +92,7 @@ export class EntrapmentGame extends GameBase {
         playercounts: [2],
         version: "20240227",
         dateAdded: "2024-07-14",
-        // i18next.t("apgames:descriptions.entrapment")
-        description: "apgames:descriptions.entrapment",
+        description: "The object of Entrapment is to eliminate your opponent's roamers by surrounding them with impenetrable obstacles and thus rendering them incapable of movement. A roamer that cannot move is considered captured, and is eliminated from the board. When all a player's roamers have been 'entrapped' in this way, the game is over and his or her opponent declared the winner.",
         urls: ["https://boardgamegeek.com/boardgame/12533/entrapment"],
         bggid: "12533",
         people: [
@@ -1108,7 +1167,7 @@ export class EntrapmentGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): EntrapmentGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -1441,41 +1500,41 @@ export class EntrapmentGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.what === "roamer") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.entrapment_roamer", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.PLACE.roamer", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.entrapment_barrier", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.PLACE.barrier", { where: r.where! });
                 }
                 return true;
             case "move":
                 if (r.what === "roamer") {
                 if (r.how !== undefined) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.entrapment_roamer_jump", { from: r.from!, to: r.to!, jumped: r.how! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.MOVE.roamer_jump", { from: r.from!, to: r.to!, jumped: r.how! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.entrapment_roamer", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.MOVE.roamer", { from: r.from!, to: r.to! });
                 }
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.entrapment_barrier", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.MOVE.barrier", { from: r.from!, to: r.to! });
                 }
                 return true;
             case "capture":
                 if (r.what === "self") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.entrapment_self", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.CAPTURE.self", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.entrapment_opponent", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.CAPTURE.opponent", { where: r.where! });
                 }
                 return true;
             case "remove":
                 if (r.what === "self") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.entrapment_self", { where: r.where!, how: r.how! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.REMOVE.self", { where: r.where!, how: r.how! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.entrapment_opponent", { where: r.where!, how: r.how! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:entrapment.REMOVE.opponent", { where: r.where!, how: r.how! });
                 }
                 return true;
             case "eog":
                 if (r.reason === "stalemate") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:
@@ -1488,3 +1547,4 @@ export class EntrapmentGame extends GameBase {
         return new EntrapmentGame(this.serialize());
     }
 }
+

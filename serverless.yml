@@ -9,14 +9,26 @@ provider:
   stage: dev
   region: us-east-1
   profile: AbstractPlayDev
+  stackTags:
+    ap:service: ${self:service}
+    ap:stage: ${self:provider.stage}
+  tags:
+    ap:service: ${self:service}
+    ap:stage: ${self:provider.stage}
 
 plugins:
   - serverless-finch
 
 custom:
+  # AWS Billing → Cost allocation tags (activate ap:service and ap:stage once per account).
+  apCostAllocationTags:
+    ap:service: ${self:service}
+    ap:stage: ${self:provider.stage}
+
   client:
     bucketName: gameslib.dev.abstractplay.com
     distributionFolder: ./dist
+    tags: ${self:custom.apCostAllocationTags}
     indexDocument: playground.html
     objectHeaders:
       ALL_OBJECTS:

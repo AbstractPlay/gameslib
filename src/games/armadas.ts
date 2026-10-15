@@ -9,6 +9,79 @@ import { UserFacingError } from "../common/index.js";
 import { wng } from "../common/index.js";
 import i18next from "i18next";
 import { Obstacle } from "./armadas/obstacle.js";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PASS: "When passing, that must be the only command you provide.",
+        CHOOSE_TARGET: "Select the ship you wish to attack.",
+        CMD_PARAMETERS_TOOFEW: "Not enough parameters were passed to a {{type}} command.",
+        COLLISION: "Pieces may not collide with each other.",
+        DOUBLE_MOVE: "You may not issue more than one move order per ship per turn.",
+        DUPLICATE_NAME: "That name is already being used.",
+        INITIAL_INSTRUCTIONS_place: "Select a piece from the sidebar to place it on the field. You can also type \"pass\" if you've already placed all the pieces you can or wish to this turn. You must place at least one ship if you can.",
+        INITIAL_INSTRUCTIONS_placefree: "Select a piece from the sidebar to place it on the field. Pass if you do not wish to place any more ships. Once both players pass, the play phase will begin.",
+        INITIAL_INSTRUCTIONS_play: "Select the piece you wish to move or attack with.",
+        INVALID_NAME: "The name must be between 1 and 25 characters long; must not contain any whitespace; must only consist of letters, numbers, hyphens, and underscores; and may not start with a hyphen or underscore.",
+        INVALID_SIZE: "Invalid ship size. Must be 1, 2, or 3.",
+        JUST_SHIP_NAME: "Select a point on the field to move or select an enemy ship to attack.",
+        MOVE_UNRECOGNIZED: "One of the commands you provided was not understood: {{cmd}}.",
+        NO_LOS: "No line of sight. At least one corner of your ship must be able to see at least one corner of the other ship.",
+        NO_SHIP: "Could not find a ship with the name {{name}}.",
+        OUT_OF_BOUNDS: "One of your movements would take the ship out of bounds.",
+        OUT_OF_RANGE: "The ship {{mine}} cannot reach {{theirs}} from this distance.",
+        PASS_IN_PLACE: "In a game with standard fleets, you may not pass while you still have ships to place.",
+        place: {
+            OUT_OF_BOUNDS: "This would place your ship outside of your designated starting area.",
+            PARTIAL_FOUR_ARGS: "Give the ship a name. It must be unique across *all* existing ships.",
+            PARTIAL_NOARGS: "Select the size of ship to place.",
+            PARTIAL_ONETWO_ARGS: "Click the field to select the x,y coordinates, or manually enter both coordinates, separated by a space.",
+            PARTIAL_THREE_ARGS: "Click the point you want the ship to point towards.",
+            TOO_MANY: "In this scenario, you may only place {{num}} ships of each size.",
+        },
+        PLACE_IN_PLAY: "You cannot place pieces once the play phase has begun.",
+        PLAY_IN_PLACE: "You cannot move and attack until the placement phase is concluded.",
+        SELF_ATK: "You cannot fire upon your own ships.",
+        TOO_FAR: "Large ships can only move two spaces, medium ships three, and small ships four.",
+        TOO_MANY_ACTIONS: "You may only take three actions on your turn.",
+        TOO_MANY_ATKS: "Ships may only attack once per turn for every pip of size (e.g., a medium ship can only attack twice in a turn).",
+        TOO_SHARP: "Ships cannot turn more than 75 degrees in one step.",
+        VALID_PARTIAL_MOVE: "Click the point you want the ship to point towards.",
+    },
+    variants: {
+        "#obstacles": {
+            name: "One obstacle",
+        },
+        freeform: {
+            description: "Lets the players determine their own fleet compositions. Requires good communication before starting. These games cannot be rated.",
+            name: "Freeform",
+        },
+        noislands: {
+            description: "No starting islands",
+            name: "No obstacles",
+        },
+        twoislands: {
+            name: "Two islands",
+        },
+        "#fleet": { name: "Default fleet" }
+    },
+};
+export const gameApresultsEn = {
+    DAMAGE: {
+        default: "{{player}}'s ship {{myName}} fired upon the enemy ship named {{theirName}}.",
+    },
+    DESTROY: {
+        default: "{{player}} sunk the enemy ship named {{name}}.",
+    },
+    MOVE: {
+        default: "{{player}} moved their ship named {{name}}.",
+    },
+    PLACE: {
+        "1": "{{player}} placed a small ship and named it {{name}}.",
+        "2": "{{player}} placed a medium ship and named it {{name}}.",
+        "3": "{{player}} placed a large ship and named it {{name}}.",
+    },
+};
+
+
 
 export type playerid = 1|2|3|4;
 export type Size = 1|2|3;
@@ -56,10 +129,8 @@ export class ArmadasGame extends GameBaseSkipTurn {
         playercounts: [2,3,4],
         version: "20230714",
         dateAdded: "2023-09-23",
-        // i18next.t("apgames:descriptions.armadas")
-        description: "apgames:descriptions.armadas",
-        // i18next.t("apgames:notes.armadas")
-        notes: "apgames:notes.armadas",
+        description: "A miniatures-style game played with Looney pyramids where you captain a fleet of ships on the open seas, trying to sink all who stand against you.",
+        notes: "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
         urls: [
             "https://boardgamegeek.com/boardgame/32630/armada",
         ],
@@ -576,7 +647,7 @@ export class ArmadasGame extends GameBaseSkipTurn {
      */
     public move(m: string, {partial = false, trusted = false} = {}): ArmadasGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         // validate if not partial
@@ -1354,16 +1425,16 @@ export class ArmadasGame extends GameBaseSkipTurn {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.armadas", {name: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:armadas.MOVE.default", {name: r.what!});
                 return true;
             case "damage":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DAMAGE.armadas", {myName: r.where!, theirName: r.who!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:armadas.DAMAGE.default", {myName: r.where!, theirName: r.who!});
                 return true;
             case "destroy":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DESTROY.armadas", {name: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:armadas.DESTROY.default", {name: r.what!});
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.armadas", {name: r.where!, context: r.what!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:armadas.PLACE.${r.what!}`, {name: r.where!, context: r.what!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -1377,3 +1448,4 @@ export class ArmadasGame extends GameBaseSkipTurn {
         return new ArmadasGame(this.serialize());
     }
 }
+

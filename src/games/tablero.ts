@@ -4,6 +4,50 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { randomInt, reviver, UserFacingError, SquareOrthGraph, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BACKTRACKING: "When moving a stack, you may not revisit any previous space, including the starting space.",
+        BAD_BUMP: "You may not bump if you have legal moves available, including taking a piece into your hand if you rolled doubles.",
+        BAD_TAKE: "You may only take a piece off the board if you rolled doubles.",
+        INITIAL_INSTRUCTIONS: "Select an empty space to place a piece or select a stack you control to begin movement. Click the \"Bump\" or \"Take\" buttons to take one of those actions.",
+        INVALID_MOVE: "The move does not appear to be legal. Remember that you can only use each die once.",
+        LABEL_PREVIOUS: "Previous roll",
+        NO_MATCHING_DIE: "You didn't roll a {{die}}.",
+        NOT_HOME: "You may only place pieces or move stacks on your home row.",
+        PARTIAL_MOVE_one: "Keep moving until you have dropped all the pieces from the stack. You have {{count}} checker left to drop.",
+        PARTIAL_MOVE_other: "Keep moving until you have dropped all the pieces from the stack. You have {{count}} checkers left to drop.",
+        PARTIAL_PLACE: "Choose the cell where you wish to place the checker.",
+        PARTIAL_TAKE: "Click the stack you control from which you wish to remove a checker.",
+        VALID_PARTIAL: "First move complete. Now make a second.",
+    },
+    variants: {
+        "#scoring": {
+            description: "One point per pip",
+            name: "Default scoring"
+        },
+        "5-10": {
+            name: "Compressed range (5–10)",
+            description: "By adding 4 to the value of each centre space, the ratio of highest space to lowest is compressed from 6:1 to 2:1. This incentivizes more active competition for lower spaces.",
+        },
+        abba: {
+            name: "Balanced start",
+            description: "On the first move of the game, the player only rolls one die.",
+        },
+    },
+};
+export const gameApresultsEn = {
+    PASS: {
+        default: "{{player}} bumped!",
+    },
+    ROLL: {
+        default: "The dice were rolled: {{values}}.",
+    },
+    TAKE: {
+        default: "{{player}} took one of their checkers from the stack at {{from}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 
@@ -28,10 +72,8 @@ export class TableroGame extends GameBase {
         playercounts: [2],
         version: "20240124",
         dateAdded: "2024-02-01",
-        // i18next.t("apgames:descriptions.tablero")
-        description: "apgames:descriptions.tablero",
-        // i18next.t("apgames:notes.tablero")
-        notes: "apgames:notes.tablero",
+        description: "A quick-playing dice game where players compete to control high-value spaces on the board.",
+        notes: "When it's your turn, you will see the dice you have to work with, but once your move is complete, the dice will reroll. Exploration is not helpful because the dice roll is not finalized until after the move is submitted. As you scroll back through the game history, the dice you see are the dice for the *next* turn. The dice used to make the move you're seeing are displayed below the board.\n\nWhile most moves can be unambiguously made by simple clicks, sometimes a button is more helpful. The Place, Take, and Bump buttons to the left of the board are there if you need them.",
         urls: [
             "https://crabfragmentlabs.com/tablero-di-berona",
             "https://boardgamegeek.com/boardgame/363339/tablero-di-berona",
@@ -558,7 +600,7 @@ export class TableroGame extends GameBase {
                     TableroGame.algebraic2coords(cell);
                 } catch {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.INVALID_CELL", {cell});
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
                     return result;
                 }
                 const [, row] = TableroGame.algebraic2coords(cell);
@@ -593,7 +635,7 @@ export class TableroGame extends GameBase {
                     TableroGame.algebraic2coords(move);
                 } catch {
                     result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.INVALID_CELL", {cell: move});
+                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: move});
                     return result;
                 }
                 const [, row] = TableroGame.algebraic2coords(move);
@@ -657,7 +699,7 @@ export class TableroGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false, emulation = false} = {}): TableroGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1113,16 +1155,16 @@ export class TableroGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "take":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.tablero", {from: r.from!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tablero.TAKE.default", {from: r.from!});
                 return true;
             case "roll":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ROLL.tablero", {values: r.values!.join(",")});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tablero.ROLL.default", {values: r.values!.join(",")});
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.tablero", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tablero.PASS.default", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -1150,3 +1192,4 @@ export class TableroGame extends GameBase {
         return super.sameMove(move1, move2);
     }
 }
+

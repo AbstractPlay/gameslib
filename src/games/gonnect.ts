@@ -6,6 +6,37 @@ import { RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select an intersection to place a piece.",
+        INVALID_PASS: "You cannot pass currently.",
+        KO: "Ko rule: you may not immediately recapture your opponent's single stone if they just used it to capture one of yours.",
+        SELF_CAPTURE: "You may not place your stones in self-capture.",
+    },
+    variants: {
+        "#board": {
+            name: "Default 13x13 board",
+        },
+        "size-9": {
+            name: "9x9 board",
+        },
+        "size-19": {
+            name: "19x19 board",
+        },
+        cascading: {
+            name: "Cascading Connection Goals",
+            description: "Passing is allowed. The game also ends after two consecutive passes, in which case the winner is found by comparing connections across a nested series of centred subboards.",
+        },
+    },
+};
+export const gameApresultsEn = {
+    EOG: {
+        cascading_subboard: "{{player}} won on the {{size}}x{{size}} subboard.",
+        direct_connection: "{{player}} won by direct connection.",
+    },
+};
+
+
 
 type playerid = 1 | 2;
 type PlayerLines = [string[], string[]];
@@ -30,10 +61,8 @@ export class GonnectGame extends GameBase {
         playercounts: [2],
         version: "20240719",
         dateAdded: "2024-08-02",
-        // i18next.t("apgames:descriptions.gonnect")
-        description: "apgames:descriptions.gonnect",
-        // i18next.t("apgames:notes.gonnect")
-        notes: "apgames:notes.gonnect",
+        description: "Gonnect is a connection game where players try to connect any two opposite sides. All rules of Go apply except that players may not pass.",
+        notes: "In the base game, passing is not allowed. The **Cascading Connection Goals** variant allows passing and ends after two consecutive passes. An outright connection wins immediately, otherwise find the largest centered subboard where exactly one player connects opposite sides: that player wins.",
         urls: ["https://boardgamegeek.com/boardgame/12146/gonnect"],
         bggid: "12146",
         people: [
@@ -357,7 +386,7 @@ export class GonnectGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): GonnectGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -645,20 +674,20 @@ export class GonnectGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.noperson.group_nowhere", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.noperson.group_nowhere", {
                     count: r.count!,
                 });
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 1 });
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 1 });
                 } else if (r.reason === "stalemate") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
                 } else if (r.reason === "gonnect_direct_connection") {
-                    this.pushSeatChatLine(lines, this.winner[0], "apresults:EOG.gonnect_direct_connection");
+                    this.pushSeatChatLine(lines, this.winner[0], "apresults:gonnect.EOG.direct_connection");
                 } else if (r.reason === "consecutive_passes") {
                     if (this.winner.length === 1 && this.cascadeWinSize !== undefined) {
                         if (this.cascadeWinSize === this.boardSize) {
@@ -666,15 +695,15 @@ export class GonnectGame extends GameBase {
                             // always ends the game immediately via the "gonnect_direct_connection"
                             // branch above, before a pass-based cascade could ever see it. Kept
                             // for correctness in case that ever changes.
-                            this.pushSeatChatLine(lines, this.winner[0], "apresults:EOG.gonnect_direct_connection");
+                            this.pushSeatChatLine(lines, this.winner[0], "apresults:gonnect.EOG.direct_connection");
                         } else {
-                            this.pushSeatChatLine(lines, this.winner[0], "apresults:EOG.gonnect_cascading_subboard", { size: this.cascadeWinSize });
+                            this.pushSeatChatLine(lines, this.winner[0], "apresults:gonnect.EOG.cascading_subboard", { size: this.cascadeWinSize });
                         }
                     } else {
-                        this.pushNeutralChatLine(lines, "apresults:EOG.consecutive_passes");
+                        this.pushNeutralChatLine(lines, "apresults:_general.EOG.consecutive_passes");
                     }
                 } else {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
 
@@ -689,3 +718,4 @@ export class GonnectGame extends GameBase {
         return new GonnectGame(this.serialize());
     }
 }
+

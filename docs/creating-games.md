@@ -8,11 +8,13 @@ Guide for adding a new game to gameslib. For API details see [Game object](/game
 2. Before first `npm install`, run `npm run npm-login` for GitHub Packages access.
 3. **Choose a base class** (see below) and **create** `src/games/<uid>.ts`.
 4. **Run** `npm run generate-registry` (or any build/test) — the game registry is auto-generated from `static gameinfo`.
-5. **Add i18n** strings to `locales/en/apgames.json` (and `apresults.json` if needed).
+5. **Add i18n** — export `gameApgamesEn` from `src/games/<uid>.ts`, put plain English in `gameinfo.description` / `notes`, run `npm run locale-en -- merge --write`, and commit the regenerated `locales/en/apgames.json` (do not type strings only into that file; see [i18n](/gameslib/i18n/)). For move-log lines, export `gameApresultsEn` in the same file and commit `locales/en/apresults.json` from the same merge.
 6. **Move log** — plan chat output while implementing `move()`; see [Move log](#move-log) below and [Structured move log](/gameslib/structured-chat-log/).
 7. **Flag** new games with `experimental` in `gameinfo`.
 8. **Test** locally — [Testing](/gameslib/testing/) (including `assertChatLogParity` when you customize the collector).
 9. **PR** against `develop`; test on [play.dev.abstractplay.com](https://play.dev.abstractplay.com) after merge.
+
+Rules PDF mirrors on [rules.abstractplay.com](https://rules.abstractplay.com) are maintained separately; ask a maintainer if you have an official PDF for a new game. See [Rules PDF mirrors](/gameslib/rules-mirror/).
 
 ## Choosing a base class
 
@@ -142,7 +144,7 @@ The finished-game move table includes a **chat column** built from `chatLogEntri
 **Checklist while coding:**
 
 1. List every `_results` type your `move()` pushes — which need custom lines vs `super`?
-2. Add English strings to `locales/en/apresults.json` for any new `textKey`.
+2. Add English strings to `gameApresultsEn` (or `_general` shards when reusing shared copy) for any new `textKey`, then `npm run locale-en -- merge apresults --write`.
 3. Run `assertChatLogParity` in game tests when you override the collector (see [Testing — Chat log](/gameslib/testing/#chat-log)).
 4. Play through a finished game in the playground and read the move log — wrong seat, missing winner line, or duplicate noise means fix the collector before merge.
 
@@ -170,7 +172,7 @@ Full field reference, examples ([LOA](https://play.abstractplay.com/games/loa), 
 - [ ] `moves()` unless using `no-moves` flag
 - [ ] `handleClick` for interactive placement
 - [ ] `validateMove` / `checkEOG` as needed
-- [ ] **Move log** — reviewed every `_results` type; `collectChatLogLine` and/or `chatLogEntries` customized if needed (most games); `apresults.json` strings added; `assertChatLogParity` passes
+- [ ] **Move log** — reviewed every `_results` type; `collectChatLogLine` and/or `chatLogEntries` customized if needed (most games); `gameApresultsEn` updated and merge run; `assertChatLogParity` passes
 - [ ] **Area labels** — seat-specific stash / panel titles use `seatAreaLabel()` when applicable ([Structured render labels](/gameslib/structured-render-labels/))
 - [ ] Unit tests under `test/games/`
 - [ ] Renderer JSON validated against [renderer schema](/renderer/schema-reference/)

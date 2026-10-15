@@ -6,6 +6,26 @@ import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
 import {connectedComponents} from 'graphology-components';
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select an empty cell. If you select a perimeter cell, the mirror piece will be placed automatically.",
+    },
+    variants: {
+        "11": {
+            name: "Hexhex 11 (331 total cells)",
+        },
+        "#board": {
+            name: "Hexhex 7 (127 spaces)",
+        },
+        "08": {
+            name: "Hexhex 8 (169 total cells)",
+        },
+        "09": {
+            name: "Hexhex 9 (217 total cells)",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -27,8 +47,7 @@ export class HexYGame extends GameBase {
         playercounts: [2],
         version: "20230923",
         dateAdded: "2023-09-23",
-        // i18next.t("apgames:descriptions.hexy")
-        description: "apgames:descriptions.hexy",
+        description: "An adaptation of Y on a regular hexagon where players vye to control most of the perimeter of the board.",
         urls: [
             "https://www.marksteeregames.com/Hexagonal_Y_rules.pdf",
             "https://boardgamegeek.com/boardgame/432211/hexagonal-y",
@@ -218,7 +237,7 @@ export class HexYGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): HexYGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -463,3 +482,4 @@ export class HexYGame extends GameBase {
         return new HexYGame(this.serialize());
     }
 }
+

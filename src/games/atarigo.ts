@@ -6,6 +6,31 @@ import { RectGrid, reviver, UserFacingError, SquareOrthGraph, cloneState } from 
 import { connectedComponents } from "graphology-components";
 
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INSTRUCTIONS: "Select an intersection to place a piece.",
+        INVALID_PASS: "You may not pass.",
+        SELF_CAPTURE: "You may not place your stones in self-capture.",
+    },
+    variants: {
+        "size-9": {
+            name: "9x9 board",
+        },
+        "size-11": {
+            name: "11x11 board",
+        },
+        "size-13": {
+            name: "13x13 board",
+        },
+        "size-15": {
+            name: "15x15 board",
+        },
+        "#board": {
+            name: "19x19 board",
+        },
+    },
+};
+
 
 
 type playerid = 1 | 2 | 3; // 3 is for neutral owned areas
@@ -34,8 +59,7 @@ export class AtariGoGame extends GameBase {
         playercounts: [2],
         version: "20260519",
         dateAdded: "2026-05-27",
-        // i18next.t("apgames:descriptions.go")
-        description: "apgames:descriptions.atarigo",
+        description: "Go variant where the first to capture wins the game (there is no pass).",
         urls: [
                 "https://senseis.xmp.net/?AtariGo",
               ],
@@ -374,7 +398,7 @@ export class AtariGoGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): AtariGoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -539,18 +563,18 @@ export class AtariGoGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.noperson.group_nowhere", { count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.noperson.group_nowhere", { count: r.count! });
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 1 });
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 1 });
                 } else if (r.reason === "stalemate") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:
@@ -568,3 +592,4 @@ export class AtariGoGame extends GameBase {
         return cloned;
     }
 }
+

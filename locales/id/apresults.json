@@ -1,145 +1,274 @@
 {
-  "ABANDONED": "",
-  "ACTOR": {
-    "elOso": {
-      "bear": ""
-    }
-  },
-  "ADD": {
-    "add_one": "",
-    "add_other": "",
-    "logger": "",
-    "magnate_one": "",
-    "magnate_other": "",
-    "nonum": "",
-    "twixt": ""
-  },
-  "AFFILIATE": {
-    "cifra_lt": "",
-    "cifra_lb": "",
-    "cifra_dt": "",
-    "cifra_db": "",
-    "cifra_ll": "",
-    "cifra_lr": "",
-    "cifra_dl": "",
-    "cifra_dr": "",
-    "witch_M": "",
-    "witch_S": ""
-  },
-  "ANNOUNCE": {
-    "arimaa": "",
-    "biscuit": "",
-    "deckfish": "",
-    "frogger_one": "",
-    "frogger_other": "",
-    "quincunx": "",
-    "elOso": {
-      "playerSetup": "",
-      "bearSetup": ""
+  "_general": {
+    "ABANDONED": {
+      "default": ""
     },
-    "scribe_super": "",
-    "stawvs": ""
-  },
-  "BEAROFF": {
-    "canoe": "",
-    "complete_one": "",
-    "complete_other": "",
-    "druid": "",
-    "nowhat": ""
-  },
-  "BLOCK": {
-    "bao": "",
-    "between": "",
-    "veletas": ""
-  },
-  "BUTTON": "",
-  "CAPTURE": {
-    "ataxx_one": "",
-    "ataxx_other": "",
-    "bao_one": "",
-    "bao_other": "",
-    "bitesize": "",
-    "blastradius_one": "",
-    "blastradius_other": "",
-    "blockade": "",
-    "blooms": "",
-    "boom": "",
-    "buku": "",
-    "c1": "",
-    "complete": "",
-    "canoe": "",
-    "crosshairs": "",
-    "dameo_king": "",
-    "dameo_soldier": "",
-    "circleOfLife_one": "",
-    "circleOfLife_other": "",
-    "entrapment_opponent": "",
-    "entrapment_self": "",
-    "fightopia_1": "",
-    "fightopia_2": "",
-    "forms_one": "",
-    "forms_other": "",
-    "furl": "",
-    "gess_one": "",
-    "gess_other": "",
-    "group_one": "",
-    "group_other": "",
-    "hens_chick": "",
-    "hens_hen": "",
-    "elOso_one": "",
-    "elOso_other": "",
-    "hexentafl_king": "",
-    "lasca_officer": "",
-    "lasca_soldier": "",
-    "lifeline": "",
-    "magnate": "",
-    "majorities": "",
-    "mancala_one": "",
-    "mancala_other": "",
-    "mattock": "",
-    "meridians": "",
-    "minimal": "",
-    "monkey_queen": "",
-    "monkey_single": "",
-    "multiple_one": "",
-    "multiple_other": "",
-    "murus_double": "",
-    "noperson": {
-      "group_nowhere": "",
+    "ACTOR": {
+      "elOso": {}
+    },
+    "ADD": {
+      "add_one": "",
+      "add_other": "",
+      "nonum": ""
+    },
+    "BEAROFF": {
+      "complete_one": "",
+      "complete_other": "",
+      "nowhat": ""
+    },
+    "BLOCK": {
+      "between": ""
+    },
+    "BUTTON": {
+      "default": ""
+    },
+    "CAPTURE": {
+      "complete": "",
+      "group_one": "",
+      "group_other": "",
+      "mancala_one": "",
+      "mancala_other": "",
+      "minimal": "",
+      "multiple_one": "",
+      "multiple_other": "",
+      "noperson": {
+        "group_nowhere": "",
+        "multiple": "",
+        "nowhat": "",
+        "nowhere_count_one": "",
+        "nowhere_count_other": "",
+        "nowhere_what": "",
+        "simple": ""
+      },
+      "nowhat": ""
+    },
+    "CLAIM": {
+      "default": ""
+    },
+    "CONVERT": {
+      "complete": "",
+      "simple": ""
+    },
+    "DELTA_SCORE_GAIN_one": "",
+    "DELTA_SCORE_GAIN_other": "",
+    "DELTA_SCORE_LOSS_one": "",
+    "DELTA_SCORE_LOSS_other": "",
+    "DESTROY": {
+      "enemy": {
+        "minimal_one": "",
+        "minimal_other": ""
+      },
+      "friendly": {
+        "minimal_one": "",
+        "minimal_other": ""
+      }
+    },
+    "DETONATE": {
+      "nowhat": ""
+    },
+    "DRAWAGREED": {
+      "default": ""
+    },
+    "ELIMINATED": {
+      "default": ""
+    },
+    "EOG": {
+      "consecutive_passes": "",
+      "default": "",
+      "material": "",
+      "repetition_one": "",
+      "repetition_other": "",
+      "repetition_positional_one": "",
+      "repetition_positionas_other": "",
+      "stalemate": "",
+      "stalemate_all": ""
+    },
+    "ERUPTIONS": {
+      "default": ""
+    },
+    "FLIP": {
+      "default": ""
+    },
+    "INFINITE": {
+      "default": ""
+    },
+    "KOMI": {
+      "default": ""
+    },
+    "LEAD": {
+      "default": ""
+    },
+    "MOVE": {
+      "ball": "",
+      "ball_drop_one": "",
+      "ball_drop_other": "",
+      "collision": "",
+      "complete_one": "",
+      "complete_other": "",
+      "complete_what": "",
       "multiple": "",
       "nowhat": "",
-      "simple": "",
-      "nowhere_what": "",
-      "nowhere_count_one": "",
-      "nowhere_count_other": ""
+      "push": ""
     },
-    "nowhat": "",
-    "onyx": "",
-    "orb_1": "",
-    "orb_2": "",
-    "pente": "",
-    "pente_self": "",
-    "owlman_approach": "",
-    "owlman_replacement": "",
-    "reversi_one": "",
-    "reversi_other": "",
-    "spook_drop_opponent": "",
-    "spook_drop_self": "",
-    "spook_lateral_opponent_one": "",
-    "spook_lateral_opponent_other": "",
-    "spook_lateral_self_one": "",
-    "spook_lateral_self_other": "",
-    "spora_one": "",
-    "spora_other": "",
-    "stawvs": "",
-    "swarm": "",
-    "tafl": "",
-    "terrace_other": "",
-    "terrace_self": "",
-    "tricouleur": "",
-    "tumbleweed": "",
-    "tumbleweed_self": "",
-    "witch": {
+    "NULLIFY_CLAIM": {
+      "default": ""
+    },
+    "ORIENT": {
+      "nowhat": ""
+    },
+    "PASS": {
+      "forced": "",
+      "pie": "",
+      "simple": "",
+      "tiebreaker": ""
+    },
+    "PIE": {
+      "default": ""
+    },
+    "PLACE": {
+      "PYRAMID_1": "",
+      "PYRAMID_2": "",
+      "PYRAMID_3": "",
+      "ball": "",
+      "complete": "",
+      "decktet": "",
+      "mine": "",
+      "neutral": "",
+      "nowhat": "",
+      "theirs": "",
+      "theirs_specific": ""
+    },
+    "PLAYSECOND": {
+      "default": ""
+    },
+    "PROMOTE": {
+      "basicWhere": ""
+    },
+    "PULL": {
+      "default": ""
+    },
+    "RECLAIM": {
+      "noperson": "",
+      "nowhat_one": "",
+      "nowhat_other": ""
+    },
+    "REMOVE": {
+      "nonum": "",
+      "remove_one": "",
+      "remove_other": ""
+    },
+    "REPAIR": {
+      "simple": ""
+    },
+    "RESIGN": {
+      "default": ""
+    },
+    "ROLL": {
+      "single": ""
+    },
+    "SACRIFICE": {
+      "nowhat": ""
+    },
+    "SCORE_REPORT": {
+      "default": ""
+    },
+    "SELECT": {
+      "resolve": ""
+    },
+    "SOW": {
+      "general_one": "",
+      "general_other": "",
+      "into": ""
+    },
+    "SWAP": {
+      "resolve": ""
+    },
+    "TAKE": {
+      "general_one": "",
+      "general_other": ""
+    },
+    "TIMEOUT": {
+      "default": ""
+    },
+    "WINNERSNONE": {
+      "default": ""
+    },
+    "WINNERS_one": "",
+    "WINNERS_other": ""
+  },
+  "logger": {
+    "ADD": {
+      "default": ""
+    },
+    "CLAIM": {
+      "default": ""
+    },
+    "DESTROY": {
+      "default": ""
+    },
+    "PLACE": {
+      "logger": "",
+      "plant": "",
+      "spawn": ""
+    }
+  },
+  "magnate": {
+    "ADD_one": "",
+    "ADD_other": "",
+    "CAPTURE": {
+      "default": ""
+    },
+    "CLAIM": {
+      "default": "",
+      "initial": ""
+    },
+    "CONVERT": {
+      "deed": "",
+      "trade": ""
+    },
+    "DECKDRAW": {
+      "default": ""
+    },
+    "PLACE": {
+      "buy": "",
+      "deed_end": "",
+      "deed_start": "",
+      "sell": ""
+    },
+    "ROLL": {
+      "default": "",
+      "eight": ""
+    }
+  },
+  "twixt": {
+    "ADD": {
+      "default": ""
+    },
+    "PLACE": {
+      "default": ""
+    },
+    "REMOVE": {
+      "default": ""
+    }
+  },
+  "cifra": {
+    "AFFILIATE": {
+      "db": "",
+      "dl": "",
+      "dr": "",
+      "dt": "",
+      "lb": "",
+      "ll": "",
+      "lr": "",
+      "lt": ""
+    }
+  },
+  "witch": {
+    "AFFILIATE": {
+      "M": "",
+      "S": ""
+    },
+    "CAPTURE": {
       "nowhere_C_one": "",
       "nowhere_C_other": "",
       "nowhere_E_one": "",
@@ -154,598 +283,1270 @@
       "single_S": ""
     }
   },
-  "CLAIM": {
-    "buku_singletons_one": "",
-    "buku_singletons_other": "",
-    "buku_repetition_one": "",
-    "buku_repetition_other": "",
-    "conhex": "",
-    "default": "",
-    "exxit": "",
-    "fnap_col": "",
-    "fnap_fnap": "",
-    "fnap_row": "",
-    "frogger": "",
-    "jacynth": "",
-    "logger": "",
-    "magnate": "",
-    "magnate_initial": "",
-    "majorities_line": "",
-    "majorities_H": "",
-    "majorities_A": "",
-    "majorities_D": "",
-    "meg": "",
-    "penguin": "",
-    "scribe_mini": "",
-    "scribe_mini_none": "",
-    "toguz": "",
-    "veletas": ""
+  "arimaa": {
+    "ANNOUNCE": {
+      "default": ""
+    },
+    "DESTROY": {
+      "default": ""
+    }
   },
-  "CONNECT": {
-    "pontedd": ""
+  "biscuit": {
+    "ANNOUNCE": {
+      "default": ""
+    },
+    "DECKDRAW": {
+      "default": ""
+    },
+    "DECLARE": {
+      "default": ""
+    },
+    "RESET": {
+      "default": ""
+    },
+    "SET": {
+      "biscuit_one": "",
+      "biscuit_other": "",
+      "cross": "",
+      "elevensies": "",
+      "hot": "",
+      "straight": ""
+    },
+    "STALEMATE": {
+      "default": ""
+    }
   },
-  "CONVERT": {
-    "complete": "",
-    "courtesan": "",
-    "magnate_deed": "",
-    "magnate_trade": "",
-    "moonsquad": "",
-    "pacru": "",
-    "paintbucket_one": "",
-    "paintbucket_other": "",
-    "canoe": "",
-    "simple": "",
-    "storisende_territory": "",
-    "storisende_wall": ""
+  "deckfish": {
+    "ANNOUNCE": {
+      "default": ""
+    },
+    "EJECT": {
+      "default": ""
+    },
+    "EOG": {
+      "default": ""
+    },
+    "MOVE": {
+      "default": ""
+    },
+    "PASS": {
+      "default": ""
+    },
+    "PIE": {
+      "default": ""
+    },
+    "PLACE": {
+      "default": ""
+    },
+    "SWAP": {
+      "default": ""
+    }
   },
-  "DAMAGE": {
-    "armadas": "",
-    "pigs": ""
+  "elOso": {
+    "ANNOUNCE": {
+      "bearSetup": "",
+      "playerSetup": ""
+    },
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
+    "MOVE_one": "",
+    "MOVE_other": "",
+    "PASS": {
+      "default": ""
+    },
+    "PLACE_one": "",
+    "PLACE_other": "",
+    "ROLL": {
+      "default": "",
+      "player": ""
+    },
+    "ACTOR": {
+      "bear": ""
+    }
   },
-  "DECKDRAW": {
-    "biscuit": "",
-    "emu_deck": "",
-    "emu_discard": "",
-    "frogger": "",
-    "magnate": "",
-    "quincunx_one": "",
-    "quincunx_other": "",
-    "evenatodds": ""
+  "frogger": {
+    "ANNOUNCE_one": "",
+    "ANNOUNCE_other": "",
+    "CLAIM": {
+      "default": ""
+    },
+    "DECKDRAW": {
+      "default": ""
+    },
+    "DECLARE": {
+      "default": ""
+    },
+    "EJECT": {
+      "card": "",
+      "croc": ""
+    },
+    "MOVE": {
+      "back": "",
+      "forward": ""
+    },
+    "PASS": {
+      "default": ""
+    }
   },
-  "DECLARE": {
-    "biscuit": "",
-    "emu": "",
-    "frogger": "",
-    "mchess": "",
-    "renju": ""
-  },
-  "DELTA_SCORE_GAIN_one": "",
-  "DELTA_SCORE_GAIN_other": "",
-  "DELTA_SCORE_LOSS_one": "",
-  "DELTA_SCORE_LOSS_other": "",
-  "DELTASCORE": {
-    "emu_excuse": "",
-    "emu_score": "",
-    "quincunx": {
-      "basic_zero": "",
+  "quincunx": {
+    "ANNOUNCE": {
+      "default": ""
+    },
+    "DECKDRAW_one": "",
+    "DECKDRAW_other": "",
+    "DELTASCORE": {
       "basic_one": "",
       "basic_other": "",
-      "penalty_zero": "",
+      "basic_zero": "",
       "penalty_one": "",
-      "penalty_other": ""
+      "penalty_other": "",
+      "penalty_zero": ""
     },
-    "btt_opponent_gain_one": "",
-    "btt_opponent_gain_other": ""
+    "SET": {
+      "flushes_one": "",
+      "flushes_other": "",
+      "pairs_one": "",
+      "pairs_other": "",
+      "powerplay": "",
+      "sets_one": "",
+      "sets_other": "",
+      "straights_one": "",
+      "straights_other": ""
+    }
   },
-  "DESTROY": {
-    "arimaa": "",
-    "armadas": "",
-    "bao": "",
-    "crosshairs": "",
-    "enemy": {
-      "minimal_one": "",
-      "minimal_other": ""
+  "scribe": {
+    "ANNOUNCE": {
+      "super": ""
     },
-    "friendly": {
-      "minimal_one": "",
-      "minimal_other": ""
+    "CLAIM": {
+      "mini": "",
+      "mini_none": ""
     },
-    "logger": "",
-    "mattock": "",
-    "string": ""
+    "SCRIBE": {
+      "glyphs": {
+        "bomber": "",
+        "chair": "",
+        "cross": "",
+        "double": "",
+        "earring": "",
+        "four_block": "",
+        "h": "",
+        "house": "",
+        "j": "",
+        "line": "",
+        "nine_block": "",
+        "o": "",
+        "ottoman": "",
+        "pipe": "",
+        "single": "",
+        "six_block": "",
+        "squat_t": "",
+        "t": "",
+        "u": ""
+      },
+      "mini": {
+        "0_0": "",
+        "0_1": "",
+        "0_2": "",
+        "1_0": "",
+        "1_1": "",
+        "1_2": "",
+        "2_0": "",
+        "2_1": "",
+        "2_2": ""
+      },
+      "no_formation": ""
+    }
   },
-  "DETONATE": {
-    "nowhat": ""
+  "stawvs": {
+    "ANNOUNCE": {
+      "default": ""
+    },
+    "CAPTURE": {
+      "default": ""
+    },
+    "EOG": {
+      "default": ""
+    },
+    "MOVE": {
+      "default": ""
+    },
+    "PLACE": {
+      "default": ""
+    }
   },
-  "DRAWAGREED": "",
-  "EJECT": {
-    "assembly": "",
-    "deckfish": "",
-    "frogger_card": "",
-    "frogger_croc": "",
-    "penguin_ball": "",
-    "penguin_penguin": ""
+  "canoe": {
+    "BEAROFF": {
+      "default": ""
+    },
+    "CAPTURE": {
+      "default": ""
+    },
+    "CONVERT": {
+      "default": ""
+    },
+    "PASS": {
+      "default": ""
+    },
+    "PROMOTE": {
+      "default": ""
+    },
+    "ROLL": {
+      "default": ""
+    }
   },
-  "ELIMINATED": "",
-  "EOG": {
-    "buku_singletons": "",
-    "camelot_claim_draw_repetition": "",
-    "camelot_claim_draw_progression": "",
-    "consecutive_passes": "",
-    "deckfish": "",
-    "default": "",
-    "forms": "",
-    "material": "",
-    "repetition_one": "",
-    "repetition_other": "",
-    "repetition_positional_one": "",
-    "repetition_positionas_other": "",
-    "stalemate": "",
-    "stalemate_all": "",
-    "stawvs": "",
-    "susan_nonplacement": "",
-    "tafl_encirclement": "",
-    "tafl_exit_fort": "",
-    "tafl_king_captured": "",
-    "tafl_king_escaped": "",
-    "unlur_foul": "",
-    "druid_hex": ""
+  "druid": {
+    "BEAROFF": {
+      "default": ""
+    },
+    "EOG": {
+      "hex": ""
+    },
+    "MOVE": {
+      "walk": ""
+    },
+    "PASS": {
+      "default": ""
+    },
+    "PLACE": {
+      "druid": "",
+      "lintel": "",
+      "sarsen": ""
+    },
+    "HEX_EDGE": {
+      "N": "",
+      "NE": "",
+      "NW": "",
+      "S": "",
+      "SE": "",
+      "SW": "",
+      "and": ""
+    }
   },
-  "DRUID_HEX_EDGE": {
-    "N": "",
-    "NE": "",
-    "SE": "",
-    "S": "",
-    "SW": "",
-    "NW": "",
-    "and": ""
+  "bao": {
+    "BLOCK": {
+      "default": ""
+    },
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
+    "DESTROY": {
+      "default": ""
+    },
+    "MOVE": {
+      "default": ""
+    }
   },
-  "ERUPTIONS": "",
-  "FIRE": {
-    "murus": "",
-    "pigs_F": "",
-    "pigs_H": ""
+  "veletas": {
+    "BLOCK": {
+      "default": ""
+    },
+    "CLAIM": {
+      "default": ""
+    },
+    "MOVE": {
+      "default": ""
+    },
+    "PLACE": {
+      "default": ""
+    }
   },
-  "FLIP": "",
-  "FURL": {
-    "furl": ""
+  "bitesize": {
+    "CAPTURE": {
+      "default": ""
+    }
   },
-  "IMMOBILIZE": {
-    "realm": ""
+  "blastradius": {
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
+    "PLACE": {
+      "default": ""
+    },
+    "TAKE_one": "",
+    "TAKE_other": ""
   },
-  "INFINITE": "",
-  "KOMI": "",
-  "LEAD": "",
-  "MOVE": {
-    "amazons": "",
-    "anache_dragon": "",
-    "anache_dragon_jump": "",
-    "anache_knight": "",
-    "anache_man": "",
-    "armadas": "",
-    "ataxx_jump": "",
-    "ataxx_split": "",
-    "ball": "",
-    "ball_drop_one": "",
-    "ball_drop_other": "",
-    "bao": "",
-    "blockade": "",
-    "byte": {
+  "blooms": {
+    "CAPTURE": {
+      "default": ""
+    },
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "buku": {
+    "CAPTURE": {
+      "default": ""
+    },
+    "CLAIM": {
+      "repetition_one": "",
+      "repetition_other": "",
+      "singletons_one": "",
+      "singletons_other": ""
+    },
+    "EOG": {
+      "singletons": ""
+    },
+    "TAKE": {
+      "col_one": "",
+      "col_other": "",
+      "row_bonus": "",
+      "row_one": "",
+      "row_other": ""
+    }
+  },
+  "c1": {
+    "CAPTURE": {
+      "default": ""
+    }
+  },
+  "circleOfLife": {
+    "CAPTURE_one": "",
+    "CAPTURE_other": ""
+  },
+  "crosshairs": {
+    "CAPTURE": {
+      "default": ""
+    },
+    "DESTROY": {
+      "default": ""
+    },
+    "MOVE": {
+      "default": "",
+      "power-dive": "",
+      "swoop": ""
+    },
+    "ORIENT": {
+      "default": ""
+    },
+    "PLACE": {
+      "cloud": "",
+      "plane": ""
+    }
+  },
+  "dameo": {
+    "CAPTURE": {
+      "king": "",
+      "soldier": ""
+    }
+  },
+  "entrapment": {
+    "CAPTURE": {
+      "opponent": "",
+      "self": ""
+    },
+    "MOVE": {
+      "barrier": "",
+      "roamer": "",
+      "roamer_jump": ""
+    },
+    "PLACE": {
+      "barrier": "",
+      "roamer": ""
+    },
+    "REMOVE": {
+      "opponent": "",
+      "self": ""
+    }
+  },
+  "fightopia": {
+    "CAPTURE": {
+      "1": "",
+      "2": ""
+    },
+    "MOVE": {
+      "1": "",
+      "2": "",
+      "4": "",
+      "pivot": ""
+    }
+  },
+  "forms": {
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
+    "EOG": {
+      "default": ""
+    }
+  },
+  "furl": {
+    "CAPTURE": {
+      "default": ""
+    },
+    "FURL": {
+      "default": ""
+    },
+    "UNFURL": {
+      "default": ""
+    }
+  },
+  "gess": {
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
+    "MOVE_one": "",
+    "MOVE_other": ""
+  },
+  "hens": {
+    "CAPTURE": {
+      "chick": "",
+      "hen": ""
+    }
+  },
+  "hexentafl": {
+    "CAPTURE": {
+      "king": ""
+    },
+    "MOVE": {
+      "king": ""
+    }
+  },
+  "lasca": {
+    "CAPTURE": {
+      "officer": "",
+      "soldier": ""
+    }
+  },
+  "lifeline": {
+    "CAPTURE": {
+      "default": ""
+    }
+  },
+  "majorities": {
+    "CAPTURE": {
+      "default": ""
+    },
+    "CLAIM": {
+      "A": "",
+      "D": "",
+      "H": "",
+      "line": ""
+    }
+  },
+  "mattock": {
+    "CAPTURE": {
+      "default": ""
+    },
+    "DESTROY": {
+      "default": ""
+    },
+    "MOVE": {
+      "default": ""
+    },
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "meridians": {
+    "CAPTURE": {
+      "default": ""
+    }
+  },
+  "monkey": {
+    "CAPTURE": {
+      "queen": "",
+      "single": ""
+    },
+    "MOVE": {
+      "queen": "",
+      "single": ""
+    }
+  },
+  "murus": {
+    "CAPTURE": {
+      "double": ""
+    },
+    "FIRE": {
+      "default": ""
+    }
+  },
+  "onyx": {
+    "CAPTURE": {
+      "default": ""
+    }
+  },
+  "orb": {
+    "CAPTURE": {
+      "1": "",
+      "2": ""
+    },
+    "MOVE": {
+      "1": "",
+      "2": "",
+      "3": "",
+      "2S": ""
+    },
+    "PLACE": {
+      "default": ""
+    },
+    "PROMOTE": {
+      "12": "",
+      "13": "",
+      "23": ""
+    }
+  },
+  "owlman": {
+    "CAPTURE": {
+      "approach": "",
+      "replacement": ""
+    }
+  },
+  "pente": {
+    "CAPTURE": {
+      "default": "",
+      "self": ""
+    }
+  },
+  "reversi": {
+    "CAPTURE_one": "",
+    "CAPTURE_other": ""
+  },
+  "spook": {
+    "CAPTURE": {
+      "drop_opponent": "",
+      "drop_self": "",
+      "lateral_opponent_one": "",
+      "lateral_opponent_other": "",
+      "lateral_self_one": "",
+      "lateral_self_other": ""
+    },
+    "MOVE": {
+      "default": ""
+    },
+    "REMOVE": {
+      "default": "",
+      "drop_one": "",
+      "drop_other": ""
+    },
+    "PLACE": {
+      "spooky": ""
+    }
+  },
+  "spora": {
+    "CAPTURE_one": "",
+    "CAPTURE_other": "",
+    "MOVE": {
+      "default": ""
+    },
+    "PLACE_one": "",
+    "PLACE_other": ""
+  },
+  "swarm": {
+    "CAPTURE": {
+      "default": ""
+    }
+  },
+  "tafl": {
+    "CAPTURE": {
+      "default": ""
+    },
+    "EOG": {
+      "encirclement": "",
+      "exit_fort": "",
+      "king_captured": "",
+      "king_escaped": ""
+    },
+    "MOVE": {
+      "default": "",
+      "jump": ""
+    }
+  },
+  "terrace": {
+    "CAPTURE": {
+      "other": "",
+      "self": ""
+    },
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "tricouleur": {
+    "CAPTURE": {
+      "default": ""
+    },
+    "MOVE": {
+      "duplicate": "",
+      "jump": ""
+    }
+  },
+  "tumbleweed": {
+    "CAPTURE": {
+      "default": "",
+      "self": ""
+    },
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "conhex": {
+    "CLAIM": {
+      "default": ""
+    },
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "exxit": {
+    "CLAIM": {
+      "default": ""
+    }
+  },
+  "fnap": {
+    "CLAIM": {
+      "col": "",
+      "fnap": "",
+      "row": ""
+    },
+    "SELECT": {
+      "default": ""
+    },
+    "SET": {
+      "circles": "",
+      "triplets_one": "",
+      "triplets_other": ""
+    }
+  },
+  "jacynth": {
+    "CLAIM": {
+      "default": ""
+    }
+  },
+  "meg": {
+    "CLAIM": {
+      "default": ""
+    },
+    "MOVE": {
+      "default": ""
+    },
+    "PLACE": {
+      "cap": "",
+      "cup": ""
+    }
+  },
+  "penguin": {
+    "CLAIM": {
+      "default": ""
+    },
+    "EJECT": {
+      "ball": "",
+      "penguin": ""
+    }
+  },
+  "toguz": {
+    "CLAIM": {
+      "default": ""
+    }
+  },
+  "pontedd": {
+    "CONNECT": {
+      "default": ""
+    }
+  },
+  "courtesan": {
+    "CONVERT": {
+      "default": ""
+    }
+  },
+  "moonsquad": {
+    "CONVERT": {
+      "default": ""
+    },
+    "PLACE": {
+      "default": ""
+    },
+    "SACRIFICE": {
+      "default": ""
+    },
+    "TAKE": {
+      "default": ""
+    }
+  },
+  "pacru": {
+    "CONVERT": {
+      "default": ""
+    }
+  },
+  "paintbucket": {
+    "CONVERT_one": "",
+    "CONVERT_other": ""
+  },
+  "storisende": {
+    "CONVERT": {
+      "territory": "",
+      "wall": ""
+    }
+  },
+  "armadas": {
+    "DAMAGE": {
+      "default": ""
+    },
+    "DESTROY": {
+      "default": ""
+    },
+    "MOVE": {
+      "default": ""
+    },
+    "PLACE": {
+      "1": "",
+      "2": "",
+      "3": ""
+    }
+  },
+  "pigs": {
+    "DAMAGE": {
+      "default": ""
+    },
+    "FIRE": {
+      "F": "",
+      "H": ""
+    },
+    "PASS": {
+      "default": ""
+    }
+  },
+  "emu": {
+    "DECKDRAW": {
+      "deck": "",
+      "discard": ""
+    },
+    "DECLARE": {
+      "default": ""
+    },
+    "DELTASCORE": {
+      "excuse": "",
+      "score": ""
+    },
+    "PLACE": {
+      "discard": "",
+      "existing": "",
+      "new": ""
+    }
+  },
+  "evenatodds": {
+    "DECKDRAW": {
+      "default": ""
+    },
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "mchess": {
+    "DECLARE": {
+      "default": ""
+    },
+    "PROMOTE": {
+      "default": ""
+    }
+  },
+  "renju": {
+    "DECLARE": {
+      "default": ""
+    },
+    "PLACE": {
+      "tentative": "",
+      "tentative_choose": ""
+    }
+  },
+  "btt": {
+    "DELTASCORE": {
+      "opponent_gain_one": "",
+      "opponent_gain_other": ""
+    },
+    "PLACE": {
+      "default": "",
+      "large": "",
+      "medium": "",
+      "small": ""
+    }
+  },
+  "assembly": {
+    "EJECT": {
+      "default": ""
+    },
+    "PASS": {
+      "default": ""
+    }
+  },
+  "camelot": {
+    "EOG": {
+      "claim_draw_progression": "",
+      "claim_draw_repetition": ""
+    },
+    "MOVE": {
+      "canter": "",
+      "canter_knight": "",
+      "castle": "",
+      "castle_knight": "",
+      "jump": "",
+      "jump_knight": "",
+      "plain": "",
+      "plain_knight": ""
+    },
+    "PLACE": {
+      "tree": ""
+    },
+    "USE": {
+      "castle_move_none": "",
+      "castle_move_one": "",
+      "castle_move_other": ""
+    }
+  },
+  "susan": {
+    "EOG": {
+      "nonplacement": ""
+    },
+    "MOVE": {
+      "default": ""
+    }
+  },
+  "unlur": {
+    "EOG": {
+      "foul": ""
+    },
+    "PIE": {
+      "default": ""
+    }
+  },
+  "realm": {
+    "IMMOBILIZE": {
+      "default": ""
+    }
+  },
+  "amazons": {
+    "MOVE": {
+      "default": ""
+    }
+  },
+  "anache": {
+    "MOVE": {
+      "dragon": "",
+      "dragon_jump": "",
+      "knight": "",
+      "man": ""
+    }
+  },
+  "ataxx": {
+    "MOVE": {
+      "jump": "",
+      "split": ""
+    },
+    "CAPTURE_one": "",
+    "CAPTURE_other": ""
+  },
+  "byte": {
+    "MOVE": {
       "full": "",
       "partial_one": "",
       "partial_other": ""
+    }
+  },
+  "carnac": {
+    "MOVE": {
+      "tip": ""
     },
-    "crosshairs": "",
-    "crosshairs_swoop": "",
-    "crosshairs_power-dive": "",
-    "camelot_castle_knight": "",
-    "camelot_castle": "",
-    "carnac_tip": "",
-    "druid_walk": "",
-    "elOso_one": "",
-    "elOso_other": "",
-    "camelot_plain_knight": "",
-    "camelot_plain": "",
-    "camelot_canter_knight": "",
-    "camelot_canter": "",
-    "camelot_jump_knight": "",
-    "camelot_jump": "",
-    "chase": "",
-    "collision": "",
-    "complete_one": "",
-    "complete_other": "",
-    "deckfish": "",
-    "entrapment_barrier": "",
-    "entrapment_roamer": "",
-    "entrapment_roamer_jump": "",
-    "fightopia_1": "",
-    "fightopia_2": "",
-    "fightopia_4": "",
-    "fightopia_pivot": "",
-    "frogger_back": "",
-    "frogger_forward": "",
-    "gess_one": "",
-    "gess_other": "",
-    "hexentafl_king": "",
-    "iqishiqi": "",
-    "knightline": "",
-    "mattock": "",
-    "meg": "",
-    "monkey_queen": "",
-    "monkey_single": "",
-    "multiple": "",
-    "nowhat": "",
-    "onager_jump": "",
-    "onager_walk": "",
-    "orb_1": "",
-    "orb_2": "",
-    "orb_2S": "",
-    "orb_3": "",
-    "phutball": "",
-    "phutball_last": "",
-    "phutball_to": "",
-    "phutball_to_last": "",
-    "posit": "",
-    "push": "",
-    "saltire": "",
-    "slyde": "",
-    "spook": "",
-    "spora": "",
-    "stawvs": "",
-    "susan": "",
-    "tafl": "",
-    "tafl_jump": "",
-    "tricouleur_jump": "",
-    "tricouleur_duplicate": "",
-    "veletas": "",
-    "volo_one": "",
-    "volo_other": "",
-    "complete_what": ""
+    "PASS": {
+      "default": ""
+    },
+    "PLACE": {
+      "default": ""
+    }
   },
-  "NULLIFY_CLAIM": "",
-  "ORIENT": {
-    "crosshairs": "",
-    "nowhat": ""
+  "chase": {
+    "MOVE": {
+      "default": ""
+    },
+    "PLACE": {
+      "default": ""
+    },
+    "TAKE": {
+      "default": ""
+    }
   },
-  "PASS": {
-    "asli": "",
-    "assembly": "",
-    "deckfish": "",
-    "entropy": "",
-    "forced": "",
-    "carnac": "",
-    "canoe": "",
-    "druid": "",
-    "elOso": "",
-    "frogger": "",
-    "linage": "",
-    "pie": "",
-    "pigs": "",
-    "pippinzip": "",
-    "simple": "",
-    "tablero": "",
-    "tiebreaker": ""
+  "iqishiqi": {
+    "MOVE": {
+      "default": ""
+    },
+    "PLACE": {
+      "default": ""
+    }
   },
-  "PIE": {
-    "deckfish": "",
-    "default": "",
-    "unlur": ""
+  "knightline": {
+    "MOVE": {
+      "default": ""
+    },
+    "PLACE": {
+      "default": ""
+    }
   },
-  "PLACE": {
-    "armadas_1": "",
-    "armadas_2": "",
-    "armadas_3": "",
-    "ball": "",
-    "blastradius": "",
-    "blockade_h": "",
-    "blockade_v": "",
-    "blooms": "",
-    "btt": "",
-    "btt_small": "",
-    "btt_medium": "",
-    "btt_large": "",
-    "bug_bonus_grow": "",
-    "bug_grow": "",
-    "bug_new": "",
-    "camelot_tree": "",
-    "cannon": "",
-    "carnac": "",
-    "druid_druid": "",
-    "druid_lintel": "",
-    "druid_sarsen": "",
-    "ccorridor": "",
-    "chase": "",
-    "complete": "",
-    "court": "",
-    "crosshairs_plane": "",
-    "crosshairs_cloud": "",
-    "conhex": "",
-    "connecticut": "",
-    "boxes": "",
-    "boxes_claim1": "",
-    "boxes_claim2": "",
-    "decktet": "",
-    "deckfish": "",
-    "estate_one": "",
-    "estate_other": "",
-    "emu_discard": "",
-    "emu_existing": "",
-    "emu_new": "",
-    "entrapment_barrier": "",
-    "entrapment_roamer": "",
-    "evenatodds": "",
-    "elOso_one": "",
-    "elOso_other": "",
-    "epam": "",
-    "gorogo_henge": "",
-    "gorogo_piece": "",
-    "iqishiqi": "",
-    "knightline": "",
-    "logger_logger": "",
-    "logger_plant": "",
-    "logger_spawn": "",
-    "magnate_buy": "",
-    "magnate_deed_start": "",
-    "magnate_deed_end": "",
-    "magnate_sell": "",
-    "mattock": "",
-    "meg_cap": "",
-    "meg_cup": "",
-    "mine": "",
-    "moonsquad": "",
-    "neutral": "",
-    "nex": "",
-    "nex_neutral": "",
-    "nowhat": "",
-    "onager": "",
-    "orb": "",
-    "pahtum_block": "",
-    "pahtum_piece": "",
-    "phutball": "",
-    "pollux": "",
-    "PYRAMID_1": "",
-    "PYRAMID_2": "",
-    "PYRAMID_3": "",
-    "quax_diag": "",
-    "query_c4": "",
-    "query_c8": "",
-    "renju_tentative": "",
-    "renju_tentative_choose": "",
-    "siegeofj": "",
-    "spire_neutral": "",
-    "spire_player": "",
-    "spooky": "",
-    "spora_one": "",
-    "spora_other": "",
-    "stawvs": "",
-    "strands_initial": "",
-    "strands_one": "",
-    "strands_other": "",
-    "subdivision_park": "",
-    "synapse": "",
-    "terrace": "",
-    "theirs": "",
-    "theirs_specific": "",
-    "trax": "",
-    "tritium-orange": "",
-    "tritium-purple": "",
-    "tritium-green": "",
-    "tritium-flag": "",
-    "tumbleweed": "",
-    "twixt": "",
-    "unane": "",
-    "upperhand_chain": "",
-    "urbino": {
+  "onager": {
+    "MOVE": {
+      "jump": "",
+      "walk": ""
+    },
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "phutball": {
+    "MOVE": {
+      "default": "",
+      "last": "",
+      "to": "",
+      "to_last": ""
+    },
+    "PLACE": {
+      "default": ""
+    },
+    "REMOVE_one": "",
+    "REMOVE_other": ""
+  },
+  "posit": {
+    "MOVE": {
+      "default": ""
+    }
+  },
+  "saltire": {
+    "MOVE": {
+      "default": ""
+    }
+  },
+  "slyde": {
+    "MOVE": {
+      "default": ""
+    },
+    "SELECT": {
+      "fixed_opponent": "",
+      "fixed_self": "",
+      "mobile_opponent": "",
+      "mobile_self": ""
+    }
+  },
+  "volo": {
+    "MOVE_one": "",
+    "MOVE_other": "",
+    "PLACE": {
+      "default": ""
+    },
+    "REMOVE": {
+      "default": ""
+    }
+  },
+  "asli": {
+    "PASS": {
+      "default": ""
+    }
+  },
+  "entropy": {
+    "PASS": {
+      "default": ""
+    }
+  },
+  "linage": {
+    "PASS": {
+      "default": ""
+    }
+  },
+  "pippinzip": {
+    "PASS": {
+      "default": ""
+    }
+  },
+  "tablero": {
+    "PASS": {
+      "default": ""
+    },
+    "ROLL": {
+      "default": ""
+    },
+    "TAKE": {
+      "default": ""
+    }
+  },
+  "blockade": {
+    "PLACE": {
+      "h": "",
+      "v": ""
+    },
+    "CAPTURE": {
+      "default": ""
+    },
+    "MOVE": {
+      "default": ""
+    }
+  },
+  "boxes": {
+    "PLACE": {
+      "default": "",
+      "claim1": "",
+      "claim2": ""
+    }
+  },
+  "bug": {
+    "PLACE": {
+      "bonus_grow": "",
+      "grow": "",
+      "new": ""
+    }
+  },
+  "cannon": {
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "ccorridor": {
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "connecticut": {
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "court": {
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "epam": {
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "estate": {
+    "PLACE_one": "",
+    "PLACE_other": ""
+  },
+  "gorogo": {
+    "PLACE": {
+      "henge": "",
+      "piece": ""
+    }
+  },
+  "nex": {
+    "PLACE": {
+      "default": "",
+      "neutral": ""
+    },
+    "SWAP": {
+      "default": "",
+      "neutral": ""
+    }
+  },
+  "pahtum": {
+    "PLACE": {
+      "block": "",
+      "piece": ""
+    }
+  },
+  "pollux": {
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "quax": {
+    "PLACE": {
+      "diag": ""
+    }
+  },
+  "query": {
+    "PLACE": {
+      "c4": "",
+      "c8": ""
+    }
+  },
+  "siegeofj": {
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "spire": {
+    "PLACE": {
+      "neutral": "",
+      "player": ""
+    }
+  },
+  "strands": {
+    "PLACE": {
+      "initial": "",
+      "one": "",
+      "other": ""
+    }
+  },
+  "streetcar": {
+    "PLACE": {
+      "place_11": "",
+      "place_12": "",
+      "place_13": "",
+      "place_21": "",
+      "place_22": "",
+      "place_23": "",
+      "place_31": "",
+      "place_32": "",
+      "place_33": "",
+      "place_41": "",
+      "place_42": "",
+      "place_43": "",
+      "place_default": ""
+    },
+    "TAKE": {
+      "take_1": "",
+      "take_2": "",
+      "take_3": "",
+      "take_4": "",
+      "take_default": ""
+    }
+  },
+  "subdivision": {
+    "PLACE": {
+      "park": ""
+    }
+  },
+  "synapse": {
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "trax": {
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "unane": {
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "upperhand": {
+    "PLACE": {
+      "chain": ""
+    }
+  },
+  "urbino": {
+    "PLACE": {
       "house": "",
       "palace": "",
       "tower": "",
       "worker": ""
-    },
-    "veletas": "",
-    "viruswar": "",
-    "volo": "",
-    "streetcar_place_11": "",
-    "streetcar_place_12": "",
-    "streetcar_place_13": "",
-    "streetcar_place_21": "",
-    "streetcar_place_22": "",
-    "streetcar_place_23": "",
-    "streetcar_place_31": "",
-    "streetcar_place_32": "",
-    "streetcar_place_33": "",
-    "streetcar_place_41": "",
-    "streetcar_place_42": "",
-    "streetcar_place_43": "",
-    "streetcar_place_default": ""
-  },
-  "PLAYSECOND": "",
-  "PROMOTE": {
-    "basicWhere": "",
-    "cubeo": "",
-    "lielow": "",
-    "mchess": "",
-    "orb_12": "",
-    "orb_13": "",
-    "orb_23": "",
-    "canoe": ""
-  },
-  "PULL": "",
-  "RECLAIM": {
-    "noperson": "",
-    "nowhat_one": "",
-    "nowhat_other": ""
-  },
-  "REMOVE": {
-    "akimbo": "",
-    "entrapment_opponent": "",
-    "entrapment_self": "",
-    "fourinarow_e": "",
-    "fourinarow_n": "",
-    "fourinarow_ne": "",
-    "fourinarow_nw": "",
-    "fourinarow_s": "",
-    "fourinarow_se": "",
-    "fourinarow_sw": "",
-    "fourinarow_w": "",
-    "gliss": "",
-    "nonum": "",
-    "phutball_one": "",
-    "phutball_other": "",
-    "remove_one": "",
-    "remove_other": "",
-    "spook": "",
-    "spook_drop_one": "",
-    "spook_drop_other": "",
-    "twixt": "",
-    "volo": ""
-  },
-  "REPAIR": {
-    "simple": ""
-  },
-  "RESET": {
-    "biscuit": "",
-    "guerrilla": "",
-    "queensland": ""
-  },
-  "RESIGN": "",
-  "ROLL": {
-    "magnate": "",
-    "magnate_eight": "",
-    "canoe": "",
-    "elOso": "",
-    "elOso_player": "",
-    "single": "",
-    "tablero": ""
-  },
-  "SACRIFICE": {
-    "moonsquad": "",
-    "nowhat": ""
-  },
-  "SCORE_REPORT": "",
-  "SELECT": {
-    "fnap": "",
-    "resolve": "",
-    "slyde_fixed_opponent": "",
-    "slyde_fixed_self": "",
-    "slyde_mobile_opponent": "",
-    "slyde_mobile_self": "",
-    "spree": ""
-  },
-  "SET": {
-    "biscuit_biscuit_one": "",
-    "biscuit_biscuit_other": "",
-    "biscuit_cross": "",
-    "biscuit_elevensies": "",
-    "biscuit_hot": "",
-    "biscuit_straight": "",
-    "fnap_circles": "",
-    "fnap_triplets_one": "",
-    "fnap_triplets_other": "",
-    "quincunx_pairs_one": "",
-    "quincunx_pairs_other": "",
-    "quincunx_sets_one": "",
-    "quincunx_sets_other": "",
-    "quincunx_straights_one": "",
-    "quincunx_straights_other": "",
-    "quincunx_flushes_one": "",
-    "quincunx_flushes_other": "",
-    "quincunx_powerplay": ""
-  },
-  "SOW": {
-    "general_one": "",
-    "general_other": "",
-    "into": "",
-    "prudh": "",
-    "rincala_one": "",
-    "rincala_other": ""
-  },
-  "STALEMATE": {
-    "biscuit": ""
-  },
-  "SWAP": {
-    "deckfish": "",
-    "nex": "",
-    "nex_neutral": "",
-    "resolve": "",
-    "wunchunk": ""
-  },
-  "TAKE": {
-    "blastradius_one": "",
-    "blastradius_other": "",
-    "buku_row_one": "",
-    "buku_row_other": "",
-    "buku_row_bonus": "",
-    "buku_col_one": "",
-    "buku_col_other": "",
-    "chase": "",
-    "general_one": "",
-    "general_other": "",
-    "moonsquad": "",
-    "sploof": "",
-    "tablero": "",
-    "streetcar_take_1": "",
-    "streetcar_take_2": "",
-    "streetcar_take_3": "",
-    "streetcar_take_4": "",
-    "streetcar_take_default": ""
-  },
-  "TIMEOUT": "",
-  "UNFURL": {
-    "amoeba": "",
-    "furl": ""
-  },
-  "USE": {
-    "camelot_castle_move_one": "",
-    "camelot_castle_move_other": "",
-    "camelot_castle_move_none": ""
-  },
-  "SCRIBE": {
-    "no_formation": "",
-    "glyphs": {
-      "single": "",
-      "double": "",
-      "line": "",
-      "pipe": "",
-      "squat_t": "",
-      "four_block": "",
-      "t": "",
-      "cross": "",
-      "six_block": "",
-      "bomber": "",
-      "chair": "",
-      "j": "",
-      "earring": "",
-      "house": "",
-      "h": "",
-      "u": "",
-      "ottoman": "",
-      "o": "",
-      "nine_block": ""
-    },
-    "mini": {
-      "0_0": "",
-      "1_0": "",
-      "2_0": "",
-      "0_1": "",
-      "1_1": "",
-      "2_1": "",
-      "0_2": "",
-      "1_2": "",
-      "2_2": ""
     }
   },
-  "WINNERSNONE": "",
-  "WINNERS_one": "",
-  "WINNERS_other": "",
+  "viruswar": {
+    "PLACE": {
+      "default": ""
+    }
+  },
+  "cubeo": {
+    "PROMOTE": {
+      "default": ""
+    }
+  },
+  "lielow": {
+    "PROMOTE": {
+      "default": ""
+    }
+  },
+  "akimbo": {
+    "REMOVE": {
+      "default": ""
+    }
+  },
+  "fourinarow": {
+    "REMOVE": {
+      "e": "",
+      "n": "",
+      "ne": "",
+      "nw": "",
+      "s": "",
+      "se": "",
+      "sw": "",
+      "w": ""
+    }
+  },
+  "gliss": {
+    "REMOVE": {
+      "default": ""
+    }
+  },
+  "guerrilla": {
+    "RESET": {
+      "default": ""
+    }
+  },
+  "queensland": {
+    "RESET": {
+      "default": ""
+    }
+  },
+  "spree": {
+    "SELECT": {
+      "default": ""
+    }
+  },
+  "prudh": {
+    "SOW": {
+      "default": ""
+    }
+  },
+  "rincala": {
+    "SOW_one": "",
+    "SOW_other": ""
+  },
+  "wunchunk": {
+    "SWAP": {
+      "default": ""
+    }
+  },
+  "sploof": {
+    "TAKE": {
+      "default": ""
+    }
+  },
+  "amoeba": {
+    "UNFURL": {
+      "default": ""
+    }
+  },
   "homeworlds": {
-    "BUILD": "",
-    "CAPTURE": "",
-    "CATASTROPHE": "",
-    "CONVERT": "",
-    "DISCOVER": "",
-    "ESTABLISH": "",
-    "MOVE": "",
-    "PASS": "",
-    "SACRIFICE": ""
+    "BUILD": {
+      "build": ""
+    },
+    "CAPTURE": {
+      "capture": ""
+    },
+    "CATASTROPHE": {
+      "catastrophe": ""
+    },
+    "CONVERT": {
+      "convert": ""
+    },
+    "DISCOVER": {
+      "discover": ""
+    },
+    "ESTABLISH": {
+      "land": ""
+    },
+    "MOVE": {
+      "fly": ""
+    },
+    "PASS": {
+      "pass": ""
+    },
+    "SACRIFICE": {
+      "sacrifice": ""
+    }
+  },
+  "tritium": {
+    "PLACE": {
+      "flag": "",
+      "green": "",
+      "orange": "",
+      "purple": ""
+    }
+  },
+  "boom": {
+    "CAPTURE": {
+      "default": ""
+    }
+  },
+  "strings": {
+    "DESTROY": {
+      "string": ""
+    }
   }
 }

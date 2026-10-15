@@ -1,0 +1,9 @@
+{
+  "_general": {
+    "SOW": {
+      "general_one": "{{player}} sowed seeds from the following pit: {{pits}}.",
+      "general_other": "{{player}} sowed seeds from the following pits: {{pits}}.",
+      "into": "{{player}} sowed into the pits {{pits}}."
+    }
+  }
+}

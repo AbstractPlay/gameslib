@@ -6,6 +6,22 @@ import { RectGrid, reviver, UserFacingError } from "../common/index.js";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INCOMPLETE: "You need to place stones to connect the groups.",
+        INITIAL_INSTRUCTIONS: "Select a point to place a piece.",
+        INVALID_MOVES: "This sequence of moves {{moves}} is invalid.",
+    },
+    variants: {
+        "#board": {
+            name: "Default 19x19 board",
+        },
+        "size-25": {
+            name: "Larger 25x25 board",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -30,8 +46,7 @@ export class ScaffoldGame extends GameBase {
         playercounts: [2],
         version: "20231209",
         dateAdded: "2023-12-20",
-        // i18next.t("apgames:descriptions.scaffold")
-        description: "apgames:descriptions.scaffold",
+        description: "Scaffold is a drawless connection game played on the intersections of a square grid using stones (as in Go). Black is trying to connect N-S edges of the board, White E-W with an orthogonally connected group. On your turn, place a stone of your color on an empty point. Then, if possible, place a stone of your color on an empty point that is orthogonally adjacent to two groups of your color, and keep making such placements until no more are possible.",
         urls: ["https://boardgamegeek.com/boardgame/360432/scaffold"],
         bggid: "360432",
         people: [
@@ -332,7 +347,7 @@ export class ScaffoldGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): ScaffoldGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -545,3 +560,4 @@ export class ScaffoldGame extends GameBase {
         return new ScaffoldGame(this.serialize());
     }
 }
+

@@ -4,6 +4,31 @@ import { APRenderRep, Colourfuncs } from "@abstractplay/renderer/build/schemas/s
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, SquareGraph, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a man to run or to dribble, or select the ball to kick it.",
+        ERROR_SELECT: "Select either a friendly piece or the ball!",
+        MAN_INSTRUCTIONS: "The selected man can run to an empty adjacent cell, or select the ball (if adjacent) to dribble with it",
+        BALL_INSTRUCTIONS: "Now selected an adjacent friendly man to kick the ball in the opposite direction",
+        ERROR_KICK_DRIBBLE: "Either (a) select a man to run, (b) select a man and then select the adjacent ball, or (c) select the ball and then an adjacent man!",
+        DRIBBLE_INSTRUCTIONS: "Click an adjacent empty cell from the man to move both man and ball in that direction (those cells must be both empty). It is also possible for the ball (or man) to move into the man's (or ball's) current position (if the other moves to an empty cell).",
+        DRIBBLE_SWAP_INSTRUCTIONS: "Click an adjacent empty cell from the man to move both man and ball in that direction (those cells must be both empty). It is also possible for the ball (or man) to move into the man's (or ball's) current position (if the other moves to an empty cell), or select the man again to swap the ball with it.",
+        KICK_INSTRUCTIONS: "Click an empty cell in the opposite direction of the man to move the ball. Notice that the ball cannot jump over other pieces.",
+    },
+    variants: {
+        "#board": {
+            name: "7x7 board (5 men)",
+        },
+        original: {
+            name: "8x8 board (6 men)",
+        },
+        swap: {
+            name: "includes swap dribble",
+        },
+        "#ruleset": { name: "Default ruleset" }
+    },
+};
+
 
 export type playerid = 1 | 2 | 3; // 3 is the ball
 
@@ -25,10 +50,8 @@ export class SoccolotGame extends GameBase {
         playercounts: [2],
         version: "20260509",
         dateAdded: "2026-05-27",
-        // i18next.t("apgames:descriptions.soccolot")
-        description: "apgames:descriptions.soccolot",
-        // i18next.t("apgames:notes.soccolot")
-        notes: "apgames:notes.soccolot",
+        description: "Use your team to run, dribble, and kick the ball into the opponent's home row.",
+        notes: "Soccolot is a 1972 game by David Wilson. The original game was played on a 8x8 board with six men per team. Players can move or can interact with the ball either by shooting it (kick) or by moving it together with one team men (dribble). There is a constant struggle to gain control of the board and to find an opening to move or shoot the ball to the opponent's home row. The main variant is faster, played on a 7x7 board for better piece interaction. Robert A. Kraus implemented both variants for [Zillions](https://www.zillions-of-games.com/cgi-bin/zilligames/submissions.cgi?do=show;id=802).",
         urls: [
             "https://www.zillions-of-games.com/cgi-bin/zilligames/submissions.cgi?do=show;id=802"
         ],
@@ -385,7 +408,7 @@ export class SoccolotGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SoccolotGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -581,3 +604,4 @@ export class SoccolotGame extends GameBase {
         return new SoccolotGame(this.serialize());
     }
 }
+

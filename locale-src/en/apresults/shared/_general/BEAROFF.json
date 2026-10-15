@@ -1,0 +1,9 @@
+{
+  "_general": {
+    "BEAROFF": {
+      "complete_one": "{{player}} bore off one piece from {{from}}.",
+      "complete_other": "{{player}} bore off {{count}} pieces from {{from}}.",
+      "nowhat": "{{player}} bore off from {{from}}."
+    }
+  }
+}

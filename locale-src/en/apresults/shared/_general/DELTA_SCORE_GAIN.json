@@ -1,0 +1,6 @@
+{
+  "_general": {
+    "DELTA_SCORE_GAIN_one": "{{player}} gained {{delta}} point.",
+    "DELTA_SCORE_GAIN_other": "{{player}} gained {{delta}} points."
+  }
+}

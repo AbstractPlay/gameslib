@@ -5,6 +5,33 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, HexTriGraph } from "../common/index.js";
 import { HexDir } from "../common/graphs/hextri.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a friendly piece and use it to jump over another piece, or pass your turn.",
+        INSTRUCTIONS: "An action is either a backward movement to an adjacent empty cell or a sequence of short-jumps over pieces of either color. The sequence of jumps must start inside the player's home-base. Each player makes two actions or just passes their turn.",
+        NEXT_ACTION: "After moving the first piece, just click on the second stone to start moving or jumping.",
+        INCOMPLETE_ACTION: "The first piece did not move; cannot start moving the second piece yet!",
+        NONEXISTENT: "Trying to interact with a friendly piece that doesn't exist at {{where}}!",
+        ILLEGAL_JUMP: "The sequence of jumps must start inside the player's home-base!",
+        TOO_MANY_ACTIONS: "This number of actions is not allowed; only one action is allowed at first, then two.",
+        BAD_MOVE: "This movement is illegal!",
+    },
+    variants: {
+        "#board": {
+            name: "Hexagonal board (base-6)",
+        },
+        "size-8": {
+            name: "Hexagonal board (base-8)",
+        },
+        "size-11": {
+            name: "Hexagonal board (base-11)",
+        },
+        "size-13": {
+            name: "Hexagonal board (base-13)",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -26,10 +53,8 @@ export class HalmaClimbersGame extends GameBase {
         playercounts: [2],
         version: "20260514",
         dateAdded: "2026-05-27",
-        // i18next.t("apgames:descriptions.halmaclimbers")
-        description: "apgames:descriptions.halmaclimbers",
-        // i18next.t("apgames:notes.halmaclimbers")
-        notes: "apgames:notes.halmaclimbers",
+        description: "An original scoring game inspired by Halma movement dynamics.",
+        notes: "Halma Climbers was designed by Alexander Brady in 2021.\n\nThis implementation allows players to move at will, rather than restricting them to moves that strictly increase the overall score (as mentioned in David Ploog's [ruleset](https://blackandwhite.develz.org/games/HalmaClimbers.pdf)). This design choice removes the burden of checking multiple move combinations just to find out that no more moves exist that increase the overall score. This also prevents the software from having to compute an excessive number of permutations, which can be quite high given the two-action turn structure and complex jump sequences. The game ends when both players pass their turns consecutively, or if the previous player evacuates their own area, or if the current player does not have forward jumps available.",
         urls: [
             "https://boardgamegeek.com/thread/2750218",
             "https://blackandwhite.develz.org/games/HalmaClimbers.pdf",
@@ -447,7 +472,7 @@ export class HalmaClimbersGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): HalmaClimbersGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -750,3 +775,4 @@ export class HalmaClimbersGame extends GameBase {
         return new HalmaClimbersGame(this.serialize());
     }
 }
+

@@ -4,6 +4,42 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema"
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        CANNOT_PLACE: "{{where}} is not a valid place to put a ball.",
+        INITIAL_INSTRUCTIONS: "Select a space to a ball of your colour, or a neutral ball before placing ball of your colour.",
+        PLACE_PLAYER: "Complete your turn to have a ball of your colour at {{where}}, or select another space to place a ball of your colour.",
+        PLACE_PLAYER_MANDATORY: "Select another space to place a ball of your colour.",
+        TOO_MANY_MOVES: "You may only place up to two balls on your turn.",
+        VIOLATES_BOTH: "Placement at {{where}} is illegal for both the neutral ball and the ball of your colour.",
+        VIOLATES_NEUTRAL_L: "You may not place a neutral ball at {{where}} because it creates 3 neutral balls in a 2x2 area.",
+        VIOLATES_NEUTRAL_PLATFORM: "You may not place a neutral ball at {{where}} because platform has two neutral balls.",
+        VIOLATES_PLAYER_L: "You may not place a ball of your colour at {{where}} because it creates 3 balls of your colour in a 2x2 area.",
+        VIOLATES_PLAYER_PLATFORM: "You may not place a ball of your colour at {{where}} because platform has two balls of your colour.",
+    },
+    variants: {
+        "#board": {
+            name: "4x4 board",
+        },
+        "size-5": {
+            name: "5x5 board",
+        },
+    },
+    displays: {
+        "orb-3d": {
+            description: "Use plain 3D orb textures.",
+            name: "3D orbs",
+        },
+    },
+};
+export const gameApresultsEn = {
+    PLACE: {
+        neutral: "{{player}} placed a neutral ball at {{where}}.",
+        player: "{{player}} placed a ball of their colour at {{where}}.",
+    },
+};
+
+
 
 type playerid = 1 | 2 | 3;
 
@@ -29,10 +65,8 @@ export class SpireGame extends GameBase {
         playercounts: [2],
         version: "20240602",
         dateAdded: "2024-06-08",
-        // i18next.t("apgames:descriptions.spire")
-        description: "apgames:descriptions.spire",
-        // i18next.t("apgames:notes.spire")
-        notes: "apgames:notes.spire",
+        description: "On your turn, either place a ball of your colour, or place a neutral ball and then place a ball of your colour. No 2x2 area square of balls may include more than 2 like-coloured balls, and a ball of a colour cannot be placed on a platform containing two balls of that colour. The first player to run out of moves loses.",
+        notes: "In this implementation, if you select only one space, it assumes that you placed the ball of your colour, and if you select two spaces, the first space is for the neutral ball and the second space is for the ball of your colour. If the first click is on a space where only one of the neutral ball or the ball of your colour is valid, it will automatically commit that ball.",
         urls: ["https://boardgamegeek.com/boardgame/113641/spire"],
         bggid: "113641",
         people: [
@@ -522,7 +556,7 @@ export class SpireGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SpireGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -756,9 +790,9 @@ export class SpireGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.who === 3) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.spire_neutral", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spire.PLACE.neutral", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.spire_player", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spire.PLACE.player", { where: r.where! });
                 }
                 return true;
             default:
@@ -771,3 +805,4 @@ export class SpireGame extends GameBase {
         return new SpireGame(this.serialize());
     }
 }
+

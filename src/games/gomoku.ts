@@ -5,6 +5,44 @@ import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { InARowBase } from "./in_a_row/InARowBase.js";
 import { APRenderRep } from "@abstractplay/renderer";
+export const gameApgamesEn = {
+    variants: {
+        "#board": {
+            name: "Default 15x15 board",
+        },
+        "#opening": {
+            description: "The first player has to place their first stone in the centre of the board, and their second stone at least three intersections away from the centre.",
+            name: "Pro opening",
+        },
+        "#tiebreaker": {
+            name: "No tiebreak",
+        },
+        "long-pro": {
+            description: "The first player has to place their first stone in the centre of the board, and their second stone at least four intersections away from the centre.",
+            name: "Long pro opening",
+        },
+        pass: {
+            description: "After the opening phase, a player may pass instead of make a move to win the tiebreaker. If the board is filled without a winner, the player who passed wins. If no player passed, second player wins.",
+            name: "Pass tiebreak",
+        },
+        "standard-19": {
+            name: "Standard 19x19 board",
+        },
+        "swap-1st": {
+            description: "The first player places a stone anywhere on the board. The next player has the option to swap colours.",
+            name: "Swap-1st opening",
+        },
+        "swap-2": {
+            description: "The first player places three stones. The next player may do one of (1) place a single stone to continue as player 2, (2) swap colours to play as player 1, or (3) place two more stones and allow the opponent to decide to play as player 1 or player 2.",
+            name: "Swap-2 opening",
+        },
+        "swap-5": {
+            description: "For the first five stones on the board, after placement, the next player has the option to swap colours.",
+            name: "Swap-5 opening",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 
@@ -29,8 +67,7 @@ export class GomokuGame extends InARowBase {
         playercounts: [2],
         version: "20240328",
         dateAdded: "2024-04-20",
-        // i18next.t("apgames:descriptions.gomoku")
-        description: "apgames:descriptions.gomoku",
+        description: "A classic game where you try to get exactly five stones in a row. Six in a row does not count as a win. The game ends in a draw if no player gets a five-in-a-row or on two consecutive passes.",
         urls: ["https://boardgamegeek.com/boardgame/11929/go-moku"],
         bggid: "11929",
         people: [
@@ -374,7 +411,7 @@ export class GomokuGame extends InARowBase {
             }
             if (duplicates.size > 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation._inarow.DUPLICATE", { where: [...duplicates].join(",") });
+                result.message = i18next.t("apgames:validation._general.DUPLICATE", { where: [...duplicates].join(",") });
                 return result;
             }
         }
@@ -441,13 +478,13 @@ export class GomokuGame extends InARowBase {
         const regex = new RegExp(`^([a-z]+[1-9][0-9]*)(,[a-z]+[1-9][0-9]*)*$`);
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._inarow.INVALID_PLACEMENT", {move: m});
+            result.message = i18next.t("apgames:validation._general.INVALID_PLACEMENT", {move: m});
             return result;
         }
         const normalised = this.normalisePlacement(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation._inarow.NORMALISE", {normalised});
+            result.message = i18next.t("apgames:validation._general.NORMALISE", {normalised});
             return result;
         }
         result.valid = true;
@@ -458,7 +495,7 @@ export class GomokuGame extends InARowBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): GomokuGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -708,3 +745,4 @@ export class GomokuGame extends InARowBase {
         return new GomokuGame(this.serialize());
     }
 }
+

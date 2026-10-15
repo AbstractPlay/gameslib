@@ -10,6 +10,128 @@ import { CartesianProduct, Permutation, PowerSet } from "js-combinatorics";
 import { UserFacingError } from "../common/index.js";
 import { wng } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        attack: {
+            PARTIAL_NOARGS: "Select a ship to attack.",
+            PARTIAL_ONEARG: "Select the system where the ship is found.",
+        },
+        build: {
+            PARTIAL_NOARGS: "Select the ship you wish to duplicate, or select a ship colour from the global stash (size is irrelevant).",
+            PARTIAL_ONEARG: "Select the system in which to place the new ship.",
+        },
+        catastrophe: {
+            PARTIAL_NOARGS: "Select a star or ship of the overpopulated colour in the affected system.",
+        },
+        discover: {
+            PARTIAL_NOARGS: "Select a ship to move.",
+            PARTIAL_ONEARG: "Select the system where the ship is found.",
+            PARTIAL_THREEARGS: "Give the new system a name.",
+            PARTIAL_TWOARGS: "Select a star from the global stash.",
+        },
+        homeworld: {
+            PARTIAL_NOARGS: "Select your first star from the global stash.",
+            PARTIAL_ONEARG: "Select a second star from the global stash.",
+            PARTIAL_TWOARGS: "Select a colony ship from the global stash.",
+        },
+        INITIAL_INSTRUCTIONS_fresh: "You need to establish a homeworld. Choose a piece from the global stash to be your first star.",
+        INITIAL_INSTRUCTIONS_inprogress: "Click the ship you want to move, build, or trade, or select an enemy ship to attack. Click the 'Sacrifice' button to sacrifice a ship.",
+        move: {
+            PARTIAL_NOARGS: "Select a ship to move.",
+            PARTIAL_ONEARG: "Select the system in which the ship is found.",
+            PARTIAL_TWOARGS: "Select the system you want to move to, or select a piece from the global stash to discover a new system.",
+        },
+        NEW_FRIENDLY_PARTIAL: "To move, click the destination system or the void between systems. To build, click the same ship again. To trade, click a piece of the new colour in the stash.",
+        NEW_MOVE_PARTIAL: "Choose a piece from the global stash to become the new star.",
+        sacrifice: {
+            PARTIAL_NOARGS: "Select the ship to sacrifice.",
+            PARTIAL_ONEARG: "Select the system where the ship is found.",
+        },
+        trade: {
+            PARTIAL_NOARGS: "Select a ship to convert.",
+            PARTIAL_ONEARG: "Select the ship you want to convert.",
+            PARTIAL_TWOARGS: "Select the new colour.",
+        },
+        VALID_W_ACTIONS: "Looks like a valid move, but you still have actions to spend.",
+        CMD_ATK_OWNER: "In games with more than two players, you have to always specify the owner of the ship you are attacking.",
+        CMD_ATK_SELF: "You may not attack yourself.",
+        CMD_ATK_SIZE: "You don't have a ship large enough to attack the ship {{target}}.",
+        CMD_BUILD_TEMPLATE: "You do not have a model from which to build a new ship.",
+        CMD_CATA_INVALID: "There is no overpopulation of {{colour}} in the {{system}} system.",
+        CMD_DISC_DOUBLE: "A system by the name {{name}} has already been charted.",
+        CMD_HOME_COLOURS: "You're requesting a home world with fewer than three technologies available. This is almost never wise. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
+        CMD_HOME_DOUBLE: "You already have a home world.",
+        CMD_HOME_RHO_DIRECT: "Your homeworld is directly connected to your right-hand opponent (none of your homeworld stars are the same size as theirs). This creates what's called a \"microverse,\" and it is not recommended for new players. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
+        CMD_HOME_RHO_SMALL: "You are choosing to put yourself only two jumps away from your right-hand opponent (what's called a \"small\" universe), but it's possible for you to create a \"large\" universe (putting your right-hand opponent at the maximum three jumps away) if you choose one of your opponent's star sizes and the size their homeworld does *not* include. For new players, starting with a large universe is recommended. If you're sure you want a small universe, resubmit the command and put an asterisk (*) at the end of it.",
+        CMD_HOME_SINGLE: "You're requesting a home world with only one star. This puts you at a strong disadvantage. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
+        CMD_HOME_SMALLSHIP: "You are requesting a home world without a large ship. This puts you at a disadvantage. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
+        CMD_HOME_TECHS: "You're requesting a home world that does not contain Green or Blue technologies. This is almost never wise. If you're sure you want to do this, resubmit the command and put an asterisk (*) at the end of it.",
+        CMD_MOVE_CONNECTION: "The systems {{from}} and {{to}} are not connected. You can only travel between systems that do not share any of the same-sized stars.",
+        CMD_NOACTIONS: "You have no actions remaining.",
+        CMD_NOACTIONS_B: "You have no more trade actions remaining.",
+        CMD_NOACTIONS_G: "You have no construction actions remaining.",
+        CMD_NOACTIONS_R: "You do not have any attack actions remaining.",
+        CMD_NOACTIONS_Y: "You have no movement actions remaining.",
+        CMD_NOSYSTEM: "Could not find a system with the name {{system}}.",
+        CMD_NOTECH_B: "You do not have access to refurbishers (BLUE) in this system.",
+        CMD_NOTECH_G: "You do not have access to shipyards (GREEN) in this system.",
+        CMD_NOTECH_R: "You do not have access to weapons technology (RED) in this system.",
+        CMD_NOTECH_Y: "You do not have access to propulsion technology (YELLOW) in this system.",
+        CMD_PARAMETERS: "The wrong number of parameters were provided.",
+        CMD_PASS_FREE: "You may not pass your free action.",
+        CMD_PASS_TOOMANY: "You tried to pass more actions than you have remaining.",
+        CMD_STARSHIP_NAME: "The following ship/star designation could not be understood: {{arg}}.",
+        CMD_TRADE_DOUBLE: "You can't trade a ship for one of the same colour.",
+        CMD_TRADE_NOSIZE: "There is no size {{size}} piece in the colour {{colour}}.",
+        MOVE_MOREACTIONS: "You still have actions to spend.",
+        MOVE_SELFELIMINATE: "You may not eliminate yourself.",
+        MOVE_UNRECOGNIZED: "Unrecognized command: {{cmd}}.",
+        STASH_EMPTY: "The stash has no more {{colour}} pieces left.",
+        SYSTEM_BADNAME: "The system name you requested ({{name}}) is invalid. Names may be no longer than 25 characters, must start with a letter or a number, and may only contain numbers, letters, hyphens, and underscores. No spaces are allowed.",
+        SYSTEM_FULL: "The {{system}} system is full. Home systems can only accommodate 16 ships. Periphery systems can accommodate 24.",
+        SYSTEM_NOSHIP: "Could not find the ship {{ship}} in the {{system}} system.",
+    },
+    variants: {
+        "#rules": {
+            name: "Disallow full passes",
+            description: "You may not pass your free action, but you may pass undesired sacrifice actions",
+        },
+        passFree: {
+            name: "Allow full passing",
+        },
+    },
+};
+export const gameApresultsEn = {
+    BUILD: {
+        build: "{{player}} build a {{what}} in the {{where}} system.",
+    },
+    CAPTURE: {
+        capture: "{{player}} captured a {{what}} in the {{where}} system.",
+    },
+    CATASTROPHE: {
+        catastrophe: "An overpopulation of {{colour}} led to a catastrophe in {{where}}.",
+    },
+    CONVERT: {
+        convert: "{{player}} changed a {{what}} into a {{into}} in the {{where}} system.",
+    },
+    DISCOVER: {
+        discover: "{{player}} discovered a new {{what}} system and named it {{name}}.",
+    },
+    ESTABLISH: {
+        land: "A {{ship}} colony ship belonging to {{player}} has landed in a {{stars}} system.",
+    },
+    MOVE: {
+        fly: "{{player}} flew their {{what}} from {{from}} to {{to}}.",
+    },
+    PASS: {
+        pass: "{{player}} passed an action.",
+    },
+    SACRIFICE: {
+        sacrifice: "{{player}} sacrificed a {{what}} in the {{where}} system.",
+    },
+};
+
+
 
 export type playerid = 1|2|3|4;
 export type Colour = "R"|"B"|"G"|"Y";
@@ -85,10 +207,8 @@ export class HomeworldsGame extends GameBaseSkipTurn {
         playercounts: [2,3,4],
         version: "20211024",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.homeworlds")
-        description: "apgames:descriptions.homeworlds",
-        // i18next.t("apgames:notes.homeworlds")
-        notes: "apgames:notes.homeworlds",
+        description: "An Icehouse game for 2 to 4 players. Players are interstellar civilizations vying for dominance. Each of the four colours of pyramid gives access to different actions. Amass a fleet, explore the galaxy, and ultimately destroy your opponent.",
+        notes: "The win condition is what's called \"Sinister Homeworlds.\" You only win by defeating the opponent to your left. If someone else does that, the game continues, but your left-hand opponent now shifts clockwise. For example, in a four-player game, if I'm South, then I win if I eliminate West. But if the North player ends up eliminating West, the game continues, but now my left-hand opponent is North.",
         urls: [
             "https://www.looneylabs.com/content/homeworlds",
             "http://wunderland.com/WTS/Andy/Games/ILoveHomeworlds.html",
@@ -1026,7 +1146,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
                 default:
                     subResult = {
                         valid: false,
-                        message: i18next.t("apgames:homeworlds.MOVE_UNRECOGNIZED", {cmd})
+                        message: i18next.t("apgames:validation.homeworlds.MOVE_UNRECOGNIZED", {cmd})
                     };
             }
         }
@@ -1089,7 +1209,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;
-                    result.message = i18next.t("apgames:homeworlds.MOVE_SELFELIMINATE");
+                    result.message = i18next.t("apgames:validation.homeworlds.MOVE_SELFELIMINATE");
                     return result;
                 }
             }
@@ -1128,7 +1248,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public move(m: string, {partial = false, trusted = false} = {}): HomeworldsGame {
         if (this.gameover) {
-            throw new UserFacingError(HomeworldsErrors.MOVE_GAMEOVER, i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError(HomeworldsErrors.MOVE_GAMEOVER, i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         /*
          * Valid commands
@@ -1194,7 +1314,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
                     this.cmdPass(...tokens.slice(1));
                     break;
                 default:
-                    throw new UserFacingError(HomeworldsErrors.MOVE_UNRECOGNIZED, i18next.t("apgames:homeworlds.MOVE_UNRECOGNIZED", {cmd}));
+                    throw new UserFacingError(HomeworldsErrors.MOVE_UNRECOGNIZED, i18next.t("apgames:validation.homeworlds.MOVE_UNRECOGNIZED", {cmd}));
             }
         }
         this.lastmove = mFormatted.join(", ");
@@ -1222,7 +1342,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
         // You have to account for all your actions, unless you or your nemesis have been eliminated
         if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0 && !this._mayPass) ) {
             if (! this.eliminated.includes(this.player2seat()) && ! this.eliminated.includes(LHO!)) {
-                throw new UserFacingError(HomeworldsErrors.MOVE_MOREACTIONS, i18next.t("apgames:homeworlds.MOVE_MOREACTIONS"));
+                throw new UserFacingError(HomeworldsErrors.MOVE_MOREACTIONS, i18next.t("apgames:validation.homeworlds.MOVE_MOREACTIONS"));
             }
         }
 
@@ -1235,7 +1355,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
                 this.winner = [1, 2];
                 this.results.push({type: "winners", players: [...this.winner]});
             } else {
-                throw new UserFacingError(HomeworldsErrors.MOVE_SELFELIMINATE, i18next.t("apgames:homeworlds.MOVE_SELFELIMINATE"));
+                throw new UserFacingError(HomeworldsErrors.MOVE_SELFELIMINATE, i18next.t("apgames:validation.homeworlds.MOVE_SELFELIMINATE"));
             }
         } else if ( (this.eliminated.length > 0) && (this.eliminated.includes(LHO!)) ) {
             this.gameover = true;
@@ -1268,14 +1388,14 @@ export class HomeworldsGame extends GameBaseSkipTurn {
         const home = this.systems.find(s => s.owner === this.player2seat());
         args = args.map(a => a.toUpperCase());
         if (home !== undefined) {
-            throw new UserFacingError(HomeworldsErrors.CMD_HOME_DOUBLE, i18next.t("apgames:homeworlds.CMD_HOME_DOUBLE"));
+            throw new UserFacingError(HomeworldsErrors.CMD_HOME_DOUBLE, i18next.t("apgames:validation.homeworlds.CMD_HOME_DOUBLE"));
         }
         if (args.length < 3) {
-            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:validation.homeworlds.CMD_PARAMETERS"));
         }
         for (const arg of args) {
             if ( (arg !== "*") && (arg !== "-") && (! arg.match(/^[RBGY][123]$/)) ) {
-                throw new UserFacingError(HomeworldsErrors.CMD_STARSHIP_NAME, i18next.t("apgames:homeworlds.CMD_STARSHIP_NAME", {arg}));
+                throw new UserFacingError(HomeworldsErrors.CMD_STARSHIP_NAME, i18next.t("apgames:validation.homeworlds.CMD_STARSHIP_NAME", {arg}));
             }
         }
         let overridden = false;
@@ -1284,18 +1404,18 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             overridden = true;
         }
         if ( (! overridden) && (args.includes("-")) ) {
-            throw new UserFacingError(HomeworldsErrors.CMD_HOME_SINGLE, i18next.t("apgames:homeworlds.CMD_HOME_SINGLE"));
+            throw new UserFacingError(HomeworldsErrors.CMD_HOME_SINGLE, i18next.t("apgames:validation.homeworlds.CMD_HOME_SINGLE"));
         }
         if ( (! overridden) && (! args[2].endsWith("3")) ) {
-            throw new UserFacingError(HomeworldsErrors.CMD_HOME_SMALLSHIP, i18next.t("apgames:homeworlds.CMD_HOME_SMALLSHIP"));
+            throw new UserFacingError(HomeworldsErrors.CMD_HOME_SMALLSHIP, i18next.t("apgames:validation.homeworlds.CMD_HOME_SMALLSHIP"));
         }
         const colours = args.filter(a => a.length === 2).map(a => a[0]);
         const unique = colours.filter((value, index) => colours.indexOf(value) === index)
         if ( (! overridden) && (unique.length < 3) ) {
-            throw new UserFacingError(HomeworldsErrors.CMD_HOME_COLOURS, i18next.t("apgames:homeworlds.CMD_HOME_COLOURS"));
+            throw new UserFacingError(HomeworldsErrors.CMD_HOME_COLOURS, i18next.t("apgames:validation.homeworlds.CMD_HOME_COLOURS"));
         }
         if ( (! overridden) && ( (! unique.includes("B")) || (! unique.includes("G")) ) ) {
-            throw new UserFacingError(HomeworldsErrors.CMD_HOME_TECHS, i18next.t("apgames:homeworlds.CMD_HOME_TECHS"));
+            throw new UserFacingError(HomeworldsErrors.CMD_HOME_TECHS, i18next.t("apgames:validation.homeworlds.CMD_HOME_TECHS"));
         }
 
         const separated: ([Colour, Size]|"-")[] = args.map((a) => {
@@ -1329,11 +1449,11 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             const mine = system.stars.map(s => s[1]).sort();
             const overlap = mine.filter(s => theirs.includes(s)).length;
             if ( (! overridden) && (overlap === 0) ) {
-                throw new UserFacingError(HomeworldsErrors.CMD_HOME_RHO_DIRECT, i18next.t("apgames:homeworlds.CMD_HOME_RHO_DIRECT"));
+                throw new UserFacingError(HomeworldsErrors.CMD_HOME_RHO_DIRECT, i18next.t("apgames:validation.homeworlds.CMD_HOME_RHO_DIRECT"));
             }
             const canLarge = ( (theirs.length === 2) && (theirs[0] !== theirs[1]) );
             if ( (! overridden) && (canLarge) && (overlap === 2) ) {
-                throw new UserFacingError(HomeworldsErrors.CMD_HOME_RHO_SMALL, i18next.t("apgames:homeworlds.CMD_HOME_RHO_SMALL"));
+                throw new UserFacingError(HomeworldsErrors.CMD_HOME_RHO_SMALL, i18next.t("apgames:validation.homeworlds.CMD_HOME_RHO_SMALL"));
             }
         }
 
@@ -1352,7 +1472,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
         args = args.map(a => a.toUpperCase());
         if (home !== undefined) {
             result.valid = false;
-            result.message = i18next.t("apgames:homeworlds.CMD_HOME_DOUBLE");
+            result.message = i18next.t("apgames:validation.homeworlds.CMD_HOME_DOUBLE");
             return result;
         }
         if (args.length < 3) {
@@ -1360,7 +1480,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             for (const arg of args) {
                 if ( (arg !== "*") && (arg !== "-") && (! arg.match(/^[RBGY][123]$/)) ) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_STARSHIP_NAME", {arg});
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_STARSHIP_NAME", {arg});
                     return result;
                 }
             }
@@ -1385,7 +1505,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             for (const arg of args) {
                 if ( (arg !== "*") && (arg !== "-") && (! arg.match(/^[RBGY][123]$/)) ) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_STARSHIP_NAME", {arg});
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_STARSHIP_NAME", {arg});
                     return result;
                 }
             }
@@ -1396,12 +1516,12 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             }
             if ( (! overridden) && (args.includes("-")) ) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_HOME_SINGLE");
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_HOME_SINGLE");
                 return result;
             }
             if ( (! overridden) && (! args[2].endsWith("3")) ) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_HOME_SMALLSHIP");
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_HOME_SMALLSHIP");
                 return result;
             }
 
@@ -1409,12 +1529,12 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             const unique = colours.filter((value, index) => colours.indexOf(value) === index)
             if ( (! overridden) && (unique.length < 3) ) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_HOME_COLOURS");
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_HOME_COLOURS");
                 return result;
             }
             if ( (! overridden) && ( (! unique.includes("B")) || (! unique.includes("G")) ) ) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_HOME_TECHS");
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_HOME_TECHS");
                 return result;
             }
 
@@ -1451,13 +1571,13 @@ export class HomeworldsGame extends GameBaseSkipTurn {
                 const overlap = mine.filter(s => theirs.includes(s)).length;
                 if ( (! overridden) && (overlap === 0) ) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_HOME_RHO_DIRECT");
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_HOME_RHO_DIRECT");
                     return result;
                 }
                 const canLarge = ( (theirs.length === 2) && (theirs[0] !== theirs[1]) );
                 if ( (! overridden) && (canLarge) && (overlap === 2) ) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_HOME_RHO_SMALL");
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_HOME_RHO_SMALL");
                     return result;
                 }
             }
@@ -1474,7 +1594,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
     private cmdDiscover(...args: string[]): HomeworldsGame {
         // discover ship fromSystem star newName
         if (args.length < 4) {
-            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:validation.homeworlds.CMD_PARAMETERS"));
         }
         // eslint-disable-next-line prefer-const
         let [ship, fromSystem, newStar, newName] = args;
@@ -1488,27 +1608,27 @@ export class HomeworldsGame extends GameBaseSkipTurn {
 
         const oldSystem = this.systems.find(sys => sys.name.toLowerCase() === fromSystem.toLowerCase());
         if (oldSystem === undefined) {
-            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: fromSystem}));
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: fromSystem}));
         }
 
         if (this.actions.Y === 0) {
             if (this.actions.free === 0) {
-                throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "Y"}));
+                throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:validation.homeworlds.CMD_NOACTIONS", {context: "Y"}));
             } else if (! oldSystem.hasTech("Y", this.player2seat())) {
-                throw new UserFacingError(HomeworldsErrors.CMD_NOTECH, i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "Y"}));
+                throw new UserFacingError(HomeworldsErrors.CMD_NOTECH, i18next.t("apgames:validation.homeworlds.CMD_NOTECH", {context: "Y"}));
             }
         }
         this.spendAction("Y");
 
         if (! System.nameValid(newName)) {
-            throw new UserFacingError(HomeworldsErrors.SYSTEM_BADNAME, i18next.t("apgames:homeworlds.SYSTEM_BADNAME", {name: newName}));
+            throw new UserFacingError(HomeworldsErrors.SYSTEM_BADNAME, i18next.t("apgames:validation.homeworlds.SYSTEM_BADNAME", {name: newName}));
         }
         const names = this.systems.map(sys => sys.name.toLowerCase());
         if (names.includes(newName.toLowerCase())) {
-            throw new UserFacingError(HomeworldsErrors.CMD_DISC_DOUBLE, i18next.t("apgames:homeworlds.CMD_DISC_DOUBLE", {name: newName}));
+            throw new UserFacingError(HomeworldsErrors.CMD_DISC_DOUBLE, i18next.t("apgames:validation.homeworlds.CMD_DISC_DOUBLE", {name: newName}));
         }
         if (! oldSystem.hasShip(ship)) {
-            throw new UserFacingError(HomeworldsErrors.SYSTEM_NOSHIP, i18next.t("apgames:homeworlds.SYSTEM_NOSHIP", {ship, system: oldSystem.name}));
+            throw new UserFacingError(HomeworldsErrors.SYSTEM_NOSHIP, i18next.t("apgames:validation.homeworlds.SYSTEM_NOSHIP", {ship, system: oldSystem.name}));
         }
 
         // Allocate star
@@ -1528,7 +1648,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
         // Instantiate system
         const newSystem = new System(newName, [starObj]);
         if (! oldSystem.isConnected(newSystem)) {
-            throw new UserFacingError(HomeworldsErrors.CMD_MOVE_CONNECTION, i18next.t("apgames:homeworlds.CMD_MOVE_CONNECTION", {from: oldSystem.name, to: newSystem.name}));
+            throw new UserFacingError(HomeworldsErrors.CMD_MOVE_CONNECTION, i18next.t("apgames:validation.homeworlds.CMD_MOVE_CONNECTION", {from: oldSystem.name, to: newSystem.name}));
         }
         newSystem.dock(shipObj);
         this.addSystem(newSystem);
@@ -1554,17 +1674,17 @@ export class HomeworldsGame extends GameBaseSkipTurn {
                 const oldSystem = this.systems.find(sys => sys.name.toLowerCase() === fromSystem.toLowerCase());
                 if (oldSystem === undefined) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: fromSystem});
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: fromSystem});
                     return result;
                 }
                 if (this.actions.Y === 0) {
                     if (this.actions.free === 0) {
                         result.valid = false;
-                        result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "Y"});
+                        result.message = i18next.t("apgames:validation.homeworlds.CMD_NOACTIONS", {context: "Y"});
                         return result;
                     } else if (! oldSystem.hasTech("Y", this.player2seat())) {
                         result.valid = false;
-                        result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "Y"});
+                        result.message = i18next.t("apgames:validation.homeworlds.CMD_NOTECH", {context: "Y"});
                         return result;
                     }
                 }
@@ -1602,18 +1722,18 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             const oldSystem = this.systems.find(sys => sys.name.toLowerCase() === fromSystem.toLowerCase());
             if (oldSystem === undefined) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: fromSystem});
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: fromSystem});
                 return result;
             }
 
             if (this.actions.Y === 0) {
                 if (this.actions.free === 0) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "Y"});
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_NOACTIONS", {context: "Y"});
                     return result;
                 } else if (! oldSystem.hasTech("Y", this.player2seat())) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "Y"});
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_NOTECH", {context: "Y"});
                     return result;
                 }
             }
@@ -1621,24 +1741,24 @@ export class HomeworldsGame extends GameBaseSkipTurn {
 
             if (! System.nameValid(newName)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.SYSTEM_BADNAME", {name: newName});
+                result.message = i18next.t("apgames:validation.homeworlds.SYSTEM_BADNAME", {name: newName});
                 return result;
             }
             const names = this.systems.map(sys => sys.name.toLowerCase());
             if (names.includes(newName.toLowerCase())) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_DISC_DOUBLE", {name: newName});
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_DISC_DOUBLE", {name: newName});
                 return result;
             }
             if (! oldSystem.hasShip(ship)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.SYSTEM_NOSHIP", {ship, system: oldSystem.name});
+                result.message = i18next.t("apgames:validation.homeworlds.SYSTEM_NOSHIP", {ship, system: oldSystem.name});
                 return result;
             }
             const newSystem = new System(newName, [starObj]);
             if (! oldSystem.isConnected(newSystem)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_MOVE_CONNECTION", {from: oldSystem.name, to: newSystem.name});
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_MOVE_CONNECTION", {from: oldSystem.name, to: newSystem.name});
                 return result;
             }
 
@@ -1659,7 +1779,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
     private cmdMove(...args: string[]): HomeworldsGame {
         // move ship fromSystem toSystem
         if (args.length < 3) {
-            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:validation.homeworlds.CMD_PARAMETERS"));
         }
         // eslint-disable-next-line prefer-const
         let [ship, fromSystem, toSystem] = args;
@@ -1667,27 +1787,27 @@ export class HomeworldsGame extends GameBaseSkipTurn {
 
         const oldSystem = this.systems.find(sys => sys.name.toLowerCase() === fromSystem.toLowerCase());
         if (oldSystem === undefined) {
-            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: fromSystem}));
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: fromSystem}));
         }
         const newSystem = this.systems.find(sys => sys.name.toLowerCase() === toSystem.toLowerCase());
         if (newSystem === undefined) {
-            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: toSystem}));
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: toSystem}));
         }
         if (! oldSystem.isConnected(newSystem)) {
-            throw new UserFacingError(HomeworldsErrors.CMD_MOVE_CONNECTION, i18next.t("apgames:homeworlds.CMD_MOVE_CONNECTION", {from: fromSystem, to: toSystem}));
+            throw new UserFacingError(HomeworldsErrors.CMD_MOVE_CONNECTION, i18next.t("apgames:validation.homeworlds.CMD_MOVE_CONNECTION", {from: fromSystem, to: toSystem}));
         }
 
         if (this.actions.Y === 0) {
             if (this.actions.free === 0) {
-                throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "Y"}));
+                throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:validation.homeworlds.CMD_NOACTIONS", {context: "Y"}));
             } else if (! oldSystem.hasTech("Y", this.player2seat())) {
-                throw new UserFacingError(HomeworldsErrors.CMD_NOTECH, i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "Y"}));
+                throw new UserFacingError(HomeworldsErrors.CMD_NOTECH, i18next.t("apgames:validation.homeworlds.CMD_NOTECH", {context: "Y"}));
             }
         }
         this.spendAction("Y");
 
         if (! oldSystem.hasShip(ship)) {
-            throw new UserFacingError(HomeworldsErrors.SYSTEM_NOSHIP, i18next.t("apgames:homeworlds.SYSTEM_NOSHIP", {ship}));
+            throw new UserFacingError(HomeworldsErrors.SYSTEM_NOSHIP, i18next.t("apgames:validation.homeworlds.SYSTEM_NOSHIP", {ship}));
         }
 
         // Undock the ship
@@ -1721,23 +1841,23 @@ export class HomeworldsGame extends GameBaseSkipTurn {
                 const oldSystem = this.systems.find(sys => sys.name.toLowerCase() === fromSystem.toLowerCase());
                 if (oldSystem === undefined) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: fromSystem});
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: fromSystem});
                     return result;
                 }
                 if (this.actions.Y === 0) {
                     if (this.actions.free === 0) {
                         result.valid = false;
-                        result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "Y"});
+                        result.message = i18next.t("apgames:validation.homeworlds.CMD_NOACTIONS", {context: "Y"});
                         return result;
                     } else if (! oldSystem.hasTech("Y", this.player2seat())) {
                         result.valid = false;
-                        result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "Y"});
+                        result.message = i18next.t("apgames:validation.homeworlds.CMD_NOTECH", {context: "Y"});
                         return result;
                     }
                 }
                 if (! oldSystem.hasShip(ship)) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.SYSTEM_NOSHIP", {ship});
+                    result.message = i18next.t("apgames:validation.homeworlds.SYSTEM_NOSHIP", {ship});
                     return result;
                 }
             }
@@ -1766,29 +1886,29 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             const oldSystem = this.systems.find(sys => sys.name.toLowerCase() === fromSystem.toLowerCase());
             if (oldSystem === undefined) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: fromSystem});
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: fromSystem});
                 return result;
             }
             const newSystem = this.systems.find(sys => sys.name.toLowerCase() === toSystem.toLowerCase());
             if (newSystem === undefined) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: toSystem});
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: toSystem});
                 return result;
             }
             if (! oldSystem.isConnected(newSystem)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_MOVE_CONNECTION", {from: fromSystem, to: toSystem});
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_MOVE_CONNECTION", {from: fromSystem, to: toSystem});
                 return result;
             }
 
             if (this.actions.Y === 0) {
                 if (this.actions.free === 0) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "Y"});
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_NOACTIONS", {context: "Y"});
                     return result;
                 } else if (! oldSystem.hasTech("Y", this.player2seat())) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "Y"});
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_NOTECH", {context: "Y"});
                     return result;
                 }
             }
@@ -1796,7 +1916,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
 
             if (! oldSystem.hasShip(ship)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.SYSTEM_NOSHIP", {ship});
+                result.message = i18next.t("apgames:validation.homeworlds.SYSTEM_NOSHIP", {ship});
                 return result;
             }
 
@@ -1817,7 +1937,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
     private cmdBuild(...args: string[]): HomeworldsGame {
         // build shipColour inSystem
         if (args.length < 2) {
-            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:validation.homeworlds.CMD_PARAMETERS"));
         }
         // eslint-disable-next-line prefer-const
         let [shipColour, systemName] = args;
@@ -1828,26 +1948,26 @@ export class HomeworldsGame extends GameBaseSkipTurn {
 
         const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
         if (system === undefined) {
-            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName}));
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: systemName}));
         }
 
         if (this.actions.G === 0) {
             if (this.actions.free === 0) {
-                throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "G"}));
+                throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:validation.homeworlds.CMD_NOACTIONS", {context: "G"}));
             } else if (! system.hasTech("G", this.player2seat())) {
-                throw new UserFacingError(HomeworldsErrors.CMD_NOTECH, i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "G"}));
+                throw new UserFacingError(HomeworldsErrors.CMD_NOTECH, i18next.t("apgames:validation.homeworlds.CMD_NOTECH", {context: "G"}));
             }
         }
         this.spendAction("G");
 
         if (! system.ownsShipColour(shipColour as Colour, this.player2seat())) {
-            throw new UserFacingError(HomeworldsErrors.CMD_BUILD_TEMPLATE, i18next.t("apgames:homeworlds.CMD_BUILD_TEMPLATE", {colour: shipColour}));
+            throw new UserFacingError(HomeworldsErrors.CMD_BUILD_TEMPLATE, i18next.t("apgames:validation.homeworlds.CMD_BUILD_TEMPLATE", {colour: shipColour}));
         }
 
         // allocate the ship from the stash
         const newsize = this.stash.takeSmallest(shipColour as Colour);
         if (newsize === undefined) {
-            throw new UserFacingError(HomeworldsErrors.STASH_EMPTY, i18next.t("apgames:homeworlds.STASH_EMPTY", {colour: shipColour}));
+            throw new UserFacingError(HomeworldsErrors.STASH_EMPTY, i18next.t("apgames:validation.homeworlds.STASH_EMPTY", {colour: shipColour}));
         }
         // dock it
         const ship = new Ship(shipColour as Colour, newsize, this.player2seat());
@@ -1882,18 +2002,18 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
             if (system === undefined) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName});
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: systemName});
                 return result;
             }
 
             if (this.actions.G === 0) {
                 if (this.actions.free === 0) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "G"});
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_NOACTIONS", {context: "G"});
                     return result;
                 } else if (! system.hasTech("G", this.player2seat())) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "G"});
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_NOTECH", {context: "G"});
                     return result;
                 }
             }
@@ -1901,7 +2021,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
 
             if (! system.ownsShipColour(shipColour as Colour, this.player2seat())) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_BUILD_TEMPLATE", {colour: shipColour});
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_BUILD_TEMPLATE", {colour: shipColour});
                 return result;
             }
 
@@ -1922,7 +2042,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
     private cmdTrade(...args: string[]): HomeworldsGame {
         // trade oldShip inSystem newColour
         if (args.length < 3) {
-            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:validation.homeworlds.CMD_PARAMETERS"));
         }
         // eslint-disable-next-line prefer-const
         let [oldShip, systemName, newColour] = args;
@@ -1934,18 +2054,18 @@ export class HomeworldsGame extends GameBaseSkipTurn {
 
         const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
         if (system === undefined) {
-            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName}));
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: systemName}));
         }
 
         if (newColour[0] === oldShip[0]) {
-            throw new UserFacingError(HomeworldsErrors.CMD_TRADE_DOUBLE, i18next.t("apgames:homeworlds.CMD_TRADE_DOUBLE"));
+            throw new UserFacingError(HomeworldsErrors.CMD_TRADE_DOUBLE, i18next.t("apgames:validation.homeworlds.CMD_TRADE_DOUBLE"));
         }
 
         if (this.actions.B === 0) {
             if (this.actions.free === 0) {
-                throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "B"}));
+                throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:validation.homeworlds.CMD_NOACTIONS", {context: "B"}));
             } else if (! system.hasTech("B", this.player2seat())) {
-                throw new UserFacingError(HomeworldsErrors.CMD_NOTECH, i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "B"}));
+                throw new UserFacingError(HomeworldsErrors.CMD_NOTECH, i18next.t("apgames:validation.homeworlds.CMD_NOTECH", {context: "B"}));
             }
         }
         this.spendAction("B");
@@ -1975,17 +2095,17 @@ export class HomeworldsGame extends GameBaseSkipTurn {
                 const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
                 if (system === undefined) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName});
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: systemName});
                     return result;
                 }
                 if (this.actions.B === 0) {
                     if (this.actions.free === 0) {
                         result.valid = false;
-                        result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "B"});
+                        result.message = i18next.t("apgames:validation.homeworlds.CMD_NOACTIONS", {context: "B"});
                         return result;
                     } else if (! system.hasTech("B", this.player2seat())) {
                         result.valid = false;
-                        result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "B"});
+                        result.message = i18next.t("apgames:validation.homeworlds.CMD_NOTECH", {context: "B"});
                         return result;
                     }
                 }
@@ -2015,14 +2135,14 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             // system exists
             if (system === undefined) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName});
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: systemName});
                 return result;
             }
 
             // different colour
             if (newColour[0] === oldShip[0]) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_TRADE_DOUBLE");
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_TRADE_DOUBLE");
                 return result;
             }
 
@@ -2030,18 +2150,18 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             const oldSize = parseInt(oldShip[1], 10);
             if (! this.stash.has(newColour as Colour, oldSize as Size)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_TRADE_NOSIZE", {size: oldSize, colour: newColour});
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_TRADE_NOSIZE", {size: oldSize, colour: newColour});
                 return result;
             }
 
             if (this.actions.B === 0) {
                 if (this.actions.free === 0) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "B"});
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_NOACTIONS", {context: "B"});
                     return result;
                 } else if (! system.hasTech("B", this.player2seat())) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "B"});
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_NOTECH", {context: "B"});
                     return result;
                 }
             }
@@ -2064,7 +2184,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
     private cmdAttack(...args: string[]): HomeworldsGame {
         // attack ship inSystem
         if (args.length < 2) {
-            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:validation.homeworlds.CMD_PARAMETERS"));
         }
         // eslint-disable-next-line prefer-const
         let [enemyShip, systemName] = args;
@@ -2074,27 +2194,27 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             enemyShip += this.getRHO();
         }
         if (enemyShip.length !== 3) {
-            throw new UserFacingError(HomeworldsErrors.CMD_ATK_OWNER, i18next.t("apgames:homeworlds.CMD_ATK_OWNER"));
+            throw new UserFacingError(HomeworldsErrors.CMD_ATK_OWNER, i18next.t("apgames:validation.homeworlds.CMD_ATK_OWNER"));
         }
         if (enemyShip[enemyShip.length - 1] === this.player2seat()) {
-            throw new UserFacingError(HomeworldsErrors.CMD_ATK_SELF, i18next.t("apgames:homeworlds.CMD_ATK_SELF"));
+            throw new UserFacingError(HomeworldsErrors.CMD_ATK_SELF, i18next.t("apgames:validation.homeworlds.CMD_ATK_SELF"));
         }
         const enemySize = parseInt(enemyShip[1], 10);
 
         const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
         if (system === undefined) {
-            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName}));
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: systemName}));
         }
 
         if (system.getLargestShip(this.player2seat()) < enemySize) {
-            throw new UserFacingError(HomeworldsErrors.CMD_ATK_SIZE, i18next.t("apgames:homeworlds.CMD_ATK_SIZE", {target: enemyShip}));
+            throw new UserFacingError(HomeworldsErrors.CMD_ATK_SIZE, i18next.t("apgames:validation.homeworlds.CMD_ATK_SIZE", {target: enemyShip}));
         }
 
         if (this.actions.R === 0) {
             if (this.actions.free === 0) {
-                throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "R"}));
+                throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:validation.homeworlds.CMD_NOACTIONS", {context: "R"}));
             } else if (! system.hasTech("R", this.player2seat())) {
-                throw new UserFacingError(HomeworldsErrors.CMD_NOTECH, i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "R"}));
+                throw new UserFacingError(HomeworldsErrors.CMD_NOTECH, i18next.t("apgames:validation.homeworlds.CMD_NOTECH", {context: "R"}));
             }
         }
         this.spendAction("R");
@@ -2131,12 +2251,12 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             }
             if (enemyShip.length !== 3) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_ATK_OWNER");
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_ATK_OWNER");
                 return result;
             }
             if (enemyShip[enemyShip.length - 1] === this.player2seat()) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_ATK_SELF");
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_ATK_SELF");
                 return result;
             }
             const enemySize = parseInt(enemyShip[1], 10);
@@ -2144,24 +2264,24 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
             if (system === undefined) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName});
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: systemName});
                 return result;
             }
 
             if (system.getLargestShip(this.player2seat()) < enemySize) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_ATK_SIZE", {target: enemyShip});
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_ATK_SIZE", {target: enemyShip});
                 return result;
             }
 
             if (this.actions.R === 0) {
                 if (this.actions.free === 0) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS", {context: "R"});
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_NOACTIONS", {context: "R"});
                     return result;
                 } else if (! system.hasTech("R", this.player2seat())) {
                     result.valid = false;
-                    result.message = i18next.t("apgames:homeworlds.CMD_NOTECH", {context: "R"});
+                    result.message = i18next.t("apgames:validation.homeworlds.CMD_NOTECH", {context: "R"});
                     return result;
                 }
             }
@@ -2184,7 +2304,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
     private cmdSacrifice(...args: string[]): HomeworldsGame {
         // sacrifice ship inSystem
         if (args.length < 2) {
-            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:validation.homeworlds.CMD_PARAMETERS"));
         }
         // eslint-disable-next-line prefer-const
         let [myShip, systemName] = args;
@@ -2192,11 +2312,11 @@ export class HomeworldsGame extends GameBaseSkipTurn {
 
         const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
         if (system === undefined) {
-            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName}));
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: systemName}));
         }
 
         if (this.actions.free === 0) {
-            throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:homeworlds.CMD_NOACTIONS"));
+            throw new UserFacingError(HomeworldsErrors.CMD_NOACTIONS, i18next.t("apgames:validation.homeworlds.CMD_NOACTIONS"));
         }
         this.spendAction();
 
@@ -2242,13 +2362,13 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
             if (system === undefined) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName});
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: systemName});
                 return result;
             }
 
             if (this.actions.free === 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_NOACTIONS");
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_NOACTIONS");
                 return result;
             }
             this.spendAction();
@@ -2271,7 +2391,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
     private cmdCatastrophe(...args: string[]): HomeworldsGame {
         // catastrophe inSystem colour
         if (args.length < 2) {
-            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:validation.homeworlds.CMD_PARAMETERS"));
         }
         // eslint-disable-next-line prefer-const
         let [systemName, colour] = args;
@@ -2279,15 +2399,15 @@ export class HomeworldsGame extends GameBaseSkipTurn {
 
         const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
         if (system === undefined) {
-            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName}));
+            throw new UserFacingError(HomeworldsErrors.CMD_NOSYSTEM, i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: systemName}));
         }
 
         // if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0) ) {
-        //     throw new UserFacingError(HomeworldsErrors.CMD_CATA_ACTIONS, i18next.t("apgames:homeworlds.CMD_CATA_ACTIONS"));
+        //     throw new UserFacingError(HomeworldsErrors.CMD_CATA_ACTIONS, i18next.t("apgames:validation.homeworlds.CMD_CATA_ACTIONS"));
         // }
 
         if (! system.canCatastrophe(colour as Colour)) {
-            throw new UserFacingError(HomeworldsErrors.CMD_CATA_INVALID, i18next.t("apgames:homeworlds.CMD_CATA_INVALID", {colour, system: system.name}));
+            throw new UserFacingError(HomeworldsErrors.CMD_CATA_INVALID, i18next.t("apgames:validation.homeworlds.CMD_CATA_INVALID", {colour, system: system.name}));
         }
 
         // Get list of casualties
@@ -2335,19 +2455,19 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             const system = this.systems.find(sys => sys.name.toLowerCase() === systemName.toLowerCase());
             if (system === undefined) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_NOSYSTEM", {system: systemName});
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_NOSYSTEM", {system: systemName});
                 return result;
             }
 
             // if ( (this.actions.R > 0) || (this.actions.B > 0) || (this.actions.G > 0) || (this.actions.Y > 0) || (this.actions.free > 0) ) {
             //     result.valid = false;
-            //     result.message = i18next.t("apgames:homeworlds.CMD_CATA_ACTIONS");
+            //     result.message = i18next.t("apgames:validation.homeworlds.CMD_CATA_ACTIONS");
             //     return result;
             // }
 
             if (! system.canCatastrophe(colour as Colour)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_CATA_INVALID", {colour, system: system.name});
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_CATA_INVALID", {colour, system: system.name});
                 return result;
             }
 
@@ -2368,7 +2488,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
     private cmdPass(...args: string[]): HomeworldsGame {
         // pass number?
         if (args.length > 1) {
-            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:homeworlds.CMD_PARAMETERS"));
+            throw new UserFacingError(HomeworldsErrors.CMD_PARAMETERS, i18next.t("apgames:validation.homeworlds.CMD_PARAMETERS"));
         }
 
         if (this.actions.free > 0) {
@@ -2376,7 +2496,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             const mySeat = this.player2seat();
             const hasHW = this.systems.find(s => s.owner === mySeat) !== undefined;
             if (!varActive || !hasHW) {
-                throw new UserFacingError(HomeworldsErrors.CMD_PASS_FREE, i18next.t("apgames:homeworlds.CMD_PASS_FREE"));
+                throw new UserFacingError(HomeworldsErrors.CMD_PASS_FREE, i18next.t("apgames:validation.homeworlds.CMD_PASS_FREE"));
                 this._mayPass = false;
             } else {
                 this._mayPass = true;
@@ -2403,7 +2523,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
                     } else if (this.actions.Y > 0) {
                         this.actions.Y--;
                     } else {
-                        throw new UserFacingError(HomeworldsErrors.CMD_PASS_TOOMANY, i18next.t("apgames:homeworlds.CMD_PASS_TOOMANY"));
+                        throw new UserFacingError(HomeworldsErrors.CMD_PASS_TOOMANY, i18next.t("apgames:validation.homeworlds.CMD_PASS_TOOMANY"));
                     }
                 }
             }
@@ -2419,7 +2539,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
         // pass number?
         if (args.length > 1) {
             result.valid = false;
-            result.message = i18next.t("apgames:homeworlds.CMD_PARAMETERS");
+            result.message = i18next.t("apgames:validation.homeworlds.CMD_PARAMETERS");
             return result;
         }
 
@@ -2430,7 +2550,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             const hasHW = this.systems.find(s => s.owner === mySeat) !== undefined;
             if (!varActive || !hasHW) {
                 result.valid = false;
-                result.message = i18next.t("apgames:homeworlds.CMD_PASS_FREE");
+                result.message = i18next.t("apgames:validation.homeworlds.CMD_PASS_FREE");
                 return result;
             } else {
                 complete = 0;
@@ -2458,7 +2578,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
                         this.actions.Y--;
                     } else {
                         result.valid = false;
-                        result.message = i18next.t("apgames:homeworlds.CMD_PASS_TOOMANY");
+                        result.message = i18next.t("apgames:validation.homeworlds.CMD_PASS_TOOMANY");
                         return result;
                     }
                 }
@@ -2481,7 +2601,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
     private addSystem(sys: System): HomeworldsGame {
         const names = this.systems.map(s => s.name.toLowerCase());
         if (names.includes(sys.name.toLowerCase())) {
-            throw new UserFacingError(HomeworldsErrors.CMD_DISC_DOUBLE, i18next.t("apgames:homeworlds.CMD_DISC_DOUBLE", {system: sys.name}));
+            throw new UserFacingError(HomeworldsErrors.CMD_DISC_DOUBLE, i18next.t("apgames:validation.homeworlds.CMD_DISC_DOUBLE", {system: sys.name}));
         }
         this.systems.push(sys);
         return this;
@@ -2712,58 +2832,58 @@ export class HomeworldsGame extends GameBaseSkipTurn {
         const { players } = ctx;
         switch (r.type) {
             case "homeworld":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.ESTABLISH", {
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.ESTABLISH.land", {
                     name: r.name!,
                     ship: r.ship!,
                     stars: r.stars!.join("+"),
                 });
                 return true;
             case "discover":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.DISCOVER", {
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.DISCOVER.discover", {
                     name: r.called!,
                     what: r.what!,
                 });
                 return true;
             case "move":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.MOVE", {
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.MOVE.fly", {
                     from: r.from!,
                     to: r.to!,
                     what: r.what!,
                 });
                 return true;
             case "place":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.BUILD", {
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.BUILD.build", {
                     where: r.where!,
                     what: r.what!,
                 });
                 return true;
             case "convert":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.CONVERT", {
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.CONVERT.convert", {
                     what: r.what!,
                     into: r.into!,
                     where: r.where!,
                 });
                 return true;
             case "capture":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.CAPTURE", {
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.CAPTURE.capture", {
                     where: r.where!,
                     what: r.what!,
                 });
                 return true;
             case "sacrifice":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.SACRIFICE", {
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.SACRIFICE.sacrifice", {
                     where: r.where!,
                     what: r.what!,
                 });
                 return true;
             case "catastrophe":
-                this.pushNeutralChatLine(lines, "apresults:homeworlds.CATASTROPHE", {
+                this.pushNeutralChatLine(lines, "apresults:homeworlds.CATASTROPHE.catastrophe", {
                     where: r.where!,
                     colour: r.trigger!,
                 });
                 return true;
             case "pass":
-                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.PASS");
+                this.pushHomeworldsSeatChatLine(lines, seat, players, "apresults:homeworlds.PASS.pass");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -2823,3 +2943,4 @@ export class HomeworldsGame extends GameBaseSkipTurn {
         return true;
     }
 }
+

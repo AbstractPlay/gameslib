@@ -5,6 +5,36 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError, StackSet } from "../common/index.js";
 import { bfsFromNode, dfsFromNode } from 'graphology-traversal';
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        OPTIONAL_FLIP: "You may submit the move as-is, or you may additionally flip an interior stone that is part of a combined group to your colour.",
+        MANDATORY_COUNTERFLIP: "You must flip one of your own edge subgroups in the same group as the flipped stone.",
+    },
+    variants: {
+        "size-4": {
+            name: "Size 4 board",
+        },
+        "size-5": {
+            name: "Size 5 board",
+        },
+        "size-6": {
+            name: "Size 6 board",
+        },
+        "#board": {
+            name: "Size 7 board",
+        },
+        "size-8": {
+            name: "Size 8 board",
+        },
+    },
+    displays: {
+        "hide-interior": {
+            description: "Don't highlight interior stones.",
+            name: "Hide interior stones",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 export type cellcontent = playerid;
@@ -41,8 +71,7 @@ export class SunspotGame extends GameBase {
         playercounts: [2],
         version: "1.0",
         dateAdded: "2025-11-14",
-        // i18next.t("apgames:descriptions.sunspot")
-        description: "apgames:descriptions.sunspot",
+        description: "Form a loop through placing stones and flipping subgroups.",
         urls: ["https://boardgamegeek.com/boardgame/444740/sunspot"],
         bggid: "444740",
         people: [
@@ -441,7 +470,7 @@ export class SunspotGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SunspotGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (!trusted) {
@@ -850,3 +879,4 @@ export class SunspotGame extends GameBase {
         return new SunspotGame(this.serialize());
     }
 };
+

@@ -4,6 +4,78 @@ import { APRenderRep, MarkerFence, MarkerFlood, MarkerLine, RowCol } from "@abst
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BLOCKS_GOAL_one: "Cannot place wall at {{wall}} because it blocks the goal for one of the pieces on the board.",
+        BLOCKS_GOAL_other: "Cannot place wall at {{wall}} because it blocks the goals for one of the pieces on the board.",
+        EXCLUSIVE: "You may only move a piece or place a wall, not both.",
+        INITIAL_INSTRUCTIONS: "Select a piece to move, then place a wall if you have any.",
+        INITIAL_INSTRUCTIONS_EXCLUSIVE: "Select a piece to move or place a wall if you have any.",
+        INITIAL_INSTRUCTIONS_OPTIONAL: "Select a piece to move, then optionally place a wall if you have any.",
+        INSUFFICIENT_HWALL: "You have run out of horizontal walls.",
+        INSUFFICIENT_VWALL: "You have run out of vertical walls.",
+        INVALID_CELL: "The space {{cell}} is not valid.",
+        INVALID_TO: "You may not move the piece from {{from}} to {{to}}.",
+        INVALID_WALL: "The wall {{wall}} is not valid.",
+        MISSING_DASH: "The partial move '{{move}}' is missing a dash.",
+        NO_COMPLETEABLE_WALL: "Partial wall at {{wall}} is not valid because there is no completeable wall.",
+        NO_VALID_MOVES: "The piece at {{where}} has no valid moves to make.",
+        NO_WALL: "You must place a wall",
+        NO_WALL_OPTIONAL: "Place a wall if you wish, otherwise you may complete the move.",
+        OCCUPIED_WALL: "Unable to place a wall at {{wall}} because that space is already occupied.",
+        SELECT_SECOND_WALL: "There are two possible ways to complete the wall from {{wall}}. Select the side you wish to complete.",
+        SELECT_TO: "Select a destination to move to.",
+    },
+    variants: {
+        "#goal": {
+            name: "13x13 board",
+        },
+        "#step-count": {
+            description: "Pieces move two spaces orthogonally or one space diagonally, unless they are adjacent to a goal space, in which case they may move one space orthogonally to the goal. Any opponent piece on the goal will be captured on the winning move.",
+            name: "Double-step",
+        },
+        "#wall-placement": {
+            description: "You must place a wall after moving your piece if you have any in your stash.",
+            name: "Mandatory wall",
+        },
+        "back-rank": {
+            description: "You win by moving one of your pieces to the opponent's back rank. Every piece must be able to reach at least one goal square.",
+            name: "Opponent's back-rank goal",
+        },
+        "exclusive-wall": {
+            description: "On your turn, you may either move a piece or place a wall, but not both.",
+            name: "Exclusive wall",
+        },
+        "optional-wall": {
+            description: "After making a move with one of your pieces, the placement of the wall is optional.",
+            name: "Optional wall",
+        },
+        "single-step": {
+            description: "Pieces move one step orthogonally. If there is an opponent's piece in the way, they may jump over it unless it is the on the goal space, in which case it would just land on the goal, capturing the opponent's piece. In the unlikely event where another opponent's piece is behind the piece to be jumped, that piece is captured.",
+            name: "Single-step",
+        },
+    },
+    displays: {
+        "differentiated-walls": {
+            description: "Display walls placed by each player in different colours.",
+            name: "Differentated walls",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{player}} captured a blocking piece at {{where}}.",
+    },
+    MOVE: {
+        default: "{{player}} moved a piece from {{from}} to {{to}}.",
+    },
+    PLACE: {
+        h: "{{player}} placed a horizontal fence at {{where}}.",
+        v: "{{player}} placed a vertical fence at {{where}}.",
+    },
+};
+
+
 
 type playerid = 1|2;
 const columnLabels = "abcdefghijklmnopqrstuvwxyz".split("");
@@ -29,8 +101,7 @@ export class BlockadeGame extends GameBase {
         playercounts: [2],
         version: "20240227",
         dateAdded: "2024-03-10",
-        // i18next.t("apgames:descriptions.blockade")
-        description: "apgames:descriptions.blockade",
+        description: "Blockade (also known as Cul-de-sac) is a 'beat the barrier' game where you get one of your pawns to a starting space of your opponent. Players place 2-wide walls to block each other.",
         urls: ["https://boardgamegeek.com/boardgame/2559/blockade"],
         bggid: "2559",
         people: [
@@ -910,7 +981,7 @@ export class BlockadeGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): BlockadeGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -1134,17 +1205,17 @@ export class BlockadeGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.blockade", { from: r.from!, to: r.to!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blockade.MOVE.default", { from: r.from!, to: r.to!, count: r.count! });
                 return true;
             case "place":
                 if (r.what === "h") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.blockade_h", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blockade.PLACE.h", { where: r.where! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.blockade_v", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blockade.PLACE.v", { where: r.where! });
                 }
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.blockade", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blockade.CAPTURE.default", { where: r.where! });
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -1156,3 +1227,4 @@ export class BlockadeGame extends GameBase {
         return new BlockadeGame(this.serialize());
     }
 }
+

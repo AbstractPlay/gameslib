@@ -4,6 +4,27 @@ import { APRenderRep, BoardBasic, Colourfuncs, MarkerEdge, MarkerFlood } from "@
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, allDirections } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a stack on a cell you control.",
+        PARTIAL: "Select a destination.",
+        RUN_MUST_CAP: "Runs must capture at least one piece.",
+        TOOCLOSE: "When running, stacks must move as far as they can.",
+        TOOFAR_run: "Runs can't extend further than the starting stack can reach.",
+        TOOFAR_slide: "Slides must stop at the first occupied cell.",
+        TOOSMALL_run: "Runs must start with a stack of at least two pieces.",
+        TOOSMALL_slide: "Slides must start with a stack of at least one piece.",
+        WRONGDIR_run: "Runs must move orthogonally.",
+        WRONGDIR_slide: "Slides must move diagonally.",
+    },
+};
+export const gameApresultsEn = {
+    SOW: {
+        default: "{{player}} sowed checkers from {{from}} to {{to}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 
@@ -26,8 +47,7 @@ export class PrudhGame extends GameBase {
         playercounts: [2],
         version: "20240421",
         dateAdded: "2024-04-28",
-        // i18next.t("apgames:descriptions.prudh")
-        description: "apgames:descriptions.prudh",
+        description: "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
         urls: [
             "https://crabfragmentlabs.com/prudh",
             "https://boardgamegeek.com/boardgame/417698/prudh-the-gentlemens-game",
@@ -410,7 +430,7 @@ export class PrudhGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): PrudhGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -689,13 +709,13 @@ export class PrudhGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "sow":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SOW.prudh", {from: r.pits![0], to: r.pits![1]});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:prudh.SOW.default", {from: r.pits![0], to: r.pits![1]});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.multiple", {where: r.where!, count: parseInt(r.what!, 10)});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.multiple", {where: r.where!, count: parseInt(r.what!, 10)});
                 return true;
             case "deltaScore":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:DELTA_SCORE_GAIN", {delta: r.delta!, count: r.delta!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.DELTA_SCORE_GAIN", {delta: r.delta!, count: r.delta!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -707,3 +727,4 @@ export class PrudhGame extends GameBase {
         return new PrudhGame(this.serialize());
     }
 }
+

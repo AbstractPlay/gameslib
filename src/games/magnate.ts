@@ -5,6 +5,98 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { randomInt, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { Card, Multicard, Multideck, cardSortAsc, cardsBasic, cardsExtended, suits } from "../common/decktet/index.js";
+export const gameApgamesEn = {
+    validation: {
+        BUTTON_INSTRUCTIONS: "Click a button to select your next action.",
+        CHOOSE_SUIT_INSTRUCTIONS: "Click the suit token to collect.",
+        CHOICE_BUTTON_INSTRUCTIONS: "Click a highlighted deed card to choose which suit token to collect.",
+        DEEDED_CARD_INSTRUCTIONS: "Click an already deeded card to add tokens to it, or to select your preferred suit.",
+        DISTRICT_INSTRUCTIONS: "Click a district to add your card there.",
+        HAND_CARD_INSTRUCTIONS: "Click a hand card to buy, deed, or sell.",
+        INCOMPLETE_ACTION: "Please complete the previous action before starting another.",
+        INITIAL_BUTTON_INSTRUCTIONS: "Click a button to select your first action.",
+        INVALID_ACTION: "You cannot consume another card from your hand, so you may not take another Buy, Deed, or Build action this turn.",
+        INVALID_DEED_PAYMENT: "You do not have the suit tokens necessary to deed this card.",
+        INVALID_DEED_TWO: "You cannot deed a card of rank 2; just buy it.",
+        INVALID_MOVE: "The action '{{move}}' could not be parsed.",
+        INVALID_OTHER_PAYMENT: "You do not have the selected suit tokens available.",
+        INVALID_PAYMENT: "The selected tokens cannot be used to buy or add to the selected card.",
+        INVALID_PLACEMENT: "The selected card cannot be placed here because no suits match or a deed is already present.",
+        INVALID_SUIT: "The selected suit does not appear on the card.",
+        INVALID_TRADE: "You do not have three tokens of that suit available to trade.",
+        LABEL_BOTH: "{{player}}'s hand and suit tokens",
+        LABEL_DECK: "Cards in deck",
+        LABEL_DISCARDS_NONE: "Discard pile (no shuffles left)",
+        LABEL_DISCARDS_ONE: "Discard pile (one shuffle left)",
+        LABEL_STACKED_DECK: "{{player}}'s deck",
+        LABEL_WARNING: "This is the last round!",
+        MALFORMED_TRADE: "You must choose three tokens of the same suit to begin a trade.",
+        MUST_CHOOSE: "You must choose which deed resources to receive before taking any other actions.",
+        NOT_DEEDED: "The card you selected does not appear to be among your deeded cards.",
+        NOT_IN_HAND: "The card you selected does not appear to be in your hand.",
+        PREFER_SUIT_INSTRUCTIONS: "Click the suit you want to collect if this rank is rolled.",
+        SPEND_INSTRUCTIONS: "Click the suit tokens you want to use.",
+        TOKEN_TRADE_INSTRUCTIONS: "Click the suit you want in exchange."
+    },
+    variants: {
+        courtpawns: {
+            description: "For variety, the roles of pawns and courts may be reversed.",
+            name: "Courts for Pawns",
+        },
+        courts: {
+            description: "Include Courts in the deck. Fully built Courts are worth ten points when scoring districts, but earn no income. They cost ten suit tokens, with the usual deed/buy restrictions of at least one token in each suit.",
+            name: "Courts",
+        },
+        deucey: {
+            description: "Aces normally score one point per card of that suit in the player's own district, including the Ace itself. In this variant, Aces score a point of all matching cards on both sides of the district as well as the Pawn, if applicable.",
+            name: "Acey deucey",
+        },
+        mega: {
+            description: "A scaled-up double-deck version of the game by Greg James, with nine districts, six-card hands, and two card-consuming moves per turn. The double taxation variant is intended to go with this variant.",
+            name: "Mega-Magnate",
+        },
+        stacked: {
+            description: "Mega-Magnate only: to ensure a fair distribution of cards, each player draws from their own complete deck until those decks are exhausted. The discards are shuffled into a single draw deck, once, as usual.",
+            name: "Stacked deck",
+        },
+        taxtax: {
+            description: "Two taxation dice are rolled, so two suits may be taxed. (When they match, only a single suit is taxed.)",
+            name: "Double Taxation",
+        },
+    },
+};
+export const gameApresultsEn = {
+    ADD: {
+        one: "{{player}} added one token to their deeded card {{where}}.",
+        other: "{{player}} added {{count}} tokens to their deeded card {{where}}.",
+    },
+    CAPTURE: {
+        default: "{{whose}} was taxed {{count}} {{where}} tokens.",
+    },
+    CLAIM: {
+        default: "{{who}} gained {{what}}.",
+        initial: "Players collected their Crown resources.",
+    },
+    CONVERT: {
+        deed: "{{player}} completed their deeded card {{what}} in district {{where}}.",
+        trade: "{{player}} traded three {{what}} tokens in for one {{into}}.",
+    },
+    DECKDRAW: {
+        default: "The discards were shuffled.  There are no shuffles remaining.",
+    },
+    PLACE: {
+        buy: "{{player}} bought {{what}} for district {{where}}.",
+        deed_end: "{{player}} completed their deeded card {{what}} in district {{where}}.",
+        deed_start: "{{player}} deeded {{what}} in district {{where}}.",
+        sell: "{{player}} sold {{what}}.",
+    },
+    ROLL: {
+        default: "{{who}} rolled a {{values}}.",
+        eight: "{{who}} rolled an {{values}}.",
+    },
+};
+
+
 
 
 export type playerid = 1|2;
@@ -67,10 +159,8 @@ export class MagnateGame extends GameBase {
         playercounts: [2],
         version: "20260303",
         dateAdded: "2026-03-19",
-        // i18next.t("apgames:descriptions.magnate")
-        description: "apgames:descriptions.magnate",
-        // i18next.t("apgames:notes.magnate")
-        notes: "apgames:notes.magnate",
+        description: "An economic game for the Decktet in which players vie for control of five districts by developing sequences of cards.  Higher ranked cards cost more, but contribute more towards your income (even while only partly developed) and your score. The (taxable) currency of the land is suit tokens, collected by selling unwanted cards, or earned from partly or fully developed cards on a roll of the dice, as in Catan.",
+        notes: "The terminology of some Magnate actions has been altered for clarity and brevity. Completely developing a new property is called the \"Buy\" action; purchasing a deed for a new property is called \"Deed\", developing deeds (that is, adding tokens to a deeded property, whether it results in the deed becoming fully developed or not) is called \"Add\". (Selling a card and trading suit tokens 3 for 1 are unchanged.)\n\nIn order to speed up the process of rolling for resources, there are two additional actions:\n* \"Prefer\" is for setting your preference of which suit token to take when a deed pays out on your opponent's roll. If you do not set an explicit preference, the code will choose the rarer token for you based on your non-crown suits and current supply of tokens. The currently preferred token is circled in the UI, but your personal preference is never visible to the other player.\n* \"Choose\" is a mandatory first action for collecting suit tokens when a deed pays out on your own roll. (In all cases where you need to choose a suit token that is not already among your tokens, you still click on the appropriate token pile.)\n\nBecause you can perform several actions during a ply in any order, there is also an \"Undo\" action to back out your most recent action, whether or not it was complete.\n\nNote that only the final resource die result is displayed, but the distribution of expected outcomes is still that of rolling 2d10 and taking the higher value. Taxation happens when the lower of 2d10 comes up 1; a suit die is rolled (or two, in the double taxation variant), and the suits will be displayed underneath the resource result. The roll is logged at the end of a player's turn, and is attributed to the next player (who would have rolled in the physical game). Except for a \"Choose\", no user action is required; resources are added or removed automatically by the server in between turns.\n\nWhen a player is ahead in a district, the Pawn or Excuse for that district is outlined in that player's color. The first tiebreaker score (total property value) is displayed in parentheses after the district score. The second tiebreaker is total number of tokens remaining.",
         urls: [
             "http://wiki.decktet.com/game:magnate",
             "https://boardgamegeek.com/boardgame/41090/magnate",
@@ -1439,7 +1529,7 @@ export class MagnateGame extends GameBase {
             if (m.length === 0) {
                 result.message = "";
             } else {
-                result.message = i18next.t("apgames:MOVES_GAMEOVER");
+                result.message = i18next.t("apgames:validation._general.MOVES_GAMEOVER");
             }
             return result;
         }
@@ -1765,7 +1855,7 @@ export class MagnateGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): MagnateGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         //Case and spacing are normalized in parseMove.
@@ -2976,8 +3066,8 @@ export class MagnateGame extends GameBase {
                 const whoSeat = (r as { who?: number }).who !== ctx.currplayer ? ctx.defaultSeat : opponentSeat;
                 const who = this.resolveChatPlayerName(whoSeat, ctx.players);
                 const key = (r as { values: number[] }).values[0] === 8
-                    ? "apresults:ROLL.magnate_eight"
-                    : "apresults:ROLL.magnate";
+                    ? "apresults:magnate.ROLL.eight"
+                    : "apresults:magnate.ROLL.default";
                 this.pushNeutralChatLine(lines, key, {
                     values: (r as { values: number[] }).values.join(","),
                     who,
@@ -2986,10 +3076,10 @@ export class MagnateGame extends GameBase {
             }
             case "claim":
                 if (r.how) {
-                    this.pushNeutralChatLine(lines, "apresults:CLAIM.magnate_initial");
+                    this.pushNeutralChatLine(lines, "apresults:magnate.CLAIM.initial");
                 } else {
                     const whoSeat = (r as { who?: number }).who !== ctx.currplayer ? ctx.defaultSeat : opponentSeat;
-                    this.pushNeutralChatLine(lines, "apresults:CLAIM.magnate", {
+                    this.pushNeutralChatLine(lines, "apresults:magnate.CLAIM.default", {
                         what: r.what!,
                         who: this.resolveChatPlayerName(whoSeat, ctx.players),
                     });
@@ -2998,7 +3088,7 @@ export class MagnateGame extends GameBase {
             case "capture":
                 {
                     const whoseSeat = (r as { whose?: number }).whose !== ctx.currplayer ? ctx.defaultSeat : opponentSeat;
-                    this.pushNeutralChatLine(lines, "apresults:CAPTURE.magnate", {
+                    this.pushNeutralChatLine(lines, "apresults:magnate.CAPTURE.default", {
                         count: r.count!,
                         where: r.where!,
                         whose: this.resolveChatPlayerName(whoseSeat, ctx.players),
@@ -3007,39 +3097,39 @@ export class MagnateGame extends GameBase {
                 return true;
             case "place":
                 if (r.where === "discards") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.magnate_sell", { what: r.what! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:magnate.PLACE.sell", { what: r.what! });
                 } else if (r.how === "D") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.magnate_deed_start", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:magnate.PLACE.deed_start", {
                         where: r.where!, what: r.what!,
                     });
                 } else if (r.how === "A") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.magnate_deed_end", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:magnate.PLACE.deed_end", {
                         where: r.where!, what: r.what!,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.magnate_buy", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:magnate.PLACE.buy", {
                         where: r.where!, what: r.what!,
                     });
                 }
                 return true;
             case "add":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ADD.magnate", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:magnate.ADD", {
                     where: r.where!, count: r.num!,
                 });
                 return true;
             case "convert":
                 if (r.into) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.magnate_trade", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:magnate.CONVERT.trade", {
                         what: r.what!, into: r.into,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.magnate_deed", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:magnate.CONVERT.deed", {
                         what: r.what!, where: r.where!,
                     });
                 }
                 return true;
             case "deckDraw":
-                this.pushNeutralChatLine(lines, "apresults:DECKDRAW.magnate");
+                this.pushNeutralChatLine(lines, "apresults:magnate.DECKDRAW.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -3050,3 +3140,4 @@ export class MagnateGame extends GameBase {
         return Object.assign(new MagnateGame(), cloneState(this) as MagnateGame);
     }
 }
+

@@ -6,6 +6,49 @@ import { Direction, RectGrid, reviver, UserFacingError, SquareOrthGraph } from "
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Place a stone on an empty cell. If a pinch capture is made, the capturing player relocates the captured stone to any empty cell of their choosing. If this placement causes the capture of an own-stone, the same player relocates the captured own-stone, and resolves any new capture, if there is one. This process continues until a relocation causes no new capture. If there is no available placement left, the captured stone is removed from the game.",
+        OCCUPIED_CELL: "Only placements on empty cells are valid.",
+        REUSED_CELL: "This cell {{cell}} was already used in this turn. Once the status of a cell changes from occupied to unoccupied, or vice versa, it cannot change again that same turn.",
+        SELF_STONES_TO_PLACE_one: "There is still one friendly captured stone to relocate.",
+        SELF_STONES_TO_PLACE_other: "There are still {{count}} friendly captured stones to relocate.",
+        OPP_STONES_TO_PLACE_one: "There is still one opponent captured stone to relocate.",
+        OPP_STONES_TO_PLACE_other: "There are still {{count}} opponent captured stones to relocate.",
+        SELF_OPP_STONES_TO_PLACE_own_one_opp_one: "There is still one friendly captured stone, and then one adversary stone, to relocate.",
+        SELF_OPP_STONES_TO_PLACE_own_one_opp_other: "There is still one friendly captured stone, and then {{opp}} adversary stones, to relocate.",
+        SELF_OPP_STONES_TO_PLACE_own_other_opp_one: "There are still {{own}} friendly captured stones, and then one adversary stone, to relocate.",
+        SELF_OPP_STONES_TO_PLACE_own_other_opp_other: "There are still {{own}} friendly captured stones, and then {{opp}} adversary stones, to relocate.",
+        OPP_SELF_STONES_TO_PLACE_own_one_opp_one: "There is still one opponent captured stone, and then one friendly stone, to relocate.",
+        OPP_SELF_STONES_TO_PLACE_own_one_opp_other: "There is still one opponent captured stone, and then {{own}} friendly stones, to relocate.",
+        OPP_SELF_STONES_TO_PLACE_own_other_opp_one: "There are still {{opp}} opponent captured stones, and then one friendly stone, to relocate.",
+        OPP_SELF_STONES_TO_PLACE_own_other_opp_other: "There are still {{opp}} opponent captured stones, and then {{own}} friendly stones, to relocate.",
+        INITIAL_INSTRUCTIONS_ORIGINAL: "Place a stone on an empty cell. If a pinch capture is made, the captured stone flips color. This flip might cause subsequent flips, starting a chain-reaction until the board stabilizes.",
+    },
+    variants: {
+        "size-9": {
+            name: "9x9 board",
+        },
+        "size-13": {
+            name: "13x13 board",
+        },
+        "#board": {
+            name: "17x17 board",
+        },
+        "size-19": {
+            name: "19x19 board",
+        },
+        "size-21": {
+            name: "21x21 board",
+        },
+        original: {
+            description: "Captured stones flip color, eventually resulting in more flips.",
+            name: "Flip Pinch",
+        },
+        "#ruleset": { name: "Default ruleset" }
+    },
+};
+
 
 const pinchDualRelocateKey = (base: string, own: number, opp: number): string => {
     const ownPart = own === 1 ? "own_one" : "own_other";
@@ -36,9 +79,8 @@ export class PinchGame extends GameBase {
         playercounts: [2],
         version: "20260423",
         dateAdded: "2026-05-13",
-        // i18next.t("apgames:descriptions.pinch")
-        description: "apgames:descriptions.pinch",
-        notes: "apgames:notes.pinch",
+        description: "Orthogonal connection game where a diagonal of friendly stones can capture adjacent stones that need to be relocated in the same turn. This might result in more relocations starting a chain-reaction.",
+        notes: "Pinch is a 2026 redesign of an original 2019 concept, proposing a new perspective to the orthogonal connection genre. At its core is the **pinch capture**: when two friendly stones flank an enemy piece at a right angle, the captured stone is relocated rather than removed.  This mechanic can trigger a cascade of further relocations, creating a chain-reaction that expands one local capture into changes over multiple sections of the board.",
         urls: [
             "https://docs.google.com/document/d/1uJp0J4AAloGinSVW1JBlIuxtyjHO37HUmSyOAIKj0RU",
             "https://boardgamegeek.com/boardgame/285214/pinch",
@@ -388,7 +430,7 @@ export class PinchGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): PinchGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();

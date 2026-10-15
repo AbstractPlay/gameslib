@@ -5,6 +5,30 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { Piece } from "./fightopia/piece.js";
 import { RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_CAPTURE_pawn: "Pawns can only be captured by opposing tanks if they lie along the tank's long axis and there are no obstructions.",
+        BAD_CAPTURE_tank: "Tanks can only be captured if they are in direct contact with the enemy giant.",
+        INITIAL_INSTRUCTIONS: "Select one of your own pieces to move, or select the opposing piece to capture. If moving/pivoting a tank, it matters which end you click on.",
+        INVALID_PARTIAL: "There are no valid moves based on the cell you clicked.",
+        INVULNERABLE: "Giants may not be captured.",
+        PARTIAL: "Select the destination.",
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        "1": "{{player}} captured a pawn at {{where}}.",
+        "2": "{{player}} captured a tank at {{where}}.",
+    },
+    MOVE: {
+        "1": "{{player}} moved a pawn from {{from}} to {{to}}.",
+        "2": "{{player}} moved a tank from {{from}} to {{to}}.",
+        "4": "{{player}} moved their giant from {{from}} to {{to}}.",
+        pivot: "{{player}} pivoted a tank from {{from}} to {{to}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 
@@ -26,8 +50,7 @@ export class FightopiaGame extends GameBase {
         playercounts: [2],
         version: "20240203",
         dateAdded: "2024-02-04",
-        // i18next.t("apgames:descriptions.fightopia")
-        description: "apgames:descriptions.fightopia",
+        description: "A \"get to your opponent's home row\" game where you have three different sizes of pieces. Each moves and captures differently.",
         urls: [
             "https://crabfragmentlabs.com/s/Fightopia2Pages.pdf",
             "https://boardgamegeek.com/boardgame/12878/fightopia",
@@ -566,7 +589,7 @@ export class FightopiaGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): FightopiaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -784,18 +807,18 @@ export class FightopiaGame extends GameBase {
         switch (r.type) {
             case "move":
                 if (r.how !== undefined) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.fightopia", {
-                        context: "pivot", from: r.from!, to: r.to!,
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:fightopia.MOVE.pivot", {
+                        from: r.from!, to: r.to!,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.fightopia", {
-                        context: r.what!, from: r.from!, to: r.to!,
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:fightopia.MOVE.${r.what!}`, {
+                        from: r.from!, to: r.to!,
                     });
                 }
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.fightopia", {
-                    context: r.what!, where: r.where!,
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:fightopia.CAPTURE.${r.what!}`, {
+                    where: r.where!,
                 });
                 return true;
             default:
@@ -807,3 +830,4 @@ export class FightopiaGame extends GameBase {
         return new FightopiaGame(this.serialize());
     }
 }
+

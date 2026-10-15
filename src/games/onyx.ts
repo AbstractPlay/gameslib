@@ -7,6 +7,46 @@ import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
 import { OnyxGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select an intersection to place a piece",
+        BLOCKED_CENTRE: "You may not place at centre {{where}} because there are pieces in its corners.",
+        NO_CAPTURE: "You have indicated capture, but there is no captures in this move. Try '{{move}}'.",
+        SINGLE_CAPTURE: "This move captures one pair, it has to be suffixed with 'x'. Try '{{move}}'.",
+        DOUBLE_CAPTURE: "This move captures two pairs, it has to be suffixed with 'xx'. Try '{{move}}'.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-12 board",
+        },
+        "#setup": {
+            name: "Open setup",
+        },
+        "size-16": {
+            name: "Size-16 board",
+        },
+        "size-20": {
+            name: "Size-20 board",
+        },
+        "head-start": {
+            name: "Head start",
+            description: "Both players start with two pieces on each opponent's edge.",
+        },
+    },
+    displays: {
+        "hide-threatened": {
+            description: "Don't show threatened pieces.",
+            name: "Hide threatened",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "A pair of pieces was captured at {{where1}} and {{where2}}.",
+    },
+};
+
+
 
 type playerid = 1 | 2;
 type PlayerLines = [string[], string[]];
@@ -30,8 +70,7 @@ export class OnyxGame extends GameBase {
         playercounts: [2],
         version: "20240929",
         dateAdded: "2024-10-06",
-        // i18next.t("apgames:descriptions.onyx")
-        description: "apgames:descriptions.onyx",
+        description: "A connection game on a modified snub-square board with a capture rule.",
         urls: ["https://boardgamegeek.com/boardgame/11375/onyx"],
         bggid: "11375",
         people: [
@@ -287,7 +326,7 @@ export class OnyxGame extends GameBase {
         if (pairs.length === 0) {
             if (xCount > 0) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.onyx.NO_CAPTURES", { move });
+                result.message = i18next.t("apgames:validation.onyx.NO_CAPTURE", { move });
                 return result;
             }
         } else if (pairs.length === 1) {
@@ -335,7 +374,7 @@ export class OnyxGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): OnyxGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -563,11 +602,11 @@ export class OnyxGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "capture": {
                 const [c1, c2] = r.where!.split(",");
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.onyx", {where1: c1!, where2: c2!});
+                this.pushNeutralChatLine(lines, "apresults:onyx.CAPTURE.default", {where1: c1!, where2: c2!});
                 return true;
             }
             default:
@@ -579,3 +618,4 @@ export class OnyxGame extends GameBase {
         return new OnyxGame(this.serialize());
     }
 }
+

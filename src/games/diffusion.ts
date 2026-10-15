@@ -4,6 +4,24 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select any pit to sow.",
+    },
+    variants: {
+        topBottom: {
+            description: "Players own the rows closest to them (as in most mancala games) rather than the left half of the board.",
+            name: "Above/Below",
+        },
+    },
+    displays: {
+        pips: {
+            description: "Display the stones as pips instead of as numerals.",
+            name: "Pips",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -26,8 +44,7 @@ export class DiffusionGame extends GameBase {
         playercounts: [2],
         version: "20231228",
         dateAdded: "2023-12-29",
-        // i18next.t("apgames:descriptions.diffusion")
-        description: "apgames:descriptions.diffusion",
+        description: "Diffusion is a modern mancala-style game where the goal is to empty out your own pits.",
         urls: [
             "https://marksteeregames.com/Diffusion_rules.pdf",
             "https://boardgamegeek.com/boardgame/22326/diffusion",
@@ -241,7 +258,7 @@ export class DiffusionGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): DiffusionGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -435,7 +452,7 @@ export class DiffusionGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "sow":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SOW.general", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.SOW.general", {
                     pits: r.pits!.join(", "), count: r.pits!.length,
                 });
                 return true;
@@ -454,3 +471,4 @@ export class DiffusionGame extends GameBase {
         return [...this.board.map(l => [...l])];
     }
 }
+

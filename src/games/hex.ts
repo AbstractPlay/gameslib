@@ -7,6 +7,32 @@ import i18next from "i18next";
 import { HexSlantedGraph } from "../common/graphs/index.js";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a point to place a piece.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-13 board",
+        },
+        "size-11": {
+            name: "Size-11 board",
+        },
+        "size-14": {
+            name: "Size-14 board",
+        },
+        "size-15": {
+            name: "Size-15 board",
+        },
+        "size-17": {
+            name: "Size-17 board",
+        },
+        "size-19": {
+            name: "Size-19 board",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -31,8 +57,7 @@ export class HexGame extends GameBase {
         playercounts: [2],
         version: "20240101",
         dateAdded: "2024-01-03",
-        // i18next.t("apgames:descriptions.hex")
-        description: "apgames:descriptions.hex",
+        description: "In Hex, two players attempt to connect opposite sides of a rhombus-shaped board made of hexagonal cells",
         urls: [
             "https://en.wikipedia.org/wiki/Hex_(board_game)",
             "https://boardgamegeek.com/boardgame/4112/hex",
@@ -262,7 +287,7 @@ export class HexGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): HexGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -445,3 +470,4 @@ export class HexGame extends GameBase {
         return new HexGame(this.serialize());
     }
 }
+

@@ -4,6 +4,32 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema"
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, allDirections, Direction } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INCORRECT_DISTANCE: "Pieces must move a number of spaces equal to the height of its stack orthogonally or diagonally.",
+        INITIAL_INSTRUCTIONS: "Select a piece to move.",
+        PARTIAL: "Select a destination.",
+        TOOFAR: "You cannot bear off from here.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-8 board",
+        },
+        "size-9": {
+            name: "Size-9 board",
+        },
+    },
+    status: {
+        MOVESUNTILSUICIDE: "Moves until suicide",
+    },
+};
+export const gameApresultsEn = {
+    PROMOTE: {
+        default: "{{player}} has a new king crowned at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 type CellContents = [playerid, number];
@@ -221,10 +247,8 @@ export class LielowGame extends GameBase {
         playercounts: [2],
         version: "20231224",
         dateAdded: "2023-12-24",
-        // i18next.t("apgames:descriptions.lielow")
-        description: "apgames:descriptions.lielow",
-        // i18next.t("apgames:notes.lielow")
-        notes: "apgames:notes.lielow",
+        description: "A wartime tale of Machiavellian usurpership. You win if your piece lands on your opponent's king. You also win if your opponent chooses to move their king off the board.",
+        notes: "\"Moves until suicide\" totals for each player how many moves each of their stacks could still make — growing by one each move and always choosing the direction that survives longest — before being forced to bear off. It ignores every other stack on the board, friendly or enemy, so it's a rough measure of how exposed a player's pieces are, not a count of actual legal moves remaining.",
         urls: ["https://boardgamegeek.com/boardgame/349408/lielow"],
         bggid: "349408",
         people: [
@@ -593,7 +617,7 @@ export class LielowGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): LielowGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -837,17 +861,17 @@ export class LielowGame extends GameBase {
         const opponentSeat = ctx.defaultSeat === 1 ? 2 : 1;
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.nowhat", {
                     from: r.from!, to: r.to!,
                 });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.nowhat", {
                     where: r.where!,
                 });
                 return true;
             case "bearoff":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:BEAROFF.nowhat", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.BEAROFF.nowhat", {
                     from: r.from!,
                 });
                 return true;
@@ -855,7 +879,7 @@ export class LielowGame extends GameBase {
                 const creditedSeat = (r as { player?: number }).player !== ctx.currplayer
                     ? ctx.defaultSeat
                     : opponentSeat;
-                this.pushSeatChatLine(lines, creditedSeat, "apresults:PROMOTE.lielow", {
+                this.pushSeatChatLine(lines, creditedSeat, "apresults:lielow.PROMOTE.default", {
                     where: r.where!,
                 });
                 return true;
@@ -923,3 +947,4 @@ export class LielowGame extends GameBase {
         }
     }
 }
+

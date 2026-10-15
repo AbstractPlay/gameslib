@@ -7,6 +7,46 @@ import { HexSlantedGraph } from "../common/graphs/index.js";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_1: "Place your first tower.",
+        INITIAL_INSTRUCTIONS_2: "Place your two towers.",
+        INITIAL_INSTRUCTIONS_3: "Place your second tower.",
+        INSTRUCTION_SLIDE: "Move a tower in a straight line over empty hexes, then shoot a piece also in a straight line.",
+        INSTRUCTION_SHOOT: "Shoot a piece over a straight line of empty hexes.",
+        BAD_PASS: "Cannot pass in this position!",
+        NEED_FRIENDLY_TOWER: "Need to select a friendly tower!",
+        TOWER_ADJACENT: "Initially, towers cannot be adjacent!",
+        TOWER_OCCUPIED_CELL: "Need to move the tower to an empty hex!",
+        PIECE_OCCUPIED_CELL: "Need to shoot the piece to an empty hex!",
+        TOWER_STRAIGHT_LINE: "A tower moves over a line of empty hexes!",
+        PIECE_STRAIGHT_LINE: "A tower shoots a piece over a line of empty hexes!",
+    },
+    variants: {
+        "#board": {
+            name: "10x10 board",
+        },
+        "size-12": {
+            name: "12x12 board",
+        },
+        "size-14": {
+            name: "14x14 board",
+        },
+        "size-16": {
+            name: "16x16 board",
+        },
+        "size-18": {
+            name: "18x18 board",
+        },
+    },
+};
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} blocks {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1 | 2;
 export type cellcontents = [playerid, number]; // number: 1 for moving tower, 2 for static piece/cube
@@ -34,8 +74,7 @@ export class PolluxGame extends GameBase {
         playercounts: [2],
         version: "20260602",
         dateAdded: "2026-06-22",
-        // i18next.t("apgames:descriptions.pollux")
-        description: "apgames:descriptions.pollux",
+        description: "A mix of Hex and Amazons: shoot to connect your edges or block the adversary.",
         urls: [
             "https://boardgamegeek.com/boardgame/82267/pollux",
         ],
@@ -484,7 +523,7 @@ export class PolluxGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): PolluxGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -697,13 +736,13 @@ export class PolluxGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete_what", { from: r.from!, to: r.to!, what: "piece" });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete_what", { from: r.from!, to: r.to!, what: "piece" });
                 return true;
             case "block":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.pollux", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:pollux.PLACE.default", { where: r.where! });
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -715,3 +754,4 @@ export class PolluxGame extends GameBase {
         return new PolluxGame(this.serialize());
     }
 }
+

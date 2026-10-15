@@ -4,6 +4,29 @@ import { AnnotationBasic, APRenderRep, AreaPieces, Colourfuncs, Glyph, MarkerFlo
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, shuffle, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_MOVE: "The only valid move is a number between 1 and 3.",
+        INITIAL_INSTRUCTIONS: "Select a number between 1 and 3.",
+        LABEL_BAG: "Pieces in bag",
+    },
+    variants: {
+        defective: {
+            name: "Defective product",
+            description: "A single defective product is added to the bag that causes the owner to lose points.",
+        },
+    },
+};
+export const gameApresultsEn = {
+    EJECT: {
+        default: "The production line moved forward {{distance}} spaces.",
+    },
+    PASS: {
+        default: "The production line doesn't move.",
+    },
+};
+
+
 
 type playerid = 1|2;
 type CellContents = "R"|"G"|"B"|"Y";
@@ -34,8 +57,7 @@ export class AssemblyGame extends GameBaseSimultaneous {
         playercounts: [2],
         version: "20250330",
         dateAdded: "2025-03-30",
-        // i18next.t("apgames:descriptions.assembly")
-        description: "apgames:descriptions.assembly",
+        description: "A simultaneous selection game where you try to trigger scoring when high-value products are on your sections of the assembly line. Highest score at the end of the game wins.",
         urls: [
             "https://boardgamegeek.com/boardgame/6568/assembly-line",
         ],
@@ -258,11 +280,11 @@ export class AssemblyGame extends GameBaseSimultaneous {
 
     public move(m: string, {partial = false, trusted = false} = {}): AssemblyGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         const moves: string[] = m.split(/\s*,\s*/);
         if (moves.length !== 2) {
-            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"));
+            throw new UserFacingError("MOVES_SIMULTANEOUS_PARTIAL", i18next.t("apgames:validation._general.MOVES_SIMULTANEOUS_PARTIAL"));
         }
         for (let i = 0; i < moves.length; i++) {
             if ( (partial) && ( (moves[i] === undefined) || (moves[i] === "") ) ) {
@@ -516,15 +538,15 @@ export class AssemblyGame extends GameBaseSimultaneous {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "pass":
-                this.pushNeutralChatLine(lines, "apresults:PASS.assembly");
+                this.pushNeutralChatLine(lines, "apresults:assembly.PASS.default");
                 return true;
             case "eject": {
                 const dist = parseInt(r.to!, 10);
-                this.pushNeutralChatLine(lines, "apresults:EJECT.assembly", {distance: dist});
+                this.pushNeutralChatLine(lines, "apresults:assembly.EJECT.default", {distance: dist});
                 return true;
             }
             case "deltaScore":
-                this.pushSeatChatLine(lines, r.who!, "apresults:DELTA_SCORE_GAIN", {
+                this.pushSeatChatLine(lines, r.who!, "apresults:_general.DELTA_SCORE_GAIN", {
                     count: r.delta!, delta: r.delta!,
                 });
                 return true;
@@ -541,3 +563,4 @@ export class AssemblyGame extends GameBaseSimultaneous {
         return new AssemblyGame(this.serialize());
     }
 }
+

@@ -5,6 +5,67 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, shuffle, UserFacingError, cloneState } from "../common/index.js";
 import { stawvsStashColumn } from "../common/localStashColumn.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_CLAIM: "You must claim a pyramid in a straight, unobstructed line from your new position.",
+        BAD_CLAIM_HEY: "In this variant, you must claim the pyramid from your previous position.",
+        BAD_MOVE: "You must move to a pyramid in a straight, unobstructed line from your old position.",
+        BAD_START: "You must choose one of your own pieces to move.",
+        BAD_PLACEMENT: "You must place your cap on an unoccupied pyramid, not on an occupied one or an empty cell.",
+        EXTRA_CLAIMS: "You may only claim one pyramid on your turn.",
+        INITIAL_PLACEMENT_INSTRUCTIONS: "Click a pyramid to place your piece on the board.",
+        INITIAL_MOVE_INSTRUCTIONS: "Click a piece to move.",
+        LABEL_COLLECTION: "{{player}}'s pyramids",
+        MUST_PASS: "Once you have passed, you must continue passing.",
+        NOPASS: "You cannot pass while you have legal moves.",
+        PARTIAL_CLAIM: "Click an accessible target pyramid to claim it.",
+        PARTIAL_MOVE: "Click an accessible destination pyramid.",
+        VALID_PLACEMENT: "Looks like a good placement.",
+        VALID_PLAY: "Looks like a good play.",
+    },
+    variants: {
+        "#setup": {
+            description: "In the default setup, the corners of the board are empty.",
+            name: "Default setup (empty corners)",
+        },
+        hole: {
+            description: "Set up the board with four empty squares in the center.",
+            name: "Center hole",
+        },
+        random: {
+            description: "Set up the board with four random empty squares.",
+            name: "Random gaps",
+        },
+        hey: {
+            name: "Simpler captures",
+            description: "A simplification of the rules in which you always capture the pyramid you moved away from, instead of a pyramid in any line from your piece's new location.  This makes the game less like Amazons and more like Hey! That's My Fish.",
+        },
+        finalfree: {
+            name: "No final captures",
+            description: "At the end of the game, players do not collect the pyramids under their pieces.",
+        },
+        "pieces-2": {
+            name: "2 pieces each",
+            description: "The piece count may optionally be reduced from 3 each to 2 each in a four-player game.  (This variant is not intended for lower player counts.)",
+        },
+    },
+};
+export const gameApresultsEn = {
+    ANNOUNCE: {
+        default: "{{player}} was unable to move and must pass from now on.  Their pieces remain on the following pyramids: {{pyramids}}.",
+    },
+    CAPTURE: {
+        default: "{{player}} captured the {{what}} at {{where}}.",
+    },
+    EOG: {
+        default: "The game has ended because the last player was unable to move.",
+    },
+    MOVE: {
+        default: "{{player}} moved a piece from {{from}} to {{to}} and captured {{what}} at {{how}}.",
+    },
+};
+
+
 
 export type playerid = 1|2|3|4;
 export type Mode = "place"|"collect";
@@ -58,8 +119,7 @@ export class StawvsGame extends GameBase {
         playercounts: [2,3,4],
         version: "20251113",
         dateAdded: "2025-12-12",
-        // i18next.t("apgames:descriptions.stawvs")
-        description: "apgames:descriptions.stawvs",
+        description: "A set collection game for 2-4 players that's similar to Amazons, with old-style Volcano scoring.  On a checkerboard randomly filled with individual pyramids, player pieces can move and capture pyramids in a straight line (orthogonally or diagonally), if and only if all intervening spaces and the target space contain pyramids but not pieces.",
         urls: [
             "https://looneypyramids.wiki/wiki/Stawvs",
             "https://boardgamegeek.com/boardgame/130579/stawvs",
@@ -621,7 +681,7 @@ export class StawvsGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): StawvsGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1100,25 +1160,25 @@ export class StawvsGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.stawvs", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.stawvs", {what: r.what!, from: r.from!, to: r.to!, how: r.how!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:stawvs.MOVE.default", {what: r.what!, from: r.from!, to: r.to!, how: r.how!});
                 return true;
             case "capture":
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.stawvs", {what: r.what!, where: r.where!});
+                this.pushNeutralChatLine(lines, "apresults:stawvs.CAPTURE.default", {what: r.what!, where: r.where!});
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.simple", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.simple", {});
                 return true;
             case "eliminated":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ELIMINATED", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.ELIMINATED.default", {});
                 return true;
             case "announce":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:ANNOUNCE.stawvs", {pyramids: (r.payload! as string[]).join(", ")});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:stawvs.ANNOUNCE.default", {pyramids: (r.payload! as string[]).join(", ")});
                 return true;
             case "eog":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:EOG.stawvs", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:stawvs.EOG.default", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -1130,3 +1190,4 @@ export class StawvsGame extends GameBase {
         return new StawvsGame(this.serialize());
     }
 }
+

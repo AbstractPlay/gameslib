@@ -228,7 +228,7 @@ describe("Agents of M.A.R.S.", () => {
         it("logs setup without revealing objective assignments", () => {
             const g = finishSetup(new AgofmarsGame());
             const lines = g.chatLogEntries(["Alice", "Bob"]).flatMap(e => e.lines);
-            expect(lines.some(l => l.textKey === "apresults:OBJECTIVES.agofmars")).to.be.true;
+            expect(lines.some(l => l.textKey === "apresults:agofmars.OBJECTIVES.default")).to.be.true;
             expect(lines.some(l => JSON.stringify(l).includes("RD0"))).to.be.false;
             const g2 = finishSetup(new AgofmarsGame());
             expect(g2.phase).to.equal("play");
@@ -384,11 +384,11 @@ describe("Agents of M.A.R.S.", () => {
         it("reports declining and completing objective swaps by column", () => {
             const declined = finishSetup(new AgofmarsGame()).move("noObjSwap");
             const passLines = declined.chatLogEntries(["Alice", "Bob"]).flatMap(e => e.lines);
-            expect(passLines.some(l => l.textKey === "apresults:PASS.agofmars_noObjSwap")).to.be.true;
+            expect(passLines.some(l => l.textKey === "apresults:agofmars.PASS.noObjSwap")).to.be.true;
 
             const swapped = finishSetup(new AgofmarsGame()).move("objSwap;2|-1");
             const swapLines = swapped.chatLogEntries(["Alice", "Bob"]).flatMap(e => e.lines);
-            const swapLine = swapLines.find(l => l.textKey === "apresults:OBJECTIVE_SWAP.agofmars");
+            const swapLine = swapLines.find(l => l.textKey === "apresults:agofmars.OBJECTIVE_SWAP.default");
             expect(swapLine).to.not.equal(undefined);
             expect(swapLine!.textParams?.columnA).to.equal("2");
             expect(swapLine!.textParams?.columnB).to.match(/−1|-1/);
@@ -401,7 +401,7 @@ describe("Agents of M.A.R.S.", () => {
             const drawLine = g
                 .chatLogEntries(["Alice", "Bob"])
                 .flatMap(e => e.lines)
-                .find(l => l.textKey === "apresults:DECKDRAW.agofmars");
+                .find(l => l.textKey === "apresults:agofmars.DECKDRAW.default");
             expect(drawLine).to.not.equal(undefined);
             expect(drawLine!.textParams?.colour).to.equal(colour);
             expect(drawLine!.textParams?.count).to.equal(size);
@@ -411,9 +411,9 @@ describe("Agents of M.A.R.S.", () => {
         it("attributes every ply of a draw-and-place turn to the acting player", () => {
             const g = finishSetup(new AgofmarsGame()).move("noObjSwap").move("draw").move("a1");
             const keys = new Set([
-                "apresults:PASS.agofmars_noObjSwap",
-                "apresults:DECKDRAW.agofmars",
-                "apresults:PLACE.agofmars",
+                "apresults:agofmars.PASS.noObjSwap",
+                "apresults:agofmars.DECKDRAW.default",
+                "apresults:agofmars.PLACE.default",
             ]);
             const turnLines = g
                 .chatLogEntries(["Alice", "Bob"])
@@ -431,13 +431,13 @@ describe("Agents of M.A.R.S.", () => {
             g = g.move("noObjSwap").move("a1-a3");
             expect(g.lastmove).to.equal("RD2@a1-a3");
             const moveLines = g.chatLogEntries(["Alice", "Bob"]).flatMap(e => e.lines);
-            expect(moveLines.some(l => l.textKey === "apresults:MOVE.agofmars")).to.be.true;
+            expect(moveLines.some(l => l.textKey === "apresults:agofmars.MOVE.default")).to.be.true;
             g.board.set("a3", ["GN", 3]);
             g.board.set("d3", ["RD", 1]);
             g = g.move("noObjSwap").move("a3|d3");
             expect(g.lastmove).to.equal("GN3@a3|RD1@d3");
             const swapLines = g.chatLogEntries(["Alice", "Bob"]).flatMap(e => e.lines);
-            const swapLine = swapLines.find(l => l.textKey === "apresults:SWAP.agofmars_board");
+            const swapLine = swapLines.find(l => l.textKey === "apresults:agofmars.SWAP.board");
             expect(swapLine).to.not.equal(undefined);
             expect(swapLine!.textParams?.colour1).to.equal("GN");
             expect(swapLine!.textParams?.size1).to.equal(3);
@@ -465,7 +465,7 @@ describe("Agents of M.A.R.S.", () => {
                 AgofmarsGame.formatPlaceWire(drawnColour, drawnSize, "a1"),
             );
             const logLines = place.chatLogEntries(["Alice", "Bob"]).flatMap(e => e.lines);
-            expect(logLines.some(l => l.textKey === "apresults:PLACE.agofmars")).to.be.true;
+            expect(logLines.some(l => l.textKey === "apresults:agofmars.PLACE.default")).to.be.true;
             expect(place.pendingDraw).to.equal(undefined);
             expect(place.currplayer).to.equal(2);
             expect(place.stack.length).to.equal(6);

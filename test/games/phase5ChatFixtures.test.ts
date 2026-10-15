@@ -5,7 +5,7 @@ import { turnModelFixturesAvailable } from "../fixtures/turnModel/helpers";
 
 describe("Phase 5 chat fixture gates", () => {
     if (!turnModelFixturesAvailable()) {
-        it("skipped — run npm run fetch-turnModel-fixtures for Phase 5 golden coverage", () => {
+        it("skipped — local turn-model fixture gates retired", () => {
             // CI without gitignored fixtures-local passes; local pre-migration gate requires fixtures.
         });
         return;

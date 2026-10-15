@@ -4,6 +4,26 @@ import { APRenderRep, Glyph, Colourfuncs } from "@abstractplay/renderer/build/sc
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Place a friendly piece on any square.",
+        INSTRUCTIONS: "Place a friendly piece at the marked square.",
+        INVALID_MOVE: "Move {{move}} is invalid. The player must place a piece on the marked square, and  the next marked square must be on an empty square!",
+        PLACE_INSTRUCTIONS: "Click on the piece until it is the required size, then click on an orthogonally adjacent square to define the direction.",
+    },
+    variants: {
+        "#board": {
+            name: "5 x 6 board",
+        },
+    },
+};
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} place at {{where}} a size {{size}} piece directed at {{dir}}.",
+    },
+};
+
+
 
 interface ILegendObj {
     [key: string]: Glyph|[Glyph, ...Glyph[]];
@@ -36,9 +56,8 @@ export class SynapseGame extends GameBase {
         playercounts: [2],
         version: "20260515",
         dateAdded: "2026-05-27",
-        // i18next.t("apgames:descriptions.synapse")
-        description: "apgames:descriptions.synapse",
-        notes: "apgames:notes.synapse",
+        description: "Drop a piece to force the placement of the opponent's next piece. Win by stalemate.",
+        notes: "Synapse was first proposed, c.1970, by Pierre Berloquin. This game is played on a 4x4 board with 15 stones of each one of two colors. Each player chooses one to three matches of the same color, and place them in the next square, where the color defines the vertical or horizontal direction. The board could not have more than 25 stones in total. Later, in 1976, a variant by the same author uses homogenous matches where the matches' heads define the direction. The current implemented version is based on this principle, using Looney Pyramids. This is a larger board with more pieces, proposed in 2005, by Joseph Kisenwether.",
         urls: [
             "https://looneypyramids.wiki/wiki/Synapse-Ice",
             "https://boardgamegeek.com/boardgame/58907/synapse-ice",
@@ -272,7 +291,7 @@ export class SynapseGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SynapseGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.replace(/\s+/g, "");
@@ -472,18 +491,18 @@ export class SynapseGame extends GameBase {
                 if (r.how !== undefined) {
                     const [subtype, size, direction]: string[] = r.how!.split(",");
                     if (subtype === "complete") {
-                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.synapse", {
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:synapse.PLACE.default", {
                             where: r.where!, size, dir: direction!,
                         });
                     } else {
-                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {
+                        this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {
                             where: r.where!, what: "upward piece",
                         });
                     }
                 }
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -494,3 +513,4 @@ export class SynapseGame extends GameBase {
         return new SynapseGame(this.serialize());
     }
 }
+

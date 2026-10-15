@@ -926,7 +926,7 @@ describe("Kill-All Go", () => {
             const enters = g.render().annotations!.filter((a) => a.type === "enter");
             expect(enters.some((a) => (a as { targets: unknown[] }).targets.length === 36)).to.be.true;
             const keys = g.chatLogEntries(["Alice", "Bob"]).flatMap((e) => e.lines.map((l) => l.textKey));
-            expect(keys).to.include("apresults:EOG.killallgo_no_room");
+            expect(keys).to.include("apresults:killallgo.EOG.no_room");
         });
 
         it("notices the Attacker's win on the move that completes it", () => {
@@ -1026,7 +1026,7 @@ describe("Kill-All Go", () => {
             expect(restored.stack[restored.stack.length - 1]._results).to.deep.include({ type: "eog", reason: "no-moves" });
             expect(restored.moves()).to.deep.equal([]);
             const keys = restored.chatLogEntries(["Alice", "Bob"]).flatMap((e) => e.lines.map((l) => l.textKey));
-            expect(keys).to.include("apresults:EOG.killallgo_no_moves");
+            expect(keys).to.include("apresults:killallgo.EOG.no_moves");
             expect(restored.chatLog(["Alice", "Bob"]).flat().join("\n")).to.include("no legal placement");
         });
 
@@ -1089,10 +1089,10 @@ describe("Kill-All Go", () => {
             const g = play(new KillAllGoGame(undefined, ["size-9", "hoctaph"]), ["2,3", "iplace:a1,b1", "attacker:c1,d1,e1", "e5", "a9"]);
             const entries = g.chatLogEntries(["Alice", "Bob"]);
             const keys = entries.flatMap((e) => e.lines.map((l) => l.textKey));
-            expect(keys).to.include("apresults:ANNOUNCE.killallgo_slice");
-            expect(keys).to.include("apresults:SELECT.killallgo_iplace");
-            expect(keys).to.include("apresults:CLAIM.killallgo_attacker");
-            expect(keys).to.include("apresults:PLACE.killallgo_setup");
+            expect(keys).to.include("apresults:killallgo.ANNOUNCE.slice");
+            expect(keys).to.include("apresults:killallgo.SELECT.iplace");
+            expect(keys).to.include("apresults:killallgo.CLAIM.attacker");
+            expect(keys).to.include("apresults:killallgo.PLACE.setup");
             const text = g.chatLog(["Alice", "Bob"]).flat().join("\n");
             expect(text).to.include("Alice chose to play as the Attacker.");
             expect(text).to.include("Alice placed an Attacker stone at c1.");
@@ -1115,7 +1115,7 @@ describe("Kill-All Go", () => {
             expect(restored.gameover).to.be.true;
             expect(restored.winner).to.deep.equal([1]);
             const keys = restored.chatLogEntries(["Alice", "Bob"]).flatMap((e) => e.lines.map((l) => l.textKey));
-            expect(keys).to.include("apresults:EOG.killallgo_double_pass");
+            expect(keys).to.include("apresults:killallgo.EOG.double_pass");
             expect(restored.chatLog(["Alice", "Bob"]).flat().join("\n")).to.include("both players passed consecutively");
         });
 

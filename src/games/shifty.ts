@@ -6,6 +6,29 @@ import { allDirections, Direction, RectGrid, reviver, UserFacingError } from "..
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select an intersection to place a piece next to one of your own pieces, or select a piece to move.",
+        INITIAL_INSTRUCTIONS_OPENING: "Select an intersection to place your first piece.",
+        INITIAL_INSTRUCTIONS_PASS: "You have no moves so you must pass.",
+        INVALID_PASS: "You may not pass if you have any legal moves available.",
+        CANNOT_PLACE: "You may not place at {{where}}. Placement must be orthogonally adjacent to one of your own pieces.",
+        CROSSCUT: "You may not place at {{where}} because it creates a crosscut.",
+        CROSSCUT_MOVE: "You may not move to {{where}} because it creates a crosscut.",
+        MOVE_NOT_ADJACENT: "You may not move the piece at {{from}} because it is not orthogonally adjacent to a friently piece.",
+        NEXT_TO_FRIENDLY: "You may not move to {{where}} because it is orthogonally adjacent to a friendly piece.",
+        INVALID_DESTINATION: "The piece at {{from}} cannot move to {{to}} because it has no line of sight.",
+    },
+    variants: {
+        "#board": {
+            name: "9x9 board",
+        },
+        "size-13": {
+            name: "13x13 board",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 type PlayerLines = [string[], string[]];
@@ -32,8 +55,7 @@ export class ShiftyGame extends GameBase {
         // to a cell not adjacent to other friendly pieces.
         version: "20250525",
         dateAdded: "2024-09-05",
-        // i18next.t("apgames:descriptions.shifty")
-        description: "apgames:descriptions.shifty",
+        description: "A connection game where you either place a piece orthogonally adjacent to a friendly piece, or move one of your pieces orthogonally adjacent to a friendly piece, by a chess queen's move, to a location not orthogonally adjacent to any other friendly pieces. Crosscuts are illegal. The player that forms an orthogonal or diagonal path connecting their two sides wins.",
         urls: [
             "https://web.archive.org/web/20151224161649/http://nickbentleygames.wordpress.com/2012/05/01/new-game-shifty/",
             "https://boardgamegeek.com/boardgame/124313/shifty"
@@ -446,7 +468,7 @@ export class ShiftyGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): ShiftyGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -653,13 +675,13 @@ export class ShiftyGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.nowhat", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.nowhat", { from: r.from!, to: r.to! });
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.forced", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -671,3 +693,4 @@ export class ShiftyGame extends GameBase {
         return new ShiftyGame(this.serialize());
     }
 }
+

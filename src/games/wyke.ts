@@ -4,6 +4,29 @@ import { APRenderRep, AreaButtonBar, ButtonBarButton } from "@abstractplay/rende
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        CELL_CLAIMED: "The cell {{cell}} has already been claimed and cannot be interacted with further.",
+        DUPLICATE_CELLS: "You can't select the same cell multiple times.",
+        INITIAL_INSTRUCTIONS: "Select an available move from the button bar.",
+        INVALID_FORMAT: "Your move is in an invalid format: \"{{move}}\". It should start with the move type followed by a list of cells in parentheses (e.g., \"3-1 (a1,b2)\").",
+        INVALID_MOVETYPE: "The move \"{{move}}\" is not one of the five allowed movement types.",
+        MOVETYPE_UNAVAILABLE: "That move type is unavailable. Only select moves that are not stricken through.",
+        PARTIAL: "Continue selecting cells until the move is complete.",
+        TOO_FEW_PIECES: "There are too few pieces at {{where}} to remove {{num}} of them.",
+        TOO_MANY_CELLS: "You have selected more cells than the move type allows.",
+        TOO_MANY_PIECES: "There are too many pieces at {{where}} to add {{num}} more.",
+    },
+    variants: {
+        "#size": {
+            name: "4x4 board",
+        },
+        "6x6": {
+            name: "6x6 board",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 const moveTypes = ["1-1-1-1-1", "2-1-1", "2-2", "3-1", "4"];
@@ -31,9 +54,8 @@ export class AlfredsWykeGame extends GameBase {
         playercounts: [2],
         version: "20211226",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.wyke")
-        description: "apgames:descriptions.wyke",
-        urls: ["https://www.abstractgames.org/alfredswyke.html", "http://superdupergames.org/rules/wyke.pdf"],
+        description: "A two-player game where one plays the builder and the other the destroyer. Claim cells by either completing or completely destroying lots. Win a certain number of lots or lots in a particular pattern to win.",
+        urls: ["https://www.abstractgames.org/alfredswyke.html"],
         bggid: "37584",
         people: [
             {
@@ -297,7 +319,7 @@ export class AlfredsWykeGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): AlfredsWykeGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -602,3 +624,4 @@ export class AlfredsWykeGame extends GameBase {
         return new AlfredsWykeGame(this.serialize());
     }
 }
+

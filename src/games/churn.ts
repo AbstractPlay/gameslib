@@ -7,6 +7,33 @@ import i18next from "i18next";
 import { IGraph } from "../common/graphs/index.js";
 import { UndirectedGraph } from "graphology";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PLACE: "If an isolated placement is available, you must make it. If that is not possible, you must form the smallest group possible.",
+        INITIAL_INSTRUCTIONS: "Select an empty cell to place a piece.",
+    },
+    variants: {
+        "#board": {
+            name: "Hexhex 3 (19 spaces)",
+        },
+        "limping-34": {
+            name: "Alternating 3-4 (27 spaces)",
+        },
+        "limping-335": {
+            name: "Alternating 3-3-5 (29 spaces)",
+        },
+        hex4: {
+            name: "Hexhex 4 (37 spaces)",
+        },
+        "limping-446": {
+            name: "Alternating 4-4-6 (51 spaces)",
+        },
+        hex5: {
+            name: "Hexhex 5 (61 spaces)",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -28,8 +55,7 @@ export class ChurnGame extends GameBase {
         playercounts: [2],
         version: "20250119",
         dateAdded: "2025-01-20",
-        // i18next.t("apgames:descriptions.churn")
-        description: "apgames:descriptions.churn",
+        description: "A bloody territory-control game on a small board.",
         urls: ["https://www.marksteeregames.com/Churn_rules.pdf"],
         bggid: "437052",
         people: [
@@ -233,7 +259,7 @@ export class ChurnGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): ChurnGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -428,10 +454,10 @@ export class ChurnGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "take":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.general", {from: r.from!, count: 1});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.TAKE.general", {from: r.from!, count: 1});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -447,3 +473,4 @@ export class ChurnGame extends GameBase {
         return Object.assign(new ChurnGame(), cloneState(this) as ChurnGame);
     }
 }
+

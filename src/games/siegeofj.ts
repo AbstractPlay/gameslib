@@ -6,6 +6,36 @@ import { randomInt, reviver, shuffle, UserFacingError, cloneState } from "../com
 import i18next from "i18next";
 import { Card, Deck, Component, cardSortAsc, cardsBasic, cardsExtended, suits as decktetSuits } from "../common/decktet/index.js";
 import { DirectedGraph } from "graphology";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a card from your hand to place on the board.",
+        INVALID_MOVE: "That move is invalid. Remember that every placed card must be fully supported (cards can't \"hang off the edge\" of a single card).",
+        PARTIAL: "Click the card on the board you want this card attached to.",
+        LABEL_STASH: "{{player}}'s hand",
+        VALID_BUT: "That placement is valid. It's also possible to span two cards. Click \"Complete Move\" to keep the single parent, or click the adjacent card to span them both.",
+    },
+    variants: {
+        "#rules": {
+            name: "Default rules",
+            description: "Each player starts with five cards and draws one after each turn. Hands are hidden until the deck is empty.",
+        },
+        open: {
+            name: "Open hands",
+            description: "Each player starts with five cards and draws one after each turn. Hands are always visible.",
+        },
+        full: {
+            name: "Full deal",
+            description: "Deals all 24 cards to the players at the beginning of the game. All hands are visible.",
+        },
+    },
+};
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} placed \"{{what}}\" next to {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 
@@ -39,10 +69,8 @@ export class SiegeOfJGame extends GameBase {
         playercounts: [2],
         version: "20250523",
         dateAdded: "2025-06-10",
-        // i18next.t("apgames:descriptions.siegeofj")
-        description: "apgames:descriptions.siegeofj",
-        // i18next.t("apgames:notes.siegeofj")
-        notes: "apgames:notes.siegeofj",
+        description: "Place cards, representing armies, to exert pressure on segments of the wall around the city of Jacynth. Exert the most pressure on the most segments to win.",
+        notes: "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed.",
         urls: [
             "http://wiki.decktet.com/game:siege-of-jacynth",
         ],
@@ -475,7 +503,7 @@ export class SiegeOfJGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false, emulation = false} = {}): SiegeOfJGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toUpperCase();
@@ -931,7 +959,7 @@ export class SiegeOfJGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.siegeofj", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:siegeofj.PLACE.default", {
                     where: r.where!, what: r.what!,
                 });
                 return true;
@@ -946,3 +974,4 @@ export class SiegeOfJGame extends GameBase {
         return Object.assign(new SiegeOfJGame(), cloneState(this) as SiegeOfJGame);
     }
 }
+

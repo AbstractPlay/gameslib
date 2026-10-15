@@ -6,6 +6,27 @@ import { diagDirections, Direction, RectGrid, reviver, UserFacingError } from ".
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PLACE: "You may not create hard corners or naked attachments (see the rules for details).",
+        INITIAL_INSTRUCTIONS: "Select a point to place a piece.",
+    },
+    variants: {
+        "#board": {
+            name: "22x22 board",
+        },
+        "size-19": {
+            name: "19x19 board",
+        },
+        "size-25": {
+            name: "25x25 board",
+        },
+        "size-29": {
+            name: "29x29 board",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -30,8 +51,7 @@ export class NakattaGame extends GameBase {
         playercounts: [2],
         version: "20250202",
         dateAdded: "2025-02-02",
-        // i18next.t("apgames:descriptions.nakatta")
-        description: "apgames:descriptions.nakatta",
+        description: "A square connection game where two specific piece configurations are forbidden.",
         urls: ["https://www.marksteeregames.com/Nakatta_rules.pdf"],
         bggid: "420467",
         people: [
@@ -303,7 +323,7 @@ export class NakattaGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): NakattaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -497,3 +517,4 @@ export class NakattaGame extends GameBase {
         return new NakattaGame(this.serialize());
     }
 }
+

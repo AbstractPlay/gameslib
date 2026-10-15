@@ -63,6 +63,8 @@ jobs:
           run: npx ap-check-ci-deps --stage prod --strict
         - run: npm list @abstractplay/renderer
         - run: npm test --if-present
+        - name: Verify English apgames matches merge sources
+          run: npm run locale-en
         - name: Checkout docs site
           if: github.event_name == 'push'
           uses: actions/checkout@v4
@@ -177,7 +179,7 @@ jobs:
                 --arg k "$RECRANKS_VERSION" \
                 --arg s "$SOURCE_RUN_ID" \
                 '{event_type:"dep_update_prod", client_payload:{gameslib_version:$g, renderer_version:$r, recranks_version:$k, source_run_id:$s}}')
-              for repo in front node-backend; do
+              for repo in front node-backend bot-aiai; do
                 curl -L -X POST \
                   -H "Accept: application/vnd.github+json" \
                   -H "Authorization: Bearer ${{ secrets.PAT_WORKFLOWS }}" \

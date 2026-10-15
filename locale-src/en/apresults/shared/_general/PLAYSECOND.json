@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "PLAYSECOND": {
+      "default": "{{player}} chose to play second."
+    }
+  }
+}

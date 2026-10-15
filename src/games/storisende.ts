@@ -23,6 +23,55 @@ import {
     storisendeRegularMoveDestination,
     storisendeRegularMoveSourceCell,
 } from "./storisende/moveParse.js";
+export const gameApgamesEn = {
+    validation: {
+        BAD_DISTANCE: "Stacks must move a distance exactly equal to their height.",
+        BAD_PLACEMENT: "Pieces may only be placed on valid hexes not already occupied by your opponent.",
+        INITIAL_INSTRUCTIONS_first: "Click cell to place a piece. Click the same cell multiple times to create a stack. You must place 2–5 total pieces, then your opponent will choose sides.",
+        INITIAL_INSTRUCTIONS_second: "You may either switch seats or choose to play second by placing the same number of pieces. If your opponent already switched seats, then you may only place pieces. Click a cell to place a piece. Click the same cell multiple times to create a stack.",
+        INITIAL_INSTRUCTIONS_rest: "Click a stack to move. The number of pieces that move depend on the distance you travel.",
+        INVALID_SUBSTACK: "The substack notation is incorrect. You're trying to move more pieces than are available. If trying to move the entire stack, don't specify the stack height.",
+        PARTIAL_PLACE_FIRST_one: "You may place one more piece.",
+        PARTIAL_PLACE_FIRST_other: "You may place {{count}} more pieces.",
+        PARTIAL_PLACE_FIRST_MORE: "You must place at least one more piece",
+        PARTIAL_PLACE_SECOND_one: "You must place one more piece.",
+        PARTIAL_PLACE_SECOND_other: "You must place {{count}} more pieces.",
+        STRAIGHT_ONLY: "Pieces may only move in straight lines.",
+        TOO_MANY: "You placed too many pieces. Please reset the move and try again.",
+        WALL_CLIMB: "Pieces may not move from the ground onto a wall tile.",
+        WALL_JUMP: "Pieces may only jump over a wall tile if that tile contains at least one of your own pieces.",
+    },
+    variants: {
+        "#board": {
+            name: "Hexhex 5 (61 spaces)",
+        },
+        "board-hex4": {
+            name: "Hexhex 4 (37 spaces; learning)",
+        },
+        "board-hex6": {
+            name: "Hexhex 6 (91 spaces)",
+        },
+        "board-hex7": {
+            name: "Hexhex 7 (127 spaces)",
+        },
+        "board-modular-13": {
+            name: "Modular, 13 modules (91 spaces)",
+            description: "Modular boards are composed of a certain number of 7-cell modules (hexhex 2s) distributed randomly but ensuring that each module touches another at two points.",
+        },
+        "board-modular-18": {
+            name: "Modular, 18 modules (126 spaces)",
+            description: "Modular boards are composed of a certain number of 7-cell modules (hexhex 2s) distributed randomly but ensuring that each module touches another at two points.",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CONVERT: {
+        territory: "The tile at {{where}} became a territory.",
+        wall: "The tile at {{where}} became a wall.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 export type Tile = undefined|"virgin"|"territory"|"wall";
@@ -49,8 +98,7 @@ export class StorisendeGame extends GameBase {
         playercounts: [2],
         version: COMPACT_BOARD_VERSION,
         dateAdded: "2025-01-18",
-        // i18next.t("apgames:descriptions.storisende")
-        description: "apgames:descriptions.storisende",
+        description: "A unique territory control game where the movement of pieces create territories and walls, eventually creating enclosed nations. Control the most territory to win.",
         // notes: "apgames:notes.storisende",
         urls: [
             "https://mindsports.nl/index.php/arena/storisende/747-storisende-rules",
@@ -637,7 +685,7 @@ export class StorisendeGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): StorisendeGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         // Normalize
         m = m.toLowerCase();
@@ -1075,13 +1123,13 @@ export class StorisendeGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.complete", {from: r.from!, to: r.to!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.complete", {from: r.from!, to: r.to!, count: r.count!});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.multiple", {count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.multiple", {count: r.count!});
                 return true;
             case "convert":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.storisende", {where: r.what!, context: r.into!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:storisende.CONVERT.${r.into!}`, {where: r.what!, context: r.into!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -1105,3 +1153,4 @@ export class StorisendeGame extends GameBase {
         return new StorisendeGame(this.serialize());
     }
 }
+

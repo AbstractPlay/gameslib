@@ -336,7 +336,7 @@ describe("Alien City", () => {
             setUniformStart(g, "N");
             const r = g.validateMove("pass");
             expect(r.valid).to.be.false;
-            expect(r.message).to.equal(msg("INVALID_PASS"));
+            expect(r.message).to.equal(i18next.t("apgames:validation._general.INVALID_PASS"));
         });
     });
 

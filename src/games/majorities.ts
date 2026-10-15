@@ -4,6 +4,48 @@ import { APRenderRep, MarkerFlood, MarkerGlyph, MarkerLine, RowCol } from "@abst
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select two cells to place your pieces.",
+        INITIAL_INSTRUCTIONS_FIRST: "Select a cell to place the first piece.",
+        TOO_MANY_MOVES: "You may only place two pieces.",
+        TOO_MANY_MOVES_FIRST: "You may only place one piece on the first move.",
+        HOLE: "The cell at {{where}} is blocked.",
+        ANOTHER: "Select one more cell to place your piece.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-5 board",
+        },
+        "size-3": {
+            name: "Size-3 board",
+        },
+        "size-7": {
+            name: "Size-7 board",
+        },
+        "no-blocked": {
+            name: "No blocked cells",
+            description: "No-unplayable-cells variant proposed by Luis Bolaños Mures. The first person to occupy half or more in a line claims the line.",
+        },
+        capture: {
+            name: "Capture",
+            description: "Capture variant proposed by Luis Bolaños Mures. After each placement, all pieces in claimed lines are removed. In the original proposal, Luis suggests this variant be used with the no-blocked-cells variant.",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{count}} pieces were removed.",
+    },
+    CLAIM: {
+        A: "{{player}} claimed the ascending direction.",
+        D: "{{player}} claimed the descending direction.",
+        H: "{{player}} claimed the horizontal direction.",
+        line: "{{player}} claimed the line {{where}}.",
+    },
+};
+
+
 
 type playerid = 1 | 2;
 type Direction = "NE" | "E" | "SE" | "SW" | "W" | "NW";
@@ -36,8 +78,7 @@ export class MajoritiesGame extends GameBase {
         playercounts: [2],
         version: "20240720",
         dateAdded: "2024-08-26",
-        // i18next.t("apgames:descriptions.majorities")
-        description: "apgames:descriptions.majorities",
+        description: "A game of majorities. A majority of pieces in a line wins that line. A majority of parallel lines in a direction wins that direction. A majority of directions wins the game. The first player places one piece, and thereafter, each player places two pieces per turn.",
         urls: ["https://boardgamegeek.com/boardgame/84153/majorities"],
         bggid: "84153",
         people: [
@@ -468,7 +509,7 @@ export class MajoritiesGame extends GameBase {
         }
         if (moves.length === 2 && moves[0] === moves[1] && captured.length === 0) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.majorities.OCCUPIED", { where: moves[0] });
+            result.message = i18next.t("apgames:validation._general.DUPLICATE", { where: moves[0] });
             return result;
         }
         if (moves.length === 1 && this.stack.length > 1) {
@@ -484,7 +525,7 @@ export class MajoritiesGame extends GameBase {
         const normalised = this.normaliseMove(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.majorities.NORMALISE", { normalised });
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
         result.valid = true;
@@ -585,7 +626,7 @@ export class MajoritiesGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): MajoritiesGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -918,7 +959,7 @@ export class MajoritiesGame extends GameBase {
         const d1 = this.lineWinners[2].filter(w => w === 1).length;
         const d2 = this.lineWinners[2].filter(w => w === 2).length;
         return [{
-            name: this.neutralAreaLabel("apgames:status.majorities"),
+            name: this.neutralAreaLabel("apgames:status.SCORES"),
             scores: [
                 `${h1}, ${a1}, ${d1}`,
                 `${h2}, ${a2}, ${d2}`,
@@ -930,21 +971,21 @@ export class MajoritiesGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.majorities", { where: r.where!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:majorities.CAPTURE.default", { where: r.where!, count: r.count! });
                 return true;
             case "claim":
                 if (r.what === "line") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.majorities_line", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:majorities.CLAIM.line", { where: r.where! });
                 } else {
                 if (r.where === "H") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.majorities_H", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:majorities.CLAIM.H", {});
                 } else if (r.where === "A") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.majorities_A", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:majorities.CLAIM.A", {});
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CLAIM.majorities_D", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:majorities.CLAIM.D", {});
                 }
                 }
                 return true;
@@ -958,3 +999,4 @@ export class MajoritiesGame extends GameBase {
         return new MajoritiesGame(this.serialize());
     }
 }
+

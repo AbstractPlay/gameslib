@@ -4,6 +4,26 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema"
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { Direction, RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_FACING: "The following move segment had an unrecognizeable facing: {{segment}}.",
+        INITIAL_INSTRUCTIONS: "Select one of your pieces to move.",
+        PARTIAL_FINAL: "The move is valid. If you wish to reorient one last time, click on the cell you want to point towards, or click on the piece itself to stand upright.",
+        PARTIAL_ORIENT: "Select the cell you want to point the piece towards.",
+        PARTIAL_PREMOVE: "Select a destination, or select the piece again to reorient.",
+        TOOSMALL: "Upright pieces can only be captured by larger pieces.",
+        UPRIGHT_MOVEMENT: "Upright pieces cannot move.",
+        USELESS_ORIENTATION: "If you reorient, you have to change to a new facing.",
+    },
+    variants: {
+        "15pts": {
+            description: "The game doesn't end until you have 15 points worth of enemy soldiers.",
+            name: "Longer Game: 15 points",
+        },
+        "#eog": { name: "Default end condition" }
+    },
+};
+
 
 interface ILegendObj {
     [key: string]: Glyph|[Glyph, ...Glyph[]];
@@ -35,8 +55,7 @@ export class PikemenGame extends GameBase {
         playercounts: [2],
         version: "20211114",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.pikemen")
-        description: "apgames:descriptions.pikemen",
+        description: "A Looney pyramid game where the pyramids represents soldiers with long pikes. Pieces charge in the direction they're facing and can then change their orientation. Capture a certain number of enemy soldiers to win.\n\nWhile the game is technically playable by three and four players, this implementation only supports two players.",
         urls: [
             "http://playagaingames.com/games/pikemen/",
             "https://boardgamegeek.com/boardgame/20269/pikemen",
@@ -434,7 +453,7 @@ export class PikemenGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): PikemenGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -652,3 +671,4 @@ export class PikemenGame extends GameBase {
         return new PikemenGame(this.serialize());
     }
 }
+

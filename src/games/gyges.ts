@@ -8,6 +8,24 @@ import i18next from "i18next";
 import { DirectedGraph, MultiDirectedGraph } from "graphology";
 import { allSimpleEdgeGroupPaths } from "graphology-simple-path";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        BAD_DISPLACE: "You may not displace a piece to {{cell}}. The target cell must be unoccupied and may not be beyond the opponent's playable row.",
+        HOMEROW: "You may only place pieces on the row closest to you.",
+        INITIAL_INSTRUCTIONS_setup: "Select a piece from your stash to place on the board.",
+        INITIAL_INSTRUCTIONS_play: "Select a piece to move.",
+        INVALID_PATH: "There is no valid path for the move {{move}}. Remember that you may only cross a cell edge one time per move, regardless of direction.",
+        NO_DUPES: "You may not place multiple pieces on the same space.",
+        NO_MOVES: "The piece at {{cell}} has no valid moves. Remember that you may only play pieces from the row closest to you.",
+        NOT_INHAND: "You don't have a size {{size}} piece to place.",
+        PARTIAL_displace: "Select one of the highlighted empty cells to displace the current piece.",
+        PARTIAL_move: "Select the next destination, or click this same cell again to displace the piece.",
+        PARTIAL_setup: "Select an empty cell on your home row to place the piece.",
+        PARTIAL_setup2: "Select another piece from your stash to place on the board.",
+        LABEL_STASH: "{{player}}'s stash",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -191,10 +209,8 @@ export class GygesGame extends GameBase {
         playercounts: [2],
         version: "20250217",
         dateAdded: "2025-02-28",
-        // i18next.t("apgames:descriptions.gyges")
-        description: "apgames:descriptions.gyges",
-        // i18next.t("apgames:notes.gyges")
-        notes: "apgames:notes.gyges",
+        description: "A breakthrough game where nobody owns any pieces, and pieces rebound off of each other.",
+        notes: "The goal squares are adjacent to all the cells in the back row. The renderer cannot currently handle \"floating\" cells.",
         urls: ["https://boardgamegeek.com/boardgame/10527/gyges"],
         bggid: "10527",
         people: [
@@ -912,7 +928,7 @@ export class GygesGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): GygesGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1206,7 +1222,7 @@ export class GygesGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {
                     where: r.where!, what: r.what!,
                 });
                 return true;
@@ -1221,3 +1237,4 @@ export class GygesGame extends GameBase {
         return Object.assign(new GygesGame(), cloneState(this) as GygesGame);
     }
 }
+

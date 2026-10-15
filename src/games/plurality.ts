@@ -7,6 +7,30 @@ import { reviver, UserFacingError, SquareOrthGraph } from "../common/index.js";
 import { connectedComponents } from "graphology-components";
 
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_SETUP: "Choose a number of points to add to the second player's score, and the next player will choose sides. (0.5 will be added to Komi to prevent draws.)",
+        INSTRUCTIONS: "Place a group of three orthogonal stones on empty cells. It is invalid to make a 2x2 shape of stones of any color configuration. First place two friendly pieces, then one opponent piece.",
+        TABOO: "Place a tromino (orthogonal group of three stones), without making an occupied 2x2 area. The next click will start a new tromino.",
+        INCOMPLETE_TURN: "To complete the turn you need two friendly placements, then an opponent placement.",
+        INVALID_KOMI: "You must choose an integer number of points to add to the second player's score.",
+        INVALID_PASS: "You cannot pass currently.",
+        INVALID_PLAYSECOND: "You cannot choose to play second from this board state.",
+        KOMI_CHOICE: "You may either make the first move on the board and let your opponent keep the bonus points (an integer) or you may choose \"Play second\" and take the bonus points for yourself.",
+    },
+    variants: {
+        "size-13": {
+            name: "13x13 board",
+        },
+        "#board": {
+            name: "15x15 board",
+        },
+        "size-19": {
+            name: "19x19 board",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2 | 3; // 3 is for drawing neutral owned areas
 
@@ -37,9 +61,8 @@ export class PluralityGame extends GameBase {
         playercounts: [2],
         version: "20260202",
         dateAdded: "2026-02-18",
-        // i18next.t("apgames:descriptions.plurality")
-        description: "apgames:descriptions.plurality",
-        notes: "apgames:notes.plurality",
+        description: "Territorial game where players place trominos to enclosure areas. The player with more stones on a given area's perimeter owns that area.",
+        notes: "Plurality is a finite territorial game. The concept of territory exist disconnected from concepts like groups or liberty. Territories' ownership depend on the most represented color in their perimeters. On their turn, players drop two friendly stones and one adversary stone as a single orthogonally connected group (a tromino). It is forbidden to make a 2x2 shape of stones of any color configuration.",
         urls: ["https://boardgamegeek.com/boardgame/462846/plurality"],
         bggid: "462846",
         people: [
@@ -512,7 +535,7 @@ export class PluralityGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): PluralityGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (m.length === 0) { return this; }
@@ -718,3 +741,4 @@ export class PluralityGame extends GameBase {
         return new PluralityGame(this.serialize());
     }
 }
+

@@ -9,6 +9,37 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_DIRECTION: "You can only jump orthogonally or diagonally. The jump from {{from}} to {{to}} is invalid.",
+        CAN_JUMP: "Select the destination of your jump.",
+        CAN_JUMP_MORE: "Looks good so far. Either complete your move or keep jumping",
+        CANT_JUMP: "You selected the ball, but there are no jumps available",
+        INITIAL_INSTRUCTIONS: "Place a player at an empty vertex or jump the ball over adjacent players.",
+        LABEL_GOAL: "⇧ {{player}} ⇧",
+        MUST_JUMP_PLAYER: "You can only jump over players, not empty vertices. There is no player at {{cell}}",
+        NO_BALL_HERE: "Jumping must start at the ball. There is no ball at {{cell}}.",
+        NO_MOVE: "You must jump over at least one player.",
+        NOT_EMPTY_JUMP: "A jump must end in an empty vertex. {{to}} is not empty.",
+    },
+};
+export const gameApresultsEn = {
+    MOVE: {
+        default: "{{player}} moved the ball from {{from}} to {{to}},",
+        last: "{{player}} moved the ball from {{from}} to {{to}}.",
+        to: "to {{to}},",
+        to_last: "to {{to}}.",
+    },
+    PLACE: {
+        default: "{{player}} placed a player at {{where}}.",
+    },
+    REMOVE: {
+        one: "{{count}} player was removed.",
+        other: "{{count}} players were removed.",
+    },
+};
+
+
 
 export type playerid = 1 | 2;
 export type CellContents = "" | "B" | "P"; // empty, ball or player
@@ -32,7 +63,7 @@ export class PhutballGame extends GameBase {
         playercounts: [2],
         version: "20230704",
         dateAdded: "2023-08-25",
-        description: "apgames:descriptions.phutball",
+        description: "Phutball (short for philosopher's football) is a classic two-player soccer-esque board game of shared pieces where you attempt to get the ball across your opponent's goal line.",
         urls: [
             "https://en.wikipedia.org/wiki/Phutball",
             "https://boardgamegeek.com/boardgame/25433/phutball",
@@ -485,7 +516,7 @@ export class PhutballGame extends GameBase {
         if (this.gameover) {
             throw new UserFacingError(
                 "MOVES_GAMEOVER",
-                i18next.t("apgames:MOVES_GAMEOVER")
+                i18next.t("apgames:validation._general.MOVES_GAMEOVER")
             );
         }
 
@@ -700,21 +731,21 @@ export class PhutballGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.phutball", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:phutball.PLACE.default", {where: r.where!});
                 return true;
             case "move":
                 if (ctx.results.length === 2) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.phutball_last", {from: r.from!, to: r.to!});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:phutball.MOVE.last", {from: r.from!, to: r.to!});
                 } else if (lines.length === 0) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.phutball", {from: r.from!, to: r.to!});
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:phutball.MOVE.default", {from: r.from!, to: r.to!});
                 } else if (lines.length < ctx.results.length - 1) {
-                    this.pushNeutralChatLine(lines, "apresults:MOVE.phutball_to", {to: r.to!});
+                    this.pushNeutralChatLine(lines, "apresults:phutball.MOVE.to", {to: r.to!});
                 } else {
-                    this.pushNeutralChatLine(lines, "apresults:MOVE.phutball_to_last", {to: r.to!});
+                    this.pushNeutralChatLine(lines, "apresults:phutball.MOVE.to_last", {to: r.to!});
                 }
                 return true;
             case "remove":
-                this.pushNeutralChatLine(lines, "apresults:REMOVE.phutball", {count: r.num!});
+                this.pushNeutralChatLine(lines, "apresults:phutball.REMOVE", {count: r.num!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "SELECT": {
+      "resolve": "{{player}} selects the piece in a crosscut at {{where}}."
+    }
+  }
+}

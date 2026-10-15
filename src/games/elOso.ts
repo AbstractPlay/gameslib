@@ -6,6 +6,59 @@ import { RectGrid, resolveChallengeSeed, reviver, UserFacingError, type Directio
 import { chatPlayerToken, forEachGroupResult, type ChatActorRef, type ChatLogEntry, type ChatLogLine } from "../common/chat-log.js";
 import { type IGradeTier, type ISoloOutcomeMeta } from "./_solo-outcome.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select one of your stacks to move. Click a stack twice to pass.",
+        VALID_PARTIAL: "Select a destination. Click the same stack again to pass.",
+        VALID_PARTIAL_TOP: "Select a destination or click the Sky bar above. Click the same stack again to pass.",
+        SELECT_STACK_FOR_PASS: "Select a stack first, then click it again to pass.",
+        INVALID_DIRECTION: "Stacks may move diagonally or sideways, but not straight forward or back.",
+        TOO_FAR: "This stack can move at most {{dist}} spaces.",
+        SKY_FROM_TOP: "Only stacks on the top row may move into the Sky.",
+    },
+    displays: {
+        "#stack": {
+            name: "Stack pieces",
+        },
+        nums: {
+            description: "Stacks shown as numbers",
+            name: "Numbers",
+        },
+    },
+    status: {
+        SKY: "Sky",
+        CAVE: "Cave",
+        GROUND: "Ground",
+        PIT: "Pit",
+        GRADE_LOSS: "Loss (9 or fewer)",
+        GRADE_WIN: "Win (10)",
+        GRADE_SUPERIOR: "Superior (11)",
+        GRADE_EXCELLENT: "Excellent (12)",
+    },
+};
+export const gameApresultsEn = {
+    ACTOR: {
+        bear: "The Bear",
+    },
+    ANNOUNCE: {
+        bearSetup: "Bear setup",
+        playerSetup: "Player setup",
+    },
+    CAPTURE: {
+        one: "{{player}} annihilated one piece at {{where}}.",
+        other: "{{player}} annihilated {{count}} pieces at {{where}}.",
+    },
+    PLACE: {
+        one: "{{player}} placed one piece at {{where}}.",
+        other: "{{player}} placed {{count}} pieces at {{where}}.",
+    },
+    ROLL: {
+        default: "The Bear rolled: {{dice}}.",
+        player: "{{player}} rolled: {{dice}}.",
+    },
+};
+
+
 
 export type playerid = 1 | 2;
 
@@ -55,8 +108,8 @@ export class ElOsoGame extends GameBase {
         playercounts: [1],
         version: "20260827",
         dateAdded: "2026-09-09",
-        description: "apgames:descriptions.elOso",
-        notes: "apgames:notes.elOso",
+        description: "A solitaire game from the world of Carrisor. Move your stacks off the top of the board into the Sky while the Bear rolls dice and advances from above. Score ten or more pieces in the Sky to win.",
+        notes: "Setup is performed automatically when you launch the game. Sky, Cave, Ground, and Pit counts appear in the sidebar. After each move, use the frame controls to step through the Bear's response. Ten or more pieces in the Sky is a win.",
         urls: [
             "https://crabfragmentlabs.com/el-oso",
             "https://boardgamegeek.com/boardgame/371926/el-oso",
@@ -530,7 +583,7 @@ export class ElOsoGame extends GameBase {
         };
 
         if (this.gameover) {
-            result.message = i18next.t("apgames:validation._general.GAMEOVER");
+            result.message = i18next.t("apgames:validation._general.MOVES_GAMEOVER");
             return result;
         }
 
@@ -913,7 +966,7 @@ export class ElOsoGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false, emulation = false } = {}): ElOsoGame {
         if (this.gameover) {
-            throw new UserFacingError("GAMEOVER", i18next.t("apgames:validation._general.GAMEOVER"));
+            throw new UserFacingError("GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (!trusted) {
@@ -1243,7 +1296,7 @@ export class ElOsoGame extends GameBase {
 
     public override getChatActorRef(seat: number): ChatActorRef {
         if (seat === 2) {
-            return { kind: "label", key: "apresults:ACTOR.elOso.bear" };
+            return { kind: "label", key: "apresults:elOso.ACTOR.bear" };
         }
         return { kind: "seat", seat };
     }
@@ -1254,7 +1307,7 @@ export class ElOsoGame extends GameBase {
     }
 
     private rollChatKey(seat: number): string {
-        return seat === 2 ? "apresults:ROLL.elOso" : "apresults:ROLL.elOso_player";
+        return seat === 2 ? "apresults:elOso.ROLL.default" : "apresults:elOso.ROLL.player";
     }
 
     private pushElOsoChatLine(lines: ChatLogLine[], r: APMoveResult, defaultWho: number): void {
@@ -1265,21 +1318,21 @@ export class ElOsoGame extends GameBase {
             case "place":
                 lines.push({
                     actor,
-                    textKey: "apresults:PLACE.elOso",
+                    textKey: "apresults:elOso.PLACE",
                     textParams: { player, count: r.count!, where: r.where! },
                 });
                 break;
             case "move":
                 lines.push({
                     actor,
-                    textKey: "apresults:MOVE.elOso",
+                    textKey: "apresults:_general.MOVE.complete",
                     textParams: { player, from: r.from!, to: r.to!, count: r.count! },
                 });
                 break;
             case "capture":
                 lines.push({
                     actor,
-                    textKey: "apresults:CAPTURE.elOso",
+                    textKey: "apresults:elOso.CAPTURE",
                     textParams: { player, where: r.where!, count: r.count! },
                 });
                 break;
@@ -1293,7 +1346,7 @@ export class ElOsoGame extends GameBase {
             case "pass":
                 lines.push({
                     actor,
-                    textKey: "apresults:PASS.elOso",
+                    textKey: "apresults:_general.PASS.simple",
                     textParams: { player },
                 });
                 break;
@@ -1309,14 +1362,14 @@ export class ElOsoGame extends GameBase {
         if (r.type === "announce") {
             const tag = (r.payload as string[])[0];
             if (tag === "playerSetup") {
-                lines.push({ actor: { kind: "none" }, textKey: "apresults:ANNOUNCE.elOso.playerSetup" });
+                lines.push({ actor: { kind: "none" }, textKey: "apresults:elOso.ANNOUNCE.playerSetup" });
             } else if (tag === "bearSetup") {
-                lines.push({ actor: { kind: "none" }, textKey: "apresults:ANNOUNCE.elOso.bearSetup" });
+                lines.push({ actor: { kind: "none" }, textKey: "apresults:elOso.ANNOUNCE.bearSetup" });
             }
             return;
         }
         if (r.type === "eog") {
-            lines.push({ actor: { kind: "none" }, textKey: "apresults:EOG.default" });
+            lines.push({ actor: { kind: "none" }, textKey: "apresults:_general.EOG.default" });
             return;
         }
         if (r.type === "place" || r.type === "move" || r.type === "pass" || r.type === "capture" || r.type === "roll") {

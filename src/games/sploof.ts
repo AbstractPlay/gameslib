@@ -4,6 +4,40 @@ import { APRenderRep, Glyph } from "@abstractplay/renderer/build/schemas/schema"
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        CANNOT_PLACE: "{{where}} is not a valid place to put a ball.",
+        INITIAL_INSTRUCTIONS: "Select a space to place a ball of your colour, or select a neutral ball to take.",
+        NO_BALLS_HAND: "You have no balls in your hand, so you cannot place a ball of your colour.",
+        NO_BALLS_STASH: "You have no balls in your stash, so you cannot take a neutral ball.",
+        NOT_NEUTRAL: "You have indicated that you want to take a neutral ball, but the ball at {{where}} is not neutral.",
+        PINNED: "The neutral ball at {{where}} is pinned.",
+        UNOCCUPIED: "You have indicated that you want to take a neutral ball, but there is no neutral ball at {{where}}.",
+    },
+    variants: {
+        "#board": {
+            description: "Default board that starts with a ring of neutral balls on the edges.",
+            name: "4x4 board",
+        },
+        "size-5": {
+            description: "A larger 5x5 board that starts with the bottom layer filled with neutral balls.",
+            name: "5x5 board",
+        },
+    },
+    displays: {
+        "orb-3d": {
+            description: "Use plain 3D orb textures.",
+            name: "3D orbs",
+        },
+    },
+};
+export const gameApresultsEn = {
+    TAKE: {
+        default: "{{player}} took a neutral ball at {{from}}.",
+    },
+};
+
+
 
 type playerid = 1 | 2 | 3;
 const takeSymbol = "*";
@@ -33,8 +67,7 @@ export class SploofGame extends GameBase {
         playercounts: [2],
         version: "20240602",
         dateAdded: "2024-06-08",
-        // i18next.t("apgames:descriptions.sploof")
-        description: "apgames:descriptions.sploof",
+        description: "Create a string of four touching balls at any level visible as a straight line from directly above the board. Players start with two balls in their hand, but can take two balls from their stash every time a neutral ball is removed. Players also lose when they have no moves on their turn.",
         urls: ["https://boardgamegeek.com/boardgame/114188/sploof"],
         bggid: "114188",
         people: [
@@ -523,7 +556,7 @@ export class SploofGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SploofGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -915,23 +948,23 @@ export class SploofGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ball", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.ball", { where: r.where! });
                 return true;
             case "take":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:TAKE.sploof", { from: r.from! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:sploof.TAKE.default", { from: r.from! });
                 return true;
             case "move":
                 if (r.how === "drop") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.ball_drop", { from: r.from!, to: r.to!, count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.ball_drop", { from: r.from!, to: r.to!, count: r.count! });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.ball", { from: r.from!, to: r.to! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.MOVE.ball", { from: r.from!, to: r.to! });
                 }
                 return true;
             case "eog":
                 if (r.reason === "stalemate") {
-                this.pushNeutralChatLine(lines, "apresults:EOG.stalemate");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
                 } else {
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:
@@ -950,3 +983,4 @@ export class SploofGame extends GameBase {
         return new SploofGame(this.serialize());
     }
 }
+

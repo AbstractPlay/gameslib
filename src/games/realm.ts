@@ -4,6 +4,99 @@ import { APRenderRep, BoardBasic } from "@abstractplay/renderer/build/schemas/sc
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        ALIGNED_BASE: "You may not place a base that shares a row or column with another friendly base unless (a) you have no other options or (b) you are playing with the 'Relaxed Placement' variant.",
+        BAD_MULTIMOVE: "When moving multiple pieces, you must either 'concentrate' (all pieces end in the same realm) or 'disperse' (all pieces start in the same realm).",
+        CHECKPOINT_CHARLEY: "With the 'Checkpoint Charley' variant, moving pieces must stop in the first enemy-controlled realm they enter. In this case, the piece must stop in realm {{realm}}.",
+        DOUBLE_POWER: "In the initial power placement phase, you may not place multiple powers in the same realm.",
+        EMPTY_REARRANGE: "There are no pieces in realm {{realm}} that you can rearrange.",
+        REARRANGE_THREE: "You may not rearrange realm {{realm}} three turns in a row.",
+        ENFORCER_180: "Enforcers may not make 180-degree turns.",
+        INHAND: "You have pieces left to place on the board.",
+        INHAND_LABEL: "Rearranging {{realm}}",
+        INITIAL_INSTRUCTIONS_bases: "Place a base by clicking anywhere in an uncontrolled realm.",
+        INITIAL_INSTRUCTIONS_play: "Click a piece to move, or click a base to rearrange pieces in that realm.",
+        INITIAL_INSTRUCTIONS_powers: "Place a power by clicking an empty cell in a realm you control.",
+        INVALID_REARRANGE: "You may not rearrange and move pieces in the same turn.",
+        MISSING_SPECIALS: "Special actions were triggered and must be specified in parentheses after the move.",
+        MUST_LEAVE_REALM: "Pieces may not move within the same realm except by rearrangement.",
+        NO_SPECIALS: "No special events were triggered, but your move includes some.",
+        NOT_CENTRE: "{{where}} is not a valid centre space.",
+        NOT_IN_HAND: "The piece {{piece}} does not appear to be in your hand.",
+        ONLY_BORDERS: "Only bases may be placed on centre spaces.",
+        ONLY_ENFORCERS: "Only enforcers may be immobilized.",
+        ORIENT_ENFORCER: "Click an orthogonally adjacent cell to orient the enforcer to face that direction.",
+        PIECE_MISMATCH: "The piece in cell {{where}} does not match the type you say you're moving.",
+        PLACE_IN_REALM: "Click on an empty space in realm {{realm}} to place the piece.",
+        SPECIAL_CAP_BASE: "You must specify that you are capturing the base in this realm.",
+        SPECIAL_CREATE_BASE: "You must specify that you are creating a base in this realm.",
+        SPECIAL_CREATE_ENFORCER: "You must specify the location and orientation of the enforcer you are creating.",
+        SPECIAL_IMMOB_ENFORCER: "You must specify the location of the enemy enforcer you are immobilizing.",
+        SPECIAL_IMMOB_SELF: "You must specify that the enforcer you just moved will be immobilized.",
+        UNCONTROLLED: "You do not control realm {{realm}}.",
+        WRONG_REALM_capBase: "You may only capture the base in the realm you just moved to ({{realm}}).",
+        WRONG_REALM_createBase: "You may only create a base in the realm you just moved to ({{realm}}).",
+        WRONG_REALM_createEnforcer: "You may only create an enforcer in the realm you just moved to ({{realm}}).",
+        WRONG_REALM_rearrange: "You may only place pieces in the realm being rearranged ({{realm}}).",
+    },
+    variants: {
+        capturedBases: {
+            description: "The number of captured bases becomes a second tie breaker.",
+            name: "Tie break: Captured bases",
+        },
+        checkpoint: {
+            description: "Moving pieces must stop in the first enemy controlled realm they enter.",
+            name: "Checkpoint Charley",
+        },
+        control: {
+            description: "When rearranging a realm, you may also rearrange your opponent's pieces.",
+            name: "Control freak",
+        },
+        lastFirst: {
+            description: "After initial base and power placement, the second player moves first.",
+            name: "And the last shall be first",
+        },
+        lessBase: {
+            name: "Fewer bases",
+        },
+        lessEnforcer: {
+            name: "Fewer enforcers",
+        },
+        moreBase: {
+            name: "More bases",
+        },
+        moreEnforcer: {
+            name: "More enforcers",
+        },
+        morePower: {
+            name: "More powers",
+        },
+        relaxed: {
+            description: "There are no restrictions on initial base placement.",
+            name: "Relaxed placement",
+        },
+        replacement: {
+            description: "Captured bases are immediately replaced by one of your own. Leads to a much faster game.",
+            name: "Capture by replacement",
+        },
+        TEST: {
+            description: "Do not select.",
+            name: "TESTING",
+        },
+        "#bases": { name: "Default bases" },
+        "#enforcers": { name: "Default enforcers" },
+        "#powers": { name: "Default powers" },
+        "#ties": { name: "Default ties" }
+    },
+};
+export const gameApresultsEn = {
+    IMMOBILIZE: {
+        default: "{{player}} immobilized the enforcer at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 export type Piece = "B"|"P"|"E"|"Ex";
@@ -54,8 +147,7 @@ export class RealmGame extends GameBase {
         playercounts: [2],
         version: "20230521",
         dateAdded: "2023-06-08",
-        // i18next.t("apgames:descriptions.realm")
-        description: "apgames:descriptions.realm",
+        description: "Realm is played on a unique 12x12 board with only two types of mobile pieces. The goal is to capture more territory than your opponent by blocking and immobilizing their pieces. A few simple rules let you generate more pieces, which leads to ever-evolving tactics.",
         urls: ["https://boardgamegeek.com/boardgame/3024/realm"],
         bggid: "3024",
         people: [
@@ -1212,7 +1304,7 @@ export class RealmGame extends GameBase {
     // This means it silently ignores nonsensical movement parts.
     public move(m: string, {partial = false, trusted = false} = {}): RealmGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.replace(/\s+/g, "");
@@ -1689,7 +1781,7 @@ export class RealmGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "immobilize":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:IMMOBILIZE.realm", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:realm.IMMOBILIZE.default", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -1713,3 +1805,4 @@ export class RealmGame extends GameBase {
         return new RealmGame(this.serialize());
     }
 }
+

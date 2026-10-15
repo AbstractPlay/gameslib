@@ -6,6 +6,61 @@ import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        INVALID_ORIENTATION: "{{orient}} is not a valid placement (use top+front digits 11, 12, 21, or 22).",
+        INVALID_PASS: "You may not pass now.",
+        INVALID_TIP: "{{move}} is not a valid tip and placement.",
+        NO_RESERVE: "There are no megaliths left in the reserve.",
+        NOT_PLACE_PHASE: "You must tip and place or pass; you cannot place a megalith now.",
+        SELECT_CELL: "Select an empty cell for the megalith.",
+        SELECT_ORIENTATION: "Select a placement (top and south-face colours), then an empty cell.",
+        TIP_OR_PASS: "Tip the highlighted megalith (then place one of your own) or pass. Indicate the tip direction with a button or by clicking a cell along that ray.",
+        TIP_THEN_PLACE: "Now select a placement for your megalith.",
+    },
+    variants: {
+        "8x5": {
+            name: "Small board (8x5)",
+        },
+        "#board": {
+            name: "Medium board (10x7)",
+        },
+        "14x9": {
+            name: "Large board (14x9)",
+        },
+    },
+    displays: {
+        "#projection": {
+            name: "Isometric view",
+        },
+        flat: {
+            description: "Display the board as seen from above.",
+            name: "Flat view",
+        },
+    },
+    buttons: {
+        tip_n: "Tip north",
+        tip_e: "Tip east",
+        tip_s: "Tip south",
+        tip_w: "Tip west",
+    },
+    status: {
+        DOLMENS: "Dolmens",
+    },
+};
+export const gameApresultsEn = {
+    MOVE: {
+        tip: "{{player}} tipped the megalith at {{from}} onto {{to}} toward {{how}}.",
+    },
+    PASS: {
+        default: "{{player}} declined to tip the megalith.",
+    },
+    PLACE: {
+        default: "{{player}} placed a megalith at {{where}} (top {{top}}, south {{south}}).",
+    },
+};
+
+
 
 export type playerid = 1 | 2;
 /** Top colour then front (+Z / toward rank 1) colour, e.g. `12` = top 1, south face 2. */
@@ -62,8 +117,8 @@ export class CarnacGame extends GameBase {
         playercounts: [2],
         version: "20260702",
         dateAdded: "2026-08-03",
-        description: "apgames:descriptions.carnac",
-        notes: "apgames:notes.carnac",
+        description: "Players share a pool of megaliths, placing them upright and optionally tipping the opponent's latest piece to lie across two squares. Score dolmens — groups of three or more orthogonally connected symbols of your colour as seen from above.",
+        notes: "Each megalith is two cubes stacked vertically. On each cube, top and bottom are opposite colours; left and right match; front and back match each other and are opposite to left/right.\n\nPlacements are notated `TF-cell`, where the first digit is the top colour and the second is the colour on the face toward rank 1 (south). Example: `12-d4` means top colour 1 and south face colour 2.\n\nWhen tipping, combine tip direction and placement in one move: `>s,11-a1` tips south then places orientation `11` at `a1`.\n\nIn isometric view, floor cells hidden under adjacent toppled megaliths can be hard to click — rotate to find an opening or use flat view for fully enclosed holes. In holes where a megalith cannot be tipped, only top colours matter and the south face is assumed to be colour 1 (`11` or `21`). In flat view the placement key shows only the top face, but all four orientations remain available.",
         urls: ["https://boardgamegeek.com/boardgame/103061/carnac"],
         bggid: "103061",
         people: [
@@ -473,8 +528,17 @@ export class CarnacGame extends GameBase {
     public getButtons(): ICustomButton[] {
         if (this.phase === "tip" && this.pending !== null) {
             const buttons: ICustomButton[] = [];
+            const tipLabels: Record<string, string> = {
+                N: "apgames:buttons.carnac.tip_n",
+                E: "apgames:buttons.carnac.tip_e",
+                S: "apgames:buttons.carnac.tip_s",
+                W: "apgames:buttons.carnac.tip_w",
+            };
             for (const dir of this.validTipDirections(this.pending)) {
-                buttons.push({ label: `apgames:buttons.carnac.tip_${dir.toLowerCase()}`, move: `>${dir.toLowerCase()}` });
+                const label = tipLabels[dir];
+                if (label) {
+                    buttons.push({ label, move: `>${dir.toLowerCase()}` });
+                }
             }
             if (buttons.length > 0) {
                 buttons.push({ label: "apgames:buttons.pass", move: "pass" });
@@ -706,7 +770,7 @@ export class CarnacGame extends GameBase {
         const result: IValidationResult = { valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER") };
 
         if (this.gameover) {
-            result.message = i18next.t("apgames:MOVES_GAMEOVER");
+            result.message = i18next.t("apgames:validation._general.MOVES_GAMEOVER");
             return result;
         }
 
@@ -852,7 +916,7 @@ export class CarnacGame extends GameBase {
 
     public move(m: string, { trusted = false, partial = false } = {}): CarnacGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1133,21 +1197,21 @@ export class CarnacGame extends GameBase {
             case "place": {
                 const orient = r.what as Orient;
                 const { top, front } = this.parseOrient(orient);
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.carnac", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:carnac.PLACE.default", {
                     where: r.where!, top, south: front,
                 });
                 return true;
             }
             case "move":
                 if (r.how !== undefined) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.carnac_tip", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:carnac.MOVE.tip", {
                         from: r.from!, to: r.to!, how: r.how,
                     });
                     return true;
                 }
                 return false;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PASS.carnac", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:carnac.PASS.default", {});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

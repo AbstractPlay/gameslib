@@ -37,6 +37,32 @@ import {
 import { QuincunxBoard } from "./quincunx/board.js";
 import { QuincunxCard } from "./quincunx/card.js";
 import { scorePlacement } from "./thricewise/scoring.js";
+export const gameApgamesEn = {
+    validation: {
+        BAD_CARD: "That card ({{card}}) is not available to play.",
+        BAD_PASS: "Only inactive seats may submit a pass token during placement.",
+        DUPLICATE_CARD: "Each card may only be placed once in this turn.",
+        GRID_CAP: "The grid cannot grow wider or taller than six cards.",
+        INITIAL_INSTRUCTIONS_place: "Place your card(s) on the grid. Deferred cards and this turn's card must all be placed.",
+        INITIAL_INSTRUCTIONS_select: "Choose a card from your hand.",
+        LABEL_HAND: "{{player}}'s hand & deferred",
+        LABEL_DECK: "Cards in deck",
+        NOT_ADJACENT: "Cards must be placed next to an existing card.",
+        NOT_YOUR_TURN: "Wait for your turn in the placement order.",
+        SELECT_HAND: "Select a card from your hand area.",
+        STATUS_place: "Trick {{round}} — placement",
+        STATUS_select: "Trick {{round}} — choose a card",
+        VALID_PARTIAL_CELL: "Choose a cell for this card.",
+        VALID_PARTIAL_MORE: "Place your remaining card(s).",
+    },
+};
+export const gameApresultsEn = {
+    SELECT: {
+        default: "{{player}} selected {{card}}.",
+    },
+};
+
+
 
 export type playerid = 1|2|3|4|5;
 type Phase = "select" | "place";
@@ -196,8 +222,8 @@ export class ThricewiseGame extends GameBaseSequenced {
         playercounts: [2, 3, 4, 5],
         version: "20260925",
         dateAdded: "2026-09-25",
-        description: "apgames:descriptions.thricewise",
-        notes: "apgames:notes.thricewise",
+        description: "A fast-paced Decktet tableau game: each turn everyone secretly chooses a card, then non-deferred plays go onto the grid in rank order. Score whenever your play completes a line of three (flush, set, or straight). Highest score when the grid fills or hands are empty wins.",
+        notes: "With 2 or 4 players the opening grid is 2×2; with 3 or 5 players it is 2×3. Short labels appear beneath cards in your hand. \"Sel\" indicates the card chosen in the last selection phase (including an uncommitted partial select) and \"Def\" indicates cards deferred from an earlier tied selection. More information on the Decktet is on the [Decktet wiki](https://decktet.wikidot.com/).",
         urls: [
             "https://decktet.wikidot.com/game:thricewise",
             "https://boardgamegeek.com/boardgame/42900/thricewise",
@@ -1070,13 +1096,13 @@ export class ThricewiseGame extends GameBaseSequenced {
             }
         }
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         const moves: string[] = m.split(/\s*,\s*/);
         if (moves.length !== this.numplayers) {
             throw new UserFacingError(
                 "MOVES_SIMULTANEOUS_PARTIAL",
-                i18next.t("apgames:MOVES_SIMULTANEOUS_PARTIAL"),
+                i18next.t("apgames:validation._general.MOVES_SIMULTANEOUS_PARTIAL"),
             );
         }
         for (let i = 0; i < moves.length; i++) {
@@ -1466,7 +1492,7 @@ export class ThricewiseGame extends GameBaseSequenced {
             case "select":
                 if (r.who !== undefined && r.what !== undefined) {
                     const card = Card.deserialize(String(r.what));
-                    this.pushSeatChatLine(lines, r.who, "apresults:SELECT.thricewise", {
+                    this.pushSeatChatLine(lines, r.who, "apresults:thricewise.SELECT.default", {
                         card: card?.plain ?? r.what,
                     });
                     return true;
@@ -1475,7 +1501,7 @@ export class ThricewiseGame extends GameBaseSequenced {
             case "deltaScore":
                 if (r.delta !== undefined) {
                     const seat = r.who !== undefined ? r.who : ctx.defaultSeat;
-                    this.pushSeatChatLine(lines, seat, "apresults:DELTA_SCORE_GAIN", {
+                    this.pushSeatChatLine(lines, seat, "apresults:_general.DELTA_SCORE_GAIN", {
                         count: r.delta,
                         delta: r.delta,
                     });

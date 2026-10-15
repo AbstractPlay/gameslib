@@ -6,6 +6,53 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        DESTINATION: "Select a cell to place the piece.",
+        INITIAL_INSTRUCTIONS: "Place 1 or 2 pieces on the board. If you place 2 pieces, they must be of different colours.",
+        INITIAL_INSTRUCTIONS_FIRST: "Place 1 piece of either colour on the board.",
+        INVALID_PIECE: "The only valid piece types are '1' and '2'. You gave '{{ piece }}'.",
+        INVALIDTILE: "The first character of the move notation has to be '1' or '2' for the tile type.",
+        PLACE_NEXT: "Click on the recently placed piece to switch colours, or click on another space to place a tile of the other colour.",
+        SAME_CELL: "Select two different cells to place the tiles.",
+        SAME_TILE: "You cannot place two tiles of the same type in the same move.",
+        TOO_MANY_MOVES: "You may only place two pieces on the board per turn.",
+        TOO_MANY_MOVES_FIRST: "You may only place one piece on the board on the first turn.",
+    },
+    variants: {
+        "#board": {
+            name: "Default board (base 6)",
+        },
+        "size-4": {
+            name: "Smallest board (base 4)",
+        },
+        "size-5": {
+            name: "Smaller board (base 5)",
+        },
+        "size-8": {
+            name: "Larger board (base 8)",
+        },
+        "size-10": {
+            name: "Largest board (base 10)",
+        },
+    },
+    displays: {
+        "hide-threatened": {
+            description: "Don't show threatened stones.",
+            name: "Hide threatened",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        default: "{{player}} captured a {{what}} group of size {{count}}.",
+    },
+    PLACE: {
+        default: "{{player}} placed a {{what}} piece at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 export type tileid = 1|2;
@@ -30,10 +77,8 @@ export class BloomsGame extends GameBase {
         playercounts: [2],
         version: "20240114",
         dateAdded: "2024-01-18",
-        // i18next.t("apgames:descriptions.blooms")
-        description: "apgames:descriptions.blooms",
-        // i18next.t("apgames:notes.blooms")
-        notes: "apgames:notes.blooms",
+        description: "Each player owns 2 colours of stones. Players take turns placing one or two stones each turn (if you place two, they must be different colours), then capture all fenced enemy blooms. The first player to capture a certain number of stones wins.",
+        notes: "The threshold value is X(n) = 5n, where n is the base of the hexhex board (e.g., the default board is base 6, so the threshold is 30).",
         // urls: ["https://www.nickbentley.games/blooms-rules/"],
         urls: ["https://boardgamegeek.com/boardgame/249095/blooms"],
         bggid: "249095",
@@ -392,7 +437,7 @@ export class BloomsGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): BloomsGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = this.normaliseMove(m);
@@ -654,12 +699,12 @@ export class BloomsGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.blooms", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blooms.PLACE.default", {
                     where: r.where!, what: r.what!,
                 });
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.blooms", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:blooms.CAPTURE.default", {
                     count: r.count!, what: r.what!,
                 });
                 return true;
@@ -674,3 +719,4 @@ export class BloomsGame extends GameBase {
         return new BloomsGame(this.serialize());
     }
 }
+

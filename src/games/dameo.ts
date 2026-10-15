@@ -4,6 +4,36 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a piece to move.",
+        INVALID_MOVE: "Remember that capturing is compulsory, as is capturing the maximum number of pieces. Movement can only happen in a forward direction, and captures can only happen orthogonally.",
+        VALID_PARTIAL: "Looks good so far. Select the next empty cell to move to.",
+    },
+    variants: {
+        "#board": {
+            name: "Default 8x8 board",
+        },
+        anti: {
+            description: "The first player to run out of moves wins.",
+            name: "Anti-Dameo",
+        },
+        "size-10": {
+            name: "10x10 board (4 rows; experimental)",
+        },
+        "size-10b": {
+            name: "10x10 board (3 rows; experimental)",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        king: "{{player}} captured a king at {{where}}.",
+        soldier: "{{player}} captured a soldier at {{where}}.",
+    },
+};
+
+
 
 
 export type playerid = 1|2;
@@ -29,8 +59,7 @@ export class DameoGame extends GameBase {
         playercounts: [2],
         version: "20240219",
         dateAdded: "2024-02-19",
-        // i18next.t("apgames:descriptions.dameo")
-        description: "apgames:descriptions.dameo",
+        description: "A modern draughts game with linear movement and orthogonal captures.",
         urls: [
             "https://mindsports.nl/index.php/arena/dameo/",
             "https://boardgamegeek.com/boardgame/24698/dameo",
@@ -452,7 +481,7 @@ export class DameoGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): DameoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -714,12 +743,12 @@ export class DameoGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.dameo", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:dameo.CAPTURE.${r.what!}`, {
                     where: r.where!, context: r.what!,
                 });
                 return true;
             case "promote":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PROMOTE.basicWhere", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PROMOTE.basicWhere", {
                     where: r.where!,
                 });
                 return true;
@@ -742,3 +771,4 @@ export class DameoGame extends GameBase {
         return new DameoGame(this.serialize());
     }
 }
+

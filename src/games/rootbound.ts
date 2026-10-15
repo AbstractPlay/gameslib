@@ -5,6 +5,25 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        FIRST_MOVE_INSTRUCTIONS: "Place a piece anywhere on the board.",
+        SECOND_MOVE_INSTRUCTIONS: "Place two pieces on empty spaces. You must make a second group as soon as possible.",
+        THIRD_MOVE_INSTRUCTIONS: "Place one or two pieces on empty spaces. You must make a second group as soon as possible.",
+        INITIAL_INSTRUCTIONS: "Place one or two pieces on an unclaimed empty space. Your pieces may not form a small triangle nor can you grow a group in a straight line from an existing piece.",
+        BAD_SECOND_MOVE: "You must start by making a second group as soon as possible.",
+        CLAIMED_CELL: "You may not place a piece into a claimed territory.",
+        RAPID_GROWTH: "You cannot grow a group in a straight line from an existing piece in a single turn.",
+        TOO_MANY_NEIGHBORS: "Your pieces cannot form a small triangle.",
+    },
+    displays: {
+        "hide-highlights": {
+            description: "Don't highlight the Claimed Regions.",
+            name: "Hide highlights",
+        },
+    },
+};
+
 
 type PlayerId = 1|2|3;
 
@@ -36,10 +55,8 @@ export class RootBoundGame extends GameBase {
         playercounts: [2],
         version: "20250109",
         dateAdded: "2024-02-25",
-        // i18next.t("apgames:descriptions.rootbound")
-        description: "apgames:descriptions.rootbound",
-        // i18next.t("apgames:notes.rootbound")
-        notes: "apgames:notes.rootbound",
+        description: "In Root Bound, two groups of ‘plants’ spread in lifelike ways and vie for control of territory as space for new growth rapidly dwindles.",
+        notes: "The estimated score shows the scores that the board would resolve to if the game were to end in the current board state. Consequently, the first player who forms a partition will briefly appear to have a maximum score. This will correct itself over the course of the game.\n\nThe implementation currently only provides beginner protection for the first move of the game. Be careful not to merge down to one Dead Group.",
         urls: [
             "https://cjffield.com/rules/rootbound.pdf",
             "https://boardgamegeek.com/boardgame/416201/root-bound",
@@ -605,7 +622,7 @@ export class RootBoundGame extends GameBase {
         if (m === "") return this;
 
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         this.results = [];
@@ -958,3 +975,4 @@ export class RootBoundGame extends GameBase {
         return new RootBoundGame(this.serialize());
     }
 }
+

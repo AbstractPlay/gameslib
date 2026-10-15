@@ -7,6 +7,44 @@ import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import { type Delta, allRotationsAndReflections } from "../common/plotting.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a point to place a piece.",
+        FORBIDDEN: "You may not form forbidden glyphs.",
+    },
+    variants: {
+        "size-8": {
+            name: "8x8 board",
+        },
+        "size-9": {
+            name: "9x9 board",
+        },
+        "#board": {
+            name: "11x11 board",
+        },
+        "size-13": {
+            name: "13x13 board",
+        },
+        "size-15": {
+            name: "15x15 board",
+        },
+        "size-17": {
+            name: "17x17 board",
+        },
+        "size-19": {
+            name: "19x19 board",
+        },
+        cartwheel: {
+            name: "Cartwheel",
+            description: "Allows 2x4 switches but forbids rare 4x4 pinwheels and cartwheels (by Luis Bolaños Mures)",
+        },
+        pinwheel: {
+            name: "Pinwheel",
+            description: "Allows 2x4 switches but forbids rare 4x4 pinwheels (by Luis Bolaños Mures)",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 export type DeltaEntry = {
@@ -35,8 +73,7 @@ export class MinefieldGame extends GameBase {
         playercounts: [2],
         version: "20260311",
         dateAdded: "2026-03-19",
-        // i18next.t("apgames:descriptions.minefield")
-        description: "apgames:descriptions.minefield",
+        description: "Connect opposite sides of the board, but certain piece configurations are forbidden.",
         urls: [
             "https://www.marksteeregames.com/Minefield_rules.pdf",
             "https://boardgamegeek.com/thread/3295906/new-mark-steere-game-minefield",
@@ -440,7 +477,7 @@ export class MinefieldGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): MinefieldGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -642,3 +679,4 @@ export class MinefieldGame extends GameBase {
         return new MinefieldGame(this.serialize());
     }
 }
+

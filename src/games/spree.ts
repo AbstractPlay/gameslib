@@ -4,6 +4,40 @@ import { APRenderRep, AreaKey, Glyph } from "@abstractplay/renderer/build/schema
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        ALREADY_WON: "You have already won the game, so you don't have to pick a colour to hand to your opponent.",
+        CANNOT_PLACE: "{{where}} is not a valid place to put a ball.",
+        CHOOSE_NEXT: "Choose a colour to hand to your opponent.",
+        FIRST_MOVE_CHOICE: "The first move must be the ball to hand to your opponent (1, 2, or 3).",
+        INITIAL_INSTRUCTIONS: "Select a space to place the ball of colour {{choice}}, then choose a colour to hand to your opponent.",
+        INITIAL_INSTRUCTIONS_FIRST: "Choose a colour to hand to your opponent.",
+        INVALID_CHOICE: "Colour choice {{choice}} is not valid. Choose 1, 2, or 3.",
+        PLACE_FIRST: "You must place the ball before choosing a colour to hand to your opponent.",
+        SAME_CHOICE: "You cannot hand your opponent the colour {{choice}} because the same colour cannot be chosen twice in a row.",
+    },
+    variants: {
+        "#board": {
+            name: "4x4 board",
+        },
+        "size-5": {
+            name: "5x5 board",
+        },
+    },
+    displays: {
+        "orb-3d": {
+            description: "Use plain 3D orb textures.",
+            name: "3D orbs",
+        },
+    },
+};
+export const gameApresultsEn = {
+    SELECT: {
+        default: "{{player}} handed a ball of colour {{who}} to the opponent.",
+    },
+};
+
+
 
 type playerid = 1 | 2 | 3;
 
@@ -31,10 +65,8 @@ export class SpreeGame extends GameBase {
         playercounts: [2],
         version: "20240602",
         dateAdded: "2024-06-08",
-        // i18next.t("apgames:descriptions.spree")
-        description: "apgames:descriptions.spree",
-        // i18next.t("apgames:notes.spree")
-        notes: "apgames:notes.spree",
+        description: "An impartial n-in-a-row game where players take turns handing a ball to their opponent to place. The goal is to try to make a full line of one of two colours (red and blue by default). There is a third wild neutral colour (green by default) that can play the role of either colour.",
+        notes: "We use 1, 2, 3 to denote the three colours. The neutral colour for the wild ball is colour 3. 1 and 2 are red and blue respectively by default, and 3 is green by default.",
         urls: ["https://boardgamegeek.com/boardgame/114263/spree"],
         bggid: "114263",
         people: [
@@ -387,7 +419,7 @@ export class SpreeGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): SpreeGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -803,10 +835,10 @@ export class SpreeGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.ball", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.ball", { where: r.where! });
                 return true;
             case "select":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SELECT.spree", { who: r.who! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:spree.SELECT.default", { who: r.who! });
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -818,3 +850,4 @@ export class SpreeGame extends GameBase {
         return new SpreeGame(this.serialize());
     }
 }
+

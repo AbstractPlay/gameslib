@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "ROLL": {
+      "single": "The die was rolled: {{values}}."
+    }
+  }
+}

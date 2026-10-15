@@ -1,0 +1,7 @@
+{
+  "suppress": [
+    "validation.mchess.VALID_MOVE_counter",
+    "validation.renju.INITIAL_INSTRUCTIONS_TARAGUCHI6",
+    "validation.zola.INITIAL_INSTRUCTIONS"
+  ]
+}

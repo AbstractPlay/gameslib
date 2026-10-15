@@ -7,6 +7,24 @@ import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
 import { connectedComponents } from 'graphology-components';
+export const gameApgamesEn = {
+    validation: {
+        EMPTY_HAND: "You have no more pieces to place.",
+        INITIAL_INSTRUCTIONS: "Select an empty space to place a piece, or pass if you wish to save this piece for later.",
+        MAY_RELEASE: "Place more pieces if you wish to trigger a release.",
+        MUST_RELEASE: "A release has been triggered. You must place all your pieces.",
+    },
+    displays: {
+        "#projection": {
+            name: "Top-down view",
+        },
+        isometric: {
+            description: "Quasi-3D, isometric view",
+            name: "Isometric",
+        },
+    },
+};
+
 
 export type playerid = 1|2|3|4|5|6;
 
@@ -30,8 +48,7 @@ export class BideGame extends GameBase {
         playercounts: [2,3,4,5,6],
         version: "20230729",
         dateAdded: "2023-09-25",
-        // i18next.t("apgames:descriptions.bide")
-        description: "apgames:descriptions.bide",
+        description: "Up to six players take turns placing pieces on the board, pushing adjacent pieces outward. One can also pass to build up a number of pieces that can be placed at once later. Pieces closer to the centre are more valuable. Highest-scoring group wins!",
         urls: ["https://boardgamegeek.com/boardgame/309892/bide"],
         bggid: "309892",
         people: [
@@ -302,7 +319,7 @@ export class BideGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): BideGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -653,3 +670,4 @@ export class BideGame extends GameBase {
         // return new BideGame(this.serialize());
     }
 }
+

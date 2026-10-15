@@ -4,6 +4,30 @@ import { APRenderRep, Colourfuncs } from "@abstractplay/renderer/build/schemas/s
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, SquareOrthGraph } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Place a friendly piece not orthogonally adjacent to an enemy pieces.",
+        INVALID_MOVE: "The chosen cell must not be orthogonally adjacent to a piece of the adversary.",
+        INIT_NO_CENTER: "The first move cannot be at the center of the board",
+        INIT_CENTER: "The first move must be at the center of the board",
+        PLY_2_NO_CENTER: "The second move cannot be at the center of the board",
+    },
+    variants: {
+        "#ruleset": {
+            name: "Huntoon's ruleset, 11x11 board",
+        },
+        original: {
+            name: "Original 8x8 SNORT",
+        },
+        tournament: {
+            name: "Restricted 8x8, tournament ruleset",
+        },
+        misere: {
+            name: "Misère 8x8, unrestricted",
+        },
+    },
+};
+
 
 export type playerid = 1 | 2; // regarding pieces: 1 is the ball, 2 are the walls
 
@@ -25,10 +49,8 @@ export class CatsDogsGame extends GameBase {
         playercounts: [2],
         version: "20260508",
         dateAdded: "2026-05-13",
-        // i18next.t("apgames:descriptions.catsdogs")
-        description: "apgames:descriptions.catsdogs",
-        // i18next.t("apgames:notes.catsdogs")
-        notes: "apgames:notes.catsdogs",
+        description: "Players cannot place pieces orthogonally adjacent to adversary pieces. Last player able to make a move wins.",
+        notes: "The original game, *SNORT*, was designed by Simon Norton in 1970. The only rule was to prevent stones of different colors to be orthogonally adjacent. A stalemated player loses the game. Norton also proposed the misère version (stalemate is a win). The original game is, however, broken via a mirror strategy. Chris Huntoon proposed a bigger 11x11 board where the player cannot start at the center (in order to prevent mirroring) which he called *Cats and Dogs*, and is the main game here. Also available is the Portuguese tournament ruleset, played on the smaller 8x8 board, but where the first player must start at the central 2x2 area, and the second player must answer outside that area. This allows the game to break the mirror strategy, and still be played on the original smaller board. Check also Snort's article at [AGM#15](https://www.abstractgames.org/uploads/1/1/6/4/116462923/abstract_games_issue_15.pdf).",
         urls: [
             "https://boardgamegeek.com/boardgame/151888/snort",        ],
         bggid: "151888",
@@ -243,7 +265,7 @@ export class CatsDogsGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): CatsDogsGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -386,3 +408,4 @@ export class CatsDogsGame extends GameBase {
         return new CatsDogsGame(this.serialize());
     }
 }
+

@@ -6,6 +6,38 @@ import { reviver, UserFacingError, shuffle, cloneState } from "../common/index.j
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs/index.js";
 import {connectedComponents} from 'graphology-components';
+export const gameApgamesEn = {
+    validation: {
+        BAD_PLACEMENT: "You cannot create a new group by placing at {{where}}.",
+        CAN_BALANCE: "You are permitted to create a new group if you wish.",
+        CANT_BALANCE: "You may not grow and create a new group in the same turn.",
+        DOUBLE_GROW: "You may not cause a group to be grown more than once in a turn.",
+        DUPLICATES: "Your move contains duplicate cells.",
+        INITIAL_INSTRUCTIONS: "Click a cell to add a piece to the board.",
+        NOT_LIBERTY: "The cell {{where}} is either not a liberty of one of your groups, or the group has already been grown during this turn.",
+        PARTIAL: "So far so good. Keep placing pieces until you have expanded all groups you legally can.",
+        TOO_LONG: "You may not add more stones if your first move is to create a new group.",
+    },
+    variants: {
+        "#penalty": {
+            description: "A lower penalty creates a more aggressive game, and a higher penalty, a more conservative one.",
+            name: "Default penalty (-8)",
+        },
+        "p-4": {
+            name: "Lower penalty (-4)",
+        },
+        "p-6": {
+            name: "Lower penalty (-6)",
+        },
+        "p-10": {
+            name: "Higher penalty (-10)",
+        },
+        "p-12": {
+            name: "Higher penalty (-12)",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -28,8 +60,7 @@ export class SympleGame extends GameBase {
         playercounts: [2],
         version: "20240220",
         dateAdded: "2024-02-24",
-        // i18next.t("apgames:descriptions.symple")
-        description: "apgames:descriptions.symple",
+        description: "A territory game where you get a point for every stone placed, and a penalty for each individual group of connected pieces. Find the right balance to maximize your score.",
         urls: [
             "https://mindsports.nl/index.php/arena/symple/",
             "https://boardgamegeek.com/boardgame/106341/symple",
@@ -449,7 +480,7 @@ export class SympleGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): SympleGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -691,3 +722,4 @@ class SympleGroup {
         }
     }
 }
+

@@ -7,6 +7,32 @@ import { reviver, UserFacingError, shuffle, cloneState } from "../common/index.j
 import i18next from "i18next";
 import { generateField, IHexCoord } from "../common/hexes.js";
 import { ModularBoard } from "../common/modular/board.js";
+export const gameApgamesEn = {
+    validation: {
+        CAPTURED_LABEL: "{{player}}'s captured pieces",
+        INITIAL_INSTRUCTIONS_movepawn: "Select the cell where you want the pawn to move.",
+        INITIAL_INSTRUCTIONS_needpawn: "Select where to place the pawn.",
+        OCCUPIED_MOVE: "The pawn must move to an occupied space.",
+        SAME_COLOUR: "When capturing multiple pieces, they must all be the same colour.",
+        STRAIGHT_LINE: "There is no straightline connection between {{from}} and {{to}}.",
+        PAWN_START: "The move must start from the pawn's current location.",
+    },
+    variants: {
+        "#board": {
+            description: "A round-ish hex field of 49 spaces",
+            name: "Default board"
+        },
+        modular: {
+            name: "Modular board (7 cells, 49 spaces)",
+            description: "Modular boards are composed of a certain number of 7-cell modules (hexhex 2s) distributed randomly but ensuring that each module touches another at two points.",
+        },
+    },
+    status: {
+        MAJORITIES: "Majorities won",
+        MONOCHROME: "Monochrome potential",
+    },
+};
+
 
 type playerid = 1|2;
 type CellContents = 1|2|3|4|5|6|7;
@@ -43,8 +69,7 @@ export class TintasGame extends GameBase {
         playercounts: [2],
         version: "20230627",
         dateAdded: "2023-07-01",
-        // i18next.t("apgames:descriptions.tintas")
-        description: "apgames:descriptions.tintas",
+        description: "Players race to either collect all seven of one colour or to collect four of four different colours.",
         urls: [
             "https://spielstein.com/games/tintas/rules",
             "https://boardgamegeek.com/boardgame/207951/tintas",
@@ -562,7 +587,7 @@ export class TintasGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): TintasGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         // Normalize
         m = m.toLowerCase();
@@ -940,3 +965,4 @@ export class TintasGame extends GameBase {
         return new TintasGame(this.serialize());
     }
 }
+

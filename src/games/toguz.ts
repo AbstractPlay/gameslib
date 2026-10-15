@@ -5,6 +5,25 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { SowingNoEndsGraph, reviver, UserFacingError, cloneState } from "../common/index.js";
 import type { IRenderOpts, IScores } from "./_base.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select the pit you wish to sow. It must be on your side of the board and cannot be a tuz (square-shaped pit).",
+        NO_TUZ: "You may not sow the seeds in your tuz.",
+    },
+    displays: {
+        pips: {
+            description: "Display the stones as pips instead of as numerals.",
+            name: "Pips",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CLAIM: {
+        default: "Pit {{pit}} became a tuz.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 
@@ -29,10 +48,8 @@ export class ToguzGame extends GameBase {
         playercounts: [2],
         version: "20231224",
         dateAdded: "2023-12-25",
-        // i18next.t("apgames:descriptions.toguz")
-        description: "apgames:descriptions.toguz",
-        // i18next.t("apgames:notes.toguz")
-        notes: "apgames:notes.toguz",
+        description: "A traditional mancala-style sowing game from central Asia where you attempt to capture the majority of the pieces.",
+        notes: "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
         urls: [
             "https://en.wikipedia.org/wiki/Toguz_korgol",
             "https://boardgamegeek.com/boardgame/39617/togizqumalaq",
@@ -216,7 +233,7 @@ export class ToguzGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): ToguzGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -491,13 +508,13 @@ export class ToguzGame extends GameBase {
             case "move":
                 return true;
             case "sow":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SOW.general", {pits: r.pits!.join(", "), count: r.pits!.length});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.SOW.general", {pits: r.pits!.join(", "), count: r.pits!.length});
                 return true;
             case "claim":
-                this.pushNeutralChatLine(lines, "apresults:CLAIM.toguz", {pit: r.where!});
+                this.pushNeutralChatLine(lines, "apresults:toguz.CLAIM.default", {pit: r.where!});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.mancala", {pit: r.where!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.mancala", {pit: r.where!, count: r.count!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -527,3 +544,4 @@ export class ToguzGame extends GameBase {
         return [...this.board.map(l => [...l])];
     }
 }
+

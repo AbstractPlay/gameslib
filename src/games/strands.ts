@@ -5,6 +5,53 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { HexTriGraph, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import _ from "lodash";
+export const gameApgamesEn = {
+    validation: {
+        DIFFERENT_NUMS: "You have to select spaces with the same number.",
+        INITIAL_INSTRUCTIONS: "Select the spaces to place your pieces.",
+        INITIAL_INSTRUCTIONS_FIRST: "Select a space numbered 2 for the first move.",
+        INITIAL_SINGLE: "You may only place one piece on a space numbered 2 for the first move.",
+        INITIAL_TWO: "You must place a piece on a space numbered 2 for the first move.",
+        PLACE_MORE_one: "Place 1 more piece on a space numbered {{num}}.",
+        PLACE_MORE_other: "Place {{count}} more pieces on spaces numbered {{num}}.",
+        TOO_MANY_one: "You may only place 1 piece.",
+        TOO_MANY_other: "You may only place {{count}} pieces.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-7 board random setup",
+        },
+        "size-5-fixed": {
+            name: "Size-5 board fixed setup",
+        },
+        "size-6-fixed": {
+            name: "Size-6 board fixed setup",
+        },
+        "size-6-fixed-lownumbers": {
+            name: "Size-6 board fixed setup with low numbers",
+        },
+        "size-6-random": {
+            name: "Size-6 board random setup",
+        },
+        "size-7-fixed": {
+            name: "Size-7 board fixed setup",
+        },
+    },
+    displays: {
+        "always-show-numbers": {
+            description: "Show numbers above the pieces.",
+            name: "Always show numbers",
+        },
+    },
+};
+export const gameApresultsEn = {
+    PLACE: {
+        initial: "{{player}} placed a piece on a space labelled 2 at {{where}}.",
+        other: "{{player}} placed {{count}} pieces at {{where}}.",
+    },
+};
+
+
 
 type playerid = 1 | 2;
 type Direction = "NE" | "E" | "SE" | "SW" | "W" | "NW";
@@ -31,8 +78,7 @@ export class StrandsGame extends GameBase {
         // Updating distribution slightly for size-6 board.
         version: "20240804",
         dateAdded: "2024-08-02",
-        // i18next.t("apgames:descriptions.strands")
-        description: "apgames:descriptions.strands",
+        description: "In Strands, players take turns placing the number of pieces of their colour on the board corresponding to the number on the spaces. The goal is to form the largest contiguous group of stones. If the largest groups are tied, compare the second-largest groups, and so on. The first player starts the game by placing one piece on a space labelled with a 2.",
         urls: ["https://boardgamegeek.com/boardgame/364343/strands"],
         bggid: "364343",
         people: [
@@ -436,7 +482,7 @@ export class StrandsGame extends GameBase {
         const regex = /^[a-z]\d+(,[a-z]\d+)*$/;
         if (!regex.test(m)) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.strands.INVALID_PLACEMENT", { move: m });
+            result.message = i18next.t("apgames:validation._general.INVALID_PLACEMENT", { move: m });
             return result;
         }
 
@@ -451,7 +497,7 @@ export class StrandsGame extends GameBase {
         }
         if (duplicates.size > 0) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.strands.DUPLICATE", { where: [...duplicates].join(", ") });
+            result.message = i18next.t("apgames:validation._general.DUPLICATE", { where: [...duplicates].join(", ") });
             return result;
         }
 
@@ -472,7 +518,7 @@ export class StrandsGame extends GameBase {
         const normalised = this.normaliseMove(m);
         if (m !== normalised) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.strands.NORMALISE", { normalised });
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
 
@@ -556,7 +602,7 @@ export class StrandsGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): StrandsGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -782,9 +828,13 @@ export class StrandsGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.what === "2" && r.count === 1) {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.strands_initial", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:strands.PLACE.initial", { where: r.where! });
+                } else if (r.count === 1) {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {
+                    where: r.where!.split(",").join(", "),
+                });
                 } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.strands", { where: r.where!.split(",").join(", "), count: r.count! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:strands.PLACE", { where: r.where!.split(",").join(", "), count: r.count! });
                 }
                 return true;
             default:
@@ -809,3 +859,4 @@ export class StrandsGame extends GameBase {
         return new StrandsGame(this.serialize());
     }
 }
+

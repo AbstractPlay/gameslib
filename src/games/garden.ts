@@ -4,6 +4,20 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PLACE_normal: "You must plant seeds orthogonally adjacent to existing plants.",
+        BAD_PLACE_start: "In the first four turns of the game, you may NOT plant a seed orthogonally adjacent to an existing plant.",
+        INITIAL_INSTRUCTIONS_normal: "Select which seed you wish to plant.",
+        INITIAL_INSTRUCTIONS_start: "Select which seed you wish to plant.",
+        INVALID_COLOUR: "The only valid colours are 'w' and 'b'. You gave '{{colour}}'.",
+        SELECT_CELL_normal: "Select a plot orthogonally adjacent to an existing plant (in the bottom-right-hand board).",
+        SELECT_CELL_start: "Select a plot NOT orthogonally adjacent to an existing plant (in the bottom-right-hand board).",
+        SELECT_COLOUR: "Select the seed you wish to plant.",
+        WRONG_BOARD: "You may only select plots in the bottom-right board. The other three are showing what happened during the previous turn.",
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -65,10 +79,8 @@ export class GardenGame extends GameBase {
         playercounts: [2],
         version: "20230619",
         dateAdded: "2023-06-27",
-        // i18next.t("apgames:descriptions.garden")
-        description: "apgames:descriptions.garden",
-        // i18next.t("apgames:notes.garden")
-        notes: "apgames:notes.garden",
+        description: "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
+        notes: "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
         urls: ["http://www.tjgames.com/wizard.html", "https://boardgamegeek.com/boardgame/13077/wizards-garden"],
         bggid: "13077",
         people: [
@@ -356,7 +368,7 @@ export class GardenGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): GardenGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -710,7 +722,7 @@ export class GardenGame extends GameBase {
                 if (r.what! === "b") {
                     what = "ravenclaw";
                 }
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.complete", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {
                     where: r.where!, what,
                 });
                 return true;
@@ -728,3 +740,4 @@ export class GardenGame extends GameBase {
         return new GardenGame(this.serialize());
     }
 }
+

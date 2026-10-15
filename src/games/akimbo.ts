@@ -6,6 +6,46 @@ import { Direction, RectGrid, reviver, UserFacingError } from "../common/index.j
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INSTRUCTIONS: "Select a point to place a piece. Each player may only have one naked diagonal.",
+        INSTRUCTIONS_OKIMBA: "Select a point to place a piece. There must be only have one naked diagonal in the entire board.",
+        EXCESS_NAKED_DIAGONALS: "More than one naked diagonal would be created."
+    },
+    variants: {
+        "size-9": {
+            name: "9x9 board",
+        },
+        "size-11": {
+            name: "11x11 board",
+        },
+        "#board": {
+            name: "13x13 board",
+        },
+        "size-15": {
+            name: "15x15 board",
+        },
+        "size-17": {
+            name: "17x17 board",
+        },
+        "size-19": {
+            name: "19x19 board",
+        },
+        "#ruleset": {
+            name: "Akimbo",
+        },
+        okimba: {
+            name: "Okimba",
+        },
+    },
+};
+export const gameApresultsEn = {
+    REMOVE: {
+        default: "{{player}} removes {{where}} due to the formation of a crosscut.",
+    },
+};
+
+
 
 export type playerid = 1 | 2 | 3 | 4; // 3 represents empty cell; 4 is off-board
 
@@ -32,9 +72,8 @@ export class AkimboGame extends GameBase {
         playercounts: [2],
         version: "20260613",
         dateAdded: "2026-06-22",
-        // i18next.t("apgames:descriptions.akimbo")
-        description: "apgames:descriptions.akimbo",
-        notes: "apgames:notes.akimbo",
+        description: "A minimalist connection game where each player can only have one naked diagonal.",
+        notes: "Akimbo, designed by Luis Bolaños Mures in 2026, is a drawless connection game for two players. A _naked diagonal_ is a pair of like-colored, diagonally adjacent pieces with no other like-colored piece adjacent to both. A _crosscut_ is a 2×2 area with two interlocking naked diagonals of opposite colors.\n\nOn their turn, the player places a friendly piece on an empty cell. If this completes a crosscut, the other piece in the crosscut is removed. There must never be more than one naked diagonal of each color on the board — not even momentarily before removing a piece. A player wins if, at the end of their turn, there is a chain of orthogonally connected pieces of their color touching the player's two opposite board edges.\n\nOkimba is a variant where only up to one naked diagonal can exist on the board (so while one player has the diagonal, the adversary cannot create another).",
         urls: [
             "https://boardgamegeek.com/boardgame/466041/akimbo",
         ],
@@ -369,7 +408,7 @@ export class AkimboGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): AkimboGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         if (m.length === 0) { return this; }
@@ -614,10 +653,10 @@ export class AkimboGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "remove":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:REMOVE.akimbo", { where: r.where! });
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:akimbo.REMOVE.default", { where: r.where! });
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -629,3 +668,4 @@ export class AkimboGame extends GameBase {
         return new AkimboGame(this.serialize());
     }
 }
+

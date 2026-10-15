@@ -6,6 +6,72 @@ import { BaoGraph, reviver, UserFacingError, cloneState } from "../common/index.
 import type { IRenderOpts, IScores } from "./_base.js";
 import i18next from "i18next";
 import type { PitType } from "../common/graphs/bao.js";
+export const gameApgamesEn = {
+    validation: {
+        BAD_TAX: "You may only \"tax\" the nyumba if it is the only occupied space on your front row.",
+        BLOCKED: "You may not begin a kutakata turn with a pit that is blocked (is in kutakatia).",
+        CHOOSE_DIR_mtaji: "Select the adjacent pit in the direction you wish to sow.",
+        CHOOSE_DIR_namua: "Select the adjacent pit in the direction you wish to sow or, if you're capturing, in the direction of the kichwa you want to start from.",
+        EMPTY: "You cannot interact with empty pits.",
+        "INITIAL_INSTRUCTIONS_mtaji|kutakata": "Select one of your pits that contains two or more stones to begin sowing. No capture is possible.",
+        "INITIAL_INSTRUCTIONS_mtaji|mtaji": "Select one of your pits that contains two or more stones to begin sowing. A capture is available.",
+        "INITIAL_INSTRUCTIONS_namua|kutakata": "Select one of your inner pits that contains stones. You will add one of your in-hand stones to it and then begin sowing. No capture is available.",
+        "INITIAL_INSTRUCTIONS_namua|mtaji": "Select one of your inner pits that contains stones. You will add one of your in-hand stones to it and then capture the opposing stones. A capture is available.",
+        KUTAKATA_ONLY: "No capture is available; you must sow (kutakata) from one of your pits with two or more stones. For example: {{examples}}.",
+        MUST_CAPTURE: "A capture is mandatory. Legal captures include: {{examples}}.",
+        NEVER_SINGLE: "In the mtaji phase, you may never start your move from a pit with only one stone.",
+        NO_KUTAKATA_WHILE_CAPTURE: "You may not play a kutakata move while a capture is available. Legal captures include: {{examples}}.",
+        NO_BACK_ROW_mtaji: "In the mtaji phase, you may only start from the back row if it results in a capture or no kutakata is possible from the front row.",
+        NO_BACK_ROW_namua: "In the kunamua phase, you may not start from your back row.",
+        PLAY_HOUSE: "Your sowing has ended in your nyumba. You can stop or \"go on safari\" (this will turn your nyumba into a standard pit). To continue sowing, click your nyumba or type a \"+\" sign in the move entry box.",
+        TWO_PLUS: "You may only begin a kunamua-phase kutakata turn in a pit with one stone if you have a working house or all you have in the front row are pits with single stones.",
+        WRONG_CAPTURE: "That capture is not legal. Legal captures include: {{examples}}.",
+    },
+    variants: {
+        "#rules": {
+            description: "Bao la Kiswahili (Zanzibar): 6 seeds in the nyumba, 22 in reserve, standard Townshend-style rules.",
+            name: "Zanzibar (standard)",
+        },
+        kujifunza: {
+            description: "Zanzibar Beginner rules: two stones in each pit.",
+            name: "Bao la kujifunza",
+        },
+        malawi: {
+            description: "Malawi setup (8 seeds in the kuu, 20 nemo in reserve) with Zanzibar-style rules (legacy; deprecated).",
+            name: "Malawi (setup only)",
+        },
+        "malawi-full": {
+            description: "Full Malawi (Bawo) rules from the intermediate game (8 kuu, 20 reserve). Advanced opening distribution is not included. See the Malawi links on the game page for sources.",
+            name: "Malawi (Bawo rules)",
+        },
+    },
+    displays: {
+        pips: {
+            description: "Display the stones as pips instead of as numerals.",
+            name: "Pips",
+        },
+    },
+    status: {
+        BALANCE: "Material balance",
+    },
+};
+export const gameApresultsEn = {
+    BLOCK: {
+        default: "The pit {{pit}} is in kutakatia (is blocked).",
+    },
+    CAPTURE: {
+        one: "{{player}} captured a total of {{count}} stone from the following pits (in order): {{pits}}",
+        other: "{{player}} captured a total of {{count}} stones from the following pits (in order): {{pits}}",
+    },
+    DESTROY: {
+        default: "The nyumba at {{pit}} was destroyed.",
+    },
+    MOVE: {
+        default: "Initial direction of movement: {{direction}}.",
+    },
+};
+
+
 
 
 export type playerid = 1|2;
@@ -69,10 +135,8 @@ export class BaoGame extends GameBase {
         playercounts: [2],
         version: "20231126",
         dateAdded: "2023-12-24",
-        // i18next.t("apgames:descriptions.bao")
-        description: "apgames:descriptions.bao",
-        // i18next.t("apgames:notes.bao")
-        notes: "apgames:notes.bao",
+        description: "A traditional mancala-style sowing game from East Africa where you attempt to eliminate all pieces from the opposing front row or leave them with no legal moves.",
+        notes: "Moves in Bao can be very complex, involving multiple laps around the board and changing directions. The annotations are, therefore, sparse. The initial cell and direction are highlighted, and captured cells are also marked. But detailed annotation of movement is not possible. If you believe you have encountered a bug, please let us know in Discord.",
         urls: [
             "https://mancala.fandom.com/wiki/Bao_la_Kiswahili",
             "https://boardgamegeek.com/boardgame/14186/bao",
@@ -1241,7 +1305,7 @@ export class BaoGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false, skipeog = false, skipEconomy = false} = {}): BaoGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -1970,24 +2034,24 @@ export class BaoGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "move":
                 return true;
             case "sow":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SOW.general", {pits: r.pits!.join(", "), count: r.pits!.length});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.SOW.general", {pits: r.pits!.join(", "), count: r.pits!.length});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.bao", {pits: r.where!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:bao.CAPTURE", {pits: r.where!, count: r.count!});
                 return true;
             case "infinite":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:INFINITE", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.INFINITE.default", {});
                 return true;
             case "destroy":
-                this.pushNeutralChatLine(lines, "apresults:DESTROY.bao", {pit: r.where!});
+                this.pushNeutralChatLine(lines, "apresults:bao.DESTROY.default", {pit: r.where!});
                 return true;
             case "block":
-                this.pushNeutralChatLine(lines, "apresults:BLOCK.bao", {pit: r.where!});
+                this.pushNeutralChatLine(lines, "apresults:bao.BLOCK.default", {pit: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -2045,3 +2109,4 @@ export class BaoGame extends GameBase {
         }
     }
 }
+

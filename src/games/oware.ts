@@ -5,6 +5,19 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { SowingNoEndsGraph, reviver, UserFacingError, cloneState } from "../common/index.js";
 import type { IRenderOpts, IScores } from "./_base.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select one of your pits containing stones to sow them.",
+        NO_PIECES: "When your opponent starts with no pieces, your move must give them pieces.",
+    },
+    displays: {
+        pips: {
+            description: "Display the stones as pips instead of as numerals.",
+            name: "Pips",
+        },
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -29,10 +42,8 @@ export class OwareGame extends GameBase {
         playercounts: [2],
         version: "20240513",
         dateAdded: "2024-05-13",
-        // i18next.t("apgames:descriptions.oware")
-        description: "apgames:descriptions.oware",
-        // i18next.t("apgames:notes.oware")
-        notes: "apgames:notes.oware",
+        description: "A traditional West African sowing game where you try to capture the most pieces.",
+        notes: "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
         urls: [
             "https://en.wikipedia.org/wiki/Oware",
             "https://boardgamegeek.com/boardgame/28302/oware",
@@ -242,7 +253,7 @@ export class OwareGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): OwareGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -520,10 +531,10 @@ export class OwareGame extends GameBase {
             case "move":
                 return true;
             case "sow":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:SOW.general", {pits: r.pits!.join(", "), count: r.pits!.length});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.SOW.general", {pits: r.pits!.join(", "), count: r.pits!.length});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.mancala", {pit: r.where!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.mancala", {pit: r.where!, count: r.count!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -553,3 +564,4 @@ export class OwareGame extends GameBase {
         return [...this.board.map(l => [...l])];
     }
 }
+

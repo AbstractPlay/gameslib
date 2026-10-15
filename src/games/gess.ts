@@ -6,6 +6,37 @@ import { Direction } from "../common/index.js";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        CAPTURE4MOVE: "You signalled a capture, but the destination centred at {{to}} will not result in captures. Use \"-\" to denote non-capture movement.",
+        FROM_CENTRE_ONLY: "The selected 3x3 piece centred at {{cell}} contains only a centre stone, so it cannot move.",
+        FROM_EMPTY: "The selected 3x3 piece centred at {{cell}} contains no stones.",
+        FROM_ENEMY: "The selected 3x3 piece centred at {{cell}} contains enemy stones.",
+        INITIAL_INSTRUCTIONS: "Select the centre of a 3x3 piece to move.",
+        INVALID_MOVE: "The selected 3x3 piece centred at {{from}} cannot move to {{to}}.",
+        MOVE4CAPTURE: "You signalled a move, but the destination centred at {{to}} will result in captures. Use \"x\" to denote capture.",
+        POTENTIAL_MOVE: "So far so good. Provide the space you want to move the 3x3 piece to.",
+        TOO_MANY_MOVES: "You have already selected a piece to move.",
+    },
+    displays: {
+        "hide-piece-highlight": {
+            description: "Don't highlight the 9x9 pieces.",
+            name: "Hide 9x9 piece highlight",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CAPTURE: {
+        one: "{{count}} stone is removed from the board.",
+        other: "{{count}} stones are removed from the board.",
+    },
+    MOVE: {
+        one: "{{player}} moved a 3x3 piece containing {{count}} stone from {{from}} to {{to}}.",
+        other: "{{player}} moved a 3x3 piece containing {{count}} stones from {{from}} to {{to}}.",
+    },
+};
+
+
 
 type playerid = 1|2;
 
@@ -32,8 +63,7 @@ export class GessGame extends GameBase {
         playercounts: [2],
         version: "20240125",
         dateAdded: "2024-01-22",
-        // i18next.t("apgames:descriptions.gess")
-        description: "apgames:descriptions.gess",
+        description: "In Gess, the 'pieces' are 3x3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
         urls: ["https://boardgamegeek.com/boardgame/12862/gess"],
         bggid: "12862",
         people: [
@@ -420,7 +450,7 @@ export class GessGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): GessGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -655,10 +685,10 @@ export class GessGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.gess", {from: r.from!, to: r.to!, count: r.count!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:gess.MOVE", {from: r.from!, to: r.to!, count: r.count!});
                 return true;
             case "capture":
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.gess", {count: r.count!});
+                this.pushNeutralChatLine(lines, "apresults:gess.CAPTURE", {count: r.count!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -670,3 +700,4 @@ export class GessGame extends GameBase {
         return new GessGame(this.serialize());
     }
 }
+

@@ -1,0 +1,24 @@
+{
+  "_general": {
+    "CAPTURE": {
+      "complete": "{{player}} captured a {{what}} at {{where}}.",
+      "group_one": "{{player}} captured a stone at {{cells}}.",
+      "group_other": "{{player}} captured {{count}} stones at the following cells: {{cells}}.",
+      "mancala_one": "{{player}} captured {{count}} stone from {{pit}}.",
+      "mancala_other": "{{player}} captured {{count}} stones from {{pit}}.",
+      "minimal": "A piece was captured.",
+      "multiple_one": "A piece was captured.",
+      "multiple_other": "{{count}} pieces were captured.",
+      "noperson": {
+        "group_nowhere": "A group of size {{count}} was captured.",
+        "multiple": "The following pieces were captured: {{capped}}.",
+        "nowhat": "A piece was captured at {{where}}.",
+        "nowhere_count_one": "A piece was captured.",
+        "nowhere_count_other": "{{count}} pieces were captured.",
+        "nowhere_what": "A {{what}} was captured.",
+        "simple": "A {{what}} was captured at {{where}}."
+      },
+      "nowhat": "{{player}} captured a piece at {{where}}."
+    }
+  }
+}

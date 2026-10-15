@@ -24,7 +24,7 @@ describe("variant i18n for records", () => {
         }
     });
 
-    it("resolves default group labels via variants._default keys", () => {
+    it("resolves default group labels via variants.<uid>.#<group> keys", () => {
         addResource("en", undefined, { bundles: { apgames: variantI18nApgamesFixture } });
         const g = new AbandeGame();
         const labels = g.getVariants();

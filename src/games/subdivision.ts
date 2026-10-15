@@ -6,6 +6,49 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { connectedComponents } from "graphology-components";
+export const gameApgamesEn = {
+    validation: {
+        BAD_ONE: "Smalls must be placed near a small or large of a different colour.",
+        BAD_PARK: "You may not place any more parks. If you're trying to place a piece, first click the piece in your stash.",
+        BAD_PASS: "You may not pass if legal moves are available.",
+        BAD_THREE: "Larges may not be placed near another large of your colour.",
+        INITIAL_INSTRUCTIONS_parks: "Click an empty cell to place a park.",
+        INITIAL_INSTRUCTIONS_place: "Click a piece in your stash to place on the board.",
+        INVALID_SIZE: "The piece you selected is invalid. It must be a 1, 2, or 3.",
+        LABEL_STASH: "{{player}}'s stash",
+        NEED_PARKS: "You may not place a piece until all parks are placed. Click an empty cell to place a park.",
+        NO_PIECE: "You don't have a size {{size}} piece to place.",
+        PARTIAL_PLACEMENT: "Click an empty space on the board to place your {{size}} piece.",
+    },
+    variants: {
+        "#parks": {
+            name: "Default park placement",
+            description: "Corners and, in two-player games, two centre cells",
+        },
+        "#scoring": {
+            description: "Parks offer no bonuses",
+            name: "Default scoring"
+        },
+        manualParks: {
+            name: "Manual park placement",
+            description: "Players take turns placing parks at the beginning of the game (ignored for three-player games)",
+        },
+        randomParks: {
+            name: "Random park placement",
+        },
+        parkControl: {
+            name: "Park control",
+            description: "Controlling all the open spaces around a park grants bonus points",
+        },
+    },
+};
+export const gameApresultsEn = {
+    PLACE: {
+        park: "{{player}} placed a park at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2|3|4;
 
@@ -35,8 +78,7 @@ export class SubdivisionGame extends GameBase {
         playercounts: [2,3,4],
         version: "20241203",
         dateAdded: "2024-12-13",
-        // i18next.t("apgames:descriptions.subdivision")
-        description: "apgames:descriptions.subdivision",
+        description: "You are a real estate developer competing with others to develop a new subdivision. Where you build is somewhat restricted, and what gets built next to you affects your value. Bring down your competitors' values while maximizing your own.",
         urls: [
             "https://looneypyramids.wiki/wiki/Subdivision",
             "https://boardgamegeek.com/boardgame/31507/subdivision",
@@ -488,7 +530,7 @@ export class SubdivisionGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): SubdivisionGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -807,11 +849,11 @@ export class SubdivisionGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "place") {
             if (r.what === "park") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.subdivision", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:subdivision.PLACE.park", {
                     context: r.what, where: r.where!,
                 });
             } else {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.PYRAMID", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:_general.PLACE.PYRAMID_${r.what!}`, {
                     context: r.what!, where: r.where!,
                 });
             }
@@ -833,3 +875,4 @@ export class SubdivisionGame extends GameBase {
         return Object.assign(new SubdivisionGame(this.numplayers), cloneState(this) as SubdivisionGame);
     }
 }
+

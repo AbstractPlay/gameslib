@@ -9,6 +9,30 @@ import { HexTriGraph } from "../common/graphs/index.js";
 import { DirectedGraph } from "graphology";
 import { bidirectional } from 'graphology-shortest-path/unweighted.js';
 import { allSimplePaths } from "graphology-simple-path";
+export const gameApgamesEn = {
+    validation: {
+        BAD_DISTANCE: "Pieces must move a number of spaces equal to the height of its stack.",
+        BOUNCE_INVADER: "To continue bouncing, the king must land on an invader.",
+        BOUNCE_KING: "Only the king can move multiple times.",
+        FRIENDLY_FIRE: "The defenders may not stack on top of their king.",
+        INITIAL_INSTRUCTIONS: "Select a piece to move.",
+        KING_ONLY: "Only the king can land on the throne or on exits.",
+        PARTIAL: "Select the destination.",
+        PLUS_TOO_HIGH: "Under the Plus rules, you may not move directly to a taller stack.",
+        TOO_HIGH: "Pieces may not be stacked more than three high.",
+    },
+    variants: {
+        advanced: {
+            description: "Makes it harder for the defenders by allowing invaders to stack on top of a king on an exit space. Defender wins if they *start* their turn with the king on an escape spot.",
+            name: "Advanced",
+        },
+        plus: {
+            description: "Restricts stacking by not allowing pieces to move onto taller stacks directly.",
+            name: "Plus",
+        },
+    },
+};
+
 
 export type playerID = 1|2;
 type Piece = "piece"|"king";
@@ -32,8 +56,7 @@ export class AlmataflGame extends GameBase {
         playercounts: [2],
         version: "20231204",
         dateAdded: "2023-12-08",
-        // i18next.t("apgames:descriptions.almatafl")
-        description: "apgames:descriptions.almatafl",
+        description: "AlmaTafl is an asymmetrical game where one side plays the defenders trying to get the king to safety, while the other side tries to capture the king or render him defenseless.",
         urls: ["https://boardgamegeek.com/boardgame/401367/almatafl"],
         bggid: "401367",
         people: [
@@ -490,7 +513,7 @@ export class AlmataflGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): AlmataflGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -699,3 +722,4 @@ export class AlmataflGame extends GameBase {
         return new AlmataflGame(this.serialize());
     }
 }
+

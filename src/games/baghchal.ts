@@ -6,6 +6,20 @@ import { SquareFanoronaGraph } from "../common/graphs/index.js";
 import { RectGrid, Direction, allDirections, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_TIGER_MOVEMENT: "Select a tiger to move.",
+        INITIAL_INSTRUCTIONS_GOAT_MOVEMENT: "Select a goat to move.",
+        INITIAL_INSTRUCTIONS_GOAT_PLACEMENT: "Place a goat onto an empty intersection.",
+        VALID_PARTIAL: "Select an empty intersection to move to. Goats as well as tigers can move to any free adjacent (connected) intersection. Tigers may jump across a goat to the free intersection behind it, but jumps can only occur forwards, diagonally forwards or sideways, never backwards or diagonally backwards.",
+    },
+    status: {
+        GOATS_IN_HAND: "Goats in hand",
+        GOATS_CAPTURED: "Goats captured",
+    },
+};
+
+
 export type playerid = 1 | 2;
 export type Animal = "Tiger" | "Goat";
 export type Piece = {
@@ -128,8 +142,8 @@ export class BaghChalGame extends GameBase {
         playercounts: [2],
         version: "20260816",
         dateAdded: "2026-08-16",
-        // i18next.t("apgames:descriptions.baghchal")
-        description: "apgames:descriptions.baghchal",
+        description:
+            "A traditional hunt game: one side moves tigers to capture goats; the other places and moves goats to surround the tigers.",
         urls: [
             "https://boardgamegeek.com/boardgame/315/bagh-chal",
             "https://en.wikipedia.org/wiki/Bagh-chal",
@@ -475,7 +489,7 @@ export class BaghChalGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): BaghChalGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();

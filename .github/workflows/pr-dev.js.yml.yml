@@ -69,6 +69,7 @@ jobs:
         - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version
         - run: npm run build
         - run: npm run lint
+        - run: npm run test:scripts
         - run: npm run test:postbuild
         - run: npm pack
         - run: npm run test:consumer

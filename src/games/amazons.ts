@@ -8,6 +8,58 @@ import { bidirectional } from 'graphology-shortest-path/unweighted.js';
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select one of your amazons to move.",
+        NO_FIRST_SHOT: "The first player may not shoot an arrow on their opening turn.",
+        POTENTIAL_BLOCK: "So far so good. Provide the space you want to block.",
+        POTENTIAL_MOVE: "So far so good. Provide the space you want to move to.",
+        STRAIGHTLINE: "You can only move and block in straight lines.",
+    },
+    variants: {
+        "#setup": {
+            description: "Queens of each colour are on opposite halves of the board.",
+            name: "Default setup"
+        },
+        cross: {
+            description: "Queens of the same colour are situated across from each other.",
+            name: "Cross",
+        },
+        scrambled: {
+            description: "Queens alternate colour around the board.",
+            name: "Scrambled",
+        },
+        noFirstShot: {
+            name: "No First Shot",
+            description: "Instead of the standard pie rule, the first player instead may not shoot an arrow on their first turn.",
+        },
+    },
+    displays: {
+        "#block": {
+            description: "Show blocked squares as a square brick.",
+            name: "Brick",
+        },
+        blackbloc: {
+            description: "Show blocked squares as a black square.",
+            name: "Black block",
+        },
+        bricks: {
+            description: "Show blocked squares as a wall of bricks.",
+            name: "Bricks",
+        },
+    },
+    status: {
+        TERRITORY: "Territory",
+    },
+};
+export const gameApresultsEn = {
+    MOVE: {
+        default: "{{player}} moved from {{from}} to {{to}} and then blocked off cell {{block}}.",
+        noFirstShot: "{{player}} moved from {{from}} to {{to}}.",
+    },
+};
+
+
 
 type CellContents = 0 | 1 | 2;
 type playerid = 1|2;
@@ -37,8 +89,7 @@ export class AmazonsGame extends GameBase {
         playercounts: [2],
         version: "20211005",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.amazons")
-        description: "apgames:descriptions.amazons",
+        description: "A two-player game played on a 10x10 board. Each player has four queens (the eponymous amazons). Each turn, you move one of the queens and then shoot an arrow from your final square. The arrow causes that square to become blocked for the rest of the game. Queens and arrows cannot cross blocked squares or squares occupied by other queens. The winner is the last person who is able to move.",
         urls: [
             "https://en.wikipedia.org/wiki/Amazons_%28game%29",
             "https://boardgamegeek.com/boardgame/2125/amazons",
@@ -441,7 +492,7 @@ export class AmazonsGame extends GameBase {
     // Only use on a cloned object, or call `load()` before processing the final move
     public move(m: string, {partial = false, trusted = false} = {}): AmazonsGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -775,11 +826,11 @@ export class AmazonsGame extends GameBase {
             case "move": {
                 const block = ctx.results.find((mr) => mr.type === "block") as { type: "block"; where: string } | undefined;
                 if (block !== undefined) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.amazons", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:amazons.MOVE.default", {
                         from: r.from, to: r.to, block: block.where,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.amazonsNoFirstShot", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:amazons.MOVE.noFirstShot", {
                         from: r.from, to: r.to,
                     });
                 }
@@ -813,3 +864,4 @@ export class AmazonsGame extends GameBase {
         return `${mv}/${shot}`;
     }
 }
+

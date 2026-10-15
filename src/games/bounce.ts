@@ -7,6 +7,23 @@ import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs/index.js";
 import {connectedComponents} from 'graphology-components';
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Click a piece to move (or remove, if necessary).",
+        LARGER_GROUP: "Pieces must move from a smaller group to a larger group.",
+        MUST_MOVE: "You may not remove checkers unless you have no other legal move.",
+        PARTIAL: "Select an empty space to move, or click the checker again to remove it.",
+    },
+    variants: {
+        "10": {
+            name: "10x10 board",
+        },
+        "#board": {
+            name: "8x8 board",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -28,8 +45,7 @@ export class BounceGame extends GameBase {
         playercounts: [2],
         version: "20231029",
         dateAdded: "2023-10-29",
-        // i18next.t("apgames:descriptions.bounce")
-        description: "apgames:descriptions.bounce",
+        description: "Manoeuvre your disconnected checkers into a single, orthogonally connected whole.",
         urls: [
             "https://marksteeregames.com/Bounce_rules.pdf",
             "https://boardgamegeek.com/boardgame/435089/bounce",
@@ -365,7 +381,7 @@ export class BounceGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): BounceGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -526,3 +542,4 @@ export class BounceGame extends GameBase {
         // return new BounceGame(this.serialize());
     }
 }
+

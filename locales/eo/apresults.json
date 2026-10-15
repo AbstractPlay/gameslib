@@ -1,149 +1,274 @@
 {
-  "ABANDONED": "La ludo estis forlasita.",
-  "ACTOR": {
-    "elOso": {
-      "bear": "La Urso"
+  "_general": {
+    "ABANDONED": {
+      "default": "La ludo estis forlasita."
+    },
+    "ACTOR": {
+      "elOso": {}
+    },
+    "ADD": {
+      "add_one": "{{player}} aldonis 1 pecon al {{where}}.",
+      "add_other": "{{player}} aldonis {{count}} pecojn al {{where}}.",
+      "nonum": "{{player}} aldonis pecon al {{where}}."
+    },
+    "BEAROFF": {
+      "complete_one": "{{player}} eligis unu pecon el {{from}}.",
+      "complete_other": "{{player}} eligis {{count}} pecojn el {{from}}.",
+      "nowhat": "{{player}} eligis el {{from}}."
+    },
+    "BLOCK": {
+      "between": "{{player}} starigis barilon inter {{cell1}} kaj {{cell2}}."
+    },
+    "BUTTON": {
+      "default": "{{player}} prenis la butonon."
+    },
+    "CAPTURE": {
+      "complete": "{{player}} kaptis la pecon {{what}} ĉe {{where}}.",
+      "group_one": "{{player}} kaptis ŝtonon ĉe {{cells}}.",
+      "group_other": "{{player}} kaptis {{count}} ŝtonojn en la jenaj ĉeloj: {{cells}}.",
+      "mancala_one": "{{player}} kaptis {{count}} ŝtonon el {{pit}}.",
+      "mancala_other": "{{player}} kaptis {{count}} ŝtonojn el {{pit}}.",
+      "minimal": "Peco kaptiĝis.",
+      "multiple_one": "Peco kaptiĝis.",
+      "multiple_other": "{{count}} pecoj kaptiĝis.",
+      "noperson": {
+        "group_nowhere": "Grupo de grando {{count}} kaptiĝis.",
+        "multiple": "La jenaj pecoj kaptiĝis: {{capped}}.",
+        "nowhat": "Peco kaptiĝis ĉe {{where}}.",
+        "nowhere_count_one": "Peco kaptiĝis.",
+        "nowhere_count_other": "{{count}} pecoj kaptiĝis.",
+        "nowhere_what": "La peco {{what}} kaptiĝis.",
+        "simple": "La peco {{what}} kaptiĝis ĉe {{where}}."
+      },
+      "nowhat": "{{player}} kaptis pecon ĉe {{where}}."
+    },
+    "CLAIM": {
+      "default": "{{player}} alproprigis {{where}}."
+    },
+    "CONVERT": {
+      "complete": "{{player}} transformis {{what}} en {{into}} ĉe {{where}}.",
+      "simple": "{{player}} konvertis pecon ĉe {{where}}."
+    },
+    "DELTA_SCORE_GAIN_one": "{{player}} akiris {{delta}} poenton.",
+    "DELTA_SCORE_GAIN_other": "{{player}} akiris {{delta}} poentojn.",
+    "DELTA_SCORE_LOSS_one": "{{player}} perdis {{delta}} poenton.",
+    "DELTA_SCORE_LOSS_other": "{{player}} perdis {{delta}} poentojn.",
+    "DESTROY": {
+      "enemy": {
+        "minimal_one": "{{count}} malamika peco estis detruita.",
+        "minimal_other": "{{count}} malamikaj pecoj estis detruitaj."
+      },
+      "friendly": {
+        "minimal_one": "{{count}} amika peco estis detruita.",
+        "minimal_other": "{{count}} amikaj pecoj estis detruitaj."
+      }
+    },
+    "DETONATE": {
+      "nowhat": "{{player}} eksplodigis pecon ĉe {{where}}."
+    },
+    "DRAWAGREED": {
+      "default": "La ludantoj konsentis pri remizo."
+    },
+    "ELIMINATED": {
+      "default": "{{player}} estis eliminita."
+    },
+    "EOG": {
+      "consecutive_passes": "La ludo finiĝis, ĉar ambaŭ ludantoj sinsekve preterpasis.",
+      "default": "La ludo finiĝis.",
+      "material": "La ludo finiĝis, ĉar ambaŭ ludantoj havas nesufiĉan materialon.",
+      "repetition_one": "La ludo finiĝis, ĉar la sama pozicio reokazis kun la sama ludanto movonta.",
+      "repetition_other": "La ludo finiĝis, ĉar la sama pozicio okazis {{count}} fojojn kun la sama ludanto movonta.",
+      "repetition_positional_one": "La ludo finiĝis, ĉar la sama pozicio reokazis.",
+      "repetition_positionas_other": "La ludo finiĝis, ĉar la sama pozicio okazis {{count}} fojojn.",
+      "stalemate": "La ludo finiĝis, ĉar unu ludanto ne plu havas movojn.",
+      "stalemate_all": "La ludo finiĝis, ĉar neniu ludanto plu havas movojn."
+    },
+    "ERUPTIONS": {
+      "default": "La jenaj pecoj erupciis: {{eruptions}}."
+    },
+    "FLIP": {
+      "default": "{{player}} renversis {{where}} kaj malkovris {{revealed}}."
+    },
+    "INFINITE": {
+      "default": "{{player}} estigis senfinan iteracion!"
+    },
+    "KOMI": {
+      "default": "{{player}} agordis komion al {{value}}."
+    },
+    "LEAD": {
+      "default": "{{player}} ekgvidis."
+    },
+    "MOVE": {
+      "ball": "{{player}} movis pilkon de {{from}} al {{to}}.",
+      "ball_drop_one": "Pilko falis de {{from}} al {{to}}.",
+      "ball_drop_other": "{{count}} pilkoj falis de {{from}} al {{to}}.",
+      "collision": "{{player}} provis moviĝi de {{from}} al {{to}}, sed kolizio malebligis tion.",
+      "complete_one": "{{player}} movis unu pecon de {{from}} al {{to}}.",
+      "complete_other": "{{player}} movis {{count}} pecojn de {{from}} al {{to}}.",
+      "complete_what": "{{player}} movis {{what}} de {{from}} al {{to}}.",
+      "multiple": "{{player}} faris la jenajn movojn: {{moves}}.",
+      "nowhat": "{{player}} moviĝis de {{from}} al {{to}}.",
+      "push": "{{what}} estis puŝita de {{from}} al {{to}}."
+    },
+    "NULLIFY_CLAIM": {
+      "default": "Turoj ne povas esti alproprigitaj dum la lasta vico de la ludo. La alproprigo ĉe {{where}} estis nuligita."
+    },
+    "ORIENT": {
+      "nowhat": "{{player}} turnis pecon ĉe {{where}} direkte al {{facing}}."
+    },
+    "PASS": {
+      "forced": "{{player}} estis devigita preterpasi.",
+      "pie": "{{player}} akceptis la komioferton kaj plu ludos kiel la dua.",
+      "simple": "{{player}} preterpasis.",
+      "tiebreaker": "{{player}} preterpasis kaj gajnis la egalecrompon."
+    },
+    "PIE": {
+      "default": "{{player}} aplikis la tortoregulon."
+    },
+    "PLACE": {
+      "PYRAMID_1": "{{player}} metis malgrandan pecon ĉe {{where}}.",
+      "PYRAMID_2": "{{player}} metis mezgrandan pecon ĉe {{where}}.",
+      "PYRAMID_3": "{{player}} metis grandan pecon ĉe {{where}}.",
+      "ball": "{{player}} metis pilkon ĉe {{where}}.",
+      "complete": "{{player}} metis {{what}} ĉe {{where}}.",
+      "decktet": "{{player}} metis \"{{what}}\" ĉe {{where}}.",
+      "mine": "{{player}} metis unu el siaj propraj pecoj ĉe {{where}}.",
+      "neutral": "Neŭtrala peco estis metita ĉe {{where}}.",
+      "nowhat": "{{player}} metis pecon ĉe {{where}}.",
+      "theirs": "{{player}} metis malamikan pecon ĉe {{where}}.",
+      "theirs_specific": "{{player}} metis {{enemy}}-pecon ĉe {{where}}."
+    },
+    "PLAYSECOND": {
+      "default": "{{player}} elektis ludi kiel la dua."
+    },
+    "PROMOTE": {
+      "basicWhere": "La peco ĉe {{where}} estis promociita."
+    },
+    "PULL": {
+      "default": "{{player}} tiris la ŝnuron {{where}}."
+    },
+    "RECLAIM": {
+      "noperson": "{{what}} estis reprenita.",
+      "nowhat_one": "Peco estis reprenita.",
+      "nowhat_other": "{{count}} pecoj estis reprenitaj."
+    },
+    "REMOVE": {
+      "nonum": "{{player}} forigis pecon el {{where}}.",
+      "remove_one": "{{player}} forigis 1 pecon el {{where}}.",
+      "remove_other": "{{player}} forigis {{count}} pecojn el {{where}}."
+    },
+    "REPAIR": {
+      "simple": "{{player}} riparis."
+    },
+    "RESIGN": {
+      "default": "{{player}} rezignis."
+    },
+    "ROLL": {
+      "single": "La ĵetkubo estis ĵetita: {{values}}."
+    },
+    "SACRIFICE": {
+      "nowhat": "{{player}} oferis pecon ĉe {{where}}."
+    },
+    "SCORE_REPORT": {
+      "default": "La poentaro de {{player}} nun estas {{score}}."
+    },
+    "SELECT": {
+      "resolve": "{{player}} elektis la pecon en kructranĉo ĉe {{where}}."
+    },
+    "SOW": {
+      "general_one": "{{player}} semis semojn el la jena kavo: {{pits}}.",
+      "general_other": "{{player}} semis semojn el la jenaj kavoj: {{pits}}.",
+      "into": "{{player}} semis en la kavojn {{pits}}."
+    },
+    "SWAP": {
+      "resolve": "La peco estis interŝanĝita al {{where}}."
+    },
+    "TAKE": {
+      "general_one": "{{player}} prenis pecon el {{from}}.",
+      "general_other": "{{player}} prenis {{count}} pecojn el {{from}}."
+    },
+    "TIMEOUT": {
+      "default": "{{player}} perdis pro tempolimo."
+    },
+    "WINNERSNONE": {
+      "default": "Estis neniu gajninto."
+    },
+    "WINNERS_one": "La jena ludanto gajnis: {{winners}}.",
+    "WINNERS_other": "La jenaj ludantoj gajnis: {{winners}}."
+  },
+  "logger": {
+    "ADD": {
+      "default": "La arbo ĉe {{where}} kreskis je unu stadio."
+    },
+    "CLAIM": {
+      "default": "{{player}} akiris protestanton de la arbo faligita ĉe {{where}}."
+    },
+    "DESTROY": {
+      "default": "{{player}} faligis arbon ĉe {{where}}."
+    },
+    "PLACE": {
+      "logger": "{{player}} metis sian hakiston ĉe {{where}}.",
+      "plant": "{{player}} plantis arbeton ĉe {{where}}.",
+      "spawn": "Nova arbeto ekkreskis ĉe {{where}}."
     }
   },
-  "ADD": {
-    "add_one": "{{player}} aldonis 1 pecon al {{where}}.",
-    "add_other": "{{player}} aldonis {{count}} pecojn al {{where}}.",
-    "logger": "La arbo ĉe {{where}} kreskis je unu stadio.",
-    "magnate_one": "{{player}} aldonis unu ĵetonon al sia proprietigita karto {{where}}.",
-    "magnate_other": "{{player}} aldonis {{count}} ĵetonojn al sia proprietigita karto {{where}}.",
-    "nonum": "{{player}} aldonis pecon al {{where}}.",
-    "twixt": "{{player}} aldonis ligilon ĉe {{where}}."
-  },
-  "AFFILIATE": {
-    "cifra_lt": "{{player}} elektis ludi per la helaj pecoj el la supra vico.",
-    "cifra_lb": "{{player}} elektis ludi per la helaj pecoj el la malsupra vico.",
-    "cifra_dt": "{{player}} elektis ludi per la malhelaj pecoj el la supra vico.",
-    "cifra_db": "{{player}} elektis ludi per la malhelaj pecoj el la supra vico.",
-    "cifra_ll": "{{player}} elektis ludi per la helaj pecoj el la maldekstra kolumno.",
-    "cifra_lr": "{{player}} elektis ludi per la helaj pecoj el la dekstra kolumno.",
-    "cifra_dl": "{{player}} elektis ludi per la malhelaj pecoj el la maldekstra kolumno.",
-    "cifra_dr": "{{player}} elektis ludi per la malhelaj pecoj el la dekstra kolumno.",
-    "witch_M": "{{player}} elektis la Lunŝtonojn.",
-    "witch_S": "{{player}} elektis la Sunŝtonojn."
-  },
-  "ANNOUNCE": {
-    "arimaa": "Ĉi tiu pozicio jam okazis. Pliaj ripetoj de ĉi tiu pozicio estas malpermesitaj.",
-    "biscuit": "La jenaj kartoj estis en kontraŭaj manoj: {{cards}}.",
-    "deckfish": "{{player}} ne povis movi kaj devas de nun preterpasi.",
-    "frogger_one": "{{player}} elektis replenigi la tirprovizon. Li ricevas plian vicon por fari sian restantan {{count}} movon.",
-    "frogger_other": "{{player}} elektis replenigi la tirprovizon. Li ricevas plian vicon por fari siajn restantajn {{count}} movojn.",
-    "quincunx": "Al la ludanto {{playerNum}} restis la jenaj kartoj enmane: {{cards}}.",
-    "elOso": {
-      "playerSetup": "Komenca aranĝo de la ludanto",
-      "bearSetup": "Komenca aranĝo de la Urso"
+  "magnate": {
+    "ADD_one": "{{player}} aldonis unu ĵetonon al sia proprietigita karto {{where}}.",
+    "ADD_other": "{{player}} aldonis {{count}} ĵetonojn al sia proprietigita karto {{where}}.",
+    "CAPTURE": {
+      "default": "{{whose}} pagis {{count}} ĵetonojn de tipo {{where}} kiel imposton."
     },
-    "killallgo_slice": "{{player}} fiksis la grandojn de la aroj al {{a}} kaj {{b}} ŝtonoj.",
-    "scribe_super": "Superformacio de {{player}}: {{formation}}.",
-    "stawvs": "{{player}} ne povis movi kaj devas de nun preterpasi. La pecoj de tiu ludanto restas sur la jenaj piramidoj: {{pyramids}}."
-  },
-  "BEAROFF": {
-    "canoe": "{{player}} eligis kubon de la tabulo.",
-    "complete_one": "{{player}} eligis unu pecon el {{from}}.",
-    "complete_other": "{{player}} eligis {{count}} pecojn el {{from}}.",
-    "druid": "{{player}} eligis sian Druidon el {{from}}.",
-    "nowhat": "{{player}} eligis el {{from}}."
-  },
-  "BLOCK": {
-    "bao": "La kavo {{pit}} estas en kutakatia (blokita).",
-    "between": "{{player}} starigis barilon inter {{cell1}} kaj {{cell2}}.",
-    "veletas": "{{player}} metis pecon ĉe {{where}}."
-  },
-  "BUTTON": "{{player}} prenis la butonon.",
-  "CAPTURE": {
-    "asli_self": "{{player}} forigis siajn proprajn izolitajn pecojn ĉe {{where}}.",
-    "ataxx_one": "1 peco konvertiĝis.",
-    "ataxx_other": "{{count}} pecoj konvertiĝis.",
-    "bao_one": "{{player}} kaptis entute {{count}} ŝtonon el la jenaj kavoj (laŭorde): {{pits}}",
-    "bao_other": "{{player}} kaptis entute {{count}} ŝtonojn el la jenaj kavoj (laŭorde): {{pits}}",
-    "bitesize": "{{player}} kaptis la grupon {{where}}, kies grando estis {{count}}.",
-    "blastradius_one": "{{player}} forigis unu malamikan pecon el {{where}}.",
-    "blastradius_other": "{{player}} forigis stakon de {{count}} malamikaj pecoj el {{where}}.",
-    "blockade": "{{player}} kaptis blokantan pecon ĉe {{where}}.",
-    "blooms": "{{player}} kaptis {{what}}-grupon de grando {{count}}.",
-    "boom": "{{player}} detruis pecon ĉe {{where}}.",
-    "buku": "{{count}} pecoj estis kaptitaj ĉe {{where}}.",
-    "c1": "{{player}} forigis kahelon ĉe {{where}}.",
-    "complete": "{{player}} kaptis la pecon {{what}} ĉe {{where}}.",
-    "canoe": "{{player}} pinĉe kaptis kubon ĉe {{where}}.",
-    "crosshairs": "{{player}} faligis aviadilon ĉe {{where}}.",
-    "dameo_king": "{{player}} kaptis reĝon ĉe {{where}}.",
-    "dameo_soldier": "{{player}} kaptis soldaton ĉe {{where}}.",
-    "circleOfLife_one": "{{player}} formanĝis la kontraŭulan specion {{prey}} ({{count}} ŝtono) ĉe {{where}}.",
-    "circleOfLife_other": "{{player}} formanĝis la kontraŭulan specion {{prey}} ({{count}} ŝtonoj) ĉe {{where}}.",
-    "entrapment_opponent": "{{player}} kaptis vaganton de la kontraŭulo ĉe {{where}}.",
-    "entrapment_self": "{{player}} kaptis sian propran vaganton ĉe {{where}}.",
-    "fightopia_1": "{{player}} kaptis peonon ĉe {{where}}.",
-    "fightopia_2": "{{player}} kaptis tankon ĉe {{where}}.",
-    "forms_one": "La movo de {{player}} forigis unu pecon.",
-    "forms_other": "La movo de {{player}} forigis {{count}} pecojn.",
-    "furl": "{{player}} kaptis stakon de grando {{size}} ĉe {{where}}.",
-    "gess_one": "{{count}} ŝtono estis forigita de la tabulo.",
-    "gess_other": "{{count}} ŝtonoj estis forigitaj de la tabulo.",
-    "group_one": "{{player}} kaptis ŝtonon ĉe {{cells}}.",
-    "group_other": "{{player}} kaptis {{count}} ŝtonojn en la jenaj ĉeloj: {{cells}}.",
-    "hens_chick": "{{player}} kaptis kokidon ĉe {{where}}.",
-    "hens_hen": "{{player}} kaptis kokinon ĉe {{where}}.",
-    "elOso_one": "{{player}} neniigis unu pecon ĉe {{where}}.",
-    "elOso_other": "{{player}} neniigis {{count}} pecojn ĉe {{where}}.",
-    "hexentafl_king": "La reĝo estis kaptita ĉe {{where}}.",
-    "killallgo_suicide_one": "{{player}} forigis sian propran ŝtonon per memmortigo.",
-    "killallgo_suicide_other": "{{player}} forigis {{count}} el siaj propraj ŝtonoj per memmortigo.",
-    "lasca_officer": "{{player}} kaptis oficiron ĉe {{where}}.",
-    "lasca_soldier": "{{player}} kaptis soldaton ĉe {{where}}.",
-    "lifeline": "Mortintaj pecoj estis forigitaj ĉe {{where}}.",
-    "magnate": "{{whose}} pagis {{count}} ĵetonojn de tipo {{where}} kiel imposton.",
-    "majorities": "{{count}} pecoj estis forigitaj.",
-    "mancala_one": "{{player}} kaptis {{count}} ŝtonon el {{pit}}.",
-    "mancala_other": "{{player}} kaptis {{count}} ŝtonojn el {{pit}}.",
-    "mattock": "{{player}} kaptis ministon ĉe {{where}}.",
-    "meridians": "Mortinta grupo de grando {{count}} estis forigita.",
-    "minimal": "Peco kaptiĝis.",
-    "monkey_queen": "Damo kaptiĝis.",
-    "monkey_single": "Unuopa peco kaptiĝis.",
-    "multiple_one": "Peco kaptiĝis.",
-    "multiple_other": "{{count}} pecoj kaptiĝis.",
-    "murus_double": "{{player}} kaptis du pecojn ĉe {{where}}.",
-    "noperson": {
-      "group_nowhere": "Grupo de grando {{count}} kaptiĝis.",
-      "multiple": "La jenaj pecoj kaptiĝis: {{capped}}.",
-      "nowhat": "Peco kaptiĝis ĉe {{where}}.",
-      "simple": "La peco {{what}} kaptiĝis ĉe {{where}}.",
-      "nowhere_what": "La peco {{what}} kaptiĝis.",
-      "nowhere_count_one": "Peco kaptiĝis.",
-      "nowhere_count_other": "{{count}} pecoj kaptiĝis."
+    "CLAIM": {
+      "default": "{{who}} akiris {{what}}.",
+      "initial": "La ludantoj kolektis siajn Kronajn rimedojn."
     },
-    "nowhat": "{{player}} kaptis pecon ĉe {{where}}.",
-    "onyx": "Paro da pecoj kaptiĝis ĉe {{where1}} kaj {{where2}}.",
-    "orb_1": "{{player}} kaptis orbon ĉe {{where}}.",
-    "orb_2": "{{player}} kaptis sferoidon ĉe {{where}}.",
-    "pente": "{{player}} kaptis {{count}} pecojn.",
-    "pente_self": "{{player}} kaptis {{count}} proprajn pecojn.",
-    "owlman_approach": "{{player}} fortimigis la helpanton ĉe {{where}} el la arbaro.",
-    "owlman_replacement": "{{player}} formanĝis la pecon ĉe {{where}}.",
-    "reversi_one": "Peco estis renversita.",
-    "reversi_other": "{{count}} pecoj estis renversitaj.",
-    "spook_drop_opponent": "La suba Spooky ĉe {{where}} kaptis 1 kontraŭulan pilkon de {{player}}.",
-    "spook_drop_self": "La suba Spooky ĉe {{where}} kaptis 1 propran pilkon de {{player}}.",
-    "spook_lateral_opponent_one": "Spooky sur la sama nivelo ĉe {{where}} kaptis 1 kontraŭulan pilkon de {{player}}.",
-    "spook_lateral_opponent_other": "Spooky sur la sama nivelo ĉe {{where}} kaptis {{count}} kontraŭulajn pilkojn de {{player}}.",
-    "spook_lateral_self_one": "Spooky sur la sama nivelo ĉe {{where}} kaptis 1 propran pilkon de {{player}}.",
-    "spook_lateral_self_other": "Spooky sur la sama nivelo ĉe {{where}} kaptis {{count}} proprajn pilkojn de {{player}}.",
-    "spora_one": "{{player}} ĉirkaŭis kaj kaptis unu pecon: {{group}}.",
-    "spora_other": "{{player}} ĉirkaŭis kaj kaptis {{count}} pecojn: {{group}}.",
-    "stawvs": "{{player}} kaptis {{what}} ĉe {{where}}.",
-    "swarm": "{{player}} kaptis la stakon {{where}} per {{count}} unuopaj pecoj.",
-    "tafl": "{{player}} kaptis pecon ĉe {{where}}.",
-    "terrace_other": "{{player}} kaptis pecon de grando {{what}} ĉe {{where}}.",
-    "terrace_self": "{{player}} kanibaligis sian propran pecon de grando {{what}} ĉe {{where}}.",
-    "tricouleur": "{{count}} pecoj ŝanĝis koloron.",
-    "tumbleweed": "{{player}} kaptis stakon de grando {{count}} ĉe {{where}}.",
-    "tumbleweed_self": "{{player}} plifortigis stakon de grando {{count}} ĉe {{where}}.",
-    "witch": {
+    "CONVERT": {
+      "deed": "{{player}} kompletigis sian proprietigitan karton {{what}} en distrikto {{where}}.",
+      "trade": "{{player}} interŝanĝis tri {{what}}-ĵetonojn kontraŭ unu {{into}}."
+    },
+    "DECKDRAW": {
+      "default": "La forĵetitaj kartoj estis miksitaj. Neniu plia miksado restas."
+    },
+    "PLACE": {
+      "buy": "{{player}} aĉetis {{what}} por la distrikto {{where}}.",
+      "deed_end": "{{player}} kompletigis sian proprietigitan karton {{what}} en la distrikto {{where}}.",
+      "deed_start": "{{player}} proprietigis {{what}} en la distrikto {{where}}.",
+      "sell": "{{player}} vendis {{what}}."
+    },
+    "ROLL": {
+      "default": "{{who}} ĵetis {{values}}.",
+      "eight": "{{who}} ĵetis {{values}}."
+    }
+  },
+  "twixt": {
+    "ADD": {
+      "default": "{{player}} aldonis ligilon ĉe {{where}}."
+    },
+    "PLACE": {
+      "default": "{{player}} metis kejlon ĉe {{where}}."
+    },
+    "REMOVE": {
+      "default": "{{player}} forigis ligilon ĉe {{where}}."
+    }
+  },
+  "cifra": {
+    "AFFILIATE": {
+      "db": "{{player}} elektis ludi per la malhelaj pecoj el la supra vico.",
+      "dl": "{{player}} elektis ludi per la malhelaj pecoj el la maldekstra kolumno.",
+      "dr": "{{player}} elektis ludi per la malhelaj pecoj el la dekstra kolumno.",
+      "dt": "{{player}} elektis ludi per la malhelaj pecoj el la supra vico.",
+      "lb": "{{player}} elektis ludi per la helaj pecoj el la malsupra vico.",
+      "ll": "{{player}} elektis ludi per la helaj pecoj el la maldekstra kolumno.",
+      "lr": "{{player}} elektis ludi per la helaj pecoj el la dekstra kolumno.",
+      "lt": "{{player}} elektis ludi per la helaj pecoj el la supra vico."
+    }
+  },
+  "witch": {
+    "AFFILIATE": {
+      "M": "{{player}} elektis la Lunŝtonojn.",
+      "S": "{{player}} elektis la Sunŝtonojn."
+    },
+    "CAPTURE": {
       "nowhere_C_one": "{{player}} kaptis {{count}} Kronon.",
       "nowhere_C_other": "{{player}} kaptis {{count}} Kronojn.",
       "nowhere_E_one": "{{player}} kaptis {{count}} Terŝtonon.",
@@ -158,614 +283,1316 @@
       "single_S": "{{player}} prenis Sunŝtonon ĉe {{where}}."
     }
   },
-  "CLAIM": {
-    "buku_singletons_one": "{{player}} alproprigis la restantan 1 pecon sur sia koloro.",
-    "buku_singletons_other": "{{player}} alproprigis la restantajn {{count}} pecojn sur sia koloro.",
-    "buku_repetition_one": "{{player}} alproprigis la tutan 1 restantan pecon.",
-    "buku_repetition_other": "{{player}} alproprigis ĉiujn {{count}} restantajn pecojn.",
-    "conhex": "{{player}} alproprigis la spacon ĉe ({{where}}).",
-    "default": "{{player}} alproprigis {{where}}.",
-    "exxit": "{{player}} alproprigis la randan spacon ĉe {{where}}.",
-    "fnap_col": "{{player}} alproprigis la kolumnon {{where}}.",
-    "fnap_fnap": "{{player}} akiris la FNAP-ĵetonon.",
-    "fnap_row": "{{player}} alproprigis la vicon {{where}}.",
-    "frogger": "{{player}} estis blokita kaj tiris {{card}} el la tirprovizo.",
-    "jacynth": "{{player}} influis ĉe {{where}}.",
-    "killallgo_attacker": "{{player}} elektis ludi kiel la atakanto.",
-    "killallgo_defender": "{{player}} elektis ludi kiel la defendanto.",
-    "logger": "{{player}} akiris protestanton de la arbo faligita ĉe {{where}}.",
-    "magnate": "{{who}} akiris {{what}}.",
-    "magnate_initial": "La ludantoj kolektis siajn Kronajn rimedojn.",
-    "majorities_line": "{{player}} alproprigis la linion {{where}}.",
-    "majorities_H": "{{player}} alproprigis la horizontalan direkton.",
-    "majorities_A": "{{player}} alproprigis la suprenirantan direkton.",
-    "majorities_D": "{{player}} alproprigis la malsuprenirantan direkton.",
-    "meg": "{{player}} prenis la pilkon kaj metis ĝin ĉe {{where}}.",
-    "penguin": "La pingveno ĉe {{where}} akiris la pilkon!",
-    "scribe_mini": "{{player}} gajnis la minikradon {{where}} per {{formation}}.",
-    "scribe_mini_none": "{{player}} gajnis la minikradon {{where}} per egalecrompo (neniu formacio poentis).",
-    "toguz": "La kavo {{pit}} fariĝis tuz.",
-    "veletas": "La pafanto ĉe {{where}} estas kaptita kaj estis alproprigita de {{who}}."
+  "arimaa": {
+    "ANNOUNCE": {
+      "default": "Ĉi tiu pozicio jam okazis. Pliaj ripetoj de ĉi tiu pozicio estas malpermesitaj."
+    },
+    "DESTROY": {
+      "default": "{{colour}} {{what}} estis kaptita en kaptilo ĉe {{where}}."
+    }
   },
-  "CONNECT": {
-    "bridges": "{{player}} konstruis ponton inter {{left}} kaj {{right}}.",
-    "pontedd": "{{player}} metis ponton inter {{left}} kaj {{right}}."
+  "biscuit": {
+    "ANNOUNCE": {
+      "default": "La jenaj kartoj estis en kontraŭaj manoj: {{cards}}."
+    },
+    "DECKDRAW": {
+      "default": "La sekva ludanto ne povis ludi iun ajn el siaj kartoj, do tiris karton."
+    },
+    "DECLARE": {
+      "default": "{{player}} finis sian manon!"
+    },
+    "RESET": {
+      "default": "Nova raŭndo komenciĝis."
+    },
+    "SET": {
+      "biscuit_one": "{{player}} poentis biskviton.",
+      "biscuit_other": "{{player}} poentis {{count}} biskvitojn.",
+      "cross": "{{player}} poentis spican krucbiskviton.",
+      "elevensies": "{{player}} poentis la matenmanĝeton. Ĉiuj aliaj ludantoj devis tiri karton.",
+      "hot": "{{player}} poentis spican biskviton.",
+      "straight": "{{player}} poentis sekvencon de longo {{count}}."
+    },
+    "STALEMATE": {
+      "default": "La mano stagnis."
+    }
   },
-  "CONVERT": {
-    "complete": "{{player}} transformis {{what}} en {{into}} ĉe {{where}}.",
-    "courtesan": "La reĝo kaj la korteganino interŝanĝis poziciojn ĉe {{where}}.",
-    "magnate_deed": "{{player}} kompletigis sian proprietigitan karton {{what}} en distrikto {{where}}.",
-    "magnate_trade": "{{player}} interŝanĝis tri {{what}}-ĵetonojn kontraŭ unu {{into}}.",
-    "moonsquad": "{{player}} varbis taĉmenton.",
-    "pacru": "{{player}} konvertis {{where}}.",
-    "paintbucket_one": "{{player}} konvertis 1 pecon ĉe {{where}}.",
-    "paintbucket_other": "{{player}} konvertis {{count}} pecojn ekde {{where}}.",
-    "canoe": "{{player}} turnis la kubon ĉe {{where}} de {{what}} al {{into}}.",
-    "simple": "{{player}} konvertis pecon ĉe {{where}}.",
-    "storisende_territory": "La kahelo ĉe {{where}} fariĝis teritorio.",
-    "storisende_wall": "La kahelo ĉe {{where}} fariĝis muro."
+  "deckfish": {
+    "ANNOUNCE": {
+      "default": "{{player}} ne povis movi kaj devas de nun preterpasi."
+    },
+    "EJECT": {
+      "default": "{{player}} puŝis pecon de {{from}} al {{to}}."
+    },
+    "EOG": {
+      "default": "La ludo finiĝis, ĉar la lasta ludanto ne povis movi."
+    },
+    "MOVE": {
+      "default": "{{player}} movis pecon de {{from}} al {{to}}, kolektante {{what}}."
+    },
+    "PASS": {
+      "default": "{{player}} ne povis movi."
+    },
+    "PIE": {
+      "default": "{{player}} movas kiel la dua."
+    },
+    "PLACE": {
+      "default": "{{player}} metis pecon ĉe {{where}}."
+    },
+    "SWAP": {
+      "default": "{{player}} interŝanĝis {{what}} el la bazaro kontraŭ {{with}} ĉe {{where}}."
+    }
   },
-  "DAMAGE": {
-    "armadas": "La ŝipo {{myName}} de {{player}} pafis kontraŭ la malamika ŝipo {{theirName}}.",
-    "pigs": "{{player}} frapis {{opponent}} ĉe {{where}}."
+  "elOso": {
+    "ANNOUNCE": {
+      "bearSetup": "Komenca aranĝo de la Urso",
+      "playerSetup": "Komenca aranĝo de la ludanto"
+    },
+    "CAPTURE_one": "{{player}} neniigis unu pecon ĉe {{where}}.",
+    "CAPTURE_other": "{{player}} neniigis {{count}} pecojn ĉe {{where}}.",
+    "MOVE_one": "{{player}} movis unu pecon de {{from}} al {{to}}.",
+    "MOVE_other": "{{player}} movis {{count}} pecojn de {{from}} al {{to}}.",
+    "PASS": {
+      "default": "{{player}} preterpasis."
+    },
+    "PLACE_one": "{{player}} metis unu pecon ĉe {{where}}.",
+    "PLACE_other": "{{player}} metis {{count}} pecojn ĉe {{where}}.",
+    "ROLL": {
+      "default": "La Urso ĵetis: {{dice}}.",
+      "player": "{{player}} ĵetis: {{dice}}."
+    },
+    "ACTOR": {
+      "bear": "La Urso"
+    }
   },
-  "DECKDRAW": {
-    "biscuit": "La sekva ludanto ne povis ludi iun ajn el siaj kartoj, do tiris karton.",
-    "emu_deck": "{{player}} tiris dorssupran karton el la kartaro.",
-    "emu_discard": "{{player}} tiris la karton {{what}} de la supro de la forĵetstako.",
-    "frogger": "La tirprovizo estis replenigita: {{what}}.",
-    "magnate": "La forĵetitaj kartoj estis miksitaj. Neniu plia miksado restas.",
-    "quincunx_one": "{{player}} tiris {{count}} karton.",
-    "quincunx_other": "{{player}} tiris {{count}} kartojn.",
-    "evenatodds": "{{player}} tiris kahelon el la kahelprovizo."
+  "frogger": {
+    "ANNOUNCE_one": "{{player}} elektis replenigi la tirprovizon. Li ricevas plian vicon por fari sian restantan {{count}} movon.",
+    "ANNOUNCE_other": "{{player}} elektis replenigi la tirprovizon. Li ricevas plian vicon por fari siajn restantajn {{count}} movojn.",
+    "CLAIM": {
+      "default": "{{player}} estis blokita kaj tiris {{card}} el la tirprovizo."
+    },
+    "DECKDRAW": {
+      "default": "La tirprovizo estis replenigita: {{what}}."
+    },
+    "DECLARE": {
+      "default": "La krokodiloj antaŭeniris."
+    },
+    "EJECT": {
+      "card": "{{player}} ludis Ason aŭ Kronon kaj remetis ranon de {{from}} al {{to}}.",
+      "croc": "La rano ĉe {{from}} estis manĝita de krokodiloj (kaj remetita al {{to}})."
+    },
+    "MOVE": {
+      "back": "{{player}} movis ranon malantaŭen de {{from}} al {{to}} kaj tiris {{card}} el la tirprovizo.",
+      "forward": "{{player}} uzis {{card}} por movi ranon antaŭen de {{from}} al {{to}}."
+    },
+    "PASS": {
+      "default": "{{player}} preterpasis {{why}}."
+    }
   },
-  "DECLARE": {
-    "biscuit": "{{player}} finis sian manon!",
-    "emu": "La jaro {{year}} finiĝis.",
-    "frogger": "La krokodiloj antaŭeniris.",
-    "killallgo_handicap_one": "{{player}} fiksis la handikapon al unu ŝtono.",
-    "killallgo_handicap_other": "{{player}} fiksis la handikapon al {{count}} ŝtonoj.",
-    "mchess": "{{player}} \"vokis la horloĝon\". Se neniu kapto okazos dum la sekvaj sep vicoj, la ludo finiĝos kaj estos poentita.",
-    "renju": "{{player}} deklaris {{count}} provizorajn kvinopojn."
+  "killallgo": {
+    "ANNOUNCE": {
+      "slice": "{{player}} fiksis la grandojn de la aroj al {{a}} kaj {{b}} ŝtonoj."
+    },
+    "CAPTURE": {
+      "suicide_one": "{{player}} forigis sian propran ŝtonon per memmortigo.",
+      "suicide_other": "{{player}} forigis {{count}} el siaj propraj ŝtonoj per memmortigo."
+    },
+    "CLAIM": {
+      "attacker": "{{player}} elektis ludi kiel la atakanto.",
+      "defender": "{{player}} elektis ludi kiel la defendanto."
+    },
+    "DECLARE": {
+      "handicap_one": "{{player}} fiksis la handikapon al unu ŝtono.",
+      "handicap_other": "{{player}} fiksis la handikapon al {{count}} ŝtonoj."
+    },
+    "EOG": {
+      "double_pass": "La ludo finiĝis, ĉar ambaŭ ludantoj preterpasis kaj la defendanto ne establis vivon.",
+      "no_moves": "La ludo finiĝis, ĉar la movonta ludanto ne havas validan meton.",
+      "no_room": "La ludo finiĝis, ĉar la senkondiĉe vivaj ŝtonoj de la atakanto lasas al la defendanto neniun spacon por fari vivantan ĉenon.",
+      "pass_alive": "La ludo finiĝis, ĉar la defendanto faris senkondiĉe vivantan ĉenon."
+    },
+    "PLACE": {
+      "setup": "{{player}} metis atakantan ŝtonon ĉe {{where}}."
+    },
+    "SELECT": {
+      "iplace": "{{player}} elektis mem meti la unuan aron.",
+      "youplace": "{{player}} elektis lasi la kontraŭulon meti la unuan aron."
+    }
   },
-  "DELTA_SCORE_GAIN_one": "{{player}} akiris {{delta}} poenton.",
-  "DELTA_SCORE_GAIN_other": "{{player}} akiris {{delta}} poentojn.",
-  "DELTA_SCORE_LOSS_one": "{{player}} perdis {{delta}} poenton.",
-  "DELTA_SCORE_LOSS_other": "{{player}} perdis {{delta}} poentojn.",
-  "DELTASCORE": {
-    "emu_excuse": "{{player}} ludas The Excuse por kompensi sian plej malalte poentantan birdon ({{delta}} poentoj).",
-    "emu_score": "La birdo de {{player}} kun la jenaj rangoj ricevis {{delta}} poentojn: {{ranks}}.",
-    "quincunx": {
-      "basic_zero": "Kontraŭ {{card}} ĝi ricevis neniun poenton.",
+  "quincunx": {
+    "ANNOUNCE": {
+      "default": "Al la ludanto {{playerNum}} restis la jenaj kartoj enmane: {{cards}}."
+    },
+    "DECKDRAW_one": "{{player}} tiris {{count}} karton.",
+    "DECKDRAW_other": "{{player}} tiris {{count}} kartojn.",
+    "DELTASCORE": {
       "basic_one": "Kontraŭ {{card}} ĝi ricevis 1 poenton.",
       "basic_other": "Kontraŭ {{card}} ĝi ricevis {{delta}} poentojn.",
-      "penalty_zero": "La ludanto {{playerNum}} perdis neniun poenton pro la kartoj enmane.",
+      "basic_zero": "Kontraŭ {{card}} ĝi ricevis neniun poenton.",
       "penalty_one": "La ludanto {{playerNum}} perdis {{count}} poenton pro la kartoj enmane.",
-      "penalty_other": "La ludanto {{playerNum}} perdis {{count}} poentojn pro la kartoj enmane."
+      "penalty_other": "La ludanto {{playerNum}} perdis {{count}} poentojn pro la kartoj enmane.",
+      "penalty_zero": "La ludanto {{playerNum}} perdis neniun poenton pro la kartoj enmane."
     },
-    "btt_opponent_gain_one": "Kontraŭulo akiris {{delta}} poenton.",
-    "btt_opponent_gain_other": "Kontraŭulo akiris {{delta}} poentojn."
+    "SET": {
+      "flushes_one": "{{player}} poentis {{count}} kolorsamaron.",
+      "flushes_other": "{{player}} poentis {{count}} kolorsamarojn.",
+      "pairs_one": "{{player}} poentis {{count}} paron.",
+      "pairs_other": "{{player}} poentis {{count}} parojn.",
+      "powerplay": "{{player}} poentis potencan ludon!",
+      "sets_one": "{{player}} poentis {{count}} aron.",
+      "sets_other": "{{player}} poentis {{count}} arojn.",
+      "straights_one": "{{player}} poentis {{count}} sekvencon.",
+      "straights_other": "{{player}} poentis {{count}} sekvencojn."
+    }
   },
-  "DESTROY": {
-    "arimaa": "{{colour}} {{what}} estis kaptita en kaptilo ĉe {{where}}.",
-    "armadas": "{{player}} sinkigis la malamikan ŝipon {{name}}.",
-    "bao": "La nyumba ĉe {{pit}} estis detruita.",
-    "crosshairs": "La aviadilo de {{player}} ĉe {{where}} kraŝis.",
-    "enemy": {
-      "minimal_one": "{{count}} malamika peco estis detruita.",
-      "minimal_other": "{{count}} malamikaj pecoj estis detruitaj."
+  "scribe": {
+    "ANNOUNCE": {
+      "super": "Superformacio de {{player}}: {{formation}}."
     },
-    "friendly": {
-      "minimal_one": "{{count}} amika peco estis detruita.",
-      "minimal_other": "{{count}} amikaj pecoj estis detruitaj."
+    "CLAIM": {
+      "mini": "{{player}} gajnis la minikradon {{where}} per {{formation}}.",
+      "mini_none": "{{player}} gajnis la minikradon {{where}} per egalecrompo (neniu formacio poentis)."
     },
-    "logger": "{{player}} faligis arbon ĉe {{where}}.",
-    "mattock": "{{player}} minis ĉe {{where}}.",
-    "string": "La ŝnuro {{where}} rompiĝis pro la streĉo."
+    "SCRIBE": {
+      "glyphs": {
+        "bomber": "Bombisto",
+        "chair": "Seĝo",
+        "cross": "Kruco",
+        "double": "Duopa",
+        "earring": "Orelringo",
+        "four_block": "4-bloko",
+        "h": "H",
+        "house": "Domo",
+        "j": "J",
+        "line": "Linio",
+        "nine_block": "9-bloko",
+        "o": "O",
+        "ottoman": "Otomano",
+        "pipe": "Pipo",
+        "single": "Unuopa",
+        "six_block": "6-bloko",
+        "squat_t": "Malalta T",
+        "t": "T",
+        "u": "U"
+      },
+      "mini": {
+        "0_0": "supre maldekstre",
+        "0_1": "centre maldekstre",
+        "0_2": "malsupre maldekstre",
+        "1_0": "supre centre",
+        "1_1": "centre",
+        "1_2": "malsupre centre",
+        "2_0": "supre dekstre",
+        "2_1": "centre dekstre",
+        "2_2": "malsupre dekstre"
+      },
+      "no_formation": "neniu formacio"
+    }
   },
-  "DETONATE": {
-    "nowhat": "{{player}} eksplodigis pecon ĉe {{where}}."
+  "stawvs": {
+    "ANNOUNCE": {
+      "default": "{{player}} ne povis movi kaj devas de nun preterpasi. La pecoj de tiu ludanto restas sur la jenaj piramidoj: {{pyramids}}."
+    },
+    "CAPTURE": {
+      "default": "{{player}} kaptis {{what}} ĉe {{where}}."
+    },
+    "EOG": {
+      "default": "La ludo finiĝis, ĉar la lasta ludanto ne povis movi."
+    },
+    "MOVE": {
+      "default": "{{player}} movis pecon de {{from}} al {{to}} kaj kaptis {{what}} ĉe {{how}}."
+    },
+    "PLACE": {
+      "default": "{{player}} metis pecon ĉe {{where}}."
+    }
   },
-  "DRAWAGREED": "La ludantoj konsentis pri remizo.",
-  "EJECT": {
-    "assembly": "La produktolinio antaŭeniris je {{distance}} spacoj.",
-    "deckfish": "{{player}} puŝis pecon de {{from}} al {{to}}.",
-    "frogger_card": "{{player}} ludis Ason aŭ Kronon kaj remetis ranon de {{from}} al {{to}}.",
-    "frogger_croc": "La rano ĉe {{from}} estis manĝita de krokodiloj (kaj remetita al {{to}}).",
-    "penguin_ball": "{{player}} piedbatis la pilkon de {{from}} al {{to}}.",
-    "penguin_penguin": "Pingveno estis puŝita de {{from}} al {{to}}."
+  "canoe": {
+    "BEAROFF": {
+      "default": "{{player}} eligis kubon de la tabulo."
+    },
+    "CAPTURE": {
+      "default": "{{player}} pinĉe kaptis kubon ĉe {{where}}."
+    },
+    "CONVERT": {
+      "default": "{{player}} turnis la kubon ĉe {{where}} de {{what}} al {{into}}."
+    },
+    "PASS": {
+      "default": "{{player}} preterpasis."
+    },
+    "PROMOTE": {
+      "default": "{{player}} formis aron ĉe {{where}}, kunfandante la kubon de {{from}}."
+    },
+    "ROLL": {
+      "default": "{{player}} ĵetis: {{values}}."
+    }
   },
-  "ELIMINATED": "{{player}} estis eliminita.",
-  "EOG": {
-    "buku_singletons": "La ludo finiĝis, ĉar ĉiuj ĉeloj enhavas nur unuopajn pecojn.",
-    "camelot_claim_draw_repetition": "La ludo finiĝis, ĉar {{player}} postulis remizon pro ripeto.",
-    "camelot_claim_draw_progression": "La ludo finiĝis, ĉar {{player}} postulis remizon laŭ la 50-mova regulo.",
-    "consecutive_passes": "La ludo finiĝis, ĉar ambaŭ ludantoj sinsekve preterpasis.",
-    "deckfish": "La ludo finiĝis, ĉar la lasta ludanto ne povis movi.",
-    "default": "La ludo finiĝis.",
-    "forms": "La ludo finiĝis, ĉar la sekva ludanto ne povas movi.",
-    "gonnect_cascading_subboard": "{{player}} venkis sur la {{size}}x{{size}}-subtabulo.",
-    "gonnect_direct_connection": "{{player}} venkis per rekta konekto.",
-    "material": "La ludo finiĝis, ĉar ambaŭ ludantoj havas nesufiĉan materialon.",
-    "repetition_one": "La ludo finiĝis, ĉar la sama pozicio reokazis kun la sama ludanto movonta.",
-    "repetition_other": "La ludo finiĝis, ĉar la sama pozicio okazis {{count}} fojojn kun la sama ludanto movonta.",
-    "repetition_positional_one": "La ludo finiĝis, ĉar la sama pozicio reokazis.",
-    "repetition_positionas_other": "La ludo finiĝis, ĉar la sama pozicio okazis {{count}} fojojn.",
-    "stalemate": "La ludo finiĝis, ĉar unu ludanto ne plu havas movojn.",
-    "stalemate_all": "La ludo finiĝis, ĉar neniu ludanto plu havas movojn.",
-    "stawvs": "La ludo finiĝis, ĉar la lasta ludanto ne povis movi.",
-    "susan_nonplacement": "La ludo finiĝis, ĉar neniu ludanto metis pecon dum 6 duonmovoj.",
-    "tafl_encirclement": "La ludo finiĝis, ĉar la defendantoj estas ĉirkaŭitaj.",
-    "tafl_exit_fort": "La ludo finiĝis, ĉar la defendantoj kreis elirfortikaĵon.",
-    "tafl_king_captured": "La ludo finiĝis, ĉar la reĝo estis kaptita.",
-    "tafl_king_escaped": "La ludo finiĝis, ĉar la reĝo eskapis.",
-    "unlur_foul": "La ludo finiĝis, ĉar unu ludanto plenumis la venkokondiĉon de la kontraŭulo sen plenumi sian propran.",
-    "druid_hex": "La ludo finiĝis, ĉar {{player}} konektis la randojn {{edges}}.",
-    "killallgo_double_pass": "La ludo finiĝis, ĉar ambaŭ ludantoj preterpasis kaj la defendanto ne establis vivon.",
-    "killallgo_no_moves": "La ludo finiĝis, ĉar la movonta ludanto ne havas validan meton.",
-    "killallgo_no_room": "La ludo finiĝis, ĉar la senkondiĉe vivaj ŝtonoj de la atakanto lasas al la defendanto neniun spacon por fari vivantan ĉenon.",
-    "killallgo_pass_alive": "La ludo finiĝis, ĉar la defendanto faris senkondiĉe vivantan ĉenon."
+  "druid": {
+    "BEAROFF": {
+      "default": "{{player}} eligis sian Druidon el {{from}}."
+    },
+    "EOG": {
+      "hex": "La ludo finiĝis, ĉar {{player}} konektis la randojn {{edges}}."
+    },
+    "MOVE": {
+      "walk": "{{player}} movis sian Druidon de {{from}} al {{to}}."
+    },
+    "PASS": {
+      "default": "{{player}} preterpasis."
+    },
+    "PLACE": {
+      "druid": "{{player}} metis Druidon ĉe {{where}}.",
+      "lintel": "{{player}} kuŝigis lintelon laŭlonge de {{where}}.",
+      "sarsen": "{{player}} metis sarsenon ĉe {{where}}."
+    },
+    "HEX_EDGE": {
+      "N": "nordo (N)",
+      "NE": "nordoriento (NE)",
+      "NW": "nordokcidento (NW)",
+      "S": "sudo (S)",
+      "SE": "sudoriento (SE)",
+      "SW": "sudokcidento (SW)",
+      "and": "kaj"
+    }
   },
-  "DRUID_HEX_EDGE": {
-    "N": "nordo (N)",
-    "NE": "nordoriento (NE)",
-    "SE": "sudoriento (SE)",
-    "S": "sudo (S)",
-    "SW": "sudokcidento (SW)",
-    "NW": "nordokcidento (NW)",
-    "and": "kaj"
+  "bao": {
+    "BLOCK": {
+      "default": "La kavo {{pit}} estas en kutakatia (blokita)."
+    },
+    "CAPTURE_one": "{{player}} kaptis entute {{count}} ŝtonon el la jenaj kavoj (laŭorde): {{pits}}",
+    "CAPTURE_other": "{{player}} kaptis entute {{count}} ŝtonojn el la jenaj kavoj (laŭorde): {{pits}}",
+    "DESTROY": {
+      "default": "La nyumba ĉe {{pit}} estis detruita."
+    },
+    "MOVE": {
+      "default": "Komenca direkto de movado: {{direction}}."
+    }
   },
-  "ERUPTIONS": "La jenaj pecoj erupciis: {{eruptions}}.",
-  "FIRE": {
-    "murus": "{{player}} pafis per katapulto de {{from}} al {{to}}.",
-    "pigs_F": "{{player}} pafis sian laseron al {{direction}}.",
-    "pigs_H": "{{player}} svingis sian potencan rostron!"
+  "veletas": {
+    "BLOCK": {
+      "default": "{{player}} metis pecon ĉe {{where}}."
+    },
+    "CLAIM": {
+      "default": "La pafanto ĉe {{where}} estas kaptita kaj estis alproprigita de {{who}}."
+    },
+    "MOVE": {
+      "default": "{{player}} movis pafanton de {{from}} al {{to}}."
+    },
+    "PLACE": {
+      "default": "{{player}} metis {{what}} ĉe {{where}}."
+    }
   },
-  "FLIP": "{{player}} renversis {{where}} kaj malkovris {{revealed}}.",
-  "FURL": {
-    "furl": "{{player}} kunvolvis {{count}} pecojn de {{from}} al {{to}}."
+  "bitesize": {
+    "CAPTURE": {
+      "default": "{{player}} kaptis la grupon {{where}}, kies grando estis {{count}}."
+    }
   },
-  "IMMOBILIZE": {
-    "realm": "{{player}} senmovigis la plenumiston ĉe {{where}}."
+  "blastradius": {
+    "CAPTURE_one": "{{player}} forigis unu malamikan pecon el {{where}}.",
+    "CAPTURE_other": "{{player}} forigis stakon de {{count}} malamikaj pecoj el {{where}}.",
+    "PLACE": {
+      "default": "{{player}} aldonis pecon al {{where}}, kreante stakon de alto {{height}}."
+    },
+    "TAKE_one": "{{player}} forigis unu el siaj propraj pecoj el {{where}}.",
+    "TAKE_other": "{{player}} forigis stakon de {{count}} propraj pecoj el {{where}}."
   },
-  "INFINITE": "{{player}} estigis senfinan iteracion!",
-  "KOMI": "{{player}} agordis komion al {{value}}.",
-  "LEAD": "{{player}} ekgvidis.",
-  "MOVE": {
-    "amazons": "{{player}} moviĝis de {{from}} al {{to}} kaj poste blokis la ĉelon {{block}}.",
-    "amazonsNoFirstShot": "{{player}} moviĝis de {{from}} al {{to}}.",
-    "anache_dragon": "{{player}} movis grupon de grando {{count}} per draka movo de {{from}} en la direkto {{dir}}.",
-    "anache_dragon_jump": "{{player}} saltigis sian drakon de {{from}} al {{to}}.",
-    "anache_knight": "{{player}} movis grupon de grando {{count}} per ĉevala movo de {{from}} en la direkto {{dir}}.",
-    "anache_man": "{{player}} movis grupon de grando {{count}} de {{from}} en la direkto {{dir}}.",
-    "armadas": "{{player}} movis sian ŝipon {{name}}.",
-    "ataxx_jump": "{{player}} saltigis pecon de {{from}} al {{to}}.",
-    "ataxx_split": "{{player}} disigis pecon de {{from}} al {{to}}.",
-    "ball": "{{player}} movis pilkon de {{from}} al {{to}}.",
-    "ball_drop_one": "Pilko falis de {{from}} al {{to}}.",
-    "ball_drop_other": "{{count}} pilkoj falis de {{from}} al {{to}}.",
-    "bao": "Komenca direkto de movado: {{direction}}.",
-    "blockade": "{{player}} movis pecon de {{from}} al {{to}}.",
-    "byte": {
+  "blooms": {
+    "CAPTURE": {
+      "default": "{{player}} kaptis {{what}}-grupon de grando {{count}}."
+    },
+    "PLACE": {
+      "default": "{{player}} metis {{what}}-pecon ĉe {{where}}."
+    }
+  },
+  "buku": {
+    "CAPTURE": {
+      "default": "{{count}} pecoj estis kaptitaj ĉe {{where}}."
+    },
+    "CLAIM": {
+      "repetition_one": "{{player}} alproprigis la tutan 1 restantan pecon.",
+      "repetition_other": "{{player}} alproprigis ĉiujn {{count}} restantajn pecojn.",
+      "singletons_one": "{{player}} alproprigis la restantan 1 pecon sur sia koloro.",
+      "singletons_other": "{{player}} alproprigis la restantajn {{count}} pecojn sur sia koloro."
+    },
+    "EOG": {
+      "singletons": "La ludo finiĝis, ĉar ĉiuj ĉeloj enhavas nur unuopajn pecojn."
+    },
+    "TAKE": {
+      "col_one": "{{player}} kolektis 1 pecon el la kolumno {{col}}.",
+      "col_other": "{{player}} kolektis {{count}} pecojn el la kolumno {{col}}.",
+      "row_bonus": "{{player}} kolektis {{count}} pecojn el la vico {{row}}, plus unu plian pecon.",
+      "row_one": "{{player}} kolektis 1 pecon el la vico {{row}}.",
+      "row_other": "{{player}} kolektis {{count}} pecojn el la vico {{row}}."
+    }
+  },
+  "c1": {
+    "CAPTURE": {
+      "default": "{{player}} forigis kahelon ĉe {{where}}."
+    }
+  },
+  "circleOfLife": {
+    "CAPTURE_one": "{{player}} formanĝis la kontraŭulan specion {{prey}} ({{count}} ŝtono) ĉe {{where}}.",
+    "CAPTURE_other": "{{player}} formanĝis la kontraŭulan specion {{prey}} ({{count}} ŝtonoj) ĉe {{where}}."
+  },
+  "crosshairs": {
+    "CAPTURE": {
+      "default": "{{player}} faligis aviadilon ĉe {{where}}."
+    },
+    "DESTROY": {
+      "default": "La aviadilo de {{player}} ĉe {{where}} kraŝis."
+    },
+    "MOVE": {
+      "default": "{{player}} movis aviadilon de {{from}} al {{to}}.",
+      "power-dive": "La aviadilo de {{player}} impete plonĝis ĉe {{from}}.",
+      "swoop": "La aviadilo de {{player}} plonĝis de {{from}} al {{to}}."
+    },
+    "ORIENT": {
+      "default": "{{player}} turnis aviadilon ĉe {{where}} direkte al {{facing}}."
+    },
+    "PLACE": {
+      "cloud": "{{player}} metis nubon ĉe {{where}}.",
+      "plane": "{{player}} enigis aviadilon ĉe {{where}}."
+    }
+  },
+  "dameo": {
+    "CAPTURE": {
+      "king": "{{player}} kaptis reĝon ĉe {{where}}.",
+      "soldier": "{{player}} kaptis soldaton ĉe {{where}}."
+    }
+  },
+  "entrapment": {
+    "CAPTURE": {
+      "opponent": "{{player}} kaptis vaganton de la kontraŭulo ĉe {{where}}.",
+      "self": "{{player}} kaptis sian propran vaganton ĉe {{where}}."
+    },
+    "MOVE": {
+      "barrier": "{{player}} movis barilon de {{from}} al {{to}}.",
+      "roamer": "{{player}} movis vaganton de {{from}} al {{to}}.",
+      "roamer_jump": "{{player}} movis vaganton de {{from}} al {{to}}, saltante super {{jumped}}."
+    },
+    "PLACE": {
+      "barrier": "{{player}} metis barilon ĉe {{where}}.",
+      "roamer": "{{player}} metis vaganton ĉe {{where}}."
+    },
+    "REMOVE": {
+      "opponent": "{{player}} elektis reteni la kontraŭulan vaganton ĉe {{how}} kaj forigis la vaganton ĉe {{where}}.",
+      "self": "{{player}} elektis reteni sian propran vaganton ĉe {{how}} kaj forigis la vaganton ĉe {{where}}."
+    }
+  },
+  "fightopia": {
+    "CAPTURE": {
+      "1": "{{player}} kaptis peonon ĉe {{where}}.",
+      "2": "{{player}} kaptis tankon ĉe {{where}}."
+    },
+    "MOVE": {
+      "1": "{{player}} movis peonon de {{from}} al {{to}}.",
+      "2": "{{player}} movis tankon de {{from}} al {{to}}.",
+      "4": "{{player}} movis sian giganton de {{from}} al {{to}}.",
+      "pivot": "{{player}} pivotigis tankon de {{from}} al {{to}}."
+    }
+  },
+  "forms": {
+    "CAPTURE_one": "La movo de {{player}} forigis unu pecon.",
+    "CAPTURE_other": "La movo de {{player}} forigis {{count}} pecojn.",
+    "EOG": {
+      "default": "La ludo finiĝis, ĉar la sekva ludanto ne povas movi."
+    }
+  },
+  "furl": {
+    "CAPTURE": {
+      "default": "{{player}} kaptis stakon de grando {{size}} ĉe {{where}}."
+    },
+    "FURL": {
+      "default": "{{player}} kunvolvis {{count}} pecojn de {{from}} al {{to}}."
+    },
+    "UNFURL": {
+      "default": "{{player}} malvolvis {{count}} pecojn de {{from}} al {{to}}."
+    }
+  },
+  "gess": {
+    "CAPTURE_one": "{{count}} ŝtono estis forigita de la tabulo.",
+    "CAPTURE_other": "{{count}} ŝtonoj estis forigitaj de la tabulo.",
+    "MOVE_one": "{{player}} movis 3×3-pecon, kiu enhavis {{count}} ŝtonon, de {{from}} al {{to}}.",
+    "MOVE_other": "{{player}} movis 3×3-pecon, kiu enhavis {{count}} ŝtonojn, de {{from}} al {{to}}."
+  },
+  "hens": {
+    "CAPTURE": {
+      "chick": "{{player}} kaptis kokidon ĉe {{where}}.",
+      "hen": "{{player}} kaptis kokinon ĉe {{where}}."
+    }
+  },
+  "hexentafl": {
+    "CAPTURE": {
+      "king": "La reĝo estis kaptita ĉe {{where}}."
+    },
+    "MOVE": {
+      "king": "{{player}} movis la reĝon de {{from}} al {{to}}."
+    }
+  },
+  "lasca": {
+    "CAPTURE": {
+      "officer": "{{player}} kaptis oficiron ĉe {{where}}.",
+      "soldier": "{{player}} kaptis soldaton ĉe {{where}}."
+    }
+  },
+  "lifeline": {
+    "CAPTURE": {
+      "default": "Mortintaj pecoj estis forigitaj ĉe {{where}}."
+    }
+  },
+  "majorities": {
+    "CAPTURE": {
+      "default": "{{count}} pecoj estis forigitaj."
+    },
+    "CLAIM": {
+      "A": "{{player}} alproprigis la suprenirantan direkton.",
+      "D": "{{player}} alproprigis la malsuprenirantan direkton.",
+      "H": "{{player}} alproprigis la horizontalan direkton.",
+      "line": "{{player}} alproprigis la linion {{where}}."
+    }
+  },
+  "mattock": {
+    "CAPTURE": {
+      "default": "{{player}} kaptis ministon ĉe {{where}}."
+    },
+    "DESTROY": {
+      "default": "{{player}} minis ĉe {{where}}."
+    },
+    "MOVE": {
+      "default": "{{player}} movis ministon de {{from}} al {{to}}."
+    },
+    "PLACE": {
+      "default": "{{player}} metis ministon ĉe {{where}}."
+    }
+  },
+  "meridians": {
+    "CAPTURE": {
+      "default": "Mortinta grupo de grando {{count}} estis forigita."
+    }
+  },
+  "monkey": {
+    "CAPTURE": {
+      "queen": "Damo kaptiĝis.",
+      "single": "Unuopa peco kaptiĝis."
+    },
+    "MOVE": {
+      "queen": "{{player}} movis sian damon de {{from}} al {{to}}.",
+      "single": "{{player}} movis unuopan pecon de {{from}} al {{to}}."
+    }
+  },
+  "murus": {
+    "CAPTURE": {
+      "double": "{{player}} kaptis du pecojn ĉe {{where}}."
+    },
+    "FIRE": {
+      "default": "{{player}} pafis per katapulto de {{from}} al {{to}}."
+    }
+  },
+  "onyx": {
+    "CAPTURE": {
+      "default": "Paro da pecoj kaptiĝis ĉe {{where1}} kaj {{where2}}."
+    }
+  },
+  "orb": {
+    "CAPTURE": {
+      "1": "{{player}} kaptis orbon ĉe {{where}}.",
+      "2": "{{player}} kaptis sferoidon ĉe {{where}}."
+    },
+    "MOVE": {
+      "1": "{{player}} movis orbon de {{from}} al {{to}}.",
+      "2": "{{player}} movis sferoidon de {{from}} al {{to}}.",
+      "3": "{{player}} movis globon de {{from}} al {{to}}.",
+      "2S": "{{player}} movis disigitan sferoidon de {{from}} al {{to}}."
+    },
+    "PLACE": {
+      "default": "La orbogenerilo de {{player}} kreis orbon ĉe {{where}}."
+    },
+    "PROMOTE": {
+      "12": "{{player}} promociis orbon al sferoido ĉe {{where}}.",
+      "13": "{{player}} promociis orbon al globo ĉe {{where}}.",
+      "23": "{{player}} promociis sferoidon al globo ĉe {{where}}."
+    }
+  },
+  "owlman": {
+    "CAPTURE": {
+      "approach": "{{player}} fortimigis la helpanton ĉe {{where}} el la arbaro.",
+      "replacement": "{{player}} formanĝis la pecon ĉe {{where}}."
+    }
+  },
+  "pente": {
+    "CAPTURE": {
+      "default": "{{player}} kaptis {{count}} pecojn.",
+      "self": "{{player}} kaptis {{count}} proprajn pecojn."
+    }
+  },
+  "reversi": {
+    "CAPTURE_one": "Peco estis renversita.",
+    "CAPTURE_other": "{{count}} pecoj estis renversitaj."
+  },
+  "spook": {
+    "CAPTURE": {
+      "drop_opponent": "La suba Spooky ĉe {{where}} kaptis 1 kontraŭulan pilkon de {{player}}.",
+      "drop_self": "La suba Spooky ĉe {{where}} kaptis 1 propran pilkon de {{player}}.",
+      "lateral_opponent_one": "Spooky sur la sama nivelo ĉe {{where}} kaptis 1 kontraŭulan pilkon de {{player}}.",
+      "lateral_opponent_other": "Spooky sur la sama nivelo ĉe {{where}} kaptis {{count}} kontraŭulajn pilkojn de {{player}}.",
+      "lateral_self_one": "Spooky sur la sama nivelo ĉe {{where}} kaptis 1 propran pilkon de {{player}}.",
+      "lateral_self_other": "Spooky sur la sama nivelo ĉe {{where}} kaptis {{count}} proprajn pilkojn de {{player}}."
+    },
+    "MOVE": {
+      "default": "{{player}} movis Spooky de {{from}} al {{to}}."
+    },
+    "REMOVE": {
+      "default": "{{player}} forigis kontraŭulan pilkon ĉe {{where}}.",
+      "drop_one": "{{player}} forigis pilkon ĉe {{where}}, faligante 1 pilkon de {{how}}.",
+      "drop_other": "{{player}} forigis pilkon ĉe {{where}}, faligante {{count}} pilkojn de {{how}}."
+    },
+    "PLACE": {
+      "spooky": "Spooky eniris la tabulon ĉe {{where}}."
+    }
+  },
+  "spora": {
+    "CAPTURE_one": "{{player}} ĉirkaŭis kaj kaptis unu pecon: {{group}}.",
+    "CAPTURE_other": "{{player}} ĉirkaŭis kaj kaptis {{count}} pecojn: {{group}}.",
+    "MOVE": {
+      "default": "{{player}} semis de {{from}} al {{to}}."
+    },
+    "PLACE_one": "{{player}} aldonis unu pecon al la stako ĉe {{where}}.",
+    "PLACE_other": "{{player}} aldonis {{size}} pecojn al la stako ĉe {{where}}."
+  },
+  "swarm": {
+    "CAPTURE": {
+      "default": "{{player}} kaptis la stakon {{where}} per {{count}} unuopaj pecoj."
+    }
+  },
+  "tafl": {
+    "CAPTURE": {
+      "default": "{{player}} kaptis pecon ĉe {{where}}."
+    },
+    "EOG": {
+      "encirclement": "La ludo finiĝis, ĉar la defendantoj estas ĉirkaŭitaj.",
+      "exit_fort": "La ludo finiĝis, ĉar la defendantoj kreis elirfortikaĵon.",
+      "king_captured": "La ludo finiĝis, ĉar la reĝo estis kaptita.",
+      "king_escaped": "La ludo finiĝis, ĉar la reĝo eskapis."
+    },
+    "MOVE": {
+      "default": "{{player}} movis pecon de {{from}} al {{to}}.",
+      "jump": "{{player}} saltigis pecon de {{from}} al {{to}}."
+    }
+  },
+  "terrace": {
+    "CAPTURE": {
+      "other": "{{player}} kaptis pecon de grando {{what}} ĉe {{where}}.",
+      "self": "{{player}} kanibaligis sian propran pecon de grando {{what}} ĉe {{where}}."
+    },
+    "PLACE": {
+      "default": "{{player}} movis pecon de grando {{size}} de {{from}} al {{to}}."
+    }
+  },
+  "tricouleur": {
+    "CAPTURE": {
+      "default": "{{count}} pecoj ŝanĝis koloron."
+    },
+    "MOVE": {
+      "duplicate": "{{player}} duobligis pecon de {{from}} al {{to}}.",
+      "jump": "{{player}} saltigis pecon de {{from}} al {{to}}."
+    }
+  },
+  "tumbleweed": {
+    "CAPTURE": {
+      "default": "{{player}} kaptis stakon de grando {{count}} ĉe {{where}}.",
+      "self": "{{player}} plifortigis stakon de grando {{count}} ĉe {{where}}."
+    },
+    "PLACE": {
+      "default": "{{player}} metis stakon de grando {{count}} ĉe {{where}}."
+    }
+  },
+  "conhex": {
+    "CLAIM": {
+      "default": "{{player}} alproprigis la spacon ĉe ({{where}})."
+    },
+    "PLACE": {
+      "default": "{{player}} metis pecon ĉe la vertico {{where}}."
+    }
+  },
+  "exxit": {
+    "CLAIM": {
+      "default": "{{player}} alproprigis la randan spacon ĉe {{where}}."
+    }
+  },
+  "fnap": {
+    "CLAIM": {
+      "col": "{{player}} alproprigis la kolumnon {{where}}.",
+      "fnap": "{{player}} akiris la FNAP-ĵetonon.",
+      "row": "{{player}} alproprigis la vicon {{where}}."
+    },
+    "SELECT": {
+      "default": "{{player}} elektis la kahelon {{tile}}."
+    },
+    "SET": {
+      "circles": "La cirkla kahelo ĉe {{where}} estas izolita.",
+      "triplets_one": "{{player}} poentis {{count}} triopon.",
+      "triplets_other": "{{player}} poentis {{count}} triopojn."
+    }
+  },
+  "jacynth": {
+    "CLAIM": {
+      "default": "{{player}} influis ĉe {{where}}."
+    }
+  },
+  "meg": {
+    "CLAIM": {
+      "default": "{{player}} prenis la pilkon kaj metis ĝin ĉe {{where}}."
+    },
+    "MOVE": {
+      "default": "{{player}} pasigis la pilkon de {{from}} al {{to}}."
+    },
+    "PLACE": {
+      "cap": "{{player}} metis blokilon ĉe {{where}}.",
+      "cup": "{{player}} metis ricevilon ĉe {{where}}."
+    }
+  },
+  "penguin": {
+    "CLAIM": {
+      "default": "La pingveno ĉe {{where}} akiris la pilkon!"
+    },
+    "EJECT": {
+      "ball": "{{player}} piedbatis la pilkon de {{from}} al {{to}}.",
+      "penguin": "Pingveno estis puŝita de {{from}} al {{to}}."
+    }
+  },
+  "toguz": {
+    "CLAIM": {
+      "default": "La kavo {{pit}} fariĝis tuz."
+    }
+  },
+  "bridges": {
+    "CONNECT": {
+      "default": "{{player}} konstruis ponton inter {{left}} kaj {{right}}."
+    }
+  },
+  "pontedd": {
+    "CONNECT": {
+      "default": "{{player}} metis ponton inter {{left}} kaj {{right}}."
+    }
+  },
+  "courtesan": {
+    "CONVERT": {
+      "default": "La reĝo kaj la korteganino interŝanĝis poziciojn ĉe {{where}}."
+    }
+  },
+  "moonsquad": {
+    "CONVERT": {
+      "default": "{{player}} varbis taĉmenton."
+    },
+    "PLACE": {
+      "default": "{{player}} metis taĉmenton ĉe {{where}}."
+    },
+    "SACRIFICE": {
+      "default": "{{player}} oferis ercon ({{ore}}) por movi siajn taĉmentojn."
+    },
+    "TAKE": {
+      "default": "{{player}} prenis ercon ({{ore}})."
+    }
+  },
+  "pacru": {
+    "CONVERT": {
+      "default": "{{player}} konvertis {{where}}."
+    }
+  },
+  "paintbucket": {
+    "CONVERT_one": "{{player}} konvertis 1 pecon ĉe {{where}}.",
+    "CONVERT_other": "{{player}} konvertis {{count}} pecojn ekde {{where}}."
+  },
+  "storisende": {
+    "CONVERT": {
+      "territory": "La kahelo ĉe {{where}} fariĝis teritorio.",
+      "wall": "La kahelo ĉe {{where}} fariĝis muro."
+    }
+  },
+  "armadas": {
+    "DAMAGE": {
+      "default": "La ŝipo {{myName}} de {{player}} pafis kontraŭ la malamika ŝipo {{theirName}}."
+    },
+    "DESTROY": {
+      "default": "{{player}} sinkigis la malamikan ŝipon {{name}}."
+    },
+    "MOVE": {
+      "default": "{{player}} movis sian ŝipon {{name}}."
+    },
+    "PLACE": {
+      "1": "{{player}} metis malgrandan ŝipon kaj nomis ĝin {{name}}.",
+      "2": "{{player}} metis mezgrandan ŝipon kaj nomis ĝin {{name}}.",
+      "3": "{{player}} metis grandan ŝipon kaj nomis ĝin {{name}}."
+    }
+  },
+  "pigs": {
+    "DAMAGE": {
+      "default": "{{player}} frapis {{opponent}} ĉe {{where}}."
+    },
+    "FIRE": {
+      "F": "{{player}} pafis sian laseron al {{direction}}.",
+      "H": "{{player}} svingis sian potencan rostron!"
+    },
+    "PASS": {
+      "default": "{{player}} faris nenion."
+    }
+  },
+  "emu": {
+    "DECKDRAW": {
+      "deck": "{{player}} tiris dorssupran karton el la kartaro.",
+      "discard": "{{player}} tiris la karton {{what}} de la supro de la forĵetstako."
+    },
+    "DECLARE": {
+      "default": "La jaro {{year}} finiĝis."
+    },
+    "DELTASCORE": {
+      "excuse": "{{player}} ludas The Excuse por kompensi sian plej malalte poentantan birdon ({{delta}} poentoj).",
+      "score": "La birdo de {{player}} kun la jenaj rangoj ricevis {{delta}} poentojn: {{ranks}}."
+    },
+    "PLACE": {
+      "discard": "{{player}} forĵetis la karton {{what}}.",
+      "existing": "{{player}} uzis {{what}} por kreskigi la birdon n-ro {{where}}.",
+      "new": "{{player}} elkovis novan birdon per {{what}}."
+    }
+  },
+  "evenatodds": {
+    "DECKDRAW": {
+      "default": "{{player}} tiris kahelon el la kahelprovizo."
+    },
+    "PLACE": {
+      "default": "{{player}} metis la domenon {{what}} ĉe {{where}}."
+    }
+  },
+  "mchess": {
+    "DECLARE": {
+      "default": "{{player}} \"vokis la horloĝon\". Se neniu kapto okazos dum la sekvaj sep vicoj, la ludo finiĝos kaj estos poentita."
+    },
+    "PROMOTE": {
+      "default": "Rezulte kreiĝis {{into}}."
+    }
+  },
+  "renju": {
+    "DECLARE": {
+      "default": "{{player}} deklaris {{count}} provizorajn kvinopojn."
+    },
+    "PLACE": {
+      "tentative": "{{player}} metis provizoran kvinopon ĉe {{where}}.",
+      "tentative_choose": "{{player}} elektis la kvinan ŝtonon ĉe {{where}}."
+    }
+  },
+  "btt": {
+    "DELTASCORE": {
+      "opponent_gain_one": "Kontraŭulo akiris {{delta}} poenton.",
+      "opponent_gain_other": "Kontraŭulo akiris {{delta}} poentojn."
+    },
+    "PLACE": {
+      "default": "{{player}} metis {{what}} ĉe {{where}}.",
+      "large": "{{player}} metis grandan pecon ĉe {{where}}, direktitan al {{how}}.",
+      "medium": "{{player}} metis mezgrandan pecon ĉe {{where}}, direktitan al {{how}}.",
+      "small": "{{player}} metis malgrandan pecon ĉe {{where}}, direktitan al {{how}}."
+    }
+  },
+  "assembly": {
+    "EJECT": {
+      "default": "La produktolinio antaŭeniris je {{distance}} spacoj."
+    },
+    "PASS": {
+      "default": "La produktolinio ne moviĝis."
+    }
+  },
+  "camelot": {
+    "EOG": {
+      "claim_draw_progression": "La ludo finiĝis, ĉar {{player}} postulis remizon laŭ la 50-mova regulo.",
+      "claim_draw_repetition": "La ludo finiĝis, ĉar {{player}} postulis remizon pro ripeto."
+    },
+    "MOVE": {
+      "canter": "{{player}} galopis per viro de {{from}} al {{to}}.",
+      "canter_knight": "{{player}} galopis per ĉevalo de {{from}} al {{to}}.",
+      "castle": "{{player}} faris kastelan movon per viro de {{from}} al {{to}}.",
+      "castle_knight": "{{player}} faris kastelan movon per ĉevalo de {{from}} al {{to}}.",
+      "jump": "{{player}} saltis per viro de {{from}} al {{to}}, kaptante {{captured}}.",
+      "jump_knight": "{{player}} saltis per ĉevalo de {{from}} al {{to}}, kaptante {{captured}}.",
+      "plain": "{{player}} faris ordinaran movon per viro de {{from}} al {{to}}.",
+      "plain_knight": "{{player}} faris ordinaran movon per ĉevalo de {{from}} al {{to}}."
+    },
+    "PLACE": {
+      "tree": "{{player}} metis arbojn ĉe {{where}}."
+    },
+    "USE": {
+      "castle_move_none": "{{player}} ne plu havas kastelajn movojn.",
+      "castle_move_one": "{{player}} havas ankoraŭ 1 kastelan movon.",
+      "castle_move_other": "{{player}} havas ankoraŭ {{count}} kastelajn movojn."
+    }
+  },
+  "gonnect": {
+    "EOG": {
+      "cascading_subboard": "{{player}} venkis sur la {{size}}x{{size}}-subtabulo.",
+      "direct_connection": "{{player}} venkis per rekta konekto."
+    }
+  },
+  "susan": {
+    "EOG": {
+      "nonplacement": "La ludo finiĝis, ĉar neniu ludanto metis pecon dum 6 duonmovoj."
+    },
+    "MOVE": {
+      "default": "{{player}} glitigis pecon de {{from}} al {{to}}."
+    }
+  },
+  "unlur": {
+    "EOG": {
+      "foul": "La ludo finiĝis, ĉar unu ludanto plenumis la venkokondiĉon de la kontraŭulo sen plenumi sian propran."
+    },
+    "PIE": {
+      "default": "{{player}} preterpasis por esti la Y-ludanto."
+    }
+  },
+  "realm": {
+    "IMMOBILIZE": {
+      "default": "{{player}} senmovigis la plenumiston ĉe {{where}}."
+    }
+  },
+  "amazons": {
+    "MOVE": {
+      "default": "{{player}} moviĝis de {{from}} al {{to}} kaj poste blokis la ĉelon {{block}}.",
+      "noFirstShot": "{{player}} moviĝis de {{from}} al {{to}}."
+    }
+  },
+  "anache": {
+    "MOVE": {
+      "dragon": "{{player}} movis grupon de grando {{count}} per draka movo de {{from}} en la direkto {{dir}}.",
+      "dragon_jump": "{{player}} saltigis sian drakon de {{from}} al {{to}}.",
+      "knight": "{{player}} movis grupon de grando {{count}} per ĉevala movo de {{from}} en la direkto {{dir}}.",
+      "man": "{{player}} movis grupon de grando {{count}} de {{from}} en la direkto {{dir}}."
+    }
+  },
+  "ataxx": {
+    "MOVE": {
+      "jump": "{{player}} saltigis pecon de {{from}} al {{to}}.",
+      "split": "{{player}} disigis pecon de {{from}} al {{to}}."
+    },
+    "CAPTURE_one": "1 peco konvertiĝis.",
+    "CAPTURE_other": "{{count}} pecoj konvertiĝis."
+  },
+  "byte": {
+    "MOVE": {
       "full": "{{player}} movis tutan stakon de {{from}} al {{to}}.",
       "partial_one": "{{player}} movis {{count}} dampecon de {{from}} al {{to}}.",
       "partial_other": "{{player}} movis {{count}} dampecojn de {{from}} al {{to}}."
+    }
+  },
+  "carnac": {
+    "MOVE": {
+      "tip": "{{player}} renversis la megaliton de {{from}} sur {{to}} direkte al {{how}}."
     },
-    "crosshairs": "{{player}} movis aviadilon de {{from}} al {{to}}.",
-    "crosshairs_swoop": "La aviadilo de {{player}} plonĝis de {{from}} al {{to}}.",
-    "crosshairs_power-dive": "La aviadilo de {{player}} impete plonĝis ĉe {{from}}.",
-    "camelot_castle_knight": "{{player}} faris kastelan movon per ĉevalo de {{from}} al {{to}}.",
-    "camelot_castle": "{{player}} faris kastelan movon per viro de {{from}} al {{to}}.",
-    "carnac_tip": "{{player}} renversis la megaliton de {{from}} sur {{to}} direkte al {{how}}.",
-    "druid_walk": "{{player}} movis sian Druidon de {{from}} al {{to}}.",
-    "elOso_one": "{{player}} movis unu pecon de {{from}} al {{to}}.",
-    "elOso_other": "{{player}} movis {{count}} pecojn de {{from}} al {{to}}.",
-    "camelot_plain_knight": "{{player}} faris ordinaran movon per ĉevalo de {{from}} al {{to}}.",
-    "camelot_plain": "{{player}} faris ordinaran movon per viro de {{from}} al {{to}}.",
-    "camelot_canter_knight": "{{player}} galopis per ĉevalo de {{from}} al {{to}}.",
-    "camelot_canter": "{{player}} galopis per viro de {{from}} al {{to}}.",
-    "camelot_jump_knight": "{{player}} saltis per ĉevalo de {{from}} al {{to}}, kaptante {{captured}}.",
-    "camelot_jump": "{{player}} saltis per viro de {{from}} al {{to}}, kaptante {{captured}}.",
-    "chase": "{{player}} moviĝis de {{from}} al {{to}} (tra {{through}}).",
-    "collision": "{{player}} provis moviĝi de {{from}} al {{to}}, sed kolizio malebligis tion.",
-    "complete_one": "{{player}} movis unu pecon de {{from}} al {{to}}.",
-    "complete_other": "{{player}} movis {{count}} pecojn de {{from}} al {{to}}.",
-    "deckfish": "{{player}} movis pecon de {{from}} al {{to}}, kolektante {{what}}.",
-    "entrapment_barrier": "{{player}} movis barilon de {{from}} al {{to}}.",
-    "entrapment_roamer": "{{player}} movis vaganton de {{from}} al {{to}}.",
-    "entrapment_roamer_jump": "{{player}} movis vaganton de {{from}} al {{to}}, saltante super {{jumped}}.",
-    "fightopia_1": "{{player}} movis peonon de {{from}} al {{to}}.",
-    "fightopia_2": "{{player}} movis tankon de {{from}} al {{to}}.",
-    "fightopia_4": "{{player}} movis sian giganton de {{from}} al {{to}}.",
-    "fightopia_pivot": "{{player}} pivotigis tankon de {{from}} al {{to}}.",
-    "frogger_back": "{{player}} movis ranon malantaŭen de {{from}} al {{to}} kaj tiris {{card}} el la tirprovizo.",
-    "frogger_forward": "{{player}} uzis {{card}} por movi ranon antaŭen de {{from}} al {{to}}.",
-    "gess_one": "{{player}} movis 3×3-pecon, kiu enhavis {{count}} ŝtonon, de {{from}} al {{to}}.",
-    "gess_other": "{{player}} movis 3×3-pecon, kiu enhavis {{count}} ŝtonojn, de {{from}} al {{to}}.",
-    "hexentafl_king": "{{player}} movis la reĝon de {{from}} al {{to}}.",
-    "iqishiqi": "{{player}} movis la neŭtralan ŝtonon de {{from}} al {{to}}.",
-    "knightline": "{{player}} movis {{what}} pecojn de {{from}} al {{to}}.",
-    "mattock": "{{player}} movis ministon de {{from}} al {{to}}.",
-    "meg": "{{player}} pasigis la pilkon de {{from}} al {{to}}.",
-    "monkey_queen": "{{player}} movis sian damon de {{from}} al {{to}}.",
-    "monkey_single": "{{player}} movis unuopan pecon de {{from}} al {{to}}.",
-    "multiple": "{{player}} faris la jenajn movojn: {{moves}}.",
-    "nowhat": "{{player}} moviĝis de {{from}} al {{to}}.",
-    "onager_jump": "{{player}} saltigis pecon de {{from}} al {{to}}.",
-    "onager_walk": "{{player}} paŝigis pecon de {{from}} al {{to}}.",
-    "orb_1": "{{player}} movis orbon de {{from}} al {{to}}.",
-    "orb_2": "{{player}} movis sferoidon de {{from}} al {{to}}.",
-    "orb_2S": "{{player}} movis disigitan sferoidon de {{from}} al {{to}}.",
-    "orb_3": "{{player}} movis globon de {{from}} al {{to}}.",
-    "phutball": "{{player}} movis la pilkon de {{from}} al {{to}},",
-    "phutball_last": "{{player}} movis la pilkon de {{from}} al {{to}}.",
-    "phutball_to": "al {{to}},",
-    "phutball_to_last": "al {{to}}.",
-    "posit": "{{player}} movis sian pecon de {{from}} al {{to}}.",
-    "push": "{{what}} estis puŝita de {{from}} al {{to}}.",
-    "saltire": "{{player}} interŝanĝis la pecojn ĉe {{from}} kaj {{to}}.",
-    "slyde": "{{player}} glitigis pecon de {{from}} al {{to}}.",
-    "spook": "{{player}} movis Spooky de {{from}} al {{to}}.",
-    "spora": "{{player}} semis de {{from}} al {{to}}.",
-    "stawvs": "{{player}} movis pecon de {{from}} al {{to}} kaj kaptis {{what}} ĉe {{how}}.",
-    "susan": "{{player}} glitigis pecon de {{from}} al {{to}}.",
-    "tafl": "{{player}} movis pecon de {{from}} al {{to}}.",
-    "tafl_jump": "{{player}} saltigis pecon de {{from}} al {{to}}.",
-    "tricouleur_jump": "{{player}} saltigis pecon de {{from}} al {{to}}.",
-    "tricouleur_duplicate": "{{player}} duobligis pecon de {{from}} al {{to}}.",
-    "veletas": "{{player}} movis pafanton de {{from}} al {{to}}.",
-    "volo_one": "{{player}} movis aron de 1 birdo de {{from}} en la direkto {{how}}.",
-    "volo_other": "{{player}} movis aron de {{count}} birdoj de {{from}} en la direkto {{how}}.",
-    "complete_what": "{{player}} movis {{what}} de {{from}} al {{to}}."
+    "PASS": {
+      "default": "{{player}} rifuzis renversi la megaliton."
+    },
+    "PLACE": {
+      "default": "{{player}} metis megaliton ĉe {{where}} (supro {{top}}, sudo {{south}})."
+    }
   },
-  "NULLIFY_CLAIM": "Turoj ne povas esti alproprigitaj dum la lasta vico de la ludo. La alproprigo ĉe {{where}} estis nuligita.",
-  "ORIENT": {
-    "crosshairs": "{{player}} turnis aviadilon ĉe {{where}} direkte al {{facing}}.",
-    "nowhat": "{{player}} turnis pecon ĉe {{where}} direkte al {{facing}}."
+  "chase": {
+    "MOVE": {
+      "default": "{{player}} moviĝis de {{from}} al {{to}} (tra {{through}})."
+    },
+    "PLACE": {
+      "default": "La ĉambro elĵetis {{what}} ĉe {{where}}."
+    },
+    "TAKE": {
+      "default": "{{what}} estis manĝdonita al la ĉambro."
+    }
   },
-  "PASS": {
-    "asli": "{{player}} prenis kontraŭulan pecon el la malliberejo kaj preterpasis sian vicon.",
-    "asli_area": "{{player}} preterpasis sian vicon.",
-    "assembly": "La produktolinio ne moviĝis.",
-    "deckfish": "{{player}} ne povis movi.",
-    "entropy": "{{player}} elektis movi neniun pecon dum ĉi tiu vico.",
-    "forced": "{{player}} estis devigita preterpasi.",
-    "carnac": "{{player}} rifuzis renversi la megaliton.",
-    "canoe": "{{player}} preterpasis.",
-    "druid": "{{player}} preterpasis.",
-    "elOso": "{{player}} preterpasis.",
-    "frogger": "{{player}} preterpasis {{why}}.",
-    "linage": "{{player}} preterpasis.",
-    "pie": "{{player}} akceptis la komioferton kaj plu ludos kiel la dua.",
-    "pigs": "{{player}} faris nenion.",
-    "pippinzip": "{{player}} decidis preterpasi kaj fariĝis Zip.",
-    "simple": "{{player}} preterpasis.",
-    "tablero": "{{player}} puŝetis!",
-    "tiebreaker": "{{player}} preterpasis kaj gajnis la egalecrompon."
+  "iqishiqi": {
+    "MOVE": {
+      "default": "{{player}} movis la neŭtralan ŝtonon de {{from}} al {{to}}."
+    },
+    "PLACE": {
+      "default": "{{player}} metis komunan ŝtonon ĉe {{where}}."
+    }
   },
-  "PIE": {
-    "deckfish": "{{player}} movas kiel la dua.",
-    "default": "{{player}} aplikis la tortoregulon.",
-    "unlur": "{{player}} preterpasis por esti la Y-ludanto."
+  "knightline": {
+    "MOVE": {
+      "default": "{{player}} movis {{what}} pecojn de {{from}} al {{to}}."
+    },
+    "PLACE": {
+      "default": "{{player}} metis sian komencan stakon ĉe {{where}}."
+    }
   },
-  "PLACE": {
-    "armadas_1": "{{player}} metis malgrandan ŝipon kaj nomis ĝin {{name}}.",
-    "armadas_2": "{{player}} metis mezgrandan ŝipon kaj nomis ĝin {{name}}.",
-    "armadas_3": "{{player}} metis grandan ŝipon kaj nomis ĝin {{name}}.",
-    "ball": "{{player}} metis pilkon ĉe {{where}}.",
-    "blastradius": "{{player}} aldonis pecon al {{where}}, kreante stakon de alto {{height}}.",
-    "blockade_h": "{{player}} metis horizontalan barilon ĉe {{where}}.",
-    "blockade_v": "{{player}} metis vertikalan barilon ĉe {{where}}.",
-    "blooms": "{{player}} metis {{what}}-pecon ĉe {{where}}.",
-    "btt": "{{player}} metis {{what}} ĉe {{where}}.",
-    "btt_small": "{{player}} metis malgrandan pecon ĉe {{where}}, direktitan al {{how}}.",
-    "btt_medium": "{{player}} metis mezgrandan pecon ĉe {{where}}, direktitan al {{how}}.",
-    "btt_large": "{{player}} metis grandan pecon ĉe {{where}}, direktitan al {{how}}.",
-    "bug_bonus_grow": "Pro la kapto, insekto ĉe {{where}} kreskis al grando {{size}}.",
-    "bug_grow": "{{player}} kreskigis insekton ĉe {{where}} al grando {{size}}.",
-    "bug_new": "{{player}} enkondukis novan insekton ĉe {{where}}.",
-    "camelot_tree": "{{player}} metis arbojn ĉe {{where}}.",
-    "cannon": "{{player}} metis sian urbon ĉe {{where}}.",
-    "carnac": "{{player}} metis megaliton ĉe {{where}} (supro {{top}}, sudo {{south}}).",
-    "druid_druid": "{{player}} metis Druidon ĉe {{where}}.",
-    "druid_lintel": "{{player}} kuŝigis lintelon laŭlonge de {{where}}.",
-    "druid_sarsen": "{{player}} metis sarsenon ĉe {{where}}.",
-    "ccorridor": "{{player}} metis kahelon ĉe {{where}}.",
-    "chase": "La ĉambro elĵetis {{what}} ĉe {{where}}.",
-    "complete": "{{player}} metis {{what}} ĉe {{where}}.",
-    "court": "{{player}} promociis {{where}} al {{what}}.",
-    "crosshairs_plane": "{{player}} enigis aviadilon ĉe {{where}}.",
-    "crosshairs_cloud": "{{player}} metis nubon ĉe {{where}}.",
-    "conhex": "{{player}} metis pecon ĉe la vertico {{where}}.",
-    "connecticut": "{{player}} metis triominon ĉe {{where}}.",
-    "boxes": "{{player}} aldonis linion ĉe {{where}}.",
-    "boxes_claim1": "{{player}} aldonis linion ĉe {{where}} kaj alproprigis {{box}}.",
-    "boxes_claim2": "{{player}} aldonis linion ĉe {{where}} kaj alproprigis {{box1}} kaj {{box2}}.",
-    "decktet": "{{player}} metis \"{{what}}\" ĉe {{where}}.",
-    "deckfish": "{{player}} metis pecon ĉe {{where}}.",
-    "estate_one": "{{player}} metis pecon ĉe {{where}} ({{what}} poento).",
-    "estate_other": "{{player}} metis pecon ĉe {{where}} ({{what}} poentoj).",
-    "emu_discard": "{{player}} forĵetis la karton {{what}}.",
-    "emu_existing": "{{player}} uzis {{what}} por kreskigi la birdon n-ro {{where}}.",
-    "emu_new": "{{player}} elkovis novan birdon per {{what}}.",
-    "entrapment_barrier": "{{player}} metis barilon ĉe {{where}}.",
-    "entrapment_roamer": "{{player}} metis vaganton ĉe {{where}}.",
-    "evenatodds": "{{player}} metis la domenon {{what}} ĉe {{where}}.",
-    "elOso_one": "{{player}} metis unu pecon ĉe {{where}}.",
-    "elOso_other": "{{player}} metis {{count}} pecojn ĉe {{where}}.",
-    "epam": "{{player}} metis ŝtonon ĉe {{where}}.",
-    "gorogo_henge": "{{player}} metis henĝan pecon ĉe {{where}}.",
-    "gorogo_piece": "{{player}} metis pecon ĉe {{where}}.",
-    "iqishiqi": "{{player}} metis komunan ŝtonon ĉe {{where}}.",
-    "killallgo_setup": "{{player}} metis atakantan ŝtonon ĉe {{where}}.",
-    "knightline": "{{player}} metis sian komencan stakon ĉe {{where}}.",
-    "logger_logger": "{{player}} metis sian hakiston ĉe {{where}}.",
-    "logger_plant": "{{player}} plantis arbeton ĉe {{where}}.",
-    "logger_spawn": "Nova arbeto ekkreskis ĉe {{where}}.",
-    "magnate_buy": "{{player}} aĉetis {{what}} por la distrikto {{where}}.",
-    "magnate_deed_start": "{{player}} proprietigis {{what}} en la distrikto {{where}}.",
-    "magnate_deed_end": "{{player}} kompletigis sian proprietigitan karton {{what}} en la distrikto {{where}}.",
-    "magnate_sell": "{{player}} vendis {{what}}.",
-    "mattock": "{{player}} metis ministon ĉe {{where}}.",
-    "meg_cap": "{{player}} metis blokilon ĉe {{where}}.",
-    "meg_cup": "{{player}} metis ricevilon ĉe {{where}}.",
-    "mine": "{{player}} metis unu el siaj propraj pecoj ĉe {{where}}.",
-    "moonsquad": "{{player}} metis taĉmenton ĉe {{where}}.",
-    "neutral": "Neŭtrala peco estis metita ĉe {{where}}.",
-    "nex": "{{player}} metis pecon de sia koloro ĉe {{where}}.",
-    "nex_neutral": "{{player}} metis neŭtralan pecon ĉe {{where}}.",
-    "nowhat": "{{player}} metis pecon ĉe {{where}}.",
-    "onager": "{{player}} metis lagon ĉe {{where}}.",
-    "orb": "La orbogenerilo de {{player}} kreis orbon ĉe {{where}}.",
-    "pahtum_block": "{{player}} blokis {{where}}.",
-    "pahtum_piece": "{{player}} metis pecon ĉe {{where}}.",
-    "phutball": "{{player}} metis ludanton ĉe {{where}}.",
-    "pollux": "{{player}} blokis {{where}}.",
-    "PYRAMID_1": "{{player}} metis malgrandan pecon ĉe {{where}}.",
-    "PYRAMID_2": "{{player}} metis mezgrandan pecon ĉe {{where}}.",
-    "PYRAMID_3": "{{player}} metis grandan pecon ĉe {{where}}.",
-    "quax_diag": "{{player}} metis diagonalan ligon ĉe {{where}}.",
-    "query_c4": "{{player}} metis du pecojn ĉe la verticoj {{where}}.",
-    "query_c8": "{{player}} metis unu pecon ĉe la vertico {{where}}.",
-    "renju_tentative": "{{player}} metis provizoran kvinopon ĉe {{where}}.",
-    "renju_tentative_choose": "{{player}} elektis la kvinan ŝtonon ĉe {{where}}.",
-    "siegeofj": "{{player}} metis \"{{what}}\" apud {{where}}.",
-    "spire_neutral": "{{player}} metis neŭtralan pilkon ĉe {{where}}.",
-    "spire_player": "{{player}} metis pilkon de sia koloro ĉe {{where}}.",
-    "spooky": "Spooky eniris la tabulon ĉe {{where}}.",
-    "spora_one": "{{player}} aldonis unu pecon al la stako ĉe {{where}}.",
-    "spora_other": "{{player}} aldonis {{size}} pecojn al la stako ĉe {{where}}.",
-    "stawvs": "{{player}} metis pecon ĉe {{where}}.",
-    "strands_initial": "{{player}} metis pecon sur spacon etikeditan 2 ĉe {{where}}.",
-    "strands_one": "{{player}} metis pecon ĉe {{where}}.",
-    "strands_other": "{{player}} metis {{count}} pecojn ĉe {{where}}.",
-    "subdivision_park": "{{player}} metis parkon ĉe {{where}}.",
-    "synapse": "{{player}} metis pecon de grando {{size}} ĉe {{where}}, direktitan al {{dir}}.",
-    "terrace": "{{player}} movis pecon de grando {{size}} de {{from}} al {{to}}.",
-    "theirs": "{{player}} metis malamikan pecon ĉe {{where}}.",
-    "theirs_specific": "{{player}} metis {{enemy}}-pecon ĉe {{where}}.",
-    "trax": "{{player}} metis {{piece}} ĉe {{algebraic}} ({{where}}).",
-    "tritium-orange": "{{player}} ludis oranĝkoloran kahelon ĉe {{where}}.",
-    "tritium-purple": "{{player}} ludis purpuran kahelon ĉe {{where}}.",
-    "tritium-green": "{{player}} ludis verdan kahelon ĉe {{where}}.",
-    "tritium-flag": "{{player}} ludis flagon ĉe {{where}}.",
-    "tumbleweed": "{{player}} metis stakon de grando {{count}} ĉe {{where}}.",
-    "twixt": "{{player}} metis kejlon ĉe {{where}}.",
-    "unane": "{{player}} memkaptis {{where}}.",
-    "upperhand_chain": "Pilko de {{whose}} estis metita ĉe {{where}}.",
-    "urbino": {
+  "onager": {
+    "MOVE": {
+      "jump": "{{player}} saltigis pecon de {{from}} al {{to}}.",
+      "walk": "{{player}} paŝigis pecon de {{from}} al {{to}}."
+    },
+    "PLACE": {
+      "default": "{{player}} metis lagon ĉe {{where}}."
+    }
+  },
+  "phutball": {
+    "MOVE": {
+      "default": "{{player}} movis la pilkon de {{from}} al {{to}},",
+      "last": "{{player}} movis la pilkon de {{from}} al {{to}}.",
+      "to": "al {{to}},",
+      "to_last": "al {{to}}."
+    },
+    "PLACE": {
+      "default": "{{player}} metis ludanton ĉe {{where}}."
+    },
+    "REMOVE_one": "{{count}} ludanto estis forigita.",
+    "REMOVE_other": "{{count}} ludantoj estis forigitaj."
+  },
+  "posit": {
+    "MOVE": {
+      "default": "{{player}} movis sian pecon de {{from}} al {{to}}."
+    }
+  },
+  "saltire": {
+    "MOVE": {
+      "default": "{{player}} interŝanĝis la pecojn ĉe {{from}} kaj {{to}}."
+    }
+  },
+  "slyde": {
+    "MOVE": {
+      "default": "{{player}} glitigis pecon de {{from}} al {{to}}."
+    },
+    "SELECT": {
+      "fixed_opponent": "{{player}} ŝanĝis la staton de la kontraŭula peco ĉe {{where}} de movebla al fiksa.",
+      "fixed_self": "{{player}} ŝanĝis la staton de sia propra peco ĉe {{where}} de movebla al fiksa.",
+      "mobile_opponent": "{{player}} ŝanĝis la staton de la kontraŭula peco ĉe {{where}} de fiksa al movebla.",
+      "mobile_self": "{{player}} ŝanĝis la staton de sia propra peco ĉe {{where}} de fiksa al movebla."
+    }
+  },
+  "volo": {
+    "MOVE_one": "{{player}} movis aron de 1 birdo de {{from}} en la direkto {{how}}.",
+    "MOVE_other": "{{player}} movis aron de {{count}} birdoj de {{from}} en la direkto {{how}}.",
+    "PLACE": {
+      "default": "{{player}} aldonis birdon ĉe {{where}}."
+    },
+    "REMOVE": {
+      "default": "{{player}} elektis reteni la regionon ĉe {{how}} kaj forigis {{num}} kontraŭulajn birdojn."
+    }
+  },
+  "asli": {
+    "PASS": {
+      "default": "{{player}} prenis kontraŭulan pecon el la malliberejo kaj preterpasis sian vicon.",
+      "area": "{{player}} preterpasis sian vicon."
+    },
+    "CAPTURE": {
+      "self": "{{player}} forigis siajn proprajn izolitajn pecojn ĉe {{where}}."
+    }
+  },
+  "entropy": {
+    "PASS": {
+      "default": "{{player}} elektis movi neniun pecon dum ĉi tiu vico."
+    }
+  },
+  "linage": {
+    "PASS": {
+      "default": "{{player}} preterpasis."
+    }
+  },
+  "pippinzip": {
+    "PASS": {
+      "default": "{{player}} decidis preterpasi kaj fariĝis Zip."
+    }
+  },
+  "tablero": {
+    "PASS": {
+      "default": "{{player}} puŝetis!"
+    },
+    "ROLL": {
+      "default": "La ĵetkuboj estis ĵetitaj: {{values}}."
+    },
+    "TAKE": {
+      "default": "{{player}} prenis unu el siaj dampecoj el la stako ĉe {{from}}."
+    }
+  },
+  "blockade": {
+    "PLACE": {
+      "h": "{{player}} metis horizontalan barilon ĉe {{where}}.",
+      "v": "{{player}} metis vertikalan barilon ĉe {{where}}."
+    },
+    "CAPTURE": {
+      "default": "{{player}} kaptis blokantan pecon ĉe {{where}}."
+    },
+    "MOVE": {
+      "default": "{{player}} movis pecon de {{from}} al {{to}}."
+    }
+  },
+  "boxes": {
+    "PLACE": {
+      "default": "{{player}} aldonis linion ĉe {{where}}.",
+      "claim1": "{{player}} aldonis linion ĉe {{where}} kaj alproprigis {{box}}.",
+      "claim2": "{{player}} aldonis linion ĉe {{where}} kaj alproprigis {{box1}} kaj {{box2}}."
+    }
+  },
+  "bug": {
+    "PLACE": {
+      "bonus_grow": "Pro la kapto, insekto ĉe {{where}} kreskis al grando {{size}}.",
+      "grow": "{{player}} kreskigis insekton ĉe {{where}} al grando {{size}}.",
+      "new": "{{player}} enkondukis novan insekton ĉe {{where}}."
+    }
+  },
+  "cannon": {
+    "PLACE": {
+      "default": "{{player}} metis sian urbon ĉe {{where}}."
+    }
+  },
+  "ccorridor": {
+    "PLACE": {
+      "default": "{{player}} metis kahelon ĉe {{where}}."
+    }
+  },
+  "connecticut": {
+    "PLACE": {
+      "default": "{{player}} metis triominon ĉe {{where}}."
+    }
+  },
+  "court": {
+    "PLACE": {
+      "default": "{{player}} promociis {{where}} al {{what}}."
+    }
+  },
+  "epam": {
+    "PLACE": {
+      "default": "{{player}} metis ŝtonon ĉe {{where}}."
+    }
+  },
+  "estate": {
+    "PLACE_one": "{{player}} metis pecon ĉe {{where}} ({{what}} poento).",
+    "PLACE_other": "{{player}} metis pecon ĉe {{where}} ({{what}} poentoj)."
+  },
+  "gorogo": {
+    "PLACE": {
+      "henge": "{{player}} metis henĝan pecon ĉe {{where}}.",
+      "piece": "{{player}} metis pecon ĉe {{where}}."
+    }
+  },
+  "nex": {
+    "PLACE": {
+      "default": "{{player}} metis pecon de sia koloro ĉe {{where}}.",
+      "neutral": "{{player}} metis neŭtralan pecon ĉe {{where}}."
+    },
+    "SWAP": {
+      "default": "{{player}} ŝanĝis pecon de sia koloro ĉe {{where}} al neŭtrala peco.",
+      "neutral": "{{player}} ŝanĝis neŭtralan pecon ĉe {{where}} al peco de sia koloro."
+    }
+  },
+  "pahtum": {
+    "PLACE": {
+      "block": "{{player}} blokis {{where}}.",
+      "piece": "{{player}} metis pecon ĉe {{where}}."
+    }
+  },
+  "pollux": {
+    "PLACE": {
+      "default": "{{player}} blokis {{where}}."
+    }
+  },
+  "quax": {
+    "PLACE": {
+      "diag": "{{player}} metis diagonalan ligon ĉe {{where}}."
+    }
+  },
+  "query": {
+    "PLACE": {
+      "c4": "{{player}} metis du pecojn ĉe la verticoj {{where}}.",
+      "c8": "{{player}} metis unu pecon ĉe la vertico {{where}}."
+    }
+  },
+  "siegeofj": {
+    "PLACE": {
+      "default": "{{player}} metis \"{{what}}\" apud {{where}}."
+    }
+  },
+  "spire": {
+    "PLACE": {
+      "neutral": "{{player}} metis neŭtralan pilkon ĉe {{where}}.",
+      "player": "{{player}} metis pilkon de sia koloro ĉe {{where}}."
+    }
+  },
+  "strands": {
+    "PLACE": {
+      "initial": "{{player}} metis pecon sur spacon etikeditan 2 ĉe {{where}}.",
+      "one": "{{player}} metis pecon ĉe {{where}}.",
+      "other": "{{player}} metis {{count}} pecojn ĉe {{where}}."
+    }
+  },
+  "streetcar": {
+    "PLACE": {
+      "place_11": "ORANĜA konstruaĵo de alto 1 estis metita ĉe {{where}}.",
+      "place_12": "ORANĜA konstruaĵo de alto 2 estis metita ĉe {{where}}.",
+      "place_13": "ORANĜA konstruaĵo de alto 3 estis metita ĉe {{where}}.",
+      "place_21": "FLAVA konstruaĵo de alto 1 estis metita ĉe {{where}}.",
+      "place_22": "FLAVA konstruaĵo de alto 2 estis metita ĉe {{where}}.",
+      "place_23": "FLAVA konstruaĵo de alto 3 estis metita ĉe {{where}}.",
+      "place_31": "NIGRA konstruaĵo de alto 1 estis metita ĉe {{where}}.",
+      "place_32": "NIGRA konstruaĵo de alto 2 estis metita ĉe {{where}}.",
+      "place_33": "NIGRA konstruaĵo de alto 3 estis metita ĉe {{where}}.",
+      "place_41": "BLANKA konstruaĵo de alto 1 estis metita ĉe {{where}}.",
+      "place_42": "BLANKA konstruaĵo de alto 2 estis metita ĉe {{where}}.",
+      "place_43": "BLANKA konstruaĵo de alto 3 estis metita ĉe {{where}}.",
+      "place_default": "Konstruaĵo estis metita ĉe {{where}}."
+    },
+    "TAKE": {
+      "take_1": "{{player}} prenis ORANĜAN loĝkvoton el {{from}}.",
+      "take_2": "{{player}} prenis FLAVAN loĝkvoton el {{from}}.",
+      "take_3": "{{player}} prenis NIGRAN loĝkvoton el {{from}}.",
+      "take_4": "{{player}} prenis BLANKAN loĝkvoton el {{from}}.",
+      "take_default": "{{player}} prenis loĝkvoton el {{from}}."
+    }
+  },
+  "subdivision": {
+    "PLACE": {
+      "park": "{{player}} metis parkon ĉe {{where}}."
+    }
+  },
+  "synapse": {
+    "PLACE": {
+      "default": "{{player}} metis pecon de grando {{size}} ĉe {{where}}, direktitan al {{dir}}."
+    }
+  },
+  "trax": {
+    "PLACE": {
+      "default": "{{player}} metis {{piece}} ĉe {{algebraic}} ({{where}})."
+    }
+  },
+  "unane": {
+    "PLACE": {
+      "default": "{{player}} memkaptis {{where}}."
+    }
+  },
+  "upperhand": {
+    "PLACE": {
+      "chain": "Pilko de {{whose}} estis metita ĉe {{where}}."
+    }
+  },
+  "urbino": {
+    "PLACE": {
       "house": "{{player}} metis domon ĉe {{where}}.",
       "palace": "{{player}} metis palacon ĉe {{where}}.",
       "tower": "{{player}} metis turon ĉe {{where}}.",
       "worker": "{{player}} metis arkitekton ĉe {{where}}."
-    },
-    "veletas": "{{player}} metis {{what}} ĉe {{where}}.",
-    "viruswar": "{{player}} metis virusojn/murojn ĉe {{where}}.",
-    "volo": "{{player}} aldonis birdon ĉe {{where}}.",
-    "streetcar_place_11": "ORANĜA konstruaĵo de alto 1 estis metita ĉe {{where}}.",
-    "streetcar_place_12": "ORANĜA konstruaĵo de alto 2 estis metita ĉe {{where}}.",
-    "streetcar_place_13": "ORANĜA konstruaĵo de alto 3 estis metita ĉe {{where}}.",
-    "streetcar_place_21": "FLAVA konstruaĵo de alto 1 estis metita ĉe {{where}}.",
-    "streetcar_place_22": "FLAVA konstruaĵo de alto 2 estis metita ĉe {{where}}.",
-    "streetcar_place_23": "FLAVA konstruaĵo de alto 3 estis metita ĉe {{where}}.",
-    "streetcar_place_31": "NIGRA konstruaĵo de alto 1 estis metita ĉe {{where}}.",
-    "streetcar_place_32": "NIGRA konstruaĵo de alto 2 estis metita ĉe {{where}}.",
-    "streetcar_place_33": "NIGRA konstruaĵo de alto 3 estis metita ĉe {{where}}.",
-    "streetcar_place_41": "BLANKA konstruaĵo de alto 1 estis metita ĉe {{where}}.",
-    "streetcar_place_42": "BLANKA konstruaĵo de alto 2 estis metita ĉe {{where}}.",
-    "streetcar_place_43": "BLANKA konstruaĵo de alto 3 estis metita ĉe {{where}}.",
-    "streetcar_place_default": "Konstruaĵo estis metita ĉe {{where}}."
-  },
-  "PLAYSECOND": "{{player}} elektis ludi kiel la dua.",
-  "PROMOTE": {
-    "basicWhere": "La peco ĉe {{where}} estis promociita.",
-    "cubeo": "{{player}} promociis la ĵetkubon ĉe {{where}} de {{from}} al {{to}}.",
-    "lielow": "Nova reĝo de {{player}} estis kronita ĉe {{where}}.",
-    "mchess": "Rezulte kreiĝis {{into}}.",
-    "orb_12": "{{player}} promociis orbon al sferoido ĉe {{where}}.",
-    "orb_13": "{{player}} promociis orbon al globo ĉe {{where}}.",
-    "orb_23": "{{player}} promociis sferoidon al globo ĉe {{where}}.",
-    "canoe": "{{player}} formis aron ĉe {{where}}, kunfandante la kubon de {{from}}."
-  },
-  "PULL": "{{player}} tiris la ŝnuron {{where}}.",
-  "RECLAIM": {
-    "noperson": "{{what}} estis reprenita.",
-    "nowhat_one": "Peco estis reprenita.",
-    "nowhat_other": "{{count}} pecoj estis reprenitaj."
-  },
-  "REMOVE": {
-    "akimbo": "{{player}} forigis {{where}} pro la formiĝo de kructranĉo.",
-    "entrapment_opponent": "{{player}} elektis reteni la kontraŭulan vaganton ĉe {{how}} kaj forigis la vaganton ĉe {{where}}.",
-    "entrapment_self": "{{player}} elektis reteni sian propran vaganton ĉe {{how}} kaj forigis la vaganton ĉe {{where}}.",
-    "fourinarow_e": "{{player}} forviŝis linion, ŝovante la pecojn sur la tabulo dekstren.",
-    "fourinarow_n": "{{player}} forviŝis linion, ŝovante la pecojn sur la tabulo supren.",
-    "fourinarow_ne": "{{player}} forviŝis du liniojn, ŝovante la pecojn sur la tabulo supren kaj dekstren.",
-    "fourinarow_nw": "{{player}} forviŝis du liniojn, ŝovante la pecojn sur la tabulo supren kaj maldekstren.",
-    "fourinarow_s": "{{player}} forviŝis linion, ŝovante la pecojn sur la tabulo malsupren.",
-    "fourinarow_se": "{{player}} forviŝis du liniojn, ŝovante la pecojn sur la tabulo malsupren kaj dekstren.",
-    "fourinarow_sw": "{{player}} forviŝis du liniojn, ŝovante la pecojn sur la tabulo malsupren kaj maldekstren.",
-    "fourinarow_w": "{{player}} forviŝis linion, ŝovante la pecojn sur la tabulo maldekstren.",
-    "gliss": "{{player}} movis sian glisilon ĉe {{where}} trans la randon de la tabulo.",
-    "nonum": "{{player}} forigis pecon el {{where}}.",
-    "phutball_one": "{{count}} ludanto estis forigita.",
-    "phutball_other": "{{count}} ludantoj estis forigitaj.",
-    "remove_one": "{{player}} forigis 1 pecon el {{where}}.",
-    "remove_other": "{{player}} forigis {{count}} pecojn el {{where}}.",
-    "spook": "{{player}} forigis kontraŭulan pilkon ĉe {{where}}.",
-    "spook_drop_one": "{{player}} forigis pilkon ĉe {{where}}, faligante 1 pilkon de {{how}}.",
-    "spook_drop_other": "{{player}} forigis pilkon ĉe {{where}}, faligante {{count}} pilkojn de {{how}}.",
-    "twixt": "{{player}} forigis ligilon ĉe {{where}}.",
-    "volo": "{{player}} elektis reteni la regionon ĉe {{how}} kaj forigis {{num}} kontraŭulajn birdojn."
-  },
-  "REPAIR": {
-    "simple": "{{player}} riparis."
-  },
-  "RESET": {
-    "biscuit": "Nova raŭndo komenciĝis.",
-    "guerrilla": "{{player}} gajnis la unuan ludon. La dua ludo komenciĝis kun interŝanĝitaj roloj.",
-    "queensland": "La dua ludo komenciĝis."
-  },
-  "RESIGN": "{{player}} rezignis.",
-  "ROLL": {
-    "magnate": "{{who}} ĵetis {{values}}.",
-    "magnate_eight": "{{who}} ĵetis {{values}}.",
-    "canoe": "{{player}} ĵetis: {{values}}.",
-    "elOso": "La Urso ĵetis: {{dice}}.",
-    "elOso_player": "{{player}} ĵetis: {{dice}}.",
-    "single": "La ĵetkubo estis ĵetita: {{values}}.",
-    "tablero": "La ĵetkuboj estis ĵetitaj: {{values}}."
-  },
-  "SACRIFICE": {
-    "moonsquad": "{{player}} oferis ercon ({{ore}}) por movi siajn taĉmentojn.",
-    "nowhat": "{{player}} oferis pecon ĉe {{where}}."
-  },
-  "SCORE_REPORT": "La poentaro de {{player}} nun estas {{score}}.",
-  "SELECT": {
-    "fnap": "{{player}} elektis la kahelon {{tile}}.",
-    "killallgo_iplace": "{{player}} elektis mem meti la unuan aron.",
-    "killallgo_youplace": "{{player}} elektis lasi la kontraŭulon meti la unuan aron.",
-    "resolve": "{{player}} elektis la pecon en kructranĉo ĉe {{where}}.",
-    "slyde_fixed_opponent": "{{player}} ŝanĝis la staton de la kontraŭula peco ĉe {{where}} de movebla al fiksa.",
-    "slyde_fixed_self": "{{player}} ŝanĝis la staton de sia propra peco ĉe {{where}} de movebla al fiksa.",
-    "slyde_mobile_opponent": "{{player}} ŝanĝis la staton de la kontraŭula peco ĉe {{where}} de fiksa al movebla.",
-    "slyde_mobile_self": "{{player}} ŝanĝis la staton de sia propra peco ĉe {{where}} de fiksa al movebla.",
-    "spree": "{{player}} transdonis pilkon de la koloro {{who}} al la kontraŭulo."
-  },
-  "SET": {
-    "biscuit_biscuit_one": "{{player}} poentis biskviton.",
-    "biscuit_biscuit_other": "{{player}} poentis {{count}} biskvitojn.",
-    "biscuit_cross": "{{player}} poentis spican krucbiskviton.",
-    "biscuit_elevensies": "{{player}} poentis la matenmanĝeton. Ĉiuj aliaj ludantoj devis tiri karton.",
-    "biscuit_hot": "{{player}} poentis spican biskviton.",
-    "biscuit_straight": "{{player}} poentis sekvencon de longo {{count}}.",
-    "fnap_circles": "La cirkla kahelo ĉe {{where}} estas izolita.",
-    "fnap_triplets_one": "{{player}} poentis {{count}} triopon.",
-    "fnap_triplets_other": "{{player}} poentis {{count}} triopojn.",
-    "quincunx_pairs_one": "{{player}} poentis {{count}} paron.",
-    "quincunx_pairs_other": "{{player}} poentis {{count}} parojn.",
-    "quincunx_sets_one": "{{player}} poentis {{count}} aron.",
-    "quincunx_sets_other": "{{player}} poentis {{count}} arojn.",
-    "quincunx_straights_one": "{{player}} poentis {{count}} sekvencon.",
-    "quincunx_straights_other": "{{player}} poentis {{count}} sekvencojn.",
-    "quincunx_flushes_one": "{{player}} poentis {{count}} kolorsamaron.",
-    "quincunx_flushes_other": "{{player}} poentis {{count}} kolorsamarojn.",
-    "quincunx_powerplay": "{{player}} poentis potencan ludon!"
-  },
-  "SOW": {
-    "general_one": "{{player}} semis semojn el la jena kavo: {{pits}}.",
-    "general_other": "{{player}} semis semojn el la jenaj kavoj: {{pits}}.",
-    "into": "{{player}} semis en la kavojn {{pits}}.",
-    "prudh": "{{player}} semis dampecojn de {{from}} al {{to}}.",
-    "rincala_one": "{{player}} semis {{count}} {{pieces}}-pecon de {{from}} al {{to}}.",
-    "rincala_other": "{{player}} semis {{count}} pecojn de {{from}} en la jenajn kavojn: {{pieces}} → {{to}}."
-  },
-  "STALEMATE": {
-    "biscuit": "La mano stagnis."
-  },
-  "SWAP": {
-    "deckfish": "{{player}} interŝanĝis {{what}} el la bazaro kontraŭ {{with}} ĉe {{where}}.",
-    "nex": "{{player}} ŝanĝis pecon de sia koloro ĉe {{where}} al neŭtrala peco.",
-    "nex_neutral": "{{player}} ŝanĝis neŭtralan pecon ĉe {{where}} al peco de sia koloro.",
-    "resolve": "La peco estis interŝanĝita al {{where}}.",
-    "wunchunk": "{{player}} interŝanĝis sidlokojn kaj elektis ludi kiel la unua."
-  },
-  "TAKE": {
-    "blastradius_one": "{{player}} forigis unu el siaj propraj pecoj el {{where}}.",
-    "blastradius_other": "{{player}} forigis stakon de {{count}} propraj pecoj el {{where}}.",
-    "buku_row_one": "{{player}} kolektis 1 pecon el la vico {{row}}.",
-    "buku_row_other": "{{player}} kolektis {{count}} pecojn el la vico {{row}}.",
-    "buku_row_bonus": "{{player}} kolektis {{count}} pecojn el la vico {{row}}, plus unu plian pecon.",
-    "buku_col_one": "{{player}} kolektis 1 pecon el la kolumno {{col}}.",
-    "buku_col_other": "{{player}} kolektis {{count}} pecojn el la kolumno {{col}}.",
-    "chase": "{{what}} estis manĝdonita al la ĉambro.",
-    "general_one": "{{player}} prenis pecon el {{from}}.",
-    "general_other": "{{player}} prenis {{count}} pecojn el {{from}}.",
-    "moonsquad": "{{player}} prenis ercon ({{ore}}).",
-    "sploof": "{{player}} prenis neŭtralan pilkon el {{from}}.",
-    "tablero": "{{player}} prenis unu el siaj dampecoj el la stako ĉe {{from}}.",
-    "streetcar_take_1": "{{player}} prenis ORANĜAN loĝkvoton el {{from}}.",
-    "streetcar_take_2": "{{player}} prenis FLAVAN loĝkvoton el {{from}}.",
-    "streetcar_take_3": "{{player}} prenis NIGRAN loĝkvoton el {{from}}.",
-    "streetcar_take_4": "{{player}} prenis BLANKAN loĝkvoton el {{from}}.",
-    "streetcar_take_default": "{{player}} prenis loĝkvoton el {{from}}."
-  },
-  "TIMEOUT": "{{player}} perdis pro tempolimo.",
-  "UNFURL": {
-    "amoeba": "{{player}} semis {{count}} pecojn de {{from}} al {{to}}.",
-    "furl": "{{player}} malvolvis {{count}} pecojn de {{from}} al {{to}}."
-  },
-  "USE": {
-    "camelot_castle_move_one": "{{player}} havas ankoraŭ 1 kastelan movon.",
-    "camelot_castle_move_other": "{{player}} havas ankoraŭ {{count}} kastelajn movojn.",
-    "camelot_castle_move_none": "{{player}} ne plu havas kastelajn movojn."
-  },
-  "SCRIBE": {
-    "no_formation": "neniu formacio",
-    "glyphs": {
-      "single": "Unuopa",
-      "double": "Duopa",
-      "line": "Linio",
-      "pipe": "Pipo",
-      "squat_t": "Malalta T",
-      "four_block": "4-bloko",
-      "t": "T",
-      "cross": "Kruco",
-      "six_block": "6-bloko",
-      "bomber": "Bombisto",
-      "chair": "Seĝo",
-      "j": "J",
-      "earring": "Orelringo",
-      "house": "Domo",
-      "h": "H",
-      "u": "U",
-      "ottoman": "Otomano",
-      "o": "O",
-      "nine_block": "9-bloko"
-    },
-    "mini": {
-      "0_0": "supre maldekstre",
-      "1_0": "supre centre",
-      "2_0": "supre dekstre",
-      "0_1": "centre maldekstre",
-      "1_1": "centre",
-      "2_1": "centre dekstre",
-      "0_2": "malsupre maldekstre",
-      "1_2": "malsupre centre",
-      "2_2": "malsupre dekstre"
     }
   },
-  "WINNERSNONE": "Estis neniu gajninto.",
-  "WINNERS_one": "La jena ludanto gajnis: {{winners}}.",
-  "WINNERS_other": "La jenaj ludantoj gajnis: {{winners}}.",
+  "viruswar": {
+    "PLACE": {
+      "default": "{{player}} metis virusojn/murojn ĉe {{where}}."
+    }
+  },
+  "cubeo": {
+    "PROMOTE": {
+      "default": "{{player}} promociis la ĵetkubon ĉe {{where}} de {{from}} al {{to}}."
+    }
+  },
+  "lielow": {
+    "PROMOTE": {
+      "default": "Nova reĝo de {{player}} estis kronita ĉe {{where}}."
+    }
+  },
+  "akimbo": {
+    "REMOVE": {
+      "default": "{{player}} forigis {{where}} pro la formiĝo de kructranĉo."
+    }
+  },
+  "fourinarow": {
+    "REMOVE": {
+      "e": "{{player}} forviŝis linion, ŝovante la pecojn sur la tabulo dekstren.",
+      "n": "{{player}} forviŝis linion, ŝovante la pecojn sur la tabulo supren.",
+      "ne": "{{player}} forviŝis du liniojn, ŝovante la pecojn sur la tabulo supren kaj dekstren.",
+      "nw": "{{player}} forviŝis du liniojn, ŝovante la pecojn sur la tabulo supren kaj maldekstren.",
+      "s": "{{player}} forviŝis linion, ŝovante la pecojn sur la tabulo malsupren.",
+      "se": "{{player}} forviŝis du liniojn, ŝovante la pecojn sur la tabulo malsupren kaj dekstren.",
+      "sw": "{{player}} forviŝis du liniojn, ŝovante la pecojn sur la tabulo malsupren kaj maldekstren.",
+      "w": "{{player}} forviŝis linion, ŝovante la pecojn sur la tabulo maldekstren."
+    }
+  },
+  "gliss": {
+    "REMOVE": {
+      "default": "{{player}} movis sian glisilon ĉe {{where}} trans la randon de la tabulo."
+    }
+  },
+  "guerrilla": {
+    "RESET": {
+      "default": "{{player}} gajnis la unuan ludon. La dua ludo komenciĝis kun interŝanĝitaj roloj."
+    }
+  },
+  "queensland": {
+    "RESET": {
+      "default": "La dua ludo komenciĝis."
+    }
+  },
+  "spree": {
+    "SELECT": {
+      "default": "{{player}} transdonis pilkon de la koloro {{who}} al la kontraŭulo."
+    }
+  },
+  "prudh": {
+    "SOW": {
+      "default": "{{player}} semis dampecojn de {{from}} al {{to}}."
+    }
+  },
+  "rincala": {
+    "SOW_one": "{{player}} semis {{count}} {{pieces}}-pecon de {{from}} al {{to}}.",
+    "SOW_other": "{{player}} semis {{count}} pecojn de {{from}} en la jenajn kavojn: {{pieces}} → {{to}}."
+  },
+  "wunchunk": {
+    "SWAP": {
+      "default": "{{player}} interŝanĝis sidlokojn kaj elektis ludi kiel la unua."
+    }
+  },
+  "sploof": {
+    "TAKE": {
+      "default": "{{player}} prenis neŭtralan pilkon el {{from}}."
+    }
+  },
+  "amoeba": {
+    "UNFURL": {
+      "default": "{{player}} semis {{count}} pecojn de {{from}} al {{to}}."
+    }
+  },
   "homeworlds": {
-    "BUILD": "{{player}} konstruis {{what}} en la sistemo {{where}}.",
-    "CAPTURE": "{{player}} kaptis {{what}} en la sistemo {{where}}.",
-    "CATASTROPHE": "Troloĝateco de {{colour}} kaŭzis katastrofon en {{where}}.",
-    "CONVERT": "{{player}} transformis {{what}} en {{into}} en la sistemo {{where}}.",
-    "DISCOVER": "{{player}} malkovris novan {{what}}-sistemon kaj nomis ĝin {{name}}.",
-    "ESTABLISH": "Koloniŝipo {{ship}} de {{player}} surteriĝis en sistemo {{stars}}.",
-    "MOVE": "{{player}} flugigis sian {{what}} de {{from}} al {{to}}.",
-    "PASS": "{{player}} preterpasis agon.",
-    "SACRIFICE": "{{player}} oferis {{what}} en la sistemo {{where}}."
+    "BUILD": {
+      "build": "{{player}} konstruis {{what}} en la sistemo {{where}}."
+    },
+    "CAPTURE": {
+      "capture": "{{player}} kaptis {{what}} en la sistemo {{where}}."
+    },
+    "CATASTROPHE": {
+      "catastrophe": "Troloĝateco de {{colour}} kaŭzis katastrofon en {{where}}."
+    },
+    "CONVERT": {
+      "convert": "{{player}} transformis {{what}} en {{into}} en la sistemo {{where}}."
+    },
+    "DISCOVER": {
+      "discover": "{{player}} malkovris novan {{what}}-sistemon kaj nomis ĝin {{name}}."
+    },
+    "ESTABLISH": {
+      "land": "Koloniŝipo {{ship}} de {{player}} surteriĝis en sistemo {{stars}}."
+    },
+    "MOVE": {
+      "fly": "{{player}} flugigis sian {{what}} de {{from}} al {{to}}."
+    },
+    "PASS": {
+      "pass": "{{player}} preterpasis agon."
+    },
+    "SACRIFICE": {
+      "sacrifice": "{{player}} oferis {{what}} en la sistemo {{where}}."
+    }
+  },
+  "tritium": {
+    "PLACE": {
+      "flag": "{{player}} ludis flagon ĉe {{where}}.",
+      "green": "{{player}} ludis verdan kahelon ĉe {{where}}.",
+      "orange": "{{player}} ludis oranĝkoloran kahelon ĉe {{where}}.",
+      "purple": "{{player}} ludis purpuran kahelon ĉe {{where}}."
+    }
+  },
+  "boom": {
+    "CAPTURE": {
+      "default": "{{player}} detruis pecon ĉe {{where}}."
+    }
+  },
+  "strings": {
+    "DESTROY": {
+      "string": "La ŝnuro {{where}} rompiĝis pro la streĉo."
+    }
   }
 }

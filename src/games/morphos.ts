@@ -5,6 +5,52 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, shuffle, SquareOrthGraph, UserFacingError, cloneState } from "../common/index.js";
 import { bidirectional } from "graphology-shortest-path/unweighted.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        BAD_PASS: "You may not pass if legal moves are available.",
+        CAP_OR_PLACE: "In double placement, you may either place two stones or capture a single stone. You can't do both.",
+        INITIAL_INSTRUCTIONS_normal: "Select an empty cell to place a piece, or select a weak enemy stone to capture it.",
+        INITIAL_INSTRUCTIONS_replace: "One of your pieces was captured. First select an empty space to replace the captured piece, then you will be able to make a normal move.",
+        MUST_REPLACE: "You must start your move by replacing the captured stone on an empty space.",
+        NOT_ORTHOGONAL: "When placing two stones, the second must be orthogonally adjacent to the first.",
+        NOT_WEAK: "The stone at {{cell}} is not weak.",
+        ONE_CAP: "You may only capture one stone per turn.",
+        PARTIAL_DOUBLE_orig: "You may place a second stone.",
+        PARTIAL_DOUBLE_new: "You must place a second stone orthogonally adjacent to the first one, if possible.",
+        TOO_MANY: "You've tried to make too many moves at once.",
+    },
+    variants: {
+        "#board": {
+            name: "13x13 board",
+        },
+        "size-9": {
+            name: "9x9 board",
+        },
+        "size-11": {
+            name: "11x11 board",
+        },
+        "size-15": {
+            name: "15x15 board",
+        },
+        "size-17": {
+            name: "17x17 board",
+        },
+        simplified: {
+            name: "Minimorph",
+            description: "Faster game with simplified capture formations. Deadlocks are not possible.",
+        },
+        double: {
+            name: "Duomorph",
+            description: "On each turn, place two new stones (orthogonally adjacent to each other) or capture one. Minimorph formations apply.",
+        },
+        replace: {
+            name: "Remorph",
+            description: "Captured stones must be placed back on the board by their owner. Minimorph formations apply.",
+        },
+        "#rules": { name: "Default rules" }
+    },
+};
+
 
 
 export type playerid = 1|2;
@@ -93,8 +139,7 @@ export class MorphosGame extends GameBase {
         // version: "20250325",
         version: "20250527",
         dateAdded: "2025-03-27",
-        // i18next.t("apgames:descriptions.morphos")
-        description: "apgames:descriptions.morphos",
+        description: "Orthogonal-only square connection game. On your turn, place a friendly stone or flip an enemy stone in one of three predetermined patterns. Win by connecting your two opposite sides of the board with a chain of stones of your color.",
         urls: [
             "https://boardgamegeek.com/boardgame/208437/morphos",
         ],
@@ -642,7 +687,7 @@ export class MorphosGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): MorphosGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -916,3 +961,4 @@ export class MorphosGame extends GameBase {
         return Object.assign(new MorphosGame(), cloneState(this) as MorphosGame);
     }
 }
+

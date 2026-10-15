@@ -389,13 +389,13 @@ describe("El Oso", () => {
         const g = new ElOsoGame(undefined, SEED);
         const lines = g.chatLogEntries(["Alice"]).flatMap((e) => e.lines);
         const rollIndices = lines
-            .map((line, idx) => (/rolled/i.test(line.textKey) || line.textKey.includes("ROLL.elOso") ? idx : -1))
+            .map((line, idx) => (line.textKey.includes("elOso.ROLL") ? idx : -1))
             .filter((idx) => idx >= 0);
         expect(rollIndices.length).to.equal(2);
         for (const rollIdx of rollIndices) {
             const next = lines[rollIdx + 1];
             expect(next).to.exist;
-            expect(next!.textKey).to.include("PLACE.elOso");
+            expect(next!.textKey).to.include("elOso.PLACE");
         }
     });
 
@@ -481,7 +481,7 @@ describe("El Oso", () => {
         expect(seat2Lines).to.have.length(0);
         for (const line of bearLines) {
             if (line.actor.kind === "label") {
-                expect(line.actor.key).to.equal("apresults:ACTOR.elOso.bear");
+                expect(line.actor.key).to.equal("apresults:elOso.ACTOR.bear");
             }
         }
         const playerLines = lines.filter((l) => l.actor.kind === "seat" && l.actor.seat === 1);
@@ -495,7 +495,7 @@ describe("El Oso", () => {
         const g = new ElOsoGame(undefined, SEED);
         g.move("c1-pass", { trusted: true });
         const log = g.chatLog(["Alice"]).flatMap((node) => node.slice(1));
-        const bearLabel = i18next.t("apresults:ACTOR.elOso.bear");
+        const bearLabel = i18next.t("apresults:elOso.ACTOR.bear");
         const bearLines = log.filter((line) => line.includes(bearLabel));
         expect(bearLines.length).to.be.greaterThan(0);
         for (const line of bearLines) {
@@ -506,7 +506,7 @@ describe("El Oso", () => {
     it("formatChatLogEntries includes bear dice roll text", () => {
         const g = new ElOsoGame(undefined, SEED);
         g.move("c1-pass", { trusted: true });
-        expect(i18next.t("apresults:ROLL.elOso", { dice: "4, 5" })).to.equal("The Bear rolled: 4, 5.");
+        expect(i18next.t("apresults:elOso.ROLL.default", { dice: "4, 5" })).to.equal("The Bear rolled: 4, 5.");
         const formatted = formatChatLogEntries(
             g.chatLogEntries(),
             ["Alice"],
@@ -541,7 +541,7 @@ describe("El Oso", () => {
             (key, params) => i18next.t(key, params),
         );
         expect(formatted.some((line) => line.includes("Alice"))).to.be.true;
-        const bearLabel = i18next.t("apresults:ACTOR.elOso.bear");
+        const bearLabel = i18next.t("apresults:elOso.ACTOR.bear");
         const bearFormatted = formatted.filter((line) => line.includes(bearLabel));
         expect(bearFormatted.length).to.be.greaterThan(0);
         for (const line of bearFormatted) {

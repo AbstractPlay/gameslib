@@ -4,6 +4,32 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, Direction, allDirections, oppositeDirections } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_move: "Select the tail of the phalanx you wish to move.",
+        INITIAL_INSTRUCTIONS_stones: "Place a stone in an empty space in the middle six rows.",
+        INSUFFICIENT_FORCES: "When capturing, your phalanx must have more pieces than the captured phalanx.",
+        NOPLACEMENT: "You may only place pieces in the 'Stumbling Blocks' variant, when there are fewer than three stones already placed.",
+        PARTIAL: "Select where you want the *head* of the phalanx to end its movement.",
+        STONES: "Stones can only be placed in the middle six rows.",
+        STRAIGHTLINE: "You can only move in straight lines.",
+        TOOFAR: "The phalanx {{tail}}-{{head}} cannot move {{distance}} spaces.",
+    },
+    variants: {
+        stones: {
+            description: "In this variant, the players place three impassable stones in the middle of the board.",
+            name: "Stumbling Blocks",
+        },
+        "#setup": { name: "Default setup" }
+    },
+};
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} placed a stone at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 
@@ -26,8 +52,7 @@ export class EpamGame extends GameBase {
         playercounts: [2],
         version: "20211117",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.epam")
-        description: "apgames:descriptions.epam",
+        description: "Epaminondas is an elegant 2-player game in which you try to overwhelm your opponent's home row. Pieces move as phalanxes a number of spaces up to their length. The rules are exceedingly simple, but the result is something deep and complex.",
         urls: [
             "https://boardgamegeek.com/boardgame/7338/epaminondas",
         ],
@@ -443,7 +468,7 @@ export class EpamGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): EpamGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -688,18 +713,18 @@ export class EpamGame extends GameBase {
             for (const r of state._results) {
                 switch (r.type) {
                     case "move":
-                        this.pushSeatChatLine(lines, seat, "apresults:MOVE.nowhat", { from: r.from, to: r.to });
+                        this.pushSeatChatLine(lines, seat, "apresults:_general.MOVE.nowhat", { from: r.from, to: r.to });
                         break;
                     case "capture":
                         captureCount++;
                         break;
                     case "place":
-                        this.pushSeatChatLine(lines, seat, "apresults:PLACE.epam", { where: r.where });
+                        this.pushSeatChatLine(lines, seat, "apresults:epam.PLACE.default", { where: r.where });
                         break;
                 }
             }
             if (captureCount > 0) {
-                this.pushNeutralChatLine(lines, "apresults:CAPTURE.multiple", { count: captureCount });
+                this.pushNeutralChatLine(lines, "apresults:_general.CAPTURE.multiple", { count: captureCount });
             }
             const ctx: ChatLogCollectContext = {
                 results: state._results,
@@ -724,3 +749,4 @@ export class EpamGame extends GameBase {
         return new EpamGame(this.serialize());
     }
 }
+

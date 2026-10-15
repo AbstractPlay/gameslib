@@ -5,6 +5,25 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError, allDirections, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { CartesianProduct } from "js-combinatorics";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS_first: "Select a cell in sight to place a piece, or you can pass if your opponent just placed the second worker.",
+        INITIAL_INSTRUCTIONS_fresh: "Place a worker in an empty cell.",
+        INITIAL_INSTRUCTIONS_inprogress: "Select a worker to move, or select an empty cell in sight to place a piece.",
+        INVALID_PASS: "You may only pass the turn immediately after the second worker has been placed.",
+        INVALID_PLACEMENT: "The cell {{where}} is not visible to both workers.",
+        MUST_PASS_PLAY: "The first turn after the second worker has been placed must be a pass or placement.",
+        NOPLACEMENTS: "You cannot move the workers such that you have no valid placements available.",
+        PARTIAL_PLACE: "Choose a cell to place a piece in.",
+    },
+    variants: {
+        arbeiter: {
+            description: "Each player controls one worker and cannot move the other. The victory condition is commensurately reduced to three pieces in a row instead of four.",
+            name: "Arbeiter",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 export type CellContents = 1|2|11|22;
@@ -32,8 +51,7 @@ export class FabrikGame extends GameBase {
         playercounts: [2],
         version: "20211118",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.fabrik")
-        description: "apgames:descriptions.fabrik",
+        description: "In Fabrik, players manipulate workers to determine where pieces can be placed. The goal is to get a certain number of your pieces in a row. In the default game, players can move either worker. The \"Arbeiter\" variant gives each player control over a specific worker.",
         urls: [
             "https://spielstein.com/games/fabrik",
             "https://boardgamegeek.com/boardgame/233447/fabrik",
@@ -358,7 +376,7 @@ export class FabrikGame extends GameBase {
             if (to === undefined) {
                 result.valid = true;
                 result.complete = -1;
-                result.message = i18next.t("apgames:validation.fabrik.PARTIAL_MOVE");
+                result.message = i18next.t("apgames:validation._general.NEED_DESTINATION");
                 return result;
             }
         }
@@ -432,7 +450,7 @@ export class FabrikGame extends GameBase {
     // It leaves the object in an invalid state, so only use it on cloned objects, or call `load()` before submitting again.
     public move(m: string, {partial = false, trusted = false} = {}): FabrikGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -458,7 +476,7 @@ export class FabrikGame extends GameBase {
             this.board.set(to, contents);
             this.results.push({type: "move", from, to});
             if ( (! partial) && (place === undefined) ) {
-                throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:MOVES_INVALID", {move: m}));
+                throw new UserFacingError("MOVES_INVALID", i18next.t("apgames:validation._general.MOVES_INVALID", {move: m}));
             }
             if (place !== undefined) {
                 this.board.set(place, this.currplayer);
@@ -696,3 +714,4 @@ export class FabrikGame extends GameBase {
         return new FabrikGame(this.serialize());
     }
 }
+

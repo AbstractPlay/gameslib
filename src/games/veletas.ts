@@ -7,6 +7,63 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import _ from "lodash";
+export const gameApgamesEn = {
+    validation: {
+        ALREADY_SHOT: "You have already shot at {{where}}.",
+        DUPLICATE: "You have already placed a shooter at {{where}}.",
+        INITIAL_INSTRUCTIONS: "Select a shooter to move or select a cell to place your piece.",
+        INITIAL_INSTRUCTIONS_PLACE_one: "Place {{count}} more shooter an empty space on the board, then place a piece of your colour on the board.",
+        INITIAL_INSTRUCTIONS_PLACE_other: "Place {{count}} more shooters on empty spaces on the board, then place a piece of your colour on the board.",
+        MOVE_NON_SHOOTER: "You may only move free shooters.",
+        NO_MOVELIST: "Move list not available during placement phase. Click on the board to place the shooters.",
+        PLACE_PIECE: "Place a piece of your colour on the board.",
+        PLACE_SHOOTER_one: "Place {{count}} more shooter on the board, then place a piece of your colour on the board.",
+        PLACE_SHOOTER_other: "Place {{count}} more shooters on the board, then place a piece of your colour on the board.",
+        POTENTIAL_BLOCK: "So far so good. Provide the space you want to place your piece at.",
+        POTENTIAL_MOVE: "So far so good. Provide the space you want to move the shooter to.",
+        SHOOTER_PERIMETER: "Shooters may not be placed on the perimeter of the board.",
+        SORTED: "The move list needs to be sorted. Try {{normalised}}.",
+        STATIONARY_LOS: "There is no line of sight to place at {{where}}.",
+        STRAIGHTLINE: "You can only move and place in straight lines.",
+        TOO_MANY_SHOOTERS_one: "You may only place {{count}} shooter.",
+        TOO_MANY_SHOOTERS_other: "You may only place {{count}} shooters.",
+    },
+    variants: {
+        "#board": {
+            name: "10x10 board",
+            description: "Default board with 7 neutral pieces.",
+        },
+        "#setup": {
+            description: "The first player places shooters and a stone of their colour, then the second player chooses if they want to invoke the pie rule. After that the second player places more shooters and a stone, and the game begins.",
+            name: "Default setup"
+        },
+        random: {
+            description: "The starting board has shooters in randomised position. The first player makes a normal move and the second player decides if they want to invoke the pie rule.",
+            name: "Randomised setup",
+        },
+        "size-7": {
+            description: "Smaller board with 3 neutral pieces.",
+            name: "7x7 board",
+        },
+        "size-9": {
+            description: "Medium board with 5 neutral pieces.",
+            name: "9x9 board",
+        },
+        "no-corners": {
+            name: "No corner squares",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CLAIM: {
+        default: "Shooter at {{where}} is trapped and is claimed by {{who}}.",
+    },
+    MOVE: {
+        default: "{{player}} moved shooter from {{from}} to {{to}}.",
+    },
+};
+
+
 
 type CellContents = 0|1|2|3|4;  // 0 is the shooter. 3 and 4 are shooters captured by player 1 and 2, respectively.
 type playerid = 1|2;
@@ -34,8 +91,7 @@ export class VeletasGame extends GameBase {
         // Fixed stationary shooter arrow source.
         version: "20241016",
         dateAdded: "2024-01-22",
-        // i18next.t("apgames:descriptions.veletas")
-        description: "apgames:descriptions.veletas",
+        description: "Drawless territory game where players control a number of neutral shooters and shoot stones of their own colour from them. In order to win, a player must claim a majority of neutral pieces by having them surrounded by larger groups of their own pieces than their opponent's.",
         urls: ["https://boardgamegeek.com/boardgame/151224/veletas"],
         bggid: "151224",
         people: [
@@ -499,7 +555,7 @@ export class VeletasGame extends GameBase {
             const regex = new RegExp(`^[a-z]\\d+(,[a-z]\\d+){${placeCount - 1}}\\/[a-z]\\d+$`);
             if (!regex.test(m)) {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.veletas.INVALID_PLACEMENT", {move: m});
+                result.message = i18next.t("apgames:validation._general.INVALID_PLACEMENT", {move: m});
                 return result;
             }
             // looks good
@@ -649,7 +705,7 @@ export class VeletasGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): VeletasGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -945,17 +1001,17 @@ export class VeletasGame extends GameBase {
         const opponentSeat = ctx.defaultSeat === 1 ? 2 : 1;
         switch (r.type) {
             case "move":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:MOVE.veletas", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:veletas.MOVE.default", {
                     from: r.from!, to: r.to!,
                 });
                 return true;
             case "block":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:BLOCK.veletas", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {
                     where: r.where!,
                 });
                 return true;
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.veletas", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.complete", {
                     what: r.what!, where: r.where!,
                 });
                 return true;
@@ -963,7 +1019,7 @@ export class VeletasGame extends GameBase {
                 const creditedSeat = (r as { who?: number }).who !== ctx.currplayer
                     ? ctx.defaultSeat
                     : opponentSeat;
-                this.pushNeutralChatLine(lines, "apresults:CLAIM.veletas", {
+                this.pushNeutralChatLine(lines, "apresults:veletas.CLAIM.default", {
                     where: r.where!,
                     who: this.resolveChatPlayerName(creditedSeat, ctx.players),
                 });
@@ -983,3 +1039,4 @@ export class VeletasGame extends GameBase {
         return new VeletasGame(this.serialize());
     }
 }
+

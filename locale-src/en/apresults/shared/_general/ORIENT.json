@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "ORIENT": {
+      "nowhat": "{{player}} turned a piece at {{where}} to face {{facing}}."
+    }
+  }
+}

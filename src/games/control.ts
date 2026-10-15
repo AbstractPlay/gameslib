@@ -5,6 +5,41 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        FIRST_TURN_INSTRUCTIONS: "Place a piece on a space on the perimeter of the board.",
+        INITIAL_INSTRUCTIONS: "Place a piece on a space the opponent does not control, or remove an opponent's piece on a space you control.",
+        INSUFFICIENT_CONTROL: "You do not control {{cell}}.",
+        OPPONENT_CONTROL: "Your opponent controls {{cell}}.",
+    },
+    variants: {
+        "#board": {
+            name: "Size 7 board",
+            description: "Ideal for experienced players",
+        },
+        "size-5": {
+            name: "Small board (Size 5)",
+            description: "Ideal for learning the rules",
+        },
+        "size-9": {
+            name: "Large board (Size 9)",
+        },
+    },
+    displays: {
+        "hide-control": {
+            name: "Hide control",
+            description: "Don't show indicators for controlled spaces.",
+        },
+        "vertex-style": {
+            name: "Vertex style",
+            description: "Display the board using vertexes instead of hexes.",
+        },
+    },
+    status: {
+        CONTROLLED_SPACES: "Controlled empty spaces",
+    },
+};
+
 
 export type Player = 1|2;
 
@@ -27,8 +62,7 @@ export class ControlGame extends GameBase {
         playercounts: [2],
         version: "20240909",
         dateAdded: "2024-09-14",
-        // i18next.t("apgames:descriptions.control")
-        description: "apgames:descriptions.control",
+        description: "Control is a finite, drawless territory game of elegant simplicity. Add pieces where your opponent doesn't have more influence or remove pieces from where you have more influence. Last to move wins.",
         urls: ["https://boardgamegeek.com/boardgame/418399/control"],
         bggid: "418399",
         people: [
@@ -211,7 +245,7 @@ export class ControlGame extends GameBase {
                 valid: false,
                 complete: -1,
                 move: "",
-                message: i18next.t("apgames:MOVES_GAMEOVER")
+                message: i18next.t("apgames:validation._general.MOVES_GAMEOVER")
             };
         }
 
@@ -485,3 +519,4 @@ export class ControlGame extends GameBase {
     }
 
 }
+

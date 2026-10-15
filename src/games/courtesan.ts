@@ -4,6 +4,29 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, Direction, RectGrid, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        DISTANCE_ONE: "Pieces may only move one space at a time.",
+        INITIAL_INSTRUCTIONS: "Select one of your pieces to move.",
+        INVALID_DIR: "Noncapturing moves and exchanges may only happen in the forward direction.",
+        INVALID_EXCHANGE: "Only kings may exchange, and they must transfer to a courtesan.",
+    },
+    variants: {
+        "#board": {
+            name: "Default 8x8 board",
+        },
+        "size-6": {
+            name: "Shorter game (6x6 board)",
+        },
+    },
+};
+export const gameApresultsEn = {
+    CONVERT: {
+        default: "King and courtesan swapped positions at {{where}}.",
+    },
+};
+
+
 
 export type playerid = 1|2;
 export type Piece = "K"|"C";
@@ -29,8 +52,7 @@ export class CourtesanGame extends GameBase {
         playercounts: [2],
         version: "20230702",
         dateAdded: "2023-07-02",
-        // i18next.t("apgames:descriptions.courtesan")
-        description: "apgames:descriptions.courtesan",
+        description: "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
         urls: [
             "https://www.marksteeregames.com/King_and_Courtesan_rules.pdf",
             "https://boardgamegeek.com/boardgame/413118/king-and-courtesan",
@@ -376,7 +398,7 @@ export class CourtesanGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): CourtesanGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -612,10 +634,10 @@ export class CourtesanGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "convert":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CONVERT.courtesan", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:courtesan.CONVERT.default", {where: r.where!});
                 return true;
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.nowhat", {where: r.where!});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.nowhat", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);
@@ -627,3 +649,4 @@ export class CourtesanGame extends GameBase {
         return new CourtesanGame(this.serialize());
     }
 }
+

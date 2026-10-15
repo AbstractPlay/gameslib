@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "TIMEOUT": {
+      "default": "{{player}} lost on time."
+    }
+  }
+}

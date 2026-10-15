@@ -5,6 +5,14 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { allDirections, oppositeDirections, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { SquareDiamondsDirectedGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a piece to move.",
+        PARTIAL_cancap: "Select a destination. This piece can capture.",
+        PARTIAL_move: "Select a destination. This piece may only move.",
+    },
+};
+
 
 export type playerid = 1|2;
 
@@ -26,8 +34,7 @@ export class TessellaGame extends GameBase {
         playercounts: [2],
         version: "20250422",
         dateAdded: "2025-04-25",
-        // i18next.t("apgames:descriptions.tessella")
-        description: "apgames:descriptions.tessella",
+        description: "Pieces capture in pairs using a \"shooting\" mechanic. Be the first to capture four of your opponent's pieces.",
         urls: [
             "https://drive.google.com/file/d/1QMwtw90X1qLMpk4l1OoQ4oTZZfhTITAq/view",
             "https://boardgamegeek.com/boardgame/377702/tessella",
@@ -262,7 +269,7 @@ export class TessellaGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): TessellaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -444,7 +451,7 @@ export class TessellaGame extends GameBase {
     //     let resolved = false;
     //     switch (r.type) {
     //         case "place":
-    //             node.push(i18next.t("apresults:PLACE.nowhat", {player, where: r.where}));
+    //             node.push(i18next.t("apresults:_general.PLACE.nowhat", {player, where: r.where}));
     //             resolved = true;
     //             break;
     //         case "move":
@@ -458,3 +465,4 @@ export class TessellaGame extends GameBase {
         return new TessellaGame(this.serialize());
     }
 }
+

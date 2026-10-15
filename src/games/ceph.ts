@@ -6,6 +6,39 @@ import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { IGraph, SquareOrthGraph, SnubSquareGraph } from "../common/graphs/index.js";
 import { Permutation, PowerSet } from "js-combinatorics";
+export const gameApgamesEn = {
+    validation: {
+        DUPLICATECAP: "You can't capture the same piece more than once.",
+        INITIAL_INSTRUCTIONS: "Select an empty cell.",
+        NOTADJACENT: "You can only capture pieces orthogonally adjacent to your placed piece.",
+        PARTIAL_ONECAP: "Select at least one more adjacent piece to capture.",
+        PARTIAL_PRECAP: "Select a piece to capture.",
+        TOOHIGH_six: "The pieces you capture cannot total more than six.",
+        TOOHIGH_twelve: "The pieces you capture cannot total more than twelve.",
+    },
+    variants: {
+        "#board": {
+            name: "Board: Square",
+        },
+        snub: {
+            description: "A hybrid orthogonal/hexagonal board shape with unique connection characteristics.",
+            name: "Board: Snub Square",
+        },
+        "#dice": {
+            name: "6-sided dice",
+        },
+        dodeca: {
+            name: "12-sided dice",
+        },
+        "#size": {
+            name: "5x5 board",
+        },
+        "size-3": {
+            name: "3x3 board",
+        },
+    },
+};
+
 
 type playerid = 1|2;
 type Value = 1|2|3|4|5|6|7|8|9|10|11|12;
@@ -29,8 +62,7 @@ export class CephalopodGame extends GameBase {
         playercounts: [2],
         version: "20211113",
         dateAdded: "2023-05-01",
-        // i18next.t("apgames:descriptions.ceph")
-        description: "apgames:descriptions.ceph",
+        description: "A two-player game of area control by capture using dice. The goal is to fill a board with as many of your dice as possible. This is complicated by a capturing mechanic that keeps the board in constant flux. The game ends when the board has been completely filled. Draws are not possible.",
         urls: [
             "http://www.marksteeregames.com/Cephalopod_rules.pdf",
             "https://boardgamegeek.com/boardgame/22790/cephalopod",
@@ -379,7 +411,7 @@ export class CephalopodGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): CephalopodGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
@@ -842,3 +874,4 @@ export class CephalopodGame extends GameBase {
         return new CephalopodGame(this.serialize());
     }
 }
+

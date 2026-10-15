@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "NULLIFY_CLAIM": {
+      "default": "Towers may not be claimed on the last turn of the game. The claim at {{where}} was nullified."
+    }
+  }
+}

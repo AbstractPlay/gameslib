@@ -6,6 +6,36 @@ import { Direction, RectGrid, reviver, UserFacingError } from "../common/index.j
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        FIRST_TRIOMINO: "You may not place a triomino on the first move.",
+        INITIAL_INSTRUCTIONS: "Select a vertex to place a piece, or to mark the start of the 1x3 triomino piece.",
+        INITIAL_INSTRUCTIONS_FIRST: "Select a vertex to place a piece. You may not place a triomino on the first move.",
+        INVALID_TO: "You may not place a triomino at {{from}}-{{to}}.",
+        PARTIAL: "You may select another vertex to complete a 1x3 triomino, or complete the move to finish your turn with the single piece.",
+    },
+    variants: {
+        "#board": {
+            name: "Default 19x19 board",
+        },
+        "size-15": {
+            name: "15x15 board",
+        },
+    },
+    displays: {
+        "hide-triominoes": {
+            description: "Don't show the triominoes.",
+            name: "Hide triominoes",
+        },
+    },
+};
+export const gameApresultsEn = {
+    PLACE: {
+        default: "{{player}} placed a triomino at {{where}}.",
+    },
+};
+
+
 
 type playerid = 1 | 2;
 type PlayerLines = [string[], string[]];
@@ -29,8 +59,7 @@ export class ConnecticutGame extends GameBase {
         playercounts: [2],
         version: "20240317",
         dateAdded: "2024-03-17",
-        // i18next.t("apgames:descriptions.connecticut")
-        description: "apgames:descriptions.connecticut",
+        description: "Connecticut is a connection game where you win by connecting your edges with a chain of orthogonally or diagonally adjacent stones. On your move, you either place a single stone or a 1x3 triomino (three stones in an unbroken line). The first move must be a single stone, and the pie rule applies.",
         urls: ["https://boardgamegeek.com/boardgame/297319/connecticut"],
         bggid: "297319",
         people: [
@@ -285,7 +314,7 @@ export class ConnecticutGame extends GameBase {
         const normalised = this.normaliseMove(m);
         if (normalised !== m) {
             result.valid = false;
-            result.message = i18next.t("apgames:validation.saltire.NORMALISE", { move: m, normalised });
+            result.message = i18next.t("apgames:validation._general.NORMALISE", { normalised });
             return result;
         }
         result.valid = true;
@@ -340,7 +369,7 @@ export class ConnecticutGame extends GameBase {
 
     public move(m: string, {partial = false, trusted = false} = {}): ConnecticutGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -573,9 +602,9 @@ export class ConnecticutGame extends GameBase {
         switch (r.type) {
             case "place":
                 if (r.where!.includes("-")) {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.connecticut", { where: r.where! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:connecticut.PLACE.default", { where: r.where! });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PLACE.nowhat", { where: r.where! });
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where! });
                 }
                 return true;
 
@@ -589,3 +618,4 @@ export class ConnecticutGame extends GameBase {
         return new ConnecticutGame(this.serialize());
     }
 }
+

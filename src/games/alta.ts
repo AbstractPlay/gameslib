@@ -6,6 +6,37 @@ import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a space to place a switch.",
+        SELECT_SPACE: "Select a space to place a '{{orient}}' switch.",
+        INVALID_VERTEX: "The vertex {{vertex}} does not exist on the board.",
+        NO_DOTS: "The vertex {{vertex}} does not allow any placement of your switch.",
+        SELECT_TO: "Select a vertex to lay a switch.",
+        USE_PLACE: "To place a switch from vertices {{from}} to {{to}}, enter '{{place}}.",
+        INVALID_TO: "The vertex {{from}} cannot connect to {{to}}",
+        INVALID_SPACE: "The space {{space}} does not exist on the board.",
+        OPPONENT_SPACE: "You may not place a switch at {{where}} because it is your opponent's area.",
+        ALREADY_OCCUPIED: "You already have a switch in the '{{orient}}' orientation at {{where}}",
+        NO_ORIENT_SUFFIX: "When toggling a switch, you must suffix the move with a '+'. Try '{{move}}'.",
+        ORIENT_SUFFIX: "You suffixed the move with a '+' but it was not a toggle move. Try '{{move}}'.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-9 board",
+        },
+        "size-13": {
+            name: "Size-13 board",
+        },
+    },
+    displays: {
+        "hide-panel": {
+            description: "Don't show panel to select orientation.",
+            name: "Hide panel",
+        },
+    },
+};
+
 
 type playerid = 1 | 2;
 type PlayerLines = [string[], string[]];
@@ -32,10 +63,8 @@ export class AltaGame extends GameBase {
         playercounts: [2],
         version: "20240929",
         dateAdded: "2024-10-06",
-        // i18next.t("apgames:descriptions.alta")
-        description: "apgames:descriptions.alta",
-        // i18next.t("apgames:notes.alta")
-        notes: "apgames:notes.alta",
+        description: "Alta is a connection game played with switches on a diamond-shaped board. Connect your two sides with a path of switches of either player. On your turn, place a new switch or toggle one of your switches to change the orientation.",
+        notes: "There are two ways to place switches on the graphical interface: (1) Select the switch’s orientation in the panel, then click on the desired space on the board to place it, or (2) click on two vertices. The vertices are notated with an asterisk, followed by the algebraic notation of the space where the vertex is at the bottom-left corner. To toggle a switch, simply click on the space.",
         urls: ["https://boardgamegeek.com/boardgame/40658/alta"],
         bggid: "40658",
         people: [
@@ -573,7 +602,7 @@ export class AltaGame extends GameBase {
 
     public move(m: string, { partial = false, trusted = false } = {}): AltaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         let result;
@@ -908,3 +937,4 @@ export class AltaGame extends GameBase {
         return new AltaGame(this.serialize());
     }
 }
+

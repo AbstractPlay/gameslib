@@ -1,9 +1,45 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Place a stone on an empty point. A point vital to your opponent is only allowed if it is also vital to you, or if your placement completes your connection.",
+        INVALIDCELL: "The point {{cell}} does not exist.",
+        OCCUPIED: "The point {{where}} is already occupied.",
+        VITAL: "You may not place a stone on {{where}}. It is vital to your opponent but not to you, and a stone there would not complete your connection.",
+        NO_PASS: "You may not pass while you have a legal placement.",
+        MUST_PASS: "You have no legal placement. Your turn is skipped.",
+    },
+    variants: {
+        "size-7": {
+            name: "7x7 board",
+        },
+        "#board": {
+            name: "9x9 board",
+        },
+        "size-11": {
+            name: "11x11 board",
+        },
+        "size-13": {
+            name: "13x13 board",
+        },
+        "size-15": {
+            name: "15x15 board",
+        },
+        "size-19": {
+            name: "19x19 board",
+        },
+    },
+};
+
+export const gameApresultsEn = {
+    EOG: {
+        cutoff: "{{player}} no longer has any possible connecting path.",
+    },
+};
 
 export type playerid = 1|2;
 
@@ -96,6 +132,59 @@ export function cpHasWinningPath(cells: Uint8Array, width: number, height: numbe
 }
 
 /**
+ * A chain of `player`'s stones joining the two edges of `player`, as a list
+ * of point indices from one edge to the other, or an empty list if there is
+ * none.  With `diagonal` unset the chain is orthogonally connected (a
+ * winning path).  With `diagonal` set the chain may also step diagonally.
+ * Such a chain exists exactly when the opponent has no possible connecting
+ * path: it is the chain that cuts the opponent off.
+ */
+export function cpEdgeChain(cells: Uint8Array, width: number, height: number, player: playerid, diagonal: boolean): number[] {
+    const boardCells = width * height;
+    const parent = new Int32Array(boardCells).fill(-2); // -2 = unvisited, -1 = start
+    const queue = new Int32Array(boardCells);
+    let head = 0;
+    let tail = 0;
+    if (player === 1) {
+        for (let x = 0; x < width; x++) {
+            if (cells[x] === player) { parent[x] = -1; queue[tail++] = x; }
+        }
+    } else {
+        for (let y = 0; y < height; y++) {
+            const idx = y * width;
+            if (cells[idx] === player) { parent[idx] = -1; queue[tail++] = idx; }
+        }
+    }
+    while (head < tail) {
+        const idx = queue[head++];
+        const x = idx % width;
+        const y = (idx - x) / width;
+        if ((player === 1 && y === height - 1) || (player === 2 && x === width - 1)) {
+            const chain: number[] = [];
+            for (let cur = idx; cur !== -1; cur = parent[cur]) {
+                chain.push(cur);
+            }
+            return chain.reverse();
+        }
+        for (let dy = -1; dy <= 1; dy++) {
+            for (let dx = -1; dx <= 1; dx++) {
+                if (dx === 0 && dy === 0) { continue; }
+                if (!diagonal && dx !== 0 && dy !== 0) { continue; }
+                const nx = x + dx;
+                const ny = y + dy;
+                if (nx < 0 || ny < 0 || nx >= width || ny >= height) { continue; }
+                const nidx = ny * width + nx;
+                if (parent[nidx] === -2 && cells[nidx] === player) {
+                    parent[nidx] = idx;
+                    queue[tail++] = nidx;
+                }
+            }
+        }
+    }
+    return [];
+}
+
+/**
  * The vital points of `player`: a mask (1 = vital) over all points.
  * An empty point is vital to a player if every possible connecting path for
  * that player passes through it.  A player with no possible connecting path
@@ -153,12 +242,10 @@ export class ClearPathGame extends GameBase {
         name: "Clear Path",
         uid: "clearpath",
         playercounts: [2],
-        version: "20260910",
+        version: "20261014",
         dateAdded: "2026-09-10",
-        // i18next.t("apgames:descriptions.clearpath")
-        description: "apgames:descriptions.clearpath",
-        // i18next.t("apgames:notes.clearpath")
-        notes: "apgames:notes.clearpath",
+        description: "An orthogonal connection game on the points of a square grid. Red connects the top and bottom edges, Blue the left and right edges, with a chain of orthogonally adjacent stones. Each turn you place one stone. A point is vital to a player if every possible connection of theirs passes through it. You may not place on a point vital to your opponent unless it is also vital to you, or your placement completes your connection. Crosscuts are allowed.",
+        notes: "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe dots mark the points where the player to move may not place. Each dotted point is vital to the opponent (every possible connection of the opponent passes through it), not vital to the player to move, and not a winning placement. A point vital to both players is not dotted, since either player may take it, and neither is a point where the player to move completes a winning path. The dots are drawn in the opponent's colour. A player who no longer has any possible connection has no vital points.\n\nA placement that leaves the opponent without any possible connecting path ends the game at once, and the player who placed wins: the opponent can never connect and can never take the winner's vital points, so the winner's connection can no longer be stopped. The chain of stones that cuts the opponent off is drawn on the board, as is a completed winning path.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.",
         urls: [
             "https://www.marksteeregames.com/Clear_Path_rules.pdf",
             "https://www.marksteeregames.com",
@@ -177,9 +264,10 @@ export class ClearPathGame extends GameBase {
         variants: [
             { uid: "size-7", group: "board" },
             { uid: "#board" },
-            { uid: "size-9", group: "board" },
-            { uid: "size-10", group: "board" },
-            { uid: "size-11", group: "board" }
+            { uid: "size-11", group: "board" },
+            { uid: "size-13", group: "board" },
+            { uid: "size-15", group: "board" },
+            { uid: "size-19", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie", "autopass", "experimental"],
@@ -188,7 +276,7 @@ export class ClearPathGame extends GameBase {
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid>;
-    public boardsize = 8;
+    public boardsize = 9;
     public gameover = false;
     public winner: playerid[] = [];
     public variants: string[] = [];
@@ -199,7 +287,7 @@ export class ClearPathGame extends GameBase {
         super();
         if (state === undefined) {
             if (variants !== undefined) {
-                this.variants = [...variants];
+                this.variants = this.applyVariantConstraints(variants);
             }
             const board = new Map<string, playerid>();
             const fresh: IMoveState = {
@@ -252,7 +340,7 @@ export class ClearPathGame extends GameBase {
                 }
             }
         }
-        return 8;
+        return 9;
     }
 
     public coords2algebraic(x: number, y: number): string {
@@ -306,8 +394,6 @@ export class ClearPathGame extends GameBase {
             // Passing is not allowed, but a player with no available
             // placement has their turn skipped.  The `autopass` flag
             // makes the front end submit this pass automatically.
-            // This should never happen in a live game, as we call
-            // the game early when this situation is reached.
             return ["pass"];
         }
         return moves.sort((a, b) => a.localeCompare(b));
@@ -400,7 +486,7 @@ export class ClearPathGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): ClearPathGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -441,9 +527,19 @@ export class ClearPathGame extends GameBase {
         const prev: playerid = this.currplayer === 1 ? 2 : 1;
         const n = this.boardsize;
         const cells = this.toCells();
-        if (!cpConnects(cells, n, n, this.currplayer, true) || cpHasWinningPath(cells, n, n, prev)) {
+        if (cpHasWinningPath(cells, n, n, prev)) {
             this.gameover = true;
             this.winner = [prev];
+        } else if (!cpConnects(cells, n, n, this.currplayer, true)) {
+            // The placement left the opponent without any possible
+            // connecting path.  The opponent can never connect, and can
+            // never take a point vital to the placer (a cut-off player has
+            // no vital points of their own and no winning placement), so
+            // the placer's connection can no longer be stopped.  The game
+            // ends here instead of playing out the forced finish.
+            this.gameover = true;
+            this.winner = [prev];
+            this.results.push({type: "eog", reason: "cutoff"});
         } else if (this.board.size === n * n) {
             // Under the rules this cannot happen (the board never fills
             // without a winning path being formed), but the game must
@@ -457,12 +553,22 @@ export class ClearPathGame extends GameBase {
             this.winner = [1, 2];
         }
         if (this.gameover) {
-            this.results.push(
-                {type: "eog"},
-                {type: "winners", players: [...this.winner]}
-            );
+            if (!this.results.some(r => r.type === "eog")) {
+                this.results.push({type: "eog"});
+            }
+            this.results.push({type: "winners", players: [...this.winner]});
         }
         return this;
+    }
+
+    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+        if (r.type === "eog" && r.reason === "cutoff") {
+            // the player to move after the final placement is the one cut off
+            const loser = this.resolveChatPlayerName(ctx.currplayer, ctx.players);
+            this.pushNeutralChatLine(lines, "apresults:clearpath.EOG.cutoff", {player: loser});
+            return true;
+        }
+        return super.collectChatLogLine(lines, r, ctx);
     }
 
     public isPieTurn(): boolean {
@@ -514,24 +620,23 @@ export class ClearPathGame extends GameBase {
             pstr.push(line);
         }
 
-        // Mark the vital points of each player.
-        // Red only: red dot.  Blue only: blue dot.  Both: a blue dot inside a red dot.
-        const redOnly: RowCol[] = [];
-        const blueOnly: RowCol[] = [];
-        const both: RowCol[] = [];
+        // Mark the points where the player to move may not place: every
+        // empty point that is vital to the opponent, not vital to the mover,
+        // and not a winning placement for the mover.  The dots are drawn in
+        // the opponent's colour, since they are the opponent's vital points.
+        // A point vital to both players gets no dot (either player may take
+        // it), nor does a winning placement.  Nothing is marked once the
+        // game is over.
+        const illegal: RowCol[] = [];
+        const opponent: playerid = this.currplayer === 1 ? 2 : 1;
         if (!this.gameover) {
             const cells = this.toCells();
-            const vitalRed = cpVitalPoints(cells, n, n, 1);
-            const vitalBlue = cpVitalPoints(cells, n, n, 2);
+            const legal = cpLegalPlacements(cells, n, n, this.currplayer);
             for (let idx = 0; idx < cells.length; idx++) {
-                const x = idx % n;
-                const y = (idx - x) / n;
-                if (vitalRed[idx] === 1 && vitalBlue[idx] === 1) {
-                    both.push({row: y, col: x});
-                } else if (vitalRed[idx] === 1) {
-                    redOnly.push({row: y, col: x});
-                } else if (vitalBlue[idx] === 1) {
-                    blueOnly.push({row: y, col: x});
+                if (cells[idx] === 0 && legal[idx] === 0) {
+                    const x = idx % n;
+                    const y = (idx - x) / n;
+                    illegal.push({row: y, col: x});
                 }
             }
         }
@@ -548,10 +653,7 @@ export class ClearPathGame extends GameBase {
                     { type: "edge", edge: "S", colour: 1 },
                     { type: "edge", edge: "E", colour: 2 },
                     { type: "edge", edge: "W", colour: 2 },
-                    ...(redOnly.length > 0 ? [{ type: "dots" as const, colour: 1, size: 0.35, points: redOnly as [RowCol, ...RowCol[]] }] : []),
-                    ...(blueOnly.length > 0 ? [{ type: "dots" as const, colour: 2, size: 0.35, points: blueOnly as [RowCol, ...RowCol[]] }] : []),
-                    ...(both.length > 0 ? [{ type: "dots" as const, colour: 1, size: 0.5, points: both as [RowCol, ...RowCol[]] }] : []),
-                    ...(both.length > 0 ? [{ type: "dots" as const, colour: 2, size: 0.25, points: both as [RowCol, ...RowCol[]] }] : []),
+                    ...(illegal.length > 0 ? [{ type: "dots" as const, colour: opponent, size: 0.35, points: illegal as [RowCol, ...RowCol[]] }] : []),
                 ],
             },
             legend: {
@@ -575,6 +677,29 @@ export class ClearPathGame extends GameBase {
             }
         }
 
+        // When the game is over, draw the winner's decisive chain: the
+        // winning path, or, after a cut-off, the chain of stones (diagonal
+        // steps allowed) that leaves the loser without any possible
+        // connecting path.
+        if (this.gameover && this.winner.length === 1) {
+            const cells = this.toCells();
+            const winner = this.winner[0];
+            let chain = cpEdgeChain(cells, n, n, winner, false);
+            if (chain.length === 0) {
+                chain = cpEdgeChain(cells, n, n, winner, true);
+            }
+            if (chain.length > 1) {
+                const targets = chain.map(idx => {
+                    const x = idx % n;
+                    return {row: (idx - x) / n, col: x};
+                });
+                if (rep.annotations === undefined) {
+                    rep.annotations = [];
+                }
+                rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+            }
+        }
+
         return rep;
     }
 
@@ -582,3 +707,4 @@ export class ClearPathGame extends GameBase {
         return new ClearPathGame(this.serialize());
     }
 }
+

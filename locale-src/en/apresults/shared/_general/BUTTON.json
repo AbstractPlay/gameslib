@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "BUTTON": {
+      "default": "{{player}} took the button."
+    }
+  }
+}

@@ -6,6 +6,26 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { HexTriGraph } from "../common/graphs/index.js";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a point to place a piece.",
+    },
+    variants: {
+        "#board": {
+            name: "Size-8 board",
+        },
+        "size-4": {
+            name: "Size-4 board",
+        },
+        "size-6": {
+            name: "Size-6 board",
+        },
+        "size-10": {
+            name: "Size-10 board",
+        },
+    },
+};
+
 
 export type playerid = 1|2;
 type directions = "NE"|"E"|"SE"|"SW"|"W"|"NW";
@@ -80,8 +100,7 @@ export class HavannahGame extends GameBase {
         playercounts: [2],
         version: "20240101",
         dateAdded: "2024-01-01",
-        // i18next.t("apgames:descriptions.havannah")
-        description: "apgames:descriptions.havannah",
+        description: "A connection game where you vye to form either a ring, a bridge, or a fork. A ring is a chain around at least one cell. A bridge is a chain linking two corners. A fork is a chain linking three sides. Corners do not belong to either side.",
         urls: [
             "https://www.mindsports.nl/index.php/arena/havannah",
             "https://en.wikipedia.org/wiki/Havannah_(board_game)",
@@ -315,7 +334,7 @@ export class HavannahGame extends GameBase {
 
     public move(m: string, {trusted = false} = {}): HavannahGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -521,3 +540,4 @@ export class HavannahGame extends GameBase {
         return new HavannahGame(this.serialize());
     }
 }
+

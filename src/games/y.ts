@@ -17,6 +17,64 @@ import {
 import { connectedComponents } from "graphology-components";
 import { bidirectional } from "graphology-shortest-path";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INSTRUCTIONS: "Click an empty cell to place a friendly piece.",
+        "INITIAL_INSTRUCTIONS_12*": "Click an empty cell to place a friendly piece. Afterwards, players always place two stones per turn.",
+        "INSTRUCTIONS_12*": "Click two empty cells to place friendly pieces.",
+        "INITIAL_INSTRUCTIONS_134*": "The game uses the 134* progressive rule. So, in the first turn the players place respectively one and three stones. Then, afterwards, all players place four stones. However, every pair of two stones, from the same multiple placement, cannot share the same group.",
+        "INSTRUCTIONS_134*": "Click on empty cells to place up to {{count}} friendly pieces. No pair of stones must share the same group of friendly pieces.",
+        INSTRUCTIONS_PROGRESSIVE: "Click on empty cells to place up to {{count}} friendly pieces. No pair of stones must share the same group of friendly pieces.",
+        VALID_MOVE_PROGRESSIVE: "The player can still place {{remaining}} pieces.",
+        GROUP_INFRACTION: "Placements at {{cell1}} and {{cell2}} belong to the same group.",
+    },
+    variants: {
+        "size-9": {
+            name: "Size-9 board",
+        },
+        "size-11": {
+            name: "Size-11 board",
+        },
+        "#board": {
+            name: "Size-13 board",
+        },
+        "size-15": {
+            name: "Size-15 board",
+        },
+        "size-19": {
+            name: "Size-19 board",
+        },
+        "size-21": {
+            name: "Size-21 board",
+        },
+        "size-25": {
+            name: "Size-25 board",
+        },
+        "#boardtype": {
+            name: "Triangular board",
+        },
+        bent: {
+            name: "Bent board",
+        },
+        star: {
+            name: "Star board",
+            description: "Pentagonal star board. The usual commercial size is 11 (use the board size variant to change segment count). Connect any three outer sides that form a legal Y, or four or more sides.",
+        },
+        "#ruleset": {
+            name: "Y standard rules",
+        },
+        "12-free": {
+            name: "Master Y (12* move sequence)",
+        },
+        "134-group": {
+            name: "134* with group restriction",
+        },
+        progressive: {
+            name: "Progressive with group restriction",
+        },
+    },
+};
+
 
 /* [note for future board additions]
    In their 1975 book "Mudcrack Y & Poly-Y", the game designers introduced the **mudcrack principle**
@@ -53,9 +111,8 @@ export class YGame extends GameBase {
         playercounts: [2],
         version: "20260623",
         dateAdded: "2026-05-13",
-        // i18next.t("apgames:descriptions.y")
-        description: "apgames:descriptions.y",
-        notes: "apgames:notes.y",
+        description: "The classic connnection game. Connect all three sides to win.",
+        notes: "The game was designed by Charles Titus and Craige Schensted (Ea Ea) in 1953. A direct descended of Hex, the game was originally played on a triangular board, where the goal is to connect all three sides by a chain of friendly stones. Y is considered a more fundamental game than Hex, given its simpler rules and given that a Hex match can be setup on a sufficient large Y board. In their 1975 book **Mudcrack Y & Poly-Y**, the designers introduced the _mudcrack principle_ stating that connection games can be played on a wide range of progressively elaborate boards. One of those designs ('the bent Y', with three pentagonal cells) became the commercial Y board, instead of the standard triangular one.",
         urls: ["https://boardgamegeek.com/boardgame/5242/the-game-of-y"],
         bggid: "5242",
         people: [
@@ -520,7 +577,7 @@ export class YGame extends GameBase {
 
     public move(m: string, {trusted = false, partial = false} = {}): YGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");

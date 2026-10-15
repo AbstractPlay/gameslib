@@ -4,6 +4,14 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { Direction, DirectionCardinal, orthDirections, oppositeDirections, RectGrid, reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+export const gameApgamesEn = {
+    validation: {
+        INITIAL_INSTRUCTIONS: "Select a piece to move.",
+        INVALID_MOVE: "Capturing is compulsory, including the longest capture sequence. Men step one square forward orthogonally or diagonally; captures are orthogonal in any direction; kings slide any distance along a rank or file.",
+        VALID_PARTIAL: "Looks good so far. Select the next empty cell to move to.",
+    },
+};
+
 
 const BOARD_SIZE = 8;
 
@@ -29,8 +37,7 @@ export class CrodaGame extends GameBase {
         playercounts: [2],
         version: "20260927",
         dateAdded: "2026-09-27",
-        // i18next.t("apgames:descriptions.croda")
-        description: "apgames:descriptions.croda",
+        description: "Croda on an 8×8 board: men step one square forward orthogonally or diagonally; they capture orthogonally in any direction. Kings slide and capture along ranks and files. Maximal capture is compulsory; you win by immobilizing the opponent.",
         urls: [
             "https://mindsports.nl/index.php/the-pit/524-croda",
             "https://boardgamegeek.com/boardgame/19843/croda",
@@ -448,7 +455,7 @@ export class CrodaGame extends GameBase {
 
     public move(m: string, { trusted = false, partial = false } = {}): CrodaGame {
         if (this.gameover) {
-            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:MOVES_GAMEOVER"));
+            throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
         m = m.toLowerCase();
@@ -631,20 +638,20 @@ export class CrodaGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "capture":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:CAPTURE.dameo", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, `apresults:dameo.CAPTURE.${r.what!}`, {
                     where: r.where!, context: r.what!,
                 });
                 return true;
             case "promote":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:PROMOTE.basicWhere", {
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PROMOTE.basicWhere", {
                     where: r.where!,
                 });
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.repetition", { count: 3 });
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 3 });
                 } else {
-                    this.pushNeutralChatLine(lines, "apresults:EOG.default");
+                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }
                 return true;
             default:
@@ -666,3 +673,4 @@ export class CrodaGame extends GameBase {
         return new CrodaGame(this.serialize());
     }
 }
+

@@ -1,0 +1,7 @@
+{
+  "_general": {
+    "INFINITE": {
+      "default": "{{player}} has triggered an infinite loop!"
+    }
+  }
+}

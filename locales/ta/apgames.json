@@ -36,7 +36,47 @@
       "ccw": "எதிரெதிர் திசையில் சுழற்றுங்கள்",
       "fire": "தீ லேசர்",
       "hit": "ச்விங் ச்னவுட்"
-    }
+    },
+    "declare": "",
+    "carnac": {
+      "tip_n": "",
+      "tip_s": "",
+      "tip_e": "",
+      "tip_w": ""
+    },
+    "squares": {
+      "option3": "",
+      "retreatReserve": "",
+      "option1": "",
+      "loseA": "",
+      "stay": "",
+      "stand": "",
+      "loseC": "",
+      "option2": "",
+      "option5": "",
+      "option4": "",
+      "advance": "",
+      "retreat": "",
+      "loseI": ""
+    },
+    "evenatodds": {
+      "odds": "",
+      "evens": ""
+    },
+    "killallgo": {
+      "defender": "",
+      "youplace": "",
+      "attacker": ""
+    },
+    "agofmars": {
+      "noObjSwap": "",
+      "draw": "",
+      "objSwap": "",
+      "move": "",
+      "swap": ""
+    },
+    "roll1": "",
+    "roll2": ""
   },
   "categories": {
     "board": {
@@ -468,6 +508,36 @@
       "description": "2 க்கும் மேற்பட்ட வீரர்களை ஆதரிக்கிறது",
       "full": "பிற> 2+ வீரர்கள்",
       "tag": "ஓ: 2+வீரர்கள்"
+    },
+    "family>draughts": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "components>dominoes": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "family>tafl": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "family": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "family>mancala": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "family>gomoku": {
+      "description": "",
+      "full": "",
+      "tag": ""
     }
   },
   "status": {
@@ -496,10 +566,13 @@
       "TERRITORY": "பிரதேசம்"
     },
     "arimaa": {
-      "HARLOG": "ஆர்லாக்"
+      "HARLOG": "ஆர்லாக்",
+      "ROLL_TOTAL": "",
+      "ROLL_MEAN": ""
     },
     "asli": {
-      "TERRITORY": "பிரதேசம் & கைதிகள்"
+      "TERRITORY": "பிரதேசம் & கைதிகள்",
+      "AREA": ""
     },
     "baghchal": {
       "GOATS_IN_HAND": "",
@@ -590,6 +663,68 @@
       "COLOUR": "நிறங்கள்",
       "GOALS": "இலக்குகள்",
       "HEIGHT": "உயரங்கள்"
+    },
+    "squares": {
+      "STAGE_ADVANCE": "",
+      "STAGE_SECOND": "",
+      "LOSSES": "",
+      "SINGLE": "",
+      "STAGE_RESOLVE": "",
+      "DOUBLE_one": "",
+      "DOUBLE_other": "",
+      "POINTS": "",
+      "STAGE_LOSE": "",
+      "STAGE_DEFEND": "",
+      "TURN": "",
+      "COMBAT": ""
+    },
+    "crosshairs": {
+      "PLANES": "",
+      "TOTAL_ALTITUDE": ""
+    },
+    "agofmars": {
+      "setupPool": "",
+      "bagCount": "",
+      "bagPool": ""
+    },
+    "bashni": {
+      "MATERIAL": "",
+      "STEPS": ""
+    },
+    "icepalace": {
+      "POOL": "",
+      "PLACED": ""
+    },
+    "mvolcano": {
+      "UNCAPTUREDCOLOURS": "",
+      "PYRAMIDSCAPTURED": ""
+    },
+    "killallgo": {
+      "PHASE_PIE_SLICE": "",
+      "PHASE_PIE_CHOOSE": "",
+      "PHASE_HOC_CHOOSE": "",
+      "HANDICAP": "",
+      "PHASE_HAND_N": "",
+      "PHASE_HOC_BATCH_A": "",
+      "PHASE_HOC_SLICE": "",
+      "ATTACKER": "",
+      "DEFENDER": "",
+      "PHASE_ALT_PLACE": "",
+      "PHASE_HOC_BATCH_B": "",
+      "UNDECIDED": "",
+      "PHASE_HOC_OPTION": "",
+      "BATCHES_VALUE": "",
+      "BATCHES": ""
+    },
+    "tintas": {
+      "MAJORITIES": "",
+      "MONOCHROME": ""
+    },
+    "mimic": {
+      "UNFROZEN_PIECES": ""
+    },
+    "lielow": {
+      "MOVESUNTILSUICIDE": ""
     }
   },
   "validation": {
@@ -751,7 +886,8 @@
       "INITIAL_INSTRUCTIONS": "நகர்த்த உங்கள் அமேசான்களில் ஒன்றைத் தேர்ந்தெடுக்கவும்.",
       "POTENTIAL_BLOCK": "இதுவரை மிகவும் நல்லது. நீங்கள் தடுக்க விரும்பும் இடத்தை வழங்கவும்.",
       "POTENTIAL_MOVE": "இதுவரை மிகவும் நல்லது. நீங்கள் செல்ல விரும்பும் இடத்தை வழங்கவும்.",
-      "STRAIGHTLINE": "நீங்கள் நேர் கோடுகளில் மட்டுமே நகர்த்தவும் தடுக்கவும் முடியும்."
+      "STRAIGHTLINE": "நீங்கள் நேர் கோடுகளில் மட்டுமே நகர்த்தவும் தடுக்கவும் முடியும்.",
+      "NO_FIRST_SHOT": ""
     },
     "amoeba": {
       "BAD_DISTANCE": "அடுக்குகள் அவற்றின் உயரத்தின் சரியான தூரத்தை நகர்த்த வேண்டும்.",
@@ -822,7 +958,21 @@
       "WARN_BALANCE": "உங்கள் நான்கு வலுவான பகுதிகளை கிழக்கிலிருந்து மேற்காக சமப்படுத்தவும்.",
       "WARN_FILE": "உங்கள் யானையை எதிர்க்கும் யானையின் அதே கோப்பில் வைக்காதீர்கள்.",
       "WARN_HIDE": "பலவீனமான துண்டுகளுக்குப் பின்னால் வலுவான துண்டுகளை மறைக்க வேண்டாம் (முயல்களுக்குப் பின்னால் பூனைகளைத் தவிர).",
-      "WARNINGS": "உங்கள் அமைவு முடிந்தது, ஆனால் புதிய வீரர்கள் கருத்தில் கொள்ள சில விசயங்கள் உள்ளன. புறக்கணிக்க முழுமையான நகர்த்தலைக் சொடுக்கு செய்யலாம் அல்லது பின்வரும் ஆலோசனையைப் படிக்கலாம்:"
+      "WARNINGS": "உங்கள் அமைவு முடிந்தது, ஆனால் புதிய வீரர்கள் கருத்தில் கொள்ள சில விசயங்கள் உள்ளன. புறக்கணிக்க முழுமையான நகர்த்தலைக் சொடுக்கு செய்யலாம் அல்லது பின்வரும் ஆலோசனையைப் படிக்கலாம்:",
+      "TOO_LONG": "",
+      "NO_MOVE_CHAIN": "",
+      "INFERRED": "",
+      "NO_MOVE_ENEMY": "",
+      "PARSE": "",
+      "AMBIGUOUS": "",
+      "INCOMPLETE": "",
+      "NO_MOVE": "",
+      "DIE_one": "",
+      "NO_MOVE_FROZEN": "",
+      "NO_MOVE_TOGETHER": "",
+      "DIE_other": "",
+      "NO_MOVE_REACH": "",
+      "PARTIAL_RABBITS": ""
     },
     "armadas": {
       "BAD_PASS": "கடந்து செல்லும்போது, நீங்கள் வழங்கும் ஒரே கட்டளையாக இருக்க வேண்டும்.",
@@ -872,7 +1022,12 @@
       "MUST_PIE": "விளையாட்டின் இந்த கட்டத்தில், துண்டுகளை வைப்பது அனுமதிக்கப்படாது.",
       "NEGATIVE_KOMI": "நீங்கள் உறுதியாக இருக்கிறீர்களா? எதிர்மறை கோமி சலுகைகள் குறிப்பிட்ட ஊனமுற்ற சூழ்நிலைகளில் மட்டுமே தேவைப்பட வேண்டும்.",
       "SUICIDE": "உங்கள் முறையின் முடிவில் இறந்த நட்பு குழுக்கள் இருக்கும் ஒரு பகுதியை நீங்கள் வைக்கக்கூடாது.",
-      "WOVEN_INCURSION": "'நெய்த' மாறுபாட்டில், ஊடுருவல்கள் சட்டபூர்வமானவை அல்ல."
+      "WOVEN_INCURSION": "'நெய்த' மாறுபாட்டில், ஊடுருவல்கள் சட்டபூர்வமானவை அல்ல.",
+      "INITIAL_INSTRUCTIONS_komi_area": "",
+      "BAD_KOMI_area": "",
+      "NO_CHANGE": "",
+      "INITIAL_INSTRUCTIONS_area": "",
+      "BAD_INCURSION_pass": ""
     },
     "assembly": {
       "BAD_MOVE": "ஒரே செல்லுபடியாகும் நடவடிக்கை 1 முதல் 3 வரை ஒரு எண்.",
@@ -950,7 +1105,11 @@
       "NO_BACK_ROW_mtaji": "MTAJI கட்டத்தில், நீங்கள் ஒரு பிடிப்புக்கு வழிவகுத்தால் மட்டுமே நீங்கள் பின் வரிசையில் இருந்து தொடங்கலாம் அல்லது முன் வரிசையில் இருந்து குட்டகாட்டா சாத்தியமில்லை.",
       "NO_BACK_ROW_namua": "குனாமுவா கட்டத்தில், நீங்கள் உங்கள் பின் வரிசையில் இருந்து தொடங்கக்கூடாது.",
       "PLAY_HOUSE": "உங்கள் விதைப்பு உங்கள் நியும்பாவில் முடிந்தது. நீங்கள் நிறுத்தலாம் அல்லது \"சஃபாரி செல்லுங்கள்\" (இது உங்கள் நியும்பாவை ஒரு நிலையான குழியாக மாற்றும்). தொடர்ந்து விதைக்க, உங்கள் நியும்பா அல்லது நகரும் நுழைவு பெட்டியில் \"+\" அடையாளத்தை தட்டச்சு செய்க.",
-      "TWO_PLUS": "உங்களிடம் ஒரு வேலை வீடு இருந்தால் அல்லது முன் வரிசையில் உங்களிடம் உள்ள அனைத்தும் ஒற்றை கற்களைக் கொண்ட குழிகள் இருந்தால் மட்டுமே நீங்கள் ஒரு குனமுவா-கட்ட குட்டகதா திருப்பத்தைத் தொடங்கலாம்."
+      "TWO_PLUS": "உங்களிடம் ஒரு வேலை வீடு இருந்தால் அல்லது முன் வரிசையில் உங்களிடம் உள்ள அனைத்தும் ஒற்றை கற்களைக் கொண்ட குழிகள் இருந்தால் மட்டுமே நீங்கள் ஒரு குனமுவா-கட்ட குட்டகதா திருப்பத்தைத் தொடங்கலாம்.",
+      "NO_KUTAKATA_WHILE_CAPTURE": "",
+      "WRONG_CAPTURE": "",
+      "KUTAKATA_ONLY": "",
+      "MUST_CAPTURE": ""
     },
     "basalt": {
       "BAD_MOVE": "அடுக்குகள் அவற்றின் உயரத்தை விட அதிகமாக நகராது, மேலும் அவை உங்கள் எதிரியால் கட்டுப்படுத்தப்படும் அடுக்குகளை கடந்து செல்லக்கூடாது.",
@@ -1071,7 +1230,13 @@
     },
     "bridges": {
       "INITIAL_INSTRUCTIONS_FIRST_TURN": "",
-      "INITIAL_INSTRUCTIONS": ""
+      "INITIAL_INSTRUCTIONS": "",
+      "ONE_MORE": "",
+      "NO_LINE_OF_SIGHT_other": "",
+      "SELECT_BRIDGE_END": "",
+      "BASE_HAS_BRIDGE_one": "",
+      "BASE_HAS_BRIDGE_other": "",
+      "NO_LINE_OF_SIGHT_one": ""
     },
     "btt": {
       "BAD_NULL": "",
@@ -1439,7 +1604,9 @@
       "NEED_MORE_PLANES_NO_ENTRY_other": "நீங்கள் இன்னும் {{count}} விமானங்களை நகர்த்த வேண்டும். அடுத்த விமானத்தைத் தேர்ந்தெடுக்கவும். எதிரி விமானங்களை சுட்டு வீழ்த்தலாம் என்று நினைத்தால், அவற்றை சொடுக்கு செய்யவும்.",
       "INVALID_ENTRY_POSITION": "நீங்கள் {{cell}} இல் விமானத்தை நுழைய முடியாது, தனிப்படுத்தப்பட்ட தொடக்க விளிம்பில் மட்டுமே விமானங்களை உள்ளிட முடியும்.",
       "CAN_SHOOT": "நீங்கள் ஒரு எதிரி விமானத்தை சுட அதை சொடுக்கு செய்யலாம்.",
-      "MOVE_COMPLETE_CAN_SHOOT": "நகர்த்தவும் முடிந்தது. நீங்கள் எதிரி விமானங்களை சுடலாம் அல்லது உங்கள் நகர்வை சமர்ப்பிக்கலாம்."
+      "MOVE_COMPLETE_CAN_SHOOT": "நகர்த்தவும் முடிந்தது. நீங்கள் எதிரி விமானங்களை சுடலாம் அல்லது உங்கள் நகர்வை சமர்ப்பிக்கலாம்.",
+      "MUST_PASS_BEFORE_ENTRY": "",
+      "PLACE_CLOUD_UNBOUNDED": ""
     },
     "crossway": {
       "BAD_PASS": "சட்ட நகர்வுகள் கிடைத்தால் நீங்கள் தேர்ச்சி பெறக்கூடாது.",
@@ -1623,7 +1790,8 @@
       "MUST_CHOOSE_SIDE": "",
       "NOT_IN_HAND": "",
       "NEEDS_ANCHOR_PIP": "",
-      "PARTIAL": ""
+      "PARTIAL": "",
+      "MUST_COVER_TWO_DOMINOES": ""
     },
     "exxit": {
       "INITIAL_INSTRUCTIONS_build": "ஒரு செக்கரை வைக்க எந்த காலியாக இல்லாத ஓடு என்பதைக் சொடுக்கு செய்க, அல்லது உலகத்தை விரிவுபடுத்தத் தொடங்க சரியான சுற்றளவு இடத்தைக் சொடுக்கு செய்க.",
@@ -1862,7 +2030,8 @@
     "gonnect": {
       "INITIAL_INSTRUCTIONS": "ஒரு துண்டு வைக்க ஒரு குறுக்குவெட்டைத் தேர்ந்தெடுக்கவும்.",
       "KO": "கோ விதி: உங்களுடைய ஒன்றைப் பிடிக்க அவர்கள் அதைப் பயன்படுத்தினால், உங்கள் எதிரியின் ஒற்றை கல்லை நீங்கள் உடனடியாக மீண்டும் கைப்பற்ற முடியாது.",
-      "SELF_CAPTURE": "உங்கள் கற்களை தன்வய பிடியில் வைக்கக்கூடாது."
+      "SELF_CAPTURE": "உங்கள் கற்களை தன்வய பிடியில் வைக்கக்கூடாது.",
+      "INVALID_PASS": ""
     },
     "gorogo": {
       "INITIAL_INSTRUCTIONS_play": "ஒரு சாதாரண துண்டு வைக்க ஒரு கலத்தைத் தேர்ந்தெடுக்கவும், அல்லது அதற்கு பதிலாக வைக்க உங்கள் எங்கே துண்டுகளில் ஒன்றைக் சொடுக்கு செய்க.",
@@ -2833,7 +3002,8 @@
       "WRONG_REALM_capBase": "நீங்கள் இப்போது ({{realm}}) நகர்த்தப்பட்ட சாம்ராச்யத்தில் மட்டுமே தளத்தை கைப்பற்றலாம்.",
       "WRONG_REALM_createBase": "நீங்கள் இப்போது ({{realm}}) நகர்த்தப்பட்ட சாம்ராச்யத்தில் ஒரு தளத்தை மட்டுமே உருவாக்க முடியும்.",
       "WRONG_REALM_createEnforcer": "நீங்கள் ({{realm}}) நகர்ந்த உலகில் மட்டுமே ஒரு செயல்படுத்துபவரை உருவாக்க முடியும்.",
-      "WRONG_REALM_rearrange": "நீங்கள் மறுசீரமைக்கப்படுவதை சாம்ராச்யத்தில் மட்டுமே வைக்கலாம் ({{realm}})."
+      "WRONG_REALM_rearrange": "நீங்கள் மறுசீரமைக்கப்படுவதை சாம்ராச்யத்தில் மட்டுமே வைக்கலாம் ({{realm}}).",
+      "REARRANGE_THREE": ""
     },
     "renju": {
       "INITIAL_INSTRUCTIONS_RIF1": "ஒரு ரென்சு திறப்பைத் தேர்ந்தெடுக்கவும். முதல் கல் பலகையின் மையத்திலும், இரண்டாவது 3x3 சதுரத்திலும், மூன்றாவது மையத்தில் 5x5 சதுரத்திலும் வைக்கப்பட வேண்டும். சமச்சீர் அனுமதிக்கப்படவில்லை.",
@@ -3687,6 +3857,251 @@
       "MUST_MOVE": "உங்களிடம் ஒரு நகர்வு இருந்தால், உங்கள் திருப்பத்தை நீங்கள் கடக்க முடியாது.",
       "NONCAPTURES_KINGS": "கைப்பற்றப்படாத நகர்வுகள் ஒரு நேரத்தில் ஒரு இடத்தை மட்டுமே நகர்த்த முடியும்.",
       "PARTIAL": "ஒரு இலக்கைத் தேர்ந்தெடுக்கவும்."
+    },
+    "killallgo": {
+      "SLICE_MIN": "",
+      "SLICE_A_ONLY_other": "",
+      "SLICE_A_ONLY_one": "",
+      "SLICE_RATIO": "",
+      "BATCH_MORE_OR_SUBMIT": "",
+      "INSTRUCTIONS_ALT_HANDICAP_other": "",
+      "ATTACKER_NO_STONES": "",
+      "INSTRUCTIONS_HOC_CHOOSE_one": "",
+      "INVALID_PASS": "",
+      "SLICE_B_ONLY_one": "",
+      "INSTRUCTIONS_PLAY_DEFENDER": "",
+      "INSTRUCTIONS_PIE_CHOOSE": "",
+      "INSTRUCTIONS_HOC_BATCH_one": "",
+      "NOT_A_NUMBERED_STONE": "",
+      "PIE_SLICE_MAX": "",
+      "INSTRUCTIONS_HOC_OPTION_other": "",
+      "INSTRUCTIONS_PIE_DEFENDER_STONE": "",
+      "SETUP_FULL": "",
+      "HANDICAP_OK_other": "",
+      "INSTRUCTIONS_PLAY_ATTACKER": "",
+      "SLICE_FORMAT": "",
+      "SLICE_OK": "",
+      "KO_PSK": "",
+      "INSTRUCTIONS_ALT": "",
+      "INSTRUCTIONS_HOC_BATCH_other": "",
+      "SLICE_B_ONLY_other": "",
+      "INSTRUCTIONS_ALT_HANDICAP_one": "",
+      "HANDICAP_OK_one": "",
+      "INSTRUCTIONS_PIE_SLICE": "",
+      "HANDICAP_RANGE": "",
+      "BATCH_TOO_MANY_one": "",
+      "STONES_LEFT_other": "",
+      "SLICE_SUM": "",
+      "INSTRUCTIONS_HOC_CHOOSE_other": "",
+      "DUPLICATE_CELL": "",
+      "INSTRUCTIONS_HANDICAP": "",
+      "INSTRUCTIONS_HOC_SLICE": "",
+      "INSTRUCTIONS_HOC_OPTION_one": "",
+      "STONES_LEFT_one": "",
+      "HANDICAP_INVALID": "",
+      "BATCH_TOO_MANY_other": "",
+      "DEFENDER_NO_STONES": ""
+    },
+    "squares": {
+      "NO_TARGET": "",
+      "WRONG_TYPE": "",
+      "OPTION_5": "",
+      "RETREAT_FOREST_GUNS": "",
+      "INITIAL_SECOND": "",
+      "SUPPORT_SELF": "",
+      "INITIAL_ADVANCE": "",
+      "OPTION_1": "",
+      "RETREAT_FOREST_FROM_CLEAR": "",
+      "SUPPORT_NOT_ADJACENT": "",
+      "OPTION_4": "",
+      "PLY_OPTION": "",
+      "ARTILLERY_TARGET": "",
+      "STAND_CAVALRY": "",
+      "ATTACK_FROM_RESERVE": "",
+      "ILLEGAL_MOVE": "",
+      "ILLEGAL_RESPONSE": "",
+      "RETREAT_FOREST_DISPLACED": "",
+      "INITIAL_RESOLVE": "",
+      "STAND_FLANK": "",
+      "DECISION_EXTRA": "",
+      "INITIAL_LOSE": "",
+      "OWN_RESERVE": "",
+      "PINNED": "",
+      "PARTIAL_UNIT": "",
+      "RETREAT_CHAIN_BLOCKED": "",
+      "PLY_COMPLETE": "",
+      "TWO_STEPS_CAVALRY": "",
+      "PARTIAL_CAVALRY": "",
+      "THROUGH_ENEMY_RESERVE": "",
+      "OPTION_3": "",
+      "RETREAT_VACANT_FIRST": "",
+      "NO_SUCH_UNIT": "",
+      "RETREAT_ENEMY_RESERVE": "",
+      "PARTIAL_SUPPORT": "",
+      "PLY_STAYED": "",
+      "TOO_FAR": "",
+      "FROZEN": "",
+      "RESERVE_EMPTY": "",
+      "CAVALRY_NO_SUPPORT": "",
+      "EXHAUSTED": "",
+      "DECISION_EARLY": "",
+      "PLY_AGAIN": "",
+      "NOT_ADJACENT": "",
+      "CHOOSE_LOSS": "",
+      "DECIDE_ELIMINATED": "",
+      "RESERVE_OCCUPIED": "",
+      "TWO_CAVALRY_ONE_STEP": "",
+      "RETREAT_NOT_ADJACENT": "",
+      "MOVE_LIMIT": "",
+      "ATTACK_LIMIT": "",
+      "NOT_CONNECTED": "",
+      "CHAIN_CONTINUE": "",
+      "SUPPORT_FROM_RESERVE": "",
+      "PLY_ADVANCED": "",
+      "OPTION_UNAVAILABLE": "",
+      "RETREAT_NOT_CLOSER": "",
+      "RETREAT_ARTILLERY": "",
+      "INITIAL_ACTION_double": "",
+      "RETREAT_TO_RESERVE_ONLY": "",
+      "RETREAT_ENEMY_OCCUPIED": "",
+      "PATH_BLOCKED": "",
+      "FOREST_DOUBLE": "",
+      "FOREST_TWO_STEPS": "",
+      "PLY_CHOOSE_ADVANCE": "",
+      "CHOOSE_RETREAT": "",
+      "INITIAL_ACTION_single": "",
+      "RETREAT_NO_PATH": "",
+      "PLY_CHOOSE_OPTION": "",
+      "RETREAT_FOREST_ADJACENT": "",
+      "NO_PASS_DOUBLE": "",
+      "TWO_CAVALRY_ONLY": "",
+      "CAVALRY_NEEDS_SUPPORT": "",
+      "DIAGONAL_DOUBLE": "",
+      "TWO_CAVALRY_SAME": "",
+      "INITIAL_DEFEND": "",
+      "OPTION_2": ""
+    },
+    "thricewise": {
+      "NOT_YOUR_TURN": "",
+      "NOT_ADJACENT": "",
+      "BAD_CARD": "",
+      "GRID_CAP": "",
+      "VALID_PARTIAL_MORE": "",
+      "LABEL_DECK": "",
+      "INITIAL_INSTRUCTIONS_select": "",
+      "VALID_PARTIAL_CELL": "",
+      "LABEL_HAND": "",
+      "STATUS_place": "",
+      "SELECT_HAND": "",
+      "DUPLICATE_CARD": "",
+      "INITIAL_INSTRUCTIONS_place": "",
+      "BAD_PASS": "",
+      "STATUS_select": ""
+    },
+    "yodd": {
+      "INITIAL_INSTRUCTIONS_yopp": "",
+      "INSTRUCTIONS": "",
+      "INVALID_PASS": "",
+      "INVALID_PASS_PARTIAL": "",
+      "ODD_GROUPS_REQUIRED": "",
+      "INSTRUCTIONS_yopp": "",
+      "TOO_MANY_MOVES_START": "",
+      "TOO_MANY_MOVES": "",
+      "NO_PASS_OPENING": "",
+      "OWN_COLOUR_ONLY": "",
+      "VALID_MOVE": "",
+      "INSTRUCTIONS_ODD": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "icepalace": {
+      "ILLEGAL_PALACE": "",
+      "ILLEGAL_YARD": "",
+      "POOL_CLICK": "",
+      "INITIAL_BUILD": "",
+      "BUILD_ENOUGH": "",
+      "PARTIAL_PIECE": "",
+      "LEAD_CANNOT_PASS": "",
+      "MUST_BUILD": "",
+      "BUILD_MORE": "",
+      "NOT_IN_STOCK": "",
+      "BUILD_COMPLETE": "",
+      "INITIAL_HAND": "",
+      "NOT_IN_HAND": "",
+      "BAD_PLACEMENT": "",
+      "OFF_STRUCTURE": ""
+    },
+    "agofmars": {
+      "SWAP": "",
+      "SETUP_PERM": "",
+      "TURN_START": "",
+      "OBJ_SWAP_SELECT": "",
+      "PLACE_DRAWN": "",
+      "NO_PIECES_TO_MOVE": "",
+      "MOVE_SELECT_PIECE": "",
+      "MOVE_DEST_OCCUPIED": "",
+      "INITIAL_INSTRUCTIONS_setup1": "",
+      "NO_PIECES_TO_SWAP": "",
+      "SWAP_SELECT_PIECE": "",
+      "INITIAL_INSTRUCTIONS_setup2": "",
+      "SWAP_SELECT_SECOND": "",
+      "MAIN_ACTION_MODE_swap": "",
+      "PLACE": "",
+      "OBJ_SWAP_SELECT_SECOND": "",
+      "MAIN_ACTION_MODE_move": "",
+      "SETUP_INCOMPLETE": "",
+      "MOVE": "",
+      "SWAP_BLACK": "",
+      "MOVE_SELECT_DEST": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MOVE_BLACK": "",
+      "EMPTY_BAG": "",
+      "KO": "",
+      "SETUP_PARTIAL": "",
+      "OBJ_SWAP": "",
+      "INITIAL_INSTRUCTIONS_play": "",
+      "MAIN_ACTION_CHOICE": ""
+    },
+    "neutron": {
+      "PAWN_SELECT": "",
+      "INVALID_NEUTRON": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PAWN_DEST": "",
+      "INCOMPLETE": "",
+      "NEUTRON_FIRST": "",
+      "SELECT_OWN_PAWN": ""
+    },
+    "bashni": {
+      "INVALID_MOVE": "",
+      "VALID_PARTIAL": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "selfo": {
+      "NOT_ADJACENT": "",
+      "NO_PASS": "",
+      "INITIAL_INSTRUCTIONS_PIE": "",
+      "ENCLOSURE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PIE_UNAVAILABLE": "",
+      "PIE": "",
+      "PARTIAL": ""
+    },
+    "croda": {
+      "INITIAL_INSTRUCTIONS": "",
+      "VALID_PARTIAL": "",
+      "INVALID_MOVE": ""
+    },
+    "dama": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "VALID_PARTIAL": ""
+    },
+    "clearpath": {
+      "OCCUPIED": "",
+      "VITAL": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_PASS": "",
+      "MUST_PASS": "",
+      "INVALIDCELL": ""
     }
   },
   "descriptions": {
@@ -3972,7 +4387,19 @@
     "y": "",
     "yavalath": "முதலில் மூன்று துண்டுகளின் வரியை உருவாக்காமல் உங்கள் வண்ணத்தின் நான்கு அல்லது அதற்கு மேற்பட்ட துண்டுகளின் ஒரு வரியை உருவாக்கவும்.",
     "yonmoque": "எல்லா இடங்களும் சமமாக இல்லாத மற்றும் எதிரெதிர் துண்டுகளை மாற்றக்கூடிய ஒரு விளையாட்டில் ஒரு வரிசையில் நான்கு ஒன்றை உருவாக்க முயற்சிக்கவும்.",
-    "zola": "பலகையின் மையத்திலிருந்து உங்கள் தூரத்தால் உங்கள் இயக்கம் கட்டுப்படுத்தப்படும் ஒரு விளையாட்டு. நகர்வுகளைப் பிடிப்பது அந்த தூரத்தை அதிகரிக்கக்கூடாது. கைப்பற்றப்படாத நகர்வுகள் அந்த தூரத்தை அதிகரிக்க வேண்டும். அனைத்து எதிரெதிர் துண்டுகளையும் கைப்பற்றும் முதல் நபர் செய் பெறுகிறார்."
+    "zola": "பலகையின் மையத்திலிருந்து உங்கள் தூரத்தால் உங்கள் இயக்கம் கட்டுப்படுத்தப்படும் ஒரு விளையாட்டு. நகர்வுகளைப் பிடிப்பது அந்த தூரத்தை அதிகரிக்கக்கூடாது. கைப்பற்றப்படாத நகர்வுகள் அந்த தூரத்தை அதிகரிக்க வேண்டும். அனைத்து எதிரெதிர் துண்டுகளையும் கைப்பற்றும் முதல் நபர் செய் பெறுகிறார்.",
+    "neutron": "",
+    "croda": "",
+    "killallgo": "",
+    "icepalace": "",
+    "squares": "",
+    "thricewise": "",
+    "agofmars": "",
+    "selfo": "",
+    "clearpath": "",
+    "dama": "",
+    "bashni": "",
+    "yodd": ""
   },
   "names": {
     "abande": "",
@@ -4258,7 +4685,19 @@
     "y": "",
     "yavalath": "",
     "yonmoque": "",
-    "zola": ""
+    "zola": "",
+    "thricewise": "",
+    "killallgo": "",
+    "agofmars": "",
+    "dama": "",
+    "croda": "",
+    "selfo": "",
+    "squares": "",
+    "icepalace": "",
+    "bashni": "",
+    "neutron": "",
+    "yodd": "",
+    "clearpath": ""
   },
   "notes": {
     "akimbo": "",
@@ -4353,7 +4792,20 @@
     "waldmeister": "வீரர்கள் இரண்டு ஆட்டங்களை தொடர்ச்சியாக விளையாடுகிறார்கள். முதல் சுற்றில், பிளேயர் 1 வண்ணங்களுக்காகவும், பிளேயர் 2 உயரத்திற்காகவும் விளையாடுகிறார்கள். முதல் சுற்றின் முடிவில், மதிப்பெண்கள் அட்டவணைப்படுத்தப்பட்டு, ச்கோரிங் குழுக்கள் முன்னிலைப்படுத்தப்படுகின்றன. பின்னர் இரண்டாவது சுற்றில், பிளேயர் 2 முதலில் விளையாடுகிறது மற்றும் வண்ணங்களுக்காக விளையாடுகிறது, மேலும் பிளேயர் 1 உயரத்திற்காக விளையாடுகிறது.",
     "witch": "முதல் வீரர் எந்த துண்டுகளையும் சொந்தமாக வைத்திருப்பதாகத் தொடங்குவதில்லை, மேலும் முதல் திருப்பத்தில் எந்த பகுதியையும் (கிரீடம் தவிர) அகற்றலாம். இரண்டாவது வீரர் அவர்களின் முதல் திருப்பத்தில் அவர்களின் நிறத்தைத் தேர்வு செய்கிறார், அதன் பிறகு, உங்கள் எதிரியின் துண்டுகளை அகற்றுவது இனி சாத்தியமில்லை.",
     "xana": "",
-    "y": ""
+    "y": "",
+    "clearpath": "",
+    "neutron": "",
+    "squares": "",
+    "icepalace": "",
+    "agofmars": "",
+    "bashni": "",
+    "selfo": "",
+    "yodd": "",
+    "gonnect": "",
+    "lielow": "",
+    "thricewise": "",
+    "killallgo": "",
+    "mirador": ""
   },
   "variants": {
     "_default": {
@@ -4499,6 +4951,10 @@
       "standard-14": {
         "description": "நிலையான பலகையின் பெரிய பதிப்பு.",
         "name": "முக்கோணம் (14 அகலம்)"
+      },
+      "star-11": {
+        "name": "",
+        "description": ""
       }
     },
     "akimbo": {
@@ -4567,6 +5023,10 @@
       "scrambled": {
         "description": "ராணிகள் பலகையைச் சுற்றி மாற்று நிறம்.",
         "name": "துருவல்"
+      },
+      "noFirstShot": {
+        "description": "",
+        "name": ""
       }
     },
     "anache": {
@@ -4601,6 +5061,10 @@
       "free": {
         "name": "இலவச வேலை வாய்ப்பு (மதிப்பீடு செய்யப்படவில்லை)",
         "description": "சட்ட விரோதமான அல்லது உடைந்த நிலைகளை உருவாக்குவது உட்பட, வீரர்கள் எங்கு வேண்டுமானாலும் அவர்கள் விரும்பும் பல துண்டுகளை வைக்கலாம். வீரர்கள் தொடங்குவதற்கு முன் தெளிவாக தொடர்பு கொள்ள வேண்டும். இந்த கேம்களை மதிப்பிட முடியாது."
+      },
+      "dicey": {
+        "name": "",
+        "description": ""
       }
     },
     "armadas": {
@@ -4655,6 +5119,13 @@
       "woven": {
         "name": "நெய்த",
         "description": "ஊடுருவல்கள் சட்டபூர்வமானவை அல்ல."
+      },
+      "area": {
+        "name": "",
+        "description": ""
+      },
+      "board-23": {
+        "name": ""
       }
     },
     "assembly": {
@@ -4751,6 +5222,14 @@
       "malawi": {
         "description": "வீடு 6 க்கு பதிலாக 8 கற்களுடன் தொடங்குகிறது.",
         "name": "மலாவி"
+      },
+      "malawi-full": {
+        "description": "",
+        "name": ""
+      },
+      "#rules": {
+        "description": "",
+        "name": ""
       }
     },
     "basalt": {
@@ -4949,7 +5428,8 @@
     },
     "calculus": {
       "#board": {
-        "description": "குறுக்கே சுமார் 12 துண்டுகள்"
+        "description": "குறுக்கே சுமார் 12 துண்டுகள்",
+        "name": ""
       },
       "width-10": {
         "description": "குறுக்கே சுமார் 10 துண்டுகள்",
@@ -5305,6 +5785,45 @@
       "random-start": {
         "name": "சீரற்ற மேகங்கள்",
         "description": "முகில் வைக்கும் கட்டம் இல்லை. அவை கணினியால் தோராயமாக வைக்கப்படுகின்றன."
+      },
+      "#clouds": {
+        "name": ""
+      },
+      "turbulence": {
+        "name": "",
+        "description": ""
+      },
+      "unbounded-cloud-banks": {
+        "description": "",
+        "name": ""
+      },
+      "clumping-start": {
+        "name": "",
+        "description": ""
+      },
+      "clouds-22": {
+        "description": "",
+        "name": ""
+      },
+      "concealed-fire": {
+        "description": "",
+        "name": ""
+      },
+      "clouds-28": {
+        "name": "",
+        "description": ""
+      },
+      "asymmetric-random-start": {
+        "name": "",
+        "description": ""
+      },
+      "asymmetric-split-start": {
+        "description": "",
+        "name": ""
+      },
+      "split-start": {
+        "description": "",
+        "name": ""
       }
     },
     "crossway": {
@@ -5755,6 +6274,10 @@
       },
       "size-19": {
         "name": "19x19 வாரியம்"
+      },
+      "cascading": {
+        "name": "",
+        "description": ""
       }
     },
     "guerrilla": {
@@ -7617,6 +8140,10 @@
       "free-neutral": {
         "description": "முதல் திருப்பத்தில், 2-அடுக்கு நடுநிலை துண்டு மற்றும் ஒவ்வொரு வீரரின் நிறத்தின் 1-அடுக்கு துண்டையும் வைக்கவும்.",
         "name": "இலவச நடுநிலை"
+      },
+      "fog": {
+        "name": "",
+        "description": ""
       }
     },
     "twinflames": {
@@ -7854,6 +8381,10 @@
       },
       "progressive": {
         "name": ""
+      },
+      "star": {
+        "description": "",
+        "name": ""
       }
     },
     "zola": {
@@ -7862,6 +8393,188 @@
       },
       "8x8": {
         "name": "8x8 போர்டு"
+      }
+    },
+    "killallgo": {
+      "size-9": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "#opening": {
+        "name": "",
+        "description": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "hoctaph": {
+        "description": "",
+        "name": ""
+      },
+      "classic": {
+        "description": "",
+        "name": ""
+      },
+      "handicap": {
+        "name": "",
+        "description": ""
+      },
+      "pie": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "agofmars": {
+      "step-move": {
+        "name": "",
+        "description": ""
+      },
+      "biggest-group": {
+        "name": "",
+        "description": ""
+      },
+      "blind-agents": {
+        "name": "",
+        "description": ""
+      },
+      "group-size-scoring": {
+        "description": "",
+        "name": ""
+      },
+      "objective-initiative": {
+        "description": "",
+        "name": ""
+      },
+      "five-colour-plus3": {
+        "name": "",
+        "description": ""
+      },
+      "five-colour-minus2": {
+        "name": "",
+        "description": ""
+      },
+      "black-trio-swap": {
+        "description": "",
+        "name": ""
+      },
+      "#rules": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "neutron": {
+      "#board": {
+        "name": ""
+      },
+      "restricted": {
+        "description": "",
+        "name": ""
+      },
+      "5x7": {
+        "name": ""
+      },
+      "doubleRestricted": {
+        "name": "",
+        "description": ""
+      },
+      "#mobility": {
+        "name": ""
+      },
+      "coneutron": {
+        "description": "",
+        "name": ""
+      },
+      "7x7": {
+        "name": ""
+      },
+      "7x5": {
+        "name": ""
+      }
+    },
+    "pods": {
+      "board-6": {
+        "name": ""
+      },
+      "board-8": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "selfo": {
+      "r4f12": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "r5f20": {
+        "name": ""
+      },
+      "no-enclosure": {
+        "name": "",
+        "description": ""
+      },
+      "r2f5": {
+        "name": ""
+      }
+    },
+    "clearpath": {
+      "#board": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      }
+    },
+    "yodd": {
+      "square-14": {
+        "name": ""
+      },
+      "square-10": {
+        "name": ""
+      },
+      "yopp": {
+        "description": "",
+        "name": ""
+      },
+      "hex-9": {
+        "name": ""
+      },
+      "square-15": {
+        "name": ""
+      },
+      "hex-6": {
+        "name": ""
+      },
+      "hex-10": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "hex-7": {
+        "name": ""
+      },
+      "square-13": {
+        "name": ""
+      },
+      "square-9": {
+        "name": ""
+      }
+    },
+    "mirador": {
+      "#board": {
+        "name": ""
+      },
+      "size-40": {
+        "name": ""
       }
     }
   },
@@ -7886,6 +8599,10 @@
       "bricks": {
         "description": "தடுக்கப்பட்ட சதுரங்களை செங்கற்களின் சுவராகக் காட்டு.",
         "name": "செங்கற்கள்"
+      },
+      "#block": {
+        "description": "",
+        "name": ""
       }
     },
     "anache": {
@@ -7904,6 +8621,10 @@
       "swap-prison": {
         "description": "சிறையில் உள்ள துண்டுகளின் நிறத்தை மாற்றவும்.",
         "name": "சிறை நிறங்களை மாற்றவும்"
+      },
+      "hide-territories": {
+        "name": "",
+        "description": ""
       }
     },
     "atoll": {
@@ -7922,6 +8643,9 @@
       "isometric": {
         "description": "அரை -3 டி, ஐசோமெட்ரிக் பார்வை",
         "name": "ஐசோமெட்ரிக்"
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "blastradius": {
@@ -7957,6 +8681,9 @@
     "carnac": {
       "flat": {
         "description": "",
+        "name": ""
+      },
+      "#projection": {
         "name": ""
       }
     },
@@ -8032,11 +8759,17 @@
       "flat": {
         "description": "",
         "name": ""
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "elOso": {
       "nums": {
         "description": "",
+        "name": ""
+      },
+      "#stack": {
         "name": ""
       }
     },
@@ -8050,6 +8783,9 @@
       "flat": {
         "description": "",
         "name": ""
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "fourinarow": {
@@ -8062,6 +8798,9 @@
       "frog-pieces": {
         "description": "தவளை வடிவ துண்டுகளைப் பயன்படுத்தவும்.",
         "name": "தவளை துண்டுகள்"
+      },
+      "#piece": {
+        "name": ""
       }
     },
     "gess": {
@@ -8150,6 +8889,9 @@
       "expanding": {
         "description": "இரு பரிமாண பலகை, மேலே செல்லும்போது அடுக்குகள் விரிவடைகின்றன.",
         "name": "விரிவாக்குதல்"
+      },
+      "#stack": {
+        "name": ""
       }
     },
     "onyx": {
@@ -8301,6 +9043,9 @@
       "flat": {
         "description": "உயரத்தைக் குறிக்க நிழலைப் பயன்படுத்தும் ஒரு தட்டையான பார்வை.",
         "name": "தட்டையான பார்வை"
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "toguz": {
@@ -8333,6 +9078,10 @@
       "hide-threatened": {
         "description": "சூறாவளி அல்லாத பிடிப்புகளைக் காட்ட வேண்டாம்.",
         "name": "அச்சுறுத்தலை மறைக்க"
+      },
+      "fog-unseen-clouds": {
+        "description": "",
+        "name": ""
       }
     },
     "twixt": {
@@ -8351,6 +9100,9 @@
       "expanding": {
         "description": "இரு பரிமாண பலகை, மேலே செல்லும்போது அடுக்குகள் விரிவடைகின்றன.",
         "name": "விரிவாக்குதல்"
+      },
+      "#stack": {
+        "name": ""
       }
     },
     "zola": {
@@ -8361,6 +9113,33 @@
       "isometric-5": {
         "description": "நுட்பமான உயரம்: நீங்கள் மையத்திலிருந்து விலகிச் செல்லும்போது இடைவெளிகள் அதிகமாக இருக்கும் புலத்தின் அரை -3 டி பார்வை.",
         "name": "ஐசோமெட்ரிக்: நுட்பமான உயரம்"
+      },
+      "#projection": {
+        "name": ""
+      }
+    },
+    "icepalace": {
+      "perspective-areas": {
+        "name": "",
+        "description": ""
+      },
+      "#board": {
+        "name": "",
+        "description": ""
+      },
+      "perspective": {
+        "name": "",
+        "description": ""
+      },
+      "#areas": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "agofmars": {
+      "hide-bag-pool": {
+        "name": "",
+        "description": ""
       }
     }
   }

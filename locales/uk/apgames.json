@@ -34,7 +34,49 @@
       "ccw": "Обертати проти годинникової стрілки",
       "fire": "Пожежний лазер",
       "hit": "Розмахувати мордою"
-    }
+    },
+    "declare": "",
+    "carnac": {
+      "tip_n": "",
+      "tip_s": "",
+      "tip_e": "",
+      "tip_w": ""
+    },
+    "squares": {
+      "option3": "",
+      "retreatReserve": "",
+      "option1": "",
+      "loseA": "",
+      "stay": "",
+      "stand": "",
+      "loseC": "",
+      "option2": "",
+      "option5": "",
+      "option4": "",
+      "advance": "",
+      "retreat": "",
+      "loseI": ""
+    },
+    "evenatodds": {
+      "odds": "",
+      "evens": ""
+    },
+    "killallgo": {
+      "defender": "",
+      "youplace": "",
+      "attacker": ""
+    },
+    "agofmars": {
+      "noObjSwap": "",
+      "draw": "",
+      "objSwap": "",
+      "move": "",
+      "swap": ""
+    },
+    "roll1": "",
+    "playfirst": "",
+    "swap": "",
+    "roll2": ""
   },
   "categories": {
     "board": {
@@ -451,6 +493,51 @@
       "description": "Підтримує більше 2 гравців",
       "full": "Інше > 2+ гравці",
       "tag": "О: 2+гравці"
+    },
+    "family>draughts": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "goal>arrange": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "goal>vigil": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "mechanic>vigil": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "components>dominoes": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "family>tafl": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "family": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "family>mancala": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "family>gomoku": {
+      "description": "",
+      "full": "",
+      "tag": ""
     }
   },
   "status": {
@@ -479,10 +566,13 @@
       "TERRITORY": "Територія"
     },
     "arimaa": {
-      "HARLOG": "Харлог"
+      "HARLOG": "Харлог",
+      "ROLL_TOTAL": "",
+      "ROLL_MEAN": ""
     },
     "asli": {
-      "TERRITORY": "Територія та в'язні"
+      "TERRITORY": "Територія та в'язні",
+      "AREA": ""
     },
     "baghchal": {
       "GOATS_IN_HAND": "",
@@ -573,6 +663,68 @@
       "COLOUR": "кольори",
       "GOALS": "Цілі",
       "HEIGHT": "висоти"
+    },
+    "squares": {
+      "STAGE_ADVANCE": "",
+      "STAGE_SECOND": "",
+      "LOSSES": "",
+      "SINGLE": "",
+      "STAGE_RESOLVE": "",
+      "DOUBLE_one": "",
+      "DOUBLE_other": "",
+      "POINTS": "",
+      "STAGE_LOSE": "",
+      "STAGE_DEFEND": "",
+      "TURN": "",
+      "COMBAT": ""
+    },
+    "crosshairs": {
+      "PLANES": "",
+      "TOTAL_ALTITUDE": ""
+    },
+    "agofmars": {
+      "setupPool": "",
+      "bagCount": "",
+      "bagPool": ""
+    },
+    "bashni": {
+      "MATERIAL": "",
+      "STEPS": ""
+    },
+    "icepalace": {
+      "POOL": "",
+      "PLACED": ""
+    },
+    "mvolcano": {
+      "UNCAPTUREDCOLOURS": "",
+      "PYRAMIDSCAPTURED": ""
+    },
+    "killallgo": {
+      "PHASE_PIE_SLICE": "",
+      "PHASE_PIE_CHOOSE": "",
+      "PHASE_HOC_CHOOSE": "",
+      "HANDICAP": "",
+      "PHASE_HAND_N": "",
+      "PHASE_HOC_BATCH_A": "",
+      "PHASE_HOC_SLICE": "",
+      "ATTACKER": "",
+      "DEFENDER": "",
+      "PHASE_ALT_PLACE": "",
+      "PHASE_HOC_BATCH_B": "",
+      "UNDECIDED": "",
+      "PHASE_HOC_OPTION": "",
+      "BATCHES_VALUE": "",
+      "BATCHES": ""
+    },
+    "tintas": {
+      "MAJORITIES": "",
+      "MONOCHROME": ""
+    },
+    "mimic": {
+      "UNFROZEN_PIECES": ""
+    },
+    "lielow": {
+      "MOVESUNTILSUICIDE": ""
     }
   },
   "validation": {
@@ -734,7 +886,8 @@
       "INITIAL_INSTRUCTIONS": "Виберіть одну зі своїх амазонок для переміщення.",
       "POTENTIAL_BLOCK": "Поки що добре. Укажіть місце, яке ви хочете заблокувати.",
       "POTENTIAL_MOVE": "Поки що добре. Надайте простір, куди ви хочете переїхати.",
-      "STRAIGHTLINE": "Рухатися та блокувати можна лише по прямій лінії."
+      "STRAIGHTLINE": "Рухатися та блокувати можна лише по прямій лінії.",
+      "NO_FIRST_SHOT": ""
     },
     "amoeba": {
       "BAD_DISTANCE": "Стоси повинні рухатися на точну відстань їх висоти.",
@@ -805,7 +958,21 @@
       "WARN_BALANCE": "Збалансуйте свої чотири найсильніші частини зі сходу на захід.",
       "WARN_FILE": "Не ставте свого слона в один ряд зі слонами суперника.",
       "WARN_HIDE": "Не ховайте міцніші частини за слабшими (крім котів за кроликами).",
-      "WARNINGS": "Ваше налаштування завершено, але є кілька речей, які варто врахувати новим гравцям. Ви можете натиснути «Завершити переміщення», щоб ігнорувати це, або прочитати наступну пораду:"
+      "WARNINGS": "Ваше налаштування завершено, але є кілька речей, які варто врахувати новим гравцям. Ви можете натиснути «Завершити переміщення», щоб ігнорувати це, або прочитати наступну пораду:",
+      "TOO_LONG": "",
+      "NO_MOVE_CHAIN": "",
+      "INFERRED": "",
+      "NO_MOVE_ENEMY": "",
+      "PARSE": "",
+      "AMBIGUOUS": "",
+      "INCOMPLETE": "",
+      "NO_MOVE": "",
+      "DIE_one": "",
+      "NO_MOVE_FROZEN": "",
+      "NO_MOVE_TOGETHER": "",
+      "DIE_other": "",
+      "NO_MOVE_REACH": "",
+      "PARTIAL_RABBITS": ""
     },
     "armadas": {
       "BAD_PASS": "Під час проходження це має бути єдина команда, яку ви надаєте.",
@@ -855,7 +1022,12 @@
       "MUST_PIE": "На цьому етапі гри розміщувати фігури заборонено.",
       "NEGATIVE_KOMI": "Ви впевнені? Негативні пропозиції комі потрібні лише в особливих ситуаціях, пов’язаних із гандикапом.",
       "SUICIDE": "Ви не можете розміщувати фігуру так, щоб у вас були мертві дружні групи в кінці вашого ходу.",
-      "WOVEN_INCURSION": "У «тканому» варіанті вторгнення не є законними."
+      "WOVEN_INCURSION": "У «тканому» варіанті вторгнення не є законними.",
+      "INITIAL_INSTRUCTIONS_komi_area": "",
+      "BAD_KOMI_area": "",
+      "NO_CHANGE": "",
+      "INITIAL_INSTRUCTIONS_area": "",
+      "BAD_INCURSION_pass": ""
     },
     "assembly": {
       "BAD_MOVE": "Єдиним дійсним ходом є число від 1 до 3.",
@@ -933,7 +1105,11 @@
       "NO_BACK_ROW_mtaji": "У фазі мтадзі ви можете починати з заднього ряду, лише якщо це призведе до захоплення або якщо кутаката неможлива з переднього ряду.",
       "NO_BACK_ROW_namua": "У фазі кунума ви не можете починати з заднього ряду.",
       "PLAY_HOUSE": "Скінчився твій посів у твоїй нюмбі. Ви можете зупинитися або «поїхати на сафарі» (це перетворить вашу нюмбу на стандартну яму). Щоб продовжити посів, клацніть свою нюмбу або введіть знак «+» у полі введення переміщення.",
-      "TWO_PLUS": "Ви можете розпочати хід кутаката у фазі кунамуа в ямі одним каменем, лише якщо у вас є робочий будинок або якщо у вас у першому ряду є лише ями з одним камінням."
+      "TWO_PLUS": "Ви можете розпочати хід кутаката у фазі кунамуа в ямі одним каменем, лише якщо у вас є робочий будинок або якщо у вас у першому ряду є лише ями з одним камінням.",
+      "NO_KUTAKATA_WHILE_CAPTURE": "",
+      "WRONG_CAPTURE": "",
+      "KUTAKATA_ONLY": "",
+      "MUST_CAPTURE": ""
     },
     "basalt": {
       "BAD_MOVE": "Стоси не можуть рухатися далі, ніж їхня висота, і вони не можуть переходити над стопками, контрольованими вашим суперником.",
@@ -1054,7 +1230,13 @@
     },
     "bridges": {
       "INITIAL_INSTRUCTIONS_FIRST_TURN": "",
-      "INITIAL_INSTRUCTIONS": ""
+      "INITIAL_INSTRUCTIONS": "",
+      "ONE_MORE": "",
+      "NO_LINE_OF_SIGHT_other": "",
+      "SELECT_BRIDGE_END": "",
+      "BASE_HAS_BRIDGE_one": "",
+      "BASE_HAS_BRIDGE_other": "",
+      "NO_LINE_OF_SIGHT_one": ""
     },
     "btt": {
       "BAD_NULL": "",
@@ -1422,7 +1604,9 @@
       "NEED_MORE_PLANES_NO_ENTRY_other": "",
       "INVALID_ENTRY_POSITION": "",
       "CAN_SHOOT": "",
-      "MOVE_COMPLETE_CAN_SHOOT": ""
+      "MOVE_COMPLETE_CAN_SHOOT": "",
+      "MUST_PASS_BEFORE_ENTRY": "",
+      "PLACE_CLOUD_UNBOUNDED": ""
     },
     "crossway": {
       "BAD_PASS": "Ви можете не пройти, якщо доступні законні кроки.",
@@ -1606,7 +1790,8 @@
       "MUST_CHOOSE_SIDE": "",
       "NOT_IN_HAND": "",
       "NEEDS_ANCHOR_PIP": "",
-      "PARTIAL": ""
+      "PARTIAL": "",
+      "MUST_COVER_TWO_DOMINOES": ""
     },
     "exxit": {
       "INITIAL_INSTRUCTIONS_build": "Клацніть будь-яку вільну плитку, щоб поставити шашку, або натисніть дійсний периметр, щоб почати збільшувати світ.",
@@ -1845,7 +2030,8 @@
     "gonnect": {
       "INITIAL_INSTRUCTIONS": "Виберіть перехрестя, щоб розмістити шматок.",
       "KO": "Правило Ко: ви не можете відразу відбити єдиний камінь свого опонента, якщо він використав його для захоплення одного з ваших.",
-      "SELF_CAPTURE": "Ви не можете розміщувати свої камені в самозахопленні."
+      "SELF_CAPTURE": "Ви не можете розміщувати свої камені в самозахопленні.",
+      "INVALID_PASS": ""
     },
     "gorogo": {
       "INITIAL_INSTRUCTIONS_play": "Виберіть клітинку, щоб розмістити звичайну фігуру, або клацніть одну зі своїх частин хенге, щоб розмістити її.",
@@ -2816,7 +3002,8 @@
       "WRONG_REALM_capBase": "Ви можете захопити базу лише в царстві, куди ви щойно переїхали ({{realm}}).",
       "WRONG_REALM_createBase": "Ви можете створити базу лише в царстві, куди ви щойно переїхали ({{realm}}).",
       "WRONG_REALM_createEnforcer": "Ви можете створити захисника лише в царстві, куди ви щойно переїхали ({{realm}}).",
-      "WRONG_REALM_rearrange": "Ви можете розміщувати фігури лише в царстві, яке змінюється ({{realm}})."
+      "WRONG_REALM_rearrange": "Ви можете розміщувати фігури лише в царстві, яке змінюється ({{realm}}).",
+      "REARRANGE_THREE": ""
     },
     "renju": {
       "INITIAL_INSTRUCTIONS_RIF1": "Виберіть відкриття рендзю. Перший камінь необхідно розмістити в центрі дошки, другий - в центрі квадрата 3х3, а третій - в центрі квадрата 5х5. Симетрії заборонені.",
@@ -3670,6 +3857,251 @@
       "MUST_MOVE": "Якщо у вас є доступний хід, ви не можете пройти свою чергу.",
       "NONCAPTURES_KINGS": "Ходи без захоплення можуть переміщати лише одну клітинку за раз.",
       "PARTIAL": "Виберіть пункт призначення."
+    },
+    "killallgo": {
+      "SLICE_MIN": "",
+      "SLICE_A_ONLY_other": "",
+      "SLICE_A_ONLY_one": "",
+      "SLICE_RATIO": "",
+      "BATCH_MORE_OR_SUBMIT": "",
+      "INSTRUCTIONS_ALT_HANDICAP_other": "",
+      "ATTACKER_NO_STONES": "",
+      "INSTRUCTIONS_HOC_CHOOSE_one": "",
+      "INVALID_PASS": "",
+      "SLICE_B_ONLY_one": "",
+      "INSTRUCTIONS_PLAY_DEFENDER": "",
+      "INSTRUCTIONS_PIE_CHOOSE": "",
+      "INSTRUCTIONS_HOC_BATCH_one": "",
+      "NOT_A_NUMBERED_STONE": "",
+      "PIE_SLICE_MAX": "",
+      "INSTRUCTIONS_HOC_OPTION_other": "",
+      "INSTRUCTIONS_PIE_DEFENDER_STONE": "",
+      "SETUP_FULL": "",
+      "HANDICAP_OK_other": "",
+      "INSTRUCTIONS_PLAY_ATTACKER": "",
+      "SLICE_FORMAT": "",
+      "SLICE_OK": "",
+      "KO_PSK": "",
+      "INSTRUCTIONS_ALT": "",
+      "INSTRUCTIONS_HOC_BATCH_other": "",
+      "SLICE_B_ONLY_other": "",
+      "INSTRUCTIONS_ALT_HANDICAP_one": "",
+      "HANDICAP_OK_one": "",
+      "INSTRUCTIONS_PIE_SLICE": "",
+      "HANDICAP_RANGE": "",
+      "BATCH_TOO_MANY_one": "",
+      "STONES_LEFT_other": "",
+      "SLICE_SUM": "",
+      "INSTRUCTIONS_HOC_CHOOSE_other": "",
+      "DUPLICATE_CELL": "",
+      "INSTRUCTIONS_HANDICAP": "",
+      "INSTRUCTIONS_HOC_SLICE": "",
+      "INSTRUCTIONS_HOC_OPTION_one": "",
+      "STONES_LEFT_one": "",
+      "HANDICAP_INVALID": "",
+      "BATCH_TOO_MANY_other": "",
+      "DEFENDER_NO_STONES": ""
+    },
+    "squares": {
+      "NO_TARGET": "",
+      "WRONG_TYPE": "",
+      "OPTION_5": "",
+      "RETREAT_FOREST_GUNS": "",
+      "INITIAL_SECOND": "",
+      "SUPPORT_SELF": "",
+      "INITIAL_ADVANCE": "",
+      "OPTION_1": "",
+      "RETREAT_FOREST_FROM_CLEAR": "",
+      "SUPPORT_NOT_ADJACENT": "",
+      "OPTION_4": "",
+      "PLY_OPTION": "",
+      "ARTILLERY_TARGET": "",
+      "STAND_CAVALRY": "",
+      "ATTACK_FROM_RESERVE": "",
+      "ILLEGAL_MOVE": "",
+      "ILLEGAL_RESPONSE": "",
+      "RETREAT_FOREST_DISPLACED": "",
+      "INITIAL_RESOLVE": "",
+      "STAND_FLANK": "",
+      "DECISION_EXTRA": "",
+      "INITIAL_LOSE": "",
+      "OWN_RESERVE": "",
+      "PINNED": "",
+      "PARTIAL_UNIT": "",
+      "RETREAT_CHAIN_BLOCKED": "",
+      "PLY_COMPLETE": "",
+      "TWO_STEPS_CAVALRY": "",
+      "PARTIAL_CAVALRY": "",
+      "THROUGH_ENEMY_RESERVE": "",
+      "OPTION_3": "",
+      "RETREAT_VACANT_FIRST": "",
+      "NO_SUCH_UNIT": "",
+      "RETREAT_ENEMY_RESERVE": "",
+      "PARTIAL_SUPPORT": "",
+      "PLY_STAYED": "",
+      "TOO_FAR": "",
+      "FROZEN": "",
+      "RESERVE_EMPTY": "",
+      "CAVALRY_NO_SUPPORT": "",
+      "EXHAUSTED": "",
+      "DECISION_EARLY": "",
+      "PLY_AGAIN": "",
+      "NOT_ADJACENT": "",
+      "CHOOSE_LOSS": "",
+      "DECIDE_ELIMINATED": "",
+      "RESERVE_OCCUPIED": "",
+      "TWO_CAVALRY_ONE_STEP": "",
+      "RETREAT_NOT_ADJACENT": "",
+      "MOVE_LIMIT": "",
+      "ATTACK_LIMIT": "",
+      "NOT_CONNECTED": "",
+      "CHAIN_CONTINUE": "",
+      "SUPPORT_FROM_RESERVE": "",
+      "PLY_ADVANCED": "",
+      "OPTION_UNAVAILABLE": "",
+      "RETREAT_NOT_CLOSER": "",
+      "RETREAT_ARTILLERY": "",
+      "INITIAL_ACTION_double": "",
+      "RETREAT_TO_RESERVE_ONLY": "",
+      "RETREAT_ENEMY_OCCUPIED": "",
+      "PATH_BLOCKED": "",
+      "FOREST_DOUBLE": "",
+      "FOREST_TWO_STEPS": "",
+      "PLY_CHOOSE_ADVANCE": "",
+      "CHOOSE_RETREAT": "",
+      "INITIAL_ACTION_single": "",
+      "RETREAT_NO_PATH": "",
+      "PLY_CHOOSE_OPTION": "",
+      "RETREAT_FOREST_ADJACENT": "",
+      "NO_PASS_DOUBLE": "",
+      "TWO_CAVALRY_ONLY": "",
+      "CAVALRY_NEEDS_SUPPORT": "",
+      "DIAGONAL_DOUBLE": "",
+      "TWO_CAVALRY_SAME": "",
+      "INITIAL_DEFEND": "",
+      "OPTION_2": ""
+    },
+    "thricewise": {
+      "NOT_YOUR_TURN": "",
+      "NOT_ADJACENT": "",
+      "BAD_CARD": "",
+      "GRID_CAP": "",
+      "VALID_PARTIAL_MORE": "",
+      "LABEL_DECK": "",
+      "INITIAL_INSTRUCTIONS_select": "",
+      "VALID_PARTIAL_CELL": "",
+      "LABEL_HAND": "",
+      "STATUS_place": "",
+      "SELECT_HAND": "",
+      "DUPLICATE_CARD": "",
+      "INITIAL_INSTRUCTIONS_place": "",
+      "BAD_PASS": "",
+      "STATUS_select": ""
+    },
+    "yodd": {
+      "INITIAL_INSTRUCTIONS_yopp": "",
+      "INSTRUCTIONS": "",
+      "INVALID_PASS": "",
+      "INVALID_PASS_PARTIAL": "",
+      "ODD_GROUPS_REQUIRED": "",
+      "INSTRUCTIONS_yopp": "",
+      "TOO_MANY_MOVES_START": "",
+      "TOO_MANY_MOVES": "",
+      "NO_PASS_OPENING": "",
+      "OWN_COLOUR_ONLY": "",
+      "VALID_MOVE": "",
+      "INSTRUCTIONS_ODD": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "icepalace": {
+      "ILLEGAL_PALACE": "",
+      "ILLEGAL_YARD": "",
+      "POOL_CLICK": "",
+      "INITIAL_BUILD": "",
+      "BUILD_ENOUGH": "",
+      "PARTIAL_PIECE": "",
+      "LEAD_CANNOT_PASS": "",
+      "MUST_BUILD": "",
+      "BUILD_MORE": "",
+      "NOT_IN_STOCK": "",
+      "BUILD_COMPLETE": "",
+      "INITIAL_HAND": "",
+      "NOT_IN_HAND": "",
+      "BAD_PLACEMENT": "",
+      "OFF_STRUCTURE": ""
+    },
+    "agofmars": {
+      "SWAP": "",
+      "SETUP_PERM": "",
+      "TURN_START": "",
+      "OBJ_SWAP_SELECT": "",
+      "PLACE_DRAWN": "",
+      "NO_PIECES_TO_MOVE": "",
+      "MOVE_SELECT_PIECE": "",
+      "MOVE_DEST_OCCUPIED": "",
+      "INITIAL_INSTRUCTIONS_setup1": "",
+      "NO_PIECES_TO_SWAP": "",
+      "SWAP_SELECT_PIECE": "",
+      "INITIAL_INSTRUCTIONS_setup2": "",
+      "SWAP_SELECT_SECOND": "",
+      "MAIN_ACTION_MODE_swap": "",
+      "PLACE": "",
+      "OBJ_SWAP_SELECT_SECOND": "",
+      "MAIN_ACTION_MODE_move": "",
+      "SETUP_INCOMPLETE": "",
+      "MOVE": "",
+      "SWAP_BLACK": "",
+      "MOVE_SELECT_DEST": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MOVE_BLACK": "",
+      "EMPTY_BAG": "",
+      "KO": "",
+      "SETUP_PARTIAL": "",
+      "OBJ_SWAP": "",
+      "INITIAL_INSTRUCTIONS_play": "",
+      "MAIN_ACTION_CHOICE": ""
+    },
+    "neutron": {
+      "PAWN_SELECT": "",
+      "INVALID_NEUTRON": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PAWN_DEST": "",
+      "INCOMPLETE": "",
+      "NEUTRON_FIRST": "",
+      "SELECT_OWN_PAWN": ""
+    },
+    "bashni": {
+      "INVALID_MOVE": "",
+      "VALID_PARTIAL": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "selfo": {
+      "NOT_ADJACENT": "",
+      "NO_PASS": "",
+      "INITIAL_INSTRUCTIONS_PIE": "",
+      "ENCLOSURE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PIE_UNAVAILABLE": "",
+      "PIE": "",
+      "PARTIAL": ""
+    },
+    "croda": {
+      "INITIAL_INSTRUCTIONS": "",
+      "VALID_PARTIAL": "",
+      "INVALID_MOVE": ""
+    },
+    "dama": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "VALID_PARTIAL": ""
+    },
+    "clearpath": {
+      "OCCUPIED": "",
+      "VITAL": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_PASS": "",
+      "MUST_PASS": "",
+      "INVALIDCELL": ""
     }
   },
   "descriptions": {
@@ -3955,7 +4387,19 @@
     "y": "",
     "yavalath": "Сформуйте лінію з чотирьох або більше частин вашого кольору *не* створюючи спочатку лінію з трьох частин.",
     "yonmoque": "Спробуйте сформувати чотири в ряд у грі, де не всі місця рівні й протилежні фігури можна конвертувати.",
-    "zola": "Гра, в якій ваш рух обмежений відстанню від центру дошки. Захоплюючі ходи не повинні збільшувати цю відстань. Ходи без захоплення повинні збільшити цю відстань. Перемагає той, хто першим захопить усі протилежні фігури."
+    "zola": "Гра, в якій ваш рух обмежений відстанню від центру дошки. Захоплюючі ходи не повинні збільшувати цю відстань. Ходи без захоплення повинні збільшити цю відстань. Перемагає той, хто першим захопить усі протилежні фігури.",
+    "neutron": "",
+    "croda": "",
+    "killallgo": "",
+    "icepalace": "",
+    "squares": "",
+    "thricewise": "",
+    "agofmars": "",
+    "selfo": "",
+    "clearpath": "",
+    "dama": "",
+    "bashni": "",
+    "yodd": ""
   },
   "names": {
     "abande": "",
@@ -4241,7 +4685,19 @@
     "y": "",
     "yavalath": "",
     "yonmoque": "",
-    "zola": ""
+    "zola": "",
+    "thricewise": "",
+    "killallgo": "",
+    "agofmars": "",
+    "dama": "",
+    "croda": "",
+    "selfo": "",
+    "squares": "",
+    "icepalace": "",
+    "bashni": "",
+    "neutron": "",
+    "yodd": "",
+    "clearpath": ""
   },
   "notes": {
     "akimbo": "",
@@ -4336,7 +4792,20 @@
     "waldmeister": "Гравці грають дві гри послідовно. У першому раунді Гравець 1 грає за кольори, а Гравець 2 – за висоту. В кінці першого раунду підраховуються бали та виділяються групи очок. Потім у другому раунді Гравець 2 грає першим і грає за кольори, а Гравець 1 грає за висоту.",
     "witch": "Перший гравець не має жодних фігур і може видалити будь-яку фігуру (окрім корони) у свій перший хід. Другий гравець обирає свій колір у свій перший хід, після чого видалити фігури суперника вже неможливо.",
     "xana": "",
-    "y": ""
+    "y": "",
+    "clearpath": "",
+    "neutron": "",
+    "squares": "",
+    "icepalace": "",
+    "agofmars": "",
+    "bashni": "",
+    "selfo": "",
+    "yodd": "",
+    "gonnect": "",
+    "lielow": "",
+    "thricewise": "",
+    "killallgo": "",
+    "mirador": ""
   },
   "variants": {
     "_default": {
@@ -4482,6 +4951,10 @@
       "standard-14": {
         "description": "Збільшена версія стандартної плати.",
         "name": "Трикутник (шириною 14)"
+      },
+      "star-11": {
+        "name": "",
+        "description": ""
       }
     },
     "akimbo": {
@@ -4550,6 +5023,10 @@
       "scrambled": {
         "description": "Королеви змінюють колір навколо дошки.",
         "name": "Скремблований"
+      },
+      "noFirstShot": {
+        "description": "",
+        "name": ""
       }
     },
     "anache": {
@@ -4584,6 +5061,10 @@
       "free": {
         "name": "Безкоштовне розміщення (без рейтингу)",
         "description": "Дозволяє гравцям розміщувати скільки завгодно фігур, де завгодно, зокрема створюючи заборонені або іншим чином зламані позиції. Гравці повинні чітко повідомити себе перед початком гри. Ці ігри не можна оцінювати."
+      },
+      "dicey": {
+        "name": "",
+        "description": ""
       }
     },
     "armadas": {
@@ -4638,6 +5119,13 @@
       "woven": {
         "name": "Ткані",
         "description": "Вторгнення не законні."
+      },
+      "area": {
+        "name": "",
+        "description": ""
+      },
+      "board-23": {
+        "name": ""
       }
     },
     "assembly": {
@@ -4734,6 +5222,14 @@
       "malawi": {
         "description": "Будинок починається з 8 каменів замість 6.",
         "name": "Малаві"
+      },
+      "malawi-full": {
+        "description": "",
+        "name": ""
+      },
+      "#rules": {
+        "description": "",
+        "name": ""
       }
     },
     "basalt": {
@@ -4932,7 +5428,8 @@
     },
     "calculus": {
       "#board": {
-        "description": "Поперек приблизно 12 штук"
+        "description": "Поперек приблизно 12 штук",
+        "name": ""
       },
       "width-10": {
         "description": "Поперек приблизно 10 штук",
@@ -5288,6 +5785,45 @@
       "random-start": {
         "name": "",
         "description": ""
+      },
+      "#clouds": {
+        "name": ""
+      },
+      "turbulence": {
+        "name": "",
+        "description": ""
+      },
+      "unbounded-cloud-banks": {
+        "description": "",
+        "name": ""
+      },
+      "clumping-start": {
+        "name": "",
+        "description": ""
+      },
+      "clouds-22": {
+        "description": "",
+        "name": ""
+      },
+      "concealed-fire": {
+        "description": "",
+        "name": ""
+      },
+      "clouds-28": {
+        "name": "",
+        "description": ""
+      },
+      "asymmetric-random-start": {
+        "name": "",
+        "description": ""
+      },
+      "asymmetric-split-start": {
+        "description": "",
+        "name": ""
+      },
+      "split-start": {
+        "description": "",
+        "name": ""
       }
     },
     "crossway": {
@@ -5738,6 +6274,10 @@
       },
       "size-19": {
         "name": "Дошка 19х19"
+      },
+      "cascading": {
+        "name": "",
+        "description": ""
       }
     },
     "guerrilla": {
@@ -7600,6 +8140,10 @@
       "free-neutral": {
         "description": "У перший хід розмістіть нейтральну фігуру з 2 стопок і одну фігуру з 1 стопкою кольору кожного гравця.",
         "name": "Вільний нейтрал"
+      },
+      "fog": {
+        "name": "",
+        "description": ""
       }
     },
     "twinflames": {
@@ -7837,6 +8381,10 @@
       },
       "progressive": {
         "name": ""
+      },
+      "star": {
+        "description": "",
+        "name": ""
       }
     },
     "zola": {
@@ -7845,6 +8393,188 @@
       },
       "8x8": {
         "name": "Дошка 8x8"
+      }
+    },
+    "killallgo": {
+      "size-9": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "#opening": {
+        "name": "",
+        "description": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "hoctaph": {
+        "description": "",
+        "name": ""
+      },
+      "classic": {
+        "description": "",
+        "name": ""
+      },
+      "handicap": {
+        "name": "",
+        "description": ""
+      },
+      "pie": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "agofmars": {
+      "step-move": {
+        "name": "",
+        "description": ""
+      },
+      "biggest-group": {
+        "name": "",
+        "description": ""
+      },
+      "blind-agents": {
+        "name": "",
+        "description": ""
+      },
+      "group-size-scoring": {
+        "description": "",
+        "name": ""
+      },
+      "objective-initiative": {
+        "description": "",
+        "name": ""
+      },
+      "five-colour-plus3": {
+        "name": "",
+        "description": ""
+      },
+      "five-colour-minus2": {
+        "name": "",
+        "description": ""
+      },
+      "black-trio-swap": {
+        "description": "",
+        "name": ""
+      },
+      "#rules": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "neutron": {
+      "#board": {
+        "name": ""
+      },
+      "restricted": {
+        "description": "",
+        "name": ""
+      },
+      "5x7": {
+        "name": ""
+      },
+      "doubleRestricted": {
+        "name": "",
+        "description": ""
+      },
+      "#mobility": {
+        "name": ""
+      },
+      "coneutron": {
+        "description": "",
+        "name": ""
+      },
+      "7x7": {
+        "name": ""
+      },
+      "7x5": {
+        "name": ""
+      }
+    },
+    "pods": {
+      "board-6": {
+        "name": ""
+      },
+      "board-8": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "selfo": {
+      "r4f12": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "r5f20": {
+        "name": ""
+      },
+      "no-enclosure": {
+        "name": "",
+        "description": ""
+      },
+      "r2f5": {
+        "name": ""
+      }
+    },
+    "clearpath": {
+      "#board": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      }
+    },
+    "yodd": {
+      "square-14": {
+        "name": ""
+      },
+      "square-10": {
+        "name": ""
+      },
+      "yopp": {
+        "description": "",
+        "name": ""
+      },
+      "hex-9": {
+        "name": ""
+      },
+      "square-15": {
+        "name": ""
+      },
+      "hex-6": {
+        "name": ""
+      },
+      "hex-10": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "hex-7": {
+        "name": ""
+      },
+      "square-13": {
+        "name": ""
+      },
+      "square-9": {
+        "name": ""
+      }
+    },
+    "mirador": {
+      "#board": {
+        "name": ""
+      },
+      "size-40": {
+        "name": ""
       }
     }
   },
@@ -7869,6 +8599,10 @@
       "bricks": {
         "description": "Показати заблоковані квадрати як стіну з цегли.",
         "name": "Цеглини"
+      },
+      "#block": {
+        "description": "",
+        "name": ""
       }
     },
     "anache": {
@@ -7887,6 +8621,10 @@
       "swap-prison": {
         "description": "",
         "name": ""
+      },
+      "hide-territories": {
+        "name": "",
+        "description": ""
       }
     },
     "atoll": {
@@ -7905,6 +8643,9 @@
       "isometric": {
         "description": "Квазі-3D, ізометричний вигляд",
         "name": "Ізометричний"
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "blastradius": {
@@ -7940,6 +8681,9 @@
     "carnac": {
       "flat": {
         "description": "",
+        "name": ""
+      },
+      "#projection": {
         "name": ""
       }
     },
@@ -8015,11 +8759,17 @@
       "flat": {
         "description": "",
         "name": ""
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "elOso": {
       "nums": {
         "description": "",
+        "name": ""
+      },
+      "#stack": {
         "name": ""
       }
     },
@@ -8033,6 +8783,9 @@
       "flat": {
         "description": "",
         "name": ""
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "fourinarow": {
@@ -8045,6 +8798,9 @@
       "frog-pieces": {
         "description": "Використовуйте шматочки у формі жаби.",
         "name": "Шматочки жаби"
+      },
+      "#piece": {
+        "name": ""
       }
     },
     "gess": {
@@ -8133,6 +8889,9 @@
       "expanding": {
         "description": "Двовимірна дошка зі стопками, що розширюються при наведенні на неї курсора.",
         "name": "Розширюється"
+      },
+      "#stack": {
+        "name": ""
       }
     },
     "onyx": {
@@ -8284,6 +9043,9 @@
       "flat": {
         "description": "Плоский вигляд, який використовує затінення для позначення висоти.",
         "name": "Плоский вигляд"
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "toguz": {
@@ -8316,6 +9078,10 @@
       "hide-threatened": {
         "description": "Не показуйте несуїцидальні захоплення.",
         "name": "Сховатися погрожували"
+      },
+      "fog-unseen-clouds": {
+        "description": "",
+        "name": ""
       }
     },
     "twixt": {
@@ -8334,6 +9100,9 @@
       "expanding": {
         "description": "Двовимірна дошка зі стопками, що розширюються при наведенні на неї курсора.",
         "name": "Розширюється"
+      },
+      "#stack": {
+        "name": ""
       }
     },
     "zola": {
@@ -8344,6 +9113,33 @@
       "isometric-5": {
         "description": "Помітне піднесення: квазі-3D вигляд поля, де поля стають вищими, коли ви віддаляєтесь від центру.",
         "name": "Ізометрія: невелике підвищення"
+      },
+      "#projection": {
+        "name": ""
+      }
+    },
+    "icepalace": {
+      "perspective-areas": {
+        "name": "",
+        "description": ""
+      },
+      "#board": {
+        "name": "",
+        "description": ""
+      },
+      "perspective": {
+        "name": "",
+        "description": ""
+      },
+      "#areas": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "agofmars": {
+      "hide-bag-pool": {
+        "name": "",
+        "description": ""
       }
     }
   }

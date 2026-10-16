@@ -109,7 +109,7 @@ export class RincalaGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>move>sow", "mechanic>capture", "board>shape>circle", "board>connect>linear", "components>simple>4c"],
-        flags: ["no-moves", "custom-randomization", "scores", "random-start"]
+        flags: ["no-moves", "custom-randomization", "scores", "random-start", "shared-pieces"]
     };
 
     public static value(pc: Colour): number {

@@ -15,6 +15,7 @@ Hosting is S3 + CloudFront (same general pattern as [records.abstractplay.com](h
 npx tsx bin/mirror-rules.ts bgg-browser-login
 npx tsx bin/mirror-rules.ts bulk --dry-run
 npx tsx bin/mirror-rules.ts bulk --tier pdf
+npx tsx bin/mirror-rules.ts bulk --tier all --from-letter e
 npx tsx bin/mirror-rules.ts upload clearpath ./Clear_Path_rules.pdf
 npx tsx bin/mirror-rules.ts backlog stats
 ```
@@ -26,6 +27,8 @@ The login browser prefers **installed Google Chrome**, then **Edge**, then Playw
 **Bulk BGG file bytes** reuse the same profile in **headed** Chrome by default (**one browser window per game**, not per file). Cloudflare clearance from login usually does **not** apply to headless automation; only set `BGG_BROWSER_HEADLESS=1` if you have confirmed headless works in your environment. Debug a single file: `BGG_MIRROR_DEBUG=1 npx tsx bin/mirror-rules.ts bgg-download-test 292226` (saves `bin/bgg-mirror-debug-*.png` on failure).
 
 Incremental work queue: `bin/mirror-rules-backlog.json` (gitignored).
+
+**Resume a full bulk run:** Games are processed in **uid** order (a→z). `--from-letter e` skips uids that sort before `e` (e.g. after a crash in the `epam` stretch). Combine with `--force` only when re-uploading mirrors that already succeeded. Incompatible with `--uid` (single-game filter).
 
 New games: obtain a PDF and use `upload <uid> <file>`; canonical links stay in `gameinfo.urls`.
 

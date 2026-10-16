@@ -19,6 +19,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Fixed
 
+- **Rincala:** `shared-pieces` flag so seats are not treated as player-owned board colours (matches Four and fixes preferred-colour palette remap on the client).
 - **i18n (`apresults`):** `apresults-path-map.json` entry for `clearpath.EOG.cutoff` (path-map drift since Clearpath cutoff copy landed).
 
 ### Changed

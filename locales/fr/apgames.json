@@ -5009,6 +5009,12 @@
         "name": "Masquer les indicateurs de restriction"
       }
     },
+    "killallgo": {
+      "pass-alive-throughout": {
+        "name": "Marquer les pierres pass-alive tout au long de la partie",
+        "description": "Marquer les pierres inconditionnellement vivantes (pass-alive) à chaque position, et pas seulement une fois la partie terminée."
+      }
+    },
     "knightline": {
       "show-origin": {
         "description": "Marquer la position de la première pièce.",
@@ -6273,19 +6279,11 @@
       },
       "random-start": {
         "name": "Nuages aléatoires symétriques",
-        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages aléatoirement avec une symétrie de rotation de 180 degrés."
+        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages par paires présentant une symétrie de rotation à 180 degrés à l'écart du bord du plateau, en choisissant à chaque fois parmi les cases qui divisent le plus équitablement une ligne de tir ouverte. Un nuage au centre compte comme une paire, ce qui laisse le plateau avec un nuage en moins."
       },
       "asymmetric-random-start": {
         "name": "Nuages aléatoires asymétriques",
-        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages aléatoirement sans exiger de symétrie."
-      },
-      "split-start": {
-        "name": "Nuages aléatoires symétriques (nouveau)",
-        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages par paires symétriques à 180 degrés à l'écart du bord du plateau, en choisissant à chaque fois parmi les cases qui divisent une ligne de tir ouverte le plus équitablement possible. Un nuage au centre compte comme une paire, laissant le plateau avec un nuage en moins."
-      },
-      "asymmetric-split-start": {
-        "name": "Nuages aléatoires dissymétriques (nouveau)",
-        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages un par un à l'écart du bord du plateau, en choisissant à chaque fois parmi les cases qui divisent une ligne de tir ouverte le plus équitablement possible."
+        "description": "Il n'y a pas de phase de placement des nuages. Le système place les nuages un par un à l'écart du bord du plateau, en choisissant à chaque fois parmi les cases qui divisent le plus équitablement une ligne de tir ouverte."
       },
       "clumping-start": {
         "name": "Nuages aléatoires agglutinés",
@@ -7338,7 +7336,8 @@
         "name": "Au meilleur des 3"
       },
       "#scores": {
-        "name": "Scores par défaut"
+        "description": "Le vainqueur est le premier à marquer un point.",
+        "name": "Mort subite"
       }
     },
     "moonsquad": {

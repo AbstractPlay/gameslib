@@ -15,10 +15,12 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Yodd.
 
-## [1.0.0-ci] - 2026-10-16
+## [1.0.0-ci] - 2026-10-17
 
 ### Fixed
 
+- **Mixtour:** Best-of-three / best-of-five score variants are stored on `state.variants` so they persist across save and reload (legacy states with empty `variants` but non-default `target` are inferred on load).
+- **Rincala:** `shared-pieces` flag so seats are not treated as player-owned board colours (matches Four and fixes preferred-colour palette remap on the client).
 - **i18n (`apresults`):** `apresults-path-map.json` entry for `clearpath.EOG.cutoff` (path-map drift since Clearpath cutoff copy landed).
 
 ### Changed

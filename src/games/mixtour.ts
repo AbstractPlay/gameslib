@@ -24,7 +24,10 @@ export const gameApgamesEn = {
             description: "The winner is the first to score two points.",
             name: "Best of Three",
         },
-        "#scores": { name: "Default scores" }
+        "#scores": {
+            description: "The winner is the first to score a point.",
+            name: "Instant death"
+        }
     },
 };
 
@@ -101,6 +104,9 @@ export class MixtourGame extends GameBase {
     constructor(state?: IMixtourState | string, variants?: string[]) {
         super();
         if (state === undefined) {
+            if (variants !== undefined) {
+                this.variants = [...variants];
+            }
             const fresh: IMoveState = {
                 _version: MixtourGame.gameinfo.version,
                 _results: [],
@@ -111,10 +117,10 @@ export class MixtourGame extends GameBase {
                 target: 1,
                 scores: [0,0],
             };
-            if ( (variants !== undefined) && (variants.length === 1) ) {
-                if (variants[0] === "three") {
+            if (this.variants.length === 1) {
+                if (this.variants[0] === "three") {
                     fresh.target = 2;
-                } else if (variants[0] === "five") {
+                } else if (this.variants[0] === "five") {
                     fresh.target = 3;
                 }
             }
@@ -129,6 +135,14 @@ export class MixtourGame extends GameBase {
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.variants = state.variants;
+            if (this.variants.length === 0) {
+                const t = state.stack[0]?.target;
+                if (t === 2) {
+                    this.variants = ["three"];
+                } else if (t === 3) {
+                    this.variants = ["five"];
+                }
+            }
             this.stack = [...state.stack];
         }
         this.load();

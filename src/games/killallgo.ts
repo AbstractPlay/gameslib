@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import type { APRenderRep, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -6,7 +6,7 @@ import { algebraic2coords, coords2algebraic, reviver, UserFacingError } from "..
 import i18next from "i18next";
 import { gameApgamesUidKey } from "../common/game-apgames-t.js";
 
-/** Variant labels are resolved in {@link GameBase}; anchors for strict apgames key coverage. */
+/** Variant and display labels are resolved in {@link GameBase}; anchors for strict apgames key coverage. */
 void gameApgamesUidKey("killallgo", "variants", "size-9", "name");
 void gameApgamesUidKey("killallgo", "variants", "size-13", "name");
 void gameApgamesUidKey("killallgo", "variants", "#board", "name");
@@ -20,6 +20,8 @@ void gameApgamesUidKey("killallgo", "variants", "pie", "name");
 void gameApgamesUidKey("killallgo", "variants", "pie", "description");
 void gameApgamesUidKey("killallgo", "variants", "hoctaph", "name");
 void gameApgamesUidKey("killallgo", "variants", "hoctaph", "description");
+void gameApgamesUidKey("killallgo", "displays", "pass-alive-throughout", "name");
+void gameApgamesUidKey("killallgo", "displays", "pass-alive-throughout", "description");
 
 export const gameApgamesEn = {
     validation: {
@@ -95,6 +97,12 @@ export const gameApgamesEn = {
         hoctaph: {
             name: "Generalized Hoctaph's pie",
             description: "Player 1 chooses two batch sizes, and Player 2 decides who places the first batch. The player who did not place that batch then chooses a side, and the Attacker places the second batch. Hoctaph's pie (OGS forums), generalized to every board size by Samraku.",
+        },
+    },
+    displays: {
+        "pass-alive-throughout": {
+            name: "Mark pass-alive stones throughout the game",
+            description: "Mark unconditionally alive (pass-alive) stones in every position, not only once the game has ended.",
         },
     },
     buttons: {
@@ -633,6 +641,7 @@ export class KillAllGoGame extends GameBase {
         ],
         categories: ["goal>cripple", "goal>arrange", "mechanic>place", "mechanic>capture", "mechanic>enclose", "mechanic>asymmetry", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "custom-colours", "custom-buttons"],
+        displays: [{ uid: "pass-alive-throughout" }],
         customizations: [
             {
                 num: 1,
@@ -832,8 +841,9 @@ export class KillAllGoGame extends GameBase {
         return { board: copy, sig };
     }
 
-    private bluePassAlive(): string[][] {
-        return passAliveStrings(this.board, this.geo, BLUE, { suicideAllowed: true });
+    /** The pass-alive chains of `colour` on the current board, under the game's Tromp-Taylor rules. */
+    private passAlive(colour: Stone): string[][] {
+        return passAliveStrings(this.board, this.geo, colour, { suicideAllowed: true });
     }
 
     /**
@@ -1679,12 +1689,12 @@ export class KillAllGoGame extends GameBase {
         if (this.gameover || this.phase !== "play") {
             return;
         }
-        const alive = this.bluePassAlive();
+        const alive = this.passAlive(BLUE);
         if (alive.length > 0) {
             this.endGame(this.blueSeat()!, "pass-alive", alive.flat());
             return;
         }
-        const permanent = passAliveStrings(this.board, this.geo, RED, { suicideAllowed: true }).flat();
+        const permanent = this.passAlive(RED).flat();
         if (!roomForTwoEyes(this.geo, new Set(permanent))) {
             this.endGame(this.redSeat!, "no-room", permanent);
         }
@@ -1782,12 +1792,33 @@ export class KillAllGoGame extends GameBase {
         return { overlay, chosen };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
         const legend: ILegend = {
             A: [{ name: "piece", colour: 1 }],
             B: [{ name: "piece", colour: 2 }],
         };
         const { overlay, chosen } = this.pickerOverlay(legend);
+
+        // Pass-alive stones are faded in the position that ended the game, or throughout on request.
+        // The final position is recognised by its own `eog` result: `gameover` is game-wide, and
+        // `load()` can render any earlier position of a finished game, while `alive` is unset when
+        // the game ends by stalemate and the stones should fade at any end.
+        const faded = new Map<string, string>();
+        if (this.results.some((r) => r.type === "eog") || this.hasDisplay(opts, "pass-alive-throughout")) {
+            for (const [colour, key, player] of [[RED, "C", 1], [BLUE, "D", 2]] as const) {
+                const cells = this.passAlive(colour).flat();
+                if (cells.length > 0) {
+                    legend[key] = [{ name: "piece", colour: player, opacity: 0.75 }];
+                    for (const cell of cells) {
+                        faded.set(cell, key);
+                    }
+                }
+            }
+        }
+        const stoneKey = (cell: string): string => {
+            const contents = this.board.get(cell);
+            return faded.get(cell) ?? (contents === RED ? "A" : contents === BLUE ? "B" : "-");
+        };
 
         let pstr = "";
         if (overlay.size > 0) {
@@ -1797,8 +1828,7 @@ export class KillAllGoGame extends GameBase {
                 const cells: string[] = [];
                 for (let col = 0; col < this.boardSize; col++) {
                     const cell = this.coords2algebraic(col, row);
-                    const contents = this.board.get(cell);
-                    cells.push(overlay.get(cell) ?? (contents === RED ? "A" : contents === BLUE ? "B" : "-"));
+                    cells.push(overlay.get(cell) ?? stoneKey(cell));
                 }
                 rows.push(cells.every((c) => c === "-") ? "_" : cells.join(","));
             }
@@ -1809,15 +1839,7 @@ export class KillAllGoGame extends GameBase {
                     pstr += "\n";
                 }
                 for (let col = 0; col < this.boardSize; col++) {
-                    const cell = this.coords2algebraic(col, row);
-                    const contents = this.board.get(cell);
-                    if (contents === RED) {
-                        pstr += "A";
-                    } else if (contents === BLUE) {
-                        pstr += "B";
-                    } else {
-                        pstr += "-";
-                    }
+                    pstr += stoneKey(this.coords2algebraic(col, row));
                 }
             }
             pstr = pstr.replace(new RegExp(`-{${this.boardSize}}`, "g"), "_");
@@ -1845,9 +1867,6 @@ export class KillAllGoGame extends GameBase {
                 const targets = r.where!.split(",").map(toRowCol);
                 annotations.push({ type: "exit", targets: targets as [RowCol, ...RowCol[]] });
             }
-        }
-        if (this.gameover && this.alive !== undefined && this.alive.length > 0) {
-            annotations.push({ type: "enter", targets: this.alive.map(toRowCol) as [RowCol, ...RowCol[]] });
         }
         for (const cell of chosen) {
             annotations.push({ type: "enter", targets: [toRowCol(cell)] });

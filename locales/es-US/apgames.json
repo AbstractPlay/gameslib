@@ -5009,6 +5009,12 @@
         "name": "Ocultar indicadores de restricción"
       }
     },
+    "killallgo": {
+      "pass-alive-throughout": {
+        "name": "Marcar piedras pass-alive durante toda la partida",
+        "description": "Marcar las piedras incondicionalmente vivas (pass-alive) en todas las posiciones, no solo cuando la partida haya terminado."
+      }
+    },
     "knightline": {
       "show-origin": {
         "description": "Marcar la posición de la primera pieza.",
@@ -6273,19 +6279,11 @@
       },
       "random-start": {
         "name": "Nubes aleatorias simétricas",
-        "description": "No hay fase de colocación de nubes. El sistema coloca las nubes al azar con simetría rotacional de 180 grados."
+        "description": "No hay fase de colocación de nubes. El sistema coloca las nubes en pares con simetría rotacional de 180 grados lejos del borde del tablero, eligiendo cada vez entre las casillas que dividan de la manera más equitativa una línea de fuego abierta. Una nube en el centro cuenta como un par, por lo que el tablero tendrá una nube menos."
       },
       "asymmetric-random-start": {
         "name": "Nubes aleatorias asimétricas",
-        "description": "No hay fase de colocación de nubes. El sistema coloca las nubes al azar sin requerir simetría."
-      },
-      "split-start": {
-        "name": "Nubes aleatorias simétricas (nuevo)",
-        "description": "No hay fase de colocación de nubes. El sistema coloca nubes en pares simétricos con rotación de 180 grados lejos del borde del tablero, eligiendo cada vez entre las casillas que dividen de la forma más uniforme una línea de fuego abierta. Una nube en el centro cuenta como un par, dejando al tablero con una nube menos."
-      },
-      "asymmetric-split-start": {
-        "name": "Nubes aleatorias asimétricas (nuevo)",
-        "description": "No hay fase de colocación de nubes. El sistema coloca nubes de una en una lejos del borde del tablero, eligiendo cada vez entre las casillas que dividen de la forma más uniforme una línea de fuego abierta."
+        "description": "No hay fase de colocación de nubes. El sistema coloca las nubes una a una lejos del borde del tablero, eligiendo cada vez entre las casillas que dividan de la manera más equitativa una línea de fuego abierta."
       },
       "clumping-start": {
         "name": "Nubes aleatorias agrupadas",
@@ -7338,7 +7336,8 @@
         "name": "Al mejor de tres"
       },
       "#scores": {
-        "name": "Puntuación predeterminada"
+        "description": "El ganador es el primero en anotar un punto.",
+        "name": "Muerte instantánea"
       }
     },
     "moonsquad": {

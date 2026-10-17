@@ -17,15 +17,527 @@
       "lr": "Terang, Kanan",
       "dl": "Gelap, Kiri",
       "dr": "Gelap, Kanan"
-    }
+    },
+    "pigs": {
+      "hit": "",
+      "right": "",
+      "left": "",
+      "fire": "",
+      "ccw": "",
+      "cw": "",
+      "forward": "",
+      "back": ""
+    },
+    "carnac": {
+      "tip_n": "",
+      "tip_s": "",
+      "tip_e": "",
+      "tip_w": ""
+    },
+    "numbers": {
+      "one": "",
+      "three": "",
+      "two": ""
+    },
+    "squares": {
+      "option3": "",
+      "retreatReserve": "",
+      "option1": "",
+      "loseA": "",
+      "stay": "",
+      "stand": "",
+      "loseC": "",
+      "option2": "",
+      "option5": "",
+      "option4": "",
+      "advance": "",
+      "retreat": "",
+      "loseI": ""
+    },
+    "arimaa": {
+      "silver99e7": "",
+      "silver99d7": "",
+      "gold99": ""
+    },
+    "evenatodds": {
+      "odds": "",
+      "evens": ""
+    },
+    "killallgo": {
+      "defender": "",
+      "youplace": "",
+      "attacker": ""
+    },
+    "agofmars": {
+      "noObjSwap": "",
+      "draw": "",
+      "objSwap": "",
+      "move": "",
+      "swap": ""
+    },
+    "roll1": "",
+    "roll2": ""
   },
   "categories": {
     "board": {
       "full": "Papan",
-      "tag": "Papan"
+      "tag": "Papan",
+      "description": ""
     },
     "mechanic": {
-      "full": "Mekanik"
+      "full": "Mekanik",
+      "description": "",
+      "tag": ""
+    },
+    "mechanic>move>sow": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "components>decktet": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "board>dynamic": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "board>shape": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "goal>breakthrough": {
+      "full": "",
+      "description": "",
+      "tag": ""
+    },
+    "components>chess": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "goal>score>eog": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "mechanic>bearoff": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "mechanic>displace": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "goal>score": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "components>simple>5c": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "components>special": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "goal>royal-capture": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "board>3d": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "mechanic>enclose": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "components>simple>1c": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "mechanic>set": {
+      "full": "",
+      "description": "",
+      "tag": ""
+    },
+    "goal>isolate": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "mechanic>convert": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "mechanic>share": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "board>shape>oct": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "board>connect>other": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "components>simple>2per": {
+      "full": "",
+      "description": "",
+      "tag": ""
+    },
+    "mechanic>merge": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "mechanic>move": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "board>connect>snub": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "board>none": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "board>shape>pent": {
+      "full": "",
+      "description": "",
+      "tag": ""
+    },
+    "components>piecepack": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "goal>unify": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "components>poly": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "family>draughts": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "goal>arrange": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "mechanic>coopt": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "mechanic>asymmetry": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "board>connect>pent": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "goal>score>race": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "board>shape>other": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "goal>vigil": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "components>simple>1per": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "components>simple>3c": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "goal>annihilate": {
+      "full": "",
+      "description": "",
+      "tag": ""
+    },
+    "mechanic>vigil": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "board>connect": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "components>dice": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "components>simple>4c": {
+      "full": "",
+      "description": "",
+      "tag": ""
+    },
+    "components>simple>2c": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "goal>immobilize": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "mechanic>economy": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "components>dominoes": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "mechanic>hidden": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "board>connect>rect": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "family>tafl": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "board>other": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "mechanic>move>group": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "goal>cripple": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "mechanic>capture": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "goal>royal-escape": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "board>shape>tri": {
+      "full": "",
+      "description": "",
+      "tag": ""
+    },
+    "goal>evacuate": {
+      "full": "",
+      "description": "",
+      "tag": ""
+    },
+    "board>shape>hex": {
+      "full": "",
+      "description": "",
+      "tag": ""
+    },
+    "mechanic>network": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "other>2+players": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "mechanic>random": {
+      "full": "",
+      "description": "",
+      "tag": ""
+    },
+    "goal>majority": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "mechanic>stack": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "mechanic>differentiate": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "components>pyramids": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "components>shibumi": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "other>traditional": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "components>simple>7c": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "components>simple": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "mechanic>place": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "goal>area": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "board>connect>linear": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "board>connect>hex": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "family": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "family>mancala": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "board>mancala": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "mechanic>block": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "mechanic>simultaneous": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "goal>set": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "board>shape>rect": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "mechanic>random>setup": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "goal>connect": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "board>shape>circle": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "family>gomoku": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "mechanic>random>play": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "components>simple>pnp": {
+      "tag": "",
+      "full": "",
+      "description": ""
+    },
+    "mechanic>program": {
+      "description": "",
+      "tag": "",
+      "full": ""
     }
   },
   "status": {
@@ -54,10 +566,13 @@
       "TERRITORY": ""
     },
     "arimaa": {
-      "HARLOG": ""
+      "HARLOG": "",
+      "ROLL_TOTAL": "",
+      "ROLL_MEAN": ""
     },
     "asli": {
-      "TERRITORY": ""
+      "TERRITORY": "",
+      "AREA": ""
     },
     "baghchal": {
       "GOATS_IN_HAND": "",
@@ -148,6 +663,68 @@
       "COLOUR": "",
       "GOALS": "",
       "HEIGHT": ""
+    },
+    "squares": {
+      "STAGE_ADVANCE": "",
+      "STAGE_SECOND": "",
+      "LOSSES": "",
+      "SINGLE": "",
+      "STAGE_RESOLVE": "",
+      "DOUBLE_one": "",
+      "DOUBLE_other": "",
+      "POINTS": "",
+      "STAGE_LOSE": "",
+      "STAGE_DEFEND": "",
+      "TURN": "",
+      "COMBAT": ""
+    },
+    "crosshairs": {
+      "PLANES": "",
+      "TOTAL_ALTITUDE": ""
+    },
+    "agofmars": {
+      "setupPool": "",
+      "bagCount": "",
+      "bagPool": ""
+    },
+    "bashni": {
+      "MATERIAL": "",
+      "STEPS": ""
+    },
+    "icepalace": {
+      "POOL": "",
+      "PLACED": ""
+    },
+    "mvolcano": {
+      "UNCAPTUREDCOLOURS": "",
+      "PYRAMIDSCAPTURED": ""
+    },
+    "killallgo": {
+      "PHASE_PIE_SLICE": "",
+      "PHASE_PIE_CHOOSE": "",
+      "PHASE_HOC_CHOOSE": "",
+      "HANDICAP": "",
+      "PHASE_HAND_N": "",
+      "PHASE_HOC_BATCH_A": "",
+      "PHASE_HOC_SLICE": "",
+      "ATTACKER": "",
+      "DEFENDER": "",
+      "PHASE_ALT_PLACE": "",
+      "PHASE_HOC_BATCH_B": "",
+      "UNDECIDED": "",
+      "PHASE_HOC_OPTION": "",
+      "BATCHES_VALUE": "",
+      "BATCHES": ""
+    },
+    "tintas": {
+      "MAJORITIES": "",
+      "MONOCHROME": ""
+    },
+    "mimic": {
+      "UNFROZEN_PIECES": ""
+    },
+    "lielow": {
+      "MOVESUNTILSUICIDE": ""
     }
   },
   "validation": {
@@ -309,7 +886,8 @@
       "INITIAL_INSTRUCTIONS": "",
       "POTENTIAL_BLOCK": "",
       "POTENTIAL_MOVE": "",
-      "STRAIGHTLINE": ""
+      "STRAIGHTLINE": "",
+      "NO_FIRST_SHOT": ""
     },
     "amoeba": {
       "BAD_DISTANCE": "",
@@ -380,7 +958,21 @@
       "WARN_BALANCE": "",
       "WARN_FILE": "",
       "WARN_HIDE": "",
-      "WARNINGS": ""
+      "WARNINGS": "",
+      "TOO_LONG": "",
+      "NO_MOVE_CHAIN": "",
+      "INFERRED": "",
+      "NO_MOVE_ENEMY": "",
+      "PARSE": "",
+      "AMBIGUOUS": "",
+      "INCOMPLETE": "",
+      "NO_MOVE": "",
+      "DIE_one": "",
+      "NO_MOVE_FROZEN": "",
+      "NO_MOVE_TOGETHER": "",
+      "DIE_other": "",
+      "NO_MOVE_REACH": "",
+      "PARTIAL_RABBITS": ""
     },
     "armadas": {
       "BAD_PASS": "",
@@ -430,7 +1022,12 @@
       "MUST_PIE": "",
       "NEGATIVE_KOMI": "",
       "SUICIDE": "",
-      "WOVEN_INCURSION": ""
+      "WOVEN_INCURSION": "",
+      "INITIAL_INSTRUCTIONS_komi_area": "",
+      "BAD_KOMI_area": "",
+      "NO_CHANGE": "",
+      "INITIAL_INSTRUCTIONS_area": "",
+      "BAD_INCURSION_pass": ""
     },
     "assembly": {
       "BAD_MOVE": "",
@@ -508,7 +1105,11 @@
       "NO_BACK_ROW_mtaji": "",
       "NO_BACK_ROW_namua": "",
       "PLAY_HOUSE": "",
-      "TWO_PLUS": ""
+      "TWO_PLUS": "",
+      "NO_KUTAKATA_WHILE_CAPTURE": "",
+      "WRONG_CAPTURE": "",
+      "KUTAKATA_ONLY": "",
+      "MUST_CAPTURE": ""
     },
     "basalt": {
       "BAD_MOVE": "",
@@ -629,7 +1230,13 @@
     },
     "bridges": {
       "INITIAL_INSTRUCTIONS_FIRST_TURN": "",
-      "INITIAL_INSTRUCTIONS": ""
+      "INITIAL_INSTRUCTIONS": "",
+      "ONE_MORE": "",
+      "NO_LINE_OF_SIGHT_other": "",
+      "SELECT_BRIDGE_END": "",
+      "BASE_HAS_BRIDGE_one": "",
+      "BASE_HAS_BRIDGE_other": "",
+      "NO_LINE_OF_SIGHT_one": ""
     },
     "btt": {
       "BAD_NULL": "",
@@ -997,7 +1604,9 @@
       "NEED_MORE_PLANES_NO_ENTRY_other": "",
       "INVALID_ENTRY_POSITION": "",
       "CAN_SHOOT": "",
-      "MOVE_COMPLETE_CAN_SHOOT": ""
+      "MOVE_COMPLETE_CAN_SHOOT": "",
+      "MUST_PASS_BEFORE_ENTRY": "",
+      "PLACE_CLOUD_UNBOUNDED": ""
     },
     "crossway": {
       "BAD_PASS": "",
@@ -1181,7 +1790,8 @@
       "MUST_CHOOSE_SIDE": "",
       "NOT_IN_HAND": "",
       "NEEDS_ANCHOR_PIP": "",
-      "PARTIAL": ""
+      "PARTIAL": "",
+      "MUST_COVER_TWO_DOMINOES": ""
     },
     "exxit": {
       "INITIAL_INSTRUCTIONS_build": "",
@@ -1420,7 +2030,8 @@
     "gonnect": {
       "INITIAL_INSTRUCTIONS": "",
       "KO": "",
-      "SELF_CAPTURE": ""
+      "SELF_CAPTURE": "",
+      "INVALID_PASS": ""
     },
     "gorogo": {
       "INITIAL_INSTRUCTIONS_play": "",
@@ -2391,7 +3002,8 @@
       "WRONG_REALM_capBase": "",
       "WRONG_REALM_createBase": "",
       "WRONG_REALM_createEnforcer": "",
-      "WRONG_REALM_rearrange": ""
+      "WRONG_REALM_rearrange": "",
+      "REARRANGE_THREE": ""
     },
     "renju": {
       "INITIAL_INSTRUCTIONS_RIF1": "",
@@ -3245,6 +3857,251 @@
       "MUST_MOVE": "",
       "NONCAPTURES_KINGS": "",
       "PARTIAL": ""
+    },
+    "killallgo": {
+      "SLICE_MIN": "",
+      "SLICE_A_ONLY_other": "",
+      "SLICE_A_ONLY_one": "",
+      "SLICE_RATIO": "",
+      "BATCH_MORE_OR_SUBMIT": "",
+      "INSTRUCTIONS_ALT_HANDICAP_other": "",
+      "ATTACKER_NO_STONES": "",
+      "INSTRUCTIONS_HOC_CHOOSE_one": "",
+      "INVALID_PASS": "",
+      "SLICE_B_ONLY_one": "",
+      "INSTRUCTIONS_PLAY_DEFENDER": "",
+      "INSTRUCTIONS_PIE_CHOOSE": "",
+      "INSTRUCTIONS_HOC_BATCH_one": "",
+      "NOT_A_NUMBERED_STONE": "",
+      "PIE_SLICE_MAX": "",
+      "INSTRUCTIONS_HOC_OPTION_other": "",
+      "INSTRUCTIONS_PIE_DEFENDER_STONE": "",
+      "SETUP_FULL": "",
+      "HANDICAP_OK_other": "",
+      "INSTRUCTIONS_PLAY_ATTACKER": "",
+      "SLICE_FORMAT": "",
+      "SLICE_OK": "",
+      "KO_PSK": "",
+      "INSTRUCTIONS_ALT": "",
+      "INSTRUCTIONS_HOC_BATCH_other": "",
+      "SLICE_B_ONLY_other": "",
+      "INSTRUCTIONS_ALT_HANDICAP_one": "",
+      "HANDICAP_OK_one": "",
+      "INSTRUCTIONS_PIE_SLICE": "",
+      "HANDICAP_RANGE": "",
+      "BATCH_TOO_MANY_one": "",
+      "STONES_LEFT_other": "",
+      "SLICE_SUM": "",
+      "INSTRUCTIONS_HOC_CHOOSE_other": "",
+      "DUPLICATE_CELL": "",
+      "INSTRUCTIONS_HANDICAP": "",
+      "INSTRUCTIONS_HOC_SLICE": "",
+      "INSTRUCTIONS_HOC_OPTION_one": "",
+      "STONES_LEFT_one": "",
+      "HANDICAP_INVALID": "",
+      "BATCH_TOO_MANY_other": "",
+      "DEFENDER_NO_STONES": ""
+    },
+    "squares": {
+      "NO_TARGET": "",
+      "WRONG_TYPE": "",
+      "OPTION_5": "",
+      "RETREAT_FOREST_GUNS": "",
+      "INITIAL_SECOND": "",
+      "SUPPORT_SELF": "",
+      "INITIAL_ADVANCE": "",
+      "OPTION_1": "",
+      "RETREAT_FOREST_FROM_CLEAR": "",
+      "SUPPORT_NOT_ADJACENT": "",
+      "OPTION_4": "",
+      "PLY_OPTION": "",
+      "ARTILLERY_TARGET": "",
+      "STAND_CAVALRY": "",
+      "ATTACK_FROM_RESERVE": "",
+      "ILLEGAL_MOVE": "",
+      "ILLEGAL_RESPONSE": "",
+      "RETREAT_FOREST_DISPLACED": "",
+      "INITIAL_RESOLVE": "",
+      "STAND_FLANK": "",
+      "DECISION_EXTRA": "",
+      "INITIAL_LOSE": "",
+      "OWN_RESERVE": "",
+      "PINNED": "",
+      "PARTIAL_UNIT": "",
+      "RETREAT_CHAIN_BLOCKED": "",
+      "PLY_COMPLETE": "",
+      "TWO_STEPS_CAVALRY": "",
+      "PARTIAL_CAVALRY": "",
+      "THROUGH_ENEMY_RESERVE": "",
+      "OPTION_3": "",
+      "RETREAT_VACANT_FIRST": "",
+      "NO_SUCH_UNIT": "",
+      "RETREAT_ENEMY_RESERVE": "",
+      "PARTIAL_SUPPORT": "",
+      "PLY_STAYED": "",
+      "TOO_FAR": "",
+      "FROZEN": "",
+      "RESERVE_EMPTY": "",
+      "CAVALRY_NO_SUPPORT": "",
+      "EXHAUSTED": "",
+      "DECISION_EARLY": "",
+      "PLY_AGAIN": "",
+      "NOT_ADJACENT": "",
+      "CHOOSE_LOSS": "",
+      "DECIDE_ELIMINATED": "",
+      "RESERVE_OCCUPIED": "",
+      "TWO_CAVALRY_ONE_STEP": "",
+      "RETREAT_NOT_ADJACENT": "",
+      "MOVE_LIMIT": "",
+      "ATTACK_LIMIT": "",
+      "NOT_CONNECTED": "",
+      "CHAIN_CONTINUE": "",
+      "SUPPORT_FROM_RESERVE": "",
+      "PLY_ADVANCED": "",
+      "OPTION_UNAVAILABLE": "",
+      "RETREAT_NOT_CLOSER": "",
+      "RETREAT_ARTILLERY": "",
+      "INITIAL_ACTION_double": "",
+      "RETREAT_TO_RESERVE_ONLY": "",
+      "RETREAT_ENEMY_OCCUPIED": "",
+      "PATH_BLOCKED": "",
+      "FOREST_DOUBLE": "",
+      "FOREST_TWO_STEPS": "",
+      "PLY_CHOOSE_ADVANCE": "",
+      "CHOOSE_RETREAT": "",
+      "INITIAL_ACTION_single": "",
+      "RETREAT_NO_PATH": "",
+      "PLY_CHOOSE_OPTION": "",
+      "RETREAT_FOREST_ADJACENT": "",
+      "NO_PASS_DOUBLE": "",
+      "TWO_CAVALRY_ONLY": "",
+      "CAVALRY_NEEDS_SUPPORT": "",
+      "DIAGONAL_DOUBLE": "",
+      "TWO_CAVALRY_SAME": "",
+      "INITIAL_DEFEND": "",
+      "OPTION_2": ""
+    },
+    "thricewise": {
+      "NOT_YOUR_TURN": "",
+      "NOT_ADJACENT": "",
+      "BAD_CARD": "",
+      "GRID_CAP": "",
+      "VALID_PARTIAL_MORE": "",
+      "LABEL_DECK": "",
+      "INITIAL_INSTRUCTIONS_select": "",
+      "VALID_PARTIAL_CELL": "",
+      "LABEL_HAND": "",
+      "STATUS_place": "",
+      "SELECT_HAND": "",
+      "DUPLICATE_CARD": "",
+      "INITIAL_INSTRUCTIONS_place": "",
+      "BAD_PASS": "",
+      "STATUS_select": ""
+    },
+    "yodd": {
+      "INITIAL_INSTRUCTIONS_yopp": "",
+      "INSTRUCTIONS": "",
+      "INVALID_PASS": "",
+      "INVALID_PASS_PARTIAL": "",
+      "ODD_GROUPS_REQUIRED": "",
+      "INSTRUCTIONS_yopp": "",
+      "TOO_MANY_MOVES_START": "",
+      "TOO_MANY_MOVES": "",
+      "NO_PASS_OPENING": "",
+      "OWN_COLOUR_ONLY": "",
+      "VALID_MOVE": "",
+      "INSTRUCTIONS_ODD": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "icepalace": {
+      "ILLEGAL_PALACE": "",
+      "ILLEGAL_YARD": "",
+      "POOL_CLICK": "",
+      "INITIAL_BUILD": "",
+      "BUILD_ENOUGH": "",
+      "PARTIAL_PIECE": "",
+      "LEAD_CANNOT_PASS": "",
+      "MUST_BUILD": "",
+      "BUILD_MORE": "",
+      "NOT_IN_STOCK": "",
+      "BUILD_COMPLETE": "",
+      "INITIAL_HAND": "",
+      "NOT_IN_HAND": "",
+      "BAD_PLACEMENT": "",
+      "OFF_STRUCTURE": ""
+    },
+    "agofmars": {
+      "SWAP": "",
+      "SETUP_PERM": "",
+      "TURN_START": "",
+      "OBJ_SWAP_SELECT": "",
+      "PLACE_DRAWN": "",
+      "NO_PIECES_TO_MOVE": "",
+      "MOVE_SELECT_PIECE": "",
+      "MOVE_DEST_OCCUPIED": "",
+      "INITIAL_INSTRUCTIONS_setup1": "",
+      "NO_PIECES_TO_SWAP": "",
+      "SWAP_SELECT_PIECE": "",
+      "INITIAL_INSTRUCTIONS_setup2": "",
+      "SWAP_SELECT_SECOND": "",
+      "MAIN_ACTION_MODE_swap": "",
+      "PLACE": "",
+      "OBJ_SWAP_SELECT_SECOND": "",
+      "MAIN_ACTION_MODE_move": "",
+      "SETUP_INCOMPLETE": "",
+      "MOVE": "",
+      "SWAP_BLACK": "",
+      "MOVE_SELECT_DEST": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MOVE_BLACK": "",
+      "EMPTY_BAG": "",
+      "KO": "",
+      "SETUP_PARTIAL": "",
+      "OBJ_SWAP": "",
+      "INITIAL_INSTRUCTIONS_play": "",
+      "MAIN_ACTION_CHOICE": ""
+    },
+    "neutron": {
+      "PAWN_SELECT": "",
+      "INVALID_NEUTRON": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PAWN_DEST": "",
+      "INCOMPLETE": "",
+      "NEUTRON_FIRST": "",
+      "SELECT_OWN_PAWN": ""
+    },
+    "bashni": {
+      "INVALID_MOVE": "",
+      "VALID_PARTIAL": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "selfo": {
+      "NOT_ADJACENT": "",
+      "NO_PASS": "",
+      "INITIAL_INSTRUCTIONS_PIE": "",
+      "ENCLOSURE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PIE_UNAVAILABLE": "",
+      "PIE": "",
+      "PARTIAL": ""
+    },
+    "croda": {
+      "INITIAL_INSTRUCTIONS": "",
+      "VALID_PARTIAL": "",
+      "INVALID_MOVE": ""
+    },
+    "dama": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "VALID_PARTIAL": ""
+    },
+    "clearpath": {
+      "OCCUPIED": "",
+      "VITAL": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "NO_PASS": "",
+      "MUST_PASS": "",
+      "INVALIDCELL": ""
     }
   },
   "descriptions": {
@@ -3530,7 +4387,19 @@
     "y": "",
     "yavalath": "",
     "yonmoque": "",
-    "zola": ""
+    "zola": "",
+    "neutron": "",
+    "croda": "",
+    "killallgo": "",
+    "icepalace": "",
+    "squares": "",
+    "thricewise": "",
+    "agofmars": "",
+    "selfo": "",
+    "clearpath": "",
+    "dama": "",
+    "bashni": "",
+    "yodd": ""
   },
   "names": {
     "abande": "",
@@ -3816,7 +4685,19 @@
     "y": "",
     "yavalath": "",
     "yonmoque": "",
-    "zola": ""
+    "zola": "",
+    "thricewise": "",
+    "killallgo": "",
+    "agofmars": "",
+    "dama": "",
+    "croda": "",
+    "selfo": "",
+    "squares": "",
+    "icepalace": "",
+    "bashni": "",
+    "neutron": "",
+    "yodd": "",
+    "clearpath": ""
   },
   "notes": {
     "akimbo": "",
@@ -3911,7 +4792,20 @@
     "waldmeister": "",
     "witch": "",
     "xana": "",
-    "y": ""
+    "y": "",
+    "clearpath": "",
+    "neutron": "",
+    "squares": "",
+    "icepalace": "",
+    "agofmars": "",
+    "bashni": "",
+    "selfo": "",
+    "yodd": "",
+    "gonnect": "",
+    "lielow": "",
+    "thricewise": "",
+    "killallgo": "",
+    "mirador": ""
   },
   "variants": {
     "_default": {
@@ -4057,6 +4951,10 @@
       "standard-14": {
         "description": "",
         "name": ""
+      },
+      "star-11": {
+        "name": "",
+        "description": ""
       }
     },
     "akimbo": {
@@ -4125,6 +5023,10 @@
       "scrambled": {
         "description": "",
         "name": ""
+      },
+      "noFirstShot": {
+        "description": "",
+        "name": ""
       }
     },
     "anache": {
@@ -4157,6 +5059,10 @@
         "description": ""
       },
       "free": {
+        "name": "",
+        "description": ""
+      },
+      "dicey": {
         "name": "",
         "description": ""
       }
@@ -4213,6 +5119,13 @@
       "woven": {
         "name": "",
         "description": ""
+      },
+      "area": {
+        "name": "",
+        "description": ""
+      },
+      "board-23": {
+        "name": ""
       }
     },
     "assembly": {
@@ -4307,6 +5220,14 @@
         "name": ""
       },
       "malawi": {
+        "description": "",
+        "name": ""
+      },
+      "malawi-full": {
+        "description": "",
+        "name": ""
+      },
+      "#rules": {
         "description": "",
         "name": ""
       }
@@ -4507,7 +5428,8 @@
     },
     "calculus": {
       "#board": {
-        "description": ""
+        "description": "",
+        "name": ""
       },
       "width-10": {
         "description": "",
@@ -4863,6 +5785,45 @@
       "random-start": {
         "name": "",
         "description": ""
+      },
+      "#clouds": {
+        "name": ""
+      },
+      "turbulence": {
+        "name": "",
+        "description": ""
+      },
+      "unbounded-cloud-banks": {
+        "description": "",
+        "name": ""
+      },
+      "clumping-start": {
+        "name": "",
+        "description": ""
+      },
+      "clouds-22": {
+        "description": "",
+        "name": ""
+      },
+      "concealed-fire": {
+        "description": "",
+        "name": ""
+      },
+      "clouds-28": {
+        "name": "",
+        "description": ""
+      },
+      "asymmetric-random-start": {
+        "name": "",
+        "description": ""
+      },
+      "asymmetric-split-start": {
+        "description": "",
+        "name": ""
+      },
+      "split-start": {
+        "description": "",
+        "name": ""
       }
     },
     "crossway": {
@@ -5313,6 +6274,10 @@
       },
       "size-19": {
         "name": ""
+      },
+      "cascading": {
+        "name": "",
+        "description": ""
       }
     },
     "guerrilla": {
@@ -7175,6 +8140,10 @@
       "free-neutral": {
         "description": "",
         "name": ""
+      },
+      "fog": {
+        "name": "",
+        "description": ""
       }
     },
     "twinflames": {
@@ -7412,6 +8381,10 @@
       },
       "progressive": {
         "name": ""
+      },
+      "star": {
+        "description": "",
+        "name": ""
       }
     },
     "zola": {
@@ -7419,6 +8392,188 @@
         "name": ""
       },
       "8x8": {
+        "name": ""
+      }
+    },
+    "killallgo": {
+      "size-9": {
+        "name": ""
+      },
+      "size-13": {
+        "name": ""
+      },
+      "#opening": {
+        "name": "",
+        "description": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "hoctaph": {
+        "description": "",
+        "name": ""
+      },
+      "classic": {
+        "description": "",
+        "name": ""
+      },
+      "handicap": {
+        "name": "",
+        "description": ""
+      },
+      "pie": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "agofmars": {
+      "step-move": {
+        "name": "",
+        "description": ""
+      },
+      "biggest-group": {
+        "name": "",
+        "description": ""
+      },
+      "blind-agents": {
+        "name": "",
+        "description": ""
+      },
+      "group-size-scoring": {
+        "description": "",
+        "name": ""
+      },
+      "objective-initiative": {
+        "description": "",
+        "name": ""
+      },
+      "five-colour-plus3": {
+        "name": "",
+        "description": ""
+      },
+      "five-colour-minus2": {
+        "name": "",
+        "description": ""
+      },
+      "black-trio-swap": {
+        "description": "",
+        "name": ""
+      },
+      "#rules": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "neutron": {
+      "#board": {
+        "name": ""
+      },
+      "restricted": {
+        "description": "",
+        "name": ""
+      },
+      "5x7": {
+        "name": ""
+      },
+      "doubleRestricted": {
+        "name": "",
+        "description": ""
+      },
+      "#mobility": {
+        "name": ""
+      },
+      "coneutron": {
+        "description": "",
+        "name": ""
+      },
+      "7x7": {
+        "name": ""
+      },
+      "7x5": {
+        "name": ""
+      }
+    },
+    "pods": {
+      "board-6": {
+        "name": ""
+      },
+      "board-8": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "selfo": {
+      "r4f12": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "r5f20": {
+        "name": ""
+      },
+      "no-enclosure": {
+        "name": "",
+        "description": ""
+      },
+      "r2f5": {
+        "name": ""
+      }
+    },
+    "clearpath": {
+      "#board": {
+        "name": ""
+      },
+      "size-7": {
+        "name": ""
+      },
+      "size-11": {
+        "name": ""
+      }
+    },
+    "yodd": {
+      "square-14": {
+        "name": ""
+      },
+      "square-10": {
+        "name": ""
+      },
+      "yopp": {
+        "description": "",
+        "name": ""
+      },
+      "hex-9": {
+        "name": ""
+      },
+      "square-15": {
+        "name": ""
+      },
+      "hex-6": {
+        "name": ""
+      },
+      "hex-10": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "hex-7": {
+        "name": ""
+      },
+      "square-13": {
+        "name": ""
+      },
+      "square-9": {
+        "name": ""
+      }
+    },
+    "mirador": {
+      "#board": {
+        "name": ""
+      },
+      "size-40": {
         "name": ""
       }
     }
@@ -7444,6 +8599,10 @@
       "bricks": {
         "description": "",
         "name": ""
+      },
+      "#block": {
+        "description": "",
+        "name": ""
       }
     },
     "anache": {
@@ -7462,6 +8621,10 @@
       "swap-prison": {
         "description": "",
         "name": ""
+      },
+      "hide-territories": {
+        "name": "",
+        "description": ""
       }
     },
     "atoll": {
@@ -7479,6 +8642,9 @@
     "bide": {
       "isometric": {
         "description": "",
+        "name": ""
+      },
+      "#projection": {
         "name": ""
       }
     },
@@ -7515,6 +8681,9 @@
     "carnac": {
       "flat": {
         "description": "",
+        "name": ""
+      },
+      "#projection": {
         "name": ""
       }
     },
@@ -7590,11 +8759,17 @@
       "flat": {
         "description": "",
         "name": ""
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "elOso": {
       "nums": {
         "description": "",
+        "name": ""
+      },
+      "#stack": {
         "name": ""
       }
     },
@@ -7608,6 +8783,9 @@
       "flat": {
         "description": "",
         "name": ""
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "fourinarow": {
@@ -7619,6 +8797,9 @@
     "frogger": {
       "frog-pieces": {
         "description": "",
+        "name": ""
+      },
+      "#piece": {
         "name": ""
       }
     },
@@ -7707,6 +8888,9 @@
     "mvolcano": {
       "expanding": {
         "description": "",
+        "name": ""
+      },
+      "#stack": {
         "name": ""
       }
     },
@@ -7859,6 +9043,9 @@
       "flat": {
         "description": "",
         "name": ""
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "toguz": {
@@ -7891,6 +9078,10 @@
       "hide-threatened": {
         "description": "",
         "name": ""
+      },
+      "fog-unseen-clouds": {
+        "description": "",
+        "name": ""
       }
     },
     "twixt": {
@@ -7909,6 +9100,9 @@
       "expanding": {
         "description": "",
         "name": ""
+      },
+      "#stack": {
+        "name": ""
       }
     },
     "zola": {
@@ -7919,6 +9113,33 @@
       "isometric-5": {
         "description": "",
         "name": ""
+      },
+      "#projection": {
+        "name": ""
+      }
+    },
+    "icepalace": {
+      "perspective-areas": {
+        "name": "",
+        "description": ""
+      },
+      "#board": {
+        "name": "",
+        "description": ""
+      },
+      "perspective": {
+        "name": "",
+        "description": ""
+      },
+      "#areas": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "agofmars": {
+      "hide-bag-pool": {
+        "name": "",
+        "description": ""
       }
     }
   }

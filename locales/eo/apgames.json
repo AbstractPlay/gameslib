@@ -54,6 +54,28 @@
       "ccw": "Turniĝi maldekstrume",
       "fire": "Pafi per lasero",
       "hit": "Svingi la muzelon"
+    },
+    "squares": {
+      "option3": "",
+      "retreatReserve": "",
+      "option1": "",
+      "loseA": "",
+      "stay": "",
+      "stand": "",
+      "loseC": "",
+      "option2": "",
+      "option5": "",
+      "option4": "",
+      "advance": "",
+      "retreat": "",
+      "loseI": ""
+    },
+    "agofmars": {
+      "noObjSwap": "",
+      "draw": "",
+      "objSwap": "",
+      "move": "",
+      "swap": ""
     }
   },
   "categories": {
@@ -491,6 +513,31 @@
       "description": "Subtenas pli ol 2 ludantojn",
       "full": "Alia > 2+ ludantoj",
       "tag": "A: 2+ ludantoj"
+    },
+    "family>draughts": {
+      "full": "",
+      "tag": "",
+      "description": ""
+    },
+    "family>tafl": {
+      "tag": "",
+      "description": "",
+      "full": ""
+    },
+    "family": {
+      "description": "",
+      "full": "",
+      "tag": ""
+    },
+    "family>mancala": {
+      "description": "",
+      "tag": "",
+      "full": ""
+    },
+    "family>gomoku": {
+      "description": "",
+      "full": "",
+      "tag": ""
     }
   },
   "status": {
@@ -519,7 +566,9 @@
       "TERRITORY": "Teritorio"
     },
     "arimaa": {
-      "HARLOG": "Harlog"
+      "HARLOG": "Harlog",
+      "ROLL_TOTAL": "",
+      "ROLL_MEAN": ""
     },
     "asli": {
       "AREA": "Areo + komio",
@@ -638,6 +687,44 @@
       "COLOUR": "koloroj",
       "GOALS": "Celoj",
       "HEIGHT": "altoj"
+    },
+    "squares": {
+      "STAGE_ADVANCE": "",
+      "STAGE_SECOND": "",
+      "LOSSES": "",
+      "SINGLE": "",
+      "STAGE_RESOLVE": "",
+      "DOUBLE_one": "",
+      "DOUBLE_other": "",
+      "POINTS": "",
+      "STAGE_LOSE": "",
+      "STAGE_DEFEND": "",
+      "TURN": "",
+      "COMBAT": ""
+    },
+    "agofmars": {
+      "setupPool": "",
+      "bagCount": "",
+      "bagPool": ""
+    },
+    "bashni": {
+      "MATERIAL": "",
+      "STEPS": ""
+    },
+    "icepalace": {
+      "POOL": "",
+      "PLACED": ""
+    },
+    "mvolcano": {
+      "UNCAPTUREDCOLOURS": "",
+      "PYRAMIDSCAPTURED": ""
+    },
+    "tintas": {
+      "MAJORITIES": "",
+      "MONOCHROME": ""
+    },
+    "mimic": {
+      "UNFROZEN_PIECES": ""
     }
   },
   "validation": {
@@ -882,7 +969,10 @@
       "AMBIGUOUS": "Tio kongruas kun {{count}} malsamaj movoj. Indiku, kie finiĝas alia peco, por precizigi ĝin.",
       "INFERRED": "Ankaŭ moviĝas: {{pieces}}.",
       "INCOMPLETE": "Peco estas elektita. Klaku ĉelon por sendi ĝin tien, aŭ klaku la pecon denove por lasi ĝin tie, kie ĝi staras.",
-      "TOO_LONG": "Tio, kion vi desegnis, bezonas pli ol {{num}} paŝojn."
+      "TOO_LONG": "Tio, kion vi desegnis, bezonas pli ol {{num}} paŝojn.",
+      "DIE_one": "",
+      "DIE_other": "",
+      "PARTIAL_RABBITS": ""
     },
     "armadas": {
       "BAD_PASS": "Kiam vi preterpasas, tio devas esti la sola ordono, kiun vi donas.",
@@ -1015,7 +1105,11 @@
       "NO_BACK_ROW_mtaji": "En la mtaji fazo, vi povas komenci nur de la malantaŭa vico se ĝi rezultigas kapton aŭ neniu kutakata estas ebla de la antaŭa vico.",
       "NO_BACK_ROW_namua": "En la fazo kunamua, vi ne rajtas komenci de via malantaŭa vico.",
       "PLAY_HOUSE": "Via semado finiĝis en via domo. Vi povas halti aŭ \"iri en safarion\" (tiuj ŝanĝos vian nyumba en normalan truon). Por daŭrigi semadon, klaku vian nyumba aŭ tajpu \"+\" en la paĝo \"Movi\".",
-      "TWO_PLUS": "Vi povas komenci kun kunamua-faza kutakata turni en fosaĵo nur per unu ŝtono se vi havas laborantan domon aŭ vi havas nur fosaĵojn kun ununuraj ŝtonoj en la unua vico."
+      "TWO_PLUS": "Vi povas komenci kun kunamua-faza kutakata turni en fosaĵo nur per unu ŝtono se vi havas laborantan domon aŭ vi havas nur fosaĵojn kun ununuraj ŝtonoj en la unua vico.",
+      "NO_KUTAKATA_WHILE_CAPTURE": "",
+      "WRONG_CAPTURE": "",
+      "KUTAKATA_ONLY": "",
+      "MUST_CAPTURE": ""
     },
     "basalt": {
       "BAD_MOVE": "Stakoj ne povas movi pli ol ilia alteco, kaj ili ne povas preteriri stakoj kontrolita de via kontraŭulo.",
@@ -1704,7 +1798,8 @@
       "MUST_CHOOSE_SIDE": "Vi devas elekti egalecon aŭ kvotojn antaŭ ol ludi.",
       "NOT_IN_HAND": "Tiu domino ne estas en via mano.",
       "NEEDS_ANCHOR_PIP": "Tiu pozicio estas ambiga. Marku la ankran pipon per asterisko (ekz. 1*-2@-3,1N aŭ 1-2*@-3,1N).",
-      "PARTIAL": "Klaku la ankron de duono de la ĉelo, kaj poste la alian fino de la domino."
+      "PARTIAL": "Klaku la ankron de duono de la ĉelo, kaj poste la alian fino de la domino.",
+      "MUST_COVER_TWO_DOMINOES": ""
     },
     "exxit": {
       "INITIAL_INSTRUCTIONS_build": "Klaku sur iu ajn senokupita kahelo por meti dampecon, aŭ klaku validan ĉirkaŭan spacon por komenci la pliigadon de la mondo.",
@@ -3814,6 +3909,199 @@
       "MUST_MOVE": "Se vi havas disponeblan movon, vi ne povas preterpasi vian vicon.",
       "NONCAPTURES_KINGS": "Ne-kaptantaj movoj povas movi nur unu spacon samtempe.",
       "PARTIAL": "Elektu celon."
+    },
+    "squares": {
+      "NO_TARGET": "",
+      "WRONG_TYPE": "",
+      "OPTION_5": "",
+      "RETREAT_FOREST_GUNS": "",
+      "INITIAL_SECOND": "",
+      "SUPPORT_SELF": "",
+      "INITIAL_ADVANCE": "",
+      "OPTION_1": "",
+      "RETREAT_FOREST_FROM_CLEAR": "",
+      "SUPPORT_NOT_ADJACENT": "",
+      "OPTION_4": "",
+      "PLY_OPTION": "",
+      "ARTILLERY_TARGET": "",
+      "STAND_CAVALRY": "",
+      "ATTACK_FROM_RESERVE": "",
+      "ILLEGAL_MOVE": "",
+      "ILLEGAL_RESPONSE": "",
+      "RETREAT_FOREST_DISPLACED": "",
+      "INITIAL_RESOLVE": "",
+      "STAND_FLANK": "",
+      "DECISION_EXTRA": "",
+      "INITIAL_LOSE": "",
+      "OWN_RESERVE": "",
+      "PINNED": "",
+      "PARTIAL_UNIT": "",
+      "RETREAT_CHAIN_BLOCKED": "",
+      "PLY_COMPLETE": "",
+      "TWO_STEPS_CAVALRY": "",
+      "PARTIAL_CAVALRY": "",
+      "THROUGH_ENEMY_RESERVE": "",
+      "OPTION_3": "",
+      "RETREAT_VACANT_FIRST": "",
+      "NO_SUCH_UNIT": "",
+      "RETREAT_ENEMY_RESERVE": "",
+      "PARTIAL_SUPPORT": "",
+      "PLY_STAYED": "",
+      "TOO_FAR": "",
+      "FROZEN": "",
+      "RESERVE_EMPTY": "",
+      "CAVALRY_NO_SUPPORT": "",
+      "EXHAUSTED": "",
+      "DECISION_EARLY": "",
+      "PLY_AGAIN": "",
+      "NOT_ADJACENT": "",
+      "CHOOSE_LOSS": "",
+      "DECIDE_ELIMINATED": "",
+      "RESERVE_OCCUPIED": "",
+      "TWO_CAVALRY_ONE_STEP": "",
+      "RETREAT_NOT_ADJACENT": "",
+      "MOVE_LIMIT": "",
+      "ATTACK_LIMIT": "",
+      "NOT_CONNECTED": "",
+      "CHAIN_CONTINUE": "",
+      "SUPPORT_FROM_RESERVE": "",
+      "PLY_ADVANCED": "",
+      "OPTION_UNAVAILABLE": "",
+      "RETREAT_NOT_CLOSER": "",
+      "RETREAT_ARTILLERY": "",
+      "INITIAL_ACTION_double": "",
+      "RETREAT_TO_RESERVE_ONLY": "",
+      "RETREAT_ENEMY_OCCUPIED": "",
+      "PATH_BLOCKED": "",
+      "FOREST_DOUBLE": "",
+      "FOREST_TWO_STEPS": "",
+      "PLY_CHOOSE_ADVANCE": "",
+      "CHOOSE_RETREAT": "",
+      "INITIAL_ACTION_single": "",
+      "RETREAT_NO_PATH": "",
+      "PLY_CHOOSE_OPTION": "",
+      "RETREAT_FOREST_ADJACENT": "",
+      "NO_PASS_DOUBLE": "",
+      "TWO_CAVALRY_ONLY": "",
+      "CAVALRY_NEEDS_SUPPORT": "",
+      "DIAGONAL_DOUBLE": "",
+      "TWO_CAVALRY_SAME": "",
+      "INITIAL_DEFEND": "",
+      "OPTION_2": ""
+    },
+    "thricewise": {
+      "NOT_YOUR_TURN": "",
+      "NOT_ADJACENT": "",
+      "BAD_CARD": "",
+      "GRID_CAP": "",
+      "VALID_PARTIAL_MORE": "",
+      "LABEL_DECK": "",
+      "INITIAL_INSTRUCTIONS_select": "",
+      "VALID_PARTIAL_CELL": "",
+      "LABEL_HAND": "",
+      "STATUS_place": "",
+      "SELECT_HAND": "",
+      "DUPLICATE_CARD": "",
+      "INITIAL_INSTRUCTIONS_place": "",
+      "BAD_PASS": "",
+      "STATUS_select": ""
+    },
+    "yodd": {
+      "INITIAL_INSTRUCTIONS_yopp": "",
+      "INSTRUCTIONS": "",
+      "INVALID_PASS": "",
+      "INVALID_PASS_PARTIAL": "",
+      "ODD_GROUPS_REQUIRED": "",
+      "INSTRUCTIONS_yopp": "",
+      "TOO_MANY_MOVES_START": "",
+      "TOO_MANY_MOVES": "",
+      "NO_PASS_OPENING": "",
+      "OWN_COLOUR_ONLY": "",
+      "VALID_MOVE": "",
+      "INSTRUCTIONS_ODD": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "icepalace": {
+      "ILLEGAL_PALACE": "",
+      "ILLEGAL_YARD": "",
+      "POOL_CLICK": "",
+      "INITIAL_BUILD": "",
+      "BUILD_ENOUGH": "",
+      "PARTIAL_PIECE": "",
+      "LEAD_CANNOT_PASS": "",
+      "MUST_BUILD": "",
+      "BUILD_MORE": "",
+      "NOT_IN_STOCK": "",
+      "BUILD_COMPLETE": "",
+      "INITIAL_HAND": "",
+      "NOT_IN_HAND": "",
+      "BAD_PLACEMENT": "",
+      "OFF_STRUCTURE": ""
+    },
+    "agofmars": {
+      "SWAP": "",
+      "SETUP_PERM": "",
+      "TURN_START": "",
+      "OBJ_SWAP_SELECT": "",
+      "PLACE_DRAWN": "",
+      "NO_PIECES_TO_MOVE": "",
+      "MOVE_SELECT_PIECE": "",
+      "MOVE_DEST_OCCUPIED": "",
+      "INITIAL_INSTRUCTIONS_setup1": "",
+      "NO_PIECES_TO_SWAP": "",
+      "SWAP_SELECT_PIECE": "",
+      "INITIAL_INSTRUCTIONS_setup2": "",
+      "SWAP_SELECT_SECOND": "",
+      "MAIN_ACTION_MODE_swap": "",
+      "PLACE": "",
+      "OBJ_SWAP_SELECT_SECOND": "",
+      "MAIN_ACTION_MODE_move": "",
+      "SETUP_INCOMPLETE": "",
+      "MOVE": "",
+      "SWAP_BLACK": "",
+      "MOVE_SELECT_DEST": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "MOVE_BLACK": "",
+      "EMPTY_BAG": "",
+      "KO": "",
+      "SETUP_PARTIAL": "",
+      "OBJ_SWAP": "",
+      "INITIAL_INSTRUCTIONS_play": "",
+      "MAIN_ACTION_CHOICE": ""
+    },
+    "neutron": {
+      "PAWN_SELECT": "",
+      "INVALID_NEUTRON": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PAWN_DEST": "",
+      "INCOMPLETE": "",
+      "NEUTRON_FIRST": "",
+      "SELECT_OWN_PAWN": ""
+    },
+    "bashni": {
+      "INVALID_MOVE": "",
+      "VALID_PARTIAL": "",
+      "INITIAL_INSTRUCTIONS": ""
+    },
+    "selfo": {
+      "NOT_ADJACENT": "",
+      "NO_PASS": "",
+      "INITIAL_INSTRUCTIONS_PIE": "",
+      "ENCLOSURE": "",
+      "INITIAL_INSTRUCTIONS": "",
+      "PIE_UNAVAILABLE": "",
+      "PIE": "",
+      "PARTIAL": ""
+    },
+    "croda": {
+      "INITIAL_INSTRUCTIONS": "",
+      "VALID_PARTIAL": "",
+      "INVALID_MOVE": ""
+    },
+    "dama": {
+      "INITIAL_INSTRUCTIONS": "",
+      "INVALID_MOVE": "",
+      "VALID_PARTIAL": ""
     }
   },
   "descriptions": {
@@ -4101,7 +4389,17 @@
     "y": "La klasika konektludo. Konektu ĉiujn tri flankojn por venki.",
     "yavalath": "Formu linion de almenaŭ kvar pecoj de via koloro *sen* unue formi linion de tri pecoj.",
     "yonmoque": "Provu formi kvaropan vicon en ludo, en kiu ne ĉiuj spacoj estas egalaj kaj oni povas konverti kontraŭulajn pecojn.",
-    "zola": "Ludo, en kiu la distanco de peco disde la centro de la tabulo limigas ĝian movadon. Kapta movo ne rajtas pliigi tiun distancon; senkapta movo devas ĝin pliigi. Gajnas la unua, kiu kaptas ĉiujn kontraŭulajn pecojn."
+    "zola": "Ludo, en kiu la distanco de peco disde la centro de la tabulo limigas ĝian movadon. Kapta movo ne rajtas pliigi tiun distancon; senkapta movo devas ĝin pliigi. Gajnas la unua, kiu kaptas ĉiujn kontraŭulajn pecojn.",
+    "neutron": "",
+    "croda": "",
+    "icepalace": "",
+    "squares": "",
+    "thricewise": "",
+    "agofmars": "",
+    "selfo": "",
+    "dama": "",
+    "bashni": "",
+    "yodd": ""
   },
   "names": {
     "abande": "Abande",
@@ -4389,7 +4687,17 @@
     "y": "Y",
     "yavalath": "Yavalath",
     "yonmoque": "Yonmoque",
-    "zola": "Zola"
+    "zola": "Zola",
+    "thricewise": "",
+    "agofmars": "",
+    "dama": "",
+    "croda": "",
+    "selfo": "",
+    "squares": "",
+    "icepalace": "",
+    "bashni": "",
+    "neutron": "",
+    "yodd": ""
   },
   "notes": {
     "akimbo": "Akimbo, projektita de Luis Bolaños Mures en 2026, estas konektludo sen remizoj por du ludantoj. _Nuda diagonalo_ estas paro de samkoloraj, diagonale apudaj pecoj, sen alia samkolora peco apuda al ambaŭ. _Kructranĉo_ estas areo 2×2 kun du interplektitaj nudaj diagonaloj de kontraŭaj koloroj.\n\nDum sia vico, la ludanto metas amikan pecon sur malplenan ĉelon. Se tio kompletigas kructranĉon, la alia peco en la kructranĉo estas forigita. Neniam rajtas esti pli ol unu nuda diagonalo de ĉiu koloro sur la tabulo — eĉ ne momente antaŭ la forigo de peco. Ludanto venkas se, je la fino de sia vico, ĉeno de ortangule konektitaj samkoloraj pecoj tuŝas la du kontraŭajn randojn de la tabulo apartenantajn al tiu ludanto.\n\nOkimba estas variaĵo, en kiu maksimume unu nuda diagonalo rajtas ekzisti sur la tabulo (do dum unu ludanto havas la diagonalon, la kontraŭulo ne povas krei alian).",
@@ -4489,7 +4797,15 @@
     "waldmeister": "La ludantoj ludas du partiojn sinsekve. En la unua raŭndo, Ludanto 1 ludas por koloroj kaj Ludanto 2 por altoj. Je la fino de la raŭndo la poentaroj estas sumataj kaj la poentantaj grupoj emfazitaj. En la dua raŭndo, Ludanto 2 ludas unue kaj por koloroj, dum Ludanto 1 ludas por altoj.",
     "witch": "La unua ludanto komence ne posedas iun pecon kaj rajtas forigi ajnan pecon krom krono dum sia unua vico. La dua ludanto elektas sian koloron dum sia unua vico; poste ne plu eblas forigi pecojn de la kontraŭulo.",
     "xana": "Dum sia vico, ludanto metas aŭ movas stakon (la nombro de stakigeblaj pecoj estas limigita) kaj laŭvole metas du murojn sur malplenajn seslaterojn. Stakoj sen liberecoj estas kaptitaj. Stako havas liberecon, se almenaŭ unu el la ses apudaj seslateroj estas malplena (ne ekzistas koncepto de stakgrupo). Seslatero estas atingebla, se ĝi estas malplena kaj vojo de malplenaj seslateroj konektas ĝin al amika stako. La celo estas akiri la plej altan sumon de teritoria kaj kapta poentaroj. Xana estis projektita en 2005.",
-    "y": "Charles Titus kaj Craige Schensted (Ea Ea) projektis la ludon en 1953. Kiel rekta posteulo de Hex, ĝi origine estis ludata sur triangula tabulo, kaj la celo estis konekti ĉiujn tri flankojn per ĉeno de amikaj ŝtonoj. Y estas konsiderata pli fundamenta ludo ol Hex pro siaj pli simplaj reguloj kaj ĉar eblas aranĝi partion de Hex sur sufiĉe granda Y-tabulo. En sia libro de 1975 **Mudcrack Y & Poly-Y**, la projektintoj prezentis la _principon de ŝlimfendo_, laŭ kiu konektludoj povas okazi sur vasta gamo de iom post iom pli kompleksaj tabuloj. Unu el tiuj projektoj (\"la fleksita Y\", kun tri kvinangulaj ĉeloj) fariĝis la komerca Y-tabulo anstataŭ la norma triangula tabulo."
+    "y": "Charles Titus kaj Craige Schensted (Ea Ea) projektis la ludon en 1953. Kiel rekta posteulo de Hex, ĝi origine estis ludata sur triangula tabulo, kaj la celo estis konekti ĉiujn tri flankojn per ĉeno de amikaj ŝtonoj. Y estas konsiderata pli fundamenta ludo ol Hex pro siaj pli simplaj reguloj kaj ĉar eblas aranĝi partion de Hex sur sufiĉe granda Y-tabulo. En sia libro de 1975 **Mudcrack Y & Poly-Y**, la projektintoj prezentis la _principon de ŝlimfendo_, laŭ kiu konektludoj povas okazi sur vasta gamo de iom post iom pli kompleksaj tabuloj. Unu el tiuj projektoj (\"la fleksita Y\", kun tri kvinangulaj ĉeloj) fariĝis la komerca Y-tabulo anstataŭ la norma triangula tabulo.",
+    "neutron": "",
+    "squares": "",
+    "icepalace": "",
+    "agofmars": "",
+    "bashni": "",
+    "selfo": "",
+    "yodd": "",
+    "thricewise": ""
   },
   "variants": {
     "_default": {
@@ -4635,6 +4951,10 @@
       "standard-14": {
         "description": "Pli granda versio de la norma tabulo.",
         "name": "Triangulo (14 larĝaj)"
+      },
+      "star-11": {
+        "name": "",
+        "description": ""
       }
     },
     "akimbo": {
@@ -4741,6 +5061,10 @@
       "free": {
         "name": "Libera metado (nepritaksita)",
         "description": "Lasu la ludantojn meti tiom da pecoj kiom ili volas kie ili volas, inkluzive de kreado de kontraŭleĝaj aŭ alie rompitaj pozicioj. Ludantoj devas klare komunikiĝi antaŭ ol komenci. Tiuj ludoj ne povas esti pritaksitaj."
+      },
+      "dicey": {
+        "name": "",
+        "description": ""
       }
     },
     "armadas": {
@@ -4898,6 +5222,14 @@
       "malawi": {
         "description": "La domo komenciĝas per ok ŝtonoj anstataŭ 6.",
         "name": "Malavio"
+      },
+      "malawi-full": {
+        "description": "",
+        "name": ""
+      },
+      "#rules": {
+        "description": "",
+        "name": ""
       }
     },
     "basalt": {
@@ -5480,18 +5812,10 @@
       },
       "random-start": {
         "name": "Simetriaj hazardaj nuboj",
-        "description": "Ne estas fazo por meti nubojn. La sistemo hazarde metas ilin kun rotacia simetrio je 180 gradoj."
+        "description": "Ne estas fazo por meti nubojn. La sistemo metas nubojn en paroj kun rotacia simetrio je 180 gradoj for de la rando de la tabulo, ĉiufoje elektante inter la ĉeloj, kiuj plej egale dividas liberan paflinion. Nubo en la centro kalkuliĝas kiel paro, do al la tabulo mankas unu nubo."
       },
       "asymmetric-random-start": {
         "name": "Nesimetriaj hazardaj nuboj",
-        "description": "Ne estas fazo por meti nubojn. La sistemo hazarde metas ilin sen postuli simetrion."
-      },
-      "split-start": {
-        "name": "Simetriaj hazardaj nuboj (nova)",
-        "description": "Ne estas fazo por meti nubojn. La sistemo metas nubojn en paroj kun rotacia simetrio je 180 gradoj for de la rando de la tabulo, ĉiufoje elektante inter la ĉeloj, kiuj plej egale dividas liberan paflinion. Nubo en la centro kalkuliĝas kiel paro, do al la tabulo mankas unu nubo."
-      },
-      "asymmetric-split-start": {
-        "name": "Nesimetriaj hazardaj nuboj (nova)",
         "description": "Ne estas fazo por meti nubojn. La sistemo metas nubojn unu post alia for de la rando de la tabulo, ĉiufoje elektante inter la ĉeloj, kiuj plej egale dividas liberan paflinion."
       },
       "clumping-start": {
@@ -7864,6 +8188,10 @@
       "free-neutral": {
         "description": "En la unua vico, metu 2-stakon neŭtrala peco, kaj 1-stakon peco de la koloro de ĉiu ludanto.",
         "name": "Libera neŭtrala"
+      },
+      "fog": {
+        "name": "",
+        "description": ""
       }
     },
     "twinflames": {
@@ -8101,6 +8429,10 @@
       },
       "progressive": {
         "name": "Progresema kun gruprestrikto"
+      },
+      "star": {
+        "description": "",
+        "name": ""
       }
     },
     "zola": {
@@ -8109,6 +8441,138 @@
       },
       "8x8": {
         "name": "8×8 tabulo"
+      }
+    },
+    "agofmars": {
+      "step-move": {
+        "name": "",
+        "description": ""
+      },
+      "biggest-group": {
+        "name": "",
+        "description": ""
+      },
+      "blind-agents": {
+        "name": "",
+        "description": ""
+      },
+      "group-size-scoring": {
+        "description": "",
+        "name": ""
+      },
+      "objective-initiative": {
+        "description": "",
+        "name": ""
+      },
+      "five-colour-plus3": {
+        "name": "",
+        "description": ""
+      },
+      "five-colour-minus2": {
+        "name": "",
+        "description": ""
+      },
+      "black-trio-swap": {
+        "description": "",
+        "name": ""
+      },
+      "#rules": {
+        "name": "",
+        "description": ""
+      }
+    },
+    "neutron": {
+      "#board": {
+        "name": ""
+      },
+      "restricted": {
+        "description": "",
+        "name": ""
+      },
+      "5x7": {
+        "name": ""
+      },
+      "doubleRestricted": {
+        "name": "",
+        "description": ""
+      },
+      "#mobility": {
+        "name": ""
+      },
+      "coneutron": {
+        "description": "",
+        "name": ""
+      },
+      "7x7": {
+        "name": ""
+      },
+      "7x5": {
+        "name": ""
+      }
+    },
+    "pods": {
+      "board-6": {
+        "name": ""
+      },
+      "board-8": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      }
+    },
+    "selfo": {
+      "r4f12": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "r5f20": {
+        "name": ""
+      },
+      "no-enclosure": {
+        "name": "",
+        "description": ""
+      },
+      "r2f5": {
+        "name": ""
+      }
+    },
+    "yodd": {
+      "square-14": {
+        "name": ""
+      },
+      "square-10": {
+        "name": ""
+      },
+      "yopp": {
+        "description": "",
+        "name": ""
+      },
+      "hex-9": {
+        "name": ""
+      },
+      "square-15": {
+        "name": ""
+      },
+      "hex-6": {
+        "name": ""
+      },
+      "hex-10": {
+        "name": ""
+      },
+      "#board": {
+        "name": ""
+      },
+      "hex-7": {
+        "name": ""
+      },
+      "square-13": {
+        "name": ""
+      },
+      "square-9": {
+        "name": ""
       }
     }
   },
@@ -8133,6 +8597,10 @@
       "bricks": {
         "description": "Montru blokitajn kvadratojn kiel brikmuron.",
         "name": "Brikoj"
+      },
+      "#block": {
+        "description": "",
+        "name": ""
       }
     },
     "anache": {
@@ -8151,6 +8619,10 @@
       "swap-prison": {
         "description": "Interŝanĝu la koloron de la pecoj en la malliberejo.",
         "name": "Interŝanĝi la kolorojn en la malliberejo"
+      },
+      "hide-territories": {
+        "name": "",
+        "description": ""
       }
     },
     "atoll": {
@@ -8169,6 +8641,9 @@
       "isometric": {
         "description": "Kvazaŭ-3D-a izometria vido",
         "name": "Izometria"
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "blastradius": {
@@ -8205,6 +8680,9 @@
       "flat": {
         "description": "Montru la tabulon desupre.",
         "name": "Plata vido"
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "ccorridor": {
@@ -8279,12 +8757,18 @@
       "flat": {
         "description": "Desupra vido kun la stakalto etikedita en ĉiu ĉelo.",
         "name": "Desupra vido"
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "elOso": {
       "nums": {
         "description": "Stakoj montrataj kiel nombroj",
         "name": "Nombroj"
+      },
+      "#stack": {
+        "name": ""
       }
     },
     "entropy": {
@@ -8297,6 +8781,9 @@
       "flat": {
         "description": "Desupra vido de la domenstakoj.",
         "name": "Desupra vido"
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "fourinarow": {
@@ -8309,6 +8796,9 @@
       "frog-pieces": {
         "description": "Uzu ranformajn pecojn.",
         "name": "Ranformaj pecoj"
+      },
+      "#piece": {
+        "name": ""
       }
     },
     "gess": {
@@ -8397,6 +8887,9 @@
       "expanding": {
         "description": "Dudimensia tabulo, kies stakoj disvastiĝas kiam la montrilo ŝvebas super ili.",
         "name": "Vastiĝanta"
+      },
+      "#stack": {
+        "name": ""
       }
     },
     "onyx": {
@@ -8548,6 +9041,9 @@
       "flat": {
         "description": "Plata vido, kiu per ombrado indikas alton.",
         "name": "Plata vido"
+      },
+      "#projection": {
+        "name": ""
       }
     },
     "toguz": {
@@ -8580,6 +9076,10 @@
       "hide-threatened": {
         "description": "Ne montru nememmortigajn kaptojn.",
         "name": "Kaŝi minacatajn"
+      },
+      "fog-unseen-clouds": {
+        "description": "",
+        "name": ""
       }
     },
     "twixt": {
@@ -8598,6 +9098,9 @@
       "expanding": {
         "description": "Dudimensia tabulo, kies stakoj disvastiĝas kiam la montrilo ŝvebas super ili.",
         "name": "Vastiĝanta"
+      },
+      "#stack": {
+        "name": ""
       }
     },
     "zola": {
@@ -8608,6 +9111,33 @@
       "isometric-5": {
         "description": "Subtila alteco: kvazaŭ-3D-a vido de la ludkampo, en kiu la spacoj altiĝas ju pli oni malproksimiĝas de la centro.",
         "name": "Izometria: subtila alteco"
+      },
+      "#projection": {
+        "name": ""
+      }
+    },
+    "icepalace": {
+      "perspective-areas": {
+        "name": "",
+        "description": ""
+      },
+      "#board": {
+        "name": "",
+        "description": ""
+      },
+      "perspective": {
+        "name": "",
+        "description": ""
+      },
+      "#areas": {
+        "description": "",
+        "name": ""
+      }
+    },
+    "agofmars": {
+      "hide-bag-pool": {
+        "name": "",
+        "description": ""
       }
     }
   }

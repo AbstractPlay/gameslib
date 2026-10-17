@@ -2923,6 +2923,14 @@
     "src": "Hide restriction indicators",
     "out": "Nascondi indicatori di restrizione"
   },
+  "displays.killallgo.pass-alive-throughout.description": {
+    "src": "Mark unconditionally alive (pass-alive) stones in every position, not only once the game has ended.",
+    "out": "Contrassegna le pietre incondizionatamente vive (pass-alive) in ogni posizione, non solo al termine della partita."
+  },
+  "displays.killallgo.pass-alive-throughout.name": {
+    "src": "Mark pass-alive stones throughout the game",
+    "out": "Contrassegna le pietre pass-alive durante tutta la partita"
+  },
   "displays.knightline.show-origin.description": {
     "src": "Mark the position of the first piece.",
     "out": "Contrassegna la posizione del primo pezzo."
@@ -17540,20 +17548,12 @@
     "out": "Configurazione predefinita"
   },
   "variants.crosshairs.asymmetric-random-start.description": {
-    "src": "There is no cloud placing phase. The system places the clouds randomly without requiring symmetry.",
-    "out": "Non c'è alcuna fase di posizionamento delle nuvole. Il sistema posiziona le nuvole in modo casuale senza richiedere simmetria."
+    "src": "There is no cloud placing phase. The system places clouds one at a time away from the board edge, each time choosing among the cells that split an open line of fire most evenly.",
+    "out": "Non c'è una fase di posizionamento delle nuvole. Il sistema posiziona le nuvole una alla volta lontano dal bordo del tabellone, scegliendo ogni volta tra le caselle che dividono nel modo più equo una linea di tiro aperta."
   },
   "variants.crosshairs.asymmetric-random-start.name": {
     "src": "Asymmetric random clouds",
     "out": "Nuvole casuali asimmetriche"
-  },
-  "variants.crosshairs.asymmetric-split-start.description": {
-    "src": "There is no cloud placing phase. The system places clouds one at a time away from the board edge, each time choosing among the cells that split an open line of fire most evenly.",
-    "out": "Non c'è una fase di posizionamento delle nuvole. Il sistema posiziona le nuvole una alla volta lontano dal bordo del tabellone, scegliendo ogni volta tra le caselle che dividono una linea di tiro aperta nel modo più uniforme possibile."
-  },
-  "variants.crosshairs.asymmetric-split-start.name": {
-    "src": "Asymmetric random clouds (new)",
-    "out": "Nuvole casuali asimmetriche (nuovo)"
   },
   "variants.crosshairs.clouds-22.description": {
     "src": "Place 22 clouds instead of 16. With the default cloud bank size limit, the full count may not always be achievable.",
@@ -17588,20 +17588,12 @@
     "out": "Fuoco nascosto"
   },
   "variants.crosshairs.random-start.description": {
-    "src": "There is no cloud placing phase. The system places the clouds randomly with 180-degree rotational symmetry.",
-    "out": "Non c'è alcuna fase di posizionamento delle nuvole. Il sistema posiziona le nuvole in modo casuale con una simmetria rotazionale di 180 gradi."
+    "src": "There is no cloud placing phase. The system places clouds in 180-degree rotationally symmetric pairs away from the board edge, each time choosing among the cells that split an open line of fire most evenly. A cloud in the centre counts as a pair, leaving the board one cloud short.",
+    "out": "Non c'è una fase di posizionamento delle nuvole. Il sistema posiziona le nuvole a coppie a simmetria rotazionale di 180 gradi lontano dal bordo del tabellone, scegliendo ogni volta tra le caselle che dividono nel modo più equo una linea di tiro aperta. Una nuvola al centro conta come una coppia, lasciando il tabellone con una nuvola in meno."
   },
   "variants.crosshairs.random-start.name": {
     "src": "Symmetric random clouds",
     "out": "Nuvole casuali simmetriche"
-  },
-  "variants.crosshairs.split-start.description": {
-    "src": "There is no cloud placing phase. The system places clouds in 180-degree rotationally symmetric pairs away from the board edge, each time choosing among the cells that split an open line of fire most evenly. A cloud in the centre counts as a pair, leaving the board one cloud short.",
-    "out": "Non c'è una fase di posizionamento delle nuvole. Il sistema posiziona le nuvole in coppie a simmetria rotazionale di 180 gradi lontano dal bordo del tabellone, scegliendo ogni volta tra le caselle che dividono una linea di tiro aperta nel modo più uniforme possibile. Una nuvola al centro conta come una coppia, lasciando il tabellone con una nuvola in meno."
-  },
-  "variants.crosshairs.split-start.name": {
-    "src": "Symmetric random clouds (new)",
-    "out": "Nuvole casuali simmetriche (nuovo)"
   },
   "variants.crosshairs.turbulence.description": {
     "src": "Each time a plane enters a cloud, it loses 1 height.",
@@ -19095,9 +19087,13 @@
     "src": "40x40 board",
     "out": "Plancia 40x40"
   },
+  "variants.mixtour.#scores.description": {
+    "src": "The winner is the first to score a point.",
+    "out": "Il vincitore è il primo a segnare un punto."
+  },
   "variants.mixtour.#scores.name": {
-    "src": "Default scores",
-    "out": "Punteggi predefiniti"
+    "src": "Instant death",
+    "out": "Morte istantanea"
   },
   "variants.mixtour.five.description": {
     "src": "The winner is the first to score three points.",

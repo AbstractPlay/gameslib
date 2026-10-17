@@ -557,26 +557,40 @@ describe("Ice Palace: board interaction", () => {
 
     it("keeps a minimum footprint around the origin and one column between structures", () => {
         const g = rig(new IcePalaceGame(3), [["1M"], ["2S"], ["3S"]], fatPool());
-        // Before the lead only the empty Yard shows: a five-cell box plus padding each side.
+        // Both structures show from the start, empty as they are: each a five-cell box plus
+        // padding each side, one empty column apart.
         let rep = g.render() as Rep;
         expect(rep.pieces.length).to.equal(7);
-        expect(rep.pieces[0].length).to.equal(7);
-        // The lead goes in the middle, wherever in the empty region it is clicked.
+        expect(rep.pieces[0].length).to.equal(7 + 1 + 7);
+        // The lead goes in the middle, wherever in the empty Yard it is clicked.
         const click = g.handleClick("1M", 0, 0, "");
         expect(click.move).to.equal("1M@0.0");
+        // A click in the Palace is no Yard placement; it drops the pyramid picked.
+        expect(g.handleClick("1M", 3, 7 + 1 + 3, "").move).to.equal("");
         g.move("1M@0.0");
-        // With a Palace as well, both regions show, one empty column apart.
+        // The Yard sits on the left and the Palace on the right.
         g.palace = new Map([["0.0", ["2L"]]]);
         rep = g.render() as Rep;
-        expect(rep.pieces.length).to.equal(7);
         expect(rep.pieces[0].length).to.equal(7 + 1 + 7);
-        // The Yard sits on the left and the Palace on the right.
         expect(drawnAt(rep, "1M")[1]).to.equal(3);
         expect(drawnAt(rep, "2L")[1]).to.equal(7 + 1 + 3);
         // Growing past the minimum extends the board only in that direction.
         g.yard.set("4.0", ["1S"]);
         rep = g.render() as Rep;
-        expect(rep.pieces[0].length).to.equal(7 + 1 + 9);
+        expect(rep.pieces[0].length).to.equal(9 + 1 + 7);
+        expect(drawnAt(rep, "2L")[1]).to.equal(9 + 1 + 3);
+        // During the build the Yard stands empty but keeps its place, so the board holds
+        // its shape from one phase to the next; a click there is no Palace placement.
+        g.phase = "build";
+        g.currplayer = 1;
+        g.stock = ["1M", "1S"];
+        g.yard = new Map();
+        g.buildMin = 0;
+        rep = g.render() as Rep;
+        expect(rep.pieces[0].length).to.equal(7 + 1 + 7);
+        expect(drawnAt(rep, "2L")[1]).to.equal(7 + 1 + 3);
+        expect(g.handleClick("1S", 3, 3, "").move).to.equal("");
+        expect(g.handleClick("1S", 3, 7 + 1 + 3, "").move).to.equal("1S@0.0");
     });
 
     it("shows the Pool below the hand for reference, and ignores clicks on it", () => {
@@ -688,7 +702,7 @@ describe("Ice Palace: top-down display", () => {
         board?: { width: number; height: number; stackOffset?: number } | null;
         legend?: { [k: string]: { name?: string; opacity?: number } };
         pieces: string[][][] | null;
-        areas?: { type?: string; pieces?: string[]; stash?: string[][]; stack?: string[] }[];
+        areas?: { type?: string; pieces?: string[]; stash?: string[][]; stack?: string[]; width?: number }[];
     };
     const expanding = (g: IcePalaceGame): Rep => g.render() as unknown as Rep;
 
@@ -759,10 +773,12 @@ describe("Ice Palace: top-down display", () => {
 
     it("blanks out cells nothing can reach, leaving stacks and their orthogonal neighbours", () => {
         const g = rig(new IcePalaceGame(3), [["1M"], ["2S"], ["3S"]], fatPool());
-        // An empty Yard keeps only its centre, where the lead goes.
+        // An empty structure keeps only its centre, where its first pyramid goes: the
+        // Yard's, where the lead goes, and the Palace's too, to show where it will stand.
         let board = expanding(g).board as unknown as { width: number; height: number; blocked: { row: number; col: number }[] };
-        expect(board.blocked).to.have.length(board.width * board.height - 1);
+        expect(board.blocked).to.have.length(board.width * board.height - 2);
         expect(board.blocked).to.not.deep.include({ row: 3, col: 3 });
+        expect(board.blocked).to.not.deep.include({ row: 3, col: 7 + 1 + 3 });
         g.move("1M@0.0");
         board = expanding(g).board as unknown as typeof board;
         const open = [];
@@ -773,7 +789,7 @@ describe("Ice Palace: top-down display", () => {
                 }
             }
         }
-        expect(open.sort()).to.deep.equal(["2,3", "3,2", "3,3", "3,4", "4,3"]);
+        expect(open.sort()).to.deep.equal(["2,3", "3,11", "3,2", "3,3", "3,4", "4,3"]);
         // The perspective display blocks the same cells.
         expect((g.render({ altDisplays: ["perspective"] }) as unknown as { board: { blocked?: unknown } }).board.blocked).to.deep.equal(board.blocked);
     });
@@ -802,6 +818,24 @@ describe("Ice Palace: top-down display", () => {
         expect(pool.stash).to.deep.equal([["b1L", "b1L", "gap", "b1S"], ["gap"], ["b2S"], ["gap"], ["bWM"]]);
         // Pool pyramids are seen from above, as opaque diamonds.
         expect(rep.legend!.b1L).to.deep.equal({ name: "pyramid-up-large-upscaled", paint: { fill: 1 }, rotate: 45 });
+    });
+
+    it("wraps the hand and Pool at the board's width, not three quarters of it", () => {
+        const g = rig(new IcePalaceGame(3), [["1M"], ["2S"], ["3S"]], ["1L", "2L", "3L", "BL", "WL"]);
+        let rep = expanding(g);
+        // A stash column is three quarters of a cell, so the 15-cell board, the Yard and the
+        // Palace with a column between, takes 20 of them: the five colours and the spacers
+        // between them make one row with room to spare.
+        expect(rep.board!.width).to.equal(15);
+        expect(rep.areas!.map(a => a.width)).to.deep.equal([20, 20]);
+        expect(rep.areas![1].stash).to.have.length(9);
+        const persp = g.render({ altDisplays: ["perspective", "perspective-areas"] }) as unknown as Rep;
+        expect(persp.areas!.map(a => a.width)).to.deep.equal([20, 20]);
+        // As the board grows, so do the rows.
+        g.palace = new Map([["3.0", ["2L"]]]);
+        rep = expanding(g);
+        expect(rep.board!.width).to.equal(16);
+        expect(rep.areas!.map(a => a.width)).to.deep.equal([21, 21]);
     });
 
     it("still dots the legal cells once a pyramid is picked", () => {

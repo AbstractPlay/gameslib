@@ -536,6 +536,7 @@ describe("Kill-All Go", () => {
             expect(g.setup?.handicap).to.equal(3);
             expect(g.phase).to.equal("alt-place");
             expect(g.currplayer).to.equal(2);
+            expect(g.chatLog(["Alice", "Bob"]).flat().join("\n")).to.include("Alice set the handicap to 3 stones.");
         });
 
         it("makes Player 2 place the handicap stones when they take the Attacker side", () => {
@@ -1124,6 +1125,16 @@ describe("Kill-All Go", () => {
             const text = g.chatLog(["Alice", "Bob"]).flat().join("\n");
             expect(text).to.include("Alice chose to play as the Attacker.");
             expect(text).to.include("Alice placed an Attacker stone at c1.");
+        });
+
+        it("reports a multi-stone suicide with the mover and the count", () => {
+            // The Defender's a1 leaves a1 and b1 without liberties; both are removed.
+            const g = play(new KillAllGoGame(undefined, ["size-9", "pie"]), ["a2,b2,c1", "attacker", "b1", "i9", "a1"]);
+            expect(g.board.has("a1")).to.be.false;
+            expect(g.board.has("b1")).to.be.false;
+            const keys = g.chatLogEntries(["Alice", "Bob"]).flatMap((e) => e.lines.map((l) => l.textKey));
+            expect(keys).to.include("apresults:killallgo.CAPTURE.suicide");
+            expect(g.chatLog(["Alice", "Bob"]).flat().join("\n")).to.include("Alice removed 2 of their own stones by suicide.");
         });
 
         it("still displays the result of an older game ended by consecutive passes", () => {

@@ -5007,6 +5007,12 @@
         "name": "Ocultar indicadores de restricción"
       }
     },
+    "killallgo": {
+      "pass-alive-throughout": {
+        "name": "Marcar piedras pass-alive durante toda la partida",
+        "description": "Marcar las piedras incondicionalmente vivas (pass-alive) en todas las posiciones, no solo cuando la partida haya terminado."
+      }
+    },
     "knightline": {
       "show-origin": {
         "description": "Marcar la posición de la primera pieza.",

@@ -703,6 +703,36 @@
       "english": "{{player}} invoked the pie rule."
     },
     {
+      "oldPath": "PLACE.PYRAMID_1",
+      "oldFullKey": "apresults:PLACE.PYRAMID_1",
+      "uid": "_general",
+      "resultType": "PLACE",
+      "newLeaf": "PYRAMID_1",
+      "newPath": "_general.PLACE.PYRAMID_1",
+      "newFullKey": "apresults:_general.PLACE.PYRAMID_1",
+      "english": "{{player}} placed a small piece at {{where}}."
+    },
+    {
+      "oldPath": "PLACE.PYRAMID_2",
+      "oldFullKey": "apresults:PLACE.PYRAMID_2",
+      "uid": "_general",
+      "resultType": "PLACE",
+      "newLeaf": "PYRAMID_2",
+      "newPath": "_general.PLACE.PYRAMID_2",
+      "newFullKey": "apresults:_general.PLACE.PYRAMID_2",
+      "english": "{{player}} placed a medium piece at {{where}}."
+    },
+    {
+      "oldPath": "PLACE.PYRAMID_3",
+      "oldFullKey": "apresults:PLACE.PYRAMID_3",
+      "uid": "_general",
+      "resultType": "PLACE",
+      "newLeaf": "PYRAMID_3",
+      "newPath": "_general.PLACE.PYRAMID_3",
+      "newFullKey": "apresults:_general.PLACE.PYRAMID_3",
+      "english": "{{player}} placed a large piece at {{where}}."
+    },
+    {
       "oldPath": "PLACE.ball",
       "oldFullKey": "apresults:PLACE.ball",
       "uid": "_general",
@@ -761,36 +791,6 @@
       "newPath": "_general.PLACE.nowhat",
       "newFullKey": "apresults:_general.PLACE.nowhat",
       "english": "{{player}} placed a piece at {{where}}."
-    },
-    {
-      "oldPath": "PLACE.PYRAMID_1",
-      "oldFullKey": "apresults:PLACE.PYRAMID_1",
-      "uid": "_general",
-      "resultType": "PLACE",
-      "newLeaf": "PYRAMID_1",
-      "newPath": "_general.PLACE.PYRAMID_1",
-      "newFullKey": "apresults:_general.PLACE.PYRAMID_1",
-      "english": "{{player}} placed a small piece at {{where}}."
-    },
-    {
-      "oldPath": "PLACE.PYRAMID_2",
-      "oldFullKey": "apresults:PLACE.PYRAMID_2",
-      "uid": "_general",
-      "resultType": "PLACE",
-      "newLeaf": "PYRAMID_2",
-      "newPath": "_general.PLACE.PYRAMID_2",
-      "newFullKey": "apresults:_general.PLACE.PYRAMID_2",
-      "english": "{{player}} placed a medium piece at {{where}}."
-    },
-    {
-      "oldPath": "PLACE.PYRAMID_3",
-      "oldFullKey": "apresults:PLACE.PYRAMID_3",
-      "uid": "_general",
-      "resultType": "PLACE",
-      "newLeaf": "PYRAMID_3",
-      "newPath": "_general.PLACE.PYRAMID_3",
-      "newFullKey": "apresults:_general.PLACE.PYRAMID_3",
-      "english": "{{player}} placed a large piece at {{where}}."
     },
     {
       "oldPath": "PLACE.theirs",
@@ -1033,6 +1033,16 @@
       "english": "{{player}} lost on time."
     },
     {
+      "oldPath": "WINNERSNONE",
+      "oldFullKey": "apresults:WINNERSNONE",
+      "uid": "_general",
+      "resultType": "WINNERSNONE",
+      "newLeaf": "default",
+      "newPath": "_general.WINNERSNONE.default",
+      "newFullKey": "apresults:_general.WINNERSNONE.default",
+      "english": "There were no winners."
+    },
+    {
       "oldPath": "WINNERS_one",
       "oldFullKey": "apresults:WINNERS_one",
       "uid": "_general",
@@ -1051,16 +1061,6 @@
       "newPath": "_general.WINNERS_other",
       "newFullKey": "apresults:_general.WINNERS_other",
       "english": "The following players won: {{winners}}."
-    },
-    {
-      "oldPath": "WINNERSNONE",
-      "oldFullKey": "apresults:WINNERSNONE",
-      "uid": "_general",
-      "resultType": "WINNERSNONE",
-      "newLeaf": "default",
-      "newPath": "_general.WINNERSNONE.default",
-      "newFullKey": "apresults:_general.WINNERSNONE.default",
-      "english": "There were no winners."
     },
     {
       "oldPath": "DECKDRAW.agofmars",
@@ -1083,16 +1083,6 @@
       "english": "{{player}} moved a pyramid from {{from}} to {{to}}."
     },
     {
-      "oldPath": "OBJECTIVE_SWAP.agofmars",
-      "oldFullKey": "apresults:OBJECTIVE_SWAP.agofmars",
-      "uid": "agofmars",
-      "resultType": "OBJECTIVE_SWAP",
-      "newLeaf": "default",
-      "newPath": "agofmars.OBJECTIVE_SWAP.default",
-      "newFullKey": "apresults:agofmars.OBJECTIVE_SWAP.default",
-      "english": "{{player}} swapped objective multipliers {{columnA}} and {{columnB}}."
-    },
-    {
       "oldPath": "OBJECTIVES.agofmars",
       "oldFullKey": "apresults:OBJECTIVES.agofmars",
       "uid": "agofmars",
@@ -1101,6 +1091,16 @@
       "newPath": "agofmars.OBJECTIVES.default",
       "newFullKey": "apresults:agofmars.OBJECTIVES.default",
       "english": "{{player}} chose their objectives."
+    },
+    {
+      "oldPath": "OBJECTIVE_SWAP.agofmars",
+      "oldFullKey": "apresults:OBJECTIVE_SWAP.agofmars",
+      "uid": "agofmars",
+      "resultType": "OBJECTIVE_SWAP",
+      "newLeaf": "default",
+      "newPath": "agofmars.OBJECTIVE_SWAP.default",
+      "newFullKey": "apresults:agofmars.OBJECTIVE_SWAP.default",
+      "english": "{{player}} swapped objective multipliers {{columnA}} and {{columnB}}."
     },
     {
       "oldPath": "PASS.agofmars_noObjSwap",
@@ -2613,16 +2613,6 @@
       "english": "The game has ended because {{player}} connected the {{edges}} edges."
     },
     {
-      "oldPath": "DRUID_HEX_EDGE.and",
-      "oldFullKey": "apresults:DRUID_HEX_EDGE.and",
-      "uid": "druid",
-      "resultType": "HEX_EDGE",
-      "newLeaf": "and",
-      "newPath": "druid.HEX_EDGE.and",
-      "newFullKey": "apresults:druid.HEX_EDGE.and",
-      "english": "and"
-    },
-    {
       "oldPath": "DRUID_HEX_EDGE.N",
       "oldFullKey": "apresults:DRUID_HEX_EDGE.N",
       "uid": "druid",
@@ -2681,6 +2671,16 @@
       "newPath": "druid.HEX_EDGE.SW",
       "newFullKey": "apresults:druid.HEX_EDGE.SW",
       "english": "southwest (SW)"
+    },
+    {
+      "oldPath": "DRUID_HEX_EDGE.and",
+      "oldFullKey": "apresults:DRUID_HEX_EDGE.and",
+      "uid": "druid",
+      "resultType": "HEX_EDGE",
+      "newLeaf": "and",
+      "newPath": "druid.HEX_EDGE.and",
+      "newFullKey": "apresults:druid.HEX_EDGE.and",
+      "english": "and"
     },
     {
       "oldPath": "MOVE.druid_walk",

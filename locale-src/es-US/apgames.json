@@ -19087,9 +19087,13 @@
     "src": "40x40 board",
     "out": "Tablero de 40x40"
   },
+  "variants.mixtour.#scores.description": {
+    "src": "The winner is the first to score a point.",
+    "out": "El ganador es el primero en anotar un punto."
+  },
   "variants.mixtour.#scores.name": {
-    "src": "Default scores",
-    "out": "Puntuación predeterminada"
+    "src": "Instant death",
+    "out": "Muerte instantánea"
   },
   "variants.mixtour.five.description": {
     "src": "The winner is the first to score three points.",

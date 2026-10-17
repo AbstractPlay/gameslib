@@ -19087,9 +19087,13 @@
     "src": "40x40 board",
     "out": "40x40-Brett"
   },
+  "variants.mixtour.#scores.description": {
+    "src": "The winner is the first to score a point.",
+    "out": "Gewonnen hat, wer zuerst einen Punkt erzielt."
+  },
   "variants.mixtour.#scores.name": {
-    "src": "Default scores",
-    "out": "Standard-Wertung"
+    "src": "Instant death",
+    "out": "Plötzlicher Tod"
   },
   "variants.mixtour.five.description": {
     "src": "The winner is the first to score three points.",

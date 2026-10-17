@@ -3,6 +3,7 @@
 import "mocha";
 import { expect } from "chai";
 import { addResource } from "../../src";
+import type { IRenderOpts } from "../../src/games/_base";
 import i18next from "i18next";
 import { applyPlacement, BLUE, KillAllGoGame, makeGeometry, passAliveStrings, RED, roomForTwoEyes, signature, stringAt, type Board } from "../../src/games/killallgo";
 
@@ -33,6 +34,27 @@ const entered = (g: KillAllGoGame): string[] =>
         .filter((a) => a.type === "enter")
         .flatMap((a) => (a as { targets: Array<{ row: number; col: number }> }).targets)
         .map(({ row, col }) => g.coords2algebraic(col, row));
+
+/** The cells whose stones the rendered board draws translucent (pass-alive), sorted. */
+const faded = (g: KillAllGoGame, opts?: IRenderOpts): string[] => {
+    const rep = g.render(opts);
+    const keys = new Set(Object.entries(rep.legend ?? {})
+        .filter(([, entry]) => [entry].flat().some((glyph) => ((glyph as { opacity?: number }).opacity ?? 1) < 1))
+        .map(([key]) => key));
+    const cells: string[] = [];
+    (rep.pieces as string).split("\n").forEach((row, y) => {
+        if (row !== "_") {
+            (row.includes(",") ? row.split(",") : row.split("")).forEach((key, x) => {
+                if (keys.has(key)) {
+                    cells.push(g.coords2algebraic(x, y));
+                }
+            });
+        }
+    });
+    return cells.sort();
+};
+
+const THROUGHOUT: IRenderOpts = { altDisplays: ["pass-alive-throughout"] };
 
 // `X` = Blue (the colour under test), `O` = Red, `.` = empty; the first row is the top of the board.
 const boardFrom = (rows: string[]): Board => {
@@ -923,10 +945,14 @@ describe("Kill-All Go", () => {
             expect(g.winner).to.deep.equal([2]);
             expect(g.stack[g.stack.length - 1]._results).to.deep.include({ type: "eog", reason: "no-room" });
             expect(g.alive!.length).to.equal(36);
-            const enters = g.render().annotations!.filter((a) => a.type === "enter");
-            expect(enters.some((a) => (a as { targets: unknown[] }).targets.length === 36)).to.be.true;
+            expect(faded(g)).to.deep.equal([...g.alive!].sort());
+            expect(faded(g, THROUGHOUT)).to.deep.equal([...g.alive!].sort());
             const keys = g.chatLogEntries(["Alice", "Bob"]).flatMap((e) => e.lines.map((l) => l.textKey));
             expect(keys).to.include("apresults:killallgo.EOG.no_room");
+            // Earlier positions of the finished game are marked only on request.
+            g.load(g.stack.length - 2);
+            expect(faded(g)).to.deep.equal([]);
+            expect(faded(g, THROUGHOUT)).to.deep.equal([...g.stack[g.stack.length - 1].alive!].sort());
         });
 
         it("notices the Attacker's win on the move that completes it", () => {
@@ -950,6 +976,8 @@ describe("Kill-All Go", () => {
             expect(passAliveStrings(g.board, makeGeometry(9), RED).flat().sort()).to.deep.equal(livingCorner.split(",").sort());
             expect(g.gameover).to.be.false;
             expect(g.phase).to.equal("play");
+            expect(faded(g)).to.deep.equal([]);
+            expect(faded(g, THROUGHOUT)).to.deep.equal(livingCorner.split(",").sort());
         });
 
         it("treats only unconditionally alive Attacker stones as obstacles", () => {
@@ -972,9 +1000,9 @@ describe("Kill-All Go", () => {
             expect(g.alive!.sort()).to.deep.equal(["a2", "b1", "b2", "c2", "d1", "d2"]);
             const results = g.stack[g.stack.length - 1]._results;
             expect(results).to.deep.include({ type: "eog", reason: "pass-alive" });
-            const rep = g.render();
-            const enters = rep.annotations!.filter((a) => a.type === "enter");
-            expect(enters.some((a) => (a as { targets: unknown[] }).targets.length === 6)).to.be.true;
+            expect(faded(g)).to.deep.equal(["a2", "b1", "b2", "c2", "d1", "d2"]);
+            expect(faded(g, THROUGHOUT)).to.deep.equal(["a2", "b1", "b2", "c2", "d1", "d2"]);
+            expect(entered(g)).to.deep.equal(["b1"]);
         });
 
         it("gives the Defender no way to win but a pass-alive string", () => {

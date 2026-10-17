@@ -49,7 +49,7 @@ export function printLocaleEnHelp() {
 
 Usage:
   npm run locale-en                              check both merged files (default)
-  npm run locale-en -- merge --write             merge sources → locales/en/*.json
+  npm run locale-en -- merge --write             merge sources → locales/en/*.json (+ path map, managed names)
   npm run locale-en -- keys --warn --strict --summary
   npm run locale-en -- remap --write             apgames: src-match; apresults: path-map
   npm run locale-en -- prune [--write] [--uid <uid>]

@@ -17,7 +17,7 @@ Then run `npm run locale-en -- merge apresults --write` and commit the regenerat
 
 **Key paths:** `apresults:_general.<ResultType>.<leaf>` for shared stems; `apresults:<uid>.<ResultType>.<leaf>` for game-specific lines (including homeworlds under uid `homeworlds`).
 
-When nested paths change but English text stays the same, run `npm run locale-en -- remap apresults --write` before machine translation. Regenerate [`apresults-path-map.json`](locale-src/en/apresults/apresults-path-map.json) with `node scripts/audit-apresults-catalog.mjs --write-map` when adding or renaming English leaves.
+When nested paths change but English text stays the same, run `npm run locale-en -- remap apresults --write` before machine translation. Adding or renaming move-log leaves: run `npm run locale-en -- merge --write` (refreshes [`apresults-path-map.json`](locale-src/en/apresults/apresults-path-map.json) automatically).
 
 Other languages under `locales/{de,fr,it,es-US}/` are Weblate/CI-managed — do not hand-edit `locale-src/{de,fr,it,es-US}/` tracking files.
 

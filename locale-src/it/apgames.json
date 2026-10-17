@@ -5235,6 +5235,14 @@
     "src": "Boneyard",
     "out": "Monte"
   },
+  "status.focus.CAPTURES": {
+    "src": "Captures",
+    "out": "Catture"
+  },
+  "status.focus.CONTROLLED": {
+    "src": "Controlled",
+    "out": "Controllati"
+  },
   "status.guerrilla.G1_SCORE": {
     "src": "Game 1 insurgent score",
     "out": "Punteggio insorti Partita 1"
@@ -18470,6 +18478,38 @@
   "variants.flume.7x7.name": {
     "src": "Smaller board: 7x7",
     "out": "Tabellone più piccolo: 7x7"
+  },
+  "variants.focus.#goal.description": {
+    "src": "The last player able to move a stack wins.",
+    "out": "L'ultimo giocatore in grado di muovere una pila vince."
+  },
+  "variants.focus.#goal.name": {
+    "src": "Immobilize",
+    "out": "Immobilizzazione"
+  },
+  "variants.focus.captures-10.description": {
+    "src": "The first player to capture ten enemy pieces wins.",
+    "out": "Il primo giocatore che cattura dieci pezzi avversari vince."
+  },
+  "variants.focus.captures-10.name": {
+    "src": "Capture target (10)",
+    "out": "Obiettivo catture (10)"
+  },
+  "variants.focus.captures-6.description": {
+    "src": "The first player to capture six enemy pieces wins.",
+    "out": "Il primo giocatore che cattura sei pezzi avversari vince."
+  },
+  "variants.focus.captures-6.name": {
+    "src": "Capture target (6)",
+    "out": "Obiettivo catture (6)"
+  },
+  "variants.focus.hegemony.description": {
+    "src": "The game ends when one player controls every stack on the board; a player with no controlled stacks loses immediately.",
+    "out": "La partita termina quando un giocatore controlla ogni pila sulla plancia; un giocatore senza pile controllate perde immediatamente."
+  },
+  "variants.focus.hegemony.name": {
+    "src": "Hegemony",
+    "out": "Egemonia"
   },
   "variants.forms.#board.name": {
     "src": "8x8 board",

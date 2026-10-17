@@ -17,6 +17,10 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ## [1.0.0-ci] - 2026-10-17
 
+### Added
+
+- **Focus:** Goal variants `captures-6`, `captures-10`, and `hegemony`; per-seat capture tally in saved state; sidebar **Controlled** / **Captures** (captures row only in capture-target modes).
+
 ### Fixed
 
 - **Generatorb:** `noglobes` is stored on game-level `state.variants` (legacy saves with empty `variants` infer `noglobes` from the opening board on `stack[0]`).

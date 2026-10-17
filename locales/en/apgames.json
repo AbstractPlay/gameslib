@@ -640,6 +640,10 @@
     "evenatodds": {
       "BONEYARD": "Boneyard"
     },
+    "focus": {
+      "CAPTURES": "Captures",
+      "CONTROLLED": "Controlled"
+    },
     "guerrilla": {
       "G1_SCORE": "Game 1 insurgent score",
       "GAME1": "Game 1",
@@ -6708,6 +6712,24 @@
       },
       "#board": {
         "name": "Default board"
+      }
+    },
+    "focus": {
+      "#goal": {
+        "description": "The last player able to move a stack wins.",
+        "name": "Immobilize"
+      },
+      "captures-6": {
+        "description": "The first player to capture six enemy pieces wins.",
+        "name": "Capture target (6)"
+      },
+      "captures-10": {
+        "description": "The first player to capture ten enemy pieces wins.",
+        "name": "Capture target (10)"
+      },
+      "hegemony": {
+        "description": "The game ends when one player controls every stack on the board; a player with no controlled stacks loses immediately.",
+        "name": "Hegemony"
       }
     },
     "forms": {

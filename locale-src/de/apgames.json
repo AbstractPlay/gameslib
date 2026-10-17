@@ -5235,6 +5235,14 @@
     "src": "Boneyard",
     "out": "Friedhof"
   },
+  "status.focus.CAPTURES": {
+    "src": "Captures",
+    "out": "Geschlagen"
+  },
+  "status.focus.CONTROLLED": {
+    "src": "Controlled",
+    "out": "Kontrolliert"
+  },
   "status.guerrilla.G1_SCORE": {
     "src": "Game 1 insurgent score",
     "out": "Aufständischen-Punktzahl Spiel 1"
@@ -18470,6 +18478,38 @@
   "variants.flume.7x7.name": {
     "src": "Smaller board: 7x7",
     "out": "Kleineres Brett: 7x7"
+  },
+  "variants.focus.#goal.description": {
+    "src": "The last player able to move a stack wins.",
+    "out": "Der letzte Spieler, der noch einen Stapel bewegen kann, gewinnt."
+  },
+  "variants.focus.#goal.name": {
+    "src": "Immobilize",
+    "out": "Immobilisierung"
+  },
+  "variants.focus.captures-10.description": {
+    "src": "The first player to capture ten enemy pieces wins.",
+    "out": "Der erste Spieler, der zehn gegnerische Steine schlägt, gewinnt."
+  },
+  "variants.focus.captures-10.name": {
+    "src": "Capture target (10)",
+    "out": "Schlagziel (10)"
+  },
+  "variants.focus.captures-6.description": {
+    "src": "The first player to capture six enemy pieces wins.",
+    "out": "Der erste Spieler, der sechs gegnerische Steine schlägt, gewinnt."
+  },
+  "variants.focus.captures-6.name": {
+    "src": "Capture target (6)",
+    "out": "Schlagziel (6)"
+  },
+  "variants.focus.hegemony.description": {
+    "src": "The game ends when one player controls every stack on the board; a player with no controlled stacks loses immediately.",
+    "out": "Das Spiel endet, wenn ein Spieler jeden Stapel auf dem Spielbrett kontrolliert; ein Spieler ohne kontrollierte Stapel verliert sofort."
+  },
+  "variants.focus.hegemony.name": {
+    "src": "Hegemony",
+    "out": "Hegemonie"
   },
   "variants.forms.#board.name": {
     "src": "8x8 board",

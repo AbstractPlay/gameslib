@@ -108,6 +108,17 @@ export class OrbGame extends GameBase {
     public static frontLine: string[] = ["a8","b7","c6","d5","e4","f3","g2","h1"];
     public static reOps = /[-x+/#*]/;
 
+    /** Legacy saves omitted `state.variants` but encoded noglobes in the opening board. */
+    public static inferVariantsFromInitialBoard(board: Map<string, CellContents> | undefined): string[] {
+        if (board === undefined) {
+            return [];
+        }
+        if (!board.has("d4") && !board.has("e5")) {
+            return ["noglobes"];
+        }
+        return [];
+    }
+
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, CellContents>;
@@ -121,6 +132,7 @@ export class OrbGame extends GameBase {
     constructor(state?: IOrbState | string, variants?: string[]) {
         super();
         if (state === undefined) {
+            this.variants = [...(variants ?? [])];
             const board = new Map<string, CellContents>([
                 ["a1",[1,1]],
                 ["a2",[1,1]],
@@ -131,7 +143,7 @@ export class OrbGame extends GameBase {
                 ["h7",[2,1]],
                 ["h8",[2,1]],
             ]);
-            if ( (variants === undefined) || (variants.length === 0) || (! variants.includes("noglobes")) ) {
+            if (!this.variants.includes("noglobes")) {
                 board.set("d4", [1,3]);
                 board.set("e5", [2,3]);
             }
@@ -141,7 +153,7 @@ export class OrbGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 board,
-                stashes: [20,20]
+                stashes: [20,20],
             };
             this.stack = [fresh];
         } else {
@@ -153,7 +165,13 @@ export class OrbGame extends GameBase {
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
-            this.variants = state.variants;
+            this.variants = [...state.variants];
+            if (this.variants.length === 0) {
+                const inferred = OrbGame.inferVariantsFromInitialBoard(state.stack[0]?.board);
+                if (inferred.length > 0) {
+                    this.variants = inferred;
+                }
+            }
             this.stack = [...state.stack];
         }
         this.load();
@@ -723,7 +741,7 @@ export class OrbGame extends GameBase {
         return {
             game: OrbGame.gameinfo.uid,
             numplayers: this.numplayers,
-            variants: this.variants,
+            variants: [...this.variants],
             gameover: this.gameover,
             winner: [...this.winner],
             stack: [...this.stack]

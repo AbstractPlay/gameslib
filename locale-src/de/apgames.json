@@ -2923,6 +2923,14 @@
     "src": "Hide restriction indicators",
     "out": "Einschränkungsanzeigen ausblenden"
   },
+  "displays.killallgo.pass-alive-throughout.description": {
+    "src": "Mark unconditionally alive (pass-alive) stones in every position, not only once the game has ended.",
+    "out": "Markiert bedingungslos lebendige (Pass-alive-)Steine in jeder Stellung, nicht erst nach Ende des Spiels."
+  },
+  "displays.killallgo.pass-alive-throughout.name": {
+    "src": "Mark pass-alive stones throughout the game",
+    "out": "Pass-alive-Steine während des gesamten Spiels markieren"
+  },
   "displays.knightline.show-origin.description": {
     "src": "Mark the position of the first piece.",
     "out": "Position der ersten Figur markieren."

@@ -5009,6 +5009,12 @@
         "name": "Einschränkungsanzeigen ausblenden"
       }
     },
+    "killallgo": {
+      "pass-alive-throughout": {
+        "name": "Pass-alive-Steine während des gesamten Spiels markieren",
+        "description": "Markiert bedingungslos lebendige (Pass-alive-)Steine in jeder Stellung, nicht erst nach Ende des Spiels."
+      }
+    },
     "knightline": {
       "show-origin": {
         "description": "Position der ersten Figur markieren.",

@@ -5009,6 +5009,12 @@
         "name": "Nascondi indicatori di restrizione"
       }
     },
+    "killallgo": {
+      "pass-alive-throughout": {
+        "name": "Contrassegna le pietre pass-alive durante tutta la partita",
+        "description": "Contrassegna le pietre incondizionatamente vive (pass-alive) in ogni posizione, non solo al termine della partita."
+      }
+    },
     "knightline": {
       "show-origin": {
         "description": "Contrassegna la posizione del primo pezzo.",

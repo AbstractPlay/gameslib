@@ -1571,6 +1571,45 @@
       "default": "{{player}} ha selezionato {{card}}."
     }
   },
+  "thuemorsego": {
+    "CAPTURE": {
+      "suicide_one": "{{player}} ha rimosso una propria pietra per suicidio.",
+      "suicide_other": "{{player}} ha rimosso {{count}} delle proprie pietre per suicidio."
+    },
+    "CLAIM": {
+      "attacker": "{{player}} ha scelto di giocare come Attaccante."
+    },
+    "DECLARE": {
+      "stones_one": "{{player}} ha impostato l'handicap a una pietra.",
+      "stones_other": "{{player}} ha impostato l'handicap a {{count}} pietre.",
+      "komi_one": "{{player}} ha dato all'avversario un komi inverso di {{count}} punto.",
+      "komi_other": "{{player}} ha dato all'avversario un komi inverso di {{count}} punti."
+    },
+    "EOG": {
+      "repetition": "La partita è terminata in parità perché la stessa posizione si è verificata cinque volte.",
+      "pass_alive": "La partita è terminata perché il Difensore ha formato una catena incondizionatamente viva.",
+      "no_room": "La partita è terminata perché le pietre incondizionatamente vive dell'Attaccante non lasciano spazio al Difensore per formare una catena viva.",
+      "no_moves": "La partita è terminata perché il giocatore di turno non ha mosse legali."
+    },
+    "PASS": {
+      "handicap": "{{player}} ha concesso una pietra di handicap passando."
+    },
+    "PLACE": {
+      "setup": "{{player}} ha posizionato una pietra dell'Attaccante in {{where}}."
+    },
+    "REMOVE": {
+      "dead_one": "La pietra contrassegnata come morta è stata rimossa dal tabellone.",
+      "dead_other": "Le {{count}} pietre contrassegnate come morte sono state rimosse dal tabellone."
+    },
+    "SELECT": {
+      "marked_one": "{{player}} ha contrassegnato una pietra come morta.",
+      "marked_other": "{{player}} ha contrassegnato {{count}} pietre come morte.",
+      "changed_one": "{{player}} ha modificato la marcatura: una pietra è contrassegnata come morta.",
+      "changed_other": "{{player}} ha modificato la marcatura: {{count}} pietre sono contrassegnate come morte.",
+      "cleared": "{{player}} ha annullato la marcatura: nessuna pietra è contrassegnata come morta.",
+      "locked": "La marcatura delle pietre morte è terminata: nessuna pietra è contrassegnata come morta e i passi non comportano marcature per il resto della partita."
+    }
+  },
   "toguz": {
     "CLAIM": {
       "default": "La fossa {{pit}} è diventata una tuz."

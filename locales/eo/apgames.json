@@ -5812,18 +5812,10 @@
       },
       "random-start": {
         "name": "Simetriaj hazardaj nuboj",
-        "description": "Ne estas fazo por meti nubojn. La sistemo hazarde metas ilin kun rotacia simetrio je 180 gradoj."
+        "description": "Ne estas fazo por meti nubojn. La sistemo metas nubojn en paroj kun rotacia simetrio je 180 gradoj for de la rando de la tabulo, ĉiufoje elektante inter la ĉeloj, kiuj plej egale dividas liberan paflinion. Nubo en la centro kalkuliĝas kiel paro, do al la tabulo mankas unu nubo."
       },
       "asymmetric-random-start": {
         "name": "Nesimetriaj hazardaj nuboj",
-        "description": "Ne estas fazo por meti nubojn. La sistemo hazarde metas ilin sen postuli simetrion."
-      },
-      "split-start": {
-        "name": "Simetriaj hazardaj nuboj (nova)",
-        "description": "Ne estas fazo por meti nubojn. La sistemo metas nubojn en paroj kun rotacia simetrio je 180 gradoj for de la rando de la tabulo, ĉiufoje elektante inter la ĉeloj, kiuj plej egale dividas liberan paflinion. Nubo en la centro kalkuliĝas kiel paro, do al la tabulo mankas unu nubo."
-      },
-      "asymmetric-split-start": {
-        "name": "Nesimetriaj hazardaj nuboj (nova)",
         "description": "Ne estas fazo por meti nubojn. La sistemo metas nubojn unu post alia for de la rando de la tabulo, ĉiufoje elektante inter la ĉeloj, kiuj plej egale dividas liberan paflinion."
       },
       "clumping-start": {

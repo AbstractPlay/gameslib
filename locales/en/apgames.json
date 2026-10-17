@@ -6279,18 +6279,10 @@
       },
       "random-start": {
         "name": "Symmetric random clouds",
-        "description": "There is no cloud placing phase. The system places the clouds randomly with 180-degree rotational symmetry."
+        "description": "There is no cloud placing phase. The system places clouds in 180-degree rotationally symmetric pairs away from the board edge, each time choosing among the cells that split an open line of fire most evenly. A cloud in the centre counts as a pair, leaving the board one cloud short."
       },
       "asymmetric-random-start": {
         "name": "Asymmetric random clouds",
-        "description": "There is no cloud placing phase. The system places the clouds randomly without requiring symmetry."
-      },
-      "split-start": {
-        "name": "Symmetric random clouds (new)",
-        "description": "There is no cloud placing phase. The system places clouds in 180-degree rotationally symmetric pairs away from the board edge, each time choosing among the cells that split an open line of fire most evenly. A cloud in the centre counts as a pair, leaving the board one cloud short."
-      },
-      "asymmetric-split-start": {
-        "name": "Asymmetric random clouds (new)",
         "description": "There is no cloud placing phase. The system places clouds one at a time away from the board edge, each time choosing among the cells that split an open line of fire most evenly."
       },
       "clumping-start": {

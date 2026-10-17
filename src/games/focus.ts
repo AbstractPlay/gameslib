@@ -13,6 +13,28 @@ export const gameApgamesEn = {
         TOOFAR: "You may not move the stack more spaces than the number of pieces in the stack.",
         UNCONTROLLED: "You can only move stacks where your piece is on top.",
     },
+    status: {
+        CAPTURES: "Captures",
+        CONTROLLED: "Controlled",
+    },
+    variants: {
+        "#goal": {
+            description: "The last player able to move a stack wins.",
+            name: "Immobilize",
+        },
+        "captures-6": {
+            description: "The first player to capture six enemy pieces wins.",
+            name: "Capture target (6)",
+        },
+        "captures-10": {
+            description: "The first player to capture ten enemy pieces wins.",
+            name: "Capture target (10)",
+        },
+        hegemony: {
+            description: "The game ends when one player controls every stack on the board; a player with no controlled stacks loses immediately.",
+            name: "Hegemony",
+        },
+    },
 };
 
 
@@ -23,6 +45,7 @@ export interface IMoveState extends IIndividualState {
     board: Map<string, playerid[]>;
     lastmove?: string;
     inhand: [number,number];
+    captures: [number, number];
 };
 
 export interface IFocusState extends IAPGameState {
@@ -57,7 +80,13 @@ export class FocusGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
-        categories: ["goal>immobilize", "mechanic>capture", "mechanic>coopt", "mechanic>move", "mechanic>stack", "board>shape>oct", "board>connect>rect", "components>simple>1per"],
+        categories: ["goal>immobilize", "goal>score>race", "mechanic>capture", "mechanic>coopt", "mechanic>move", "mechanic>stack", "board>shape>oct", "board>connect>rect", "components>simple>1per"],
+        variants: [
+            { uid: "#goal", group: "goal" },
+            { uid: "captures-6", group: "goal" },
+            { uid: "captures-10", group: "goal" },
+            { uid: "hegemony", group: "goal" },
+        ],
         flags: []
     };
     public static coords2algebraic(x: number, y: number): string {
@@ -76,10 +105,14 @@ export class FocusGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     public inhand: [number,number] = [0,0];
+    public captures: [number, number] = [0, 0];
 
-    constructor(state?: IFocusState | string) {
+    constructor(state?: IFocusState | string, variants?: string[]) {
         super();
         if (state === undefined) {
+            if (variants !== undefined) {
+                this.variants = [...variants];
+            }
             const board = new Map<string, playerid[]>();
             for (let row = 1; row < 7; row++) {
                 let outer: playerid = 1;
@@ -103,6 +136,7 @@ export class FocusGame extends GameBase {
                 _timestamp: new Date(),
                 currplayer: 1,
                 inhand: [0,0],
+                captures: [0, 0],
                 board,
             };
             this.stack = [fresh];
@@ -134,7 +168,28 @@ export class FocusGame extends GameBase {
         this.board = new Map(state.board);
         this.lastmove = state.lastmove;
         this.inhand = [...state.inhand];
+        this.captures = state.captures !== undefined ? [...state.captures] : [0, 0];
         return this;
+    }
+
+    private captureTarget(): number | undefined {
+        if (this.variants.includes("captures-10")) {
+            return 10;
+        }
+        if (this.variants.includes("captures-6")) {
+            return 6;
+        }
+        return undefined;
+    }
+
+    private isImmobilizeGoal(): boolean {
+        if (this.variants.includes("hegemony")) {
+            return false;
+        }
+        if (this.captureTarget() !== undefined) {
+            return false;
+        }
+        return true;
     }
 
     public moves(player?: playerid): string[] {
@@ -427,6 +482,7 @@ export class FocusGame extends GameBase {
             const capped = removed.filter(p => p !== this.currplayer).length;
             const reclaimed = removed.filter(p => p === this.currplayer).length;
             if (capped > 0) {
+                this.captures[this.currplayer - 1] += capped;
                 this.results.push({type: "capture", count: capped, where: dest});
             }
             if (reclaimed > 0) {
@@ -453,8 +509,21 @@ export class FocusGame extends GameBase {
         if (this.currplayer === 1) {
             prevPlayer = 2;
         }
-        // If you have no pieces, you have no moves, and you lose
-        if (this.moves().length === 0) {
+        const target = this.captureTarget();
+        if (target !== undefined && this.captures[prevPlayer - 1] >= target) {
+            this.gameover = true;
+            this.winner = [prevPlayer];
+        } else if (this.variants.includes("hegemony")) {
+            const c1 = this.getControlled(1);
+            const c2 = this.getControlled(2);
+            if (c1 === 0) {
+                this.gameover = true;
+                this.winner = [2];
+            } else if (c2 === 0) {
+                this.gameover = true;
+                this.winner = [1];
+            }
+        } else if (this.isImmobilizeGoal() && this.moves().length === 0) {
             this.gameover = true;
             this.winner = [prevPlayer];
         }
@@ -487,6 +556,7 @@ export class FocusGame extends GameBase {
             lastmove: this.lastmove,
             board: new Map(this.board),
             inhand: [...this.inhand],
+            captures: [...this.captures],
         };
     }
 
@@ -562,15 +632,19 @@ export class FocusGame extends GameBase {
         return rep;
     }
 
-    public getPlayerScore(player: number): number {
+    public getControlled(player: number): number {
         return [...this.board.values()].filter(s => s[s.length - 1] === player).length;
     }
 
     public sidebarScores(): IScores[] {
-        return [
-            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
-            { name: this.neutralAreaLabel("apgames:status.PIECESINHAND"), scores: this.inhand }
-        ]
+        const rows: IScores[] = [
+            { name: this.neutralAreaLabel("apgames:status.focus.CONTROLLED"), scores: [this.getControlled(1), this.getControlled(2)] },
+        ];
+        if (this.captureTarget() !== undefined) {
+            rows.push({ name: this.neutralAreaLabel("apgames:status.focus.CAPTURES"), scores: [...this.captures] });
+        }
+        rows.push({ name: this.neutralAreaLabel("apgames:status.PIECESINHAND"), scores: this.inhand });
+        return rows;
     }
 
     protected recordExportExclude(): string[] {

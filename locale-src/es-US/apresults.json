@@ -2687,6 +2687,90 @@
     "src": "{{player}} selected {{card}}.",
     "out": "{{player}} seleccionó {{card}}."
   },
+  "thuemorsego.CAPTURE.suicide_one": {
+    "src": "{{player}} removed their own stone by suicide.",
+    "out": "{{player}} eliminó su propia piedra por suicidio."
+  },
+  "thuemorsego.CAPTURE.suicide_other": {
+    "src": "{{player}} removed {{count}} of their own stones by suicide.",
+    "out": "{{player}} eliminó {{count}} de sus propias piedras por suicidio."
+  },
+  "thuemorsego.CLAIM.attacker": {
+    "src": "{{player}} chose to play as the Attacker.",
+    "out": "{{player}} eligió jugar como el Atacante."
+  },
+  "thuemorsego.DECLARE.komi_one": {
+    "src": "{{player}} gave their opponent a reverse komi of {{count}} point.",
+    "out": "{{player}} le dio a su oponente un komi inverso de {{count}} punto."
+  },
+  "thuemorsego.DECLARE.komi_other": {
+    "src": "{{player}} gave their opponent a reverse komi of {{count}} points.",
+    "out": "{{player}} le dio a su oponente un komi inverso de {{count}} puntos."
+  },
+  "thuemorsego.DECLARE.stones_one": {
+    "src": "{{player}} set the handicap to one stone.",
+    "out": "{{player}} estableció el hándicap en una piedra."
+  },
+  "thuemorsego.DECLARE.stones_other": {
+    "src": "{{player}} set the handicap to {{count}} stones.",
+    "out": "{{player}} estableció el hándicap en {{count}} piedras."
+  },
+  "thuemorsego.EOG.no_moves": {
+    "src": "The game has ended because the player to move has no legal move.",
+    "out": "La partida ha terminado porque el jugador al que le toca mover no tiene ningún movimiento legal."
+  },
+  "thuemorsego.EOG.no_room": {
+    "src": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to form an unconditionally alive string.",
+    "out": "La partida ha terminado porque las piedras incondicionalmente vivas del Atacante no le dejan espacio al Defensor para formar una cadena viva."
+  },
+  "thuemorsego.EOG.pass_alive": {
+    "src": "The game has ended because the Defender formed an unconditionally alive string.",
+    "out": "La partida ha terminado porque el Defensor formó una cadena incondicionalmente viva."
+  },
+  "thuemorsego.EOG.repetition": {
+    "src": "The game has ended in a draw because the same position occurred five times.",
+    "out": "La partida ha terminado en empate porque la misma posición se repitió cinco veces."
+  },
+  "thuemorsego.PASS.handicap": {
+    "src": "{{player}} gave a handicap stone by passing.",
+    "out": "{{player}} dio una piedra de hándicap al pasar."
+  },
+  "thuemorsego.PLACE.setup": {
+    "src": "{{player}} placed an Attacker stone at {{where}}.",
+    "out": "{{player}} colocó una piedra de Atacante en {{where}}."
+  },
+  "thuemorsego.REMOVE.dead_one": {
+    "src": "The stone marked dead was removed from the board.",
+    "out": "La piedra marcada como muerta fue retirada del tablero."
+  },
+  "thuemorsego.REMOVE.dead_other": {
+    "src": "The {{count}} stones marked dead were removed from the board.",
+    "out": "Las {{count}} piedras marcadas como muertas fueron retiradas del tablero."
+  },
+  "thuemorsego.SELECT.changed_one": {
+    "src": "{{player}} changed the marking: one stone is marked dead.",
+    "out": "{{player}} cambió el marcado: una piedra está marcada como muerta."
+  },
+  "thuemorsego.SELECT.changed_other": {
+    "src": "{{player}} changed the marking: {{count}} stones are marked dead.",
+    "out": "{{player}} cambió el marcado: {{count}} piedras están marcadas como muertas."
+  },
+  "thuemorsego.SELECT.cleared": {
+    "src": "{{player}} cleared the marking: no stones are marked dead.",
+    "out": "{{player}} borró el marcado: ninguna piedra está marcada como muerta."
+  },
+  "thuemorsego.SELECT.locked": {
+    "src": "Dead-stone marking has ended: no stones are marked dead, and passes carry no marking for the rest of the game.",
+    "out": "El marcado de piedras muertas ha terminado: ninguna piedra está marcada como muerta y los pases no llevarán marcado por el resto de la partida."
+  },
+  "thuemorsego.SELECT.marked_one": {
+    "src": "{{player}} marked one stone as dead.",
+    "out": "{{player}} marcó una piedra como muerta."
+  },
+  "thuemorsego.SELECT.marked_other": {
+    "src": "{{player}} marked {{count}} stones as dead.",
+    "out": "{{player}} marcó {{count}} piedras como muertas."
+  },
   "toguz.CLAIM.default": {
     "src": "Pit {{pit}} became a tuz.",
     "out": "La casilla {{pit}} se convirtió en un tuz."

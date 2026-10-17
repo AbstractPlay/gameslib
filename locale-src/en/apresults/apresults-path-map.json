@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-15",
+  "generatedAt": "2026-10-17",
   "schemaVersion": 1,
   "entries": [
     {
@@ -703,6 +703,36 @@
       "english": "{{player}} invoked the pie rule."
     },
     {
+      "oldPath": "PLACE.PYRAMID_1",
+      "oldFullKey": "apresults:PLACE.PYRAMID_1",
+      "uid": "_general",
+      "resultType": "PLACE",
+      "newLeaf": "PYRAMID_1",
+      "newPath": "_general.PLACE.PYRAMID_1",
+      "newFullKey": "apresults:_general.PLACE.PYRAMID_1",
+      "english": "{{player}} placed a small piece at {{where}}."
+    },
+    {
+      "oldPath": "PLACE.PYRAMID_2",
+      "oldFullKey": "apresults:PLACE.PYRAMID_2",
+      "uid": "_general",
+      "resultType": "PLACE",
+      "newLeaf": "PYRAMID_2",
+      "newPath": "_general.PLACE.PYRAMID_2",
+      "newFullKey": "apresults:_general.PLACE.PYRAMID_2",
+      "english": "{{player}} placed a medium piece at {{where}}."
+    },
+    {
+      "oldPath": "PLACE.PYRAMID_3",
+      "oldFullKey": "apresults:PLACE.PYRAMID_3",
+      "uid": "_general",
+      "resultType": "PLACE",
+      "newLeaf": "PYRAMID_3",
+      "newPath": "_general.PLACE.PYRAMID_3",
+      "newFullKey": "apresults:_general.PLACE.PYRAMID_3",
+      "english": "{{player}} placed a large piece at {{where}}."
+    },
+    {
       "oldPath": "PLACE.ball",
       "oldFullKey": "apresults:PLACE.ball",
       "uid": "_general",
@@ -761,36 +791,6 @@
       "newPath": "_general.PLACE.nowhat",
       "newFullKey": "apresults:_general.PLACE.nowhat",
       "english": "{{player}} placed a piece at {{where}}."
-    },
-    {
-      "oldPath": "PLACE.PYRAMID_1",
-      "oldFullKey": "apresults:PLACE.PYRAMID_1",
-      "uid": "_general",
-      "resultType": "PLACE",
-      "newLeaf": "PYRAMID_1",
-      "newPath": "_general.PLACE.PYRAMID_1",
-      "newFullKey": "apresults:_general.PLACE.PYRAMID_1",
-      "english": "{{player}} placed a small piece at {{where}}."
-    },
-    {
-      "oldPath": "PLACE.PYRAMID_2",
-      "oldFullKey": "apresults:PLACE.PYRAMID_2",
-      "uid": "_general",
-      "resultType": "PLACE",
-      "newLeaf": "PYRAMID_2",
-      "newPath": "_general.PLACE.PYRAMID_2",
-      "newFullKey": "apresults:_general.PLACE.PYRAMID_2",
-      "english": "{{player}} placed a medium piece at {{where}}."
-    },
-    {
-      "oldPath": "PLACE.PYRAMID_3",
-      "oldFullKey": "apresults:PLACE.PYRAMID_3",
-      "uid": "_general",
-      "resultType": "PLACE",
-      "newLeaf": "PYRAMID_3",
-      "newPath": "_general.PLACE.PYRAMID_3",
-      "newFullKey": "apresults:_general.PLACE.PYRAMID_3",
-      "english": "{{player}} placed a large piece at {{where}}."
     },
     {
       "oldPath": "PLACE.theirs",
@@ -1033,6 +1033,16 @@
       "english": "{{player}} lost on time."
     },
     {
+      "oldPath": "WINNERSNONE",
+      "oldFullKey": "apresults:WINNERSNONE",
+      "uid": "_general",
+      "resultType": "WINNERSNONE",
+      "newLeaf": "default",
+      "newPath": "_general.WINNERSNONE.default",
+      "newFullKey": "apresults:_general.WINNERSNONE.default",
+      "english": "There were no winners."
+    },
+    {
       "oldPath": "WINNERS_one",
       "oldFullKey": "apresults:WINNERS_one",
       "uid": "_general",
@@ -1051,16 +1061,6 @@
       "newPath": "_general.WINNERS_other",
       "newFullKey": "apresults:_general.WINNERS_other",
       "english": "The following players won: {{winners}}."
-    },
-    {
-      "oldPath": "WINNERSNONE",
-      "oldFullKey": "apresults:WINNERSNONE",
-      "uid": "_general",
-      "resultType": "WINNERSNONE",
-      "newLeaf": "default",
-      "newPath": "_general.WINNERSNONE.default",
-      "newFullKey": "apresults:_general.WINNERSNONE.default",
-      "english": "There were no winners."
     },
     {
       "oldPath": "DECKDRAW.agofmars",
@@ -1083,16 +1083,6 @@
       "english": "{{player}} moved a pyramid from {{from}} to {{to}}."
     },
     {
-      "oldPath": "OBJECTIVE_SWAP.agofmars",
-      "oldFullKey": "apresults:OBJECTIVE_SWAP.agofmars",
-      "uid": "agofmars",
-      "resultType": "OBJECTIVE_SWAP",
-      "newLeaf": "default",
-      "newPath": "agofmars.OBJECTIVE_SWAP.default",
-      "newFullKey": "apresults:agofmars.OBJECTIVE_SWAP.default",
-      "english": "{{player}} swapped objective multipliers {{columnA}} and {{columnB}}."
-    },
-    {
       "oldPath": "OBJECTIVES.agofmars",
       "oldFullKey": "apresults:OBJECTIVES.agofmars",
       "uid": "agofmars",
@@ -1101,6 +1091,16 @@
       "newPath": "agofmars.OBJECTIVES.default",
       "newFullKey": "apresults:agofmars.OBJECTIVES.default",
       "english": "{{player}} chose their objectives."
+    },
+    {
+      "oldPath": "OBJECTIVE_SWAP.agofmars",
+      "oldFullKey": "apresults:OBJECTIVE_SWAP.agofmars",
+      "uid": "agofmars",
+      "resultType": "OBJECTIVE_SWAP",
+      "newLeaf": "default",
+      "newPath": "agofmars.OBJECTIVE_SWAP.default",
+      "newFullKey": "apresults:agofmars.OBJECTIVE_SWAP.default",
+      "english": "{{player}} swapped objective multipliers {{columnA}} and {{columnB}}."
     },
     {
       "oldPath": "PASS.agofmars_noObjSwap",
@@ -2613,16 +2613,6 @@
       "english": "The game has ended because {{player}} connected the {{edges}} edges."
     },
     {
-      "oldPath": "DRUID_HEX_EDGE.and",
-      "oldFullKey": "apresults:DRUID_HEX_EDGE.and",
-      "uid": "druid",
-      "resultType": "HEX_EDGE",
-      "newLeaf": "and",
-      "newPath": "druid.HEX_EDGE.and",
-      "newFullKey": "apresults:druid.HEX_EDGE.and",
-      "english": "and"
-    },
-    {
       "oldPath": "DRUID_HEX_EDGE.N",
       "oldFullKey": "apresults:DRUID_HEX_EDGE.N",
       "uid": "druid",
@@ -2681,6 +2671,16 @@
       "newPath": "druid.HEX_EDGE.SW",
       "newFullKey": "apresults:druid.HEX_EDGE.SW",
       "english": "southwest (SW)"
+    },
+    {
+      "oldPath": "DRUID_HEX_EDGE.and",
+      "oldFullKey": "apresults:DRUID_HEX_EDGE.and",
+      "uid": "druid",
+      "resultType": "HEX_EDGE",
+      "newLeaf": "and",
+      "newPath": "druid.HEX_EDGE.and",
+      "newFullKey": "apresults:druid.HEX_EDGE.and",
+      "english": "and"
     },
     {
       "oldPath": "MOVE.druid_walk",
@@ -6721,6 +6721,216 @@
       "newPath": "thricewise.SELECT.default",
       "newFullKey": "apresults:thricewise.SELECT.default",
       "english": "{{player}} selected {{card}}."
+    },
+    {
+      "oldPath": "CAPTURE.thuemorsego_suicide_one",
+      "oldFullKey": "apresults:CAPTURE.thuemorsego_suicide_one",
+      "uid": "thuemorsego",
+      "resultType": "CAPTURE",
+      "newLeaf": "suicide_one",
+      "newPath": "thuemorsego.CAPTURE.suicide_one",
+      "newFullKey": "apresults:thuemorsego.CAPTURE.suicide_one",
+      "english": "{{player}} removed their own stone by suicide."
+    },
+    {
+      "oldPath": "CAPTURE.thuemorsego_suicide_other",
+      "oldFullKey": "apresults:CAPTURE.thuemorsego_suicide_other",
+      "uid": "thuemorsego",
+      "resultType": "CAPTURE",
+      "newLeaf": "suicide_other",
+      "newPath": "thuemorsego.CAPTURE.suicide_other",
+      "newFullKey": "apresults:thuemorsego.CAPTURE.suicide_other",
+      "english": "{{player}} removed {{count}} of their own stones by suicide."
+    },
+    {
+      "oldPath": "CLAIM.thuemorsego_attacker",
+      "oldFullKey": "apresults:CLAIM.thuemorsego_attacker",
+      "uid": "thuemorsego",
+      "resultType": "CLAIM",
+      "newLeaf": "attacker",
+      "newPath": "thuemorsego.CLAIM.attacker",
+      "newFullKey": "apresults:thuemorsego.CLAIM.attacker",
+      "english": "{{player}} chose to play as the Attacker."
+    },
+    {
+      "oldPath": "DECLARE.thuemorsego_komi_one",
+      "oldFullKey": "apresults:DECLARE.thuemorsego_komi_one",
+      "uid": "thuemorsego",
+      "resultType": "DECLARE",
+      "newLeaf": "komi_one",
+      "newPath": "thuemorsego.DECLARE.komi_one",
+      "newFullKey": "apresults:thuemorsego.DECLARE.komi_one",
+      "english": "{{player}} gave their opponent a reverse komi of {{count}} point."
+    },
+    {
+      "oldPath": "DECLARE.thuemorsego_komi_other",
+      "oldFullKey": "apresults:DECLARE.thuemorsego_komi_other",
+      "uid": "thuemorsego",
+      "resultType": "DECLARE",
+      "newLeaf": "komi_other",
+      "newPath": "thuemorsego.DECLARE.komi_other",
+      "newFullKey": "apresults:thuemorsego.DECLARE.komi_other",
+      "english": "{{player}} gave their opponent a reverse komi of {{count}} points."
+    },
+    {
+      "oldPath": "DECLARE.thuemorsego_stones_one",
+      "oldFullKey": "apresults:DECLARE.thuemorsego_stones_one",
+      "uid": "thuemorsego",
+      "resultType": "DECLARE",
+      "newLeaf": "stones_one",
+      "newPath": "thuemorsego.DECLARE.stones_one",
+      "newFullKey": "apresults:thuemorsego.DECLARE.stones_one",
+      "english": "{{player}} set the handicap to one stone."
+    },
+    {
+      "oldPath": "DECLARE.thuemorsego_stones_other",
+      "oldFullKey": "apresults:DECLARE.thuemorsego_stones_other",
+      "uid": "thuemorsego",
+      "resultType": "DECLARE",
+      "newLeaf": "stones_other",
+      "newPath": "thuemorsego.DECLARE.stones_other",
+      "newFullKey": "apresults:thuemorsego.DECLARE.stones_other",
+      "english": "{{player}} set the handicap to {{count}} stones."
+    },
+    {
+      "oldPath": "EOG.thuemorsego_no_moves",
+      "oldFullKey": "apresults:EOG.thuemorsego_no_moves",
+      "uid": "thuemorsego",
+      "resultType": "EOG",
+      "newLeaf": "no_moves",
+      "newPath": "thuemorsego.EOG.no_moves",
+      "newFullKey": "apresults:thuemorsego.EOG.no_moves",
+      "english": "The game has ended because the player to move has no legal move."
+    },
+    {
+      "oldPath": "EOG.thuemorsego_no_room",
+      "oldFullKey": "apresults:EOG.thuemorsego_no_room",
+      "uid": "thuemorsego",
+      "resultType": "EOG",
+      "newLeaf": "no_room",
+      "newPath": "thuemorsego.EOG.no_room",
+      "newFullKey": "apresults:thuemorsego.EOG.no_room",
+      "english": "The game has ended because the Attacker's unconditionally alive stones leave the Defender no room to form an unconditionally alive string."
+    },
+    {
+      "oldPath": "EOG.thuemorsego_pass_alive",
+      "oldFullKey": "apresults:EOG.thuemorsego_pass_alive",
+      "uid": "thuemorsego",
+      "resultType": "EOG",
+      "newLeaf": "pass_alive",
+      "newPath": "thuemorsego.EOG.pass_alive",
+      "newFullKey": "apresults:thuemorsego.EOG.pass_alive",
+      "english": "The game has ended because the Defender formed an unconditionally alive string."
+    },
+    {
+      "oldPath": "EOG.thuemorsego_repetition",
+      "oldFullKey": "apresults:EOG.thuemorsego_repetition",
+      "uid": "thuemorsego",
+      "resultType": "EOG",
+      "newLeaf": "repetition",
+      "newPath": "thuemorsego.EOG.repetition",
+      "newFullKey": "apresults:thuemorsego.EOG.repetition",
+      "english": "The game has ended in a draw because the same position occurred five times."
+    },
+    {
+      "oldPath": "PASS.thuemorsego_handicap",
+      "oldFullKey": "apresults:PASS.thuemorsego_handicap",
+      "uid": "thuemorsego",
+      "resultType": "PASS",
+      "newLeaf": "handicap",
+      "newPath": "thuemorsego.PASS.handicap",
+      "newFullKey": "apresults:thuemorsego.PASS.handicap",
+      "english": "{{player}} gave a handicap stone by passing."
+    },
+    {
+      "oldPath": "PLACE.thuemorsego_setup",
+      "oldFullKey": "apresults:PLACE.thuemorsego_setup",
+      "uid": "thuemorsego",
+      "resultType": "PLACE",
+      "newLeaf": "setup",
+      "newPath": "thuemorsego.PLACE.setup",
+      "newFullKey": "apresults:thuemorsego.PLACE.setup",
+      "english": "{{player}} placed an Attacker stone at {{where}}."
+    },
+    {
+      "oldPath": "REMOVE.thuemorsego_dead_one",
+      "oldFullKey": "apresults:REMOVE.thuemorsego_dead_one",
+      "uid": "thuemorsego",
+      "resultType": "REMOVE",
+      "newLeaf": "dead_one",
+      "newPath": "thuemorsego.REMOVE.dead_one",
+      "newFullKey": "apresults:thuemorsego.REMOVE.dead_one",
+      "english": "The stone marked dead was removed from the board."
+    },
+    {
+      "oldPath": "REMOVE.thuemorsego_dead_other",
+      "oldFullKey": "apresults:REMOVE.thuemorsego_dead_other",
+      "uid": "thuemorsego",
+      "resultType": "REMOVE",
+      "newLeaf": "dead_other",
+      "newPath": "thuemorsego.REMOVE.dead_other",
+      "newFullKey": "apresults:thuemorsego.REMOVE.dead_other",
+      "english": "The {{count}} stones marked dead were removed from the board."
+    },
+    {
+      "oldPath": "SELECT.thuemorsego_changed_one",
+      "oldFullKey": "apresults:SELECT.thuemorsego_changed_one",
+      "uid": "thuemorsego",
+      "resultType": "SELECT",
+      "newLeaf": "changed_one",
+      "newPath": "thuemorsego.SELECT.changed_one",
+      "newFullKey": "apresults:thuemorsego.SELECT.changed_one",
+      "english": "{{player}} changed the marking: one stone is marked dead."
+    },
+    {
+      "oldPath": "SELECT.thuemorsego_changed_other",
+      "oldFullKey": "apresults:SELECT.thuemorsego_changed_other",
+      "uid": "thuemorsego",
+      "resultType": "SELECT",
+      "newLeaf": "changed_other",
+      "newPath": "thuemorsego.SELECT.changed_other",
+      "newFullKey": "apresults:thuemorsego.SELECT.changed_other",
+      "english": "{{player}} changed the marking: {{count}} stones are marked dead."
+    },
+    {
+      "oldPath": "SELECT.thuemorsego_cleared",
+      "oldFullKey": "apresults:SELECT.thuemorsego_cleared",
+      "uid": "thuemorsego",
+      "resultType": "SELECT",
+      "newLeaf": "cleared",
+      "newPath": "thuemorsego.SELECT.cleared",
+      "newFullKey": "apresults:thuemorsego.SELECT.cleared",
+      "english": "{{player}} cleared the marking: no stones are marked dead."
+    },
+    {
+      "oldPath": "SELECT.thuemorsego_locked",
+      "oldFullKey": "apresults:SELECT.thuemorsego_locked",
+      "uid": "thuemorsego",
+      "resultType": "SELECT",
+      "newLeaf": "locked",
+      "newPath": "thuemorsego.SELECT.locked",
+      "newFullKey": "apresults:thuemorsego.SELECT.locked",
+      "english": "Dead-stone marking has ended: no stones are marked dead, and passes carry no marking for the rest of the game."
+    },
+    {
+      "oldPath": "SELECT.thuemorsego_marked_one",
+      "oldFullKey": "apresults:SELECT.thuemorsego_marked_one",
+      "uid": "thuemorsego",
+      "resultType": "SELECT",
+      "newLeaf": "marked_one",
+      "newPath": "thuemorsego.SELECT.marked_one",
+      "newFullKey": "apresults:thuemorsego.SELECT.marked_one",
+      "english": "{{player}} marked one stone as dead."
+    },
+    {
+      "oldPath": "SELECT.thuemorsego_marked_other",
+      "oldFullKey": "apresults:SELECT.thuemorsego_marked_other",
+      "uid": "thuemorsego",
+      "resultType": "SELECT",
+      "newLeaf": "marked_other",
+      "newPath": "thuemorsego.SELECT.marked_other",
+      "newFullKey": "apresults:thuemorsego.SELECT.marked_other",
+      "english": "{{player}} marked {{count}} stones as dead."
     },
     {
       "oldPath": "CLAIM.toguz",

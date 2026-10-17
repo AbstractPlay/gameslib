@@ -1571,6 +1571,45 @@
       "default": "{{player}} seleccionó {{card}}."
     }
   },
+  "thuemorsego": {
+    "CAPTURE": {
+      "suicide_one": "{{player}} eliminó su propia piedra por suicidio.",
+      "suicide_other": "{{player}} eliminó {{count}} de sus propias piedras por suicidio."
+    },
+    "CLAIM": {
+      "attacker": "{{player}} eligió jugar como el Atacante."
+    },
+    "DECLARE": {
+      "stones_one": "{{player}} estableció el hándicap en una piedra.",
+      "stones_other": "{{player}} estableció el hándicap en {{count}} piedras.",
+      "komi_one": "{{player}} le dio a su oponente un komi inverso de {{count}} punto.",
+      "komi_other": "{{player}} le dio a su oponente un komi inverso de {{count}} puntos."
+    },
+    "EOG": {
+      "repetition": "La partida ha terminado en empate porque la misma posición se repitió cinco veces.",
+      "pass_alive": "La partida ha terminado porque el Defensor formó una cadena incondicionalmente viva.",
+      "no_room": "La partida ha terminado porque las piedras incondicionalmente vivas del Atacante no le dejan espacio al Defensor para formar una cadena viva.",
+      "no_moves": "La partida ha terminado porque el jugador al que le toca mover no tiene ningún movimiento legal."
+    },
+    "PASS": {
+      "handicap": "{{player}} dio una piedra de hándicap al pasar."
+    },
+    "PLACE": {
+      "setup": "{{player}} colocó una piedra de Atacante en {{where}}."
+    },
+    "REMOVE": {
+      "dead_one": "La piedra marcada como muerta fue retirada del tablero.",
+      "dead_other": "Las {{count}} piedras marcadas como muertas fueron retiradas del tablero."
+    },
+    "SELECT": {
+      "marked_one": "{{player}} marcó una piedra como muerta.",
+      "marked_other": "{{player}} marcó {{count}} piedras como muertas.",
+      "changed_one": "{{player}} cambió el marcado: una piedra está marcada como muerta.",
+      "changed_other": "{{player}} cambió el marcado: {{count}} piedras están marcadas como muertas.",
+      "cleared": "{{player}} borró el marcado: ninguna piedra está marcada como muerta.",
+      "locked": "El marcado de piedras muertas ha terminado: ninguna piedra está marcada como muerta y los pases no llevarán marcado por el resto de la partida."
+    }
+  },
   "toguz": {
     "CLAIM": {
       "default": "La casilla {{pit}} se convirtió en un tuz."

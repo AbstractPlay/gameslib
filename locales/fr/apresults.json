@@ -1571,6 +1571,45 @@
       "default": "{{player}} a sélectionné {{card}}."
     }
   },
+  "thuemorsego": {
+    "CAPTURE": {
+      "suicide_one": "{{player}} a retiré sa propre pierre par suicide.",
+      "suicide_other": "{{player}} a retiré {{count}} de ses propres pierres par suicide."
+    },
+    "CLAIM": {
+      "attacker": "{{player}} a choisi de jouer en tant qu'Attaquant."
+    },
+    "DECLARE": {
+      "stones_one": "{{player}} a fixé le handicap à une pierre.",
+      "stones_other": "{{player}} a fixé le handicap à {{count}} pierres.",
+      "komi_one": "{{player}} a accordé à son adversaire un komi inversé de {{count}} point.",
+      "komi_other": "{{player}} a accordé à son adversaire un komi inversé de {{count}} points."
+    },
+    "EOG": {
+      "repetition": "La partie s'est terminée par une égalité car la même position s'est produite cinq fois.",
+      "pass_alive": "La partie est terminée car le Défenseur a formé une chaîne inconditionnellement vivante.",
+      "no_room": "La partie est terminée car les pierres inconditionnellement vivantes de l'Attaquant ne laissent aucun espace au Défenseur pour former une chaîne vivante.",
+      "no_moves": "La partie est terminée car le joueur dont c'est le tour n'a aucun coup légal."
+    },
+    "PASS": {
+      "handicap": "{{player}} a donné une pierre de handicap en passant."
+    },
+    "PLACE": {
+      "setup": "{{player}} a placé une pierre d'Attaquant en {{where}}."
+    },
+    "REMOVE": {
+      "dead_one": "La pierre marquée comme morte a été retirée du plateau.",
+      "dead_other": "Les {{count}} pierres marquées comme mortes ont été retirées du plateau."
+    },
+    "SELECT": {
+      "marked_one": "{{player}} a marqué une pierre comme morte.",
+      "marked_other": "{{player}} a marqué {{count}} pierres comme mortes.",
+      "changed_one": "{{player}} a modifié le marquage : une pierre est marquée comme morte.",
+      "changed_other": "{{player}} a modifié le marquage : {{count}} pierres sont marquées comme mortes.",
+      "cleared": "{{player}} a effacé le marquage : aucune pierre n'est marquée comme morte.",
+      "locked": "Le marquage des pierres mortes est terminé : aucune pierre n'est marquée comme morte, et les passes n'entraînent aucun marquage pour le reste de la partie."
+    }
+  },
   "toguz": {
     "CLAIM": {
       "default": "La fosse {{pit}} est devenue un tuz."

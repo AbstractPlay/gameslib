@@ -13,9 +13,13 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
-- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Yodd.
+- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Thue-Morse Go, Yodd.
 
 ## [1.0.0-ci] - 2026-10-17
+
+### Added
+
+- **Focus:** Goal variants `captures-6`, `captures-10`, and `hegemony`; per-seat capture tally in saved state; sidebar **Controlled** / **Captures** (captures row only in capture-target modes).
 
 ### Fixed
 

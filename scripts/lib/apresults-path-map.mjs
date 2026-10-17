@@ -7,6 +7,7 @@ import {
     PATH_MAP_JSON,
     PATH_MAP_OVERRIDES_JSON,
 } from "./apresults-en-paths.mjs";
+import { writeLocaleJson } from "../locale-json-format.mjs";
 
 /** Result-type buckets that always live under `_general` (nested shape preserved in `newLeaf`). */
 export const GENERAL_NESTED_TYPES = new Set(["ACTOR"]);
@@ -422,6 +423,115 @@ export function buildNestedFromPathMapEntries(entries) {
 export function loadCommittedPathMapEntries() {
     const data = JSON.parse(fs.readFileSync(PATH_MAP_JSON, "utf8"));
     return data.entries;
+}
+
+/**
+ * Guess legacy flat catalog path for a nested leaf (inverse of {@link mapCatalogLeafPath} for new games).
+ * @param {string} newPath e.g. `killallgo.CAPTURE.suicide_one`
+ */
+export function guessOldPathFromNewPath(newPath) {
+    const parts = newPath.split(".");
+    const uid = parts[0];
+    if (uid === "_general") {
+        const rest = parts.slice(1);
+        if (rest.length === 2 && rest[1] === "default") {
+            return rest[0];
+        }
+        return rest.join(".");
+    }
+    if (uid === "homeworlds") {
+        return `homeworlds.${parts[1]}`;
+    }
+    if (uid === "druid" && parts[1] === "HEX_EDGE") {
+        return `DRUID_HEX_EDGE.${parts.slice(2).join(".")}`;
+    }
+    if (uid === "scribe" && parts[1] === "SCRIBE") {
+        return `SCRIBE.${parts.slice(2).join(".")}`;
+    }
+    if (parts.length === 3 && parts[1] === "ACTOR") {
+        return `ACTOR.${uid}.${parts[2]}`;
+    }
+    if (parts.length === 2) {
+        const rtWithPlural = parts[1];
+        const plural = rtWithPlural.match(/^(.+)_(one|other)$/);
+        if (plural) {
+            return `${plural[1]}.${uid}_${plural[2]}`;
+        }
+        return `${parts[1]}.${uid}`;
+    }
+    const resultType = parts[1];
+    const newLeaf = parts.slice(2).join(".");
+    if (newLeaf === "default") {
+        return `${resultType}.${uid}`;
+    }
+    return `${resultType}.${uid}_${newLeaf}`;
+}
+
+/**
+ * One path-map row per nested catalog leaf, synthesizing rows for new `gameApresultsEn` keys.
+ * @param {Record<string, unknown>} mergedNested
+ * @param {import("./apresults-path-map.mjs").PathMapEntry[]} [committedEntries]
+ */
+export function pathMapEntriesForNestedCatalogWrite(
+    mergedNested,
+    committedEntries = loadCommittedPathMapEntries(),
+) {
+    const nestedLeaves = collectLeaves(mergedNested);
+    const uidSet = new Set(registryUidsLongestFirst());
+    /** @type {Map<string, import("./apresults-path-map.mjs").PathMapEntry>} */
+    const byNew = new Map();
+    for (const e of committedEntries) {
+        if (!byNew.has(e.newPath)) {
+            byNew.set(e.newPath, e);
+        }
+    }
+    /** @type {Map<string, import("./apresults-path-map.mjs").PathMapEntry>} */
+    const remappedByNew = new Map();
+    const catalogOldPaths = new Set(committedEntries.map((e) => e.oldPath));
+    for (const e of committedEntries) {
+        const remapped = mapCatalogLeafPath(e.oldPath, uidSet, catalogOldPaths);
+        if (!remappedByNew.has(remapped.newPath)) {
+            remappedByNew.set(remapped.newPath, remapped);
+        }
+    }
+    /** @type {import("./apresults-path-map.mjs").PathMapEntry[]} */
+    const entries = [];
+    for (const newPath of Object.keys(nestedLeaves).sort()) {
+        const english = nestedLeaves[newPath];
+        let base = byNew.get(newPath) ?? remappedByNew.get(newPath);
+        if (!base) {
+            const oldPath = guessOldPathFromNewPath(newPath);
+            const candidate = mapCatalogLeafPath(oldPath, uidSet, catalogOldPaths);
+            if (candidate.newPath !== newPath) {
+                throw new Error(
+                    `path map: cannot derive row for ${newPath} (tried ${oldPath} → ${candidate.newPath})`,
+                );
+            }
+            base = candidate;
+            catalogOldPaths.add(oldPath);
+        }
+        entries.push({ ...base, english });
+    }
+    return entries;
+}
+
+/**
+ * Write `locale-src/en/apresults/apresults-path-map.json` from merged nested English on disk.
+ * @param {Record<string, unknown>} [mergedNested]
+ */
+export function writeCommittedApresultsPathMap(mergedNested) {
+    const catalog =
+        mergedNested ?? JSON.parse(fs.readFileSync(MERGED_EN_ARESULTS, "utf8"));
+    const entries = pathMapEntriesForNestedCatalogWrite(catalog);
+    const payload = {
+        generatedAt: new Date().toISOString().slice(0, 10),
+        schemaVersion: 1,
+        entries: entries.map(({ english, ...rest }) => ({
+            ...rest,
+            english,
+        })),
+    };
+    writeLocaleJson(PATH_MAP_JSON, payload);
 }
 
 /**

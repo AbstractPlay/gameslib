@@ -27,6 +27,8 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 ### Changed
 
 - **CI:** Dev Server CI (`develop` pushes) runs `npm run test:scripts` after `npm run build`, matching PR validation.
+- **CI:** Pull request validation checks out the PR head commit instead of `develop`, so `npm test`, `npm run build`, and `npm run lint` (including `sync-game-names-locale`) run on the proposed changes.
+- **i18n:** `npm run locale-en -- merge --write` also refreshes `apresults-path-map.json` and seeds managed-locale `names.*` when merging apgames (default **both**), so authors need not run separate path-map and game-name scripts for routine string edits.
 
 ### Removed
 

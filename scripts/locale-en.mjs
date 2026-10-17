@@ -4,6 +4,7 @@ import { runLocaleEnAudit } from "./lib/locale-en-audit.mjs";
 import { parseLocaleEnArgv, printLocaleEnHelp } from "./lib/locale-en-cli.mjs";
 import { runLocaleEnKeys } from "./lib/locale-en-keys.mjs";
 import { runLocaleEnMerge } from "./lib/locale-en-merge-cmd.mjs";
+import { runLocaleEnMergeWriteFollowups } from "./lib/locale-en-merge-followups.mjs";
 import { runLocaleEnPrune } from "./lib/locale-en-prune.mjs";
 import { runRemapApgamesLocaleLeaves } from "./lib/locale-en-remap-apgames.mjs";
 import { runRemapApresultsLocaleLeaves } from "./lib/locale-en-remap-apresults.mjs";
@@ -34,6 +35,9 @@ try {
             }
             for (const ns of parsed.namespaces) {
                 runLocaleEnMerge(ns, { write });
+            }
+            if (write) {
+                runLocaleEnMergeWriteFollowups(parsed.namespaces);
             }
             break;
         }

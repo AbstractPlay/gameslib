@@ -8,7 +8,7 @@ Guide for adding a new game to gameslib. For API details see [Game object](/game
 2. Before first `npm install`, run `npm run npm-login` for GitHub Packages access.
 3. **Choose a base class** (see below) and **create** `src/games/<uid>.ts`.
 4. **Run** `npm run generate-registry` (or any build/test) — the game registry is auto-generated from `static gameinfo`.
-5. **Add i18n** — export `gameApgamesEn` from `src/games/<uid>.ts`, put plain English in `gameinfo.description` / `notes`, run `npm run locale-en -- merge --write`, and commit the regenerated `locales/en/apgames.json` (do not type strings only into that file; see [i18n](/gameslib/i18n/)). For move-log lines, export `gameApresultsEn` in the same file and commit `locales/en/apresults.json` from the same merge.
+5. **Add i18n** — export `gameApgamesEn` and (for move-log lines) `gameApresultsEn` from `src/games/<uid>.ts`, put plain English in `gameinfo.description` / `notes`, run **`npm run locale-en -- merge --write`** once, and commit the regenerated English locale files plus any `locale-src/en/apresults/apresults-path-map.json` and managed-locale `names` updates it produces (see [i18n](/gameslib/i18n/)). Do not type strings only into `locales/en/*.json`.
 6. **Move log** — plan chat output while implementing `move()`; see [Move log](#move-log) below and [Structured move log](/gameslib/structured-chat-log/).
 7. **Flag** new games with `experimental` in `gameinfo`.
 8. **Test** locally — [Testing](/gameslib/testing/) (including `assertChatLogParity` when you customize the collector).

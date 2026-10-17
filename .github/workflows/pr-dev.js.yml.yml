@@ -23,9 +23,11 @@ jobs:
         #     # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
         steps:
-        - uses: actions/checkout@v3
+        # Validate the PR branch (default merge of base+head). Do not pin to develop — that skipped
+        # the PR diff (new games, locale-en, sync-game-names-locale, etc.).
+        - uses: actions/checkout@v4
           with:
-            ref: "develop"
+            ref: ${{ github.event.pull_request.head.sha || github.sha }}
         - name: Use Node.js 20.x
           uses: actions/setup-node@v3
           with:

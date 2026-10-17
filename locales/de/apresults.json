@@ -1571,6 +1571,45 @@
       "default": "{{player}} hat {{card}} ausgewählt."
     }
   },
+  "thuemorsego": {
+    "CAPTURE": {
+      "suicide_one": "{{player}} hat einen eigenen Stein durch Selbstmord entfernt.",
+      "suicide_other": "{{player}} hat {{count}} eigene Steine durch Selbstmord entfernt."
+    },
+    "CLAIM": {
+      "attacker": "{{player}} hat sich entschieden, als Angreifer zu spielen."
+    },
+    "DECLARE": {
+      "stones_one": "{{player}} hat die Vorgabe auf einen Stein festgelegt.",
+      "stones_other": "{{player}} hat die Vorgabe auf {{count}} Steine festgelegt.",
+      "komi_one": "{{player}} hat dem Gegner ein umgekehrtes Komi von {{count}} Punkt gegeben.",
+      "komi_other": "{{player}} hat dem Gegner ein umgekehrtes Komi von {{count}} Punkten gegeben."
+    },
+    "EOG": {
+      "repetition": "Das Spiel endet mit einem Unentschieden, da dieselbe Stellung fünfmal aufgetreten ist.",
+      "pass_alive": "Das Spiel ist beendet, da der Verteidiger eine bedingungslos lebende Kette gebildet hat.",
+      "no_room": "Das Spiel ist beendet, da die bedingungslos lebenden Steine des Angreifers dem Verteidiger keinen Platz lassen, eine lebende Kette zu bilden.",
+      "no_moves": "Das Spiel ist beendet, da der am Zug befindliche Spieler keinen legalen Zug mehr hat."
+    },
+    "PASS": {
+      "handicap": "{{player}} hat durch Passen einen Vorgabestein gegeben."
+    },
+    "PLACE": {
+      "setup": "{{player}} hat einen Angreifer-Stein auf {{where}} platziert."
+    },
+    "REMOVE": {
+      "dead_one": "Der als tot markierte Stein wurde vom Brett entfernt.",
+      "dead_other": "Die {{count}} als tot markierten Steine wurden vom Brett entfernt."
+    },
+    "SELECT": {
+      "marked_one": "{{player}} hat einen Stein als tot markiert.",
+      "marked_other": "{{player}} hat {{count}} Steine als tot markiert.",
+      "changed_one": "{{player}} hat die Markierung geändert: Ein Stein ist als tot markiert.",
+      "changed_other": "{{player}} hat die Markierung geändert: {{count}} Steine sind als tot markiert.",
+      "cleared": "{{player}} hat die Markierung aufgehoben: Keine Steine sind als tot markiert.",
+      "locked": "Die Markierung toter Steine ist beendet: Keine Steine sind als tot markiert, und Passen bewirkt für den Rest des Spiels keine Markierung mehr."
+    }
+  },
   "toguz": {
     "CLAIM": {
       "default": "Mulde {{pit}} wurde zu einer Tuz."

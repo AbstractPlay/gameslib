@@ -235,6 +235,10 @@
     "src": "Take button",
     "out": "Aufnehmen-Taste"
   },
+  "buttons.thuemorsego.attacker": {
+    "src": "Play as the Attacker",
+    "out": "Als Angreifer spielen"
+  },
   "categories.board.description": {
     "src": "Describes the attributes of the playing surface",
     "out": "Beschreibt die Eigenschaften der Spielfläche"
@@ -2403,6 +2407,10 @@
     "src": "A fast-paced Decktet tableau game: each turn everyone secretly chooses a card, then non-deferred plays go onto the grid in rank order. Score whenever your play completes a line of three (flush, set, or straight). Highest score when the grid fills or hands are empty wins.",
     "out": "Ein schnelles Decktet-Auslagespiel: In jeder Runde wählen alle heimlich eine Karte aus; anschließend werden nicht aufgeschobene Karten in Rangfolge auf das Raster gelegt. Punkte gibt es immer dann, wenn deine Karte eine Dreierreihe vervollständigt (Farbe, Drilling oder Straße). Es gewinnt die höchste Punktzahl, wenn das Raster voll ist oder die Hände leer sind."
   },
+  "descriptions.thuemorsego": {
+    "src": "Go in which the order of placements follows the Thue-Morse sequence (0110 1001 1001 0110 …), so every move is one or two stones and no komi is needed. Tromp-Taylor rules with suicide allowed, an optional button, and a Kill-All variant.",
+    "out": "Go, bei dem die Reihenfolge der Setzungen der Thue-Morse-Folge (0110 1001 1001 0110 …) folgt, sodass jeder Zug aus ein oder zwei Steinen besteht und kein Komi erforderlich ist. Tromp-Taylor-Regeln mit erlaubtem Selbstmord, einem optionalen Button und einer Kill-All-Variante."
+  },
   "descriptions.tintas": {
     "src": "Players race to either collect all seven of one colour or to collect four of four different colours.",
     "out": "Die Spieler wetteifern darum, entweder alle sieben Steine einer Farbe oder jeweils vier von vier verschiedenen Farben zu sammeln."
@@ -3238,6 +3246,46 @@
   "displays.terrace.flat.name": {
     "src": "Flat view",
     "out": "Flache Ansicht"
+  },
+  "displays.thuemorsego.digits-down.description": {
+    "src": "Run the tracker from the top down: the next placement at the top of the column, or digit 0 at the top of each column of the digit tracker.",
+    "out": "Den Tracker von oben nach unten ausführen: die nächste Setzung ganz oben in der Spalte oder die Ziffer 0 ganz oben in jeder Spalte des Ziffern-Trackers."
+  },
+  "displays.thuemorsego.digits-down.name": {
+    "src": "Tracker runs downward",
+    "out": "Tracker verläuft nach unten"
+  },
+  "displays.thuemorsego.hide-territory.description": {
+    "src": "Do not dot the points that count as territory as the board stands: the empty points reaching stones of only one colour, with the strings marked dead removed. Strings marked dead are still shown faded. Kill-All games show no territory anyway.",
+    "out": "Punkte, die im aktuellen Brettzustand als Gebiet zählen, nicht markieren: die leeren Punkte, die nur Steine einer Farbe erreichen, wobei als tot markierte Ketten entfernt sind. Als tot markierte Ketten werden weiterhin ausgeblendet dargestellt. Kill-All-Spiele zeigen ohnehin kein Gebiet an."
+  },
+  "displays.thuemorsego.hide-territory.name": {
+    "src": "Hide territory dots",
+    "out": "Gebietspunkte ausblenden"
+  },
+  "displays.thuemorsego.palette-borders.description": {
+    "src": "Draw the border of each stone in palette slot 5 to 8, for stones in slots 1 to 4, instead of black or white, whichever contrasts better with the fill. The palette must have at least eight colours.",
+    "out": "Zeichnet den Rand jedes Steins aus den Paletten-Slots 5 bis 8 für Steine in den Slots 1 bis 4, anstatt Schwarz oder Weiß (je nachdem, was besser zur Füllung kontrastiert). Die Palette muss mindestens acht Farben enthalten."
+  },
+  "displays.thuemorsego.palette-borders.name": {
+    "src": "Stone borders from the palette",
+    "out": "Steinränder aus der Palette"
+  },
+  "displays.thuemorsego.pass-alive-throughout.description": {
+    "src": "In Kill-All games, show the unconditionally alive (pass-alive) stones of both sides faded in every position, not only in the position that ended the game. Does nothing outside Kill-All games.",
+    "out": "In Kill-All-Spielen die bedingungslos lebendigen (Pass-lebendigen) Steine beider Seiten in jeder Position ausgeblendet anzeigen, nicht nur in der Endposition des Spiels. Hat außerhalb von Kill-All-Spielen keine Wirkung."
+  },
+  "displays.thuemorsego.pass-alive-throughout.name": {
+    "src": "Mark pass-alive stones throughout the game",
+    "out": "Pass-alive-Steine während des gesamten Spiels markieren"
+  },
+  "displays.thuemorsego.tms-tracker.description": {
+    "src": "Show the tracker as the three hexadecimal digits of the next placement's index, one column of 16 per digit, instead of a single column of the next 16 placements.",
+    "out": "Zeigt den Tracker als die drei Hexadezimalziffern des Indexes der nächsten Setzung an (eine Spalte mit 16 pro Ziffer), anstelle einer einzelnen Spalte der nächsten 16 Setzungen."
+  },
+  "displays.thuemorsego.tms-tracker.name": {
+    "src": "TMS tracker",
+    "out": "TMS-Tracker"
   },
   "displays.toguz.pips.description": {
     "src": "Display the stones as pips instead of as numerals.",
@@ -4907,6 +4955,10 @@
     "src": "With 2 or 4 players the opening grid is 2×2; with 3 or 5 players it is 2×3. Short labels appear beneath cards in your hand. \"Sel\" indicates the card chosen in the last selection phase (including an uncommitted partial select) and \"Def\" indicates cards deferred from an earlier tied selection. More information on the Decktet is on the [Decktet wiki](https://decktet.wikidot.com/).",
     "out": "Bei 2 oder 4 Spielern ist das Startraster 2×2; bei 3 oder 5 Spielern ist es 2×3. Kurze Beschriftungen erscheinen unter den Karten auf deiner Hand. \"Sel\" markiert die in der letzten Auswahlphase gewählte Karte (einschließlich einer nicht bestätigten Teilauswahl) und \"Def\" markiert Karten, die aus einer früheren unentschiedenen Auswahl zurückgestellt wurden. Weitere Informationen zum Decktet findest du im [Decktet-Wiki](https://decktet.wikidot.com/)."
   },
+  "notes.thuemorsego": {
+    "src": "Placements follow the Thue-Morse sequence: placement n (counting from 0) belongs to Player 1 when n has an even number of 1 bits in binary and to Player 2 otherwise, giving the order 0110 1001 1001 0110 … A move is a maximal run of placements by one player, so every move is one or two placements. The tracker beside the board shows the next 16 placements in a single column, those of the next move as full-size stones; the tint behind the column and the border around it are the colour of the next placement. A display option shows instead the index of the next placement in hexadecimal, one column per digit: the rightmost column gives the colours of the placements to come before the next carry, each other column the colour of the 0 row of the column to its right, and the marked cell of each column carries its digit. It has three columns; past placement fff it shows only grey stones, with no markers or border, rather than digits it cannot show. The Balanced Marseillais protocol repeats the first four terms (ABBA) instead, and shows no tracker.\n\nStones are placed and captured under Tromp-Taylor rules: after a placement, opponent strings without liberties are removed, then your own, so multi-stone suicide is legal. Any placement may instead be a pass or, while nobody holds it, take the button, worth one point to its holder. By default the button evens the count: there is one on boards with an odd number of points (11x11, 19x19, 23x23) and none on boards with an even number (16x16); the 0.5 point button variant makes it worth half a point on any board, so scores cannot tie. A move lists its placements separated by commas; a move submitted with fewer placements than it allows passes the rest. A player's score is their area (stones plus the empty points reaching only their colour) plus the button; there is no komi. Captured stones do not score. Dots show the empty points that would count as territory as the board stands, so a lone first stone claims the whole board; a display option hides them.\n\nEnding the game: the game ends when a player passes their whole move right after the opponent passed at least one placement, keeping the marking of dead strings the opponent's move carried. A move that passes any of its placements, whether or not it also places a stone, may mark strings of either colour dead: click them, or name them after the passes (`pass,pass,-a1` marks the string at a1; `e5,pass,-a1` places e5, passes the other placement and marks it). The marked stones are shown faded, and the dots show the territory as it would be scored with them removed, the points under them included; a mark on a stone the move's own placement captures drops out. The opponent's next move starts from that marking, and clicking a string changes it. If the opponent passes their whole move keeping the marking, the game ends: the marked strings are removed and the board is scored. A move that places a stone, or that changes the marking, never ends the game, and the players may keep passing and changing the marking in turn for as long as every move passes at least one placement and keeps some string marked. Dead-stone marking ends for the rest of the game as soon as a marking is answered by a move that passes nothing, or by a pass that marks nothing dead. From then on passes carry no marking, dead stones must be captured for real, and the game ends when a whole-move pass follows a move of the opponent that passed at least one placement, with every stone on the board alive. A stone placed after passing the move is entered as the placement followed by the pass, such as `e5,pass`.\n\nBy default there is no ko rule, and the fifth occurrence of a position ends the game in a draw, even partway through a move. Under the positional superko variant no placement may recreate an earlier position of the board, including positions reached partway through a move; under double delayed superko a position may arise three times, and only a placement that would make a fourth occurrence is forbidden. Passes, taking the button and handicap passes change nothing and create no position. A single stone with no liberties that captures nothing is removed as suicide and so recreates the position it was played into, which is why superko does not allow it, and double delayed superko only until the position has arisen three times.\n\nWeak eyes: normally every placement clears the board, so two eyes live. With checked weak eyes only the last placement of a move clears it, so a two-placement move can fill both eyes of a group, three eyes are needed to live, and a placement that would be suicide can be rescued by the second placement of the move. Only the position the move leaves then counts for repetition, not the one partway through it.\n\nHandicap stones: Player 2's first move begins by giving Player 1 a number of handicap stones, up to a fortieth of the board's points rounded away from nine (3 on 11x11, 6 on 16x16, 10 on 19x19, 14 on 23x23): Player 2 passes that many placements, the first with the declaration itself and the rest automatically at the start of their following moves. These passes do not count towards ending the game and may run out partway through a two-placement move. In the move notation the handicap is a number followed by s, such as 3s, and the reverse komi a number followed by p, such as 14p; they come before the placements in either order.\n\nReverse komi: Player 2's first move begins by giving Player 1 a reverse komi, any whole number of points up to 14 times the handicap limit (the numbered stones offer the multiples of 14), added to Player 1's score at the end of the game. Unlike the handicap it costs no placement; it comes before any handicap declaration, and the game is unrated.\n\nKill-All: players take turns placing Attacker stones until one of them claims the Attacker side (pieboxing); the other plays the Defender and makes placement 0. The Defender wins by forming an unconditionally alive string (pass-alive by Benson's algorithm, with three vital regions instead of two under checked weak eyes), the Attacker by making that impossible. The Attacker's stones take the first colour and the Defender's the second, as in Kill-All Go; a palette set for this game can change them through slots 3 and 4, for instance the other way round. Passing is not allowed, and a player with no legal move loses. With a handicap, Player 1 first sets a number of extra Attacker stones, up to twice the handicap limit, that Player 2 places immediately on claiming the Attacker side. There is no button in Kill-All games. In the position that ends the game, the pass-alive stones of both sides are shown faded; a display option shows them faded in every position.\n\nColours: a stone's border is black or white, whichever contrasts better with its fill. A display option takes the borders from palette slots 5 to 8 instead, for stones in slots 1 to 4; it needs a palette of at least eight colours, since a palette that lacks a slot the game names cannot be drawn.\n\nOrigins: the Thue-Morse order was proposed for Go independently by atimholt and TheElvenAngelCatboy on r/baduk and by BHydden on the Online Go Forum, each pointing to the same video about the sequence; the forum community then built tools for playing it on OGS, ran tournaments, and worked out the rules implemented here. The Balanced Marseillais order comes from chess: Marseillais Chess (AABB) is attributed either to Albert Fortis with J. Rossow or to Jehan de Queylar, and Robert Bruce first proposed the ABBA correction that balances it.",
+    "out": "Setzungen folgen der Thue-Morse-Folge: Setzung n (zählend ab 0) gehört Spieler 1, wenn n eine gerade Anzahl von 1-Bits in Binärdarstellung hat, und ansonsten Spieler 2, was die Reihenfolge 0110 1001 1001 0110 … ergibt. Ein Zug ist eine maximale Abfolge von Setzungen eines Spielers, sodass jeder Zug aus einer oder zwei Setzungen besteht. Der Tracker neben dem Brett zeigt die nächsten 16 Setzungen in einer einzelnen Spalte an, diejenigen des nächsten Zugs als Steine in voller Größe; die Tönung hinter der Spalte und der Rand darum haben die Farbe der nächsten Setzung. Eine Anzeigeoption zeigt stattdessen den Index der nächsten Setzung in Hexadezimalform an, eine Spalte pro Ziffer: Die Spalte ganz rechts gibt die Farben der Setzungen an, die vor dem nächsten Übertrag kommen, jede andere Spalte die Farbe der 0-Zeile der Spalte zu ihrer Rechten, und die markierte Zelle jeder Spalte trägt ihre Ziffer. Er hat drei Spalten; nach der Setzung fff zeigt er nur graue Steine ohne Markierungen oder Rand anstelle von Ziffern an, die er nicht darstellen kann. Das Balanced-Marseillais-Protokoll wiederholt stattdessen die ersten vier Glieder (ABBA) und zeigt keinen Tracker an.\n\nSteine werden nach Tromp-Taylor-Regeln gesetzt und geschlagen: Nach einer Setzung werden gegnerische Ketten ohne Freiheiten entfernt, danach die eigenen, sodass Selbstmord mehrerer Steine legal ist. Jede Setzung kann stattdessen ein Passen sein oder, solange niemand ihn besitzt, den Button nehmen, der dem Besitzer einen Punkt wert ist. Standardmäßig gleicht der Button das Ergebnis aus: Auf Brettern mit einer ungeraden Anzahl von Punkten (11x11, 19x19, 23x23) gibt es einen, auf Brettern mit einer geraden Anzahl (16x16) keinen; die 0,5-Punkte-Button-Variante macht ihn auf jedem Brett einen halben Punkt wert, sodass Unentschieden unmöglich sind. Ein Zug listet seine Setzungen durch Kommas getrennt auf; ein Zug, der mit weniger Setzungen eingereicht wird als erlaubt, passt den Rest. Die Punktzahl eines Spielers ist sein Gebiet (Steine plus die leeren Punkte, die nur seine Farbe erreichen) plus der Button; es gibt kein Komi. Geschlagene Steine bringen keine Punkte. Punkte zeigen die leeren Felder an, die im aktuellen Brettzustand als Gebiet zählen würden, sodass ein einzelner erster Stein das gesamte Brett beansprucht; eine Anzeigeoption blendet sie aus.\n\nSpielende: Das Spiel endet, wenn ein Spieler seinen gesamten Zug passt, direkt nachdem der Gegner mindestens eine Setzung gepasst hat, wobei die Markierung toter Ketten aus dem Zug des Gegners beibehalten wird. Ein Zug, der eine seiner Setzungen passt (unabhängig davon, ob er auch einen Stein setzt), kann Ketten jeder Farbe als tot markieren: Klicken Sie darauf oder benennen Sie sie nach den Pässen (`pass,pass,-a1` markiert die Kette auf a1; `e5,pass,-a1` setzt e5, passt die andere Setzung und markiert sie). Die markierten Steine werden ausgeblendet dargestellt, und die Punkte zeigen das Gebiet so an, wie es ohne sie gewertet würde, einschließlich der Punkte darunter; eine Markierung auf einem Stein, den die eigene Setzung des Zugs schlägt, entfällt. Der nächste Zug des Gegners beginnt mit dieser Markierung, und das Klicken auf eine Kette ändert sie. Wenn der Gegner seinen gesamten Zug passt und die Markierung beibehält, endet das Spiel: Die markierten Ketten werden entfernt und das Brett wird gewertet. Ein Zug, der einen Stein setzt oder die Markierung ändert, beendet das Spiel nie, und die Spieler können abwechselnd weiter passen und die Markierung ändern, solange jeder Zug mindestens eine Setzung passt und mindestens eine Kette markiert bleibt. Die Markierung toter Steine endet für den Rest des Spiels, sobald eine Markierung mit einem Zug beantwortet wird, der nichts passt, oder mit einem Passen, das nichts als tot markiert. Von da an enthalten Pässe keine Markierung mehr, tote Steine müssen real geschlagen werden, und das Spiel endet, wenn auf einen Zug des Gegners, der mindestens eine Setzung gepasst hat, ein Passen des gesamten Zugs folgt, wobei jeder Stein auf dem Brett als lebendig gilt. Ein Stein, der nach dem Passen des Zugs gesetzt wird, wird als die Setzung gefolgt vom Passen eingegeben, wie z. B. `e5,pass`.\n\nStandardmäßig gibt es keine Ko-Regel, und das fünfte Auftreten einer Position beendet das Spiel unentschieden, selbst während eines Zugs. Unter der Variante des positionellen Superkos darf keine Setzung eine frühere Brettposition wiederherstellen, einschließlich Positionen, die während eines Zugs erreicht werden; unter doppelt verzögertem Superko darf eine Position dreimal entstehen, und nur eine Setzung, die ein viertes Auftreten bewirken würde, ist verboten. Passen, das Nehmen des Buttons und Vorgabe-Pässe verändern nichts und erzeugen keine Position. Ein einzelner Stein ohne Freiheiten, der nichts schlägt, wird als Selbstmord entfernt und stellt somit die Position wieder her, in die er gespielt wurde, weshalb das positionelle Superko dies nicht erlaubt und das doppelt verzögerte Superko dies nur erlaubt, bis die Position dreimal aufgetreten ist.\n\nSchwache Augen: Normalerweise bereinigt jede Setzung das Brett, sodass zwei Augen leben. Mit geprüften schwachen Augen bereinigt nur die letzte Setzung eines Zugs das Brett, sodass ein Zug aus zwei Setzungen beide Augen einer Gruppe füllen kann, drei Augen zum Leben benötigt werden und eine Setzung, die Selbstmord wäre, durch die zweite Setzung des Zugs gerettet werden kann. Nur die Position, die der Zug hinterlässt, zählt dann für Wiederholungen, nicht die Position während des Zugs.\n\nVorgabe-Steine: Der erste Zug von Spieler 2 beginnt damit, Spieler 1 eine Anzahl von Vorgabe-Steinen zu gewähren, bis zu einem Vierzigstel der Punkte des Bretts (abgerundet ab neun entfernt: 3 auf 11x11, 6 auf 16x16, 10 auf 19x19, 14 auf 23x23): Spieler 2 passt so viele Setzungen, die erste mit der Deklaration selbst und den Rest automatisch zu Beginn der folgenden Züge. Diese Pässe zählen nicht für das Spielende und können während eines Zugs aus zwei Setzungen auslaufen. In der Zugnotation ist das Handicap eine Zahl gefolgt von s (z. B. 3s) und das Umgekehrte Komi eine Zahl gefolgt von p (z. B. 14p); sie stehen in beliebiger Reihenfolge vor den Setzungen.\n\nUmgekehrtes Komi: Der erste Zug von Spieler 2 beginnt damit, Spieler 1 ein umgekehrtes Komi zu geben, eine beliebige ganze Punktzahl bis zum 14-fachen des Handicap-Limits (die nummerierten Steine bieten Vielfache von 14), die am Ende des Spiels zur Punktzahl von Spieler 1 addiert wird. Im Gegensatz zum Handicap kostet es keine Setzung; es steht vor jeder Handicap-Deklaration, und das Spiel ist ungewertet.\n\nKill-All: Die Spieler setzen abwechselnd Angreifer-Steine, bis einer von ihnen die Angreifer-Seite beansprucht (Pieboxing); der andere spielt den Verteidiger und macht Setzung 0. Der Verteidiger gewinnt, indem er eine bedingungslos lebendige Kette bildet (Pass-lebendig nach Bensons Algorithmus, mit drei vitalen Regionen statt zwei bei geprüften schwachen Augen), der Angreifer, indem er dies unmöglich macht. Die Steine des Angreifers nehmen die erste Farbe an und die des Verteidigers die zweite, wie in Kill-All-Go; ein für dieses Spiel eingestelltes Farbset kann diese über die Slots 3 und 4 ändern, zum Beispiel umgekehrt. Passen ist nicht erlaubt, und ein Spieler ohne legalen Zug verliert. Bei einem Handicap legt Spieler 1 zuerst eine Anzahl zusätzlicher Angreifer-Steine fest (bis zum Doppelten des Handicap-Limits), die Spieler 2 sofort setzt, wenn er die Angreifer-Seite beansprucht. In Kill-All-Spielen gibt es keinen Button. In der Endposition des Spiels werden die Pass-lebendigen Steine beider Seiten ausgeblendet angezeigt; eine Anzeigeoption zeigt sie in jeder Position ausgeblendet an.\n\nFarben: Der Rand eines Steins ist Schwarz oder Weiß, je nachdem, was besser zur Füllung kontrastiert. Eine Anzeigeoption nimmt die Ränder stattdessen aus den Paletten-Slots 5 bis 8 für Steine in den Slots 1 bis 4; sie benötigt eine Palette mit mindestens acht Farben, da eine Palette, der ein vom Spiel benannter Slot fehlt, nicht gezeichnet werden kann.\n\nUrsprung: Die Thue-Morse-Reihenfolge wurde für Go unabhängig voneinander von atimholt und TheElvenAngelCatboy auf r/baduk sowie von BHydden im Online Go Forum vorgeschlagen, wobei jeder auf dasselbe Video über die Folge verwies; die Forum-Community entwickelte daraufhin Tools zum Spielen auf OGS, veranstaltete Turniere und arbeitete die hier implementierten Regeln aus. Die Balanced-Marseillais-Reihenfolge stammt aus dem Schach: Marseillais-Schach (AABB) wird entweder Albert Fortis mit J. Rossow oder Jehan de Queylar zugeschrieben, und Robert Bruce schlug als Erster die ausgleichende ABBA-Korrektur vor."
+  },
   "notes.toguz": {
     "src": "Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
     "out": "Die Darstellung von Zustandsänderungen in Säspielen ist anspruchsvoll. Die ursprünglich gewählte Mulde wird ebenso markiert wie jeder Schlag. Kleine Zahlen erscheinen, um die Änderung der Anzahl der Steine in jeder Mulde anzugeben. Wenn Sie glauben, auf einen Fehler gestoßen zu sein, teilen Sie uns dies bitte auf Discord mit."
@@ -5378,6 +5430,78 @@
   "status.squares.TURN": {
     "src": "Turn",
     "out": "Zug"
+  },
+  "status.thuemorsego.ATTACKER": {
+    "src": "Attacker",
+    "out": "Angreifer"
+  },
+  "status.thuemorsego.BUTTON": {
+    "src": "Button",
+    "out": "Button"
+  },
+  "status.thuemorsego.BUTTON_AVAILABLE": {
+    "src": "Available",
+    "out": "Verfügbar"
+  },
+  "status.thuemorsego.DEFENDER": {
+    "src": "Defender",
+    "out": "Verteidiger"
+  },
+  "status.thuemorsego.HANDICAP": {
+    "src": "Handicap stones",
+    "out": "Handicap-Steine"
+  },
+  "status.thuemorsego.KOMI": {
+    "src": "Reverse komi",
+    "out": "Umgekehrtes Komi"
+  },
+  "status.thuemorsego.MARKING": {
+    "src": "Dead-stone marking",
+    "out": "Markierung toter Steine"
+  },
+  "status.thuemorsego.MARKING_COUNT_one": {
+    "src": "One stone marked dead",
+    "out": "Ein Stein als tot markiert"
+  },
+  "status.thuemorsego.MARKING_COUNT_other": {
+    "src": "{{count}} stones marked dead",
+    "out": "{{count}} Steine als tot markiert"
+  },
+  "status.thuemorsego.MARKING_LOCKED": {
+    "src": "Ended: all dead stones should be manually captured before passing",
+    "out": "Beendet: Alle toten Steine sollten vor dem Passen manuell geschlagen werden"
+  },
+  "status.thuemorsego.NEXT_PLACEMENT": {
+    "src": "Next placements (hex)",
+    "out": "Nächste Setzungen (Hex)"
+  },
+  "status.thuemorsego.PASSES_OWED": {
+    "src": "Handicap stones still to give",
+    "out": "Noch zu gewährende Vorgabe-Steine"
+  },
+  "status.thuemorsego.PHASE_ALT_PLACE": {
+    "src": "{{player}} places an Attacker stone or takes the Attacker side",
+    "out": "{{player}} setzt einen Angreifer-Stein oder übernimmt die Angreifer-Seite"
+  },
+  "status.thuemorsego.PHASE_DECLARE": {
+    "src": "{{player}} sets the number of handicap stones",
+    "out": "{{player}} legt die Anzahl der Handicap-Steine fest"
+  },
+  "status.thuemorsego.PHASE_HAND_N": {
+    "src": "{{player}} sets the number of handicap stones",
+    "out": "{{player}} legt die Anzahl der Handicap-Steine fest"
+  },
+  "status.thuemorsego.PHASE_KOMI": {
+    "src": "{{player}} chooses the reverse komi",
+    "out": "{{player}} wählt das umgekehrte Komi"
+  },
+  "status.thuemorsego.PHASE_KOMI_DECLARE": {
+    "src": "{{player}} chooses the reverse komi and the handicap",
+    "out": "{{player}} wählt das umgekehrte Komi und das Handicap"
+  },
+  "status.thuemorsego.UNDECIDED": {
+    "src": "Not yet chosen",
+    "out": "Noch nicht gewählt"
   },
   "status.tintas.MAJORITIES": {
     "src": "Majorities won",
@@ -15131,6 +15255,378 @@
     "src": "Place your remaining card(s).",
     "out": "Platziere deine restliche(n) Karte(n)."
   },
+  "validation.thuemorsego.ATTACKER_NO_STONES": {
+    "src": "Taking the Attacker side does not involve placing stones now.",
+    "out": "Die Übernahme der Angreifer-Seite erfordert jetzt kein Setzen von Steinen."
+  },
+  "validation.thuemorsego.BAD_DECLARATION": {
+    "src": "The reverse komi and the handicap come before the placements, once each: a number of points as 14p and a number of stones as 3s, in either order, or plain numbers in that order.",
+    "out": "Das umgekehrte Komi und das Handicap stehen vor den Setzungen, jeweils einmal: eine Punktzahl als 14p und eine Anzahl von Steinen als 3s, in beliebiger Reihenfolge, oder einfache Zahlen in dieser Reihenfolge."
+  },
+  "validation.thuemorsego.BATCH_TOO_MANY_one": {
+    "src": "You must place exactly one extra Attacker stone.",
+    "out": "Sie müssen genau einen zusätzlichen Angreifer-Stein setzen."
+  },
+  "validation.thuemorsego.BATCH_TOO_MANY_other": {
+    "src": "You must place exactly {{count}} extra Attacker stones.",
+    "out": "Sie müssen genau {{count}} zusätzliche Angreifer-Steine setzen."
+  },
+  "validation.thuemorsego.BUTTON_TAKEN": {
+    "src": "The button has already been taken.",
+    "out": "Der Button wurde bereits genommen."
+  },
+  "validation.thuemorsego.CHOOSE_FIRST": {
+    "src": "Choose the reverse komi and the handicap first: click a numbered stone from each row. {{where}} is not one of them.",
+    "out": "Wählen Sie zuerst das umgekehrte Komi und das Handicap: Klicken Sie auf einen nummerierten Stein aus jeder Reihe. {{where}} gehört nicht dazu."
+  },
+  "validation.thuemorsego.DEAD_END": {
+    "src": "No legal placement can follow that one; choose a different placement.",
+    "out": "Auf diese Setzung kann keine legale Setzung folgen; wählen Sie eine andere Setzung."
+  },
+  "validation.thuemorsego.DECLARE_FIRST": {
+    "src": "Choose the handicap first: click one of its numbered stones. {{where}} is not one of them.",
+    "out": "Wählen Sie zuerst das Handicap: Klicken Sie auf einen seiner nummerierten Steine. {{where}} gehört nicht dazu."
+  },
+  "validation.thuemorsego.DECLARE_MISSING": {
+    "src": "Choose the handicap before placing a stone: click one of its numbered stones first.",
+    "out": "Wählen Sie das Handicap, bevor Sie einen Stein setzen: Klicken Sie zuerst auf einen seiner nummerierten Steine."
+  },
+  "validation.thuemorsego.DECLARE_NO_PLACEMENT": {
+    "src": "With a handicap of {{count}} stones, every placement of this move is given away.",
+    "out": "Bei einem Handicap von {{count}} Steinen wird jede Setzung dieses Zugs abgegeben."
+  },
+  "validation.thuemorsego.DECLARE_OK_one": {
+    "src": "Handicap of one stone. Submit, or click a different numbered stone.",
+    "out": "Handicap von einem Stein. Absenden oder auf einen anderen nummerierten Stein klicken."
+  },
+  "validation.thuemorsego.DECLARE_OK_other": {
+    "src": "Handicap of {{count}} stones. Submit, or click a different numbered stone.",
+    "out": "Handicap von {{count}} Steinen. Absenden oder auf einen anderen nummerierten Stein klicken."
+  },
+  "validation.thuemorsego.DECLARE_ONE": {
+    "src": "Handicap of one stone, given by this declaration. Place a stone as the second placement of this move, or submit to pass it.",
+    "out": "Handicap von einem Stein, gewährt durch diese Deklaration. Setzen Sie einen Stein als zweite Setzung dieses Zugs oder senden Sie ab, um zu passen."
+  },
+  "validation.thuemorsego.DECLARE_ONE_BUTTON": {
+    "src": "Handicap of one stone, given by this declaration. Place a stone or take the button as the second placement of this move, or submit to pass it.",
+    "out": "Handicap von einem Stein, gewährt durch diese Deklaration. Setzen Sie einen Stein oder nehmen Sie den Button als zweite Setzung dieses Zugs, oder senden Sie ab, um zu passen."
+  },
+  "validation.thuemorsego.DECLARE_RANGE": {
+    "src": "The handicap must be between 1 and {{max}} stones.",
+    "out": "Das Handicap muss zwischen 1 und {{max}} Steinen liegen."
+  },
+  "validation.thuemorsego.DUPLICATE_CELL": {
+    "src": "The cell {{where}} is listed twice.",
+    "out": "Das Feld {{where}} ist doppelt aufgeführt."
+  },
+  "validation.thuemorsego.FORCED_MOVE": {
+    "src": "Every placement of this move is given away as handicap stones, which happens automatically.",
+    "out": "Jede Setzung dieses Zugs wird als Vorgabe-Stein abgegeben, was automatisch geschieht."
+  },
+  "validation.thuemorsego.HANDICAP_INVALID": {
+    "src": "The handicap must be a whole number.",
+    "out": "Das Handicap muss eine ganze Zahl sein."
+  },
+  "validation.thuemorsego.HANDICAP_OK_one": {
+    "src": "Handicap of one stone. Submit, or click a different numbered stone.",
+    "out": "Handicap von einem Stein. Absenden oder auf einen anderen nummerierten Stein klicken."
+  },
+  "validation.thuemorsego.HANDICAP_OK_other": {
+    "src": "Handicap of {{count}} stones. Submit, or click a different numbered stone.",
+    "out": "Handicap von {{count}} Steinen. Absenden oder auf einen anderen nummerierten Stein klicken."
+  },
+  "validation.thuemorsego.HANDICAP_RANGE": {
+    "src": "The handicap must be between 1 and {{max}} stones.",
+    "out": "Das Handicap muss zwischen 1 und {{max}} Steinen liegen."
+  },
+  "validation.thuemorsego.HANDICAP_THEN_KOMI_one": {
+    "src": "Handicap of {{count}} stone. Now choose the reverse komi: click a numbered stone in the upper row, or enter a whole number in the move box.",
+    "out": "Handicap von {{count}} Stein. Wählen Sie nun das umgekehrte Komi: Klicken Sie auf einen nummerierten Stein in der oberen Reihe oder geben Sie eine ganze Zahl im Zug-Eingabefeld ein."
+  },
+  "validation.thuemorsego.HANDICAP_THEN_KOMI_other": {
+    "src": "Handicap of {{count}} stones. Now choose the reverse komi: click a numbered stone in the upper row, or enter a whole number in the move box.",
+    "out": "Handicap von {{count}} Steinen. Wählen Sie nun das umgekehrte Komi: Klicken Sie auf einen nummerierten Stein in der oberen Reihe oder geben Sie eine ganze Zahl im Zug-Eingabefeld ein."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_ALT": {
+    "src": "Place an Attacker stone to continue the opening, or choose to play as the Attacker. If you choose the Attacker, your opponent moves first as the Defender.",
+    "out": "Setzen Sie einen Angreifer-Stein oder übernehmen Sie die Angreifer-Seite; Ihr Gegner zieht dann zuerst als Verteidiger."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_ALT_HANDICAP_one": {
+    "src": "Place an Attacker stone to continue the opening, or choose to play as the Attacker. If you choose the Attacker, place one extra stone; your opponent then moves first as the Defender.",
+    "out": "Setzen Sie einen Angreifer-Stein oder übernehmen Sie die Angreifer-Seite und setzen Sie dann einen weiteren Stein; Ihr Gegner zieht dann zuerst als Verteidiger."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_ALT_HANDICAP_other": {
+    "src": "Place an Attacker stone to continue the opening, or choose to play as the Attacker. If you choose the Attacker, place {{count}} extra stones; your opponent then moves first as the Defender.",
+    "out": "Setzen Sie einen Angreifer-Stein oder übernehmen Sie die Angreifer-Seite und setzen Sie dann {{count}} weitere Steine; Ihr Gegner zieht dann zuerst als Verteidiger."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_BOTH": {
+    "src": "Begin this move with the reverse komi and the handicap, in either order. Click a numbered stone in the upper row, or enter any whole number from 1 to {{max}} in the move box, to set how many points you give your opponent; click one in the lower row to set how many handicap stones you give, from 1 to {{stones}}. The komi costs no placement; the handicap stones are the placements you pass, this declaration being the first of them.",
+    "out": "Beginnen Sie diesen Zug mit dem umgekehrten Komi und dem Handicap in beliebiger Reihenfolge. Klicken Sie auf einen nummerierten Stein in der oberen Reihe oder geben Sie eine beliebige ganze Zahl von 1 bis {{max}} im Zug-Eingabefeld ein, um festzulegen, wie viele Punkte Sie Ihrem Gegner geben; klicken Sie auf einen in der unteren Reihe, um festzulegen, wie viele Vorgabe-Steine Sie geben (von 1 bis {{stones}}). Das Komi kostet keine Setzung; die Vorgabe-Steine sind die Setzungen, die Sie passen, wobei diese Deklaration die erste davon ist."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_DECLARE": {
+    "src": "You are giving the handicap. Click a numbered stone to set how many handicap stones you give, from 1 to {{max}}: you pass that many placements while your opponent places freely, and this declaration is the first of them.",
+    "out": "Sie geben das Handicap. Klicken Sie auf einen nummerierten Stein, um festzulegen, wie viele Vorgabe-Steine Sie geben (von 1 bis {{max}}): Sie passen so viele Setzungen, während Ihr Gegner frei setzt, und diese Deklaration ist die erste davon."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_HANDICAP": {
+    "src": "You are giving the handicap. Click a numbered stone to set how many extra Attacker stones, from 1 to {{max}}, your opponent will place if they take the Attacker side.",
+    "out": "Sie geben das Handicap. Klicken Sie auf einen nummerierten Stein, um festzulegen, wie viele zusätzliche Angreifer-Steine (von 1 bis {{max}}) Ihr Gegner setzen wird, wenn er die Angreifer-Seite übernimmt."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_KOMI": {
+    "src": "Begin this move with the reverse komi: click one of the numbered stones, or enter any whole number from 1 to {{max}} in the move box, to set how many points you give your opponent. It costs no placement; your stones follow it.",
+    "out": "Beginnen Sie diesen Zug mit dem umgekehrten Komi: Klicken Sie auf einen der nummerierten Steine oder geben Sie eine beliebige ganze Zahl von 1 bis {{max}} im Zug-Eingabefeld ein, um festzulegen, wie viele Punkte Sie Ihrem Gegner geben. Es kostet keine Setzung; Ihre Steine folgen darauf."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_PLAY_ATTACKER_one": {
+    "src": "Place a stone. You win by preventing the Defender from forming an unconditionally alive string.",
+    "out": "Setzen Sie einen Stein oder passen Sie. Sie gewinnen, indem Sie dem Verteidiger keinen Platz lassen, eine Kette zu bilden, die niemals geschlagen werden kann."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_PLAY_ATTACKER_other": {
+    "src": "Place {{count}} stones. You win by preventing the Defender from forming an unconditionally alive string.",
+    "out": "Setzen Sie {{count}} Steine. Sie gewinnen, indem Sie verhindern, dass der Verteidiger eine bedingungslos lebendige Kette bildet."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_PLAY_BUTTON_one": {
+    "src": "Place a stone, pass, or take the button (worth {{points}}); this move is a single placement.",
+    "out": "Setzen Sie einen Stein, passen Sie oder nehmen Sie den Button (wert {{points}}); dieser Zug besteht aus einer einzelnen Setzung."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_PLAY_BUTTON_other": {
+    "src": "This move is {{count}} placements: place up to {{count}} stones, take the button (worth {{points}}) in place of one, or submit early to pass the rest.",
+    "out": "Dieser Zug besteht aus {{count}} Setzungen: Setzen Sie bis zu {{count}} Steine, nehmen Sie den Button (wert {{points}}) anstelle eines Steins oder senden Sie vorzeitig ab, um den Rest zu passen."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_PLAY_DEFENDER_one": {
+    "src": "Place a stone. You win by forming one unconditionally alive string.",
+    "out": "Setzen Sie einen Stein oder passen Sie. Sie gewinnen, indem Sie eine Kette bilden, die niemals geschlagen werden kann."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_PLAY_DEFENDER_other": {
+    "src": "Place {{count}} stones. You win by forming one unconditionally alive string.",
+    "out": "Setzen Sie {{count}} Steine. Sie gewinnen, indem Sie eine bedingungslos lebendige Kette bilden."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_PLAY_FORCED": {
+    "src": "The first placement of this move is given away as a handicap stone. Place a stone for the other, or pass.",
+    "out": "Die erste Setzung dieses Zugs wird als Vorgabe-Stein abgegeben. Setzen Sie einen Stein für die andere Setzung oder passen Sie."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_PLAY_FORCED_BUTTON": {
+    "src": "The first placement of this move is given away as a handicap stone. Place a stone for the other, take the button (worth {{points}}), or pass.",
+    "out": "Die erste Setzung dieses Zugs wird als Vorgabe-Stein abgegeben. Setzen Sie einen Stein für die andere Setzung, nehmen Sie den Button (wert {{points}}) oder passen Sie."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_PLAY_one": {
+    "src": "Place a stone, or pass; this move is a single placement.",
+    "out": "Setzen Sie einen Stein oder passen Sie; dieser Zug besteht aus einer einzelnen Setzung."
+  },
+  "validation.thuemorsego.INSTRUCTIONS_PLAY_other": {
+    "src": "This move is {{count}} placements: place up to {{count}} stones, or submit early to pass the rest.",
+    "out": "Dieser Zug besteht aus {{count}} Setzungen: Setzen Sie bis zu {{count}} Steine oder senden Sie vorzeitig ab, um den Rest zu passen."
+  },
+  "validation.thuemorsego.INVALID_PASS": {
+    "src": "You cannot pass now.",
+    "out": "Sie können jetzt nicht passen."
+  },
+  "validation.thuemorsego.KOMI_FIRST": {
+    "src": "Choose the reverse komi first: click one of its numbered stones, or enter a whole number in the move box. {{where}} is not one of the numbered stones.",
+    "out": "Wählen Sie zuerst das umgekehrte Komi: Klicken Sie auf einen seiner nummerierten Steine oder geben Sie eine ganze Zahl im Zug-Eingabefeld ein. {{where}} ist keiner der nummerierten Steine."
+  },
+  "validation.thuemorsego.KOMI_INVALID": {
+    "src": "This move must begin with the reverse komi: a whole number from 1 to {{max}}, the numbered stones offering the multiples of 14.",
+    "out": "Dieser Zug muss mit dem umgekehrten Komi beginnen: eine ganze Zahl von 1 bis {{max}}, wobei die nummerierten Steine Vielfache von 14 bieten."
+  },
+  "validation.thuemorsego.KOMI_MISSING": {
+    "src": "Choose the reverse komi before placing a stone: click a numbered stone in the upper row, or enter a whole number first.",
+    "out": "Wählen Sie das umgekehrte Komi, bevor Sie einen Stein setzen: Klicken Sie zuerst auf einen nummerierten Stein in der oberen Reihe oder geben Sie eine ganze Zahl ein."
+  },
+  "validation.thuemorsego.KOMI_THEN_DECLARE_one": {
+    "src": "Reverse komi of {{count}} point to your opponent. Now click a numbered stone in the lower row to set the handicap.",
+    "out": "Umgekehrtes Komi von {{count}} Punkt an Ihren Gegner. Klicken Sie nun auf einen nummerierten Stein in der unteren Reihe, um das Handicap festzulegen."
+  },
+  "validation.thuemorsego.KOMI_THEN_DECLARE_other": {
+    "src": "Reverse komi of {{count}} points to your opponent. Now click a numbered stone in the lower row to set the handicap.",
+    "out": "Umgekehrtes Komi von {{count}} Punkten an Ihren Gegner. Klicken Sie nun auf einen nummerierten Stein in der unteren Reihe, um das Handicap festzulegen."
+  },
+  "validation.thuemorsego.KOMI_THEN_PLACE_one": {
+    "src": "Reverse komi of {{count}} point to your opponent. Now place your stones, or submit to pass this move.",
+    "out": "Umgekehrtes Komi von {{count}} Punkt an Ihren Gegner. Setzen Sie nun Ihre Steine oder senden Sie ab, um diesen Zug zu passen."
+  },
+  "validation.thuemorsego.KOMI_THEN_PLACE_other": {
+    "src": "Reverse komi of {{count}} points to your opponent. Now place your stones, or submit to pass this move.",
+    "out": "Umgekehrtes Komi von {{count}} Punkten an Ihren Gegner. Setzen Sie nun Ihre Steine oder senden Sie ab, um diesen Zug zu passen."
+  },
+  "validation.thuemorsego.KO_PSK": {
+    "src": "That placement would recreate an earlier position of the board (positional superko).",
+    "out": "Dieses Setzen würde eine frühere Brettposition wiederherstellen (positionelles Superko)."
+  },
+  "validation.thuemorsego.KO_PSK_DDPSK": {
+    "src": "That placement would recreate an earlier position of the board for the fourth time (double delayed superko).",
+    "out": "Diese Setzung würde eine frühere Brettposition zum vierten Mal wiederherstellen (doppelt verzögertes Superko)."
+  },
+  "validation.thuemorsego.MARKING_PENDING_one": {
+    "src": "One stone is marked dead. Pass at least one placement to answer the marking; a move that passes nothing ends dead-stone marking for the rest of the game.",
+    "out": "Ein Stein ist als tot markiert. Passen Sie mindestens eine Setzung, um auf die Markierung zu antworten; ein Zug, der nichts passt, beendet die Markierung toter Steine für den Rest des Spiels."
+  },
+  "validation.thuemorsego.MARKING_PENDING_other": {
+    "src": "{{count}} stones are marked dead. Pass at least one placement to answer the marking; a move that passes nothing ends dead-stone marking for the rest of the game.",
+    "out": "{{count}} Steine sind als tot markiert. Passen Sie mindestens eine Setzung, um auf die Markierung zu antworten; ein Zug, der nichts passt, beendet die Markierung toter Steine für den Rest des Spiels."
+  },
+  "validation.thuemorsego.MARKS_LOCKED": {
+    "src": "Strings can no longer be marked dead: dead-stone marking ended when a move passing nothing, or a pass marking nothing dead, followed a marking. Capture any dead stones on the board, then end the game with two whole-move passes in turn; every stone still on the board then counts as alive.",
+    "out": "Ketten können nicht mehr als tot markiert werden: Die Markierung toter Steine endete, als auf eine Markierung ein Zug folgte, der nichts passte, oder ein Passen, das nichts als tot markierte. Schlagen Sie alle toten Steine auf dem Brett und beenden Sie dann das Spiel mit zwei aufeinanderfolgenden Pässen des gesamten Zugs; jeder verbleibende Stein auf dem Brett gilt dann als lebendig."
+  },
+  "validation.thuemorsego.MARKS_NEED_PASS": {
+    "src": "Strings can be marked dead only in a move that passes at least one placement: pass first, then click or name the strings.",
+    "out": "Ketten können nur in einem Zug als tot markiert werden, der mindestens eine Setzung passt: Passen Sie zuerst und klicken oder benennen Sie dann die Ketten."
+  },
+  "validation.thuemorsego.MARK_CLICK": {
+    "src": "Click strings to mark them dead, or to change the marking.",
+    "out": "Klicken Sie auf Ketten, um sie als tot zu markieren oder die Markierung zu ändern."
+  },
+  "validation.thuemorsego.MARK_EMPTY": {
+    "src": "There is no stone at {{where}} to mark dead.",
+    "out": "Auf {{where}} befindet sich kein Stein, der als tot markiert werden könnte."
+  },
+  "validation.thuemorsego.MARK_HINT": {
+    "src": "To mark strings dead as well, press Pass first, then place the stone again and click them.",
+    "out": "Um Ketten ebenfalls als tot zu markieren, drücken Sie zuerst Passen, setzen Sie den Stein erneut und klicken Sie dann auf sie."
+  },
+  "validation.thuemorsego.MUST_CONTINUE": {
+    "src": "Ending the move here would recreate an earlier position of the board; place another stone, or choose a different placement.",
+    "out": "Das Beenden des Zugs an dieser Stelle würde eine frühere Brettposition wiederherstellen; setzen Sie einen weiteren Stein oder wählen Sie eine andere Setzung."
+  },
+  "validation.thuemorsego.MUST_CONTINUE_SUICIDE": {
+    "src": "Ending the move here would leave that stone with no liberties and nothing captured, so it would be removed as suicide and the board left as it was; place another stone, or choose a different placement.",
+    "out": "Das Beenden des Zugs an dieser Stelle würde diesen Stein ohne Freiheiten und ohne geschlagene Steine hinterlassen, sodass er als Selbstmord entfernt würde und das Brett wie zuvor bliebe; setzen Sie einen weiteren Stein oder wählen Sie eine andere Setzung."
+  },
+  "validation.thuemorsego.NOT_A_NUMBERED_STONE": {
+    "src": "{{where}} is not one of the numbered stones.",
+    "out": "{{where}} ist keiner der nummerierten Steine."
+  },
+  "validation.thuemorsego.NO_BUTTON": {
+    "src": "There is no button in this game.",
+    "out": "In diesem Spiel gibt es keinen Button."
+  },
+  "validation.thuemorsego.NO_PASS": {
+    "src": "Passing is not allowed in Kill-All games.",
+    "out": "Passen ist in Kill-All-Spielen nicht erlaubt."
+  },
+  "validation.thuemorsego.NO_PLACEMENT_LEFT": {
+    "src": "This move has no placement left to make: submit, or click a numbered stone to change your choice.",
+    "out": "Dieser Zug hat keine verbleibenden Setzungen mehr: Senden Sie ab oder klicken Sie auf einen nummerierten Stein, um Ihre Wahl zu ändern."
+  },
+  "validation.thuemorsego.OCCUPIED_MARK": {
+    "src": "{{where}} is occupied. To mark its string as dead, press Pass first, then click the string; in a two-placement move a stone can still be placed for one of the placements.",
+    "out": "{{where}} ist besetzt. Um die Kette darauf als tot zu markieren, drücken Sie zuerst Passen und klicken Sie dann auf die Kette; in einem Zug aus zwei Setzungen kann für eine der Setzungen weiterhin ein Stein gesetzt werden."
+  },
+  "validation.thuemorsego.OVER_MID_MOVE": {
+    "src": "The game ended at the previous placement.",
+    "out": "Das Spiel endete bei der vorherigen Setzung."
+  },
+  "validation.thuemorsego.PASS_AGREE_one": {
+    "src": "Your opponent passed with one stone marked dead. Submit to pass and end the game with it removed, or click strings to change the marking, after which your opponent may pass to accept it or play on.",
+    "out": "Ihr Gegner hat mit einem als tot markierten Stein gepasst. Senden Sie ab, um zu passen und das Spiel nach dessen Entfernung zu beenden, oder klicken Sie auf Ketten, um die Markierung zu ändern, woraufhin Ihr Gegner passen kann, um sie zu akzeptieren, oder weiterspielen kann."
+  },
+  "validation.thuemorsego.PASS_AGREE_other": {
+    "src": "Your opponent passed with {{count}} stones marked dead. Submit to pass and end the game with them removed, or click strings to change the marking, after which your opponent may pass to accept it or play on.",
+    "out": "Ihr Gegner hat mit {{count}} als tot markierten Steinen gepasst. Senden Sie ab, um zu passen und das Spiel nach deren Entfernung zu beenden, oder klicken Sie auf Ketten, um die Markierung zu ändern, woraufhin Ihr Gegner passen kann, um sie zu akzeptieren, oder weiterspielen kann."
+  },
+  "validation.thuemorsego.PASS_AGREE_zero": {
+    "src": "Your opponent passed with no strings marked dead. Submit to pass and end the game, or click strings to mark them dead, after which your opponent may pass to accept the marking or play on.",
+    "out": "Ihr Gegner hat ohne als tot markierte Ketten gepasst. Senden Sie ab, um zu passen und das Spiel zu beenden, oder klicken Sie auf Ketten, um sie als tot zu markieren, woraufhin Ihr Gegner passen kann, um die Markierung zu akzeptieren, oder weiterspielen kann."
+  },
+  "validation.thuemorsego.PASS_CLEARS": {
+    "src": "Passing with no strings marked dead after a marking ends dead-stone marking for the rest of the game: the game goes on, dead stones must be captured, and the game ends when both players pass their whole moves in turn, with every stone on the board alive. Submit, or click strings to mark them dead instead.",
+    "out": "Passen ohne als tot markierte Ketten nach einer Markierung beendet die Markierung toter Steine für den Rest des Spiels: Das Spiel geht weiter, tote Steine müssen geschlagen werden, und das Spiel endet, wenn beide Spieler nacheinander ihren gesamten Zug passen, wobei jeder Stein auf dem Brett als lebendig gilt. Senden Sie ab oder klicken Sie stattdessen auf Ketten, um sie als tot zu markieren."
+  },
+  "validation.thuemorsego.PASS_CLEARS_PLACE": {
+    "src": "Passing the rest of this move with no strings marked dead after a marking ends dead-stone marking for the rest of the game, as does placing another stone: the game goes on, dead stones must be captured, and the game ends when both players pass their whole moves in turn, with every stone on the board alive. Submit, or place another stone.",
+    "out": "Das Passen des Rests dieses Zugs ohne als tot markierte Ketten nach einer Markierung beendet die Markierung toter Steine für den Rest des Spiels, ebenso wie das Setzen eines weiteren Steins: Das Spiel geht weiter, tote Steine müssen geschlagen werden, und das Spiel endet, wenn beide Spieler nacheinander ihren gesamten Zug passen, wobei jeder Stein auf dem Brett als lebendig gilt. Senden Sie ab oder setzen Sie einen weiteren Stein."
+  },
+  "validation.thuemorsego.PASS_DISPUTE_one": {
+    "src": "This changes your opponent's marking to one stone marked dead, so the game goes on: your opponent may pass to accept it, change it again, or play on. Submit, or click strings to change the marking.",
+    "out": "Dies ändert die Markierung Ihres Gegners auf einen als tot markierten Stein, sodass das Spiel weitergeht: Ihr Gegner kann passen, um sie zu akzeptieren, sie erneut ändern oder weiterspielen. Senden Sie ab oder klicken Sie auf Ketten, um die Markierung zu ändern."
+  },
+  "validation.thuemorsego.PASS_DISPUTE_other": {
+    "src": "This changes your opponent's marking to {{count}} stones marked dead, so the game goes on: your opponent may pass to accept it, change it again, or play on. Submit, or click strings to change the marking.",
+    "out": "Dies ändert die Markierung Ihres Gegners auf {{count}} als tot markierte Steine, sodass das Spiel weitergeht: Ihr Gegner kann passen, um sie zu akzeptieren, sie erneut ändern oder weiterspielen. Senden Sie ab oder klicken Sie auf Ketten, um die Markierung zu ändern."
+  },
+  "validation.thuemorsego.PASS_LOCKED": {
+    "src": "Dead-stone marking has ended for this game, so passes carry no marking. Submit to pass this move, or place a stone for one of its placements; if your opponent then passes their whole move, the game ends with every stone alive.",
+    "out": "Die Markierung toter Steine ist für dieses Spiel beendet, daher enthalten Pässe keine Markierung. Senden Sie ab, um diesen Zug zu passen, oder setzen Sie einen Stein für eine seiner Setzungen; wenn Ihr Gegner dann seinen gesamten Zug passt, endet das Spiel mit jedem Stein als lebendig."
+  },
+  "validation.thuemorsego.PASS_LOCKED_ENDS": {
+    "src": "Dead-stone marking has ended for this game, so passes carry no marking. Your opponent's last move passed: submit to pass this move and end the game with every stone alive, or place a stone to play on.",
+    "out": "Die Markierung toter Steine ist für dieses Spiel beendet, daher enthalten Pässe keine Markierung. Der letzte Zug Ihres Gegners war ein Passen: Senden Sie ab, um diesen Zug zu passen und das Spiel mit jedem Stein als lebendig zu beenden, oder setzen Sie einen Stein, um weiterzuspielen."
+  },
+  "validation.thuemorsego.PASS_LOCKED_PLACE": {
+    "src": "Dead-stone marking has ended for this game, so passes carry no marking. Submit to pass the rest of this move, or place another stone; your opponent may then pass their whole move to end the game with every stone alive.",
+    "out": "Die Markierung toter Steine ist für dieses Spiel beendet, daher enthalten Pässe keine Markierung. Senden Sie ab, um den Rest dieses Zugs zu passen, oder setzen Sie einen weiteren Stein; Ihr Gegner kann dann seinen gesamten Zug passen, um das Spiel mit jedem Stein als lebendig zu beenden."
+  },
+  "validation.thuemorsego.PASS_OPEN_one": {
+    "src": "Submit to pass this move with one stone marked dead, or click strings to change the marking. If your opponent then passes keeping it, the game ends with the marked strings removed.",
+    "out": "Senden Sie ab, um diesen Zug mit einem als tot markierten Stein zu passen, oder klicken Sie auf Ketten, um die Markierung zu ändern. Wenn Ihr Gegner dann passt und die Markierung beibehält, endet das Spiel mit der Entfernung der markierten Ketten."
+  },
+  "validation.thuemorsego.PASS_OPEN_other": {
+    "src": "Submit to pass this move with {{count}} stones marked dead, or click strings to change the marking. If your opponent then passes keeping it, the game ends with the marked strings removed.",
+    "out": "Senden Sie ab, um diesen Zug mit {{count}} als tot markierten Steinen zu passen, oder klicken Sie auf Ketten, um die Markierung zu ändern. Wenn Ihr Gegner dann passt und die Markierung beibehält, endet das Spiel mit der Entfernung der markierten Ketten."
+  },
+  "validation.thuemorsego.PASS_OPEN_zero": {
+    "src": "Submit to pass this move, click strings to mark them dead first, or place a stone instead. If your opponent then passes keeping the marking, the game ends with the marked strings removed.",
+    "out": "Senden Sie ab, um diesen Zug zu passen, klicken Sie zuerst auf Ketten, um sie als tot zu markieren, oder setzen Sie stattdessen einen Stein. Wenn Ihr Gegner dann passt und die Markierung beibehält, endet das Spiel mit der Entfernung der markierten Ketten."
+  },
+  "validation.thuemorsego.PASS_PLACE_one": {
+    "src": "Submit to pass the rest of this move with one stone marked dead, or place another stone. Passing part of a move does not end the game, but your opponent may then pass their whole move keeping the marking to end it with the marked string removed.",
+    "out": "Senden Sie ab, um den Rest dieses Zugs mit einem als tot markierten Stein zu passen, oder setzen Sie einen weiteren Stein. Das Passen eines Teilzugs beendet das Spiel nicht, aber Ihr Gegner kann dann seinen gesamten Zug passen und die Markierung beibehalten, um das Spiel mit der Entfernung der markierten Kette zu beenden."
+  },
+  "validation.thuemorsego.PASS_PLACE_other": {
+    "src": "Submit to pass the rest of this move with {{count}} stones marked dead, or place another stone. Passing part of a move does not end the game, but your opponent may then pass their whole move keeping the marking to end it with the marked strings removed.",
+    "out": "Senden Sie ab, um den Rest dieses Zugs mit {{count}} als tot markierten Steinen zu passen, oder setzen Sie einen weiteren Stein. Das Passen eines Teilzugs beendet das Spiel nicht, aber Ihr Gegner kann dann seinen gesamten Zug passen und die Markierung beibehalten, um das Spiel mit der Entfernung der markierten Ketten zu beenden."
+  },
+  "validation.thuemorsego.PASS_PLACE_zero": {
+    "src": "Submit to pass the rest of this move, or place another stone. Passing part of a move does not end the game, but your opponent may then pass their whole move to end it.",
+    "out": "Senden Sie ab, um den Rest dieses Zugs zu passen, oder setzen Sie einen weiteren Stein. Das Passen eines Teilzugs beendet das Spiel nicht, aber Ihr Gegner kann dann seinen gesamten Zug passen, um das Spiel zu beenden."
+  },
+  "validation.thuemorsego.PLACE_MORE_one": {
+    "src": "Place one more stone.",
+    "out": "Setzen Sie einen weiteren Stein."
+  },
+  "validation.thuemorsego.PLACE_MORE_other": {
+    "src": "Place {{count}} more stones.",
+    "out": "Setzen Sie {{count}} weitere Steine."
+  },
+  "validation.thuemorsego.PLACING_ENDS_MARKING": {
+    "src": "This move passes nothing, so it ends dead-stone marking for the rest of the game: dead stones must then be captured, and the game ends when both players pass their whole moves in turn, with every stone on the board alive.",
+    "out": "Dieser Zug passt nichts, daher beendet er die Markierung toter Steine für den Rest des Spiels: Tote Steine müssen dann geschlagen werden, und das Spiel endet, wenn beide Spieler nacheinander ihren gesamten Zug passen, wobei jeder Stein auf dem Brett als lebendig gilt."
+  },
+  "validation.thuemorsego.SETUP_FULL": {
+    "src": "The board already holds the maximum number of setup stones this phase allows ({{max}}); take the Attacker side instead of placing another.",
+    "out": "Das Brett enthält bereits die maximale Anzahl an Aufstellungssteinen, die in dieser Phase erlaubt ist ({{max}}); übernehmen Sie die Angreifer-Seite, anstatt einen weiteren zu setzen."
+  },
+  "validation.thuemorsego.STONES_LEFT_one": {
+    "src": "Place one more Attacker stone.",
+    "out": "Setzen Sie einen weiteren Angreifer-Stein."
+  },
+  "validation.thuemorsego.STONES_LEFT_other": {
+    "src": "Place {{count}} more Attacker stones.",
+    "out": "Setzen Sie {{count}} weitere Angreifer-Steine."
+  },
+  "validation.thuemorsego.SUICIDE_REPEAT": {
+    "src": "That stone has no liberties and captures nothing, so it is removed as suicide and the board is left as it was, which positional superko forbids.",
+    "out": "Dieser Stein hat keine Freiheiten und schlägt nichts, sodass er als Selbstmord entfernt wird und das Brett wie zuvor bleibt, was das positionelle Superko verbietet."
+  },
+  "validation.thuemorsego.SUICIDE_REPEAT_DDPSK": {
+    "src": "That stone has no liberties and captures nothing, so it is removed as suicide and the board is left as it was, a position that has already arisen three times, which double delayed superko forbids.",
+    "out": "Dieser Stein hat keine Freiheiten und schlägt nichts, sodass er als Selbstmord entfernt wird und das Brett wie zuvor bleibt, eine Position, die bereits dreimal aufgetreten ist, was das doppelt verzögerte Superko verbietet."
+  },
+  "validation.thuemorsego.SUICIDE_REPEAT_MOVE": {
+    "src": "The stones placed this move have no liberties and capture nothing, so the clearing after its last placement removes them and leaves the board as it was before the move, which positional superko forbids.",
+    "out": "Die in diesem Zug gesetzten Steine haben keine Freiheiten und schlagen nichts, sodass die Bereinigung nach der letzten Setzung sie entfernt und das Brett wie vor dem Zug belässt, was das positionelle Superko verbietet."
+  },
+  "validation.thuemorsego.SUICIDE_REPEAT_MOVE_DDPSK": {
+    "src": "The stones placed this move have no liberties and capture nothing, so the clearing after its last placement removes them and leaves the board as it was before the move, a position that has already arisen three times, which double delayed superko forbids.",
+    "out": "Die in diesem Zug gesetzten Steine haben keine Freiheiten und schlagen nichts, sodass die Bereinigung nach der letzten Setzung sie entfernt und das Brett wie vor dem Zug belässt, eine Position, die bereits dreimal aufgetreten ist, was das doppelt verzögerte Superko verbietet."
+  },
+  "validation.thuemorsego.TOO_MANY_one": {
+    "src": "This move has only one placement left to fill.",
+    "out": "Dieser Zug hat nur noch eine auszuführende Setzung."
+  },
+  "validation.thuemorsego.TOO_MANY_other": {
+    "src": "This move has only {{count}} placements left to fill.",
+    "out": "Dieser Zug hat nur noch {{count}} auszuführende Setzungen."
+  },
   "validation.tintas.CAPTURED_LABEL": {
     "src": "{{player}}'s captured pieces",
     "out": "{{player}}s geschlagene Steine"
@@ -21098,6 +21594,118 @@
   "variants.terrace.long.name": {
     "src": "Long game",
     "out": "Langes Spiel"
+  },
+  "variants.thuemorsego.#board.name": {
+    "src": "16x16 board",
+    "out": "16x16-Brett"
+  },
+  "variants.thuemorsego.#connect.description": {
+    "src": "Points connect orthogonally, as in Go.",
+    "out": "Punkte verbinden sich orthogonal, wie beim Go."
+  },
+  "variants.thuemorsego.#connect.name": {
+    "src": "Square",
+    "out": "Quadratisch"
+  },
+  "variants.thuemorsego.#protocol.description": {
+    "src": "Placements follow the full Thue-Morse sequence: 0110 1001 1001 0110 …",
+    "out": "Setzungen folgen der vollständigen Thue-Morse-Folge: 0110 1001 1001 0110 …"
+  },
+  "variants.thuemorsego.#protocol.name": {
+    "src": "Thue-Morse",
+    "out": "Thue-Morse"
+  },
+  "variants.thuemorsego.#repetition.description": {
+    "src": "No ko rule: the fifth occurrence of a position ends the game in a draw. Intended for players who don't mind draws and want to let short cycles play out.",
+    "out": "Keine Ko-Regel: Das fünfte Auftreten einer Stellung beendet das Spiel mit einem Unentschieden. Gedacht für Spieler, die nichts gegen Remis haben und kurze Zyklen ausspielen lassen möchten."
+  },
+  "variants.thuemorsego.#repetition.name": {
+    "src": "5-fold repetition draw",
+    "out": "Remis durch 5-fache Stellungswiederholung"
+  },
+  "variants.thuemorsego.double-delayed-psk.description": {
+    "src": "Like positional superko, except that a position may arise three times: only a placement that would make a fourth occurrence is forbidden. Intended for players who dislike draws and want to let short cycles play out.",
+    "out": "Wie Positionelle Superko, außer dass eine Stellung dreimal entstehen darf: Nur ein Setzen, das ein viertes Auftreten bewirken würde, ist verboten. Gedacht für Spieler, die Unentschieden vermeiden und kurze Zyklen ausspielen lassen möchten."
+  },
+  "variants.thuemorsego.double-delayed-psk.name": {
+    "src": "Double delayed PSK",
+    "out": "Doppelt verzögerte PSK"
+  },
+  "variants.thuemorsego.half-button.description": {
+    "src": "Any placement may instead take the button, worth half a point to whoever takes it first, on any board, which prevents tied scores. Unchecked, the button evens the count instead: a 1-point button on boards with an odd number of points and none on boards with an even number, so the points at stake always add up to an even number. Kill-All games have no button.",
+    "out": "Statt einen Stein zu setzen, kann jederzeit der Button genommen werden, der demjenigen, der ihn zuerst nimmt, auf jedem Brett einen halben Punkt bringt und Unentschieden verhindert. Wenn nicht aktiviert, gleicht der Button stattdessen die Punktzahl aus: Ein 1-Punkt-Button auf Brettern mit einer ungeraden Anzahl von Punkten und keiner auf Brettern mit einer geraden Anzahl, sodass die auf dem Spiel stehenden Punkte immer eine gerade Summe ergeben. \"Kill-All\"-Spiele haben keinen Button."
+  },
+  "variants.thuemorsego.half-button.name": {
+    "src": "0.5 point button",
+    "out": "0,5-Punkte-Button"
+  },
+  "variants.thuemorsego.handicap.description": {
+    "src": "Player 2 begins their first move by giving Player 1 a number of handicap stones, up to a fortieth of the board's points: Player 2 passes that many placements, the declaration being the first, while Player 1 places freely. In Kill-All games, Player 1 instead sets a number of extra Attacker stones, up to twice that, which Player 2 places immediately on claiming the Attacker side.",
+    "out": "Spieler 2 beginnt seinen ersten Zug, indem er Spieler 1 eine Anzahl von Vorgabesteinen gibt, bis zu einem Vierzigstel der Punkte des Bretts: Spieler 2 passt so viele Setzaktionen, wobei die Ansage die erste ist, während Spieler 1 frei setzt. In \"Kill-All\"-Spielen setzt Spieler 1 stattdessen eine Anzahl zusätzlicher Angreifersteine, bis zum Doppelten davon, die Spieler 2 sofort setzt, sobald er die Angreiferseite übernimmt."
+  },
+  "variants.thuemorsego.handicap.name": {
+    "src": "Handicap stones",
+    "out": "Handicap-Steine"
+  },
+  "variants.thuemorsego.kill-all.description": {
+    "src": "Players take turns placing Attacker stones until one of them claims the Attacker side; the other plays the Defender, places first, and wins by forming an unconditionally alive string. Cannot be combined with the 0.5 point button, and has no button.",
+    "out": "Die Spieler setzen abwechselnd Angreifersteine, bis einer von ihnen die Angreiferseite beansprucht; der andere spielt den Verteidiger, setzt zuerst und gewinnt, indem er eine bedingungslos lebende Kette bildet. Kann nicht mit dem 0,5-Punkte-Button kombiniert werden und hat keinen Button."
+  },
+  "variants.thuemorsego.kill-all.name": {
+    "src": "Kill-All",
+    "out": "Kill-All"
+  },
+  "variants.thuemorsego.marseillais.description": {
+    "src": "Placements repeat the first four terms of the Thue-Morse sequence, ABBA, also known as 12* or T(2).",
+    "out": "Das Setzen wiederholt die ersten vier Glieder der Thue-Morse-Folge, ABBA, auch bekannt als 12* oder T(2)."
+  },
+  "variants.thuemorsego.marseillais.name": {
+    "src": "Balanced Marseillais",
+    "out": "Ausgeglichenes Marseillais"
+  },
+  "variants.thuemorsego.reverse-komi.description": {
+    "src": "Player 2 begins their first move by giving Player 1 a reverse komi: a whole number of points up to 14 times the handicap limit, the numbered stones offering the multiples of 14, added to Player 1's score at the end of the game. Unlike the handicap it costs no placement; it comes before any handicap declaration. Cannot be combined with Kill-All, and makes the game unrated.",
+    "out": "Spieler 2 beginnt seinen ersten Zug, indem er Spieler 1 ein umgekehrtes Komi gibt: eine ganze Zahl von Punkten bis zum 14-Fachen des Vorgabelimits, wobei die nummerierten Steine Vielfache von 14 bieten, die am Ende des Spiels zum Punktestand von Spieler 1 addiert werden. Im Gegensatz zur Vorgabe kostet dies kein Setzen; es erfolgt vor jeder Vorgabeansage. Kann nicht mit Kill-All kombiniert werden und führt dazu, dass das Spiel nicht gewertet wird."
+  },
+  "variants.thuemorsego.reverse-komi.name": {
+    "src": "Reverse komi",
+    "out": "Umgekehrtes Komi"
+  },
+  "variants.thuemorsego.size-11.name": {
+    "src": "11x11 board",
+    "out": "11x11-Brett"
+  },
+  "variants.thuemorsego.size-19.name": {
+    "src": "19x19 board",
+    "out": "19x19-Brett"
+  },
+  "variants.thuemorsego.size-23.name": {
+    "src": "23x23 board",
+    "out": "23x23-Brett"
+  },
+  "variants.thuemorsego.snub.description": {
+    "src": "Points connect as in the snub square tiling, so each point has five neighbours and the board contains triangles.",
+    "out": "Punkte verbinden sich wie in der abgeschrägten Quadratparkettierung, sodass jeder Punkt fünf Nachbarn hat und das Brett Dreiecke enthält."
+  },
+  "variants.thuemorsego.snub.name": {
+    "src": "Snub square",
+    "out": "Abgeschrägtes Quadrat"
+  },
+  "variants.thuemorsego.superko.description": {
+    "src": "No placement may recreate an earlier position of the board. Intended for players who want to keep the ko prohibition from Go.",
+    "out": "Kein Setzen darf eine frühere Stellung des Bretts wiederherstellen. Gedacht für Spieler, die das Ko-Verbot aus dem Go beibehalten möchten."
+  },
+  "variants.thuemorsego.superko.name": {
+    "src": "Positional superko (PSK)",
+    "out": "Positionelle Superko (PSK)"
+  },
+  "variants.thuemorsego.weak-eyes.description": {
+    "src": "When checked, only the last placement of a move clears the board or checks repetition, so a two-placement move can fill both eyes of a group and three eyes are needed to live. Unchecked, every placement clears the board and two eyes live.",
+    "out": "Wenn aktiviert, räumt nur das letzte Setzen eines Zugs das Brett ab oder prüft auf Wiederholung, sodass ein Zug mit zwei Setzaktionen beide Augen einer Gruppe füllen kann und drei Augen zum Leben benötigt werden. Wenn nicht aktiviert, räumt jedes Setzen das Brett ab und zwei Augen reichen zum Leben."
+  },
+  "variants.thuemorsego.weak-eyes.name": {
+    "src": "Weak eyes",
+    "out": "Schwache Augen"
   },
   "variants.tintas.#board.description": {
     "src": "A round-ish hex field of 49 spaces",

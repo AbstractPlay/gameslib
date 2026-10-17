@@ -21,7 +21,7 @@ Do **not** hand-edit [`locales/en/apresults.json`](../../../locales/en/apresults
 
 ## Path map (locale remap)
 
-[`apresults-path-map.json`](apresults-path-map.json) links **legacy flat** catalog paths to nested `newPath` values. Regenerate when English leaf paths change:
+[`apresults-path-map.json`](apresults-path-map.json) links **legacy flat** catalog paths to nested `newPath` values. It is updated automatically by **`npm run locale-en -- merge --write`** (or `merge apresults --write`). Optional manual regen:
 
 ```bash
 node scripts/audit-apresults-catalog.mjs --write-map

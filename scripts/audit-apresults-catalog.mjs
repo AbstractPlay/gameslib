@@ -21,6 +21,7 @@ import {
     flatCatalogLeavesFromCommittedMap,
     GENERAL_NESTED_TYPES,
     pathMapEntriesAlignedWithNested,
+    writeCommittedApresultsPathMap,
 } from "./lib/apresults-path-map.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -176,16 +177,7 @@ for (const e of homeworlds) {
 }
 
 if (writeMap) {
-    const payload = {
-        generatedAt: new Date().toISOString().slice(0, 10),
-        schemaVersion: 1,
-        entries: entries.map(({ english, ...rest }) => ({
-            ...rest,
-            english,
-        })),
-    };
-    fs.mkdirSync(path.dirname(PATH_MAP_JSON), { recursive: true });
-    fs.writeFileSync(PATH_MAP_JSON, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+    writeCommittedApresultsPathMap(catalog);
     console.log("\nWrote", path.relative(repoRoot, PATH_MAP_JSON));
 }
 

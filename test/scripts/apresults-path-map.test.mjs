@@ -5,9 +5,12 @@ import { collectLeaves } from "../../scripts/locale-prune.mjs";
 import {
     buildPathMapFromCatalog,
     flatCatalogLeavesFromCommittedMap,
+    guessOldPathFromNewPath,
     HOMEWORLD_ACTION_LEAF,
     loadCommittedPathMapEntries,
     mapCatalogLeafPath,
+    pathMapEntriesForNestedCatalogWrite,
+    registryUidsLongestFirst,
 } from "../../scripts/lib/apresults-path-map.mjs";
 import { mergeApresultsEnSources } from "../../scripts/lib/apresults-en-merge.mjs";
 import { MERGED_EN_ARESULTS, PATH_MAP_JSON } from "../../scripts/lib/apresults-en-paths.mjs";
@@ -64,6 +67,28 @@ describe("apresults path map", () => {
         const flatLeaves = flatCatalogLeavesFromCommittedMap(merged);
         const { collisions } = buildPathMapFromCatalog(flatLeaves);
         assert.equal(collisions.length, 0, collisions.map((c) => c.newPath).join(", "));
+    });
+
+    it("guessOldPathFromNewPath round-trips every committed path-map row", () => {
+        const uidSet = new Set(registryUidsLongestFirst());
+        const committed = loadCommittedPathMapEntries();
+        const catalogOldPaths = new Set(committed.map((e) => e.oldPath));
+        for (const e of committed) {
+            const oldPath = guessOldPathFromNewPath(e.newPath);
+            const mapped = mapCatalogLeafPath(oldPath, uidSet, catalogOldPaths);
+            assert.equal(
+                mapped.newPath,
+                e.newPath,
+                `guess ${e.newPath} via ${oldPath} → ${mapped.newPath}`,
+            );
+        }
+    });
+
+    it("pathMapEntriesForNestedCatalogWrite matches merge leaf count", () => {
+        const merged = mergeApresultsEnSources();
+        const fromWrite = pathMapEntriesForNestedCatalogWrite(merged);
+        const mergedLeaves = Object.keys(collectLeaves(merged)).length;
+        assert.equal(fromWrite.length, mergedLeaves);
     });
 
     it("committed path map entries aligned with merge output", () => {

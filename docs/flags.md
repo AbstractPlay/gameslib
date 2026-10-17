@@ -82,7 +82,7 @@ Consumer pattern: `game.getFlags().includes("check")` then call the method.
 | `shared-pieces` | No player-owned piece colours |
 | `scores` | Final scores in EOG emails |
 | `rotate90` | 90° rotation increments |
-| `stacking-expanding` | Pass click row/col into `render()` |
+| `stacking-expanding` | Hover expands a cell stack in a side area via `renderColumn(col, row, panelId?)`; pass click row/col into `render()` when needed |
 | `random-start` | `getStartingPosition()` for game record |
 
 ### 5. Conditional (first `resolveFlags` overrides: `pie` / `pie-even`)
@@ -137,7 +137,7 @@ Front enables pie UI when the resolved flag is present **and** uses `isPieTurn()
 | `shared-pieces` | No player-owned colours |
 | `shared-stash` | `getSharedStash()` |
 | `simultaneous` | Turn-based simultaneous rounds — use **`GameBaseSimultaneous`** |
-| `stacking-expanding` | Pass click row/col into `render()` |
+| `stacking-expanding` | Hover expands a cell stack in a side area via `renderColumn(col, row, panelId?)`; pass click row/col into `render()` when needed |
 
 <!-- generated-flags -->
 

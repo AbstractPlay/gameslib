@@ -188,6 +188,10 @@ Frozen stride shim for old code paths. New games should not call it. Migrating g
 
 Optional `render()` arguments: `perspective`, `altDisplay` (legacy single uid), `altDisplays` (active toggle uids), `hideLayer`. Use `hasDisplay(opts, uid)` inside `render()` instead of branching on `altDisplay` alone. See **[Alternative displays](/gameslib/displays/)**. Games with `stacking-expanding` pass click coordinates through render options.
 
+`render()` may return a single `APRenderRep`, an array of reps (frame stack), or an `APRenderComposite` for multi-board SVGs. Composite games should use stable `panels[].id` values for routing.
+
+`handleClick(move, row, col, piece?, panelId?)` — optional `panelId` when the UI uses composite `boardClick`; existing games can ignore it.
+
 ### Render labels
 
 Area and board `label` fields may be plain strings or structured `RenderLabel` objects (`textKey`, optional `textParams`, optional `actor`). Use **`seatAreaLabel(seat, textKey)`** on `GameBase` for player-owned pieces areas; front resolves usernames and i18n at draw time. Full guide: **[Structured render labels](/gameslib/structured-render-labels/)**.

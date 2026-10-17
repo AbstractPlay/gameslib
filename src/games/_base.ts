@@ -3,6 +3,8 @@
 
 import { APGamesInformation, AlternativeDisplay, Variant } from '../schemas/gameinfo.js';
 import { APRenderRep, Glyph, Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
+import type { APRenderGameOutput } from "../common/renderOutput.js";
+export type { APRenderGameOutput } from "../common/renderOutput.js";
 
 /** Player index, hex/pattern token, or colour function — same as a glyph `colour` field. */
 export type ColourResolvable = number | string | Colourfuncs;
@@ -517,7 +519,7 @@ export abstract class GameBase  {
     public abstract currplayer: number|undefined;
 
     public abstract move(move: string, opts?: IMoveOptions): GameBase;
-    public abstract render(opts: IRenderOpts): APRenderRep|APRenderRep[];
+    public abstract render(opts: IRenderOpts): APRenderGameOutput;
     public abstract state(opts?: {strip?: boolean, player?: number}): IAPGameState;
     public abstract load(idx: number): GameBase;
     public abstract clone(): GameBase;
@@ -678,7 +680,7 @@ export abstract class GameBase  {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+    public handleClick(move: string, row: number, col: number, piece?: string, panelId?: string): IClickResult {
         return {
             move,
             valid: false,

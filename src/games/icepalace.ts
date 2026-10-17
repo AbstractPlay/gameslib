@@ -1909,7 +1909,8 @@ export class IcePalaceGame extends GameBaseSequenced {
      * the board, bottom of the stack first, as side-on pyramids. Either structure can be
      * looked into, and the gap between them, or an empty cell, shows nothing.
      */
-    public renderColumn(col: number, row: number): APRenderRep {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public renderColumn(col: number, row: number, panelId?: string): APRenderRep {
         const found = this.locate(row, col);
         const stack = found === undefined
             ? []

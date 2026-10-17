@@ -1227,6 +1227,42 @@ describe("Arimaa Dicey Moves", () => {
         expect(g.chatLog(["Gold", "Silver"]).flat().join(" ")).to.contain("a single step this turn");
     });
 
+    it("keeps this turn's die through the preview of a complete move and casts the next on submission", () => {
+        const g = freeStart().move("ee7, ra7");
+        const die = {...g.die!};
+        // the front end previews a complete move under `emulation` before it
+        // is submitted, and only the submission casts the next die
+        let calls = 0;
+        const original = Math.random;
+        Math.random = () => { calls++; return 0.5; };
+        let preview: ArimaaGame;
+        try {
+            preview = g.clone().move("Ed3", {emulation: true});
+        } finally {
+            Math.random = original;
+        }
+        expect(calls).to.equal(0);
+        expect(preview.currplayer).to.equal(2);
+        expect(preview.lastmove).to.equal("Ed3");
+        expect(preview.results[0]).to.deep.equal({type: "roll", values: [die.steps]});
+        expect(preview.die).to.deep.equal(die);
+        expect(preview.stack[preview.stack.length - 1].die).to.deep.equal(die);
+        const rep = preview.render();
+        expect((rep.legend as Record<string, {name: string}>).DIE.name).to.equal(`d6-${die.steps}`);
+        const [x, y] = ArimaaGame.algebraic2coords(die.square);
+        const markers = (rep.board as {markers: Array<{type: string; glyph?: string; points?: Array<{row: number; col: number}>}>}).markers;
+        expect(markers.find(m => m.type === "glyph" && m.glyph === "DIE")!.points).to.deep.equal([{row: y, col: x}]);
+        // the submitted move casts the next die
+        const submitted = withRandom(0, () => g.clone().move("Ed3"));
+        expect(submitted.die!.steps).to.equal(1);
+        // a preview that ends the game hides the die, as the submission would
+        const nearGoal = new ArimaaGame(undefined, ["free", "dicey"]).move("Rd7, Ee2").move("ee5, ra7");
+        const won = nearGoal.clone().move("Rd8", {emulation: true});
+        expect(won.gameover).to.be.true;
+        expect(won.die).to.be.undefined;
+        expect(won.render().legend).to.not.have.property("DIE");
+    });
+
     it("ends the game when the die allows one step and only a push remains", () => {
         // Gold's elephant is boxed in by rabbits it could push; its rabbit is frozen
         const boxed = (): ArimaaGame => new ArimaaGame(undefined, ["free", "dicey"]).move("Ea8, Rh1");
@@ -1238,6 +1274,10 @@ describe("Arimaa Dicey Moves", () => {
         expect(g.gameover).to.be.false;
         expect(g.die!.steps).to.equal(4);
         expect(g.validateMove("Ea7").valid).to.be.true;
+        // a preview has no roll to decide it, so the game goes on
+        g = withRandom(0, () => boxed().move("ra7, rb8, ch2, dg1", {emulation: true}));
+        expect(g.gameover).to.be.false;
+        expect(g.die).to.be.undefined;
     });
 
     it("hides the die when the rules end the game, but not after a resignation, timeout or draw", () => {

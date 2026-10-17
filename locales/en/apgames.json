@@ -7336,7 +7336,8 @@
         "name": "Best of Three"
       },
       "#scores": {
-        "name": "Default scores"
+        "description": "The winner is the first to score a point.",
+        "name": "Instant death"
       }
     },
     "moonsquad": {

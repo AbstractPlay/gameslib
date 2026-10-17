@@ -7336,7 +7336,8 @@
         "name": "Al mejor de tres"
       },
       "#scores": {
-        "name": "Puntuación predeterminada"
+        "description": "El ganador es el primero en anotar un punto.",
+        "name": "Muerte instantánea"
       }
     },
     "moonsquad": {

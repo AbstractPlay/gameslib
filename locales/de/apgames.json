@@ -7336,7 +7336,8 @@
         "name": "Best of Three"
       },
       "#scores": {
-        "name": "Standard-Wertung"
+        "description": "Gewonnen hat, wer zuerst einen Punkt erzielt.",
+        "name": "Plötzlicher Tod"
       }
     },
     "moonsquad": {

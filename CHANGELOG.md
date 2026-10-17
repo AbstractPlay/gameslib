@@ -19,6 +19,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Fixed
 
+- **Generatorb:** `noglobes` is stored on game-level `state.variants` (legacy saves with empty `variants` infer `noglobes` from the opening board on `stack[0]`).
 - **Mixtour:** Best-of-three / best-of-five score variants are stored on `state.variants` so they persist across save and reload (legacy states with empty `variants` but non-default `target` are inferred on load).
 - **Rincala:** `shared-pieces` flag so seats are not treated as player-owned board colours (matches Four and fixes preferred-colour palette remap on the client).
 - **i18n (`apresults`):** `apresults-path-map.json` entry for `clearpath.EOG.cutoff` (path-map drift since Clearpath cutoff copy landed).

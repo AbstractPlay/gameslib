@@ -74,7 +74,10 @@ export type {
     SidebarLegendGlyph,
     LegacyStatusGlyphShorthand,
     LegendEntry,
+    APRenderGameOutput,
 } from "./games/_base.js";
+export type { APRenderRep, APRenderComposite } from "@abstractplay/renderer";
+export { isAPRenderComposite } from "./common/renderOutput.js";
 export type { APMoveResult, APGamesInformation };
 export type { Variant, AlternativeDisplay } from "./schemas/gameinfo.js";
 export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./games/_turn-model.js";

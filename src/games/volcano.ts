@@ -943,7 +943,8 @@ export class VolcanoGame extends GameBase {
         return rep;
     }
 
-    public renderColumn(col: number, row: number): APRenderRep {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public renderColumn(col: number, row: number, panelId?: string): APRenderRep {
         const areas: (AreaVolcanoStash|AreaStackingExpanded)[] = [];
         const pieces = this.board[row][col];
         const cell: string[] = pieces.map(c => `${c.join("")}N`);

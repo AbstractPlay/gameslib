@@ -190,7 +190,7 @@ Use the [examples by feature](/gameslib/examples/by-feature/) index to find game
 
 ## Renderer
 
-Implement `render(opts?)` returning `APRenderRep` for `@abstractplay/renderer`. Prototype JSON in the [renderer playground](https://renderer.dev.abstractplay.com).
+Implement `render(opts?)` returning `APRenderRep`, `APRenderRep[]` (animation frames), or `APRenderComposite` (`kind: "composite"`) for `@abstractplay/renderer`. Use `isAPRenderComposite()` from gameslib when branching; the front calls `renderComposite` for composites. Prototype JSON in the [renderer playground](https://renderer.dev.abstractplay.com).
 
 **Player-named area labels** (pieces stashes, captured piles, and similar) should use structured labels via `seatAreaLabel()` — not hard-coded `"Player 1"` strings. Front resolves display names at draw time. See **[Structured render labels](/gameslib/structured-render-labels/)**.
 

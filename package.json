@@ -146,7 +146,7 @@
   },
   "dependencies": {
     "@abstractplay/recranks": "1.0.0-ci-38058446108.0",
-    "@abstractplay/renderer": "1.0.0-ci-39065541687.0",
+    "@abstractplay/renderer": "1.0.0-ci-39053528430.0",
     "@turf/boolean-contains": "^6.5.0",
     "@turf/boolean-intersects": "^6.5.0",
     "@turf/boolean-point-in-polygon": "^6.5.0",

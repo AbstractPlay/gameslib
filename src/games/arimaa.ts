@@ -1,6 +1,6 @@
 import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine, type FlagContext, type GameFlag } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep, AreaPieces, BoardBasic, Colourfuncs, Glyph } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, AreaPieces, BoardBasic, Colourfuncs, Glyph, PaintEntry } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { randomInt, RectGrid, reviver, shuffle, SquareOrthGraph, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
@@ -1392,7 +1392,7 @@ export class ArimaaGame extends GameBase {
         return i18next.t("apgames:validation.arimaa.NO_MOVE");
     }
 
-    public move(m: string, {trusted = false, partial = false} = {}): ArimaaGame {
+    public move(m: string, {trusted = false, partial = false, emulation = false} = {}): ArimaaGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
@@ -1504,10 +1504,19 @@ export class ArimaaGame extends GameBase {
         // GameBase instead and keep the die, since it may have informed the
         // decision. Partial moves have already returned, so the die never
         // changes while a move is entered.
-        this.die = this.variants.includes("dicey") && this.hands === undefined ? castDie(this.board) : undefined;
+        //
+        // The front end previews a complete move under `emulation` before it
+        // is submitted. The next die is cast on submission alone, so the
+        // preview keeps showing this turn's die, where it was and as it fell,
+        // and the game-over checks assume a full allowance: a roll nobody has
+        // seen cannot decide them.
+        const shown = this.die;
+        this.die = this.variants.includes("dicey") && this.hands === undefined && !emulation ? castDie(this.board) : undefined;
         this.checkEOG();
         if (this.gameover) {
             this.die = undefined;
+        } else if (emulation) {
+            this.die = shown;
         }
         this.saveState();
         return this;
@@ -1851,12 +1860,19 @@ export class ArimaaGame extends GameBase {
         };
 
         // Dicey Moves: the turn's die, one of the renderer's d6 faces, drawn as
-        // a board marker so that a piece moving onto its square covers it
+        // a board marker so that a piece moving onto its square covers it. The
+        // body stays hollow, and the outline and pips are both drawn in
+        // whichever of black and white contrasts best with the board colour,
+        // so the die shows on light and dark boards alike.
         if (this.die !== undefined) {
+            const ink: PaintEntry = {
+                colour: {func: "bestContrast", bg: "_context_board", fg: ["#000", "#fff"]},
+                opacity: 0.75,
+            };
             legend.DIE = {
                 name: `d6-${this.die.steps}`,
+                paint: {border: ink, detail: ink},
                 scale: 0.6,
-                opacity: 0.75,
             };
             const [dx, dy] = ArimaaGame.algebraic2coords(this.die.square);
             (rep.board as BoardBasic).markers!.push({

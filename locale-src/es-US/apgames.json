@@ -17548,20 +17548,12 @@
     "out": "Configuración predeterminada"
   },
   "variants.crosshairs.asymmetric-random-start.description": {
-    "src": "There is no cloud placing phase. The system places the clouds randomly without requiring symmetry.",
-    "out": "No hay fase de colocación de nubes. El sistema coloca las nubes al azar sin requerir simetría."
+    "src": "There is no cloud placing phase. The system places clouds one at a time away from the board edge, each time choosing among the cells that split an open line of fire most evenly.",
+    "out": "No hay fase de colocación de nubes. El sistema coloca las nubes una a una lejos del borde del tablero, eligiendo cada vez entre las casillas que dividan de la manera más equitativa una línea de fuego abierta."
   },
   "variants.crosshairs.asymmetric-random-start.name": {
     "src": "Asymmetric random clouds",
     "out": "Nubes aleatorias asimétricas"
-  },
-  "variants.crosshairs.asymmetric-split-start.description": {
-    "src": "There is no cloud placing phase. The system places clouds one at a time away from the board edge, each time choosing among the cells that split an open line of fire most evenly.",
-    "out": "No hay fase de colocación de nubes. El sistema coloca nubes de una en una lejos del borde del tablero, eligiendo cada vez entre las casillas que dividen de la forma más uniforme una línea de fuego abierta."
-  },
-  "variants.crosshairs.asymmetric-split-start.name": {
-    "src": "Asymmetric random clouds (new)",
-    "out": "Nubes aleatorias asimétricas (nuevo)"
   },
   "variants.crosshairs.clouds-22.description": {
     "src": "Place 22 clouds instead of 16. With the default cloud bank size limit, the full count may not always be achievable.",
@@ -17596,20 +17588,12 @@
     "out": "Fuego oculto"
   },
   "variants.crosshairs.random-start.description": {
-    "src": "There is no cloud placing phase. The system places the clouds randomly with 180-degree rotational symmetry.",
-    "out": "No hay fase de colocación de nubes. El sistema coloca las nubes al azar con simetría rotacional de 180 grados."
+    "src": "There is no cloud placing phase. The system places clouds in 180-degree rotationally symmetric pairs away from the board edge, each time choosing among the cells that split an open line of fire most evenly. A cloud in the centre counts as a pair, leaving the board one cloud short.",
+    "out": "No hay fase de colocación de nubes. El sistema coloca las nubes en pares con simetría rotacional de 180 grados lejos del borde del tablero, eligiendo cada vez entre las casillas que dividan de la manera más equitativa una línea de fuego abierta. Una nube en el centro cuenta como un par, por lo que el tablero tendrá una nube menos."
   },
   "variants.crosshairs.random-start.name": {
     "src": "Symmetric random clouds",
     "out": "Nubes aleatorias simétricas"
-  },
-  "variants.crosshairs.split-start.description": {
-    "src": "There is no cloud placing phase. The system places clouds in 180-degree rotationally symmetric pairs away from the board edge, each time choosing among the cells that split an open line of fire most evenly. A cloud in the centre counts as a pair, leaving the board one cloud short.",
-    "out": "No hay fase de colocación de nubes. El sistema coloca nubes en pares simétricos con rotación de 180 grados lejos del borde del tablero, eligiendo cada vez entre las casillas que dividen de la forma más uniforme una línea de fuego abierta. Una nube en el centro cuenta como un par, dejando al tablero con una nube menos."
-  },
-  "variants.crosshairs.split-start.name": {
-    "src": "Symmetric random clouds (new)",
-    "out": "Nubes aleatorias simétricas (nuevo)"
   },
   "variants.crosshairs.turbulence.description": {
     "src": "Each time a plane enters a cloud, it loses 1 height.",

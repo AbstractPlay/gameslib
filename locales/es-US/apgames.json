@@ -6277,19 +6277,11 @@
       },
       "random-start": {
         "name": "Nubes aleatorias simétricas",
-        "description": "No hay fase de colocación de nubes. El sistema coloca las nubes al azar con simetría rotacional de 180 grados."
+        "description": "No hay fase de colocación de nubes. El sistema coloca las nubes en pares con simetría rotacional de 180 grados lejos del borde del tablero, eligiendo cada vez entre las casillas que dividan de la manera más equitativa una línea de fuego abierta. Una nube en el centro cuenta como un par, por lo que el tablero tendrá una nube menos."
       },
       "asymmetric-random-start": {
         "name": "Nubes aleatorias asimétricas",
-        "description": "No hay fase de colocación de nubes. El sistema coloca las nubes al azar sin requerir simetría."
-      },
-      "split-start": {
-        "name": "Nubes aleatorias simétricas (nuevo)",
-        "description": "No hay fase de colocación de nubes. El sistema coloca nubes en pares simétricos con rotación de 180 grados lejos del borde del tablero, eligiendo cada vez entre las casillas que dividen de la forma más uniforme una línea de fuego abierta. Una nube en el centro cuenta como un par, dejando al tablero con una nube menos."
-      },
-      "asymmetric-split-start": {
-        "name": "Nubes aleatorias asimétricas (nuevo)",
-        "description": "No hay fase de colocación de nubes. El sistema coloca nubes de una en una lejos del borde del tablero, eligiendo cada vez entre las casillas que dividen de la forma más uniforme una línea de fuego abierta."
+        "description": "No hay fase de colocación de nubes. El sistema coloca las nubes una a una lejos del borde del tablero, eligiendo cada vez entre las casillas que dividan de la manera más equitativa una línea de fuego abierta."
       },
       "clumping-start": {
         "name": "Nubes aleatorias agrupadas",

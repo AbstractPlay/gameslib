@@ -6277,19 +6277,11 @@
       },
       "random-start": {
         "name": "Nuvole casuali simmetriche",
-        "description": "Non c'è alcuna fase di posizionamento delle nuvole. Il sistema posiziona le nuvole in modo casuale con una simmetria rotazionale di 180 gradi."
+        "description": "Non c'è una fase di posizionamento delle nuvole. Il sistema posiziona le nuvole a coppie a simmetria rotazionale di 180 gradi lontano dal bordo del tabellone, scegliendo ogni volta tra le caselle che dividono nel modo più equo una linea di tiro aperta. Una nuvola al centro conta come una coppia, lasciando il tabellone con una nuvola in meno."
       },
       "asymmetric-random-start": {
         "name": "Nuvole casuali asimmetriche",
-        "description": "Non c'è alcuna fase di posizionamento delle nuvole. Il sistema posiziona le nuvole in modo casuale senza richiedere simmetria."
-      },
-      "split-start": {
-        "name": "Nuvole casuali simmetriche (nuovo)",
-        "description": "Non c'è una fase di posizionamento delle nuvole. Il sistema posiziona le nuvole in coppie a simmetria rotazionale di 180 gradi lontano dal bordo del tabellone, scegliendo ogni volta tra le caselle che dividono una linea di tiro aperta nel modo più uniforme possibile. Una nuvola al centro conta come una coppia, lasciando il tabellone con una nuvola in meno."
-      },
-      "asymmetric-split-start": {
-        "name": "Nuvole casuali asimmetriche (nuovo)",
-        "description": "Non c'è una fase di posizionamento delle nuvole. Il sistema posiziona le nuvole una alla volta lontano dal bordo del tabellone, scegliendo ogni volta tra le caselle che dividono una linea di tiro aperta nel modo più uniforme possibile."
+        "description": "Non c'è una fase di posizionamento delle nuvole. Il sistema posiziona le nuvole una alla volta lontano dal bordo del tabellone, scegliendo ogni volta tra le caselle che dividono nel modo più equo una linea di tiro aperta."
       },
       "clumping-start": {
         "name": "Nuvole casuali raggruppate",

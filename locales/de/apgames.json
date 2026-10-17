@@ -6277,19 +6277,11 @@
       },
       "random-start": {
         "name": "Symmetrische zufällige Wolken",
-        "description": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken zufällig mit 180-Grad-Rotationssymmetrie."
+        "description": "Es gibt keine Wolkenplatzierungsphase. Das System platziert Wolken in um 180 Grad rotationssymmetrischen Paaren abseits des Brettrands und wählt dabei jeweils aus den Zellen aus, die eine offene Schusslinie am gleichmäßigsten teilen. Eine Wolke in der Mitte zählt als Paar, wodurch insgesamt eine Wolke auf dem Brett fehlt."
       },
       "asymmetric-random-start": {
         "name": "Asymmetrische zufällige Wolken",
-        "description": "Es gibt keine Wolkenplatzierungsphase. Das System platziert die Wolken zufällig, ohne Symmetrie zu erfordern."
-      },
-      "split-start": {
-        "name": "Symmetrische Zufallswolken (neu)",
-        "description": "Es gibt keine Wolkenplatzierungsphase. Das System platziert Wolken in um 180 Grad rotationssymmetrischen Paaren abseits des Spielfeldrands und wählt jedes Mal aus den Feldern aus, die eine offene Schusslinie am gleichmäßigsten teilen. Eine Wolke in der Mitte zählt als Paar, sodass auf dem Spielbrett eine Wolke fehlt."
-      },
-      "asymmetric-split-start": {
-        "name": "Asymmetrische Zufallswolken (neu)",
-        "description": "Es gibt keine Wolkenplatzierungsphase. Das System platziert Wolken einzeln abseits des Spielfeldrands und wählt jedes Mal aus den Feldern aus, die eine offene Schusslinie am gleichmäßigsten teilen."
+        "description": "Es gibt keine Wolkenplatzierungsphase. Das System platziert Wolken einzeln abseits des Brettrands und wählt dabei jeweils aus den Zellen aus, die eine offene Schusslinie am gleichmäßigsten teilen."
       },
       "clumping-start": {
         "name": "Klumpende Zufallswolken",

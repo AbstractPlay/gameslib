@@ -32,6 +32,8 @@ export {
     isStructuredRenderLabel,
 } from "./render-label.js";
 export type { RenderLabel, StructuredRenderLabel } from "./render-label.js";
+export { isAPRenderComposite } from "./renderOutput.js";
+export type { APRenderGameOutput } from "./renderOutput.js";
 export type { FlagContext, GameFlag } from "./flags.js";
 export {
     resolveVariantGroups,

@@ -34,6 +34,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
+- **Composite render output:** `APRenderGameOutput`, `isAPRenderComposite()`, and `GameBase.render()` / `handleClick(..., panelId?)` for multi-board JSON; optional `renderColumn(col, row, panelId?)` on stacking-expanding games.
 - **Ops:** `ap:service` and `ap:stage` cost-allocation tags on the `abstractplay-gameslib-playground` Serverless stack and S3 bucket (via `serverless client deploy`).
 - **Docs:** [Rules PDF mirrors](/gameslib/rules-mirror/) — maintainer `bin/mirror-rules.ts` tooling and `rules.abstractplay.com` hosting convention (`{uid}.pdf`, `rules-mirrors.json`).
 - **Render:** `pieces` areas may set `veiled` so the renderer dims the opponent stash grid; perfect-information stash/hand games (Alien City, Four, Fnap, Pylon, Subdivision, WaldMeister, Gyges, Penguin, Rincala, Moon Squad) set it from `render({ perspective })` via `GameBase.stashAreaVeiled()` (requires matching `@abstractplay/renderer` with `AreaPieces.veiled`).

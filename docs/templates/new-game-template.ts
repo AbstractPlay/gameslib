@@ -165,7 +165,7 @@ export class ComplicaGame extends GameBase {
      * - `canrender` is for games where the moves consist of multiple steps and need to be rendered as you go. If `canrender` is true, then even if `complete` is -1, it will be send to the renderer for updating.
      * - `message` is a translatable string explaining what the user should do next.
      */
-    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+    public handleClick(move: string, row: number, col: number, piece?: string, panelId?: string): IClickResult {
         try {
             const cell = ComplicaGame.coords2algebraic(col, row);
             const newmove = cell[0];

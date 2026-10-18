@@ -580,15 +580,14 @@ describe("Kill-All Go", () => {
         });
 
         describe("the on-board handicap picker", () => {
-            it("lays 1 to 10 out in one snake five wide, from c7 on the top-left diagonal across and back down", () => {
+            it("lays 1 to 6 out in one snake five wide, from c7 on the top-left diagonal across and down", () => {
                 const g = new KillAllGoGame(undefined, ["size-9", "handicap"]);
-                // 9x9 offers 81 / 8 rounded to the nearest even number, 10, in a block round_up_odd(9 / 2) = 5 wide.
+                // 9x9 offers 81 / 12.5 rounded to the nearest even number, 6, in a block round_up_odd(9 / 2) = 5 wide.
                 expect(picture(g)).to.deep.equal([
                     ...blank(2, 9),
                     "  .  .  1  2  3  4  5  .  .",
                     "  .  .  .  .  .  .  6  .  .",
-                    "  .  .  . 10  9  8  7  .  .",
-                    ...blank(4, 9),
+                    ...blank(5, 9),
                 ]);
                 // The first stone lies on the diagonal from the top left corner: its column and row from there are the same.
                 expect(keyAt(g, "c7")).to.equal("n1");
@@ -598,9 +597,9 @@ describe("Kill-All Go", () => {
                 expect(entered(g)).to.deep.equal([]);
             });
 
-            it("offers p/8 handicaps, rounded to the nearest even number, and still accepts larger typed ones", () => {
+            it("offers p/12.5 handicaps, rounded to the nearest even number, and still accepts larger typed ones", () => {
                 // [variants, handicaps offered, floor(p/2)]
-                for (const [variants, count, max] of [[["size-9"], 10, 40], [["size-13"], 22, 84], [[], 46, 180]] as Array<[string[], number, number]>) {
+                for (const [variants, count, max] of [[["size-9"], 6, 40], [["size-13"], 14, 84], [[], 28, 180]] as Array<[string[], number, number]>) {
                     const g = new KillAllGoGame(undefined, [...variants, "handicap"]);
                     expect(offered(g, "n"), `${count}`).to.deep.equal(Array.from({ length: count }, (_, i) => i + 1));
                     expect(g.validateMove(`${max}`).valid, `accepts ${max}`).to.be.true;
@@ -616,12 +615,10 @@ describe("Kill-All Go", () => {
                     ...blank(3, 13),
                     "  .  .  .  1  2  3  4  5  6  7  .  .  .",
                     "  .  .  .  .  .  .  .  .  .  8  .  .  .",
-                    "  .  .  . 15 14 13 12 11 10  9  .  .  .",
-                    "  .  .  . 16  .  .  .  .  .  .  .  .  .",
-                    "  .  .  . 17 18 19 20 21 22  .  .  .  .",
-                    ...blank(5, 13),
+                    "  .  .  .  . 14 13 12 11 10  9  .  .  .",
+                    ...blank(7, 13),
                 ]);
-                // 19x19: eleven wide from e15, the fifth point along the diagonal, ending just below the centre row.
+                // 19x19: eleven wide from e15, the fifth point along the diagonal, ending just above the centre row.
                 const big = new KillAllGoGame(undefined, ["handicap"]);
                 expect(keyAt(big, "e15")).to.equal("n1");
                 expect(big.algebraic2coords("e15")).to.deep.equal([4, 4]);
@@ -631,10 +628,8 @@ describe("Kill-All Go", () => {
                     "  .  .  .  .  .  .  .  .  .  .  .  .  .  . 12  .  .  .  .",
                     "  .  .  .  . 23 22 21 20 19 18 17 16 15 14 13  .  .  .  .",
                     "  .  .  .  . 24  .  .  .  .  .  .  .  .  .  .  .  .  .  .",
-                    "  .  .  .  . 25 26 27 28 29 30 31 32 33 34 35  .  .  .  .",
-                    "  .  .  .  .  .  .  .  .  .  .  .  .  .  . 36  .  .  .  .",
-                    "  .  .  .  .  . 46 45 44 43 42 41 40 39 38 37  .  .  .  .",
-                    ...blank(8, 19),
+                    "  .  .  .  . 25 26 27 28  .  .  .  .  .  .  .  .  .  .  .",
+                    ...blank(10, 19),
                 ]);
             });
 
@@ -646,14 +641,14 @@ describe("Kill-All Go", () => {
                 expect(click.complete).to.equal(0);
                 expect(click.canrender).to.be.true;
                 // Another click replaces the choice.
-                expect(g.handleClick("3", 4, 4).move).to.equal("9");   // e5 = 9
+                expect(g.handleClick("3", 3, 6).move).to.equal("6");   // g6 = 6
                 g.move("3", { partial: true });
                 expect(entered(g)).to.deep.equal(["e7"]);
             });
 
             it("ignores clicks away from the numbered stones and goes away once the handicap is set", () => {
                 const g = new KillAllGoGame(undefined, ["size-9", "handicap"]);
-                const stray = g.handleClick("", 3, 4);   // e6, an empty point between the snake's rows
+                const stray = g.handleClick("", 3, 4);   // e6, an empty point inside the block, below 3
                 expect(stray.valid).to.be.false;
                 expect(stray.move).to.equal("");
                 expect(stray.message).to.equal(i18next.t("apgames:validation.killallgo.NOT_A_NUMBERED_STONE", { where: "e6" }));

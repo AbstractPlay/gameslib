@@ -933,13 +933,13 @@ export class KillAllGoGame extends GameBase {
     }
 
     /**
-     * The picker offered while the handicap is set: the handicaps 1 to p/8 rounded to the nearest
+     * The picker offered while the handicap is set: the handicaps 1 to p/12.5 rounded to the nearest
      * even number, in one block that starts with its first stone on the diagonal from the top left
      * corner of the board and snakes down from there. Larger handicaps are still entered manually.
      */
     private handicapLayout(): IPickerButton[] {
         // The block's left column also names the row, from the top, where that diagonal crosses it.
-        return this.pickerBlock(oneTo(2 * Math.round(this.points / 16)), this.pickerLeft(), 1);
+        return this.pickerBlock(oneTo(2 * Math.round(this.points / 25)), this.pickerLeft(), 1);
     }
 
     /** The on-board pickers of the current phase: the handicap, or the two Hoctaph batch sizes. */

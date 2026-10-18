@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import type { APRenderRep, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
+import type { APRenderRep, Colourfuncs, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { algebraic2coords, coords2algebraic, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
@@ -569,6 +569,12 @@ const CLASSIC_SETUP = ["j18", "c17", "q17", "d16", "j16", "p16", "b10", "d10", "
 const UNDECIDED_COLOUR = "#999999";
 const CELL_RE = /^[a-z]+\d+$/;
 
+/** The paint of a stone in player colour `colour`: its border is black or white, whichever contrasts better with the fill. */
+const stonePaint = (colour: 1 | 2): { fill: number; border: Colourfuncs } => ({
+    fill: colour,
+    border: { func: "bestContrast", bg: colour, fg: ["#000", "#fff"] },
+});
+
 export class KillAllGoGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Kill-All Go",
@@ -602,7 +608,6 @@ export class KillAllGoGame extends GameBase {
             { uid: "#board" },
             {
                 uid: "#opening",
-                fans: true,
                 people: [
                     {
                         type: "designer",
@@ -614,7 +619,6 @@ export class KillAllGoGame extends GameBase {
             {
                 uid: "handicap",
                 group: "opening",
-                fans: true,
                 unrated: true,
                 people: [
                     {
@@ -624,12 +628,11 @@ export class KillAllGoGame extends GameBase {
                     },
                 ],
             },
-            { uid: "classic", group: "opening", fans: true, enabledWhen: { board: ["#board"] } },
-            { uid: "pie", group: "opening", fans: true },
+            { uid: "classic", group: "opening", enabledWhen: { board: ["#board"] } },
+            { uid: "pie", group: "opening" },
             {
                 uid: "hoctaph",
                 group: "opening",
-                fans: true,
                 people: [
                     {
                         type: "designer",
@@ -1776,7 +1779,7 @@ export class KillAllGoGame extends GameBase {
         const overlay = new Map<string, string>();
         const chosen: string[] = [];
         const stone = (text: string, dimmed: boolean): [Glyph, ...Glyph[]] => {
-            const piece: Glyph = { name: "piece", colour: 1 };
+            const piece: Glyph = { name: "piece", paint: stonePaint(1) };
             const label: Glyph = { text, scale: 0.75, rotate: null };
             if (dimmed) {
                 piece.opacity = 0.5;
@@ -1800,8 +1803,8 @@ export class KillAllGoGame extends GameBase {
 
     public render(opts?: IRenderOpts): APRenderRep {
         const legend: ILegend = {
-            A: [{ name: "piece", colour: 1 }],
-            B: [{ name: "piece", colour: 2 }],
+            A: [{ name: "piece", paint: stonePaint(1) }],
+            B: [{ name: "piece", paint: stonePaint(2) }],
         };
         const { overlay, chosen } = this.pickerOverlay(legend);
 
@@ -1814,7 +1817,7 @@ export class KillAllGoGame extends GameBase {
             for (const [colour, key, player] of [[RED, "C", 1], [BLUE, "D", 2]] as const) {
                 const cells = this.passAlive(colour).flat();
                 if (cells.length > 0) {
-                    legend[key] = [{ name: "piece", colour: player, opacity: 0.75 }];
+                    legend[key] = [{ name: "piece", paint: stonePaint(player), opacity: 0.75 }];
                     for (const cell of cells) {
                         faded.set(cell, key);
                     }

@@ -56,6 +56,9 @@ const faded = (g: KillAllGoGame, opts?: IRenderOpts): string[] => {
 
 const THROUGHOUT: IRenderOpts = { altDisplays: ["pass-alive-throughout"] };
 
+/** The paint of a stone in player colour `colour`: its border is black or white, whichever contrasts better with the fill. */
+const stonePaint = (colour: 1 | 2) => ({ fill: colour, border: { func: "bestContrast", bg: colour, fg: ["#000", "#fff"] } });
+
 // `X` = Blue (the colour under test), `O` = Red, `.` = empty; the first row is the top of the board.
 const boardFrom = (rows: string[]): Board => {
     const size = rows.length;
@@ -373,14 +376,13 @@ describe("Kill-All Go", () => {
             }
         });
 
-        it("marks every opening, Pieboxing included, as a community variant", () => {
-            const openings = (KillAllGoGame.gameinfo.variants ?? []).filter((v) => v.group === "opening" || v.uid === "#opening");
-            expect(openings.map((v) => v.uid)).to.have.members(["#opening", "handicap", "classic", "pie", "hoctaph"]);
-            for (const v of openings) {
-                expect(v.fans, v.uid).to.be.true;
+        it("marks no variant, Pieboxing included, as a community variant", () => {
+            for (const v of KillAllGoGame.gameinfo.variants ?? []) {
+                expect(v.fans, v.uid).to.not.equal(true);
             }
             const pieboxing = new KillAllGoGame(undefined, []).allvariants()?.find((v) => v.uid === "#opening");
-            expect(pieboxing?.fans).to.be.true;
+            expect(pieboxing).to.not.be.undefined;
+            expect(pieboxing!.fans).to.not.equal(true);
         });
     });
 
@@ -761,7 +763,7 @@ describe("Kill-All Go", () => {
                 }
                 const legend = g.render().legend!;
                 expect(Object.keys(legend).filter((k) => !/^(A|B|[nd]\d+)$/.test(k))).to.deep.equal([]);
-                expect(legend.n7).to.deep.equal([{ name: "piece", colour: 1 }, { text: "7", scale: 0.75, rotate: null }]);
+                expect(legend.n7).to.deep.equal([{ name: "piece", paint: stonePaint(1) }, { text: "7", scale: 0.75, rotate: null }]);
             });
 
             it("marks each chosen size", () => {
@@ -823,7 +825,7 @@ describe("Kill-All Go", () => {
                 expect(keyAt(g, "h7")).to.equal("n7");
                 const legend = g.render().legend!;
                 expect(legend.d3).to.deep.equal([
-                    { name: "piece", colour: 1, opacity: 0.5 },
+                    { name: "piece", paint: stonePaint(1), opacity: 0.5 },
                     { text: "3", scale: 0.75, rotate: null, opacity: 0.5 },
                 ]);
             });
@@ -1004,6 +1006,19 @@ describe("Kill-All Go", () => {
             expect(faded(g)).to.deep.equal(["a2", "b1", "b2", "c2", "d1", "d2"]);
             expect(faded(g, THROUGHOUT)).to.deep.equal(["a2", "b1", "b2", "c2", "d1", "d2"]);
             expect(entered(g)).to.deep.equal(["b1"]);
+        });
+
+        it("borders every stone in black or white, whichever contrasts better with its fill", () => {
+            // Plain stones of both colours, with the Attacker's living corner faded on request.
+            const living = play(new KillAllGoGame(undefined, ["size-9", "pie"]), [livingCorner, "attacker", "e5", "g5"]);
+            // The Defender's string that has just come to life, faded in the final position.
+            const won = play(attackerIsPlayerOne(), ["a2", "i9", "b2", "h9", "c2", "g9", "d2", "f9", "d1", "e9", "b1"]);
+            const legends = [living.render(THROUGHOUT).legend!, won.render().legend!];
+            for (const [key, fill] of [["A", 1], ["B", 2], ["C", 1], ["D", 2]] as const) {
+                const legend = legends.find((l) => key in l);
+                expect(legend, key).to.not.be.undefined;
+                expect([legend![key]].flat()[0], key).to.deep.include({ name: "piece", paint: stonePaint(fill) });
+            }
         });
 
         it("gives the Defender no way to win but a pass-alive string", () => {

@@ -429,7 +429,7 @@ export class EmuGame extends GameBase {
         version: "20250610",
         dateAdded: "2025-11-22",
         description: "Each bird on your ranch is represented by a stack of cards. At the end of the hand, the value of a bird is determined by the sum of the number cards in the stack. The object, naturally enough, is to raise profitable birds. Highest score after a number of \"years\" wins.",
-        notes: "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed. Cards drawn from the discard pile are also always visible to opponents.",
+        notes: "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed. Cards drawn from the discard pile are also always visible to opponents. The Excuse, when included, is automatically applied at the end of the year to offset your most negative scoring bird (if any).",
         urls: [
             "http://wiki.decktet.com/game:emu-ranchers",
         ],

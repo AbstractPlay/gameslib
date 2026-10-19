@@ -1,8 +1,11 @@
-# Keep production renderer pin when merging develop into main.
+# Requires `npm run setup-git` once per clone (registers merge.ours driver). Without it, Git
+# ignores merge=ours and you get conflicts on every develop↔main merge.
+#
+# "Ours" = the branch you merge *into* (main keeps prod pins; develop keeps dev pins).
+# After merging, run sync-deps / sync-deps:prod on that branch if you intend to bump pins.
+# GitHub PR merges do not run merge drivers — merge locally or keep the PR base branch copies.
+
 ci-deps.prod.json merge=ours
-
-# Keep develop dependency pins when merging l10n/weblate (or other branches) into develop.
 ci-deps.dev.json merge=ours
-
-# Keep target-branch lockfile on cross-branch merges; run sync-deps if strict check fails.
+package.json merge=ours
 package-lock.json merge=ours

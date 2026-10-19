@@ -28,7 +28,6 @@ custom:
   client:
     bucketName: gameslib.dev.abstractplay.com
     distributionFolder: ./dist
-    tags: ${self:custom.apCostAllocationTags}
     indexDocument: playground.html
     objectHeaders:
       ALL_OBJECTS:

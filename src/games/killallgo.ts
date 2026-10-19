@@ -174,6 +174,9 @@ export type playerid = 1 | 2;
 // ---------------------------------------------------------------------------
 // Board helpers
 // ---------------------------------------------------------------------------
+// Thue-Morse Go (thuemorsego.ts) keeps its own copy of the geometry, string, signature and
+// pass-alive helpers below, so that the two games stay independent: a change here is not a change
+// there, and a fix wanted in both must be made in both.
 
 export type Stone = 1 | 2;
 export const RED: Stone = 1;
@@ -572,8 +575,11 @@ export interface IKillAllGoState extends IAPGameState {
 const CLASSIC_SETUP = ["j18", "c17", "q17", "d16", "j16", "p16", "b10", "d10", "j10", "p10", "r10", "d4", "j4", "p4", "c3", "q3", "j2"];
 const UNDECIDED_COLOUR = "#999999";
 /**
- * The fill of the numbered stones that pick the first Hoctaph batch's size: a grey as light as the
- * renderer's default Attacker colour, #e31a1c (CIELAB L* 48). The second batch's take the Attacker's colour.
+ * The fill of the numbered stones that pick the first Hoctaph batch's size. The grey is meant to
+ * have about the perceptual lightness of the renderer's default first player colour, #e31a1c
+ * (both are CIELAB L* 48), so that bestContrast, which compares WCAG contrast ratios, gives it the
+ * same border as that colour: white. The second batch's stones take the Attacker's colour.
+ * Thue-Morse Go paints its reverse komi stones with the same grey, in a constant of its own.
  */
 const FIRST_BATCH_COLOUR = "#737373";
 const CELL_RE = /^[a-z]+\d+$/;
@@ -866,6 +872,9 @@ export class KillAllGoGame extends GameBase {
     private passAlive(colour: Stone): string[][] {
         return passAliveStrings(this.board, this.geo, colour, { suicideAllowed: true });
     }
+
+    // Thue-Morse Go lays its pickers out the same way, with its own copy of pickerWidth, pickerLeft,
+    // pickerPlace and pickerBlock; the games are independent, so keep the copies in step by hand.
 
     /** The width of the numbered pickers' blocks: half the width of the board, rounded up to an odd number. */
     private pickerWidth(): number {

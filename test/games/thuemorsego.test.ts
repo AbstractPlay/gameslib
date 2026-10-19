@@ -6,7 +6,7 @@ import type { AreaTrack, BoardBasic, Glyph, MarkerDots, MarkerLine } from "@abst
 import { addResource } from "../../src";
 import { SnubSquareGraph } from "../../src/common";
 import { ThueMorseGoGame } from "../../src/games/thuemorsego";
-import type { IClickResult } from "../../src/games/_base";
+import type { IClickResult, IStatus } from "../../src/games/_base";
 import { assertChatLogParity } from "../fixtures/chat/helpers";
 
 before(() => { addResource("en"); });
@@ -26,15 +26,36 @@ const sixteen = (variants: string[] = []): ThueMorseGoGame => new ThueMorseGoGam
 /** The fill of a Kill-All role: its slot (3 Attacker, 4 Defender) when customized for this game, else the first or second colour. */
 const role = (slot: 3 | 4) => ({ func: "custom", default: slot === 3 ? 1 : 2, palette: slot });
 /** The paint of a Kill-All role's stones: like `stonePaint`, with the role's fill. */
-const rolePaint = (slot: 3 | 4, fromPalette = false) => ({
+const rolePaint = (slot: 3 | 4) => ({
     fill: role(slot),
-    border: fromPalette ? slot + 4 : { func: "bestContrast", bg: role(slot), fg: ["#000", "#fff"] },
+    border: { func: "bestContrast", bg: role(slot), fg: ["#000", "#fff"] },
 });
-/** The paint of a stone in palette slot `slot`: its border is black or white by contrast, or slot `slot + 4` under the display option. */
-const stonePaint = (slot: number, fromPalette = false) => ({
+/** The paint of a stone in palette slot `slot`: its border is black or white, whichever contrasts better with the fill. */
+const stonePaint = (slot: number) => ({
     fill: slot,
-    border: fromPalette ? slot + 4 : { func: "bestContrast", bg: slot, fg: ["#000", "#fff"] },
+    border: { func: "bestContrast", bg: slot, fg: ["#000", "#fff"] },
 });
+
+/** The legend key at each point of the rendered board, by row from the top and column from the left. */
+const grid = (g: ThueMorseGoGame): string[][] => {
+    const rep = g.render();
+    const width = (rep.board as { width: number }).width;
+    return (rep.pieces as string).split("\n").map((row) => (row === "_" ? Array<string>(width).fill("-") : row.includes(",") ? row.split(",") : row.split("")));
+};
+
+/**
+ * The rendered board as a picture: one line per row from the top, each point three characters
+ * wide, showing the number on a picker stone (handicap or reverse komi) and "." for anything else.
+ */
+const picture = (g: ThueMorseGoGame): string[] =>
+    grid(g).map((row) => row.map((key) => (/^[nk]\d+$/.test(key) ? key.slice(1) : ".").padStart(3)).join(""));
+
+/** `rows` lines of an empty picture of a board `width` wide. */
+const blank = (rows: number, width: number): string[] => Array<string>(rows).fill("  .".repeat(width));
+
+/** The values of the numbered stones the rendered board shows, in order: the handicap's (`n`) or the reverse komi's (`k`). */
+const offered = (g: ThueMorseGoGame, prefix: "n" | "k" = "n"): number[] =>
+    grid(g).flat().filter((key) => new RegExp(`^${prefix}\\d+$`).test(key)).map((key) => parseInt(key.slice(1), 10)).sort((x, y) => x - y);
 
 /** Put stones on the board, and into the initial and current positions, without playing them. */
 const setStones = (g: ThueMorseGoGame, colour1: string[], colour2: string[]): void => {
@@ -258,15 +279,15 @@ describe("Thue-Morse Go: moves", () => {
     });
 
     it("evens the count with the button: one point on boards with an odd number of points, none otherwise", () => {
-        const offered = (variants: string[]): boolean => new ThueMorseGoGame(undefined, variants).getButtons().some((b) => b.move === "button");
-        expect(offered(["size-11"])).to.be.true;
-        expect(offered([])).to.be.false;
-        expect(offered(["size-19"])).to.be.true;
-        expect(offered(["size-23"])).to.be.true;
-        expect(offered(["snub"])).to.be.false;
-        expect(offered(["size-11", "snub"])).to.be.true;
-        expect(offered(["size-11", "half-button"])).to.be.true;
-        expect(offered(["half-button"])).to.be.true;
+        const hasButton = (variants: string[]): boolean => new ThueMorseGoGame(undefined, variants).getButtons().some((b) => b.move === "button");
+        expect(hasButton(["size-11"])).to.be.true;
+        expect(hasButton([])).to.be.false;
+        expect(hasButton(["size-19"])).to.be.true;
+        expect(hasButton(["size-23"])).to.be.true;
+        expect(hasButton(["snub"])).to.be.false;
+        expect(hasButton(["size-11", "snub"])).to.be.true;
+        expect(hasButton(["size-11", "half-button"])).to.be.true;
+        expect(hasButton(["half-button"])).to.be.true;
         expect(sixteen(["half-button"]).move("button").getPlayerScore(1)).to.equal(0.5);
         expect(sixteen().validateMove("button").message).to.contain("no button");
         // The half-point button is a lone checkbox: no group, and no separate 1-point variant.
@@ -285,10 +306,10 @@ describe("Thue-Morse Go: moves", () => {
         const g = play(small(), ["f6"]);
         expect(g.validateMove("button").complete).to.equal(0);
         const [x, y] = g.algebraic2coords("e5");
-        const click = g.handleClick("button", y, x);
-        expect(click.move).to.equal("button,e5");
-        expect(click.complete).to.equal(1);
-        g.move(click.move);
+        const clicked = g.handleClick("button", y, x);
+        expect(clicked.move).to.equal("button,e5");
+        expect(clicked.complete).to.equal(1);
+        g.move(clicked.move);
         expect(g.button).to.equal(2);
         expect(g.board.get("e5")).to.equal(2);
         expect(g.placed).to.equal(3);
@@ -522,8 +543,10 @@ describe("Thue-Morse Go: handicap", () => {
         // 11x11 has one while nobody holds it.
         expect(play(small(["handicap"]), ["f6"]).validateMove("1s").message).to.contain("take the button");
         expect(play(small(["handicap"]), ["button"]).validateMove("1s").message).to.not.contain("button");
-        // The same holds when the declaration follows a reverse komi.
+        // The same holds when the declaration follows a reverse komi, which then decides the button:
+        // 256 points and a komi of 14 add up to an even number, with a komi of 7 to an odd one.
         expect(play(sixteen(["handicap", "reverse-komi"]), ["h8"]).validateMove("14p,1s").message).to.not.contain("button");
+        expect(play(sixteen(["handicap", "reverse-komi"]), ["h8"]).validateMove("7p,1s").message).to.contain("take the button");
     });
 
     it("serves the declared passes, the declaration first", () => {
@@ -595,40 +618,191 @@ describe("Thue-Morse Go: handicap", () => {
         expect(g.gameover).to.be.true;
     });
 
-    it("offers a fortieth of the board's points across the centre row, covered cells still answering to clicks", () => {
-        const g = play(small(["handicap"]), ["f6"]);
-        const pieces = g.render().pieces as string;
-        expect(pieces).to.contain("n1,").and.to.contain("n3,");
-        expect(pieces).to.not.contain("n4");
-        // Player 1's stone at f6 covers the stone for 2, which shows as the stone but still means 2.
-        expect(pieces).to.not.contain("n2,");
-        expect(click(g, "", "e6").move).to.equal("1s");
-        expect(click(g, "", "f6").move).to.equal("2s");
-        expect(click(g, "", "g6").move).to.equal("3s");
-        expect(click(g, "3", "e6").move).to.equal("1s");
+    it("offers a twenty-fifth of the board's points, rounded, in the upper block, covered cells still answering to clicks", () => {
+        // 11x11 offers round(121 / 25) = 5, half of what Kill-All offers, in a block that starts with
+        // its first stone on the diagonal from the top left corner, as the pickers of Kill-All Go do.
+        // Player 1's stone at d9 covers the stone for 2, which shows as the stone but still means 2.
+        const g = play(small(["handicap"]), ["d9"]);
+        expect(picture(g)).to.deep.equal([
+            ...blank(2, 11),
+            "  .  .  1  .  3  4  5  .  .  .  .",
+            ...blank(8, 11),
+        ]);
+        // The handicap's stones take the first colour.
+        expect((layers(g, "n1")[0] as { paint: unknown }).paint).to.deep.equal(stonePaint(1));
+        expect(click(g, "", "c9").move).to.equal("1s");
+        expect(click(g, "", "d9").move).to.equal("2s");
+        expect(click(g, "", "g9").move).to.equal("5s");
+        expect(click(g, "3", "c9").move).to.equal("1s");
         expect(click(g, "1", "e5").move).to.equal("1s,e5");
-        expect(g.validateMove("4").valid).to.be.false;
+        // Any value from 1 to the largest stone may be typed, and nothing beyond.
+        expect(g.validateMove("1").complete).to.equal(0);
+        expect(g.validateMove("5").complete).to.equal(0);
+        expect(g.validateMove("0").valid).to.be.false;
+        expect(g.validateMove("6").valid).to.be.false;
         // Off the numbered stones the click explains itself; with no placement left it does too.
-        const early = click(g, "", "e9");
+        const early = click(g, "", "e5");
         expect(early.valid).to.be.false;
         expect(early.message).to.contain("Choose the handicap first");
-        expect(click(g, "3", "e9").message).to.contain("no placement left");
-        // Larger boards offer more, rounded away from nine: 6, 10 and 14.
-        expect(sixteen(["handicap"]).move("h8").validateMove("6").valid).to.be.true;
-        expect(sixteen(["handicap"]).move("h8").validateMove("7").valid).to.be.false;
-        expect(new ThueMorseGoGame(undefined, ["size-19", "handicap"]).move("k10").validateMove("10").valid).to.be.true;
-        expect(new ThueMorseGoGame(undefined, ["size-23", "handicap"]).move("l12").validateMove("14").valid).to.be.true;
-        expect(new ThueMorseGoGame(undefined, ["size-23", "handicap"]).move("l12").validateMove("15").valid).to.be.false;
-        // Kill-All doubles the limit, odd values in a row above the centre and even ones below.
+        expect(click(g, "3", "e5").message).to.contain("no placement left");
+        // Larger boards offer 10, 14 and 21, in blocks that snake down and turn at their ends.
+        for (const [variants, max] of [[[], 10], [["size-19"], 14], [["size-23"], 21]] as Array<[string[], number]>) {
+            const big = play(new ThueMorseGoGame(undefined, [...variants, "handicap"]), ["a1"]);
+            expect(offered(big), `${max}`).to.deep.equal(Array.from({ length: max }, (_, i) => i + 1));
+            expect(big.validateMove(`${max}`).valid, `${max}`).to.be.true;
+            expect(big.validateMove(`${max + 1}`).valid, `${max + 1}`).to.be.false;
+        }
+        expect(picture(play(new ThueMorseGoGame(undefined, ["size-23", "handicap"]), ["a1"]))).to.deep.equal([
+            ...blank(5, 23),
+            "  .  .  .  .  .  1  2  3  4  5  6  7  8  9 10 11 12 13  .  .  .  .  .",
+            "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 14  .  .  .  .  .",
+            "  .  .  .  .  .  .  .  .  .  .  . 21 20 19 18 17 16 15  .  .  .  .  .",
+            ...blank(15, 23),
+        ]);
+    });
+
+    it("offers Kill-All handicaps up to the points divided by 12.5, rounded to the nearest even number, as Kill-All Go does", () => {
+        // Twice the standard limit, in one block, half the board wide rounded up to an odd number,
+        // whose first stone lies on the diagonal from the top left corner, running across and then
+        // snaking down: 10 on 11x11, in the Attacker's colour, as they stand for extra Attacker stones:
+        // palette slot 3 when a palette for this game sets it, the first colour otherwise.
         const k = small(["kill-all", "handicap"]);
-        const kp = k.render().pieces as string;
-        expect(kp).to.contain("n5,").and.to.contain("n6,").and.to.not.contain("n7");
-        const [ox, oy] = k.algebraic2coords("e7");
+        expect((layers(k, "n1")[0] as { paint: unknown }).paint).to.deep.equal(rolePaint(3));
+        expect(picture(k)).to.deep.equal([
+            ...blank(2, 11),
+            "  .  .  1  2  3  4  5  6  7  .  .",
+            "  .  .  .  .  .  .  .  .  8  .  .",
+            "  .  .  .  .  .  .  . 10  9  .  .",
+            ...blank(6, 11),
+        ]);
+        expect(k.algebraic2coords("c9")).to.deep.equal([2, 2]);
+        const [ox, oy] = k.algebraic2coords("c9");
         expect(k.handleClick("", oy, ox).move).to.equal("1");
-        const [ex, ey] = k.algebraic2coords("e5");
-        expect(k.handleClick("", ey, ex).move).to.equal("2");
-        expect(k.validateMove("6").valid).to.be.true;
-        expect(k.validateMove("7").valid).to.be.false;
+        const [ex, ey] = k.algebraic2coords("h7");
+        expect(k.handleClick("", ey, ex).move).to.equal("10");
+        expect(k.validateMove("1").valid).to.be.true;
+        expect(k.validateMove("10").valid).to.be.true;
+        expect(k.validateMove("0").valid).to.be.false;
+        expect(k.validateMove("11").valid).to.be.false;
+        // Larger boards offer 20, 28 and 42, the same as Kill-All Go.
+        expect(picture(sixteen(["kill-all", "handicap"]))).to.deep.equal([
+            ...blank(4, 16),
+            "  .  .  .  .  1  2  3  4  5  6  7  8  9  .  .  .",
+            "  .  .  .  .  .  .  .  .  .  .  .  . 10  .  .  .",
+            "  .  .  .  . 19 18 17 16 15 14 13 12 11  .  .  .",
+            "  .  .  .  . 20  .  .  .  .  .  .  .  .  .  .  .",
+            ...blank(8, 16),
+        ]);
+        expect(picture(new ThueMorseGoGame(undefined, ["size-19", "kill-all", "handicap"]))).to.deep.equal([
+            ...blank(4, 19),
+            "  .  .  .  .  1  2  3  4  5  6  7  8  9 10 11  .  .  .  .",
+            "  .  .  .  .  .  .  .  .  .  .  .  .  .  . 12  .  .  .  .",
+            "  .  .  .  . 23 22 21 20 19 18 17 16 15 14 13  .  .  .  .",
+            "  .  .  .  . 24  .  .  .  .  .  .  .  .  .  .  .  .  .  .",
+            "  .  .  .  . 25 26 27 28  .  .  .  .  .  .  .  .  .  .  .",
+            ...blank(10, 19),
+        ]);
+        expect(picture(new ThueMorseGoGame(undefined, ["size-23", "kill-all", "handicap"]))).to.deep.equal([
+            ...blank(5, 23),
+            "  .  .  .  .  .  1  2  3  4  5  6  7  8  9 10 11 12 13  .  .  .  .  .",
+            "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 14  .  .  .  .  .",
+            "  .  .  .  .  . 27 26 25 24 23 22 21 20 19 18 17 16 15  .  .  .  .  .",
+            "  .  .  .  .  . 28  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .",
+            "  .  .  .  .  . 29 30 31 32 33 34 35 36 37 38 39 40 41  .  .  .  .  .",
+            "  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  .  . 42  .  .  .  .  .",
+            ...blank(12, 23),
+        ]);
+        expect(new ThueMorseGoGame(undefined, ["size-23", "kill-all", "handicap"]).validateMove("42").valid).to.be.true;
+        expect(new ThueMorseGoGame(undefined, ["size-23", "kill-all", "handicap"]).validateMove("43").valid).to.be.false;
+    });
+});
+
+describe("Thue-Morse Go: the order of a move's placements", () => {
+    it("records the stones as entered by default, when the position after the first counts, and the passes last", () => {
+        expect(play(small(), ["f6", "g7,e5"]).lastmove).to.equal("g7,e5");
+        expect(play(small(), ["f6", "pass,e5"]).lastmove).to.equal("e5,pass");
+        expect(play(small(), ["f6", "pass,e5"]).results.map((r) => r.type)).to.deep.equal(["place", "pass"]);
+        expect(play(small(), ["f6", "pass,button"]).lastmove).to.equal("button,pass");
+        expect(play(small(), ["f6", "button,e5"]).lastmove).to.equal("button,e5");
+        const g = play(small(), ["f6"]);
+        expect(click(g, "g7", "e5").move).to.equal("g7,e5");
+        expect(click(g, "pass", "e5").move).to.equal("e5,pass");
+        // With both placements made, a click on a third point replaces the stone placed first.
+        expect(click(g, "g7,e5", "c3").move).to.equal("e5,c3");
+        expect(click(g, "e5,c3", "g7").move).to.equal("c3,g7");
+        // The two orders leave different positions behind, so they are different moves.
+        const played = play(small(["superko"]), ["f6", "g7,e5"]);
+        expect(played.sameMove("g7,e5", "e5,g7")).to.be.false;
+        expect(played.sameMove("g7,e5", "g7, E5")).to.be.true;
+        // With the ko rule, a capture by the first stone can be a repetition the other order is not.
+        const ko = small(["superko"]);
+        setStones(ko, ["a2", "b1", "b3"], ["b2", "c1", "c3", "d2"]);
+        ko.move("c2");
+        expect(ko.validateMove("b2,k11").valid).to.be.false;
+        expect(ko.validateMove("k11,b2").valid).to.be.true;
+    });
+
+    it("sorts the stones by column and then row under checked weak eyes, the button and the passes after them", () => {
+        const weak = (): ThueMorseGoGame => play(small(["weak-eyes"]), ["f6"]);
+        expect(weak().move("g7,e5").lastmove).to.equal("e5,g7");
+        expect(weak().move("g7,e5").results.map((r) => `${r.type}:${r.where}`)).to.deep.equal(["place:e5", "place:g7"]);
+        expect(weak().move("k10,a11").lastmove).to.equal("a11,k10");
+        expect(weak().move("a10,a2").lastmove).to.equal("a2,a10");
+        expect(weak().move("button,e5").lastmove).to.equal("e5,button");
+        expect(weak().move("pass,e5").lastmove).to.equal("e5,pass");
+        // Clicks keep their own order until the move is made, so a click on a third point replaces
+        // the stone placed first, as it does without weak eyes; the move is recorded sorted.
+        const g = weak();
+        expect(click(g, "g7", "e5").move).to.equal("g7,e5");
+        expect(click(g, "g7,e5", "c3").move).to.equal("e5,c3");
+        expect(click(g, "g7,e5", "g7").move).to.equal("e5");
+        expect(click(g, "button", "e5").move).to.equal("button,e5");
+        expect(g.clone().move("g7,e5").lastmove).to.equal("e5,g7");
+        expect(g.clone().move("button,e5").lastmove).to.equal("e5,button");
+        // Either order is the same move, so an explored or premoved line matches the move played.
+        expect(g.sameMove("g7,e5", "e5,g7")).to.be.true;
+        expect(g.sameMove("button,e5", "e5,button")).to.be.true;
+        expect(g.sameMove("pass,e5", "e5,pass")).to.be.true;
+        expect(weak().move("g7,e5").sameMove("g7,e5", "g7,e6")).to.be.false;
+        // The move list names each move once.
+        const moves = g.moves();
+        expect(moves).to.include("e5,g7");
+        expect(moves).to.not.include("g7,e5");
+        expect(new Set(moves).size).to.equal(moves.length);
+        expect(g.randomMove()).to.match(/^(button|pass|[a-k]\d+)(,(button|pass|[a-k]\d+))?$/);
+        // Nothing happens between the placements, so the order changes nothing: every pair of
+        // points tried in both orders is as legal, and leaves the same board, either way.
+        const busy = small(["weak-eyes", "superko"]);
+        busy.move("f3");
+        setStones(busy, ["b2", "c2", "d2", "b3", "d3", "c4", "f6", "g6", "f7", "h7", "g8"], ["a2", "a3", "b4", "d4", "c5", "e6", "e7", "f8", "h8", "g9", "h6"]);
+        const points = ["a1", "b1", "c1", "c3", "e2", "e3", "d5", "e5", "f5", "g7", "f9", "k11"];
+        for (const a of points) {
+            for (const b of points) {
+                if (a === b) { continue; }
+                const forward = busy.validateMove(`${a},${b}`);
+                const backward = busy.validateMove(`${b},${a}`);
+                expect(backward.valid, `${a},${b}`).to.equal(forward.valid);
+                if (forward.valid) {
+                    const left = busy.clone().move(`${a},${b}`);
+                    const right = busy.clone().move(`${b},${a}`);
+                    expect([...right.board.entries()].sort(), `${a},${b}`).to.deep.equal([...left.board.entries()].sort());
+                    expect(right.lastmove, `${a},${b}`).to.equal(left.lastmove);
+                }
+            }
+        }
+    });
+
+    it("records the marked strings in board order, however they were named", () => {
+        // Player 2's string k10-k11 is named by its first stone in board order, k11, and listed before a1.
+        const g = play(small(), ["a1", "k10,k11", "j1"]);
+        expect(g.validateMove("pass,-a1,-k10").valid).to.be.true;
+        expect(g.clone().move("pass,-a1,-k10").lastmove).to.equal("pass,-k11,-a1");
+        expect(g.clone().move("pass,-k10,-a1").lastmove).to.equal("pass,-k11,-a1");
+        expect(g.sameMove("pass,-a1,-k10", "pass,-k10,-a1")).to.be.true;
+        // A string named by another of its stones is the same marking too, by the position it leaves.
+        const h = g.clone().move("pass,-k11,-a1");
+        expect(h.sameMove("pass,-k11,-a1", "pass,-k10,-a1")).to.be.true;
+        expect(h.sameMove("pass,-k11,-a1", "pass,-a1")).to.be.false;
     });
 });
 
@@ -828,18 +1002,15 @@ describe("Thue-Morse Go: Kill-All", () => {
         const track = g.render().areas![0] as AreaTrack;
         expect((track.board.markers as MarkerLine[])[0].colour).to.deep.equal(role(4));
         const slots = ThueMorseGoGame.gameinfo.customizations!.map((c) => ("num" in c ? [c.num, c.default] : []));
-        expect(slots).to.deep.equal([[1, 1], [2, 2], [3, 1], [4, 2], [5, "#000000"], [6, "#000000"], [7, "#000000"], [8, "#000000"]]);
-        // Every stone's border is black or white by contrast, or the slot four above its fill under the display option.
+        expect(slots).to.deep.equal([[1, 1], [2, 2], [3, 1], [4, 2]]);
+        // Every stone's border is black or white, whichever contrasts better with its fill.
         expect((layers(g, "A")[0] as { paint: unknown }).paint).to.deep.equal(rolePaint(4));
         expect((layers(g, "B")[0] as { paint: unknown }).paint).to.deep.equal(rolePaint(3));
-        const fromPalette = g.render({ altDisplays: ["palette-borders"] }).legend as Record<string, Glyph[]>;
-        expect((fromPalette.A[0] as { paint: unknown }).paint).to.deep.equal(rolePaint(4, true));
-        expect((fromPalette.B[0] as { paint: unknown }).paint).to.deep.equal(rolePaint(3, true));
         // Standard games keep the seats' own slots, and there is no swap display any more.
         const h = play(small(), ["f6"]);
         expect(h.getPlayerColour(1)).to.equal(1);
         expect((layers(h, "B")[0] as { paint: { fill: number } }).paint.fill).to.equal(2);
-        expect(ThueMorseGoGame.gameinfo.displays!.map((d) => d.uid)).to.deep.equal(["tms-tracker", "digits-down", "hide-territory", "palette-borders", "pass-alive-throughout"]);
+        expect(ThueMorseGoGame.gameinfo.displays!.map((d) => d.uid)).to.deep.equal(["tms-tracker", "digits-down", "hide-territory", "pass-alive-throughout"]);
     });
 });
 
@@ -1089,7 +1260,7 @@ describe("Thue-Morse Go: territory and dead strings", () => {
         expect(click(h, "", "e5").move).to.equal("e5");
         expect(click(h, "e5", "g7").move).to.equal("e5,g7");
         expect(click(h, "e5,g7", "e5").move).to.equal("g7");
-        expect(click(h, "e5,g7", "d4").move).to.equal("e5,d4");
+        expect(click(h, "e5,g7", "d4").move).to.equal("g7,d4");
     });
 
     it("drops a mark on a stone the move's own placement captures", () => {
@@ -1174,25 +1345,21 @@ describe("Thue-Morse Go: territory and dead strings", () => {
         expect(click(scene(), "pass,-zz9", "j11").move).to.equal("pass,-j11");
     });
 
-    it("takes the stone borders from palette slots 5 to 8 only under the display option", () => {
-        expect(ThueMorseGoGame.gameinfo.displays!.map((d) => d.uid)).to.include("palette-borders");
+    it("borders every stone black or white, whichever contrasts better with its fill", () => {
         const g = play(scene(), ["pass,-k10"]);
         const paintOf = (legend: Record<string, Glyph[]>, key: string, layer = 0): unknown => (legend[key][layer] as { paint: unknown }).paint;
-        // By default no slot above 2 is named, so a two-colour palette suffices.
-        const plain = g.render().legend as Record<string, Glyph[]>;
-        expect(paintOf(plain, "A")).to.deep.equal(stonePaint(1));
-        expect(paintOf(plain, "B")).to.deep.equal(stonePaint(2));
-        expect(JSON.stringify(plain)).to.not.match(/"border":[3-9]/);
-        // Under the option every stone, faded or in the tracker, names the slot four above its fill.
-        const custom = g.render({ altDisplays: ["palette-borders"] }).legend as Record<string, Glyph[]>;
-        expect(paintOf(custom, "A")).to.deep.equal(stonePaint(1, true));
-        expect(paintOf(custom, "B")).to.deep.equal(stonePaint(2, true));
-        const faded = Object.keys(custom).filter((key) => key.startsWith("D2"));
-        expect(faded).to.have.lengthOf(1);
-        expect(paintOf(custom, faded[0])).to.deep.equal({ fill: 2, border: 6 });
-        expect(paintOf(custom, "s1", 1)).to.deep.equal(stonePaint(1, true));
-        expect(paintOf(custom, "s2", 1)).to.deep.equal(stonePaint(2, true));
-        expect(JSON.stringify(custom)).to.not.contain("bestContrast");
+        // Every stone, faded or in the tracker, is painted that way, and no slot above 2 is named,
+        // so a two-colour palette suffices.
+        const legend = g.render().legend as Record<string, Glyph[]>;
+        expect(paintOf(legend, "A")).to.deep.equal(stonePaint(1));
+        expect(paintOf(legend, "B")).to.deep.equal(stonePaint(2));
+        const deadKeys = Object.keys(legend).filter((key) => key.startsWith("D2"));
+        expect(deadKeys).to.have.lengthOf(1);
+        expect(paintOf(legend, deadKeys[0])).to.deep.equal(stonePaint(2));
+        expect(paintOf(legend, "s1", 1)).to.deep.equal(stonePaint(1));
+        expect(paintOf(legend, "s2", 1)).to.deep.equal(stonePaint(2));
+        expect(JSON.stringify(legend)).to.not.match(/"border":[3-9]/);
+        expect(ThueMorseGoGame.gameinfo.displays!.map((d) => d.uid)).to.not.include("palette-borders");
     });
 
     it("ends the game when the opponent passes keeping the marking, removing the marked strings", () => {
@@ -1427,18 +1594,13 @@ describe("Thue-Morse Go: boards and star points", () => {
 });
 
 describe("Thue-Morse Go: reverse komi", () => {
-    const click = (g: ThueMorseGoGame, move: string, cell: string): IClickResult => {
-        const [x, y] = g.algebraic2coords(cell);
-        return g.handleClick(move, y, x);
-    };
-
-    it("begins Player 2's first move with a multiple of 14 given to Player 1, costing no placement", () => {
+    it("begins Player 2's first move with a reverse komi given to Player 1, costing no placement", () => {
         const g = small(["reverse-komi"]);
         expect(g.allvariants()!.find((v) => v.uid === "reverse-komi")).to.deep.include({ unrated: true });
         expect(g.allvariants()!.some((v) => v.fans === true)).to.be.false;
         expect(g.currplayer).to.equal(1);
         expect(g.turnModel()).to.equal("sequential");
-        g.move("f6");
+        g.move("f3");
         expect(g.getButtons()).to.deep.equal([]);
         const empty = g.validateMove("");
         expect(empty.complete).to.equal(-1);
@@ -1446,9 +1608,10 @@ describe("Thue-Morse Go: reverse komi", () => {
         expect(g.validateMove("e5").valid).to.be.false;
         expect(g.validateMove("0").valid).to.be.false;
         expect(g.validateMove("-14").valid).to.be.false;
-        expect(g.validateMove("43").valid).to.be.false;
-        // Any whole number up to the largest stone may be typed.
+        expect(g.validateMove("71").valid).to.be.false;
+        // Any whole number up to the largest stone, 14 times the handicap limit of 5, may be typed.
         expect(g.validateMove("1").complete).to.equal(0);
+        expect(g.validateMove("70").complete).to.equal(0);
         expect(g.validateMove("7,e5").complete).to.equal(0);
         // Placing one stone of the move passes the other, so the opponent's pass then ends the game.
         expect(play(small(["reverse-komi"]), ["f6", "7,e5", "pass"]).getPlayerScore(1)).to.equal(1 + 7);
@@ -1458,29 +1621,39 @@ describe("Thue-Morse Go: reverse komi", () => {
         expect(g.validateMove("42,e5").complete).to.equal(0);
         expect(g.validateMove("28,e5,g7").complete).to.equal(1);
         expect(g.validateMove("14,e5,g7,d4").valid).to.be.false;
-        expect(g.moves()).to.include("14p,e5,g7");
-        expect(g.randomMove()).to.match(/^(14|28|42)p(,|$)/);
-        // The numbered stones offer 14, 28 and 42 across the centre row; f6 is covered but still means 28.
-        let pieces = g.render().pieces as string;
-        expect(pieces).to.contain("n14,").and.to.contain("n42");
-        expect(pieces).to.not.contain("n28,").and.to.not.contain("n56");
-        expect(click(g, "", "e6").move).to.equal("14p");
-        expect(click(g, "", "f6").move).to.equal("28p");
-        expect(click(g, "", "g6").move).to.equal("42p");
-        const early = click(g, "", "e9");
+        expect(g.moves()).to.include("7p,e5,g7");
+        expect(g.randomMove()).to.match(/^(7|14|21|28|35|42|49|56|63|70)p(,|$)/);
+        // The numbered stones offer the multiples of 7 up to 70, always in the lower block, which
+        // starts on the diagonal from the bottom left corner and snakes up, as the second batch of
+        // Kill-All Go's Generalized Hoctaph's Pie does; f3 is covered but still means 28.
+        expect(picture(g)).to.deep.equal([
+            ...blank(6, 11),
+            "  .  .  .  .  .  .  . 70 63  .  .",
+            "  .  .  .  .  .  .  .  . 56  .  .",
+            "  .  .  7 14 21  . 35 42 49  .  .",
+            ...blank(2, 11),
+        ]);
+        // They are grey, as Kill-All Go's first batch is, with legend keys of their own.
+        expect((layers(g, "k7")[0] as { paint: unknown }).paint).to.deep.equal({ fill: "#737373", border: { func: "bestContrast", bg: "#737373", fg: ["#000", "#fff"] } });
+        expect(click(g, "", "c3").move).to.equal("7p");
+        expect(click(g, "", "f3").move).to.equal("28p");
+        expect(click(g, "", "h5").move).to.equal("70p");
+        const early = click(g, "", "e5");
         expect(early.valid).to.be.false;
         expect(early.message).to.contain("reverse komi");
         // Once the komi is set the stones give way to the board, and clicks place, even on their cells.
-        pieces = g.clone().move("14", { partial: true }).render().pieces as string;
-        expect(pieces).to.not.contain("n14");
+        expect(offered(g.clone().move("14", { partial: true }), "k")).to.deep.equal([]);
         expect(click(g, "14", "e5").move).to.equal("14p,e5");
-        expect(click(g, "14p", "e6").move).to.equal("14p,e6");
+        expect(click(g, "14p", "d3").move).to.equal("14p,d3");
         expect(click(g, "14p,e5", "e5").move).to.equal("14p");
         expect(g.handleClick("14,e5", -1, -1, "_btn_pass").move).to.equal("14p,pass,pass");
-        // Larger boards offer up to 14 times the handicap limit.
-        expect(play(sixteen(["reverse-komi"]), ["h8"]).validateMove("84").valid).to.be.true;
-        expect(play(sixteen(["reverse-komi"]), ["h8"]).validateMove("85").valid).to.be.false;
-        expect(play(new ThueMorseGoGame(undefined, ["size-23", "reverse-komi"]), ["l12"]).render().pieces as string).to.contain("n196");
+        // Larger boards offer up to 14 times the handicap limit, 140, 196 and 294, in steps of 7.
+        for (const [variants, max] of [[[], 140], [["size-19"], 196], [["size-23"], 294]] as Array<[string[], number]>) {
+            const big = play(new ThueMorseGoGame(undefined, [...variants, "reverse-komi"]), ["a1"]);
+            expect(offered(big, "k"), `${max}`).to.deep.equal(Array.from({ length: max / 7 }, (_, i) => 7 * (i + 1)));
+            expect(big.validateMove(`${max}`).valid, `${max}`).to.be.true;
+            expect(big.validateMove(`${max + 1}`).valid, `${max + 1}`).to.be.false;
+        }
         // Submitting the komi alone passes the move.
         const passed = g.clone().move("14");
         expect(passed.lastmove).to.equal("14p,pass,pass");
@@ -1496,7 +1669,7 @@ describe("Thue-Morse Go: reverse komi", () => {
         expect(g.getPlayerScore(2)).to.equal(2);
         expect(g.getButtons().map((b) => b.move)).to.deep.equal(["pass", "button"]);
         // The move table stays sequential, and reloading keeps the komi.
-        expect(g.getRounds()).to.deep.equal([[{ move: "f6", result: [{ type: "place", where: "f6" }] }, { move: "28p,e5,g7", result: g.results }]]);
+        expect(g.getRounds()).to.deep.equal([[{ move: "f3", result: [{ type: "place", where: "f3" }] }, { move: "28p,e5,g7", result: g.results }]]);
         const again = new ThueMorseGoGame(g.serialize());
         expect(again.komi).to.equal(28);
         expect(again.sidebarStatuses().some((s) => JSON.stringify(s).includes("\"28\""))).to.be.true;
@@ -1518,15 +1691,64 @@ describe("Thue-Morse Go: reverse komi", () => {
         expect(play(small(), ["f6", "e5", "pass"]).winner).to.deep.equal([1, 2]);
     });
 
+    it("waits for the reverse komi before the 1-point button, which then evens the komi too", () => {
+        const buttonRow = (game: ThueMorseGoGame): IStatus | undefined => game.sidebarStatuses().find((st) => JSON.stringify(st.key).includes("thuemorsego.BUTTON"));
+        // Until Player 2 chooses the komi nobody can take the button, whose existence waits for it.
+        const g = small(["reverse-komi"]);
+        const early = g.validateMove("button");
+        expect(early.valid).to.be.false;
+        expect(early.message).to.contain("until the reverse komi has been chosen");
+        expect(g.validateMove("").message).to.not.contain("button");
+        expect(g.getButtons().map((b) => b.move)).to.deep.equal(["pass"]);
+        expect(JSON.stringify(buttonRow(g)!.value)).to.contain("UNDECIDED");
+        g.move("f6");
+        const choose = g.validateMove("").message!;
+        expect(choose).to.contain("also decides the button");
+        expect(choose).to.contain("121 points");
+        // 121 points and an odd komi add up to an even number, which needs no button.
+        expect(g.validateMove("7").message).to.not.contain("button");
+        const none = g.validateMove("7p,button");
+        expect(none.valid).to.be.false;
+        expect(none.message).to.contain("no button");
+        expect(g.handleClick("7", -1, -1, "_btn_button").move).to.equal("7");
+        const level = g.clone().move("7");
+        expect(level.getButtons().map((b) => b.move)).to.deep.equal(["pass"]);
+        expect(level.validateMove("button").message).to.contain("no button");
+        expect(buttonRow(level)).to.equal(undefined);
+        // An even komi leaves the points at stake odd, so there is a button to even them again.
+        expect(g.validateMove("14").message).to.contain("take the button (worth 1)");
+        expect(g.validateMove("14p,button").complete).to.equal(0);
+        expect(g.handleClick("14", -1, -1, "_btn_button").move).to.equal("14p,button");
+        // A stone clicked after taking the button is placed, and clicked again taken back.
+        expect(click(g, "14p,button", "e5").move).to.equal("14p,button,e5");
+        expect(click(g, "14p,button,e5", "e5").move).to.equal("14p,button");
+        const taken = g.clone().move("14p,button,e5");
+        expect(taken.button).to.equal(2);
+        expect(taken.getPlayerScore(2)).to.equal(1 + 1);
+        expect(JSON.stringify(buttonRow(taken)!.value)).to.not.contain("UNDECIDED");
+        // Listed moves follow the first komi, 7, which leaves no button on 11x11.
+        expect(g.moves().some((move) => move.includes("button"))).to.be.false;
+        // The 256 points of 16x16 make it the other way round, and random moves follow the komi they choose.
+        const s = play(sixteen(["reverse-komi"]), ["h8"]);
+        expect(s.validateMove("7p,button").complete).to.equal(0);
+        expect(s.validateMove("14p,button").valid).to.be.false;
+        for (let i = 0; i < 20; i++) {
+            const move = s.randomMove();
+            expect(s.validateMove(move).valid, move).to.be.true;
+        }
+        // The 0.5 point button does not wait for the komi.
+        expect(small(["reverse-komi", "half-button"]).validateMove("button").valid).to.be.true;
+    });
+
     it("takes the komi and the handicap in either order, both open to clicks until a placement remains", () => {
         const g = play(small(["reverse-komi", "handicap"]), ["f6"]);
         expect(g.validateMove("").message).to.contain("in either order");
         const komiOnly = g.validateMove("14");
         expect(komiOnly.complete).to.equal(-1);
-        expect(komiOnly.message).to.contain("lower row");
+        expect(komiOnly.message).to.contain("upper block");
         const handicapOnly = g.validateMove("3s");
         expect(handicapOnly.complete).to.equal(-1);
-        expect(handicapOnly.message).to.contain("upper row");
+        expect(handicapOnly.message).to.contain("lower block");
         // Tagged tokens come in either order; bare numbers fill the komi and then the handicap.
         expect(g.validateMove("3s,14p").complete).to.equal(0);
         expect(g.validateMove("3s,14").complete).to.equal(0);
@@ -1537,36 +1759,45 @@ describe("Thue-Morse Go: reverse komi", () => {
         expect(g.validateMove("14p,e5").valid).to.be.false;
         expect(g.validateMove("e5").valid).to.be.false;
         expect(play(small(["reverse-komi", "handicap"]), ["f6", "3s,14"]).lastmove).to.equal("14p,3s");
-        // Komi stones in the row above the centre, handicap stones in the row below.
-        const pieces = g.render().pieces as string;
-        expect(pieces).to.contain("n14,").and.to.contain("n42").and.to.contain("n1,").and.to.contain("n3,");
-        expect(click(g, "", "e7").move).to.equal("14p");
-        expect(click(g, "", "e5").move).to.equal("1s");
-        expect(click(g, "1s", "e7").move).to.equal("14p,1s");
-        expect(click(g, "14", "e5").move).to.equal("14p,1s");
-        expect(click(g, "14", "g5").move).to.equal("14p,3s");
-        expect(click(g, "", "c3").message).to.contain("from each row");
-        expect(click(g, "3s", "c3").message).to.contain("Choose the reverse komi first");
-        expect(click(g, "14p", "c3").message).to.contain("Choose the handicap first");
+        // The handicap's block above, from the top-left diagonal snaking down, and the komi's below,
+        // from the bottom-left diagonal snaking up, as Kill-All Go lays out the sizes of its two batches.
+        expect(picture(g)).to.deep.equal([
+            ...blank(2, 11),
+            "  .  .  1  2  3  4  5  .  .  .  .",
+            ...blank(3, 11),
+            "  .  .  .  .  .  .  . 70 63  .  .",
+            "  .  .  .  .  .  .  .  . 56  .  .",
+            "  .  .  7 14 21 28 35 42 49  .  .",
+            ...blank(2, 11),
+        ]);
+        expect(click(g, "", "d3").move).to.equal("14p");
+        expect(click(g, "", "c9").move).to.equal("1s");
+        expect(click(g, "1s", "d3").move).to.equal("14p,1s");
+        expect(click(g, "14", "c9").move).to.equal("14p,1s");
+        expect(click(g, "14", "e9").move).to.equal("14p,3s");
+        expect(click(g, "", "e5").message).to.contain("from each block");
+        expect(click(g, "3s", "e5").message).to.contain("Choose the reverse komi first");
+        expect(click(g, "14p", "e5").message).to.contain("Choose the handicap first");
         // Either choice can be changed while the stones show; a new handicap drops any placement.
-        expect(click(g, "14,3", "f7").move).to.equal("28p,3s");
-        expect(click(g, "14,3", "f5").move).to.equal("14p,2s");
-        // With a handicap of one the stones are gone, so f5 is a point: it replaces the placement.
-        expect(click(g, "14,1,c3", "f5").move).to.equal("14p,1s,f5");
-        expect(click(g, "14,3", "c3").message).to.contain("no placement left");
+        expect(click(g, "14,3", "f3").move).to.equal("28p,3s");
+        expect(click(g, "14,3", "d9").move).to.equal("14p,2s");
+        // With a handicap of one the stones are gone, so d9 is a point: it replaces the placement.
+        expect(click(g, "14,1,e5", "d9").move).to.equal("14p,1s,d9");
+        expect(click(g, "14,3", "e5").message).to.contain("no placement left");
         // A handicap of one leaves a placement, so the board takes over, the stones' cells included.
-        expect(click(g, "14,1", "c3").move).to.equal("14p,1s,c3");
-        expect(click(g, "14,1", "e7").move).to.equal("14p,1s,e7");
+        expect(click(g, "14,1", "e5").move).to.equal("14p,1s,e5");
+        expect(click(g, "14,1", "d3").move).to.equal("14p,1s,d3");
         let partial = g.clone().move("14,3", { partial: true }).render();
-        expect(partial.pieces as string).to.contain("n14,").and.to.contain("n1,");
-        const [kx, ky] = g.algebraic2coords("e7");
-        const [hx, hy] = g.algebraic2coords("g5");
+        expect(partial.pieces as string).to.contain("k14,").and.to.contain("n1,");
+        const [kx, ky] = g.algebraic2coords("d3");
+        const [hx, hy] = g.algebraic2coords("e9");
         expect(partial.annotations).to.deep.include({ type: "enter", targets: [{ row: ky, col: kx }] });
         expect(partial.annotations).to.deep.include({ type: "enter", targets: [{ row: hy, col: hx }] });
         partial = g.clone().move("14,1", { partial: true }).render();
-        expect(partial.pieces as string).to.not.contain("n14");
+        expect(partial.pieces as string).to.not.contain("k14");
         expect(g.validateMove("14,3").complete).to.equal(0);
-        expect(g.validateMove("14,4").valid).to.be.false;
+        expect(g.validateMove("14,5").complete).to.equal(0);
+        expect(g.validateMove("14,6").valid).to.be.false;
         g.move("14,3");
         expect(g.komi).to.equal(14);
         expect(g.handicap).to.equal(3);

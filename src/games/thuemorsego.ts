@@ -1,10 +1,9 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IScores, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import type { APRenderRep, AreaTrack, BoardBasic, ColourResolvable, Colourfuncs, Glyph, MarkerDots, MarkerLine, RowCol } from "@abstractplay/renderer/build/schemas/schema";
+import type { APRenderRep, AreaTrack, BoardBasic, Colourfuncs, Glyph, MarkerDots, MarkerLine, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
-import { reviver, shuffle, SnubSquareGraph, UserFacingError } from "../common/index.js";
+import { algebraic2coords, coords2algebraic, reviver, shuffle, SnubSquareGraph, UserFacingError } from "../common/index.js";
 import type { FlagContext, GameFlag } from "../common/flags.js";
-import { makeGeometry, otherColour, passAliveStrings, signature, stringAt, type Board, type Geometry, type Stone } from "./killallgo.js";
 import i18next from "i18next";
 import { gameApgamesUidKey } from "../common/game-apgames-t.js";
 
@@ -43,8 +42,6 @@ void gameApgamesUidKey("thuemorsego", "displays", "digits-down", "name");
 void gameApgamesUidKey("thuemorsego", "displays", "digits-down", "description");
 void gameApgamesUidKey("thuemorsego", "displays", "hide-territory", "name");
 void gameApgamesUidKey("thuemorsego", "displays", "hide-territory", "description");
-void gameApgamesUidKey("thuemorsego", "displays", "palette-borders", "name");
-void gameApgamesUidKey("thuemorsego", "displays", "palette-borders", "description");
 void gameApgamesUidKey("thuemorsego", "displays", "pass-alive-throughout", "name");
 void gameApgamesUidKey("thuemorsego", "displays", "pass-alive-throughout", "description");
 
@@ -61,12 +58,12 @@ export const gameApgamesEn = {
         INSTRUCTIONS_PLAY_ATTACKER_one: "Place a stone. You win by preventing the Defender from forming an unconditionally alive string.",
         INSTRUCTIONS_PLAY_ATTACKER_other: "Place {{count}} stones. You win by preventing the Defender from forming an unconditionally alive string.",
         INSTRUCTIONS_DECLARE: "You are giving the handicap. Click a numbered stone to set how many handicap stones you give, from 1 to {{max}}: you pass that many placements while your opponent places freely, and this declaration is the first of them.",
-        INSTRUCTIONS_BOTH: "Begin this move with the reverse komi and the handicap, in either order. Click a numbered stone in the upper row, or enter any whole number from 1 to {{max}} in the move box, to set how many points you give your opponent; click one in the lower row to set how many handicap stones you give, from 1 to {{stones}}. The komi costs no placement; the handicap stones are the placements you pass, this declaration being the first of them.",
-        HANDICAP_THEN_KOMI_one: "Handicap of {{count}} stone. Now choose the reverse komi: click a numbered stone in the upper row, or enter a whole number in the move box.",
-        HANDICAP_THEN_KOMI_other: "Handicap of {{count}} stones. Now choose the reverse komi: click a numbered stone in the upper row, or enter a whole number in the move box.",
-        KOMI_MISSING: "Choose the reverse komi before placing a stone: click a numbered stone in the upper row, or enter a whole number first.",
+        INSTRUCTIONS_BOTH: "Begin this move with the reverse komi and the handicap, in either order. Click a numbered stone in the lower block, or enter any whole number from 1 to {{max}} in the move box, to set how many points you give your opponent; click one in the upper block to set how many handicap stones you give, from 1 to {{stones}}. The komi costs no placement; the handicap stones are the placements you pass, this declaration being the first of them.",
+        HANDICAP_THEN_KOMI_one: "Handicap of {{count}} stone. Now choose the reverse komi: click a numbered stone in the lower block, or enter a whole number in the move box.",
+        HANDICAP_THEN_KOMI_other: "Handicap of {{count}} stones. Now choose the reverse komi: click a numbered stone in the lower block, or enter a whole number in the move box.",
+        KOMI_MISSING: "Choose the reverse komi before placing a stone: click a numbered stone in the lower block, or enter a whole number first.",
         DECLARE_MISSING: "Choose the handicap before placing a stone: click one of its numbered stones first.",
-        CHOOSE_FIRST: "Choose the reverse komi and the handicap first: click a numbered stone from each row. {{where}} is not one of them.",
+        CHOOSE_FIRST: "Choose the reverse komi and the handicap first: click a numbered stone from each block. {{where}} is not one of them.",
         BAD_DECLARATION: "The reverse komi and the handicap come before the placements, once each: a number of points as 14p and a number of stones as 3s, in either order, or plain numbers in that order.",
         DECLARE_RANGE: "The handicap must be between 1 and {{max}} stones.",
         DECLARE_NO_PLACEMENT: "With a handicap of {{count}} stones, every placement of this move is given away.",
@@ -81,6 +78,7 @@ export const gameApgamesEn = {
         FORCED_MOVE: "Every placement of this move is given away as handicap stones, which happens automatically.",
         NO_PASS: "Passing is not allowed in Kill-All games.",
         NO_BUTTON: "There is no button in this game.",
+        BUTTON_BEFORE_KOMI: "The button cannot be taken until the reverse komi has been chosen.",
         BUTTON_TAKEN: "The button has already been taken.",
         KO_PSK: "That placement would recreate an earlier position of the board (positional superko).",
         KO_PSK_DDPSK: "That placement would recreate an earlier position of the board for the fourth time (double delayed superko).",
@@ -112,11 +110,14 @@ export const gameApgamesEn = {
         DUPLICATE_CELL: "The cell {{where}} is listed twice.",
         INVALID_PASS: "You cannot pass now.",
         INSTRUCTIONS_KOMI: "Begin this move with the reverse komi: click one of the numbered stones, or enter any whole number from 1 to {{max}} in the move box, to set how many points you give your opponent. It costs no placement; your stones follow it.",
-        KOMI_INVALID: "This move must begin with the reverse komi: a whole number from 1 to {{max}}, the numbered stones offering the multiples of 14.",
+        KOMI_INVALID: "This move must begin with the reverse komi: a whole number from 1 to {{max}}, the numbered stones offering the multiples of 7.",
         KOMI_THEN_PLACE_one: "Reverse komi of {{count}} point to your opponent. Now place your stones, or submit to pass this move.",
         KOMI_THEN_PLACE_other: "Reverse komi of {{count}} points to your opponent. Now place your stones, or submit to pass this move.",
-        KOMI_THEN_DECLARE_one: "Reverse komi of {{count}} point to your opponent. Now click a numbered stone in the lower row to set the handicap.",
-        KOMI_THEN_DECLARE_other: "Reverse komi of {{count}} points to your opponent. Now click a numbered stone in the lower row to set the handicap.",
+        KOMI_THEN_PLACE_BUTTON_one: "Reverse komi of {{count}} point to your opponent. Now place your stones, take the button (worth {{points}}) in place of one, or submit to pass this move.",
+        KOMI_THEN_PLACE_BUTTON_other: "Reverse komi of {{count}} points to your opponent. Now place your stones, take the button (worth {{points}}) in place of one, or submit to pass this move.",
+        KOMI_DECIDES_BUTTON: "The komi also decides the button: there is one, worth a point, only if the board's {{points}} points and the komi add up to an odd number.",
+        KOMI_THEN_DECLARE_one: "Reverse komi of {{count}} point to your opponent. Now click a numbered stone in the upper block to set the handicap.",
+        KOMI_THEN_DECLARE_other: "Reverse komi of {{count}} points to your opponent. Now click a numbered stone in the upper block to set the handicap.",
         KOMI_FIRST: "Choose the reverse komi first: click one of its numbered stones, or enter a whole number in the move box. {{where}} is not one of the numbered stones.",
         OCCUPIED_MARK: "{{where}} is occupied. To mark its string as dead, press Pass first, then click the string; in a two-placement move a stone can still be placed for one of the placements.",
         MARKS_NEED_PASS: "Strings can be marked dead only in a move that passes at least one placement: pass first, then click or name the strings.",
@@ -175,11 +176,11 @@ export const gameApgamesEn = {
         },
         handicap: {
             name: "Handicap stones",
-            description: "Player 2 begins their first move by giving Player 1 a number of handicap stones, up to a fortieth of the board's points: Player 2 passes that many placements, the declaration being the first, while Player 1 places freely. In Kill-All games, Player 1 instead sets a number of extra Attacker stones, up to twice that, which Player 2 places immediately on claiming the Attacker side.",
+            description: "Player 2 begins their first move by giving Player 1 a number of handicap stones, up to a twenty-fifth of the board's points rounded to the nearest whole number (5 on 11x11, 10 on 16x16, 14 on 19x19, 21 on 23x23): Player 2 passes that many placements, the declaration being the first, while Player 1 places freely. In Kill-All games, Player 1 instead sets a number of extra Attacker stones, up to twice that (10, 20, 28 and 42), which Player 2 places immediately on claiming the Attacker side.",
         },
         "reverse-komi": {
             name: "Reverse komi",
-            description: "Player 2 begins their first move by giving Player 1 a reverse komi: a whole number of points up to 14 times the handicap limit, the numbered stones offering the multiples of 14, added to Player 1's score at the end of the game. Unlike the handicap it costs no placement; it comes before any handicap declaration. Cannot be combined with Kill-All, and makes the game unrated.",
+            description: "Player 2 begins their first move by giving Player 1 a reverse komi: a whole number of points up to 14 times the handicap limit (70 on 11x11, 140 on 16x16, 196 on 19x19, 294 on 23x23), the numbered stones offering the multiples of 7, added to Player 1's score at the end of the game. Unlike the handicap it costs no placement; it comes before any handicap declaration. With the 1-point button, the button cannot be taken until the komi is chosen, and there is one only if the board's points and the komi add up to an odd number. Cannot be combined with Kill-All, and makes the game unrated.",
         },
         "#repetition": {
             name: "5-fold repetition draw",
@@ -195,11 +196,11 @@ export const gameApgamesEn = {
         },
         "weak-eyes": {
             name: "Weak eyes",
-            description: "When checked, only the last placement of a move clears the board or checks repetition, so a two-placement move can fill both eyes of a group and three eyes are needed to live. Unchecked, every placement clears the board and two eyes live.",
+            description: "When checked, only the last placement of a move clears the board or checks repetition, so a two-placement move can fill both eyes of a group and three eyes are needed to live; the order of a move's placements then makes no difference, and a move is recorded with its stones in column-and-row order. Unchecked, every placement clears the board and two eyes live, and a move is recorded in the order it was entered, since the position after its first stone counts for repetition.",
         },
         "half-button": {
             name: "0.5 point button",
-            description: "Any placement may instead take the button, worth half a point to whoever takes it first, on any board, which prevents tied scores. Unchecked, the button evens the count instead: a 1-point button on boards with an odd number of points and none on boards with an even number, so the points at stake always add up to an even number. Kill-All games have no button.",
+            description: "Any placement may instead take the button, worth half a point to whoever takes it first, on any board, which prevents tied scores. Unchecked, the button evens the count instead: a 1-point button when the board's points, plus any reverse komi, add up to an odd number and none when they add up to an even number, so the points at stake always add up to an even number; with a reverse komi it cannot be taken until the komi is chosen. Kill-All games have no button.",
         },
         "kill-all": {
             name: "Kill-All",
@@ -219,17 +220,13 @@ export const gameApgamesEn = {
             name: "Hide territory dots",
             description: "Do not dot the points that count as territory as the board stands: the empty points reaching stones of only one colour, with the strings marked dead removed. Strings marked dead are still shown faded. Kill-All games show no territory anyway.",
         },
-        "palette-borders": {
-            name: "Stone borders from the palette",
-            description: "Draw the border of each stone in palette slot 5 to 8, for stones in slots 1 to 4, instead of black or white, whichever contrasts better with the fill. The palette must have at least eight colours.",
-        },
         "pass-alive-throughout": {
             name: "Mark pass-alive stones throughout the game",
             description: "In Kill-All games, show the unconditionally alive (pass-alive) stones of both sides faded in every position, not only in the position that ended the game. Does nothing outside Kill-All games.",
         },
     },
     buttons: {
-        attacker: "Play as the Attacker",
+        attacker: "Play as the attacker",
     },
     status: {
         NEXT_PLACEMENT: "Next placements (hex)",
@@ -301,9 +298,9 @@ export const gameApresultsEn = {
  * and to colour 2 otherwise. A move is a maximal run of placements by one colour, so every move
  * is one or two placements and the seats alternate moves exactly as in ordinary Go.
  *
- * Colours are seats in the standard game. In the Kill-All variant colour 1 is the Defender
- * (Red, who places first) and colour 2 the Attacker (Blue); `defenderSeat` records which seat
- * plays Red once pieboxing has decided it.
+ * Colours are seats in the standard game. In the Kill-All variant they are roles instead: colour 1
+ * is the Defender, who places first, and colour 2 the Attacker, named `DEFENDER` and `ATTACKER`;
+ * `defenderSeat` records which seat defends once pieboxing has decided it.
  */
 type playerid = 1 | 2;
 
@@ -381,6 +378,7 @@ const TOKEN_ERROR_KEYS = {
     TOO_MANY: "apgames:validation.thuemorsego.TOO_MANY",
     NO_PASS: "apgames:validation.thuemorsego.NO_PASS",
     NO_BUTTON: "apgames:validation.thuemorsego.NO_BUTTON",
+    BUTTON_BEFORE_KOMI: "apgames:validation.thuemorsego.BUTTON_BEFORE_KOMI",
     BUTTON_TAKEN: "apgames:validation.thuemorsego.BUTTON_TAKEN",
     KO_PSK: "apgames:validation.thuemorsego.KO_PSK",
     KO_PSK_DDPSK: "apgames:validation.thuemorsego.KO_PSK_DDPSK",
@@ -395,8 +393,8 @@ type TokenError = keyof typeof TOKEN_ERROR_KEYS | "INVALIDCELL" | "OCCUPIED" | "
 
 /** The parts of Player 2's first move: the declarations it names, and what follows them. */
 interface IFirstMove {
-    komi?: string;
-    handicap?: string;
+    komi?: number;
+    handicap?: number;
     placements: string[];
     /** Set when the declarations are malformed. */
     error?: "BAD_DECLARATION";
@@ -424,6 +422,10 @@ interface ISim {
     /** Placements consumed so far, the handicap passes served at its start included. */
     placed: number;
     buttonTaken: boolean;
+    /** The button's worth in this move, under the reverse komi declared before it or in it; 0 when there is none to take. */
+    button: number;
+    /** Whether there is no button to take yet only because the reverse komi is still to be chosen. */
+    buttonAwaitsKomi: boolean;
     placedStone: boolean;
     /** Checked weak eyes: whether the move's deferred clearing has happened. */
     cleared: boolean;
@@ -432,6 +434,22 @@ interface ISim {
 }
 
 const UNDECIDED_COLOUR = "#999999";
+/**
+ * The fill of the handicap's numbered stones in the standard game: the first player colour, red by
+ * default. In Kill-All games they stand for extra Attacker stones and take the Attacker's colour.
+ */
+const HANDICAP_STONE_FILL = 1;
+/**
+ * The fill of the reverse komi's numbered stones. The grey is meant to have about the perceptual
+ * lightness of the renderer's default first player colour, #e31a1c (both are CIELAB L* 48), so
+ * that bestContrast, which compares WCAG contrast ratios, gives it the same border as that colour:
+ * white. Kill-All Go paints the first batch of its Generalized Hoctaph's Pie with the same grey,
+ * in a constant of its own.
+ */
+const KOMI_STONE_FILL = "#737373";
+/** The stone colours of the Kill-All roles: the Defender, who places first, and the Attacker. */
+const DEFENDER: Stone = 1;
+const ATTACKER: Stone = 2;
 /** The palette slots of the Kill-All roles, used when a palette for this game sets them. */
 const ATTACKER_SLOT = 3;
 const DEFENDER_SLOT = 4;
@@ -439,16 +457,29 @@ const DEFENDER_SLOT = 4;
 const ATTACKER_DEFAULT = 1;
 const DEFENDER_DEFAULT = 2;
 const CELL_RE = /^[a-z]+\d+$/;
+/**
+ * The column-and-row order of cells: a1, a2, ..., a11, b1, ..., with columns of more letters after
+ * those of fewer. Tokens that are not cells follow the cells, in plain string order.
+ */
+const cellOrder = (a: string, b: string): number => {
+    const ma = /^([a-z]+)(\d+)$/.exec(a);
+    const mb = /^([a-z]+)(\d+)$/.exec(b);
+    if (ma === null || mb === null) {
+        return ma === null && mb === null ? a.localeCompare(b) : ma === null ? 1 : -1;
+    }
+    if (ma[1] !== mb[1]) {
+        return ma[1].length !== mb[1].length ? ma[1].length - mb[1].length : ma[1].localeCompare(mb[1]);
+    }
+    return parseInt(ma[2], 10) - parseInt(mb[2], 10);
+};
 const TRACK_ROWS = 16;
 const TRACK_DIGITS = 3;
 /** sqrt(1/3): the small tracker glyphs have about a third of the area of the digit markers. */
 const SMALL_SCALE = 0.57735;
 const TRACK_TINT = 0.2;
-/** The palette slot of a stone's border lies this far above the slot of its fill: 5 to 8 for 1 to 4. */
-const BORDER_SLOT_OFFSET = 4;
 const REPETITIONS_FOR_DRAW = 5;
-/** The reverse komi comes in multiples of this many points. */
-const KOMI_STEP = 14;
+/** The numbered stones of the reverse komi count in steps of this many points. */
+const KOMI_STEP = 7;
 /**
  * The legend keys of the tracker's glyphs: the small stones s1/s2 (s0 when grey), the rolling
  * tracker's plain markers m1/m2, and the TMS tracker's digit markers m1d0 to m2df.
@@ -474,6 +505,12 @@ const DIGIT_SCALE = 0.75;
 /** Stroke width of the border around the tracker's columns, in the track board's own units. */
 const TRACK_BORDER_WIDTH = 8;
 
+/** The paint of a stone filled with `fill`: its border is black or white, whichever contrasts better with the fill. */
+const contrastPaint = (fill: number | string | Colourfuncs): { fill: number | string | Colourfuncs; border: Colourfuncs } => ({
+    fill,
+    border: { func: "bestContrast", bg: fill, fg: ["#000", "#fff"] },
+});
+
 const popcount = (n: number): number => {
     let count = 0;
     let rest = n;
@@ -484,9 +521,251 @@ const popcount = (n: number): number => {
     return count;
 };
 
+// ---------------------------------------------------------------------------
+// Board helpers
+// ---------------------------------------------------------------------------
+// Kill-All Go (killallgo.ts) keeps its own copy of the geometry, string, signature and pass-alive
+// helpers below, so that the two games stay independent: a change here is not a change there, and
+// a fix wanted in both must be made in both. The snub square geometry and the Tromp-Taylor clearing
+// that follow them are this game's alone.
+
+type Stone = 1 | 2;
+const RED: Stone = 1;
+const BLUE: Stone = 2;
+
+type Board = Map<string, Stone>;
+
+interface Geometry {
+    size: number;
+    /** All cells, row by row from the top of the board. */
+    cells: string[];
+    neighbours: Map<string, string[]>;
+    coords2algebraic: (x: number, y: number) => string;
+    algebraic2coords: (cell: string) => [number, number];
+}
+
+interface StringInfo {
+    stones: string[];
+    liberties: Set<string>;
+}
+
+const geometryCache = new Map<number, Geometry>();
+
+const makeGeometry = (size: number): Geometry => {
+    const cached = geometryCache.get(size);
+    if (cached !== undefined) {
+        return cached;
+    }
+    const c2a = (x: number, y: number): string => coords2algebraic(x, y, size);
+    const a2c = (cell: string): [number, number] => algebraic2coords(cell, size);
+    const cells: string[] = [];
+    const neighbours = new Map<string, string[]>();
+    for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+            const cell = c2a(x, y);
+            cells.push(cell);
+            const adj: string[] = [];
+            if (x > 0) { adj.push(c2a(x - 1, y)); }
+            if (x < size - 1) { adj.push(c2a(x + 1, y)); }
+            if (y > 0) { adj.push(c2a(x, y - 1)); }
+            if (y < size - 1) { adj.push(c2a(x, y + 1)); }
+            neighbours.set(cell, adj);
+        }
+    }
+    const geo: Geometry = { size, cells, neighbours, coords2algebraic: c2a, algebraic2coords: a2c };
+    geometryCache.set(size, geo);
+    return geo;
+};
+
+const otherColour = (colour: Stone): Stone => (colour === RED ? BLUE : RED);
+
+/** The string containing `cell` (which must hold a stone) and its liberties. */
+const stringAt = (board: Board, geo: Geometry, cell: string): StringInfo => {
+    const colour = board.get(cell);
+    if (colour === undefined) {
+        throw new Error(`No stone at ${cell}.`);
+    }
+    const stones: string[] = [];
+    const liberties = new Set<string>();
+    const seen = new Set<string>([cell]);
+    const todo = [cell];
+    while (todo.length > 0) {
+        const cur = todo.pop()!;
+        stones.push(cur);
+        for (const n of geo.neighbours.get(cur)!) {
+            const occupant = board.get(n);
+            if (occupant === undefined) {
+                liberties.add(n);
+            } else if (occupant === colour && !seen.has(n)) {
+                seen.add(n);
+                todo.push(n);
+            }
+        }
+    }
+    return { stones, liberties };
+};
+
+/** Canonical string for a board position (used for the repetition rules). */
+const signature = (board: Board, geo: Geometry): string => {
+    let sig = "";
+    for (const cell of geo.cells) {
+        const s = board.get(cell);
+        sig += s === undefined ? "-" : s === RED ? "r" : "b";
+    }
+    return sig;
+};
+
+// ---------------------------------------------------------------------------
+// Benson's algorithm for unconditional life ("pass-alive" strings)
+// ---------------------------------------------------------------------------
+
+interface PassAliveOptions {
+    /** Tromp-Taylor rules; selects the strict vital-region test. Defaults to true. */
+    suicideAllowed?: boolean;
+    /**
+     * Vital regions every chain in the set needs. Defaults to 2, Benson's condition; a game in
+     * which the opponent can fill more than one liberty before any clearing needs more.
+     */
+    minVital?: number;
+}
+
+interface Region {
+    points: string[];
+    adjacentChains: Set<number>;
+    vitalTo: Set<number>;
+}
+
+/**
+ * Every pass-alive chain of `colour`, each as its list of stones.
+ *
+ * A chain is pass-alive when it belongs to a set X of chains such that every chain in X has at
+ * least two vital regions enclosed by X (`minVital` raises that number). A region is a maximal
+ * connected set of points not holding the colour; it is vital to a chain when every point of the
+ * region that could ever become empty is adjacent to the chain.
+ *
+ * Under classic (no-suicide) rules only the empty points of a region need to touch the chain.
+ * When multi-stone suicide is legal, the opponent can clear its own stones out of a region and
+ * refill it leaving a hole that is not a liberty of the chain, so every point of the region,
+ * occupied or not, must touch it.
+ */
+const passAliveStrings = (board: Board, geo: Geometry, colour: Stone, opts: PassAliveOptions = {}): string[][] => {
+    const suicideAllowed = opts.suicideAllowed ?? true;
+    const minVital = opts.minVital ?? 2;
+
+    // Chains of `colour`.
+    const chainOf = new Map<string, number>();
+    const chains: string[][] = [];
+    for (const cell of geo.cells) {
+        if (board.get(cell) !== colour || chainOf.has(cell)) {
+            continue;
+        }
+        const id = chains.length;
+        const stones: string[] = [];
+        const todo = [cell];
+        chainOf.set(cell, id);
+        while (todo.length > 0) {
+            const cur = todo.pop()!;
+            stones.push(cur);
+            for (const n of geo.neighbours.get(cur)!) {
+                if (board.get(n) === colour && !chainOf.has(n)) {
+                    chainOf.set(n, id);
+                    todo.push(n);
+                }
+            }
+        }
+        chains.push(stones);
+    }
+    if (chains.length === 0) {
+        return [];
+    }
+
+    // Regions: maximal connected sets of points not holding `colour`.
+    const regionOf = new Map<string, number>();
+    const regions: Region[] = [];
+    for (const cell of geo.cells) {
+        if (board.get(cell) === colour || regionOf.has(cell)) {
+            continue;
+        }
+        const id = regions.length;
+        const points: string[] = [];
+        const todo = [cell];
+        regionOf.set(cell, id);
+        while (todo.length > 0) {
+            const cur = todo.pop()!;
+            points.push(cur);
+            for (const n of geo.neighbours.get(cur)!) {
+                if (board.get(n) !== colour && !regionOf.has(n)) {
+                    regionOf.set(n, id);
+                    todo.push(n);
+                }
+            }
+        }
+        regions.push({ points, adjacentChains: new Set(), vitalTo: new Set() });
+    }
+
+    // Which chains touch each region, and to which chains the region is vital.
+    for (const region of regions) {
+        const touches = new Map<number, number>();
+        let mustTouch = 0;
+        for (const p of region.points) {
+            const counts = suicideAllowed || !board.has(p);
+            if (counts) {
+                mustTouch++;
+            }
+            const seenHere = new Set<number>();
+            for (const n of geo.neighbours.get(p)!) {
+                const chain = chainOf.get(n);
+                if (chain === undefined || seenHere.has(chain)) {
+                    continue;
+                }
+                seenHere.add(chain);
+                region.adjacentChains.add(chain);
+                if (counts) {
+                    touches.set(chain, (touches.get(chain) ?? 0) + 1);
+                }
+            }
+        }
+        for (const [chain, n] of touches) {
+            if (n === mustTouch) {
+                region.vitalTo.add(chain);
+            }
+        }
+    }
+
+    // Benson iteration.
+    const X = new Set<number>(chains.map((_, i) => i));
+    const R = new Set<number>(regions.map((_, i) => i));
+    let changed = true;
+    while (changed) {
+        changed = false;
+        for (const chain of [...X]) {
+            let vital = 0;
+            for (const rid of R) {
+                if (regions[rid].vitalTo.has(chain)) {
+                    vital++;
+                }
+            }
+            if (vital < minVital) {
+                X.delete(chain);
+                changed = true;
+            }
+        }
+        for (const rid of [...R]) {
+            for (const chain of regions[rid].adjacentChains) {
+                if (!X.has(chain)) {
+                    R.delete(rid);
+                    changed = true;
+                    break;
+                }
+            }
+        }
+    }
+    return chains.filter((_, i) => X.has(i));
+};
+
 const snubGeometryCache = new Map<number, Geometry>();
 
-/** The snub square board as a `Geometry`, so the shared Go helpers can walk it. */
+/** The snub square board as a `Geometry`, so the Go helpers above can walk it. */
 const makeSnubGeometry = (size: number): Geometry => {
     const cached = snubGeometryCache.get(size);
     if (cached !== undefined) {
@@ -542,8 +821,8 @@ export class ThueMorseGoGame extends GameBase {
         playercounts: [2],
         version: "20261004",
         dateAdded: "2026-10-04",
-        description: "Go in which the order of placements follows the Thue-Morse sequence (0110 1001 1001 0110 …), so every move is one or two stones and no komi is needed. Tromp-Taylor rules with suicide allowed, an optional button, and a Kill-All variant.",
-        notes: "Placements follow the Thue-Morse sequence: placement n (counting from 0) belongs to Player 1 when n has an even number of 1 bits in binary and to Player 2 otherwise, giving the order 0110 1001 1001 0110 … A move is a maximal run of placements by one player, so every move is one or two placements. The tracker beside the board shows the next 16 placements in a single column, those of the next move as full-size stones; the tint behind the column and the border around it are the colour of the next placement. A display option shows instead the index of the next placement in hexadecimal, one column per digit: the rightmost column gives the colours of the placements to come before the next carry, each other column the colour of the 0 row of the column to its right, and the marked cell of each column carries its digit. It has three columns; past placement fff it shows only grey stones, with no markers or border, rather than digits it cannot show. The Balanced Marseillais protocol repeats the first four terms (ABBA) instead, and shows no tracker.\n\nStones are placed and captured under Tromp-Taylor rules: after a placement, opponent strings without liberties are removed, then your own, so multi-stone suicide is legal. Any placement may instead be a pass or, while nobody holds it, take the button, worth one point to its holder. By default the button evens the count: there is one on boards with an odd number of points (11x11, 19x19, 23x23) and none on boards with an even number (16x16); the 0.5 point button variant makes it worth half a point on any board, so scores cannot tie. A move lists its placements separated by commas; a move submitted with fewer placements than it allows passes the rest. A player's score is their area (stones plus the empty points reaching only their colour) plus the button; there is no komi. Captured stones do not score. Dots show the empty points that would count as territory as the board stands, so a lone first stone claims the whole board; a display option hides them.\n\nEnding the game: the game ends when a player passes their whole move right after the opponent passed at least one placement, keeping the marking of dead strings the opponent's move carried. A move that passes any of its placements, whether or not it also places a stone, may mark strings of either colour dead: click them, or name them after the passes (`pass,pass,-a1` marks the string at a1; `e5,pass,-a1` places e5, passes the other placement and marks it). The marked stones are shown faded, and the dots show the territory as it would be scored with them removed, the points under them included; a mark on a stone the move's own placement captures drops out. The opponent's next move starts from that marking, and clicking a string changes it. If the opponent passes their whole move keeping the marking, the game ends: the marked strings are removed and the board is scored. A move that places a stone, or that changes the marking, never ends the game, and the players may keep passing and changing the marking in turn for as long as every move passes at least one placement and keeps some string marked. Dead-stone marking ends for the rest of the game as soon as a marking is answered by a move that passes nothing, or by a pass that marks nothing dead. From then on passes carry no marking, dead stones must be captured for real, and the game ends when a whole-move pass follows a move of the opponent that passed at least one placement, with every stone on the board alive. A stone placed after passing the move is entered as the placement followed by the pass, such as `e5,pass`.\n\nBy default there is no ko rule, and the fifth occurrence of a position ends the game in a draw, even partway through a move. Under the positional superko variant no placement may recreate an earlier position of the board, including positions reached partway through a move; under double delayed superko a position may arise three times, and only a placement that would make a fourth occurrence is forbidden. Passes, taking the button and handicap passes change nothing and create no position. A single stone with no liberties that captures nothing is removed as suicide and so recreates the position it was played into, which is why superko does not allow it, and double delayed superko only until the position has arisen three times.\n\nWeak eyes: normally every placement clears the board, so two eyes live. With checked weak eyes only the last placement of a move clears it, so a two-placement move can fill both eyes of a group, three eyes are needed to live, and a placement that would be suicide can be rescued by the second placement of the move. Only the position the move leaves then counts for repetition, not the one partway through it.\n\nHandicap stones: Player 2's first move begins by giving Player 1 a number of handicap stones, up to a fortieth of the board's points rounded away from nine (3 on 11x11, 6 on 16x16, 10 on 19x19, 14 on 23x23): Player 2 passes that many placements, the first with the declaration itself and the rest automatically at the start of their following moves. These passes do not count towards ending the game and may run out partway through a two-placement move. In the move notation the handicap is a number followed by s, such as 3s, and the reverse komi a number followed by p, such as 14p; they come before the placements in either order.\n\nReverse komi: Player 2's first move begins by giving Player 1 a reverse komi, any whole number of points up to 14 times the handicap limit (the numbered stones offer the multiples of 14), added to Player 1's score at the end of the game. Unlike the handicap it costs no placement; it comes before any handicap declaration, and the game is unrated.\n\nKill-All: players take turns placing Attacker stones until one of them claims the Attacker side (pieboxing); the other plays the Defender and makes placement 0. The Defender wins by forming an unconditionally alive string (pass-alive by Benson's algorithm, with three vital regions instead of two under checked weak eyes), the Attacker by making that impossible. The Attacker's stones take the first colour and the Defender's the second, as in Kill-All Go; a palette set for this game can change them through slots 3 and 4, for instance the other way round. Passing is not allowed, and a player with no legal move loses. With a handicap, Player 1 first sets a number of extra Attacker stones, up to twice the handicap limit, that Player 2 places immediately on claiming the Attacker side. There is no button in Kill-All games. In the position that ends the game, the pass-alive stones of both sides are shown faded; a display option shows them faded in every position.\n\nColours: a stone's border is black or white, whichever contrasts better with its fill. A display option takes the borders from palette slots 5 to 8 instead, for stones in slots 1 to 4; it needs a palette of at least eight colours, since a palette that lacks a slot the game names cannot be drawn.\n\nOrigins: the Thue-Morse order was proposed for Go independently by atimholt and TheElvenAngelCatboy on r/baduk and by BHydden on the Online Go Forum, each pointing to the same video about the sequence; the forum community then built tools for playing it on OGS, ran tournaments, and worked out the rules implemented here. The Balanced Marseillais order comes from chess: Marseillais Chess (AABB) is attributed either to Albert Fortis with J. Rossow or to Jehan de Queylar, and Robert Bruce first proposed the ABBA correction that balances it.",
+        description: "Go in which the order of placements follows the Thue-Morse sequence (0110 1001 1001 0110 …), so every move is one or two stones. It is conjectured that the game is balanced without komi, having no first-player advantage or disadvantage, but it bears noting that the mathematical claims about the Thue-Morse Sequence being fair are generally about much simpler toy problems in which the value of each move does not impact the value of other moves, something which is patently false for Go.",
+        notes: "Placement `n` (counting from 0) belongs to Player 1 when `n` has an even number of `1` bits in binary and to Player 2 when `n` has an odd number of `1` bits in binary. The TMS Tracker fronts this with a stylized representation of `n` in hexadecimal, while the default tracker more straightforwardly shows the next 16 placements.\n\nThe game ends after two passes which agree on which strings are dead. If one or both players resume the game after the agreement phase, players must manually capture all dead stones: two passes at that point will score the game as is with all strings considered alive.\n\nIn Handicap Stone and/or Reverse Komi games, Player 2 is the stronger player and chooses the relevant value(s) on their first turn; except in Kill-All games, where Player 1 is the stronger player and chooses the number of handicap stones on their first turn.\n\nThe Thue-Morse order appears to have been independently proposed for Go by atimholt and TheElvenAngelCatboy on r/baduk, and by BHydden on the Online Go Forum, each pointing to the same Stand-up Maths video about the sequence; the forum community then built tools for playing it on OGS, ran tournaments, and worked out the rules implemented here. The Balanced Marseillais order comes from chess: Marseillais Chess (AABB) is attributed either to Albert Fortis with J. Rossow or to Jehan de Queylar, and Robert Bruce first proposed the ABBA correction that balances it.",
         urls: [
             "https://forums.online-go.com/t/thue-morse-fair-sharing-sequence-a-possible-alternative-to-komi/22547",
             "https://www.reddit.com/r/baduk/comments/65nx60/using_the_thuemorse_sequence_to_determine_whose/",
@@ -613,7 +892,7 @@ export class ThueMorseGoGame extends GameBase {
         ],
         categories: ["goal>area", "goal>cripple", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "board>connect>snub", "components>simple>1per"],
         flags: ["experimental", "scores", "custom-buttons", "no-moves", "custom-randomization"],
-        displays: [{ uid: "tms-tracker" }, { uid: "digits-down" }, { uid: "hide-territory" }, { uid: "palette-borders" }, { uid: "pass-alive-throughout" }],
+        displays: [{ uid: "tms-tracker" }, { uid: "digits-down" }, { uid: "hide-territory" }, { uid: "pass-alive-throughout" }],
         // Kill-All games draw their roles from slots 3 and 4, so that the Attacker takes the first
         // colour as in Kill-All Go by default, and a player who prefers the Defender in the first
         // colour can set those two slots the other way round.
@@ -639,26 +918,6 @@ export class ThueMorseGoGame extends GameBase {
                 num: 4,
                 default: 2,
                 explanation: "Colour of the Defender's stones in Kill-All games. Unless a palette for this game sets it, the Defender takes the second colour.",
-            },
-            {
-                num: 5,
-                default: "#000000",
-                explanation: "Border of the stones in slot 1 under the display option that takes the borders from the palette; otherwise borders are black or white, whichever contrasts better with the fill",
-            },
-            {
-                num: 6,
-                default: "#000000",
-                explanation: "Border of the stones in slot 2 under the same display option",
-            },
-            {
-                num: 7,
-                default: "#000000",
-                explanation: "Border of the stones in slot 3 under the same display option",
-            },
-            {
-                num: 8,
-                default: "#000000",
-                explanation: "Border of the stones in slot 4 under the same display option",
             },
         ],
     };
@@ -795,20 +1054,25 @@ export class ThueMorseGoGame extends GameBase {
         return this.variants.includes("reverse-komi");
     }
 
-    /** A fortieth of the board's points, rounded away from nine: the handicap stones offered. */
+    /**
+     * A twenty-fifth of the board's points, rounded to the nearest whole number: the handicap stones
+     * offered in the standard game, half of those Kill-All Go offers on its picker.
+     */
     private get handicapLimit(): number {
-        const base = this.points / 40;
-        return base <= 9 ? Math.floor(base) : Math.ceil(base);
+        return Math.round(this.points / 25);
     }
 
-    /** The largest handicap: the limit, or twice that for Kill-All's cheaper Attacker stones. */
+    /**
+     * The largest handicap: the limit, or twice that for Kill-All's cheaper Attacker stones, the
+     * board's points divided by 12.5 and rounded to the nearest even number, as Kill-All Go offers.
+     */
     private get maxHandicap(): number {
         return this.killAll ? 2 * this.handicapLimit : this.handicapLimit;
     }
 
-    /** Reverse komi: points given to Player 1, up to 14 times the handicap limit; the stones offer the multiples of 14. */
+    /** Reverse komi: points given to Player 1, up to 14 times the handicap limit; the stones offer the multiples of 7, two for each handicap stone. */
     private get maxKomi(): number {
-        return KOMI_STEP * this.handicapLimit;
+        return 2 * KOMI_STEP * this.handicapLimit;
     }
 
     private komiValues(): number[] {
@@ -845,18 +1109,39 @@ export class ThueMorseGoGame extends GameBase {
     }
 
     /**
-     * The button's worth: half a point under the 0.5 point button variant; otherwise a point on
-     * boards with an odd number of points and nothing on boards with an even number, so that the
-     * points at stake always add up to an even number. Kill-All games have no button.
+     * The button's worth with a reverse komi of `komi`: half a point under the 0.5 point button
+     * variant; otherwise a point when the board's points, plus the komi where it decides the button,
+     * add up to an odd number and nothing when they add up to an even number, so that the points at
+     * stake always add up to an even number. While such a komi is still to be chosen (`komi`
+     * undefined) there is no button to take yet. Kill-All games have no button.
      */
-    private get buttonValue(): number {
+    private buttonValueWith(komi: number | undefined): number {
         if (this.killAll) {
             return 0;
         }
         if (this.variants.includes("half-button")) {
             return 0.5;
         }
-        return this.geo.cells.length % 2 === 1 ? 1 : 0;
+        if (!this.komiDecidesButton) {
+            return this.geo.cells.length % 2 === 1 ? 1 : 0;
+        }
+        if (komi === undefined) {
+            return 0;
+        }
+        return (this.geo.cells.length + komi) % 2 === 1 ? 1 : 0;
+    }
+
+    /** The button's worth as the game stands. */
+    private get buttonValue(): number {
+        return this.buttonValueWith(this.komi);
+    }
+
+    /**
+     * Whether the reverse komi decides the 1-point button: it cannot be taken before the komi is
+     * chosen, and there is one only if the komi leaves the points at stake odd.
+     */
+    private get komiDecidesButton(): boolean {
+        return this.reverseKomi && !this.variants.includes("half-button");
     }
 
     /** The period of a repeating protocol (Balanced Marseillais: ABBA), or 0 for the full sequence. */
@@ -915,7 +1200,7 @@ export class ThueMorseGoGame extends GameBase {
         if (this.defenderSeat === undefined) {
             return undefined;
         }
-        return seat === this.defenderSeat ? 1 : 2;
+        return seat === this.defenderSeat ? DEFENDER : ATTACKER;
     }
 
     /**
@@ -926,7 +1211,7 @@ export class ThueMorseGoGame extends GameBase {
         if (!this.killAll) {
             return colour;
         }
-        return colour === 1 ? DEFENDER_SLOT : ATTACKER_SLOT;
+        return colour === DEFENDER ? DEFENDER_SLOT : ATTACKER_SLOT;
     }
 
     /**
@@ -944,18 +1229,9 @@ export class ThueMorseGoGame extends GameBase {
         return { func: "custom", default: slot === ATTACKER_SLOT ? ATTACKER_DEFAULT : DEFENDER_DEFAULT, palette: slot };
     }
 
-    /**
-     * The paint of a stone of `colour`: its border is black or white, whichever contrasts better
-     * with the fill, or under the display option the palette slot four above the colour's slot, 5
-     * to 8 for slots 1 to 4. The option is opt-in because the renderer rejects a palette that lacks
-     * a slot the game names, and the engine cannot see how many colours a palette has.
-     */
-    private stonePaint(colour: Stone, fromPalette: boolean): { fill: number | Colourfuncs; border: ColourResolvable } {
-        const fill = this.fillOfColour(colour);
-        const border: ColourResolvable = fromPalette
-            ? this.slotOfColour(colour) + BORDER_SLOT_OFFSET
-            : { func: "bestContrast", bg: fill, fg: ["#000", "#fff"] };
-        return { fill, border };
+    /** The paint of a stone of `colour`: its border is black or white, whichever contrasts better with the fill. */
+    private stonePaint(colour: Stone): { fill: number | string | Colourfuncs; border: Colourfuncs } {
+        return contrastPaint(this.fillOfColour(colour));
     }
 
     public getPlayerColour(p: playerid): number | string | Colourfuncs {
@@ -1036,7 +1312,7 @@ export class ThueMorseGoGame extends GameBase {
                 out.error = "BAD_DECLARATION";
                 return out;
             }
-            out[slot] = m[1];
+            out[slot] = parseInt(m[1], 10);
         }
         out.placements = tokens.slice(i);
         return out;
@@ -1056,7 +1332,7 @@ export class ThueMorseGoGame extends GameBase {
 
     /** Whether Player 2's first move still has a reverse komi or handicap to declare. */
     private declarationsPending(): boolean {
-        return this.komiPending() || (this.declaring() && this.handicap === undefined);
+        return this.komiPending() || this.handicapPending();
     }
 
     /**
@@ -1067,9 +1343,9 @@ export class ThueMorseGoGame extends GameBase {
         return !this.killAll && this.phase === "play" && this.stack.length === 2 && this.currplayer === 2;
     }
 
-    /** Standard handicap: whether this is Player 2's first move, in which the handicap is set. */
-    private declaring(): boolean {
-        return this.handicapVariant && this.firstMoveOfPlayer2();
+    /** Standard handicap: whether this move must still declare the handicap, as Player 2's first move does. */
+    private handicapPending(): boolean {
+        return this.handicapVariant && this.handicap === undefined && this.firstMoveOfPlayer2();
     }
 
     /** Reverse komi: whether this move must begin with the komi, which costs no placement. */
@@ -1158,6 +1434,59 @@ export class ThueMorseGoGame extends GameBase {
             }
         }
         return { placements, marked };
+    }
+
+    /**
+     * The placement tokens of a move in the order it is recorded: the passes last, after whatever
+     * the move places. By default the stones keep the order they were entered in, which matters:
+     * the position after the first stone is one the repetition rules see. With checked weak eyes
+     * nothing happens between a move's placements, so the stones are sorted by column and then row
+     * and the button follows them, and a move entered in either order is the same move, which lets
+     * an explored or premoved line match the move played. Clicks keep their own order until the
+     * move is made.
+     */
+    private canonicalPlacements(placements: string[]): string[] {
+        const passes = placements.filter((token) => token === "pass");
+        const rest = placements.filter((token) => token !== "pass");
+        if (!this.checkedEyes) {
+            return [...rest, ...passes];
+        }
+        const stones = rest.filter((token) => token !== "button").sort(cellOrder);
+        const button = rest.filter((token) => token === "button");
+        return [...stones, ...button, ...passes];
+    }
+
+    /**
+     * The move `m` as it would be recorded: its declarations first, as `14p` and `3s`, then its
+     * placements as {@link canonicalPlacements} orders them, then its marks in column-and-row
+     * order. Two strings that agree here are the same move; two that differ may still be.
+     */
+    private canonicalMove(m: string): string {
+        let tokens = this.parseTokens(m.toLowerCase().replace(/\s+/g, ""));
+        let lead: string[] = [];
+        if (this.reverseKomi || this.handicapVariant) {
+            const first = this.parseFirstMove(tokens);
+            if (first.error === undefined) {
+                lead = this.declarationTokens(first);
+                tokens = first.placements;
+            }
+        }
+        const { placements, marked } = this.splitMarks(tokens);
+        return [...lead, ...this.canonicalPlacements(placements), ...marked.sort(cellOrder).map((cell) => `-${cell}`)].join(",");
+    }
+
+    /**
+     * Moves that are recorded alike are the same move; others are compared by the position they
+     * leave, as usual, which needs this to be the position after `move1`. The move is recorded in
+     * its canonical order, so `move1` counts as the last move in any spelling.
+     */
+    public sameMove(move1: string, move2: string): boolean {
+        const first = this.canonicalMove(move1);
+        if (first === this.canonicalMove(move2)) {
+            return true;
+        }
+        const recorded = this.lastmove ?? "";
+        return super.sameMove(first === this.canonicalMove(recorded) ? recorded : move1, move2);
     }
 
     /** Whether `placements` are the voluntary passes of a whole-move pass, the only move that can end the game. */
@@ -1250,7 +1579,8 @@ export class ThueMorseGoGame extends GameBase {
         return counts;
     }
 
-    private newSim(length: number, placed: number, base?: Map<string, number>): ISim {
+    /** A fresh simulation of a move of `length` placements, `placed` of them served, under a reverse komi of `komi`. */
+    private newSim(length: number, placed: number, base?: Map<string, number>, komi = this.komi): ISim {
         return {
             board: new Map(this.board),
             base: base ?? this.positionCounts(),
@@ -1262,6 +1592,8 @@ export class ThueMorseGoGame extends GameBase {
             length,
             placed,
             buttonTaken: false,
+            button: this.buttonValueWith(komi),
+            buttonAwaitsKomi: this.komiDecidesButton && komi === undefined,
             placedStone: false,
             cleared: false,
             over: false,
@@ -1365,8 +1697,8 @@ export class ThueMorseGoGame extends GameBase {
                 }
                 sim.results.push({ type: "pass" });
             } else {
-                if (this.buttonValue === 0) {
-                    return "NO_BUTTON";
+                if (sim.button === 0) {
+                    return sim.buttonAwaitsKomi ? "BUTTON_BEFORE_KOMI" : "NO_BUTTON";
                 }
                 if (this.button !== undefined || sim.buttonTaken) {
                     return "BUTTON_TAKEN";
@@ -1434,7 +1766,7 @@ export class ThueMorseGoGame extends GameBase {
         const list: string[] = [];
         if (!this.killAll) {
             list.push("pass");
-            if (this.buttonValue > 0 && this.button === undefined && !sim.buttonTaken) {
+            if (sim.button > 0 && this.button === undefined && !sim.buttonTaken) {
                 list.push("button");
             }
         }
@@ -1539,37 +1871,43 @@ export class ThueMorseGoGame extends GameBase {
                 break;
             case "play":
                 // The komi may be any of the numbered values; the list shows the moves with the first.
-                moves.push(...this.playMoves().map((move) => this.komiPending() ? `${KOMI_STEP}p,${move}` : move));
+                if (this.komiPending()) {
+                    moves.push(...this.playMoves(KOMI_STEP).map((move) => `${KOMI_STEP}p,${move}`));
+                } else {
+                    moves.push(...this.playMoves());
+                }
                 break;
         }
         return moves;
     }
 
-    private playMoves(): string[] {
+    /** The moves of the standard game, with a reverse komi of `komi` in force. */
+    private playMoves(komi = this.komi): string[] {
         const colour = this.colourOfSeat(this.currplayer)!;
         const length = this.moveLength(this.placed);
         const base = this.positionCounts();
         const moves: string[] = [];
-        if (this.declaring() && this.handicap === undefined) {
+        if (this.handicapPending()) {
             for (let n = 1; n <= this.maxHandicap; n++) {
                 const forced = Math.min(n, length);
                 if (forced === length) {
                     moves.push(`${n}s`);
                     continue;
                 }
-                const sim = this.newSim(length, forced, base);
+                const sim = this.newSim(length, forced, base, komi);
                 for (const rest of this.completions(sim, colour)) {
-                    moves.push([`${n}s`, ...rest].join(","));
+                    moves.push([`${n}s`, ...this.canonicalPlacements(rest)].join(","));
                 }
             }
-            return moves;
+            return [...new Set(moves)];
         }
         const forced = this.forcedPasses();
         if (forced === length) {
             return [Array<string>(length).fill("pass").join(",")];
         }
-        const sim = this.newSim(length, forced, base);
-        return this.completions(sim, colour).map((tokens) => this.withMarks(tokens).join(","));
+        const sim = this.newSim(length, forced, base, komi);
+        // Each move once: with checked weak eyes both orders of two stones are the same move.
+        return [...new Set(this.completions(sim, colour).map((tokens) => this.withMarks(this.canonicalPlacements(tokens)).join(",")))];
     }
 
     /** A whole-move pass keeps the pending marking, which is the pass that can end the game. */
@@ -1583,20 +1921,21 @@ export class ThueMorseGoGame extends GameBase {
             return moves[Math.floor(Math.random() * moves.length)];
         }
         const values = this.komiValues();
-        const komi = this.komiPending() ? [`${values[Math.floor(Math.random() * values.length)]}p`] : [];
+        const declared = this.komiPending() ? values[Math.floor(Math.random() * values.length)] : undefined;
+        const komi = declared === undefined ? [] : [`${declared}p`];
         const colour = this.colourOfSeat(this.currplayer)!;
         const length = this.moveLength(this.placed);
         let forced: number;
         let prefix: string[] = [];
-        if (this.declaring() && this.handicap === undefined) {
+        if (this.handicapPending()) {
             const n = 1 + Math.floor(Math.random() * this.maxHandicap);
             forced = Math.min(n, length);
             prefix = [`${n}s`];
         } else {
             forced = this.forcedPasses();
         }
-        const sim = this.newSim(length, forced);
-        const rest = this.randomCompletion(sim, colour) ?? [];
+        const sim = this.newSim(length, forced, undefined, declared);
+        const rest = this.canonicalPlacements(this.randomCompletion(sim, colour) ?? []);
         const tokens = [...komi, ...(prefix.length > 0 ? [...prefix, ...rest] : this.withMarks(rest))];
         return tokens.length > 0 ? tokens.join(",") : Array<string>(length).fill("pass").join(",");
     }
@@ -1604,18 +1943,6 @@ export class ThueMorseGoGame extends GameBase {
     // -----------------------------------------------------------------------
     // Pickers and buttons
     // -----------------------------------------------------------------------
-
-    /**
-     * Numbered stones in a row across the board: `values` left to right, centred on the centre
-     * column, `offset` rows below the centre point. A cell that already holds a stone shows that
-     * stone instead, but still answers to a click with its value, since clicking the opponent's
-     * stone means nothing else.
-     */
-    private pickerRow(values: number[], offset: number): IPickerButton[] {
-        const centre = Math.floor(this.boardSize / 2);
-        const left = centre - Math.floor(values.length / 2);
-        return values.map((value, i) => ({ cell: this.coords2algebraic(left + i, centre + offset), value }));
-    }
 
     private range(max: number): number[] {
         const values: number[] = [];
@@ -1625,72 +1952,117 @@ export class ThueMorseGoGame extends GameBase {
         return values;
     }
 
-    /** Kill-All handicap: the odd values in a row just above the centre, the even ones just below. */
-    private killAllPicker(): IPickerButton[] {
-        const values = this.range(this.maxHandicap);
-        return [
-            ...this.pickerRow(values.filter((value) => value % 2 === 1), -1),
-            ...this.pickerRow(values.filter((value) => value % 2 === 0), 1),
-        ];
-    }
+    // Kill-All Go lays its pickers out the same way, with its own copy of pickerWidth, pickerLeft,
+    // pickerPlace and pickerBlock; the games are independent, so keep the copies in step by hand.
 
-    /** Standard handicap: every value up to the limit in one row. */
-    private handicapPicker(offset: number): IPickerButton[] {
-        return this.pickerRow(this.range(this.maxHandicap), offset);
-    }
-
-    /** Reverse komi: every multiple of 14 up to the limit in one row. */
-    private komiPicker(offset: number): IPickerButton[] {
-        return this.pickerRow(this.komiValues(), offset);
-    }
-
-    /** Rows of the first-move pickers: the komi above the handicap when both are offered. */
-    private pickerOffsets(): { komi: number; handicap: number } {
-        const both = this.reverseKomi && this.handicapVariant;
-        return { komi: both ? -1 : 0, handicap: both ? 1 : 0 };
+    /** The width of the pickers' blocks: half the width of the board, rounded up to an odd number, as in Kill-All Go. */
+    private pickerWidth(): number {
+        const half = Math.ceil(this.boardSize / 2);
+        return half % 2 === 0 ? half + 1 : half;
     }
 
     /**
-     * The picker the current state shows, if any, and the cells of the values chosen so far. On
-     * Player 2's first move the komi and handicap stones stay until every choice is made, and
-     * then as long as no placement remains, so that a choice can be changed by clicking.
+     * The leftmost column of the pickers' blocks, which are centred across the board. That column
+     * crosses the diagonal from the top left corner this many rows from the top, and the one from
+     * the bottom left corner this many rows from the bottom: the rows on which the blocks start.
      */
-    private picker(): { buttons: IPickerButton[]; chosen: string[] } | undefined {
+    private pickerLeft(): number {
+        return Math.floor(this.boardSize / 2) - Math.floor(this.pickerWidth() / 2);
+    }
+
+    /**
+     * Where the value at index `i` of a picker's block goes, as [rows on from the block's first
+     * row, column across the block]. The first row of values runs left to right; from there they
+     * snake row by row, two stones along the end column and then back across the next row, so in a
+     * block five wide the 6th and 7th sit beyond the 5th, the 8th to 11th run right to left from
+     * the 7th, the 12th and 13th sit beyond the 11th, and so on.
+     */
+    private pickerPlace(i: number): [number, number] {
+        const width = this.pickerWidth();
+        if (i < width) {
+            return [0, i];
+        }
+        // Each lap after the first row is a stone on the end column plus a row running back.
+        const lap = Math.floor((i - width) / (width + 1));
+        const step = (i - width) % (width + 1);
+        const fromLeft = lap % 2 === 1;
+        if (step === 0) {
+            return [1 + 2 * lap, fromLeft ? 0 : width - 1];
+        }
+        return [2 + 2 * lap, fromLeft ? step - 1 : width - step];
+    }
+
+    /**
+     * A picker's block holding `values` in order, centred across the board and
+     * {@link pickerWidth} wide, laid out as {@link pickerPlace} describes: its first row runs along
+     * row `start` (counted from the top of the board) and the rest snake on in `direction` (-1 up,
+     * 1 down). A cell that already holds a stone shows that stone instead, but still answers to a
+     * click with its value, since clicking the opponent's stone means nothing else.
+     */
+    private pickerBlock(values: number[], start: number, direction: -1 | 1): IPickerButton[] {
+        const left = this.pickerLeft();
+        return values.map((value, i) => {
+            const [on, col] = this.pickerPlace(i);
+            return { cell: this.coords2algebraic(left + col, start + direction * on), value };
+        });
+    }
+
+    /**
+     * The handicap, in the standard game and in Kill-All: every value up to the largest handicap,
+     * always the upper block, which starts with its first stone on the diagonal from the top left
+     * corner of the board and snakes down, like the handicap picker of Kill-All Go.
+     */
+    private handicapPicker(): IPickerButton[] {
+        return this.pickerBlock(this.range(this.maxHandicap), this.pickerLeft(), 1);
+    }
+
+    /**
+     * Reverse komi: the multiples of 7 up to the largest komi, always the lower block, which starts
+     * on the diagonal from the bottom left corner and snakes up, as the second batch of Kill-All
+     * Go's Generalized Hoctaph's Pie does.
+     */
+    private komiPicker(): IPickerButton[] {
+        return this.pickerBlock(this.komiValues(), this.boardSize - 1 - this.pickerLeft(), -1);
+    }
+
+    /**
+     * Whether Player 2's first move shows its numbered stones, with a reverse komi of `komi` and a
+     * handicap of `handicap` chosen so far: until every choice is made, and then for as long as no
+     * placement remains, so that a choice can still be changed by clicking. A handicap of one
+     * leaves the move a placement, so the board takes over. The stones drawn and the clicks on
+     * them both follow this rule.
+     */
+    private firstMovePickersShow(komi: number | undefined, handicap: number | undefined): boolean {
+        const chosenAll = (!this.reverseKomi || komi !== undefined) && (!this.handicapVariant || handicap !== undefined);
+        return !chosenAll || (this.handicapVariant && handicap !== 1);
+    }
+
+    /**
+     * The pickers the current state shows, if any: the handicap's stones and the reverse komi's,
+     * and the cells of the values chosen so far. On Player 2's first move they show as
+     * {@link firstMovePickersShow} says.
+     */
+    private picker(): { handicap: IPickerButton[]; komi: IPickerButton[]; chosen: string[] } | undefined {
         if (this.gameover) {
             return undefined;
         }
         if (this.phase === "hand-n") {
-            const buttons = this.killAllPicker();
-            return { buttons, chosen: buttons.filter((btn) => btn.value === this.handicap).map((btn) => btn.cell) };
+            const handicap = this.handicapPicker();
+            return { handicap, komi: [], chosen: handicap.filter((btn) => btn.value === this.handicap).map((btn) => btn.cell) };
         }
         if (!this.firstMoveOfPlayer2() || (!this.reverseKomi && !this.handicapVariant)) {
             return undefined;
         }
-        const chosenAll = (!this.reverseKomi || this.komi !== undefined) && (!this.handicapVariant || this.handicap !== undefined);
-        if (chosenAll && (!this.handicapVariant || this.handicap === 1)) {
-            // A placement remains, so the board takes over.
+        if (!this.firstMovePickersShow(this.komi, this.handicap)) {
             return undefined;
         }
-        const offsets = this.pickerOffsets();
-        const buttons: IPickerButton[] = [];
-        const chosen: string[] = [];
-        if (this.reverseKomi) {
-            for (const btn of this.komiPicker(offsets.komi)) {
-                buttons.push(btn);
-                if (btn.value === this.komi) {
-                    chosen.push(btn.cell);
-                }
-            }
-        }
-        if (this.handicapVariant) {
-            for (const btn of this.handicapPicker(offsets.handicap)) {
-                buttons.push(btn);
-                if (btn.value === this.handicap) {
-                    chosen.push(btn.cell);
-                }
-            }
-        }
-        return { buttons, chosen };
+        const handicap = this.handicapVariant ? this.handicapPicker() : [];
+        const komi = this.reverseKomi ? this.komiPicker() : [];
+        const chosen = [
+            ...handicap.filter((btn) => btn.value === this.handicap),
+            ...komi.filter((btn) => btn.value === this.komi),
+        ].map((btn) => btn.cell);
+        return { handicap, komi, chosen };
     }
 
     /**
@@ -1703,18 +2075,19 @@ export class ThueMorseGoGame extends GameBase {
     }
 
     /**
-     * The move a `_btn_` click stands for: `pass` passes the whole move, keeping the reverse komi
-     * the move in progress begins with, and other values are moves.
+     * The move a `_btn_` click stands for: `pass` passes the whole move and `button` takes the
+     * button, each keeping the declarations the move in progress begins with, and other values are
+     * moves.
      */
     private buttonMove(value: string, move: string): string {
-        if (value !== "pass" || this.phase !== "play") {
+        if ((value !== "pass" && value !== "button") || this.phase !== "play") {
             return value;
         }
-        const pass = this.wholeMovePass();
+        const rest = value === "pass" ? this.wholeMovePass() : value;
         if (this.declarationsPending()) {
-            return [...this.declarationTokens(this.parseFirstMove(this.parseTokens(move))), pass].join(",");
+            return [...this.declarationTokens(this.parseFirstMove(this.parseTokens(move))), rest].join(",");
         }
-        return pass;
+        return rest;
     }
 
     public getButtons(): ICustomButton[] {
@@ -1728,7 +2101,7 @@ export class ThueMorseGoGame extends GameBase {
             return [];
         }
         // The handicap declaration and the reverse komi are typed or clicked, not pressed.
-        if ((this.declaring() && this.handicap === undefined) || this.komiPending()) {
+        if (this.handicapPending() || this.komiPending()) {
             return [];
         }
         if (this.forcedPasses() === this.moveLength(this.placed)) {
@@ -1795,7 +2168,7 @@ export class ThueMorseGoGame extends GameBase {
         };
         switch (this.phase) {
             case "hand-n": {
-                const value = valueAt(this.killAllPicker());
+                const value = valueAt(this.handicapPicker());
                 return value === undefined ? { error: "NOT_A_NUMBERED_STONE" } : { move: value };
             }
             case "alt-place":
@@ -1820,7 +2193,7 @@ export class ThueMorseGoGame extends GameBase {
      * to the board.
      */
     private clickFirstMove(tokens: string[], cell: string): IClickOutcome {
-        const valueAt = (buttons: IPickerButton[]): string | undefined => buttons.find((btn) => btn.cell === cell)?.value.toString();
+        const valueAt = (buttons: IPickerButton[]): number | undefined => buttons.find((btn) => btn.cell === cell)?.value;
         const wantKomi = this.reverseKomi;
         const wantHandicap = this.handicapVariant;
         const length = this.moveLength(this.placed);
@@ -1830,11 +2203,9 @@ export class ThueMorseGoGame extends GameBase {
             first.handicap = undefined;
             first.placements = [];
         }
-        const chosenAll = (!wantKomi || first.komi !== undefined) && (!wantHandicap || first.handicap !== undefined);
-        const stonesShown = !(chosenAll && (!wantHandicap || first.handicap === "1"));
-        const offsets = this.pickerOffsets();
-        const komiHit = stonesShown && wantKomi ? valueAt(this.komiPicker(offsets.komi)) : undefined;
-        const handicapHit = stonesShown && wantHandicap ? valueAt(this.handicapPicker(offsets.handicap)) : undefined;
+        const stonesShown = this.firstMovePickersShow(first.komi, first.handicap);
+        const komiHit = stonesShown && wantKomi ? valueAt(this.komiPicker()) : undefined;
+        const handicapHit = stonesShown && wantHandicap ? valueAt(this.handicapPicker()) : undefined;
         if (komiHit !== undefined) {
             first.komi = komiHit;
         } else if (handicapHit !== undefined) {
@@ -1852,11 +2223,11 @@ export class ThueMorseGoGame extends GameBase {
             if (handicapMissing) {
                 return { error: "DECLARE_FIRST" };
             }
-            const forced = first.handicap === undefined ? 0 : Math.min(parseInt(first.handicap, 10), length);
+            const forced = first.handicap === undefined ? 0 : Math.min(first.handicap, length);
             if (length - forced === 0) {
                 return { error: "NO_PLACEMENT_LEFT" };
             }
-            first.placements = this.parseTokens(this.clickPlacements(first.placements, cell, length - forced));
+            first.placements = this.parseTokens(this.clickPlacements(first.placements, cell, length - forced, first.komi));
         }
         return { move: [...this.declarationTokens(first), ...first.placements].join(",") };
     }
@@ -1866,12 +2237,16 @@ export class ThueMorseGoGame extends GameBase {
      * being the player's. A stone clicked marks its string dead only once the move passes (the
      * Pass button, a typed pass or a mark), never by itself: a stone placed first then a stone
      * clicked is a misclick, refused as occupied, so the player must pass first and then place.
+     * The placements keep the order they were clicked in until the move is made, which records
+     * them in their canonical order, so that a click on a third point behaves the same whatever
+     * the order. `komi` is the reverse komi in force, which may decide whether the button can be
+     * taken.
      */
-    private clickPlacements(tokens: string[], cell: string, free: number): string {
+    private clickPlacements(tokens: string[], cell: string, free: number, komi = this.komi): string {
         const { placements, marked } = this.splitMarks(tokens);
         const passing = placements.includes("pass") || marked.length > 0;
         let placed = placements.filter((token) => token !== "pass");
-        const board = this.boardAfter(placed);
+        const board = this.boardAfter(placed, komi);
         if (placed.includes(cell) && board.has(cell)) {
             // A placement clicked again is taken back, while its stone is still on the board; a
             // point emptied again by suicide or capture can take a second stone.
@@ -1891,22 +2266,24 @@ export class ThueMorseGoGame extends GameBase {
         } else if (placed.length < free) {
             placed = [...placed, cell];
         } else {
-            // A click on a stone with no placement left to pass is left to fail as occupied.
-            placed = [...placed.slice(0, -1), cell];
+            // With every placement made, a click on an empty point replaces the placement made
+            // first, so the move is always the latest clicks; a click on a stone is left to fail as
+            // occupied.
+            placed = [...placed.slice(1), cell];
         }
         // The placements come first and the passes that fill the rest of the move after them, so
         // a stone placed after passing the move gives "e5,pass" rather than "pass,e5". Marks on
         // strings that survive the placements stay; a move that passes nothing carries none.
-        const after = this.boardAfter(placed);
+        const after = this.boardAfter(placed, komi);
         const marks = placed.length < free ? this.canonicalMarksOn(after, marked) : [];
         const passes = passing || marks.length > 0 ? Array<string>(free - placed.length).fill("pass") : [];
         return [...placed, ...passes, ...this.markTokensOn(after, marks)].join(",");
     }
 
     /** The board after the current player's placements `stones` (cells or the button), as far as they are legal. */
-    private boardAfter(stones: string[]): Board {
+    private boardAfter(stones: string[], komi = this.komi): Board {
         const colour = this.colourOfSeat(this.currplayer)!;
-        const sim = this.newSim(this.moveLength(this.placed), 0);
+        const sim = this.newSim(this.moveLength(this.placed), 0, undefined, komi);
         this.serveForced(sim, this.forcedPasses());
         for (const token of stones) {
             if (this.applyToken(sim, token, colour) !== undefined) {
@@ -2052,58 +2429,62 @@ export class ThueMorseGoGame extends GameBase {
      * placements passed, this declaration being the first.
      */
     private validateFirstMove(m: string, result: IValidationResult): IValidationResult {
-        const colour = this.colourOfSeat(this.currplayer)!;
-        const length = this.moveLength(this.placed);
         const wantKomi = this.komiPending();
-        const wantHandicap = this.declaring() && this.handicap === undefined;
+        const wantHandicap = this.handicapPending();
         const max = this.maxKomi;
         const stones = this.maxHandicap;
         if (m.length === 0) {
             const key = wantKomi && wantHandicap
                 ? "apgames:validation.thuemorsego.INSTRUCTIONS_BOTH"
                 : wantKomi ? "apgames:validation.thuemorsego.INSTRUCTIONS_KOMI" : "apgames:validation.thuemorsego.INSTRUCTIONS_DECLARE";
-            return this.ok(result, -1, i18next.t(key, { max: wantKomi ? max : stones, stones }));
+            const note = wantKomi ? this.komiButtonNote() : "";
+            return this.ok(result, -1, `${i18next.t(key, { max: wantKomi ? max : stones, stones })}${note}`);
         }
         const first = this.parseFirstMove(m.split(","));
         if (first.error !== undefined) {
             return this.fail(result, i18next.t("apgames:validation.thuemorsego.BAD_DECLARATION"));
         }
-        let komi: number | undefined;
-        if (first.komi !== undefined) {
-            komi = parseInt(first.komi, 10);
-            if (!this.isKomi(komi)) {
-                return this.fail(result, i18next.t("apgames:validation.thuemorsego.KOMI_INVALID", { max }));
-            }
+        if (first.komi !== undefined && !this.isKomi(first.komi)) {
+            return this.fail(result, i18next.t("apgames:validation.thuemorsego.KOMI_INVALID", { max }));
         }
-        let handicap: number | undefined;
-        if (first.handicap !== undefined) {
-            handicap = parseInt(first.handicap, 10);
-            if (handicap < 1 || handicap > stones) {
-                return this.fail(result, i18next.t("apgames:validation.thuemorsego.DECLARE_RANGE", { max: stones }));
-            }
+        if (first.handicap !== undefined && (first.handicap < 1 || first.handicap > stones)) {
+            return this.fail(result, i18next.t("apgames:validation.thuemorsego.DECLARE_RANGE", { max: stones }));
         }
-        if (wantKomi && komi === undefined) {
+        if (wantKomi && first.komi === undefined) {
             if (first.placements.length > 0) {
                 return this.fail(result, i18next.t("apgames:validation.thuemorsego.KOMI_MISSING"));
             }
-            return this.ok(result, -1, i18next.t("apgames:validation.thuemorsego.HANDICAP_THEN_KOMI", { count: handicap }), true);
+            return this.ok(result, -1, `${i18next.t("apgames:validation.thuemorsego.HANDICAP_THEN_KOMI", { count: first.handicap })}${this.komiButtonNote()}`, true);
         }
-        if (wantHandicap && handicap === undefined) {
+        if (wantHandicap && first.handicap === undefined) {
             if (first.placements.length > 0) {
                 return this.fail(result, i18next.t("apgames:validation.thuemorsego.DECLARE_MISSING"));
             }
-            return this.ok(result, -1, i18next.t("apgames:validation.thuemorsego.KOMI_THEN_DECLARE", { count: komi }), true);
+            return this.ok(result, -1, i18next.t("apgames:validation.thuemorsego.KOMI_THEN_DECLARE", { count: first.komi }), true);
         }
-        if (handicap !== undefined) {
-            return this.validateDeclaration(handicap, first.placements, result, colour, length);
+        if (first.handicap !== undefined) {
+            return this.validateDeclaration(first, result);
         }
         if (first.placements.length === 0) {
-            return this.ok(result, 0, i18next.t("apgames:validation.thuemorsego.KOMI_THEN_PLACE", { count: komi }), true);
+            const worth = this.buttonValueWith(first.komi);
+            const key = worth > 0 && this.button === undefined
+                ? "apgames:validation.thuemorsego.KOMI_THEN_PLACE_BUTTON"
+                : "apgames:validation.thuemorsego.KOMI_THEN_PLACE";
+            return this.ok(result, 0, i18next.t(key, { count: first.komi, points: worth }), true);
         }
-        return this.validatePlacements(first.placements.join(","), result);
+        return this.validatePlacements(first.placements.join(","), result, first.komi);
     }
 
-    private validatePlacements(m: string, result: IValidationResult): IValidationResult {
+    /** For a message shown while the reverse komi is still to be chosen: the note that it also decides the 1-point button. */
+    private komiButtonNote(): string {
+        if (!this.komiDecidesButton) {
+            return "";
+        }
+        return ` ${i18next.t("apgames:validation.thuemorsego.KOMI_DECIDES_BUTTON", { points: this.geo.cells.length })}`;
+    }
+
+    /** The placements of a move, `komi` being the reverse komi in force, declared earlier or at the start of this move. */
+    private validatePlacements(m: string, result: IValidationResult, komi = this.komi): IValidationResult {
         const colour = this.colourOfSeat(this.currplayer)!;
         const length = this.moveLength(this.placed);
         const forced = this.forcedPasses();
@@ -2123,7 +2504,7 @@ export class ThueMorseGoGame extends GameBase {
         if (tokens.length > free) {
             return this.fail(result, i18next.t("apgames:validation.thuemorsego.TOO_MANY", { count: free }));
         }
-        const sim = this.newSim(length, 0);
+        const sim = this.newSim(length, 0, undefined, komi);
         this.serveForced(sim, forced);
         const err = this.applyTokens(sim, tokens, colour, result);
         if (err !== undefined) { return err; }
@@ -2215,8 +2596,12 @@ export class ThueMorseGoGame extends GameBase {
         return this.ok(result, 0, message, true);
     }
 
-    /** The rest of a first move that declares a handicap of `n`: the placements `rest` after it. */
-    private validateDeclaration(n: number, rest: string[], result: IValidationResult, colour: Stone, length: number): IValidationResult {
+    /** A first move that declares a handicap, `first`, with the reverse komi it may declare and the placements after them. */
+    private validateDeclaration(first: IFirstMove, result: IValidationResult): IValidationResult {
+        const n = first.handicap!;
+        const rest = first.placements;
+        const colour = this.colourOfSeat(this.currplayer)!;
+        const length = this.moveLength(this.placed);
         // The declaration itself is the first pass served.
         const forced = Math.min(n, length);
         const free = length - forced;
@@ -2229,11 +2614,11 @@ export class ThueMorseGoGame extends GameBase {
         if (rest.length > free) {
             return this.fail(result, i18next.t("apgames:validation.thuemorsego.TOO_MANY", { count: free }));
         }
-        const sim = this.newSim(length, forced);
+        const sim = this.newSim(length, forced, undefined, first.komi);
         const err = this.applyTokens(sim, rest, colour, result);
         if (err !== undefined) { return err; }
         if (rest.length === 0) {
-            const button = this.buttonValue > 0 && this.button === undefined;
+            const button = sim.button > 0 && this.button === undefined;
             const key = button ? "apgames:validation.thuemorsego.DECLARE_ONE_BUTTON" : "apgames:validation.thuemorsego.DECLARE_ONE";
             return this.ok(result, 0, i18next.t(key), true);
         }
@@ -2332,7 +2717,7 @@ export class ThueMorseGoGame extends GameBase {
     private placeSetupStones(cells: string[]): void {
         const created: string[] = [];
         for (const cell of cells) {
-            this.board.set(cell, 2);
+            this.board.set(cell, ATTACKER);
             this.results.push({ type: "place", where: cell, what: "setup" });
             created.push(signature(this.board, this.geo));
         }
@@ -2370,19 +2755,17 @@ export class ThueMorseGoGame extends GameBase {
             // The reverse komi and the handicap lead Player 2's first move; the komi costs no placement.
             const first = this.parseFirstMove(raw);
             if (first.komi !== undefined) {
-                const n = parseInt(first.komi, 10);
-                this.komi = n;
-                komiResult = { type: "komi", value: n };
-                prefix.push(`${n}p`);
+                this.komi = first.komi;
+                komiResult = { type: "komi", value: first.komi };
+                prefix.push(`${first.komi}p`);
             }
-            if (first.handicap !== undefined) {
-                declared = parseInt(first.handicap, 10);
-            }
+            declared = first.handicap;
             raw = first.placements;
         }
         const split = this.splitMarks(raw);
         const marked = split.marked;
-        let tokens = split.placements;
+        // The move is applied and recorded in its canonical order, which changes nothing it does.
+        let tokens = this.canonicalPlacements(split.placements);
         let forced: number;
         if (declared !== undefined) {
             forced = Math.min(declared, length);
@@ -2578,21 +2961,21 @@ export class ThueMorseGoGame extends GameBase {
     }
 
     /**
-     * Kill-All: the Defender wins once a Red string is pass-alive, and the Attacker wins once that
-     * can never happen, because the Attacker's own pass-alive stones leave no room for the eyes
-     * such a string needs. The two cannot coincide, as a pass-alive Red string has that room.
+     * Kill-All: the Defender wins once a Defender string is pass-alive, and the Attacker wins once
+     * that can never happen, because the Attacker's own pass-alive stones leave no room for the eyes
+     * such a string needs. The two cannot coincide, as a pass-alive Defender string has that room.
      */
     private checkLifeAndDeath(): void {
         if (this.gameover) {
             return;
         }
         const minVital = this.minVital;
-        const alive = passAliveStrings(this.board, this.geo, 1, { suicideAllowed: true, minVital });
+        const alive = passAliveStrings(this.board, this.geo, DEFENDER, { suicideAllowed: true, minVital });
         if (alive.length > 0) {
             this.endGame([this.defenderSeat!], "pass-alive", alive.flat());
             return;
         }
-        const permanent = passAliveStrings(this.board, this.geo, 2, { suicideAllowed: true, minVital }).flat();
+        const permanent = passAliveStrings(this.board, this.geo, ATTACKER, { suicideAllowed: true, minVital }).flat();
         if (!this.roomForEyes(new Set(permanent), minVital)) {
             this.endGame([this.attackerSeat!], "no-room", permanent);
         }
@@ -2794,27 +3177,35 @@ export class ThueMorseGoGame extends GameBase {
     // -----------------------------------------------------------------------
 
     /**
-     * The numbered stones of the current picker, added to `legend` and returned as a cell map,
-     * along with the cell of the value chosen so far. The stones are Attacker stones in Kill-All
-     * games and neutral when they stand for passes.
+     * The numbered stones of the current pickers, added to `legend` and returned as a cell map,
+     * along with the cells of the values chosen so far: the handicap's in the first colour, the
+     * reverse komi's in the grey of Kill-All Go's first batch. In Kill-All games the handicap's
+     * stones take the Attacker's colour instead: palette slot 3, as the Attacker's stones do.
      */
-    private pickerOverlay(legend: ILegend, paletteBorders: boolean): { overlay: Map<string, string>; chosen: string[] } {
+    private pickerOverlay(legend: ILegend): { overlay: Map<string, string>; chosen: string[] } {
         const overlay = new Map<string, string>();
         const picker = this.picker();
         if (picker === undefined) {
             return { overlay, chosen: [] };
         }
-        const paint = this.killAll ? this.stonePaint(2, paletteBorders) : { fill: UNDECIDED_COLOUR };
-        for (const btn of picker.buttons) {
-            if (this.board.has(btn.cell)) {
-                // The stone shows; the point still answers to a click with this value.
-                continue;
+        // Handicap stones in the first colour, or the Attacker's in Kill-All, and reverse komi stones
+        // in grey, each with legend keys of their own, since the two pickers can show the same values.
+        const groups: Array<[IPickerButton[], string, number | string | Colourfuncs]> = [
+            [picker.handicap, "n", this.killAll ? this.fillOfColour(ATTACKER) : HANDICAP_STONE_FILL],
+            [picker.komi, "k", KOMI_STONE_FILL],
+        ];
+        for (const [buttons, prefix, fill] of groups) {
+            for (const btn of buttons) {
+                if (this.board.has(btn.cell)) {
+                    // The stone shows; the point still answers to a click with this value.
+                    continue;
+                }
+                const key = `${prefix}${btn.value}`;
+                legend[key] = [{ name: "piece", paint: contrastPaint(fill) }, { text: btn.value.toString(), scale: 0.75, rotate: null }];
+                overlay.set(btn.cell, key);
             }
-            const key = `n${btn.value}`;
-            legend[key] = [{ name: "piece", paint }, { text: btn.value.toString(), scale: 0.75, rotate: null }];
-            overlay.set(btn.cell, key);
         }
-        return { overlay, chosen: [...picker.chosen] };
+        return { overlay, chosen: picker.chosen };
     }
 
     /**
@@ -2843,7 +3234,7 @@ export class ThueMorseGoGame extends GameBase {
      * is known by its own `eog` result, since `gameover` holds for every position of a finished
      * game once loaded, and the stones fade at any end, a stalemate or a repetition included.
      */
-    private passAliveOverlay(legend: ILegend, throughout: boolean, paletteBorders: boolean): Map<string, string> {
+    private passAliveOverlay(legend: ILegend, throughout: boolean): Map<string, string> {
         const alive = new Map<string, string>();
         if (!this.killAll || !(throughout || this.results.some((r) => r.type === "eog"))) {
             return alive;
@@ -2852,7 +3243,7 @@ export class ThueMorseGoGame extends GameBase {
             const cells = passAliveStrings(this.board, this.geo, colour, { suicideAllowed: true, minVital: this.minVital }).flat();
             if (cells.length > 0) {
                 const key = `L${colour}`;
-                legend[key] = [{ name: "piece", paint: this.stonePaint(colour, paletteBorders), opacity: ALIVE_OPACITY }];
+                legend[key] = [{ name: "piece", paint: this.stonePaint(colour), opacity: ALIVE_OPACITY }];
                 for (const cell of cells) {
                     alive.set(cell, key);
                 }
@@ -2868,7 +3259,7 @@ export class ThueMorseGoGame extends GameBase {
      * Shown in the standard game unless the display hides it; the marked stones are faded regardless.
      * Returns the legend keys of the marked stones by cell and the dots for the empty points.
      */
-    private territoryOverlay(legend: ILegend, hide: boolean, paletteBorders: boolean): { dead: Map<string, string>; dots: MarkerDots[] } {
+    private territoryOverlay(legend: ILegend, hide: boolean): { dead: Map<string, string>; dots: MarkerDots[] } {
         const dead = new Map<string, string>();
         const dots: MarkerDots[] = [];
         if (this.killAll) {
@@ -2893,7 +3284,7 @@ export class ThueMorseGoGame extends GameBase {
             const under = owner.get(cell);
             const key = under === undefined ? `D${stone}` : `D${stone}T${under}`;
             if (!(key in legend)) {
-                const faded: Glyph = { name: "piece", paint: this.stonePaint(stone, paletteBorders), opacity: DEAD_OPACITY };
+                const faded: Glyph = { name: "piece", paint: this.stonePaint(stone), opacity: DEAD_OPACITY };
                 legend[key] = under === undefined ? [faded] : [faded, { name: "piece-borderless", paint: { fill: under }, scale: DOT_SIZE }];
             }
             dead.set(cell, key);
@@ -2927,7 +3318,7 @@ export class ThueMorseGoGame extends GameBase {
      * protocol needs no tracker. The digit tracker has three columns; once the index needs more,
      * it shows only grey stones, with no markers, tint or border, rather than digits it cannot show.
      */
-    private trackArea(legend: ILegend, downward: boolean, rolling: boolean, paletteBorders: boolean): AreaTrack | undefined {
+    private trackArea(legend: ILegend, downward: boolean, rolling: boolean): AreaTrack | undefined {
         if (this.period > 0) {
             return undefined;
         }
@@ -2941,7 +3332,7 @@ export class ThueMorseGoGame extends GameBase {
         const small = (colour: Stone): string => {
             const key = `s${colour}`;
             if (!(key in legend)) {
-                legend[key] = [tint, { name: "piece", paint: this.stonePaint(colour, paletteBorders), scale: SMALL_SCALE }];
+                legend[key] = [tint, { name: "piece", paint: this.stonePaint(colour), scale: SMALL_SCALE }];
             }
             return key;
         };
@@ -2949,7 +3340,7 @@ export class ThueMorseGoGame extends GameBase {
         const marker = (colour: Stone, digit?: number): string => {
             const key = digit === undefined ? `m${colour}` : `m${colour}d${digit.toString(16)}`;
             if (!(key in legend)) {
-                const stone: Glyph = { name: "piece", paint: this.stonePaint(colour, paletteBorders) };
+                const stone: Glyph = { name: "piece", paint: this.stonePaint(colour) };
                 legend[key] = digit === undefined
                     ? [tint, stone]
                     : [tint, stone, { text: digit.toString(16), scale: DIGIT_SCALE, rotate: null }];
@@ -3054,14 +3445,13 @@ export class ThueMorseGoGame extends GameBase {
         const downward = this.hasDisplay(opts, "digits-down");
         const rolling = !this.hasDisplay(opts, "tms-tracker");
         const hideDots = this.hasDisplay(opts, "hide-territory");
-        const paletteBorders = this.hasDisplay(opts, "palette-borders");
         const legend: ILegend = {
-            A: [{ name: "piece", paint: this.stonePaint(1, paletteBorders) }],
-            B: [{ name: "piece", paint: this.stonePaint(2, paletteBorders) }],
+            A: [{ name: "piece", paint: this.stonePaint(1) }],
+            B: [{ name: "piece", paint: this.stonePaint(2) }],
         };
-        const { overlay, chosen } = this.pickerOverlay(legend, paletteBorders);
-        const { dead, dots } = this.territoryOverlay(legend, hideDots, paletteBorders);
-        const alive = this.passAliveOverlay(legend, this.hasDisplay(opts, "pass-alive-throughout"), paletteBorders);
+        const { overlay, chosen } = this.pickerOverlay(legend);
+        const { dead, dots } = this.territoryOverlay(legend, hideDots);
+        const alive = this.passAliveOverlay(legend, this.hasDisplay(opts, "pass-alive-throughout"));
 
         const rows: string[] = [];
         for (let row = 0; row < this.boardSize; row++) {
@@ -3102,7 +3492,7 @@ export class ThueMorseGoGame extends GameBase {
         if (!snub && this.boardSize === 11) {
             rep.options = ["hide-star-points"];
         }
-        const track = this.trackArea(legend, downward, rolling, paletteBorders);
+        const track = this.trackArea(legend, downward, rolling);
         if (track !== undefined) {
             rep.areas = [track];
         }
@@ -3167,6 +3557,12 @@ export class ThueMorseGoGame extends GameBase {
                 key: this.neutralAreaLabel("apgames:status.thuemorsego.BUTTON"),
                 value: [this.button === undefined ? this.neutralAreaLabel("apgames:status.thuemorsego.BUTTON_AVAILABLE") : this.seatStatusValue(this.button)],
             });
+        } else if (this.komiDecidesButton && this.komi === undefined) {
+            // Whether there is a button waits for the reverse komi.
+            statuses.push({
+                key: this.neutralAreaLabel("apgames:status.thuemorsego.BUTTON"),
+                value: [this.neutralAreaLabel("apgames:status.thuemorsego.UNDECIDED")],
+            });
         }
         if (this.reverseKomi) {
             statuses.push({
@@ -3175,7 +3571,7 @@ export class ThueMorseGoGame extends GameBase {
             });
         }
         if (this.komiPending()) {
-            const key = this.declaring() && this.handicap === undefined
+            const key = this.handicapPending()
                 ? "apgames:status.thuemorsego.PHASE_KOMI_DECLARE"
                 : "apgames:status.thuemorsego.PHASE_KOMI";
             statuses.push({
@@ -3194,7 +3590,7 @@ export class ThueMorseGoGame extends GameBase {
             statuses.push({ key: this.neutralAreaLabel("apgames:status.thuemorsego.MARKING"), value });
         }
         if (this.handicapVariant && !this.gameover && !this.komiPending()) {
-            if (this.declaring() && this.handicap === undefined) {
+            if (this.handicapPending()) {
                 statuses.push({
                     key: this.neutralAreaLabel("apgames:status.PHASE"),
                     value: [this.seatAreaLabel(this.currplayer, "apgames:status.thuemorsego.PHASE_DECLARE")],

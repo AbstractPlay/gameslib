@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IRenderOpts, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import type { APRenderRep, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
+import type { APRenderRep, Colourfuncs, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { algebraic2coords, coords2algebraic, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
@@ -544,6 +544,10 @@ interface IPicker {
     chosen?: number;
     /** Whether a value fits with what is chosen elsewhere. */
     allowed: (value: number) => boolean;
+    /** The fill of its stones: a player colour or a literal one. */
+    fill: number | string;
+    /** Put before its stones' legend keys, so that pickers shown together, which share values, keep keys of their own. */
+    keyPrefix: string;
 }
 
 export interface IMoveState extends IIndividualState {
@@ -567,7 +571,21 @@ export interface IKillAllGoState extends IAPGameState {
 // The traditional 17-stone starting position (Sensei's Library, "The Killing Game"), 19x19 only.
 const CLASSIC_SETUP = ["j18", "c17", "q17", "d16", "j16", "p16", "b10", "d10", "j10", "p10", "r10", "d4", "j4", "p4", "c3", "q3", "j2"];
 const UNDECIDED_COLOUR = "#999999";
+/**
+ * The fill of the numbered stones that pick the first Hoctaph batch's size: a grey as light as the
+ * renderer's default Attacker colour, #e31a1c (CIELAB L* 48). The second batch's take the Attacker's colour.
+ */
+const FIRST_BATCH_COLOUR = "#737373";
 const CELL_RE = /^[a-z]+\d+$/;
+
+/** The whole numbers 1 to `max`, in order. */
+const oneTo = (max: number): number[] => Array.from({ length: max }, (_, i) => i + 1);
+
+/** The paint of a stone filled with `fill`, a player colour or a literal one: its border is black or white, whichever contrasts better with the fill. */
+const stonePaint = (fill: number | string): { fill: number | string; border: Colourfuncs } => ({
+    fill,
+    border: { func: "bestContrast", bg: fill, fg: ["#000", "#fff"] },
+});
 
 export class KillAllGoGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
@@ -602,7 +620,6 @@ export class KillAllGoGame extends GameBase {
             { uid: "#board" },
             {
                 uid: "#opening",
-                fans: true,
                 people: [
                     {
                         type: "designer",
@@ -614,7 +631,6 @@ export class KillAllGoGame extends GameBase {
             {
                 uid: "handicap",
                 group: "opening",
-                fans: true,
                 unrated: true,
                 people: [
                     {
@@ -624,12 +640,11 @@ export class KillAllGoGame extends GameBase {
                     },
                 ],
             },
-            { uid: "classic", group: "opening", fans: true, enabledWhen: { board: ["#board"] } },
-            { uid: "pie", group: "opening", fans: true },
+            { uid: "classic", group: "opening", enabledWhen: { board: ["#board"] } },
+            { uid: "pie", group: "opening" },
             {
                 uid: "hoctaph",
                 group: "opening",
-                fans: true,
                 people: [
                     {
                         type: "designer",
@@ -852,60 +867,79 @@ export class KillAllGoGame extends GameBase {
         return passAliveStrings(this.board, this.geo, colour, { suicideAllowed: true });
     }
 
-    /**
-     * The picker offered during the Hoctaph slice: the values 1 to ceil(2p/25) for each batch, the
-     * first batch above the centre point and the second mirrored below it, in a centred block nine
-     * wide (or as wide as the values, when there are fewer). 1 to 9 run left to right along the
-     * second row out from the centre point, leaving three empty rows between the blocks; from there
-     * the values snake away from the centre, two stones out along the end column and then back
-     * across the row, so 10 and 11 sit beyond 9, 12 to 19 run right to left from 11, 20 and 21 sit
-     * beyond 19, and so on. Larger sizes are still entered manually.
-     */
-    private sliceLayout(): { a: IPickerButton[]; b: IPickerButton[] } {
-        const max = Math.ceil((2 * this.points) / 25);
-        const width = Math.min(9, max);
-        const centre = Math.floor(this.boardSize / 2);
-        const left = centre - Math.floor(width / 2);
-        /** Where a value goes, as [rows out from the centre, column across the block]. */
-        const place = (value: number): [number, number] => {
-            if (value <= width) {
-                return [2, value - 1];
-            }
-            // Each lap after the first row is a stone on the end column plus a row running back.
-            const lap = Math.floor((value - width - 1) / (width + 1));
-            const step = (value - width - 1) % (width + 1);
-            const fromLeft = lap % 2 === 1;
-            if (step === 0) {
-                return [3 + 2 * lap, fromLeft ? 0 : width - 1];
-            }
-            return [4 + 2 * lap, fromLeft ? step - 1 : width - step];
-        };
-        const block = (direction: -1 | 1): IPickerButton[] => {
-            const buttons: IPickerButton[] = [];
-            for (let value = 1; value <= max; value++) {
-                const [out, col] = place(value);
-                buttons.push({ cell: this.coords2algebraic(left + col, centre + direction * out), value });
-            }
-            return buttons;
-        };
-        return { a: block(-1), b: block(1) };
+    /** The width of the numbered pickers' blocks: half the width of the board, rounded up to an odd number. */
+    private pickerWidth(): number {
+        const half = Math.ceil(this.boardSize / 2);
+        return half % 2 === 0 ? half + 1 : half;
+    }
+
+    /** The leftmost column of the numbered pickers' blocks, which are centred across the board. */
+    private pickerLeft(): number {
+        return Math.floor(this.boardSize / 2) - Math.floor(this.pickerWidth() / 2);
     }
 
     /**
-     * The picker offered while the handicap is set: the handicaps 1 to 18 in two centred rows of
-     * nine, the odd values on the row just above the centre point and the even values on the row
-     * just below it, so each column holds a consecutive pair. Larger handicaps are still entered
-     * manually.
+     * Where the value at index `i` of a picker block goes, as [rows on from the block's first row,
+     * column across the block]. The first row of values runs left to right; from there they snake
+     * row by row, two stones along the end column and then back across the next row, so in a block
+     * five wide the 6th and 7th sit beyond the 5th, the 8th to 11th run right to left from the 7th,
+     * the 12th and 13th sit beyond the 11th, and so on.
+     */
+    private pickerPlace(i: number): [number, number] {
+        const width = this.pickerWidth();
+        if (i < width) {
+            return [0, i];
+        }
+        // Each lap after the first row is a stone on the end column plus a row running back.
+        const lap = Math.floor((i - width) / (width + 1));
+        const step = (i - width) % (width + 1);
+        const fromLeft = lap % 2 === 1;
+        if (step === 0) {
+            return [1 + 2 * lap, fromLeft ? 0 : width - 1];
+        }
+        return [2 + 2 * lap, fromLeft ? step - 1 : width - step];
+    }
+
+    /**
+     * A block of numbered stones holding `values` in order, centred across the board and
+     * {@link pickerWidth} wide, laid out as {@link pickerPlace} describes: its first row runs
+     * along row `start` (counted from the top of the board) and the rest snake on in `direction`
+     * (-1 up, 1 down). Every supported board holds its pickers this way.
+     */
+    private pickerBlock(values: number[], start: number, direction: -1 | 1): IPickerButton[] {
+        const left = this.pickerLeft();
+        return values.map((value, i) => {
+            const [on, col] = this.pickerPlace(i);
+            return { cell: this.coords2algebraic(left + col, start + direction * on), value };
+        });
+    }
+
+    /**
+     * The picker offered during the Hoctaph slice: the sizes 1 to 2*floor(p/16) for the first batch
+     * in a block that starts with its first stone on the diagonal from the top left corner of the
+     * board and snakes down, and 1 to floor(p/16) for the second in a block that starts on the
+     * diagonal from the bottom left corner and snakes up. Where the blocks would leave no empty row
+     * between them, both start one row further out. Larger sizes are still entered manually.
+     */
+    private sliceLayout(): { a: IPickerButton[]; b: IPickerButton[] } {
+        const half = Math.floor(this.points / 16);
+        // The blocks' left column also names the rows, from the top and from the bottom, where the diagonals cross it.
+        const top = this.pickerLeft();
+        const bottom = this.boardSize - 1 - top;
+        const lowestA = top + this.pickerPlace(2 * half - 1)[0];
+        const highestB = bottom - this.pickerPlace(half - 1)[0];
+        const shift = highestB - lowestA > 1 ? 0 : 1;
+        return { a: this.pickerBlock(oneTo(2 * half), top - shift, 1), b: this.pickerBlock(oneTo(half), bottom + shift, -1) };
+    }
+
+    /**
+     * The picker offered while the handicap is set: the handicaps 1 to p/12.5 rounded to the nearest
+     * even number, in one block that starts with its first stone on the diagonal from the top left
+     * corner of the board and snakes down from there. Larger handicaps are still entered manually.
      */
     private handicapLayout(): IPickerButton[] {
-        const centre = Math.floor(this.boardSize / 2);
-        const left = centre - 4;
-        const buttons: IPickerButton[] = [];
-        for (let value = 1; value <= Math.min(18, this.maxSetupStones()); value++) {
-            const row = value % 2 === 1 ? centre - 1 : centre + 1;
-            buttons.push({ cell: this.coords2algebraic(left + Math.floor((value - 1) / 2), row), value });
-        }
-        return buttons;
+        // The block's left column also names the row, from the top, where that diagonal crosses it.
+        return this.pickerBlock(oneTo(2 * Math.round(this.points / 25)), this.pickerLeft(), 1);
     }
 
     /** The on-board pickers of the current phase: the handicap, or the two Hoctaph batch sizes. */
@@ -914,15 +948,15 @@ export class KillAllGoGame extends GameBase {
             return [];
         }
         if (this.phase === "hand-n") {
-            return [{ buttons: this.handicapLayout(), chosen: this.setup?.handicap, allowed: () => true }];
+            return [{ buttons: this.handicapLayout(), chosen: this.setup?.handicap, allowed: () => true, fill: 1, keyPrefix: "" }];
         }
         if (this.phase === "hoc-slice") {
             const layout = this.sliceLayout();
             const a = this.setup?.a;
             const b = this.setup?.b;
             return [
-                { buttons: layout.a, chosen: a, allowed: (v) => b === undefined || this.sliceAllowed(v, b) },
-                { buttons: layout.b, chosen: b, allowed: (v) => a === undefined || this.sliceAllowed(a, v) },
+                { buttons: layout.a, chosen: a, allowed: (v) => b === undefined || this.sliceAllowed(v, b), fill: FIRST_BATCH_COLOUR, keyPrefix: "g" },
+                { buttons: layout.b, chosen: b, allowed: (v) => a === undefined || this.sliceAllowed(a, v), fill: 1, keyPrefix: "" },
             ];
         }
         return [];
@@ -1093,12 +1127,12 @@ export class KillAllGoGame extends GameBase {
                 return this.handicapLayout().find((btn) => btn.cell === cell)?.value.toString();
             case "hoc-slice": {
                 const layout = this.sliceLayout();
-                const hit = layout.a.find((btn) => btn.cell === cell) ?? layout.b.find((btn) => btn.cell === cell);
+                const inFirst = layout.a.find((btn) => btn.cell === cell);
+                const hit = inFirst ?? layout.b.find((btn) => btn.cell === cell);
                 if (hit === undefined) { return undefined; }
-                const first = layout.a.some((btn) => btn.cell === cell);
                 const [curA, curB] = this.parseSlice(move);
                 // Picking a value the other batch size forbids drops that other choice.
-                if (first) {
+                if (inFirst !== undefined) {
                     const keep = curB !== undefined && this.sliceAllowed(hit.value, curB) ? curB : undefined;
                     return keep === undefined ? `${hit.value}` : `${hit.value},${keep}`;
                 }
@@ -1775,8 +1809,8 @@ export class KillAllGoGame extends GameBase {
     private pickerOverlay(legend: ILegend): { overlay: Map<string, string>; chosen: string[] } {
         const overlay = new Map<string, string>();
         const chosen: string[] = [];
-        const stone = (text: string, dimmed: boolean): [Glyph, ...Glyph[]] => {
-            const piece: Glyph = { name: "piece", colour: 1 };
+        const stone = (text: string, fill: number | string, dimmed: boolean): [Glyph, ...Glyph[]] => {
+            const piece: Glyph = { name: "piece", paint: stonePaint(fill) };
             const label: Glyph = { text, scale: 0.75, rotate: null };
             if (dimmed) {
                 piece.opacity = 0.5;
@@ -1787,8 +1821,8 @@ export class KillAllGoGame extends GameBase {
         for (const picker of this.pickers()) {
             for (const btn of picker.buttons) {
                 const allowed = picker.allowed(btn.value);
-                const key = `${allowed ? "n" : "d"}${btn.value}`;
-                legend[key] = stone(btn.value.toString(), !allowed);
+                const key = `${picker.keyPrefix}${allowed ? "n" : "d"}${btn.value}`;
+                legend[key] = stone(btn.value.toString(), picker.fill, !allowed);
                 overlay.set(btn.cell, key);
                 if (btn.value === picker.chosen) {
                     chosen.push(btn.cell);
@@ -1800,8 +1834,8 @@ export class KillAllGoGame extends GameBase {
 
     public render(opts?: IRenderOpts): APRenderRep {
         const legend: ILegend = {
-            A: [{ name: "piece", colour: 1 }],
-            B: [{ name: "piece", colour: 2 }],
+            A: [{ name: "piece", paint: stonePaint(1) }],
+            B: [{ name: "piece", paint: stonePaint(2) }],
         };
         const { overlay, chosen } = this.pickerOverlay(legend);
 
@@ -1814,7 +1848,7 @@ export class KillAllGoGame extends GameBase {
             for (const [colour, key, player] of [[RED, "C", 1], [BLUE, "D", 2]] as const) {
                 const cells = this.passAlive(colour).flat();
                 if (cells.length > 0) {
-                    legend[key] = [{ name: "piece", colour: player, opacity: 0.75 }];
+                    legend[key] = [{ name: "piece", paint: stonePaint(player), opacity: 0.75 }];
                     for (const cell of cells) {
                         faded.set(cell, key);
                     }

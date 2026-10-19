@@ -71,7 +71,11 @@ export class TricouleurGame extends GameBase {
         dateAdded: "2026-06-22",
         description: "A game where Ataxx meets Rock-Paper-Scissors.",
         notes: "Tricouleur is a 2005 game designed by Bill Taylor. Each player has a army of three types of pieces that are able to capture the next type, in a cyclic way: think Rock-Paper-Scissors (Circle-Square-Ex). The move sequence is 12* where a player must use different pieces (it is also possible to pass the entire turn). A piece may move to an empty neighboring cell (in which case it leaves an unmoved duplicate behind) or to an empty cell among the twelve 2nd-neighbours, regardless of what is in between. Any weaker opposing pieces that the moved piece becomes adjacent to are recolored as the moving piece. Any same-strength opposing pieces that the moved piece becomes adjacent to, are removed from the board.\n\nThe game ends when either (a) both players pass consecutively, (b) the board is full, (c) one army is destroyed, (d) a position is repeated three times.  Whoever has the most pieces of their own colours in total, wins.",
-        urls: ["https://jpneto.github.io/world_abstract_games/tri_hexxagon.htm"],
+        urls: [
+            "https://jpneto.github.io/world_abstract_games/tri_hexxagon.htm",
+            "https://boardgamegeek.com/boardgame/472158/tricouleur",
+        ],
+        bggid: "472158",
         people: [
             {
                 type: "designer",

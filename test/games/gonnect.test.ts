@@ -192,3 +192,45 @@ describe("Gonnect", () => {
         expect(log.some(l => l.includes("Alice won on the 1x1 subboard"))).to.be.true;
     });
 });
+
+describe("Gonnect stone-scoring estimate", () => {
+    before(() => {
+        addResource("en");
+    });
+
+    const scores = (g: GonnectGame): (number | string | unknown)[] | undefined => g.sidebarScores()[0]?.scores;
+
+    it("is shown in the base game only", () => {
+        const base = new GonnectGame(undefined, ["size-9"]);
+        expect(base.sidebarScores()).to.have.length(1);
+        expect(new GonnectGame(undefined, ["size-9", "cascading"]).sidebarScores()).to.have.length(0);
+        // it is an estimate for the sidebar, not a score for the game record
+        expect(base.getPlayerScore(1)).to.be.undefined;
+    });
+
+    it("counts empty points reaching one colour, less two per group, plus a half for the last mover", () => {
+        const g = new GonnectGame(undefined, ["size-9"]);
+        // nobody has anything yet; player 2 is "the player who just moved" before the first move
+        expect(scores(g)).to.deep.equal([0, 0.5]);
+        g.move("e5");
+        // every other point reaches only player 1's lone stone: 80 - 2, plus the half for moving
+        expect(scores(g)).to.deep.equal([78.5, 0]);
+        g.move("a1");
+        // now every empty point reaches both colours; one group each
+        expect(scores(g)).to.deep.equal([-2, -1.5]);
+    });
+
+    it("separates strings that cannot reach each other through empty points", () => {
+        const g = new GonnectGame(undefined, ["size-9"]);
+        for (let row = 1; row <= 9; row++) {
+            g.board.set(`e${row}`, 2);
+        }
+        g.board.set("a5", 1);
+        g.board.set("i5", 1);
+        // player 1's stones are walled apart: two groups and no territory
+        expect(scores(g)).to.deep.equal([-4, -1.5]);
+        // joined through an empty point they are one group, as are the two halves of the wall
+        g.board.delete("e5");
+        expect(scores(g)).to.deep.equal([-2, -1.5]);
+    });
+});

@@ -674,7 +674,10 @@ export class ArimaaGame extends GameBase {
                 if (cloned.board.has(cell)) {
                     // clicking an occupied cell after selecting a piece to place
                     if (lastmove.length === 0) {
-                        const idx = steps.findIndex(([pc,,f,]) => pc === piece![0] && f === cell);
+                        // the click may land on the piece glyph or on the empty part of
+                        // the square (then `piece` is empty), so go by what's on the board
+                        const [occupant,] = cloned.board.get(cell)!;
+                        const idx = steps.findIndex(([pc,,f,]) => pc === occupant && f === cell);
                         if (idx >= 0) {
                             steps.splice(idx, 1);
                             newmove = steps.map(([pc, p, f,]) => `${p === 1 ? pc : pc.toLowerCase()}${f}`).join(",");

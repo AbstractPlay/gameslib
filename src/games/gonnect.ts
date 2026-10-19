@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -568,6 +568,81 @@ export class GonnectGame extends GameBase {
             this.results.push({ type: "winners", players: [...this.winner] });
         }
         return this;
+    }
+
+    /**
+     * Stone-scoring estimate for the base game: a player's Tromp-Taylor score minus
+     * their stones (so just the empty points that reach only their colour), minus two
+     * for every group they have on the board, plus half a point for the player who
+     * just moved. A group here is a maximal set of strings that can reach each other
+     * orthogonally through empty points and friendly stones.
+     */
+    public getStoneScore(player: playerid): number {
+        const other = player % 2 + 1 as playerid;
+        // territory: empty regions bordered by this player's stones only
+        let territory = 0;
+        const seenEmpty = new Set<string>();
+        for (let row = 0; row < this.boardSize; row++) {
+            for (let col = 0; col < this.boardSize; col++) {
+                const start = this.coords2algebraic(col, row);
+                if (this.board.has(start) || seenEmpty.has(start)) { continue; }
+                const region: string[] = [];
+                let reachesMine = false;
+                let reachesTheirs = false;
+                const todo = [start];
+                seenEmpty.add(start);
+                while (todo.length > 0) {
+                    const cell = todo.pop()!;
+                    region.push(cell);
+                    for (const n of this.orthNeighbours(cell)) {
+                        const owner = this.board.get(n);
+                        if (owner === undefined) {
+                            if (!seenEmpty.has(n)) {
+                                seenEmpty.add(n);
+                                todo.push(n);
+                            }
+                        } else if (owner === player) {
+                            reachesMine = true;
+                        } else {
+                            reachesTheirs = true;
+                        }
+                    }
+                }
+                if (reachesMine && !reachesTheirs) {
+                    territory += region.length;
+                }
+            }
+        }
+        // groups: components of (own stones + empty points) that contain a stone
+        let groups = 0;
+        const seen = new Set<string>();
+        for (const [stone, owner] of this.board.entries()) {
+            if (owner !== player || seen.has(stone)) { continue; }
+            groups++;
+            const todo = [stone];
+            seen.add(stone);
+            while (todo.length > 0) {
+                const cell = todo.pop()!;
+                for (const n of this.orthNeighbours(cell)) {
+                    if (seen.has(n) || this.board.get(n) === other) { continue; }
+                    seen.add(n);
+                    todo.push(n);
+                }
+            }
+        }
+        const justMoved = this.currplayer === player ? 0 : 0.5;
+        return territory - 2 * groups + justMoved;
+    }
+
+    public sidebarScores(): IScores[] {
+        // The estimate only makes sense for the base game, where play continues until
+        // someone connects; cascading games are decided by subboard connections instead.
+        if (this.variants.includes("cascading")) {
+            return [];
+        }
+        return [
+            { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.getStoneScore(1), this.getStoneScore(2)] },
+        ];
     }
 
     public state(): IGonnectState {

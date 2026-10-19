@@ -2,6 +2,7 @@
   "_general": {
     "PASS": {
       "forced": "{{player}} was forced to pass.",
+      "keep": "{{player}} kept their colour.",
       "pie": "{{player}} accepted the komi offer and will continue playing second.",
       "simple": "{{player}} passed.",
       "tiebreaker": "{{player}} passed, winning the tiebreaker."

@@ -63,6 +63,9 @@ export const gameApgamesEn = {
             description: "Modular boards are composed of a certain number of 7-cell modules (hexhex 2s) distributed randomly but ensuring that each module touches another at two points.",
         },
     },
+    status: {
+        TOTALDISKS: "Total disks",
+    },
 };
 export const gameApresultsEn = {
     CONVERT: {
@@ -812,6 +815,8 @@ export class StorisendeGame extends GameBase {
     public sidebarScores(): IScores[] {
         return [
             { name: this.neutralAreaLabel("apgames:status.SCORES"), scores: [this.getPlayerScore(1), this.getPlayerScore(2)] },
+            // every disk on the board, not the number of stacks
+            { name: this.neutralAreaLabel("apgames:status.storisende.TOTALDISKS"), scores: [this.countPieces(1), this.countPieces(2)] },
         ]
     }
 

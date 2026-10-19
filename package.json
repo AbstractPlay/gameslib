@@ -69,6 +69,7 @@
     "reset-weblate-export": "node scripts/reset-weblate-export.mjs",
     "sync-deps": "ap-install-deps --stage dev",
     "sync-deps:prod": "ap-install-deps --stage prod",
+    "setup-git": "node scripts/setup-git-merge-ours.mjs",
     "check-locale-readiness": "node scripts/check-locale-readiness.mjs",
     "check-links": "node scripts/check-links.mjs",
     "docs:check": "node scripts/docs-check.mjs",

@@ -29,6 +29,7 @@ Run tests appropriate to the change (see **Tests** below). CI runs the full `npm
 - Use registry versions and `ci-deps.*.json` pins in consuming repos; here, keep `@abstractplay/*` dev deps on published CI builds unless you are explicitly doing a local integration test.
 - **Do not leave `file:` path or tarball dependencies** in delivered `package.json` / lockfiles.
 - After `npm link` or local tarball tests, restore registry installs (`npm unlink`, reinstall) before handoff.
+- Cross-branch merges: run **`npm run setup-git`** once per clone so `.gitattributes` `merge=ours` keeps pins on the branch you merge into; then `sync-deps` / `sync-deps:prod` only when bumping pins.
 
 ### Changelog
 

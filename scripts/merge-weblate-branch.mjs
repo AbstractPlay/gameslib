@@ -73,7 +73,7 @@ function printBanner() {
   line(`Base:    ${remote}/${baseBranch}`);
   line(`Weblate: ${remote}/${weblateBranch}`);
   line(`Import:  ${localeImportPath}/`);
-  line(`ci-deps.dev.json is kept from ${baseBranch} via .gitattributes (merge=ours).`);
+  line(`Run npm run setup-git once per clone so .gitattributes merge=ours keeps ${baseBranch} pins.`);
   line();
   line("Steps:");
   for (const step of STEPS) {

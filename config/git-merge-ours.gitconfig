@@ -1,0 +1,5 @@
+# Included from the repo clone via: npm run setup-git
+# Enables .gitattributes `merge=ours` (keep the branch you merge *into*).
+[merge "ours"]
+	name = keep current branch version on merge
+	driver = true

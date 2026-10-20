@@ -55,4 +55,33 @@ describe("Linage", () => {
             expect(scores[1]).to.include("Horizontal");
         });
     });
+
+    describe("button at end of game", () => {
+        it("awards the button to the non-passer after consecutive passes when archive is current", () => {
+            const g = new LinageGame(undefined, ["size-11"]);
+            g.move("0");
+            g.move("play-second");
+            g.move("pass");
+            g.move("pass");
+            expect(g.gameover).to.equal(true);
+            expect(g.buttontaker).to.equal(1);
+            expect(g.getPlayerScore(1)).to.equal(0.5);
+            expect(g.getPlayerScore(2)).to.equal(0);
+            expect(g.winner).to.deep.equal([1]);
+        });
+
+        it("does not auto-award the button when stack[0] predates 20261020", () => {
+            const g = new LinageGame(undefined, ["size-11"]);
+            g.move("0");
+            g.move("play-second");
+            g.stack[0]!._version = "20260601";
+            g.move("pass");
+            g.move("pass");
+            expect(g.gameover).to.equal(true);
+            expect(g.buttontaker).to.equal(undefined);
+            expect(g.getPlayerScore(1)).to.equal(0);
+            expect(g.getPlayerScore(2)).to.equal(0);
+            expect(g.winner).to.deep.equal([1, 2]);
+        });
+    });
 });

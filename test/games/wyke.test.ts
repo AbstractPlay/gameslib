@@ -27,7 +27,7 @@ const selectedFill = {
     func: "flatten",
     fg: "_context_fill",
     bg: "_context_background",
-    opacity: 0.5,
+    opacity: 0.25,
 };
 
 function cooldownFill(player: playerid) {

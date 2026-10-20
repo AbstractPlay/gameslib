@@ -74,7 +74,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **Entropy:** structured move log emits place/move/pass lines for in-progress simultaneous (partial) rounds, with correct seat attribution via `lastmove`; stack frames that would produce no lines are omitted.
 - **Entropy:** partial-round move/place arrows use the submitting seat from the comma wire (fixes P2 arrows drawn on the wrong board).
 - **i18n (`apresults`):** Merged and remapped `apresults.json` plural keys use i18next `_one` / `_other` suffixes again (nested `{ one, other }` objects broke chat log lines such as `_general.DELTA_SCORE_GAIN`).
-- **Linage:** When seat 2 places on the pie ply, vertical/horizontal territory and sidebar role labels now follow the first mover (Vertical) for games whose archive version is `20261020` or later; older archives keep prior scoring for consistent replay.
+- **Linage:** When seat 2 places on the pie ply, vertical/horizontal territory and sidebar role labels now follow the first mover (Vertical) for games whose archive version is `20261020` or later; older archives keep prior scoring for consistent replay. For the same archive cutover, if the game ends while the button is still available, the half-point is awarded to the player who did not make the last move.
 - **Arimaa:** During setup, clicking the empty part of a square beside a placed piece now unplaces that piece, the same as clicking the piece itself.
 - **Alfred's Wyke:** Button-bar cooldown highlights use customizable player-tinted fills (palette slots 3–4) instead of fixed greys; the selected move type is highlighted while a ply is in progress.
 

@@ -80,11 +80,14 @@ export interface ILinageState extends IAPGameState {
 
 export class LinageGame extends GameBase {
 
+    private static readonly VERTICAL_FIRST_SCORING_SINCE = "20261020";
+
     public static readonly gameinfo: APGamesInformation = {
         name: "Linage",
         uid: "linage",
         playercounts: [2],
-        version: "20260601",
+        version: "20261020",
+        // version: "20260601",
         dateAdded: "2026-06-22",
         description: "A territorial game played with just one color.",
         notes: "Linage is a 2016 game designed by Luis Bolaños Mures. The game is based on the following definitions: A **region** is a maximal set of orthogonally contiguous empty points. A **line** is a set of N orthogonally contiguous empty points on the same row or column (default is N=3); and a region is **owned** by Vertical if it contains no horizontal lines, and by Horizontal if it contains no vertical lines. A region is free if it is owned by neither player. Regions must always have at least one line.\n\nOn his turn, the player passes or places a stone in a free region. The game ends when both players pass in succession, and wins the one with highest score (i.e., the number of points in the regions the player owns, plus komi).",
@@ -260,6 +263,11 @@ export class LinageGame extends GameBase {
         return new SquareOrthGraph(this.boardSize, this.boardSize);
     }
 
+    private usesVerticalFirstScoring(): boolean {
+        return parseInt(this.stack[0]._version, 10)
+            >= parseInt(LinageGame.VERTICAL_FIRST_SCORING_SINCE, 10);
+    }
+
     // return how many horizontal and vertical lines, of size three, are inside the given area
     private getLines(area: Array<string>) : [number,number] {
         let hLines = 0, vLines = 0;
@@ -309,10 +317,18 @@ export class LinageGame extends GameBase {
             let owner : playerid = 3; // default value: neutral area
             const [hLines, vLines] = this.getLines(area);
             if (hLines == 0 && vLines > 0) {
-                owner = 1; // vertical is player 1
+                if (this.usesVerticalFirstScoring()) {
+                    owner = this.swapped ? 2 : 1;
+                } else {
+                    owner = 1;
+                }
             }
             else if (vLines == 0 && hLines > 0) {
-                owner = 2;
+                if (this.usesVerticalFirstScoring()) {
+                    owner = this.swapped ? 1 : 2;
+                } else {
+                    owner = 2;
+                }
             }
             else if (vLines == 0 && hLines == 0) {
                 owner = 4; // invalid region
@@ -633,9 +649,15 @@ export class LinageGame extends GameBase {
     }
 
     public sidebarScores(): IScores[] {
+        let p1Label = "Vertical";
+        let p2Label = "Horizontal";
+        if (this.usesVerticalFirstScoring()) {
+            p1Label = this.swapped ? "Horizontal" : "Vertical";
+            p2Label = this.swapped ? "Vertical" : "Horizontal";
+        }
         return [ { name: this.neutralAreaLabel("apgames:status.SCORES"),
-                   scores: [`${this.getPlayerScore(1)} (Vertical)`,
-                            `${this.getPlayerScore(2)} (Horizontal)`] } ];
+                   scores: [`${this.getPlayerScore(1)} (${p1Label})`,
+                            `${this.getPlayerScore(2)} (${p2Label})`] } ];
     }
 
     public getPlayerScore(player: number): number {

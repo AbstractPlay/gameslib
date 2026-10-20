@@ -5139,6 +5139,16 @@
         "description": "Display the board using vertices instead of hexes."
       }
     },
+    "homeworlds": {
+      "#layout": {
+        "name": "Deterministic",
+        "description": "Peripheral systems are laid out in columns by size."
+      },
+      "traditional": {
+        "name": "Traditional",
+        "description": "A more-traditional horizontal approach; only applies to 2-player games."
+      }
+    },
     "icepalace": {
       "#areas": {
         "description": "Hand and Pool seen from above, in two dimensions.",

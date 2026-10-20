@@ -2883,6 +2883,22 @@
     "src": "Vertex style",
     "out": "Style aux sommets"
   },
+  "displays.homeworlds.#layout.description": {
+    "src": "Peripheral systems are laid out in columns by size.",
+    "out": "Les systèmes périphériques sont disposés en colonnes par taille."
+  },
+  "displays.homeworlds.#layout.name": {
+    "src": "Deterministic",
+    "out": "Déterministe"
+  },
+  "displays.homeworlds.traditional.description": {
+    "src": "A more-traditional horizontal approach; only applies to 2-player games.",
+    "out": "Une approche horizontale plus traditionnelle ; s'applique uniquement aux parties à 2 joueurs."
+  },
+  "displays.homeworlds.traditional.name": {
+    "src": "Traditional",
+    "out": "Traditionnel"
+  },
   "displays.icepalace.#areas.description": {
     "src": "Hand and Pool seen from above, in two dimensions.",
     "out": "Main et réserve vues du dessus, en deux dimensions."

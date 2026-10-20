@@ -5139,6 +5139,16 @@
         "description": "Afficher le plateau en utilisant les sommets au lieu des hexagones."
       }
     },
+    "homeworlds": {
+      "#layout": {
+        "name": "Déterministe",
+        "description": "Les systèmes périphériques sont disposés en colonnes par taille."
+      },
+      "traditional": {
+        "name": "Traditionnel",
+        "description": "Une approche horizontale plus traditionnelle ; s'applique uniquement aux parties à 2 joueurs."
+      }
+    },
     "icepalace": {
       "#areas": {
         "description": "Main et réserve vues du dessus, en deux dimensions.",

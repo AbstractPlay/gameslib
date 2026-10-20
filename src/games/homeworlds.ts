@@ -1,10 +1,11 @@
-import { GameBaseSkipTurn, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import { GameBaseSkipTurn, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { AnnotationHomeworlds, APRenderRep, AreaHWStash, BoardHomeworlds, Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { Ship } from "./homeworlds/ship.js";
 import { System } from "./homeworlds/system.js";
 import { Stash } from "./homeworlds/stash.js";
+import { traditionalRowsForRender } from "./homeworlds/peripheralLayout.js";
 import { reviver } from "../common/index.js";
 import { CartesianProduct, Permutation, PowerSet } from "js-combinatorics";
 import { UserFacingError } from "../common/index.js";
@@ -98,6 +99,16 @@ export const gameApgamesEn = {
         },
         passFree: {
             name: "Allow full passing",
+        },
+    },
+    displays: {
+        "#layout": {
+            name: "Deterministic",
+            description: "Peripheral systems are laid out in columns by size.",
+        },
+        traditional: {
+            name: "Traditional",
+            description: "A more-traditional horizontal approach; only applies to 2-player games.",
         },
     },
 };
@@ -232,6 +243,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             {uid: "#rules"},
         ],
         categories: ["goal>cripple", "mechanic>capture", "mechanic>move", "mechanic>convert", "mechanic>economy", "mechanic>place", "mechanic>share", "board>none", "components>pyramids", "other>2+players"],
+        displays: [{ uid: "traditional", group: "layout" }],
         flags: ["shared-pieces", "perspective", "rotate90", "no-moves", "custom-rotation"]
     };
 
@@ -2653,7 +2665,7 @@ export class HomeworldsGame extends GameBaseSkipTurn {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
         // build legend based on number of players
         const myLegend: ILegendObj = {};
         // Stars first
@@ -2783,9 +2795,26 @@ export class HomeworldsGame extends GameBaseSkipTurn {
         annotations = annotations.filter(n => this.systems.find(s => s.name === n.system) !== undefined);
 
         // Build rep
+        let board = this.systems.map(s => s.renderSys()) as BoardHomeworlds;
+        if (this.numplayers === 2 && this.hasDisplay(opts, "traditional")) {
+            const rows = traditionalRowsForRender(this.systems, this.stack, this.numplayers);
+            if (rows !== undefined) {
+                board = board.map((entry, i) => {
+                    const sys = this.systems[i]!;
+                    if (sys.owner !== undefined) {
+                        return entry;
+                    }
+                    const row = rows.get(sys.name);
+                    if (row === undefined) {
+                        return entry;
+                    }
+                    return { ...entry, layout: { row } };
+                }) as BoardHomeworlds;
+            }
+        }
         const rep: APRenderRep =  {
             renderer: "homeworlds",
-            board: this.systems.map(s => s.renderSys()) as BoardHomeworlds,
+            board,
             pieces: this.systems.map(s => s.renderShips()),
             areas: [this.stash.render()] as AreaHWStash[],
             legend: myLegend

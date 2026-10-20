@@ -716,6 +716,9 @@
       "STAGE_SECOND": "Segunda oportunidad: el defensor aún puede retirarse",
       "TURN": "Turno"
     },
+    "storisende": {
+      "TOTALDISKS": "Total de discos"
+    },
     "thuemorsego": {
       "NEXT_PLACEMENT": "Próximas colocaciones (hex)",
       "BUTTON": "Botón",
@@ -2556,10 +2559,23 @@
     "mirador": {
       "ALREADY_DECLARED": "Alguien ya ha declarado. No puedes declarar ahora.",
       "BAD_PLACEMENT": "No puedes jugar en {{where}}. Quedaría adyacente o superpuesto con otro mirador. La única adyacencia permitida es en diagonal con uno de tus propios miradores.",
+      "CANNOT_DECLARE_OPENING": "No puedes declarar hasta que la apertura esté completa.",
+      "CANNOT_PASS": "Solo puedes pasar durante la apertura, cuando te dé la opción de elegir colores.",
       "INITIAL_INSTRUCTIONS": "Coloca un mirador, o, si crees que tu conexión es inquebrantable, declara",
       "INITIAL_INSTRUCTIONS_CHALLENGE": "Coloca tantos miradores como desees.",
+      "INITIAL_INSTRUCTIONS_PIE": "Coloca un mirador, pasa para cambiar colores o, si crees que tu conexión es inquebrantable, declara.",
+      "INITIAL_INSTRUCTIONS_SWAP21": "Coloca tres miradores: uno de tu color, uno del color del oponente y luego uno de tu color. El oponente elegirá lado después.",
+      "INITIAL_INSTRUCTIONS_SWAP22": "Puedes hacer una de estas opciones: (1) colocar un solo mirador para continuar con tu color, (2) pasar para cambiar colores, o (3) colocar dos miradores más (uno de tu color, luego uno del oponente) y dejar que el oponente elija lado.",
+      "INITIAL_INSTRUCTIONS_SWAP23": "Elige lado: coloca un mirador para tomar el color a mover (mueves tú ahora) o pasa para mantener tu color y dejar que mueva el oponente.",
+      "INITIAL_INSTRUCTIONS_SWAP5": "Coloca un mirador o pasa para cambiar colores.",
       "NO_EDGE_PLAY": "No puedes jugar justo en el borde del tablero.",
+      "NO_MOVELIST": "La lista de movimientos no está disponible durante esta jugada de apertura. Haz clic en el tablero para colocar miradores.",
       "SINGLE_PLACEMENT": "Solo puedes colocar un mirador.",
+      "SWAP21_one": "Coloca un mirador más.",
+      "SWAP21_other": "Coloca {{count}} miradores más.",
+      "SWAP21_EXCESS": "Has colocado demasiados miradores. Solo puedes colocar tres.",
+      "SWAP22_EXCESS": "Has colocado demasiados miradores. Solo puedes colocar dos.",
+      "SWAP22_PARTIAL": "Completa la jugada para continuar con tu color, o coloca otro mirador para dejar que el oponente elija lado.",
       "VALID_PARTIAL_MOVE": "Sigue colocando miradores hasta romper todas las conexiones del oponente."
     },
     "mixtour": {
@@ -3680,9 +3696,24 @@
     },
     "taiji": {
       "ADJACENT": "Las piezas deben colocarse adyacentes entre sí. La colocación diagonal solo está permitida en la variante \"Tonga\".",
+      "CANNOT_PASS": "Solo puedes pasar durante la apertura, cuando te dé la opción de elegir colores.",
       "INITIAL_INSTRUCTIONS": "Coloca una pieza clara en un espacio vacío.",
+      "INITIAL_INSTRUCTIONS_SWAP": "Coloca una pieza clara en un espacio vacío, o pasa para cambiar colores.",
+      "INITIAL_INSTRUCTIONS_SWAP21": "Coloca tres pares de piezas, cada uno compuesto por una pieza clara y luego una pieza oscura al lado. El oponente elegirá lado después.",
+      "INITIAL_INSTRUCTIONS_SWAP22": "Puedes hacer una de estas opciones: (1) colocar un solo par de piezas para continuar con tu color, (2) pasar para cambiar colores, o (3) colocar dos pares más y dejar que el oponente elija lado.",
+      "INITIAL_INSTRUCTIONS_SWAP23": "Elige lado: coloca un par de piezas para mantener tu color, o pasa para cambiar colores y dejar que mueva el oponente.",
+      "NO_MIRROR": "Esa jugada dejaría la posición con simetría rotacional o especular (ya sea con los colores tal como están o invertidos), lo cual prohíbe la variante \"Sin simetría\".",
+      "NO_MIRROR_CONTINUE": "La posición sería simétrica después de este par, lo cual no está permitido. Coloca otro par o elige espacios diferentes.",
+      "NO_MIRROR_DARK": "Cualquier espacio para la pieza oscura junto a esa pieza clara dejaría la posición simétrica. Elige un espacio diferente para la pieza clara.",
+      "NO_MOVELIST": "La lista de movimientos no está disponible durante esta jugada de apertura. Haz clic en el tablero para colocar piezas.",
       "NO_NEIGHBOUR": "Ese espacio no tiene un vecino vacío válido.",
-      "PARTIAL": "Coloca la pieza oscura en un espacio vacío adyacente."
+      "PARTIAL": "Coloca la pieza oscura en un espacio vacío adyacente.",
+      "SWAP21_one": "Coloca un par de piezas más.",
+      "SWAP21_other": "Coloca {{count}} pares de piezas más.",
+      "SWAP21_EXCESS": "Has colocado demasiadas piezas. Solo puedes colocar tres pares.",
+      "SWAP22_EXCESS": "Has colocado demasiadas piezas. Solo puedes colocar dos pares.",
+      "SWAP22_PARTIAL": "Completa la jugada para continuar con tu color, o coloca otro par de piezas para dejar que el oponente elija lado.",
+      "TOO_MANY": "Has colocado demasiadas piezas. Solo puedes colocar un par."
     },
     "take": {
       "INITIAL_INSTRUCTIONS": "Planta una nueva semilla en la tierra, o haz crecer una planta colocándola adyacente a exactamente una pieza aliada (con tierra o sin tierra)."
@@ -5346,6 +5377,12 @@
       "hide-interior": {
         "description": "No resaltar piedras interiores.",
         "name": "Ocultar piedras interiores"
+      }
+    },
+    "taiji": {
+      "fade-nonscoring": {
+        "description": "Muestra las piezas de los grupos que no cuentan para la puntuación con un 75% de opacidad.",
+        "name": "Atenuar grupos que no puntúan"
       }
     },
     "terrace": {
@@ -7485,8 +7522,20 @@
       "#board": {
         "name": "Tablero de 28x28"
       },
+      "#opening": {
+        "description": "Después de colocar el primer mirador, el segundo jugador puede pasar para cambiar colores. Los miradores nunca cambian de color; solo cambia quién juega cada color.",
+        "name": "Pastel simple"
+      },
       "size-40": {
         "name": "Tablero de 40x40"
+      },
+      "swap-2": {
+        "description": "El primer jugador coloca tres miradores: uno de su color, uno del oponente y luego uno del suyo. El siguiente jugador puede hacer una de estas opciones: (1) colocar un solo mirador para continuar con su color, (2) pasar para cambiar colores, o (3) colocar dos miradores más y dejar que el primer jugador elija lado, ya sea colocando un mirador para tomar el color a mover o pasando para mantener el suyo. Los miradores nunca cambian de color; solo cambia quién juega cada color. No se permite declarar hasta que la apertura esté completa.",
+        "name": "Apertura Swap-2"
+      },
+      "swap-5": {
+        "description": "Para los primeros cinco miradores en el tablero, después de cada colocación, el siguiente jugador puede pasar para cambiar colores. Los miradores nunca cambian de color; solo cambia quién juega cada color. No se permite declarar hasta haber colocado cinco miradores.",
+        "name": "Apertura Swap-5"
       }
     },
     "mixtour": {
@@ -8784,6 +8833,9 @@
       "#groups": {
         "name": "Puntuación: Dos grupos más grandes"
       },
+      "#opening": {
+        "name": "Sin pastel"
+      },
       "#scoring": {
         "name": "Suma simple"
       },
@@ -8793,8 +8845,22 @@
       "11x11": {
         "name": "Tablero más grande: 11x11"
       },
+      "15x15": {
+        "name": "Tablero más grande: 15x15"
+      },
+      "fivegroups": {
+        "name": "Puntuación: Cinco grupos más grandes"
+      },
+      "nomirror": {
+        "description": "Ninguna jugada puede dejar la posición con simetría rotacional o especular, independientemente de si los colores se toman tal como están o invertidos. Esto también se aplica durante las aperturas con cambio.",
+        "name": "Sin simetría"
+      },
       "onegroup": {
         "name": "Puntuación: Grupo único más grande"
+      },
+      "pie": {
+        "description": "Después de colocar el primer par de piezas, el segundo jugador puede pasar para cambiar colores. Las piezas nunca cambian de color; solo cambia quién puntúa con cada color.",
+        "name": "Pastel simple"
       },
       "products": {
         "description": "Multiplica los tamaños de tus n grupos más grandes.",
@@ -8803,6 +8869,14 @@
       "squares": {
         "description": "Suma el cuadrado de cada uno de tus n grupos más grandes.",
         "name": "Suma de cuadrados"
+      },
+      "swap-2": {
+        "description": "El primer jugador coloca tres pares de piezas. El siguiente jugador puede hacer una de estas opciones: (1) colocar un solo par para continuar con su color, (2) pasar para cambiar colores, o (3) colocar dos pares más y dejar que el primer jugador elija lado, ya sea colocando un par para mantener su color o pasando para cambiar colores. Las piezas nunca cambian de color; solo cambia quién puntúa con cada color.",
+        "name": "Apertura Swap-2"
+      },
+      "swap-5": {
+        "description": "Para los primeros cinco pares de piezas en el tablero, después de cada colocación, el siguiente jugador puede pasar para cambiar colores. Las piezas nunca cambian de color; solo cambia quién puntúa con cada color.",
+        "name": "Apertura Swap-5"
       },
       "threegroups": {
         "name": "Puntuación: Tres grupos más grandes"

@@ -115,6 +115,7 @@
     },
     "PASS": {
       "forced": "{{player}} se vio obligado a pasar.",
+      "keep": "{{player}} mantuvo su color.",
       "pie": "{{player}} aceptó la oferta de komi y seguirá jugando segundo.",
       "simple": "{{player}} pasó.",
       "tiebreaker": "{{player}} pasó, ganando el desempate."

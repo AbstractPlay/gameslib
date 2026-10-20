@@ -3235,6 +3235,14 @@
     "src": "Hide interior stones",
     "out": "Ocultar piedras interiores"
   },
+  "displays.taiji.fade-nonscoring.description": {
+    "src": "Draws the pieces of groups that do not count towards the score at 75% opacity.",
+    "out": "Muestra las piezas de los grupos que no cuentan para la puntuación con un 75% de opacidad."
+  },
+  "displays.taiji.fade-nonscoring.name": {
+    "src": "Fade non-scoring groups",
+    "out": "Atenuar grupos que no puntúan"
+  },
   "displays.terrace.#projection.name": {
     "src": "Isometric view",
     "out": "Vista isométrica"
@@ -5430,6 +5438,10 @@
   "status.squares.TURN": {
     "src": "Turn",
     "out": "Turno"
+  },
+  "status.storisende.TOTALDISKS": {
+    "src": "Total disks",
+    "out": "Total de discos"
   },
   "status.thuemorsego.ATTACKER": {
     "src": "Attacker",
@@ -11387,6 +11399,14 @@
     "src": "You can not play at {{where}}. It would be adjacent or overlapping with another mirador. The only adjacency allowed is diagonal to one of your own miradors.",
     "out": "No puedes jugar en {{where}}. Quedaría adyacente o superpuesto con otro mirador. La única adyacencia permitida es en diagonal con uno de tus propios miradores."
   },
+  "validation.mirador.CANNOT_DECLARE_OPENING": {
+    "src": "You can not declare until the opening is complete.",
+    "out": "No puedes declarar hasta que la apertura esté completa."
+  },
+  "validation.mirador.CANNOT_PASS": {
+    "src": "You can only pass during the opening, when it gives you a choice of colours.",
+    "out": "Solo puedes pasar durante la apertura, cuando te dé la opción de elegir colores."
+  },
   "validation.mirador.INITIAL_INSTRUCTIONS": {
     "src": "Place a mirador, or, if you think your connection is unassailable, declare",
     "out": "Coloca un mirador, o, si crees que tu conexión es inquebrantable, declara"
@@ -11395,13 +11415,57 @@
     "src": "Place as many miradors as you would like.",
     "out": "Coloca tantos miradores como desees."
   },
+  "validation.mirador.INITIAL_INSTRUCTIONS_PIE": {
+    "src": "Place a mirador, pass to swap colours, or, if you think your connection is unassailable, declare.",
+    "out": "Coloca un mirador, pasa para cambiar colores o, si crees que tu conexión es inquebrantable, declara."
+  },
+  "validation.mirador.INITIAL_INSTRUCTIONS_SWAP21": {
+    "src": "Place three miradors: one of your colour, one of the opponent's colour, then one of your colour. The opponent then chooses sides.",
+    "out": "Coloca tres miradores: uno de tu color, uno del color del oponente y luego uno de tu color. El oponente elegirá lado después."
+  },
+  "validation.mirador.INITIAL_INSTRUCTIONS_SWAP22": {
+    "src": "You may do one of (1) place a single mirador to continue with your colour, (2) pass to swap colours, or (3) place two more miradors (one of your colour, then one of the opponent's) and let the opponent choose sides.",
+    "out": "Puedes hacer una de estas opciones: (1) colocar un solo mirador para continuar con tu color, (2) pasar para cambiar colores, o (3) colocar dos miradores más (uno de tu color, luego uno del oponente) y dejar que el oponente elija lado."
+  },
+  "validation.mirador.INITIAL_INSTRUCTIONS_SWAP23": {
+    "src": "Choose sides: place a mirador to take the colour that is to move (you move now), or pass to keep your colour and let the opponent move.",
+    "out": "Elige lado: coloca un mirador para tomar el color a mover (mueves tú ahora) o pasa para mantener tu color y dejar que mueva el oponente."
+  },
+  "validation.mirador.INITIAL_INSTRUCTIONS_SWAP5": {
+    "src": "Place a mirador, or pass to swap colours.",
+    "out": "Coloca un mirador o pasa para cambiar colores."
+  },
   "validation.mirador.NO_EDGE_PLAY": {
     "src": "You can not play on the very edge of the board.",
     "out": "No puedes jugar justo en el borde del tablero."
   },
+  "validation.mirador.NO_MOVELIST": {
+    "src": "Move list not available during this opening move. Click on the board to place miradors.",
+    "out": "La lista de movimientos no está disponible durante esta jugada de apertura. Haz clic en el tablero para colocar miradores."
+  },
   "validation.mirador.SINGLE_PLACEMENT": {
     "src": "You can only place one mirador.",
     "out": "Solo puedes colocar un mirador."
+  },
+  "validation.mirador.SWAP21_EXCESS": {
+    "src": "You have placed too many miradors. You may only place three.",
+    "out": "Has colocado demasiados miradores. Solo puedes colocar tres."
+  },
+  "validation.mirador.SWAP21_one": {
+    "src": "Place one more mirador.",
+    "out": "Coloca un mirador más."
+  },
+  "validation.mirador.SWAP21_other": {
+    "src": "Place {{count}} more miradors.",
+    "out": "Coloca {{count}} miradores más."
+  },
+  "validation.mirador.SWAP22_EXCESS": {
+    "src": "You have placed too many miradors. You may only place two.",
+    "out": "Has colocado demasiados miradores. Solo puedes colocar dos."
+  },
+  "validation.mirador.SWAP22_PARTIAL": {
+    "src": "Complete the move to continue with your colour, or place another mirador to let the opponent choose sides.",
+    "out": "Completa la jugada para continuar con tu color, o coloca otro mirador para dejar que el oponente elija lado."
   },
   "validation.mirador.VALID_PARTIAL_MOVE": {
     "src": "Keep placing miradors until you have broken all the opponent's connections.",
@@ -15107,9 +15171,45 @@
     "src": "Pieces must be placed adjacent to each other. Diagonal placement is only permitted in the \"Tonga\" variant.",
     "out": "Las piezas deben colocarse adyacentes entre sí. La colocación diagonal solo está permitida en la variante \"Tonga\"."
   },
+  "validation.taiji.CANNOT_PASS": {
+    "src": "You can only pass during the opening, when it gives you a choice of colours.",
+    "out": "Solo puedes pasar durante la apertura, cuando te dé la opción de elegir colores."
+  },
   "validation.taiji.INITIAL_INSTRUCTIONS": {
     "src": "Place a light piece in an empty space.",
     "out": "Coloca una pieza clara en un espacio vacío."
+  },
+  "validation.taiji.INITIAL_INSTRUCTIONS_SWAP": {
+    "src": "Place a light piece in an empty space, or pass to swap colours.",
+    "out": "Coloca una pieza clara en un espacio vacío, o pasa para cambiar colores."
+  },
+  "validation.taiji.INITIAL_INSTRUCTIONS_SWAP21": {
+    "src": "Place three pairs of pieces, each a light piece and then a dark piece next to it. The opponent then chooses sides.",
+    "out": "Coloca tres pares de piezas, cada uno compuesto por una pieza clara y luego una pieza oscura al lado. El oponente elegirá lado después."
+  },
+  "validation.taiji.INITIAL_INSTRUCTIONS_SWAP22": {
+    "src": "You may do one of (1) place a single pair of pieces to continue with your colour, (2) pass to swap colours, or (3) place two more pairs and let the opponent choose sides.",
+    "out": "Puedes hacer una de estas opciones: (1) colocar un solo par de piezas para continuar con tu color, (2) pasar para cambiar colores, o (3) colocar dos pares más y dejar que el oponente elija lado."
+  },
+  "validation.taiji.INITIAL_INSTRUCTIONS_SWAP23": {
+    "src": "Choose sides: place a pair of pieces to keep your colour, or pass to swap colours and let the opponent move.",
+    "out": "Elige lado: coloca un par de piezas para mantener tu color, o pasa para cambiar colores y dejar que mueva el oponente."
+  },
+  "validation.taiji.NO_MIRROR": {
+    "src": "That move would leave the position with a rotational or reflectional symmetry (with the colours as they are or reversed), which the \"No mirroring\" variant forbids.",
+    "out": "Esa jugada dejaría la posición con simetría rotacional o especular (ya sea con los colores tal como están o invertidos), lo cual prohíbe la variante \"Sin simetría\"."
+  },
+  "validation.taiji.NO_MIRROR_CONTINUE": {
+    "src": "The position would be symmetric after this pair, which is not allowed. Place another pair, or choose different spaces.",
+    "out": "La posición sería simétrica después de este par, lo cual no está permitido. Coloca otro par o elige espacios diferentes."
+  },
+  "validation.taiji.NO_MIRROR_DARK": {
+    "src": "Every space for the dark piece next to that light piece would leave the position symmetric. Choose a different space for the light piece.",
+    "out": "Cualquier espacio para la pieza oscura junto a esa pieza clara dejaría la posición simétrica. Elige un espacio diferente para la pieza clara."
+  },
+  "validation.taiji.NO_MOVELIST": {
+    "src": "Move list not available during this opening move. Click on the board to place pieces.",
+    "out": "La lista de movimientos no está disponible durante esta jugada de apertura. Haz clic en el tablero para colocar piezas."
   },
   "validation.taiji.NO_NEIGHBOUR": {
     "src": "That space has no valid empty neighbour.",
@@ -15118,6 +15218,30 @@
   "validation.taiji.PARTIAL": {
     "src": "Place the dark piece in an adjacent empty space.",
     "out": "Coloca la pieza oscura en un espacio vacío adyacente."
+  },
+  "validation.taiji.SWAP21_EXCESS": {
+    "src": "You have placed too many pieces. You may only place three pairs.",
+    "out": "Has colocado demasiadas piezas. Solo puedes colocar tres pares."
+  },
+  "validation.taiji.SWAP21_one": {
+    "src": "Place one more pair of pieces.",
+    "out": "Coloca un par de piezas más."
+  },
+  "validation.taiji.SWAP21_other": {
+    "src": "Place {{count}} more pairs of pieces.",
+    "out": "Coloca {{count}} pares de piezas más."
+  },
+  "validation.taiji.SWAP22_EXCESS": {
+    "src": "You have placed too many pieces. You may only place two pairs.",
+    "out": "Has colocado demasiadas piezas. Solo puedes colocar dos pares."
+  },
+  "validation.taiji.SWAP22_PARTIAL": {
+    "src": "Complete the move to continue with your colour, or place another pair of pieces to let the opponent choose sides.",
+    "out": "Completa la jugada para continuar con tu color, o coloca otro par de piezas para dejar que el oponente elija lado."
+  },
+  "validation.taiji.TOO_MANY": {
+    "src": "You have placed too many pieces. You may only place one pair.",
+    "out": "Has colocado demasiadas piezas. Solo puedes colocar un par."
   },
   "validation.take.INITIAL_INSTRUCTIONS": {
     "src": "Plant a new seed in dirt, or grow a plant by placing adjacent to exactly one ally piece (dirt or no dirt).",
@@ -19631,9 +19755,33 @@
     "src": "28x28 board",
     "out": "Tablero de 28x28"
   },
+  "variants.mirador.#opening.description": {
+    "src": "After the first mirador is placed, the second player may pass to swap colours. The miradors never change colour; only who plays each colour does.",
+    "out": "Después de colocar el primer mirador, el segundo jugador puede pasar para cambiar colores. Los miradores nunca cambian de color; solo cambia quién juega cada color."
+  },
+  "variants.mirador.#opening.name": {
+    "src": "Simple pie",
+    "out": "Pastel simple"
+  },
   "variants.mirador.size-40.name": {
     "src": "40x40 board",
     "out": "Tablero de 40x40"
+  },
+  "variants.mirador.swap-2.description": {
+    "src": "The first player places three miradors: one of their colour, one of the opponent's, then one of theirs. The next player may do one of (1) place a single mirador to continue with their colour, (2) pass to swap colours, or (3) place two more miradors and let the first player choose sides, by placing a mirador to take the colour that is to move or by passing to keep their own. The miradors never change colour; only who plays each colour does. Declaring is not allowed until the opening is complete.",
+    "out": "El primer jugador coloca tres miradores: uno de su color, uno del oponente y luego uno del suyo. El siguiente jugador puede hacer una de estas opciones: (1) colocar un solo mirador para continuar con su color, (2) pasar para cambiar colores, o (3) colocar dos miradores más y dejar que el primer jugador elija lado, ya sea colocando un mirador para tomar el color a mover o pasando para mantener el suyo. Los miradores nunca cambian de color; solo cambia quién juega cada color. No se permite declarar hasta que la apertura esté completa."
+  },
+  "variants.mirador.swap-2.name": {
+    "src": "Swap-2 opening",
+    "out": "Apertura Swap-2"
+  },
+  "variants.mirador.swap-5.description": {
+    "src": "For the first five miradors on the board, after each placement, the next player may pass to swap colours. The miradors never change colour; only who plays each colour does. Declaring is not allowed until five miradors have been placed.",
+    "out": "Para los primeros cinco miradores en el tablero, después de cada colocación, el siguiente jugador puede pasar para cambiar colores. Los miradores nunca cambian de color; solo cambia quién juega cada color. No se permite declarar hasta haber colocado cinco miradores."
+  },
+  "variants.mirador.swap-5.name": {
+    "src": "Swap-5 opening",
+    "out": "Apertura Swap-5"
   },
   "variants.mixtour.#scores.description": {
     "src": "The winner is the first to score a point.",
@@ -21523,6 +21671,10 @@
     "src": "Scoring: Largest two groups",
     "out": "Puntuación: Dos grupos más grandes"
   },
+  "variants.taiji.#opening.name": {
+    "src": "No pie",
+    "out": "Sin pastel"
+  },
   "variants.taiji.#scoring.name": {
     "src": "Simple sum",
     "out": "Suma simple"
@@ -21531,13 +21683,37 @@
     "src": "Larger board: 11x11",
     "out": "Tablero más grande: 11x11"
   },
+  "variants.taiji.15x15.name": {
+    "src": "Largest board: 15x15",
+    "out": "Tablero más grande: 15x15"
+  },
   "variants.taiji.7x7.name": {
     "src": "Smaller board: 7x7",
     "out": "Tablero más pequeño: 7x7"
   },
+  "variants.taiji.fivegroups.name": {
+    "src": "Scoring: Largest five groups",
+    "out": "Puntuación: Cinco grupos más grandes"
+  },
+  "variants.taiji.nomirror.description": {
+    "src": "No move may leave the position with a rotational or reflectional symmetry, whether the colours are taken as they are or reversed. This applies during the swap openings too.",
+    "out": "Ninguna jugada puede dejar la posición con simetría rotacional o especular, independientemente de si los colores se toman tal como están o invertidos. Esto también se aplica durante las aperturas con cambio."
+  },
+  "variants.taiji.nomirror.name": {
+    "src": "No mirroring",
+    "out": "Sin simetría"
+  },
   "variants.taiji.onegroup.name": {
     "src": "Scoring: Single largest group",
     "out": "Puntuación: Grupo único más grande"
+  },
+  "variants.taiji.pie.description": {
+    "src": "After the first pair of pieces is placed, the second player may pass to swap colours. The pieces never change colour; only who scores each colour does.",
+    "out": "Después de colocar el primer par de piezas, el segundo jugador puede pasar para cambiar colores. Las piezas nunca cambian de color; solo cambia quién puntúa con cada color."
+  },
+  "variants.taiji.pie.name": {
+    "src": "Simple pie",
+    "out": "Pastel simple"
   },
   "variants.taiji.products.description": {
     "src": "Multiplies together the sizes of your n largest groups.",
@@ -21554,6 +21730,22 @@
   "variants.taiji.squares.name": {
     "src": "Sum of Squares",
     "out": "Suma de cuadrados"
+  },
+  "variants.taiji.swap-2.description": {
+    "src": "The first player places three pairs of pieces. The next player may do one of (1) place a single pair to continue with their colour, (2) pass to swap colours, or (3) place two more pairs and let the first player choose sides, by placing a pair to keep their colour or by passing to swap colours. The pieces never change colour; only who scores each colour does.",
+    "out": "El primer jugador coloca tres pares de piezas. El siguiente jugador puede hacer una de estas opciones: (1) colocar un solo par para continuar con su color, (2) pasar para cambiar colores, o (3) colocar dos pares más y dejar que el primer jugador elija lado, ya sea colocando un par para mantener su color o pasando para cambiar colores. Las piezas nunca cambian de color; solo cambia quién puntúa con cada color."
+  },
+  "variants.taiji.swap-2.name": {
+    "src": "Swap-2 opening",
+    "out": "Apertura Swap-2"
+  },
+  "variants.taiji.swap-5.description": {
+    "src": "For the first five pairs of pieces on the board, after each placement, the next player may pass to swap colours. The pieces never change colour; only who scores each colour does.",
+    "out": "Para los primeros cinco pares de piezas en el tablero, después de cada colocación, el siguiente jugador puede pasar para cambiar colores. Las piezas nunca cambian de color; solo cambia quién puntúa con cada color."
+  },
+  "variants.taiji.swap-5.name": {
+    "src": "Swap-5 opening",
+    "out": "Apertura Swap-5"
   },
   "variants.taiji.threegroups.name": {
     "src": "Scoring: Largest three groups",

@@ -115,6 +115,7 @@
     },
     "PASS": {
       "forced": "{{player}} è stato costretto a passare.",
+      "keep": "{{player}} ha mantenuto il proprio colore.",
       "pie": "{{player}} ha accettato l'offerta del komi e continuerà a giocare per secondo.",
       "simple": "{{player}} ha passato.",
       "tiebreaker": "{{player}} ha passato, vincendo lo spareggio."

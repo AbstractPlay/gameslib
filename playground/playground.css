@@ -965,6 +965,26 @@ body[data-theme='dark'] .color-swatch.dragging {
 #displayOptionsContainer fieldset {
     margin-bottom: 0;
 }
+#displayOptionsContainer .display-option-row {
+    margin-bottom: 0.65rem;
+}
+#displayOptionsContainer .display-option-row:last-child {
+    margin-bottom: 0;
+}
+#displayOptionsContainer .display-option-control {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+}
+#displayOptionsContainer .display-option-help {
+    margin: 0.2rem 0 0 1.35rem;
+    font-size: 0.85em;
+    line-height: 1.35;
+    color: var(--text-muted, #666);
+}
+body[data-theme='dark'] #displayOptionsContainer .display-option-help {
+    color: var(--text-muted, #aaa);
+}
 
 /* Native color input */
 .color-input-native {

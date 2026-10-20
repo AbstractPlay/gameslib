@@ -5137,6 +5137,16 @@
         "description": "Mostrar el tablero usando vértices en lugar de hexágonos."
       }
     },
+    "homeworlds": {
+      "#layout": {
+        "name": "Determinista",
+        "description": "Los sistemas periféricos se organizan en columnas según su tamaño."
+      },
+      "traditional": {
+        "name": "Tradicional",
+        "description": "Un enfoque horizontal más tradicional; solo aplica a partidas de 2 jugadores."
+      }
+    },
     "icepalace": {
       "#areas": {
         "description": "Mano y reserva vistas desde arriba, en dos dimensiones.",

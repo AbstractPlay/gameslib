@@ -36,6 +36,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **Gonnect:** Show score
 - **Mega-volcano/Volcano:** add frames
 - **Storisende:** Total disks for each side in status panel
+- **Homeworlds:** **Traditional** board display (2-player) — row bands for peripheries from opening `stack[2]` pairing (large, small, or micro universe); **Deterministic** remains size columns (render-only).
 
 ### Changed
 

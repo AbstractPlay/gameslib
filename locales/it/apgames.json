@@ -5137,6 +5137,16 @@
         "description": "Mostra la plancia usando i vertici invece degli esagoni."
       }
     },
+    "homeworlds": {
+      "#layout": {
+        "name": "Deterministico",
+        "description": "I sistemi periferici sono disposti in colonne per dimensione."
+      },
+      "traditional": {
+        "name": "Tradizionale",
+        "description": "Un approccio orizzontale più tradizionale; si applica solo alle partite a 2 giocatori."
+      }
+    },
     "icepalace": {
       "#areas": {
         "description": "Mano e Riserva viste dall'alto, in due dimensioni.",

@@ -5137,6 +5137,16 @@
         "description": "Spielfeld mit Knotenpunkten statt Hexfeldern anzeigen."
       }
     },
+    "homeworlds": {
+      "#layout": {
+        "name": "Deterministisch",
+        "description": "Periphere Systeme werden nach Größe in Spalten angeordnet."
+      },
+      "traditional": {
+        "name": "Traditionell",
+        "description": "Ein eher traditioneller horizontaler Ansatz; gilt nur für Spiele mit 2 Spielern."
+      }
+    },
     "icepalace": {
       "#areas": {
         "description": "Hand und Pool von oben gesehen, zweidimensional.",

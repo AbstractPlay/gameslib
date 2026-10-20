@@ -33,7 +33,13 @@ Run tests appropriate to the change (see **Tests** below). CI runs the full `npm
 
 ### Changelog
 
-Log **substantive** user- or integrator-visible changes in root [`CHANGELOG.md`](CHANGELOG.md) ([Keep a Changelog](https://keepachangelog.com/)). Batch bullets into **one dated `[1.0.0-ci]` section per calendar month** (update that section’s date when you append). Use `[Unreleased]` for work not yet on `main`, per the changelog header.
+Log **substantive** user- or integrator-visible changes in root [`CHANGELOG.md`](CHANGELOG.md) ([Keep a Changelog](https://keepachangelog.com/)).
+
+- **`[Unreleased]`:** experimental catalogue games only (see changelog header).
+- **Shipped work:** append under the **single** `[1.0.0-ci]` section for the **current calendar month** — bump that section’s date to today when adding bullets; do **not** create a new dated header per commit or per PR.
+- **Never** leave multiple `## [1.0.0-ci] - YYYY-MM-*` headers in the same month.
+
+Cursor: [`.cursor/rules/changelog-monthly.mdc`](.cursor/rules/changelog-monthly.mdc).
 
 ### Internationalization
 

@@ -1,0 +1,31 @@
+---
+description: CHANGELOG.md — one dated section per calendar month; Unreleased is experimental games only
+globs: CHANGELOG.md
+alwaysApply: true
+---
+
+# Changelog (monthly batching)
+
+When editing [`CHANGELOG.md`](CHANGELOG.md):
+
+## `[Unreleased]`
+
+- **Only** the experimental new-games bullet (and nothing else long-term).
+- Do **not** park shipped QoL, fixes, or production-visible work under `[Unreleased]`.
+
+## Dated `[1.0.0-ci]` sections
+
+- **One section per calendar month** (e.g. all October 2026 work under a single `## [1.0.0-ci] - YYYY-MM-DD`).
+- **Never** add a second dated header in the same month for routine commits (no `2026-10-04`, `2026-10-17`, `2026-10-19`, … alongside each other).
+- When adding a bullet this month:
+  1. Find the existing section whose date is in the **same calendar month and year** as today.
+  2. If found: append under the correct `### Added` / `### Changed` / `### Fixed` / `### Removed` heading and **update only that section’s date** to today (`YYYY-MM-DD`).
+  3. If none exists: create **one** new section below `[Unreleased]` with today’s date.
+- Merge bullets from duplicate same-month sections if you find them; delete the extra headers.
+
+## Do not
+
+- Copy the entire changelog from another branch commit without applying monthly consolidation.
+- Put production-shipped items only under `[Unreleased]` when `main` already carries them.
+
+See also [`AGENTS.md`](AGENTS.md) (Changelog) and the intro paragraph at the top of `CHANGELOG.md`.

@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep, AreaButtonBar, ButtonBarButton } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, AreaButtonBar, ButtonBarButton, Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
@@ -30,6 +30,55 @@ export const gameApgamesEn = {
 
 export type playerid = 1|2;
 const moveTypes = ["1-1-1-1-1", "2-1-1", "2-2", "3-1", "4"];
+
+const COOLDOWN_FLATTEN_OPACITY = 0.25;
+const SELECTED_MOVE_FLATTEN_OPACITY = 0.25;
+
+/** Player who played the move type at lastTwo[0] (older) or lastTwo[1] (most recent). */
+export function playerWhoPlayedBlockedMove(
+    lastTwoIndex: 0 | 1,
+    currplayer: playerid,
+): playerid {
+    if (lastTwoIndex === 1) {
+        return (3 - currplayer) as playerid;
+    }
+    return currplayer;
+}
+
+function cooldownButtonFill(player: playerid): Colourfuncs {
+    const palette = player === 1 ? 3 : 4;
+    return {
+        func: "flatten",
+        fg: { func: "custom", default: player, palette },
+        bg: "_context_background",
+        opacity: COOLDOWN_FLATTEN_OPACITY,
+    };
+}
+
+function selectedMoveButtonFill(): Colourfuncs {
+    return {
+        func: "flatten",
+        fg: "_context_fill",
+        bg: "_context_background",
+        opacity: SELECTED_MOVE_FLATTEN_OPACITY,
+    };
+}
+
+function buttonBarFillForMoveType(
+    mt: string,
+    lastTwo: [string | undefined, string | undefined],
+    currplayer: playerid,
+    selectingMoveType?: string,
+): Colourfuncs | undefined {
+    const blockedIndex = lastTwo[0] === mt ? 0 : lastTwo[1] === mt ? 1 : undefined;
+    if (blockedIndex !== undefined) {
+        return cooldownButtonFill(playerWhoPlayedBlockedMove(blockedIndex, currplayer));
+    }
+    if (selectingMoveType === mt) {
+        return selectedMoveButtonFill();
+    }
+    return undefined;
+}
 const winningRays: Map<number, string[][]> = new Map([
     [4, JSON.parse("[[\"a4\",\"b4\",\"c4\",\"d4\"],[\"a4\",\"b3\",\"c2\",\"d1\"],[\"a4\",\"a3\",\"a2\",\"a1\"],[\"a4\",\"b4\",\"a3\",\"b3\"],[\"b4\",\"b3\",\"b2\",\"b1\"],[\"b4\",\"c4\",\"b3\",\"c3\"],[\"c4\",\"c3\",\"c2\",\"c1\"],[\"c4\",\"d4\",\"c3\",\"d3\"],[\"d4\",\"d3\",\"d2\",\"d1\"],[\"d4\",\"c3\",\"b2\",\"a1\"],[\"a3\",\"b3\",\"c3\",\"d3\"],[\"a3\",\"b3\",\"a2\",\"b2\"],[\"b3\",\"c3\",\"b2\",\"c2\"],[\"c3\",\"d3\",\"c2\",\"d2\"],[\"a2\",\"b2\",\"c2\",\"d2\"],[\"a2\",\"b2\",\"a1\",\"b1\"],[\"b2\",\"c2\",\"b1\",\"c1\"],[\"c2\",\"d2\",\"c1\",\"d1\"],[\"a1\",\"b1\",\"c1\",\"d1\"]]") as string[][]],
     [6, JSON.parse("[[\"a6\",\"b6\",\"c6\",\"d6\"],[\"a6\",\"b5\",\"c4\",\"d3\"],[\"a6\",\"a5\",\"a4\",\"a3\"],[\"a6\",\"b6\",\"a5\",\"b5\"],[\"b6\",\"c6\",\"d6\",\"e6\"],[\"b6\",\"c5\",\"d4\",\"e3\"],[\"b6\",\"b5\",\"b4\",\"b3\"],[\"b6\",\"c6\",\"b5\",\"c5\"],[\"c6\",\"d6\",\"e6\",\"f6\"],[\"c6\",\"d5\",\"e4\",\"f3\"],[\"c6\",\"c5\",\"c4\",\"c3\"],[\"c6\",\"d6\",\"c5\",\"d5\"],[\"d6\",\"d5\",\"d4\",\"d3\"],[\"d6\",\"c5\",\"b4\",\"a3\"],[\"d6\",\"e6\",\"d5\",\"e5\"],[\"e6\",\"e5\",\"e4\",\"e3\"],[\"e6\",\"d5\",\"c4\",\"b3\"],[\"e6\",\"f6\",\"e5\",\"f5\"],[\"f6\",\"f5\",\"f4\",\"f3\"],[\"f6\",\"e5\",\"d4\",\"c3\"],[\"a5\",\"b5\",\"c5\",\"d5\"],[\"a5\",\"b4\",\"c3\",\"d2\"],[\"a5\",\"a4\",\"a3\",\"a2\"],[\"a5\",\"b5\",\"a4\",\"b4\"],[\"b5\",\"c5\",\"d5\",\"e5\"],[\"b5\",\"c4\",\"d3\",\"e2\"],[\"b5\",\"b4\",\"b3\",\"b2\"],[\"b5\",\"c5\",\"b4\",\"c4\"],[\"c5\",\"d5\",\"e5\",\"f5\"],[\"c5\",\"d4\",\"e3\",\"f2\"],[\"c5\",\"c4\",\"c3\",\"c2\"],[\"c5\",\"d5\",\"c4\",\"d4\"],[\"d5\",\"d4\",\"d3\",\"d2\"],[\"d5\",\"c4\",\"b3\",\"a2\"],[\"d5\",\"e5\",\"d4\",\"e4\"],[\"e5\",\"e4\",\"e3\",\"e2\"],[\"e5\",\"d4\",\"c3\",\"b2\"],[\"e5\",\"f5\",\"e4\",\"f4\"],[\"f5\",\"f4\",\"f3\",\"f2\"],[\"f5\",\"e4\",\"d3\",\"c2\"],[\"a4\",\"b4\",\"c4\",\"d4\"],[\"a4\",\"b3\",\"c2\",\"d1\"],[\"a4\",\"a3\",\"a2\",\"a1\"],[\"a4\",\"b4\",\"a3\",\"b3\"],[\"b4\",\"c4\",\"d4\",\"e4\"],[\"b4\",\"c3\",\"d2\",\"e1\"],[\"b4\",\"b3\",\"b2\",\"b1\"],[\"b4\",\"c4\",\"b3\",\"c3\"],[\"c4\",\"d4\",\"e4\",\"f4\"],[\"c4\",\"d3\",\"e2\",\"f1\"],[\"c4\",\"c3\",\"c2\",\"c1\"],[\"c4\",\"d4\",\"c3\",\"d3\"],[\"d4\",\"d3\",\"d2\",\"d1\"],[\"d4\",\"c3\",\"b2\",\"a1\"],[\"d4\",\"e4\",\"d3\",\"e3\"],[\"e4\",\"e3\",\"e2\",\"e1\"],[\"e4\",\"d3\",\"c2\",\"b1\"],[\"e4\",\"f4\",\"e3\",\"f3\"],[\"f4\",\"f3\",\"f2\",\"f1\"],[\"f4\",\"e3\",\"d2\",\"c1\"],[\"a3\",\"b3\",\"c3\",\"d3\"],[\"a3\",\"b3\",\"a2\",\"b2\"],[\"b3\",\"c3\",\"d3\",\"e3\"],[\"b3\",\"c3\",\"b2\",\"c2\"],[\"c3\",\"d3\",\"e3\",\"f3\"],[\"c3\",\"d3\",\"c2\",\"d2\"],[\"d3\",\"e3\",\"d2\",\"e2\"],[\"e3\",\"f3\",\"e2\",\"f2\"],[\"a2\",\"b2\",\"c2\",\"d2\"],[\"a2\",\"b2\",\"a1\",\"b1\"],[\"b2\",\"c2\",\"d2\",\"e2\"],[\"b2\",\"c2\",\"b1\",\"c1\"],[\"c2\",\"d2\",\"e2\",\"f2\"],[\"c2\",\"d2\",\"c1\",\"d1\"],[\"d2\",\"e2\",\"d1\",\"e1\"],[\"e2\",\"f2\",\"e1\",\"f1\"],[\"a1\",\"b1\",\"c1\",\"d1\"],[\"b1\",\"c1\",\"d1\",\"e1\"],[\"c1\",\"d1\",\"e1\",\"f1\"]]") as string[][]]
@@ -77,6 +126,18 @@ export class AlfredsWykeGame extends GameBase {
                 group: "size",
             }
         ],
+        customizations: [
+            {
+                num: 3,
+                default: 1,
+                explanation: "Cooldown highlight for player 1's blocked moves",
+            },
+            {
+                num: 4,
+                default: 2,
+                explanation: "Cooldown highlight for player 2's blocked moves",
+            },
+        ],
         categories: ["goal>arrange", "mechanic>asymmetry",  "mechanic>capture", "mechanic>economy", "mechanic>place", "mechanic>share", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>3c"],
         flags: ["no-moves"]
     };
@@ -91,6 +152,8 @@ export class AlfredsWykeGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public boardSize = 4;
     public lastTwo: [string|undefined, string|undefined] = [undefined, undefined];
+    /** Transient: move type chosen on the button bar during a partial ply (not serialized). */
+    public selectingMoveType?: string;
 
     constructor(state?: IAlfredsWykeState | string, variants?: string[]) {
         super();
@@ -341,6 +404,11 @@ export class AlfredsWykeGame extends GameBase {
         }
         const moveType = match[1];
         const moveNums = moveType.split("-").map(n => parseInt(n, 10));
+        if (partial) {
+            this.selectingMoveType = moveType;
+        } else {
+            this.selectingMoveType = undefined;
+        }
         if ( (partial) && (match[2].length === 0) ) { return this; }
         const moveCells = match[2].split(",");
         for (let i = 0; i < moveCells.length; i++) {
@@ -367,6 +435,8 @@ export class AlfredsWykeGame extends GameBase {
         }
 
         if (partial) { return this; }
+
+        this.selectingMoveType = undefined;
 
         // update lastTwo
         this.lastTwo[0] = this.lastTwo[1];
@@ -602,13 +672,17 @@ export class AlfredsWykeGame extends GameBase {
             const b = {
                 label: mt,
             } as ButtonBarButton;
+            const fill = buttonBarFillForMoveType(
+                mt,
+                this.lastTwo,
+                this.currplayer,
+                this.selectingMoveType,
+            );
             if (this.lastTwo.includes(mt)) {
-                b.attributes = [{name: "text-decoration", value: "line-through"}]
-                if (this.lastTwo[0] === mt) {
-                    b.fill = "#ddd";
-                } else {
-                    b.fill = "#999";
-                }
+                b.attributes = [{name: "text-decoration", value: "line-through"}];
+            }
+            if (fill !== undefined) {
+                b.fill = fill;
             }
             bar.buttons.push(b);
         }

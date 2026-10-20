@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0.0-beta`. CI publishes tarballs as `1.0.0-ci-<GitHub Actions run id>.0` (see `.github/workflows/node-dev.js.yml` and `node-prod.js.yml`). Entries below are grouped by theme and approximate **production** ship window (when changes landed on `main` and, for games, when they left the experimental catalogue). The exact CI build is whichever workflow run produced the artifact you installed.
 
-**Going forward:** keep work-in-progress notes under `[Unreleased]`. When a change is merged to `main` and actually visible on the production site (non-`experimental` games and variants, or shared API/schema behaviour), move the bullets into a dated `[1.0.0-ci]` section. Do not log every commit.
+**Going forward:** keep work-in-progress notes under `[Unreleased]` (experimental catalogue only — see below). When a change is merged to `main` and visible on the production site, append it under **one** `[1.0.0-ci]` section for the **current calendar month** (do not add a new dated header per commit). If that month’s section already exists, bump its date to today and add bullets under the right `###` heading. Do not log every commit.
 
 ## [Unreleased]
 
@@ -15,8 +15,13 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Thue-Morse Go, Yodd.
 
+## [1.0.0-ci] - 2026-10-20
+
 ### Added
 
+- **Tumbleweed:** "Fog of war" variant (line-of-sight visibility, stale dimmed cells, hidden scores, redacted move tree after the opening ply; explore disabled).
+- **Move table presentation API:** `getMoveTableRounds({ density, pathLength })`, `pathIndexForMoveTableCell`, `packPliesForMoveTable`, and exploration wire helpers (`moveTableRoundsFromExplorationPath`, …) on `GameBase` — export `getRounds()` unchanged; compact sequenced UI merges seat cycles.
+- **Docs:** [Exploration and emulation](/gameslib/exploration-emulation/) for explore-allowed games (`no-explore` moot on live play); WaldMeister and Frogger as primary references.
 - **Focus:** Goal variants `captures-6`, `captures-10`, and `hegemony`; per-seat capture tally in saved state; sidebar **Controlled** / **Captures** (captures row only in capture-target modes).
 - **Composite render output:** `APRenderGameOutput`, `isAPRenderComposite()`, and `GameBase.render()` / `handleClick(..., panelId?)` for multi-board JSON; optional `renderColumn(col, row, panelId?)` on stacking-expanding games.
 - **Ops:** `ap:service` and `ap:stage` cost-allocation tags on the `abstractplay-gameslib-playground` Serverless stack and S3 bucket (via `serverless client deploy`).
@@ -34,6 +39,10 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Changed
 
+- **Mimic:** Sidebar lists each player’s count of unfrozen (movable) pieces.
+- **Bao:** Now uses frames, letting you visualize multi-lap sowing much more clearly.
+- Normalized `localStash` emitters to dense bottom→top columns (no `"-"` spacers in Volcano, Mega-Volcano, Agents of MARS bag, and Ice Palace 3D hand/pool stashes).
+- **Locale JSON formatting:** English and community locale files normalized to 2-space indent (matching `translate` / `sync-game-names-locale` output); shared `locale-json-format.mjs` and `check-locale-json-format` in lint.
 - **CI:** Dev Server CI (`develop` pushes) runs `npm run test:scripts` after `npm run build`, matching PR validation.
 - **CI:** Pull request validation checks out the PR head commit instead of `develop`, so `npm test`, `npm run build`, and `npm run lint` (including `sync-game-names-locale`) run on the proposed changes.
 - **CI deps:** `npm run setup-git` registers the `merge.ours` driver for `ci-deps.*.json`, `package.json`, and `package-lock.json` (`.gitattributes` alone did not prevent develop↔`main` conflicts); documented GitHub PR merge limitation.
@@ -49,6 +58,12 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Fixed
 
+- **Weblate sync:** `overlay-weblate-locales` + `reset-weblate-export` for hosted export vs GitHub `develop` (merge conflicts in Diagnostics).
+- **Bao:** Fixed a regression introduced a few days ago that blocked taxing the nyumba.
+- **Tumbleweed:** standard opening ply `lastmove` is stored as the full `p1,p2` wire; legacy games with only P1 in `lastmove`/`_results` are repaired from the stack-1 board delta for move history, export, and load; chat log uses one combined setup line.
+- **Strip export (`state({ strip })`):** clone stack frames before redacting hidden information so `serialize({ strip, player })` no longer mutates the live engine (Jacynth, Biscuit, Quincunx, Frogger, Emu, Magnate, Pigs2, Siege of Jacynth, Cifra setup redaction).
+- **Weblate branch review:** `check-weblate-branch` / `merge-weblate-branch` block truncated exports (mass key removal with no translation updates, e.g. Weblate “Remove blank strings”) instead of allowing a blind locale import.
+- **WaldMeister / Frogger:** emulated complete exploration plies call `saveState()` without end-of-year scoring (WaldMeister) or refill/croc/market tails (Frogger), so live exploration can stay `emulation: true` and reload from `cheapSerialize()`.
 - **Generatorb:** `noglobes` is stored on game-level `state.variants` (legacy saves with empty `variants` infer `noglobes` from the opening board on `stack[0]`).
 - **Mixtour:** Best-of-three / best-of-five score variants are stored on `state.variants` so they persist across save and reload (legacy states with empty `variants` but non-default `target` are inferred on load).
 - **Rincala:** `shared-pieces` flag so seats are not treated as player-owned board colours (matches Four and fixes preferred-colour palette remap on the client).
@@ -61,47 +76,13 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **i18n (`apresults`):** Merged and remapped `apresults.json` plural keys use i18next `_one` / `_other` suffixes again (nested `{ one, other }` objects broke chat log lines such as `_general.DELTA_SCORE_GAIN`).
 - **Linage:** When seat 2 places on the pie ply, vertical/horizontal territory and sidebar role labels now follow the first mover (Vertical) for games whose archive version is `20261020` or later; older archives keep prior scoring for consistent replay.
 - **Arimaa:** During setup, clicking the empty part of a square beside a placed piece now unplaces that piece, the same as clicking the piece itself.
+- **Alfred's Wyke:** Button-bar cooldown highlights use customizable player-tinted fills (palette slots 3–4) instead of fixed greys; the selected move type is highlighted while a ply is in progress.
 
 
 ### Removed
 
 - **AiAi (embedded bot):** `aiai` game flag; `state2aiai`, `translateAiai`, and `aiaiMgl` on engines; `src/common/aiai.ts` coordinate helpers. Standalone registered bots use **bot-aiai** dialect code instead.
 - **stormc:** Dropped never-shipped game copy from English legacy slice and pruned matching `apgames` keys from all locale files.
-
-## [1.0.0-ci] - 2026-10-05
-
-### Added
-
-- **Docs:** [Exploration and emulation](/gameslib/exploration-emulation/) for explore-allowed games (`no-explore` moot on live play); WaldMeister and Frogger as primary references.
-
-### Changed
-
-- **Locale JSON formatting:** English and community locale files normalized to 2-space indent (matching `translate` / `sync-game-names-locale` output); shared `locale-json-format.mjs` and `check-locale-json-format` in lint.
-
-### Fixed
-
-- **Weblate branch review:** `check-weblate-branch` / `merge-weblate-branch` block truncated exports (mass key removal with no translation updates, e.g. Weblate “Remove blank strings”) instead of allowing a blind locale import.
-- **WaldMeister / Frogger:** emulated complete exploration plies call `saveState()` without end-of-year scoring (WaldMeister) or refill/croc/market tails (Frogger), so live exploration can stay `emulation: true` and reload from `cheapSerialize()`.
-
-## [1.0.0-ci] - 2026-10-04
-
-### Added
-
-- **Tumbleweed:** "Fog of war" variant (line-of-sight visibility, stale dimmed cells, hidden scores, redacted move tree after the opening ply; explore disabled).
-- **Move table presentation API:** `getMoveTableRounds({ density, pathLength })`, `pathIndexForMoveTableCell`, `packPliesForMoveTable`, and exploration wire helpers (`moveTableRoundsFromExplorationPath`, …) on `GameBase` — export `getRounds()` unchanged; compact sequenced UI merges seat cycles.
-
-### Changed
-
-- **Mimic:** Sidebar lists each player’s count of unfrozen (movable) pieces.
-- **Bao:** Now uses frames, letting you visualize multi-lap sowing much more clearly.
-- Normalized `localStash` emitters to dense bottom→top columns (no `"-"` spacers in Volcano, Mega-Volcano, Agents of MARS bag, and Ice Palace 3D hand/pool stashes).
-
-### Fixed
-
-- **Weblate sync:** `overlay-weblate-locales` + `reset-weblate-export` for hosted export vs GitHub `develop` (merge conflicts in Diagnostics).
-- **Bao:** Fixed a regression introduced a few days ago that blocked taxing the nyumba.
-- **Tumbleweed:** standard opening ply `lastmove` is stored as the full `p1,p2` wire; legacy games with only P1 in `lastmove`/`_results` are repaired from the stack-1 board delta for move history, export, and load; chat log uses one combined setup line.
-- **Strip export (`state({ strip })`):** clone stack frames before redacting hidden information so `serialize({ strip, player })` no longer mutates the live engine (Jacynth, Biscuit, Quincunx, Frogger, Emu, Magnate, Pigs2, Siege of Jacynth, Cifra setup redaction).
 
 ## [1.0.0-ci] - 2026-09-30
 

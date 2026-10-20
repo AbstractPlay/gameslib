@@ -529,11 +529,20 @@ export class LinageGame extends GameBase {
                          this.stack[this.stack.length - 1].lastmove === "pass");
 
         if (this.gameover) {
+            if (
+                this.buttontaker === undefined
+                && this.isButtonActive()
+                && this.usesVerticalFirstScoring()
+            ) {
+                // Button still available: award half-point to the player who did not make the last move.
+                this.buttontaker = this.currplayer;
+            }
+
             const score1 = this.getPlayerScore(1);
             const score2 = this.getPlayerScore(2);
 
             if ( score1 === score2 ) {
-                this.winner = [1, 2]; // only possible if neither player takes the button (!)
+                this.winner = [1, 2];
             } else {
                 this.winner = score1 > score2 ? [1] : [2];
             }

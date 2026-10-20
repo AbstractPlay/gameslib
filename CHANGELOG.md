@@ -14,6 +14,14 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 ### Added
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Thue-Morse Go, Yodd.
+
+### Added
+
+- **Focus:** Goal variants `captures-6`, `captures-10`, and `hegemony`; per-seat capture tally in saved state; sidebar **Controlled** / **Captures** (captures row only in capture-target modes).
+- **Composite render output:** `APRenderGameOutput`, `isAPRenderComposite()`, and `GameBase.render()` / `handleClick(..., panelId?)` for multi-board JSON; optional `renderColumn(col, row, panelId?)` on stacking-expanding games.
+- **Ops:** `ap:service` and `ap:stage` cost-allocation tags on the `abstractplay-gameslib-playground` Serverless stack and S3 bucket (via `serverless client deploy`).
+- **Docs:** [Rules PDF mirrors](/gameslib/rules-mirror/) — maintainer `bin/mirror-rules.ts` tooling and `rules.abstractplay.com` hosting convention (`{uid}.pdf`, `rules-mirrors.json`).
+- **Render:** `pieces` areas may set `veiled` so the renderer dims the opponent stash grid; perfect-information stash/hand games (Alien City, Four, Fnap, Pylon, Subdivision, WaldMeister, Gyges, Penguin, Rincala, Moon Squad) set it from `render({ perspective })` via `GameBase.stashAreaVeiled()` (requires matching `@abstractplay/renderer` with `AreaPieces.veiled`).
 - **Mirador variants:** Swap-2 and Swap-5
 - **Taiji:**
   - Swap-2, Swap-5, Simple pie (variant group) (No pie is left as default for consistency)
@@ -24,52 +32,14 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **Mega-volcano/Volcano:** add frames
 - **Storisende:** Total disks for each side in status panel
 
-### Fixed
-
-- **Arimaa:** During setup, clicking the empty part of a square beside a placed piece now unplaces that piece, the same as clicking the piece itself.
-
-## [1.0.0-ci] - 2026-10-19
-
-### Changed
-
-- **CI deps:** `npm run setup-git` registers the `merge.ours` driver for `ci-deps.*.json`, `package.json`, and `package-lock.json` (`.gitattributes` alone did not prevent develop↔`main` conflicts); documented GitHub PR merge limitation.
-
-## [1.0.0-ci] - 2026-10-17
-
-### Added
-
-- **Focus:** Goal variants `captures-6`, `captures-10`, and `hegemony`; per-seat capture tally in saved state; sidebar **Controlled** / **Captures** (captures row only in capture-target modes).
-
-### Fixed
-
-- **Generatorb:** `noglobes` is stored on game-level `state.variants` (legacy saves with empty `variants` infer `noglobes` from the opening board on `stack[0]`).
-- **Mixtour:** Best-of-three / best-of-five score variants are stored on `state.variants` so they persist across save and reload (legacy states with empty `variants` but non-default `target` are inferred on load).
-- **Rincala:** `shared-pieces` flag so seats are not treated as player-owned board colours (matches Four and fixes preferred-colour palette remap on the client).
-- **i18n (`apresults`):** `apresults-path-map.json` entry for `clearpath.EOG.cutoff` (path-map drift since Clearpath cutoff copy landed).
-
 ### Changed
 
 - **CI:** Dev Server CI (`develop` pushes) runs `npm run test:scripts` after `npm run build`, matching PR validation.
 - **CI:** Pull request validation checks out the PR head commit instead of `develop`, so `npm test`, `npm run build`, and `npm run lint` (including `sync-game-names-locale`) run on the proposed changes.
+- **CI deps:** `npm run setup-git` registers the `merge.ours` driver for `ci-deps.*.json`, `package.json`, and `package-lock.json` (`.gitattributes` alone did not prevent develop↔`main` conflicts); documented GitHub PR merge limitation.
 - **i18n:** `npm run locale-en -- merge --write` also refreshes `apresults-path-map.json` and seeds managed-locale `names.*` when merging apgames (default **both**), so authors need not run separate path-map and game-name scripts for routine string edits.
-
-### Removed
-
-- **AiAi (embedded bot):** `aiai` game flag; `state2aiai`, `translateAiai`, and `aiaiMgl` on engines; `src/common/aiai.ts` coordinate helpers. Standalone registered bots use **bot-aiai** dialect code instead.
-
-### Added
-
-- **Composite render output:** `APRenderGameOutput`, `isAPRenderComposite()`, and `GameBase.render()` / `handleClick(..., panelId?)` for multi-board JSON; optional `renderColumn(col, row, panelId?)` on stacking-expanding games.
-- **Ops:** `ap:service` and `ap:stage` cost-allocation tags on the `abstractplay-gameslib-playground` Serverless stack and S3 bucket (via `serverless client deploy`).
-- **Docs:** [Rules PDF mirrors](/gameslib/rules-mirror/) — maintainer `bin/mirror-rules.ts` tooling and `rules.abstractplay.com` hosting convention (`{uid}.pdf`, `rules-mirrors.json`).
-- **Render:** `pieces` areas may set `veiled` so the renderer dims the opponent stash grid; perfect-information stash/hand games (Alien City, Four, Fnap, Pylon, Subdivision, WaldMeister, Gyges, Penguin, Rincala, Moon Squad) set it from `render({ perspective })` via `GameBase.stashAreaVeiled()` (requires matching `@abstractplay/renderer` with `AreaPieces.veiled`).
-
-### Changed
-
 - **Witch Stones:** Player seat colours show grey until the second player chooses sun or moon; affiliations then use the usual red/blue palettes (`custom-colours`, `getPlayerColour`). Sidebar affiliation stash removed; earthstones use Customize palette slot 3.
-
 - **Rules mirror (`bin/mirror-rules.ts`):** `bulk` processes games in uid order; `--from-letter <a-z>` resumes a full run from that letter (lexicographic). `bulk --tier all` resolves in order: direct PDF URLs → designer sites (scan for PDF, else Playwright print) → BGG `thread/…` forum posts (Playwright print) → BGG filepage/boardgame (`gameinfo.bggid` preferred among boardgame links). BGG file discovery uses `api.geekdo.com/api/files` when `xmlapi2/thing` omits `boardgamefile` links; downloads try XML file API, authenticated file download URLs, then Playwright with a persistent browser profile (`bgg-browser-login`, default `bin/.bgg-browser-profile`) for Cloudflare. When BGG has no rules-like file PDF, a description heuristic may Playwright-print the thing description (e.g. Luis Bolaños Mures BGG-only games); `bgg-probe` reports geekdo files and description score. BGG token may be read from sibling `../apsecrets.yml` (`bgg_api_token`). BGG and designer PDF selection **prefers English** (`_EN`, localized titles, geekdo `language`); `bgg-language-scan` lists games with both English and localized rules files.
-
 - **i18n (English tooling):** `npm run locale-en` is the single router for merged English `apgames` and `apresults` (`check` both by default; `merge`, `keys`, `remap`, `prune`, `audit` subcommands). Replaces separate `merge-*-en` / `check-*` npm scripts. Lint runs `locale-en` plus `locale-en -- keys --warn --strict --summary`; develop/production CI run `locale-en` after tests. `npm run playground` (`predist-dev`) runs `locale-en -- merge --write` before copying locales into `dist/`. `translate.mjs` copies duplicate normalized English from existing managed-locale strings before calling Gemini and dedupes API requests per unique English text.
 - **i18n (`apgames`):** Integrators still load a single `locales/{lang}/apgames.json` per language with the same `apgames:` key paths. English is authored in `locale-src/en/apgames/shared/`, each game’s `gameinfo`, and `gameApgamesEn` in `src/games/<uid>.ts`; `npm run locale-en -- merge --write` writes `locales/en/apgames.json` (do not hand-edit). Legacy root paths are normalized (`validation._general.*` for global move/undo, `validation.homeworlds.*` for Homeworlds commands, `status.icepalace.*` for Ice Palace UI). Registry games export per-game English via `gameApgamesEn`; `GameBase.description()` / `notes()` use uid-derived keys with `defaultValue`. `locale-en keys --strict` enforces full-registry catalog ↔ TypeScript coverage in lint; duplicate English vs shared shards remains **warn-only**. Variant group defaults use `variants.<uid>.#<group>.name`; shared validation stems live under `validation._general` and `validation._inarow` where appropriate.
 - **i18n (`apresults`):** English move-log strings use nested `apresults:<uid>.<Type>.<leaf>` paths (shared stems under `apresults:_general.*`). Author `locale-src/en/apresults/shared/_general/` and per-game **`gameApresultsEn`** in `src/games/<uid>.ts`; merge via `locale-en` into `locales/en/apresults.json` (do not hand-edit). `locale-en keys --strict` enforces catalog ↔ TypeScript coverage (like `apgames`); duplicate English vs `_general` stays warn-only. `node scripts/translate.mjs` asserts merged English before translating `apresults.json`.
@@ -79,15 +49,23 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Fixed
 
+- **Generatorb:** `noglobes` is stored on game-level `state.variants` (legacy saves with empty `variants` infer `noglobes` from the opening board on `stack[0]`).
+- **Mixtour:** Best-of-three / best-of-five score variants are stored on `state.variants` so they persist across save and reload (legacy states with empty `variants` but non-default `target` are inferred on load).
+- **Rincala:** `shared-pieces` flag so seats are not treated as player-owned board colours (matches Four and fixes preferred-colour palette remap on the client).
+- **i18n (`apresults`):** `apresults-path-map.json` entry for `clearpath.EOG.cutoff` (path-map drift since Clearpath cutoff copy landed).
 - **i18n merge:** `gameApgamesEn` extraction no longer wraps quoted variant ids (e.g. `size-9`, `#board`) in extra quote characters, so merged `variants.*` keys match `i18next.t("apgames:variants.<uid>.…")` and game-record variant labels resolve again.
 - **Squares / Ice Palace / Kill-All Go:** Replaced dynamic `apgames:` template keys with literal `i18next.t` / `gameApgamesUidKey` anchors so `locale-en keys --strict --uid` passes (variant/display copy still resolved in `GameBase` where applicable).
 - **Tumbleweed:** move log again interpolates cell coordinates and attributes plies to the mover after the opening (regression from overly broad opening-setup detection in structured chat).
 - **Entropy:** structured move log emits place/move/pass lines for in-progress simultaneous (partial) rounds, with correct seat attribution via `lastmove`; stack frames that would produce no lines are omitted.
 - **Entropy:** partial-round move/place arrows use the submitting seat from the comma wire (fixes P2 arrows drawn on the wrong board).
 - **i18n (`apresults`):** Merged and remapped `apresults.json` plural keys use i18next `_one` / `_other` suffixes again (nested `{ one, other }` objects broke chat log lines such as `_general.DELTA_SCORE_GAIN`).
+- **Linage:** When seat 2 places on the pie ply, vertical/horizontal territory and sidebar role labels now follow the first mover (Vertical) for games whose archive version is `20261020` or later; older archives keep prior scoring for consistent replay.
+- **Arimaa:** During setup, clicking the empty part of a square beside a placed piece now unplaces that piece, the same as clicking the piece itself.
+
 
 ### Removed
 
+- **AiAi (embedded bot):** `aiai` game flag; `state2aiai`, `translateAiai`, and `aiaiMgl` on engines; `src/common/aiai.ts` coordinate helpers. Standalone registered bots use **bot-aiai** dialect code instead.
 - **stormc:** Dropped never-shipped game copy from English legacy slice and pruned matching `apgames` keys from all locale files.
 
 ## [1.0.0-ci] - 2026-10-05

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import "mocha";
+import { isStructuredRenderLabel } from "../../src/common/render-label.js";
 import { expect } from "chai";
 import {
     StorisendeGame,
@@ -593,5 +594,21 @@ describe("Storisende", () => {
             expect(g.board.getHexAtAlgebraic(from)?.stack.length ?? -1).to.equal(0);
             expect(g.board.getHexAtAlgebraic(to)?.stack.length ?? 0).to.equal(1);
         });
+    });
+});
+
+describe("Storisende total disks", () => {
+    it("counts every disk on the board for each player, not the stacks", () => {
+        const g = new StorisendeGame();
+        const totals = () => g.sidebarScores()[1];
+        expect(g.sidebarScores()).to.have.length(2);
+        const name = totals().name;
+        expect(isStructuredRenderLabel(name) ? name.textKey : undefined).to.equal("apgames:status.storisende.TOTALDISKS");
+        expect(totals().scores).to.deep.equal([0, 0]);
+        // the randomiser opens with two doubles: two stacks, four disks
+        g.move(g.randomMove());
+        expect(totals().scores).to.deep.equal([4, 0]);
+        g.move(g.randomMove());
+        expect(totals().scores).to.deep.equal([4, 4]);
     });
 });

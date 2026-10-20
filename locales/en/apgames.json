@@ -718,6 +718,9 @@
       "STAGE_SECOND": "Second chance: the defender may still retreat",
       "TURN": "Turn"
     },
+    "storisende": {
+      "TOTALDISKS": "Total disks"
+    },
     "thuemorsego": {
       "NEXT_PLACEMENT": "Next placements (hex)",
       "BUTTON": "Button",
@@ -2558,10 +2561,23 @@
     "mirador": {
       "ALREADY_DECLARED": "Someone has already declared. You can not declare now.",
       "BAD_PLACEMENT": "You can not play at {{where}}. It would be adjacent or overlapping with another mirador. The only adjacency allowed is diagonal to one of your own miradors.",
+      "CANNOT_DECLARE_OPENING": "You can not declare until the opening is complete.",
+      "CANNOT_PASS": "You can only pass during the opening, when it gives you a choice of colours.",
       "INITIAL_INSTRUCTIONS": "Place a mirador, or, if you think your connection is unassailable, declare",
       "INITIAL_INSTRUCTIONS_CHALLENGE": "Place as many miradors as you would like.",
+      "INITIAL_INSTRUCTIONS_PIE": "Place a mirador, pass to swap colours, or, if you think your connection is unassailable, declare.",
+      "INITIAL_INSTRUCTIONS_SWAP21": "Place three miradors: one of your colour, one of the opponent's colour, then one of your colour. The opponent then chooses sides.",
+      "INITIAL_INSTRUCTIONS_SWAP22": "You may do one of (1) place a single mirador to continue with your colour, (2) pass to swap colours, or (3) place two more miradors (one of your colour, then one of the opponent's) and let the opponent choose sides.",
+      "INITIAL_INSTRUCTIONS_SWAP23": "Choose sides: place a mirador to take the colour that is to move (you move now), or pass to keep your colour and let the opponent move.",
+      "INITIAL_INSTRUCTIONS_SWAP5": "Place a mirador, or pass to swap colours.",
       "NO_EDGE_PLAY": "You can not play on the very edge of the board.",
+      "NO_MOVELIST": "Move list not available during this opening move. Click on the board to place miradors.",
       "SINGLE_PLACEMENT": "You can only place one mirador.",
+      "SWAP21_one": "Place one more mirador.",
+      "SWAP21_other": "Place {{count}} more miradors.",
+      "SWAP21_EXCESS": "You have placed too many miradors. You may only place three.",
+      "SWAP22_EXCESS": "You have placed too many miradors. You may only place two.",
+      "SWAP22_PARTIAL": "Complete the move to continue with your colour, or place another mirador to let the opponent choose sides.",
       "VALID_PARTIAL_MOVE": "Keep placing miradors until you have broken all the opponent's connections."
     },
     "mixtour": {
@@ -3682,9 +3698,24 @@
     },
     "taiji": {
       "ADJACENT": "Pieces must be placed adjacent to each other. Diagonal placement is only permitted in the \"Tonga\" variant.",
+      "CANNOT_PASS": "You can only pass during the opening, when it gives you a choice of colours.",
       "INITIAL_INSTRUCTIONS": "Place a light piece in an empty space.",
+      "INITIAL_INSTRUCTIONS_SWAP": "Place a light piece in an empty space, or pass to swap colours.",
+      "INITIAL_INSTRUCTIONS_SWAP21": "Place three pairs of pieces, each a light piece and then a dark piece next to it. The opponent then chooses sides.",
+      "INITIAL_INSTRUCTIONS_SWAP22": "You may do one of (1) place a single pair of pieces to continue with your colour, (2) pass to swap colours, or (3) place two more pairs and let the opponent choose sides.",
+      "INITIAL_INSTRUCTIONS_SWAP23": "Choose sides: place a pair of pieces to keep your colour, or pass to swap colours and let the opponent move.",
+      "NO_MIRROR": "That move would leave the position with a rotational or reflectional symmetry (with the colours as they are or reversed), which the \"No mirroring\" variant forbids.",
+      "NO_MIRROR_CONTINUE": "The position would be symmetric after this pair, which is not allowed. Place another pair, or choose different spaces.",
+      "NO_MIRROR_DARK": "Every space for the dark piece next to that light piece would leave the position symmetric. Choose a different space for the light piece.",
+      "NO_MOVELIST": "Move list not available during this opening move. Click on the board to place pieces.",
       "NO_NEIGHBOUR": "That space has no valid empty neighbour.",
-      "PARTIAL": "Place the dark piece in an adjacent empty space."
+      "PARTIAL": "Place the dark piece in an adjacent empty space.",
+      "SWAP21_one": "Place one more pair of pieces.",
+      "SWAP21_other": "Place {{count}} more pairs of pieces.",
+      "SWAP21_EXCESS": "You have placed too many pieces. You may only place three pairs.",
+      "SWAP22_EXCESS": "You have placed too many pieces. You may only place two pairs.",
+      "SWAP22_PARTIAL": "Complete the move to continue with your colour, or place another pair of pieces to let the opponent choose sides.",
+      "TOO_MANY": "You have placed too many pieces. You may only place one pair."
     },
     "take": {
       "INITIAL_INSTRUCTIONS": "Plant a new seed in dirt, or grow a plant by placing adjacent to exactly one ally piece (dirt or no dirt)."
@@ -5348,6 +5379,12 @@
       "hide-interior": {
         "description": "Don't highlight interior stones.",
         "name": "Hide interior stones"
+      }
+    },
+    "taiji": {
+      "fade-nonscoring": {
+        "description": "Draws the pieces of groups that do not count towards the score at 75% opacity.",
+        "name": "Fade non-scoring groups"
       }
     },
     "terrace": {
@@ -7487,8 +7524,20 @@
       "#board": {
         "name": "28x28 board"
       },
+      "#opening": {
+        "description": "After the first mirador is placed, the second player may pass to swap colours. The miradors never change colour; only who plays each colour does.",
+        "name": "Simple pie"
+      },
       "size-40": {
         "name": "40x40 board"
+      },
+      "swap-2": {
+        "description": "The first player places three miradors: one of their colour, one of the opponent's, then one of theirs. The next player may do one of (1) place a single mirador to continue with their colour, (2) pass to swap colours, or (3) place two more miradors and let the first player choose sides, by placing a mirador to take the colour that is to move or by passing to keep their own. The miradors never change colour; only who plays each colour does. Declaring is not allowed until the opening is complete.",
+        "name": "Swap-2 opening"
+      },
+      "swap-5": {
+        "description": "For the first five miradors on the board, after each placement, the next player may pass to swap colours. The miradors never change colour; only who plays each colour does. Declaring is not allowed until five miradors have been placed.",
+        "name": "Swap-5 opening"
       }
     },
     "mixtour": {
@@ -8786,6 +8835,9 @@
       "#groups": {
         "name": "Scoring: Largest two groups"
       },
+      "#opening": {
+        "name": "No pie"
+      },
       "#scoring": {
         "name": "Simple sum"
       },
@@ -8795,8 +8847,22 @@
       "11x11": {
         "name": "Larger board: 11x11"
       },
+      "15x15": {
+        "name": "Largest board: 15x15"
+      },
+      "fivegroups": {
+        "name": "Scoring: Largest five groups"
+      },
+      "nomirror": {
+        "description": "No move may leave the position with a rotational or reflectional symmetry, whether the colours are taken as they are or reversed. This applies during the swap openings too.",
+        "name": "No mirroring"
+      },
       "onegroup": {
         "name": "Scoring: Single largest group"
+      },
+      "pie": {
+        "description": "After the first pair of pieces is placed, the second player may pass to swap colours. The pieces never change colour; only who scores each colour does.",
+        "name": "Simple pie"
       },
       "products": {
         "description": "Multiplies together the sizes of your n largest groups.",
@@ -8805,6 +8871,14 @@
       "squares": {
         "description": "Adds together the square of each of your n largest groups.",
         "name": "Sum of Squares"
+      },
+      "swap-2": {
+        "description": "The first player places three pairs of pieces. The next player may do one of (1) place a single pair to continue with their colour, (2) pass to swap colours, or (3) place two more pairs and let the first player choose sides, by placing a pair to keep their colour or by passing to swap colours. The pieces never change colour; only who scores each colour does.",
+        "name": "Swap-2 opening"
+      },
+      "swap-5": {
+        "description": "For the first five pairs of pieces on the board, after each placement, the next player may pass to swap colours. The pieces never change colour; only who scores each colour does.",
+        "name": "Swap-5 opening"
       },
       "threegroups": {
         "name": "Scoring: Largest three groups"

@@ -3235,6 +3235,14 @@
     "src": "Hide interior stones",
     "out": "Innere Steine ausblenden"
   },
+  "displays.taiji.fade-nonscoring.description": {
+    "src": "Draws the pieces of groups that do not count towards the score at 75% opacity.",
+    "out": "Zeichnet die Steine von Gruppen, die nicht zur Wertung zählen, mit 75 % Deckkraft."
+  },
+  "displays.taiji.fade-nonscoring.name": {
+    "src": "Fade non-scoring groups",
+    "out": "Nicht gewertete Gruppen ausblenden"
+  },
   "displays.terrace.#projection.name": {
     "src": "Isometric view",
     "out": "Isometrische Ansicht"
@@ -5430,6 +5438,10 @@
   "status.squares.TURN": {
     "src": "Turn",
     "out": "Zug"
+  },
+  "status.storisende.TOTALDISKS": {
+    "src": "Total disks",
+    "out": "Gesamtzahl Scheiben"
   },
   "status.thuemorsego.ATTACKER": {
     "src": "Attacker",
@@ -11387,6 +11399,14 @@
     "src": "You can not play at {{where}}. It would be adjacent or overlapping with another mirador. The only adjacency allowed is diagonal to one of your own miradors.",
     "out": "Du kannst nicht auf {{where}} spielen. Es wäre benachbart zu oder überlappend mit einem anderen Mirador. Die einzige erlaubte Nachbarschaft ist diagonal zu einem deiner eigenen Miradore."
   },
+  "validation.mirador.CANNOT_DECLARE_OPENING": {
+    "src": "You can not declare until the opening is complete.",
+    "out": "Du kannst erst deklarieren, wenn die Eröffnung abgeschlossen ist."
+  },
+  "validation.mirador.CANNOT_PASS": {
+    "src": "You can only pass during the opening, when it gives you a choice of colours.",
+    "out": "Du kannst nur während der Eröffnung passen, wenn sie dir eine Farbwahl bietet."
+  },
   "validation.mirador.INITIAL_INSTRUCTIONS": {
     "src": "Place a mirador, or, if you think your connection is unassailable, declare",
     "out": "Platziere einen Mirador oder deklariere, wenn du glaubst, dass deine Verbindung unanfechtbar ist"
@@ -11395,13 +11415,57 @@
     "src": "Place as many miradors as you would like.",
     "out": "Platziere so viele Miradore, wie du möchtest."
   },
+  "validation.mirador.INITIAL_INSTRUCTIONS_PIE": {
+    "src": "Place a mirador, pass to swap colours, or, if you think your connection is unassailable, declare.",
+    "out": "Setze einen Mirador, passe, um die Farben zu tauschen, oder deklariere, wenn du deine Verbindung für unanfechtbar hältst."
+  },
+  "validation.mirador.INITIAL_INSTRUCTIONS_SWAP21": {
+    "src": "Place three miradors: one of your colour, one of the opponent's colour, then one of your colour. The opponent then chooses sides.",
+    "out": "Setze drei Miradore: einen in deiner Farbe, einen in der Farbe des Gegners, dann einen in deiner Farbe. Der Gegner wählt anschließend die Seiten."
+  },
+  "validation.mirador.INITIAL_INSTRUCTIONS_SWAP22": {
+    "src": "You may do one of (1) place a single mirador to continue with your colour, (2) pass to swap colours, or (3) place two more miradors (one of your colour, then one of the opponent's) and let the opponent choose sides.",
+    "out": "Du kannst eine der folgenden Aktionen ausführen: (1) einen einzelnen Mirador setzen, um mit deiner Farbe fortzufahren, (2) passen, um die Farben zu tauschen, oder (3) zwei weitere Miradore setzen (einen in deiner Farbe, dann einen in der des Gegners) und den Gegner die Seiten wählen lassen."
+  },
+  "validation.mirador.INITIAL_INSTRUCTIONS_SWAP23": {
+    "src": "Choose sides: place a mirador to take the colour that is to move (you move now), or pass to keep your colour and let the opponent move.",
+    "out": "Seiten wählen: Setze einen Mirador, um die Farbe zu übernehmen, die am Zug ist (du ziehst jetzt), oder passe, um deine Farbe zu behalten und den Gegner ziehen zu lassen."
+  },
+  "validation.mirador.INITIAL_INSTRUCTIONS_SWAP5": {
+    "src": "Place a mirador, or pass to swap colours.",
+    "out": "Setze einen Mirador oder passe, um die Farben zu tauschen."
+  },
   "validation.mirador.NO_EDGE_PLAY": {
     "src": "You can not play on the very edge of the board.",
     "out": "Du kannst nicht direkt am Rand des Brettes spielen."
   },
+  "validation.mirador.NO_MOVELIST": {
+    "src": "Move list not available during this opening move. Click on the board to place miradors.",
+    "out": "Zugsliste während dieses Eröffnungszugs nicht verfügbar. Klicke auf das Spielbrett, um Miradore zu setzen."
+  },
   "validation.mirador.SINGLE_PLACEMENT": {
     "src": "You can only place one mirador.",
     "out": "Du kannst nur einen Mirador platzieren."
+  },
+  "validation.mirador.SWAP21_EXCESS": {
+    "src": "You have placed too many miradors. You may only place three.",
+    "out": "Du hast zu viele Miradore gesetzt. Du darfst nur drei setzen."
+  },
+  "validation.mirador.SWAP21_one": {
+    "src": "Place one more mirador.",
+    "out": "Setze noch einen Mirador."
+  },
+  "validation.mirador.SWAP21_other": {
+    "src": "Place {{count}} more miradors.",
+    "out": "Setze {{count}} weitere Miradore."
+  },
+  "validation.mirador.SWAP22_EXCESS": {
+    "src": "You have placed too many miradors. You may only place two.",
+    "out": "Du hast zu viele Miradore gesetzt. Du darfst nur zwei setzen."
+  },
+  "validation.mirador.SWAP22_PARTIAL": {
+    "src": "Complete the move to continue with your colour, or place another mirador to let the opponent choose sides.",
+    "out": "Schließe den Zug ab, um mit deiner Farbe fortzufahren, oder setze einen weiteren Mirador, um den Gegner die Seiten wählen zu lassen."
   },
   "validation.mirador.VALID_PARTIAL_MOVE": {
     "src": "Keep placing miradors until you have broken all the opponent's connections.",
@@ -15107,9 +15171,45 @@
     "src": "Pieces must be placed adjacent to each other. Diagonal placement is only permitted in the \"Tonga\" variant.",
     "out": "Steine müssen aneinander angrenzend platziert werden. Diagonale Platzierung ist nur in der Variante \"Tonga\" erlaubt."
   },
+  "validation.taiji.CANNOT_PASS": {
+    "src": "You can only pass during the opening, when it gives you a choice of colours.",
+    "out": "Du kannst nur während der Eröffnung passen, wenn sie dir eine Farbwahl bietet."
+  },
   "validation.taiji.INITIAL_INSTRUCTIONS": {
     "src": "Place a light piece in an empty space.",
     "out": "Platzieren Sie einen hellen Stein auf einem leeren Feld."
+  },
+  "validation.taiji.INITIAL_INSTRUCTIONS_SWAP": {
+    "src": "Place a light piece in an empty space, or pass to swap colours.",
+    "out": "Setze einen hellen Stein auf ein leeres Feld oder passe, um die Farben zu tauschen."
+  },
+  "validation.taiji.INITIAL_INSTRUCTIONS_SWAP21": {
+    "src": "Place three pairs of pieces, each a light piece and then a dark piece next to it. The opponent then chooses sides.",
+    "out": "Setze drei Steinpaare, jeweils einen hellen Stein und direkt daneben einen dunklen Stein. Der Gegner wählt anschließend die Seiten."
+  },
+  "validation.taiji.INITIAL_INSTRUCTIONS_SWAP22": {
+    "src": "You may do one of (1) place a single pair of pieces to continue with your colour, (2) pass to swap colours, or (3) place two more pairs and let the opponent choose sides.",
+    "out": "Du kannst eine der folgenden Aktionen ausführen: (1) ein einzelnes Steinpaar setzen, um mit deiner Farbe fortzufahren, (2) passen, um die Farben zu tauschen, oder (3) zwei weitere Paare setzen und den Gegner die Seiten wählen lassen."
+  },
+  "validation.taiji.INITIAL_INSTRUCTIONS_SWAP23": {
+    "src": "Choose sides: place a pair of pieces to keep your colour, or pass to swap colours and let the opponent move.",
+    "out": "Seiten wählen: Setze ein Steinpaar, um deine Farbe zu behalten, oder passe, um die Farben zu tauschen und den Gegner ziehen zu lassen."
+  },
+  "validation.taiji.NO_MIRROR": {
+    "src": "That move would leave the position with a rotational or reflectional symmetry (with the colours as they are or reversed), which the \"No mirroring\" variant forbids.",
+    "out": "Dieser Zug würde die Stellung in einer Dreh- oder Achsensymmetrie hinterlassen (egal ob die Farben wie sie sind oder vertauscht betrachtet werden), was die Variante „Keine Spiegelung“ verbietet."
+  },
+  "validation.taiji.NO_MIRROR_CONTINUE": {
+    "src": "The position would be symmetric after this pair, which is not allowed. Place another pair, or choose different spaces.",
+    "out": "Die Stellung wäre nach diesem Paar symmetrisch, was nicht erlaubt ist. Setze ein anderes Paar oder wähle andere Felder."
+  },
+  "validation.taiji.NO_MIRROR_DARK": {
+    "src": "Every space for the dark piece next to that light piece would leave the position symmetric. Choose a different space for the light piece.",
+    "out": "Jedes Feld für den dunklen Stein neben diesem hellen Stein würde die Stellung symmetrisch hinterlassen. Wähle ein anderes Feld für den hellen Stein."
+  },
+  "validation.taiji.NO_MOVELIST": {
+    "src": "Move list not available during this opening move. Click on the board to place pieces.",
+    "out": "Zugsliste während dieses Eröffnungszugs nicht verfügbar. Klicke auf das Spielbrett, um Steine zu setzen."
   },
   "validation.taiji.NO_NEIGHBOUR": {
     "src": "That space has no valid empty neighbour.",
@@ -15118,6 +15218,30 @@
   "validation.taiji.PARTIAL": {
     "src": "Place the dark piece in an adjacent empty space.",
     "out": "Platzieren Sie den dunklen Stein auf einem angrenzenden leeren Feld."
+  },
+  "validation.taiji.SWAP21_EXCESS": {
+    "src": "You have placed too many pieces. You may only place three pairs.",
+    "out": "Du hast zu viele Steine gesetzt. Du darfst nur drei Paare setzen."
+  },
+  "validation.taiji.SWAP21_one": {
+    "src": "Place one more pair of pieces.",
+    "out": "Setze noch ein Steinpaar."
+  },
+  "validation.taiji.SWAP21_other": {
+    "src": "Place {{count}} more pairs of pieces.",
+    "out": "Setze {{count}} weitere Steinpaare."
+  },
+  "validation.taiji.SWAP22_EXCESS": {
+    "src": "You have placed too many pieces. You may only place two pairs.",
+    "out": "Du hast zu viele Steine gesetzt. Du darfst nur zwei Paare setzen."
+  },
+  "validation.taiji.SWAP22_PARTIAL": {
+    "src": "Complete the move to continue with your colour, or place another pair of pieces to let the opponent choose sides.",
+    "out": "Schließe den Zug ab, um mit deiner Farbe fortzufahren, oder setze ein weiteres Steinpaar, um den Gegner die Seiten wählen zu lassen."
+  },
+  "validation.taiji.TOO_MANY": {
+    "src": "You have placed too many pieces. You may only place one pair.",
+    "out": "Du hast zu viele Steine gesetzt. Du darfst nur ein Paar setzen."
   },
   "validation.take.INITIAL_INSTRUCTIONS": {
     "src": "Plant a new seed in dirt, or grow a plant by placing adjacent to exactly one ally piece (dirt or no dirt).",
@@ -19631,9 +19755,33 @@
     "src": "28x28 board",
     "out": "28x28-Brett"
   },
+  "variants.mirador.#opening.description": {
+    "src": "After the first mirador is placed, the second player may pass to swap colours. The miradors never change colour; only who plays each colour does.",
+    "out": "Nachdem der erste Mirador gesetzt wurde, kann der zweite Spieler passen, um die Farben zu tauschen. Die Miradore wechseln nie ihre Farbe; nur wer welche Farbe spielt, ändert sich."
+  },
+  "variants.mirador.#opening.name": {
+    "src": "Simple pie",
+    "out": "Einfaches Pie"
+  },
   "variants.mirador.size-40.name": {
     "src": "40x40 board",
     "out": "40x40-Brett"
+  },
+  "variants.mirador.swap-2.description": {
+    "src": "The first player places three miradors: one of their colour, one of the opponent's, then one of theirs. The next player may do one of (1) place a single mirador to continue with their colour, (2) pass to swap colours, or (3) place two more miradors and let the first player choose sides, by placing a mirador to take the colour that is to move or by passing to keep their own. The miradors never change colour; only who plays each colour does. Declaring is not allowed until the opening is complete.",
+    "out": "Der erste Spieler setzt drei Miradore: einen in seiner Farbe, einen in der des Gegners, dann einen in seiner eigenen. Der nächste Spieler kann eine der folgenden Aktionen ausführen: (1) einen einzelnen Mirador setzen, um mit seiner Farbe fortzufahren, (2) passen, um die Farben zu tauschen, oder (3) zwei weitere Miradore setzen und den ersten Spieler die Seiten wählen lassen – entweder indem er einen Mirador setzt, um die Farbe zu übernehmen, die am Zug ist, oder indem er passt, um seine eigene zu behalten. Die Miradore wechseln nie ihre Farbe; nur wer welche Farbe spielt, ändert sich. Deklarieren ist erst erlaubt, wenn die Eröffnung abgeschlossen ist."
+  },
+  "variants.mirador.swap-2.name": {
+    "src": "Swap-2 opening",
+    "out": "Swap-2-Eröffnung"
+  },
+  "variants.mirador.swap-5.description": {
+    "src": "For the first five miradors on the board, after each placement, the next player may pass to swap colours. The miradors never change colour; only who plays each colour does. Declaring is not allowed until five miradors have been placed.",
+    "out": "Für die ersten fünf Miradore auf dem Spielbrett kann der nächste Spieler nach jedem Setzen passen, um die Farben zu tauschen. Die Miradore wechseln nie ihre Farbe; nur wer welche Farbe spielt, ändert sich. Deklarieren ist erst erlaubt, wenn fünf Miradore gesetzt wurden."
+  },
+  "variants.mirador.swap-5.name": {
+    "src": "Swap-5 opening",
+    "out": "Swap-5-Eröffnung"
   },
   "variants.mixtour.#scores.description": {
     "src": "The winner is the first to score a point.",
@@ -21523,6 +21671,10 @@
     "src": "Scoring: Largest two groups",
     "out": "Wertung: Die zwei größten Gruppen"
   },
+  "variants.taiji.#opening.name": {
+    "src": "No pie",
+    "out": "Kein Pie"
+  },
   "variants.taiji.#scoring.name": {
     "src": "Simple sum",
     "out": "Einfache Summe"
@@ -21531,13 +21683,37 @@
     "src": "Larger board: 11x11",
     "out": "Größeres Brett: 11x11"
   },
+  "variants.taiji.15x15.name": {
+    "src": "Largest board: 15x15",
+    "out": "Größtes Spielbrett: 15x15"
+  },
   "variants.taiji.7x7.name": {
     "src": "Smaller board: 7x7",
     "out": "Kleineres Brett: 7x7"
   },
+  "variants.taiji.fivegroups.name": {
+    "src": "Scoring: Largest five groups",
+    "out": "Wertung: Die fünf größten Gruppen"
+  },
+  "variants.taiji.nomirror.description": {
+    "src": "No move may leave the position with a rotational or reflectional symmetry, whether the colours are taken as they are or reversed. This applies during the swap openings too.",
+    "out": "Kein Zug darf eine Stellung mit Dreh- oder Achsensymmetrie hinterlassen, ungeachtet dessen, ob die Farben unverändert oder vertauscht betrachtet werden. Dies gilt auch während der Eröffnungen mit Farbtausch."
+  },
+  "variants.taiji.nomirror.name": {
+    "src": "No mirroring",
+    "out": "Keine Spiegelung"
+  },
   "variants.taiji.onegroup.name": {
     "src": "Scoring: Single largest group",
     "out": "Wertung: Einzige größte Gruppe"
+  },
+  "variants.taiji.pie.description": {
+    "src": "After the first pair of pieces is placed, the second player may pass to swap colours. The pieces never change colour; only who scores each colour does.",
+    "out": "Nachdem das erste Steinpaar gesetzt wurde, kann der zweite Spieler passen, um die Farben zu tauschen. Die Steine wechseln nie ihre Farbe; nur wer für welche Farbe Punkte erhält, ändert sich."
+  },
+  "variants.taiji.pie.name": {
+    "src": "Simple pie",
+    "out": "Einfaches Pie"
   },
   "variants.taiji.products.description": {
     "src": "Multiplies together the sizes of your n largest groups.",
@@ -21554,6 +21730,22 @@
   "variants.taiji.squares.name": {
     "src": "Sum of Squares",
     "out": "Summe der Quadrate"
+  },
+  "variants.taiji.swap-2.description": {
+    "src": "The first player places three pairs of pieces. The next player may do one of (1) place a single pair to continue with their colour, (2) pass to swap colours, or (3) place two more pairs and let the first player choose sides, by placing a pair to keep their colour or by passing to swap colours. The pieces never change colour; only who scores each colour does.",
+    "out": "Der erste Spieler setzt drei Steinpaare. Der nächste Spieler kann eine der folgenden Aktionen ausführen: (1) ein einzelnes Paar setzen, um mit seiner Farbe fortzufahren, (2) passen, um die Farben zu tauschen, oder (3) zwei weitere Paare setzen und den ersten Spieler die Seiten wählen lassen – entweder indem er ein Paar setzt, um seine Farbe zu behalten, oder indem er passt, um die Farben zu tauschen. Die Steine wechseln nie ihre Farbe; nur wer für welche Farbe Punkte erhält, ändert sich."
+  },
+  "variants.taiji.swap-2.name": {
+    "src": "Swap-2 opening",
+    "out": "Swap-2-Eröffnung"
+  },
+  "variants.taiji.swap-5.description": {
+    "src": "For the first five pairs of pieces on the board, after each placement, the next player may pass to swap colours. The pieces never change colour; only who scores each colour does.",
+    "out": "Für die ersten fünf Steinpaare auf dem Spielbrett kann der nächste Spieler nach jedem Setzen passen, um die Farben zu tauschen. Die Steine wechseln nie ihre Farbe; nur wer für welche Farbe Punkte erhält, ändert sich."
+  },
+  "variants.taiji.swap-5.name": {
+    "src": "Swap-5 opening",
+    "out": "Swap-5-Eröffnung"
   },
   "variants.taiji.threegroups.name": {
     "src": "Scoring: Largest three groups",

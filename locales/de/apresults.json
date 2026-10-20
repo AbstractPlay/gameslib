@@ -115,6 +115,7 @@
     },
     "PASS": {
       "forced": "{{player}} musste passen.",
+      "keep": "{{player}} hat die Farbe behalten.",
       "pie": "{{player}} hat das Komi-Angebot angenommen und spielt als Zweiter weiter.",
       "simple": "{{player}} hat gepasst.",
       "tiebreaker": "{{player}} hat gepasst und den Gleichstand entschieden."

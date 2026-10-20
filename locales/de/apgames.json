@@ -718,6 +718,9 @@
       "STAGE_SECOND": "Zweite Chance: Der Verteidiger kann sich noch zurückziehen",
       "TURN": "Zug"
     },
+    "storisende": {
+      "TOTALDISKS": "Gesamtzahl Scheiben"
+    },
     "thuemorsego": {
       "NEXT_PLACEMENT": "Nächste Setzungen (Hex)",
       "BUTTON": "Button",
@@ -2558,10 +2561,23 @@
     "mirador": {
       "ALREADY_DECLARED": "Jemand hat bereits deklariert. Du kannst jetzt nicht deklarieren.",
       "BAD_PLACEMENT": "Du kannst nicht auf {{where}} spielen. Es wäre benachbart zu oder überlappend mit einem anderen Mirador. Die einzige erlaubte Nachbarschaft ist diagonal zu einem deiner eigenen Miradore.",
+      "CANNOT_DECLARE_OPENING": "Du kannst erst deklarieren, wenn die Eröffnung abgeschlossen ist.",
+      "CANNOT_PASS": "Du kannst nur während der Eröffnung passen, wenn sie dir eine Farbwahl bietet.",
       "INITIAL_INSTRUCTIONS": "Platziere einen Mirador oder deklariere, wenn du glaubst, dass deine Verbindung unanfechtbar ist",
       "INITIAL_INSTRUCTIONS_CHALLENGE": "Platziere so viele Miradore, wie du möchtest.",
+      "INITIAL_INSTRUCTIONS_PIE": "Setze einen Mirador, passe, um die Farben zu tauschen, oder deklariere, wenn du deine Verbindung für unanfechtbar hältst.",
+      "INITIAL_INSTRUCTIONS_SWAP21": "Setze drei Miradore: einen in deiner Farbe, einen in der Farbe des Gegners, dann einen in deiner Farbe. Der Gegner wählt anschließend die Seiten.",
+      "INITIAL_INSTRUCTIONS_SWAP22": "Du kannst eine der folgenden Aktionen ausführen: (1) einen einzelnen Mirador setzen, um mit deiner Farbe fortzufahren, (2) passen, um die Farben zu tauschen, oder (3) zwei weitere Miradore setzen (einen in deiner Farbe, dann einen in der des Gegners) und den Gegner die Seiten wählen lassen.",
+      "INITIAL_INSTRUCTIONS_SWAP23": "Seiten wählen: Setze einen Mirador, um die Farbe zu übernehmen, die am Zug ist (du ziehst jetzt), oder passe, um deine Farbe zu behalten und den Gegner ziehen zu lassen.",
+      "INITIAL_INSTRUCTIONS_SWAP5": "Setze einen Mirador oder passe, um die Farben zu tauschen.",
       "NO_EDGE_PLAY": "Du kannst nicht direkt am Rand des Brettes spielen.",
+      "NO_MOVELIST": "Zugsliste während dieses Eröffnungszugs nicht verfügbar. Klicke auf das Spielbrett, um Miradore zu setzen.",
       "SINGLE_PLACEMENT": "Du kannst nur einen Mirador platzieren.",
+      "SWAP21_one": "Setze noch einen Mirador.",
+      "SWAP21_other": "Setze {{count}} weitere Miradore.",
+      "SWAP21_EXCESS": "Du hast zu viele Miradore gesetzt. Du darfst nur drei setzen.",
+      "SWAP22_EXCESS": "Du hast zu viele Miradore gesetzt. Du darfst nur zwei setzen.",
+      "SWAP22_PARTIAL": "Schließe den Zug ab, um mit deiner Farbe fortzufahren, oder setze einen weiteren Mirador, um den Gegner die Seiten wählen zu lassen.",
       "VALID_PARTIAL_MOVE": "Platziere weiterhin Miradore, bis du alle Verbindungen des Gegners unterbrochen hast."
     },
     "mixtour": {
@@ -3682,9 +3698,24 @@
     },
     "taiji": {
       "ADJACENT": "Steine müssen aneinander angrenzend platziert werden. Diagonale Platzierung ist nur in der Variante \"Tonga\" erlaubt.",
+      "CANNOT_PASS": "Du kannst nur während der Eröffnung passen, wenn sie dir eine Farbwahl bietet.",
       "INITIAL_INSTRUCTIONS": "Platzieren Sie einen hellen Stein auf einem leeren Feld.",
+      "INITIAL_INSTRUCTIONS_SWAP": "Setze einen hellen Stein auf ein leeres Feld oder passe, um die Farben zu tauschen.",
+      "INITIAL_INSTRUCTIONS_SWAP21": "Setze drei Steinpaare, jeweils einen hellen Stein und direkt daneben einen dunklen Stein. Der Gegner wählt anschließend die Seiten.",
+      "INITIAL_INSTRUCTIONS_SWAP22": "Du kannst eine der folgenden Aktionen ausführen: (1) ein einzelnes Steinpaar setzen, um mit deiner Farbe fortzufahren, (2) passen, um die Farben zu tauschen, oder (3) zwei weitere Paare setzen und den Gegner die Seiten wählen lassen.",
+      "INITIAL_INSTRUCTIONS_SWAP23": "Seiten wählen: Setze ein Steinpaar, um deine Farbe zu behalten, oder passe, um die Farben zu tauschen und den Gegner ziehen zu lassen.",
+      "NO_MIRROR": "Dieser Zug würde die Stellung in einer Dreh- oder Achsensymmetrie hinterlassen (egal ob die Farben wie sie sind oder vertauscht betrachtet werden), was die Variante „Keine Spiegelung“ verbietet.",
+      "NO_MIRROR_CONTINUE": "Die Stellung wäre nach diesem Paar symmetrisch, was nicht erlaubt ist. Setze ein anderes Paar oder wähle andere Felder.",
+      "NO_MIRROR_DARK": "Jedes Feld für den dunklen Stein neben diesem hellen Stein würde die Stellung symmetrisch hinterlassen. Wähle ein anderes Feld für den hellen Stein.",
+      "NO_MOVELIST": "Zugsliste während dieses Eröffnungszugs nicht verfügbar. Klicke auf das Spielbrett, um Steine zu setzen.",
       "NO_NEIGHBOUR": "Dieses Feld hat keinen gültigen leeren Nachbarn.",
-      "PARTIAL": "Platzieren Sie den dunklen Stein auf einem angrenzenden leeren Feld."
+      "PARTIAL": "Platzieren Sie den dunklen Stein auf einem angrenzenden leeren Feld.",
+      "SWAP21_one": "Setze noch ein Steinpaar.",
+      "SWAP21_other": "Setze {{count}} weitere Steinpaare.",
+      "SWAP21_EXCESS": "Du hast zu viele Steine gesetzt. Du darfst nur drei Paare setzen.",
+      "SWAP22_EXCESS": "Du hast zu viele Steine gesetzt. Du darfst nur zwei Paare setzen.",
+      "SWAP22_PARTIAL": "Schließe den Zug ab, um mit deiner Farbe fortzufahren, oder setze ein weiteres Steinpaar, um den Gegner die Seiten wählen zu lassen.",
+      "TOO_MANY": "Du hast zu viele Steine gesetzt. Du darfst nur ein Paar setzen."
     },
     "take": {
       "INITIAL_INSTRUCTIONS": "Pflanzen Sie einen neuen Samen in die Erde oder lassen Sie eine Pflanze wachsen, indem Sie sie angrenzend an genau einen eigenen Stein (Erde oder keine Erde) platzieren."
@@ -5348,6 +5379,12 @@
       "hide-interior": {
         "description": "Innere Steine nicht hervorheben.",
         "name": "Innere Steine ausblenden"
+      }
+    },
+    "taiji": {
+      "fade-nonscoring": {
+        "description": "Zeichnet die Steine von Gruppen, die nicht zur Wertung zählen, mit 75 % Deckkraft.",
+        "name": "Nicht gewertete Gruppen ausblenden"
       }
     },
     "terrace": {
@@ -7487,8 +7524,20 @@
       "#board": {
         "name": "28x28-Brett"
       },
+      "#opening": {
+        "description": "Nachdem der erste Mirador gesetzt wurde, kann der zweite Spieler passen, um die Farben zu tauschen. Die Miradore wechseln nie ihre Farbe; nur wer welche Farbe spielt, ändert sich.",
+        "name": "Einfaches Pie"
+      },
       "size-40": {
         "name": "40x40-Brett"
+      },
+      "swap-2": {
+        "description": "Der erste Spieler setzt drei Miradore: einen in seiner Farbe, einen in der des Gegners, dann einen in seiner eigenen. Der nächste Spieler kann eine der folgenden Aktionen ausführen: (1) einen einzelnen Mirador setzen, um mit seiner Farbe fortzufahren, (2) passen, um die Farben zu tauschen, oder (3) zwei weitere Miradore setzen und den ersten Spieler die Seiten wählen lassen – entweder indem er einen Mirador setzt, um die Farbe zu übernehmen, die am Zug ist, oder indem er passt, um seine eigene zu behalten. Die Miradore wechseln nie ihre Farbe; nur wer welche Farbe spielt, ändert sich. Deklarieren ist erst erlaubt, wenn die Eröffnung abgeschlossen ist.",
+        "name": "Swap-2-Eröffnung"
+      },
+      "swap-5": {
+        "description": "Für die ersten fünf Miradore auf dem Spielbrett kann der nächste Spieler nach jedem Setzen passen, um die Farben zu tauschen. Die Miradore wechseln nie ihre Farbe; nur wer welche Farbe spielt, ändert sich. Deklarieren ist erst erlaubt, wenn fünf Miradore gesetzt wurden.",
+        "name": "Swap-5-Eröffnung"
       }
     },
     "mixtour": {
@@ -8786,6 +8835,9 @@
       "#groups": {
         "name": "Wertung: Die zwei größten Gruppen"
       },
+      "#opening": {
+        "name": "Kein Pie"
+      },
       "#scoring": {
         "name": "Einfache Summe"
       },
@@ -8795,8 +8847,22 @@
       "11x11": {
         "name": "Größeres Brett: 11x11"
       },
+      "15x15": {
+        "name": "Größtes Spielbrett: 15x15"
+      },
+      "fivegroups": {
+        "name": "Wertung: Die fünf größten Gruppen"
+      },
+      "nomirror": {
+        "description": "Kein Zug darf eine Stellung mit Dreh- oder Achsensymmetrie hinterlassen, ungeachtet dessen, ob die Farben unverändert oder vertauscht betrachtet werden. Dies gilt auch während der Eröffnungen mit Farbtausch.",
+        "name": "Keine Spiegelung"
+      },
       "onegroup": {
         "name": "Wertung: Einzige größte Gruppe"
+      },
+      "pie": {
+        "description": "Nachdem das erste Steinpaar gesetzt wurde, kann der zweite Spieler passen, um die Farben zu tauschen. Die Steine wechseln nie ihre Farbe; nur wer für welche Farbe Punkte erhält, ändert sich.",
+        "name": "Einfaches Pie"
       },
       "products": {
         "description": "Multipliziert die Größen deiner n größten Gruppen miteinander.",
@@ -8805,6 +8871,14 @@
       "squares": {
         "description": "Addiert das Quadrat jeder deiner n größten Gruppen.",
         "name": "Summe der Quadrate"
+      },
+      "swap-2": {
+        "description": "Der erste Spieler setzt drei Steinpaare. Der nächste Spieler kann eine der folgenden Aktionen ausführen: (1) ein einzelnes Paar setzen, um mit seiner Farbe fortzufahren, (2) passen, um die Farben zu tauschen, oder (3) zwei weitere Paare setzen und den ersten Spieler die Seiten wählen lassen – entweder indem er ein Paar setzt, um seine Farbe zu behalten, oder indem er passt, um die Farben zu tauschen. Die Steine wechseln nie ihre Farbe; nur wer für welche Farbe Punkte erhält, ändert sich.",
+        "name": "Swap-2-Eröffnung"
+      },
+      "swap-5": {
+        "description": "Für die ersten fünf Steinpaare auf dem Spielbrett kann der nächste Spieler nach jedem Setzen passen, um die Farben zu tauschen. Die Steine wechseln nie ihre Farbe; nur wer für welche Farbe Punkte erhält, ändert sich.",
+        "name": "Swap-5-Eröffnung"
       },
       "threegroups": {
         "name": "Wertung: Die drei größten Gruppen"

@@ -718,6 +718,9 @@
       "STAGE_SECOND": "Seconda possibilità: il difensore può ancora ritirarsi",
       "TURN": "Turno"
     },
+    "storisende": {
+      "TOTALDISKS": "Dischi totali"
+    },
     "thuemorsego": {
       "NEXT_PLACEMENT": "Prossimi posizionamenti (hex)",
       "BUTTON": "Bottone",
@@ -2558,10 +2561,23 @@
     "mirador": {
       "ALREADY_DECLARED": "Qualcuno ha già dichiarato. Non puoi dichiarare ora.",
       "BAD_PLACEMENT": "Non puoi giocare in {{where}}. Sarebbe adiacente o sovrapposto a un altro mirador. L'unica adiacenza consentita è in diagonale con uno dei tuoi mirador.",
+      "CANNOT_DECLARE_OPENING": "Non puoi dichiarare finché l'apertura non è completata.",
+      "CANNOT_PASS": "Puoi passare solo durante l'apertura, quando ti offre una scelta di colori.",
       "INITIAL_INSTRUCTIONS": "Piazza un mirador oppure, se ritieni che la tua connessione sia inattaccabile, dichiara",
       "INITIAL_INSTRUCTIONS_CHALLENGE": "Piazza tutti i mirador che desideri.",
+      "INITIAL_INSTRUCTIONS_PIE": "Posiziona un mirador, passa per scambiare i colori o, se ritieni che la tua connessione sia inattaccabile, dichiara.",
+      "INITIAL_INSTRUCTIONS_SWAP21": "Posiziona tre mirador: uno del tuo colore, uno del colore dell'avversario, poi uno del tuo colore. L'avversario sceglie quindi la parte.",
+      "INITIAL_INSTRUCTIONS_SWAP22": "Puoi fare una di queste azioni: (1) posizionare un singolo mirador per continuare con il tuo colore, (2) passare per scambiare i colori, o (3) posizionare altri due mirador (uno del tuo colore, poi uno dell'avversario) e lasciare che l'avversario scelga la parte.",
+      "INITIAL_INSTRUCTIONS_SWAP23": "Scegli la parte: posiziona un mirador per prendere il colore che deve muovere (muovi tu ora), oppure passa per mantenere il tuo colore e lasciare muovere l'avversario.",
+      "INITIAL_INSTRUCTIONS_SWAP5": "Posiziona un mirador, oppure passa per scambiare i colori.",
       "NO_EDGE_PLAY": "Non puoi giocare proprio sul bordo della tavola.",
+      "NO_MOVELIST": "Lista delle mosse non disponibile durante questa mossa di apertura. Clicca sulla plancia per posizionare i mirador.",
       "SINGLE_PLACEMENT": "Puoi piazzare solo un mirador.",
+      "SWAP21_one": "Posiziona un altro mirador.",
+      "SWAP21_other": "Posiziona altri {{count}} mirador.",
+      "SWAP21_EXCESS": "Hai posizionato troppi mirador. Puoi posizionarne solo tre.",
+      "SWAP22_EXCESS": "Hai posizionato troppi mirador. Puoi posizionarne solo due.",
+      "SWAP22_PARTIAL": "Completa la mossa per continuare con il tuo colore, oppure posiziona un altro mirador per lasciare che l'avversario scelga la parte.",
       "VALID_PARTIAL_MOVE": "Continua a piazzare mirador finché non avrai interrotto tutte le connessioni dell'avversario."
     },
     "mixtour": {
@@ -3682,9 +3698,24 @@
     },
     "taiji": {
       "ADJACENT": "I pezzi devono essere piazzati adiacenti l'uno all'altro. Il posizionamento diagonale è consentito solo nella variante \"Tonga\".",
+      "CANNOT_PASS": "Puoi passare solo durante l'apertura, quando ti offre una scelta di colori.",
       "INITIAL_INSTRUCTIONS": "Piazza un pezzo chiaro in uno spazio vuoto.",
+      "INITIAL_INSTRUCTIONS_SWAP": "Posiziona un pezzo chiaro in uno spazio vuoto, oppure passa per scambiare i colori.",
+      "INITIAL_INSTRUCTIONS_SWAP21": "Posiziona tre coppie di pezzi, ciascuna composta da un pezzo chiaro e poi un pezzo scuro accanto ad esso. L'avversario sceglie quindi la parte.",
+      "INITIAL_INSTRUCTIONS_SWAP22": "Puoi fare una di queste azioni: (1) posizionare una singola coppia di pezzi per continuare con il tuo colore, (2) passare per scambiare i colori, o (3) posizionare altre due coppie e lasciare che l'avversario scelga la parte.",
+      "INITIAL_INSTRUCTIONS_SWAP23": "Scegli la parte: posiziona una coppia di pezzi per mantenere il tuo colore, oppure passa per scambiare i colori e lasciare muovere l'avversario.",
+      "NO_MIRROR": "Quella mossa lascerebbe la posizione con una simmetria rotazionale o speculare (con i colori così come sono o invertiti), che la variante \"Senza specchiatura\" vieta.",
+      "NO_MIRROR_CONTINUE": "La posizione sarebbe simmetrica dopo questa coppia, il che non è consentito. Posiziona un'altra coppia o scegli spazi diversi.",
+      "NO_MIRROR_DARK": "Ogni spazio per il pezzo scuro accanto a quel pezzo chiaro lascerebbe la posizione simmetrica. Scegli uno spazio diverso per il pezzo chiaro.",
+      "NO_MOVELIST": "Lista delle mosse non disponibile durante questa mossa di apertura. Clicca sulla plancia per posizionare i pezzi.",
       "NO_NEIGHBOUR": "Quello spazio non ha alcun vicino vuoto valido.",
-      "PARTIAL": "Piazza il pezzo scuro in uno spazio vuoto adiacente."
+      "PARTIAL": "Piazza il pezzo scuro in uno spazio vuoto adiacente.",
+      "SWAP21_one": "Posiziona un'altra coppia di pezzi.",
+      "SWAP21_other": "Posiziona altre {{count}} coppie di pezzi.",
+      "SWAP21_EXCESS": "Hai posizionato troppi pezzi. Puoi posizionare solo tre coppie.",
+      "SWAP22_EXCESS": "Hai posizionato troppi pezzi. Puoi posizionare solo due coppie.",
+      "SWAP22_PARTIAL": "Completa la mossa per continuare con il tuo colore, oppure posiziona un'altra coppia di pezzi per lasciare che l'avversario scelga la parte.",
+      "TOO_MANY": "Hai posizionato troppi pezzi. Puoi posizionare solo una coppia."
     },
     "take": {
       "INITIAL_INSTRUCTIONS": "Pianta un nuovo seme nella terra, oppure fai crescere una pianta piazzandola adiacente a esattamente un pezzo alleato (terra o non terra)."
@@ -5348,6 +5379,12 @@
       "hide-interior": {
         "description": "Non evidenziare le pietre interne.",
         "name": "Nascondi pietre interne"
+      }
+    },
+    "taiji": {
+      "fade-nonscoring": {
+        "description": "Disegna i pezzi dei gruppi che non contano ai fini del punteggio con un'opacità del 75%.",
+        "name": "Attenua gruppi senza punteggio"
       }
     },
     "terrace": {
@@ -7487,8 +7524,20 @@
       "#board": {
         "name": "Plancia 28x28"
       },
+      "#opening": {
+        "description": "Dopo che il primo mirador è stato posizionato, il secondo giocatore può passare per scambiare i colori. I mirador non cambiano mai colore; cambia solo chi gioca ciascun colore.",
+        "name": "Torta semplice"
+      },
       "size-40": {
         "name": "Plancia 40x40"
+      },
+      "swap-2": {
+        "description": "Il primo giocatore posiziona tre mirador: uno del proprio colore, uno di quello dell'avversario, poi uno del proprio. Il giocatore successivo può fare una di queste azioni: (1) posizionare un singolo mirador per continuare con il proprio colore, (2) passare per scambiare i colori, o (3) posizionare altri due mirador e lasciare che il primo giocatore scelga la parte, posizionando un mirador per prendere il colore che deve muovere o passando per mantenere il proprio. I mirador non cambiano mai colore; cambia solo chi gioca ciascun colore. Non è consentito dichiarare finché l'apertura non è completata.",
+        "name": "Apertura Swap-2"
+      },
+      "swap-5": {
+        "description": "Per i primi cinque mirador sulla plancia, dopo ogni posizionamento, il giocatore successivo può passare per scambiare i colori. I mirador non cambiano mai colore; cambia solo chi gioca ciascun colore. Non è consentito dichiarare finché non sono stati posizionati cinque mirador.",
+        "name": "Apertura Swap-5"
       }
     },
     "mixtour": {
@@ -8786,6 +8835,9 @@
       "#groups": {
         "name": "Punteggio: I due gruppi più grandi"
       },
+      "#opening": {
+        "name": "Senza regola della torta"
+      },
       "#scoring": {
         "name": "Somma semplice"
       },
@@ -8795,8 +8847,22 @@
       "11x11": {
         "name": "Tabellone più grande: 11x11"
       },
+      "15x15": {
+        "name": "Plancia più grande: 15x15"
+      },
+      "fivegroups": {
+        "name": "Punteggio: I cinque gruppi più grandi"
+      },
+      "nomirror": {
+        "description": "Nessuna mossa può lasciare la posizione con una simmetria rotazionale o speculare, sia che i colori siano presi così come sono sia che siano invertiti. Questo si applica anche durante le aperture con scambio.",
+        "name": "Senza specchiatura"
+      },
       "onegroup": {
         "name": "Punteggio: Singolo gruppo più grande"
+      },
+      "pie": {
+        "description": "Dopo che la prima coppia di pezzi è stata posizionata, il secondo giocatore può passare per scambiare i colori. I pezzi non cambiano mai colore; cambia solo chi fa punti con ciascun colore.",
+        "name": "Torta semplice"
       },
       "products": {
         "description": "Moltiplica tra loro le dimensioni dei tuoi n gruppi più grandi.",
@@ -8805,6 +8871,14 @@
       "squares": {
         "description": "Somma il quadrato di ciascuno dei tuoi n gruppi più grandi.",
         "name": "Somma dei quadrati"
+      },
+      "swap-2": {
+        "description": "Il primo giocatore posiziona tre coppie di pezzi. Il giocatore successivo può fare una di queste azioni: (1) posizionare una singola coppia per continuare con il proprio colore, (2) passare per scambiare i colori, o (3) posizionare altre due coppie e lasciare che il primo giocatore scelga la parte, posizionando una coppia per mantenere il proprio colore o passando per scambiare i colori. I pezzi non cambiano mai colore; cambia solo chi fa punti con ciascun colore.",
+        "name": "Apertura Swap-2"
+      },
+      "swap-5": {
+        "description": "Per le prime cinque coppie di pezzi sulla plancia, dopo ogni posizionamento, il giocatore successivo può passare per scambiare i colori. I pezzi non cambiano mai colore; cambia solo chi fa punti con ciascun colore.",
+        "name": "Apertura Swap-5"
       },
       "threegroups": {
         "name": "Punteggio: I tre gruppi più grandi"

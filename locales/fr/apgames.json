@@ -718,6 +718,9 @@
       "STAGE_SECOND": "Seconde chance : le défenseur peut encore battre en retraite",
       "TURN": "Tour"
     },
+    "storisende": {
+      "TOTALDISKS": "Total des disques"
+    },
     "thuemorsego": {
       "NEXT_PLACEMENT": "Prochaines poses (hex)",
       "BUTTON": "Bouton",
@@ -2558,10 +2561,23 @@
     "mirador": {
       "ALREADY_DECLARED": "Quelqu'un a déjà déclaré. Vous ne pouvez pas déclarer maintenant.",
       "BAD_PLACEMENT": "Vous ne pouvez pas jouer en {{where}}. Ce serait adjacent à ou en chevauchement avec un autre mirador. La seule adjacence autorisée est en diagonale avec l'un de vos propres miradors.",
+      "CANNOT_DECLARE_OPENING": "Vous ne pouvez pas déclarer tant que l'ouverture n'est pas terminée.",
+      "CANNOT_PASS": "Vous ne pouvez passer que pendant l'ouverture, lorsqu'elle vous offre un choix de couleurs.",
       "INITIAL_INSTRUCTIONS": "Placez un mirador, ou, si vous pensez que votre connexion est inattaquable, déclarez.",
       "INITIAL_INSTRUCTIONS_CHALLENGE": "Placez autant de miradors que vous le souhaitez.",
+      "INITIAL_INSTRUCTIONS_PIE": "Placez un mirador, passez pour échanger les couleurs ou, si vous pensez que votre connexion est inattaquable, déclarez.",
+      "INITIAL_INSTRUCTIONS_SWAP21": "Placez trois miradors : un de votre couleur, un de la couleur de l'adversaire, puis un de votre couleur. L'adversaire choisit ensuite son camp.",
+      "INITIAL_INSTRUCTIONS_SWAP22": "Vous pouvez (1) placer un seul mirador pour continuer avec votre couleur, (2) passer pour échanger les couleurs, ou (3) placer deux miradors supplémentaires (un de votre couleur, puis un de celle de l'adversaire) et laisser l'adversaire choisir son camp.",
+      "INITIAL_INSTRUCTIONS_SWAP23": "Choisissez votre camp : placez un mirador pour prendre la couleur qui doit jouer (vous jouez maintenant), ou passez pour garder votre couleur et laisser l'adversaire jouer.",
+      "INITIAL_INSTRUCTIONS_SWAP5": "Placez un mirador ou passez pour échanger les couleurs.",
       "NO_EDGE_PLAY": "Vous ne pouvez pas jouer sur le bord même du plateau.",
+      "NO_MOVELIST": "La liste des coups n'est pas disponible pendant ce coup d'ouverture. Cliquez sur le plateau pour placer des miradors.",
       "SINGLE_PLACEMENT": "Vous ne pouvez placer qu'un seul mirador.",
+      "SWAP21_one": "Placez encore un mirador.",
+      "SWAP21_other": "Placez encore {{count}} miradors.",
+      "SWAP21_EXCESS": "Vous avez placé trop de miradors. Vous ne pouvez en placer que trois.",
+      "SWAP22_EXCESS": "Vous avez placé trop de miradors. Vous ne pouvez en placer que deux.",
+      "SWAP22_PARTIAL": "Terminez le coup pour continuer avec votre couleur, ou placez un autre mirador pour laisser l'adversaire choisir son camp.",
       "VALID_PARTIAL_MOVE": "Continuez à placer des miradors jusqu'à ce que vous ayez brisé toutes les connexions de l'adversaire."
     },
     "mixtour": {
@@ -3682,9 +3698,24 @@
     },
     "taiji": {
       "ADJACENT": "Les pièces doivent être placées adjacentes les unes aux autres. Le placement en diagonale n'est autorisé que dans la variante \"Tonga\".",
+      "CANNOT_PASS": "Vous ne pouvez passer que pendant l'ouverture, lorsqu'elle vous offre un choix de couleurs.",
       "INITIAL_INSTRUCTIONS": "Placez une pièce claire sur un espace vide.",
+      "INITIAL_INSTRUCTIONS_SWAP": "Placez une pièce claire sur une case vide, ou passez pour échanger les couleurs.",
+      "INITIAL_INSTRUCTIONS_SWAP21": "Placez trois paires de pièces, chacune composée d'une pièce claire puis d'une pièce sombre adjacente. L'adversaire choisit ensuite son camp.",
+      "INITIAL_INSTRUCTIONS_SWAP22": "Vous pouvez (1) placer une seule paire de pièces pour continuer avec votre couleur, (2) passer pour échanger les couleurs, ou (3) placer deux paires supplémentaires et laisser l'adversaire choisir son camp.",
+      "INITIAL_INSTRUCTIONS_SWAP23": "Choisissez votre camp : placez une paire de pièces pour garder votre couleur, ou passez pour échanger les couleurs et laisser l'adversaire jouer.",
+      "NO_MIRROR": "Ce coup laisserait la position avec une symétrie de rotation ou de réflexion (que les couleurs soient conservées ou inversées), ce qui est interdit par la variante \"Sans miroir\".",
+      "NO_MIRROR_CONTINUE": "La position serait symétrique après cette paire, ce qui n'est pas autorisé. Placez une autre paire ou choisissez des cases différentes.",
+      "NO_MIRROR_DARK": "Chaque case pour la pièce sombre à côté de cette pièce claire laisserait la position symétrique. Choisissez une case différente pour la pièce claire.",
+      "NO_MOVELIST": "La liste des coups n'est pas disponible pendant ce coup d'ouverture. Cliquez sur le plateau pour placer des pièces.",
       "NO_NEIGHBOUR": "Cet espace n'a pas de voisin vide valide.",
-      "PARTIAL": "Placez la pièce sombre dans un espace vide adjacent."
+      "PARTIAL": "Placez la pièce sombre dans un espace vide adjacent.",
+      "SWAP21_one": "Placez encore une paire de pièces.",
+      "SWAP21_other": "Placez encore {{count}} paires de pièces.",
+      "SWAP21_EXCESS": "Vous avez placé trop de pièces. Vous ne pouvez placer que trois paires.",
+      "SWAP22_EXCESS": "Vous avez placé trop de pièces. Vous ne pouvez placer que deux paires.",
+      "SWAP22_PARTIAL": "Terminez le coup pour continuer avec votre couleur, ou placez une autre paire de pièces pour laisser l'adversaire choisir son camp.",
+      "TOO_MANY": "Vous avez placé trop de pièces. Vous ne pouvez placer qu'une seule paire."
     },
     "take": {
       "INITIAL_INSTRUCTIONS": "Plantez une nouvelle graine dans la terre, ou faites pousser une plante en la plaçant de manière adjacente à exactement une pièce alliée (terre ou non)."
@@ -5348,6 +5379,12 @@
       "hide-interior": {
         "description": "Ne pas mettre en surbrillance les pierres intérieures.",
         "name": "Masquer les pierres intérieures"
+      }
+    },
+    "taiji": {
+      "fade-nonscoring": {
+        "description": "Affiche les pièces des groupes qui ne comptent pas dans le score avec une opacité de 75 %.",
+        "name": "Estomper les groupes hors score"
       }
     },
     "terrace": {
@@ -7487,8 +7524,20 @@
       "#board": {
         "name": "Plateau 28x28"
       },
+      "#opening": {
+        "description": "Après le placement du premier mirador, le second joueur peut passer pour échanger les couleurs. Les miradors ne changent jamais de couleur ; seul le joueur qui contrôle chaque couleur change.",
+        "name": "Gâteau simple"
+      },
       "size-40": {
         "name": "Plateau 40x40"
+      },
+      "swap-2": {
+        "description": "Le premier joueur place trois miradors : un de sa couleur, un de celle de l'adversaire, puis un de la sienne. Le joueur suivant peut (1) placer un seul mirador pour continuer avec sa couleur, (2) passer pour échanger les couleurs, ou (3) placer deux miradors supplémentaires et laisser le premier joueur choisir son camp, en plaçant un mirador pour prendre la couleur qui doit jouer ou en passant pour garder la sienne. Les miradors ne changent jamais de couleur ; seul le joueur qui contrôle chaque couleur change. La déclaration n'est pas autorisée tant que l'ouverture n'est pas terminée.",
+        "name": "Ouverture Swap-2"
+      },
+      "swap-5": {
+        "description": "Pour les cinq premiers miradors sur le plateau, après chaque placement, le joueur suivant peut passer pour échanger les couleurs. Les miradors ne changent jamais de couleur ; seul le joueur qui contrôle chaque couleur change. La déclaration n'est pas autorisée tant que cinq miradors n'ont pas été placés.",
+        "name": "Ouverture Swap-5"
       }
     },
     "mixtour": {
@@ -8786,6 +8835,9 @@
       "#groups": {
         "name": "Décompte : Deux plus grands groupes"
       },
+      "#opening": {
+        "name": "Sans gâteau"
+      },
       "#scoring": {
         "name": "Somme simple"
       },
@@ -8795,8 +8847,22 @@
       "11x11": {
         "name": "Plateau plus grand : 11x11"
       },
+      "15x15": {
+        "name": "Plus grand plateau : 15x15"
+      },
+      "fivegroups": {
+        "name": "Score : Les cinq plus grands groupes"
+      },
+      "nomirror": {
+        "description": "Aucun coup ne peut laisser la position avec une symétrie de rotation ou de réflexion, que les couleurs soient considérées telles quelles ou inversées. Cela s'applique également pendant les ouvertures à échange.",
+        "name": "Sans miroir"
+      },
       "onegroup": {
         "name": "Décompte : Plus grand groupe unique"
+      },
+      "pie": {
+        "description": "Après le placement de la première paire de pièces, le second joueur peut passer pour échanger les couleurs. Les pièces ne changent jamais de couleur ; seul le joueur qui marque les points de chaque couleur change.",
+        "name": "Gâteau simple"
       },
       "products": {
         "description": "Multiplie entre elles les tailles de vos n plus grands groupes.",
@@ -8805,6 +8871,14 @@
       "squares": {
         "description": "Additionne le carré de chacun de vos n plus grands groupes.",
         "name": "Somme des carrés"
+      },
+      "swap-2": {
+        "description": "Le premier joueur place trois paires de pièces. Le joueur suivant peut (1) placer une seule paire pour continuer avec sa couleur, (2) passer pour échanger les couleurs, ou (3) placer deux paires supplémentaires et laisser le premier joueur choisir son camp, en plaçant une paire pour garder sa couleur ou en passant pour échanger les couleurs. Les pièces ne changent jamais de couleur ; seul le joueur qui marque les points de chaque couleur change.",
+        "name": "Ouverture Swap-2"
+      },
+      "swap-5": {
+        "description": "Pour les cinq premières paires de pièces sur le plateau, après chaque placement, le joueur suivant peut passer pour échanger les couleurs. Les pièces ne changent jamais de couleur ; seul le joueur qui marque les points de chaque couleur change.",
+        "name": "Ouverture Swap-5"
       },
       "threegroups": {
         "name": "Décompte : Trois plus grands groupes"

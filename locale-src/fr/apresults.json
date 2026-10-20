@@ -263,6 +263,10 @@
     "src": "{{player}} was forced to pass.",
     "out": "{{player}} a été contraint(e) de passer."
   },
+  "_general.PASS.keep": {
+    "src": "{{player}} kept their colour.",
+    "out": "{{player}} a conservé sa couleur."
+  },
   "_general.PASS.pie": {
     "src": "{{player}} accepted the komi offer and will continue playing second.",
     "out": "{{player}} a accepté l'offre de komi et continuera à jouer en second."

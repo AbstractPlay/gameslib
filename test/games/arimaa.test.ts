@@ -1409,3 +1409,23 @@ describe("Arimaa Dicey Moves", () => {
         expect(ArimaaGame.gameinfo.variants!.find(v => v.uid === "eee")!.people![0].name).to.equal("clyring");
     });
 });
+
+describe("Arimaa setup clicks", () => {
+    it("unplaces a piece when the click lands beside it in the same square", () => {
+        const g = new ArimaaGame();
+        let result = g.handleClick("", 6, 4);
+        expect(result.move).to.equal("Ee2");
+        result = g.handleClick("Ee2", 6, 3);
+        expect(result.move).to.equal("Ee2,Md2");
+        // the renderer reports no piece for a click on the empty part of an occupied square
+        result = g.handleClick("Ee2,Md2", 6, 3, "");
+        expect(result.valid).to.be.true;
+        expect(result.move).to.equal("Ee2");
+        result = g.handleClick("Ee2", 6, 4);
+        expect(result.valid).to.be.true;
+        expect(result.move).to.equal("");
+        // clicking the piece glyph itself works as before
+        result = g.handleClick("Ee2,Md2", 6, 3, "M1");
+        expect(result.move).to.equal("Ee2");
+    });
+});

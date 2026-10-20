@@ -14,6 +14,19 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 ### Added
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Thue-Morse Go, Yodd.
+- **Mirador variants:** Swap-2 and Swap-5
+- **Taiji:**
+  - Swap-2, Swap-5, Simple pie (variant group) (No pie is left as default for consistency)
+  - No mirroring (checkbox variant)
+  - 5 groups score, 15x15 board (added to their respective variant groups)
+  - Visual cues for which groups score and how, and whether diagonal placements are allowed (Tonga)
+- **Gonnect:** Show score
+- **Mega-volcano/Volcano:** add frames
+- **Storisende:** Total disks for each side in status panel
+
+### Fixed
+
+- **Arimaa:** During setup, clicking the empty part of a square beside a placed piece now unplaces that piece, the same as clicking the piece itself.
 
 ## [1.0.0-ci] - 2026-10-19
 

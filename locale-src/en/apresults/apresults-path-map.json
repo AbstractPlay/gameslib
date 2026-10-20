@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-18",
+  "generatedAt": "2026-10-19",
   "schemaVersion": 1,
   "entries": [
     {
@@ -661,6 +661,16 @@
       "newPath": "_general.PASS.forced",
       "newFullKey": "apresults:_general.PASS.forced",
       "english": "{{player}} was forced to pass."
+    },
+    {
+      "oldPath": "PASS.keep",
+      "oldFullKey": "apresults:PASS.keep",
+      "uid": "_general",
+      "resultType": "PASS",
+      "newLeaf": "keep",
+      "newPath": "_general.PASS.keep",
+      "newFullKey": "apresults:_general.PASS.keep",
+      "english": "{{player}} kept their colour."
     },
     {
       "oldPath": "PASS.pie",

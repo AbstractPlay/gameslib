@@ -5,7 +5,10 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { Ship } from "./homeworlds/ship.js";
 import { System } from "./homeworlds/system.js";
 import { Stash } from "./homeworlds/stash.js";
-import { traditionalRowsForRender } from "./homeworlds/peripheralLayout.js";
+import {
+    deterministicRowsForRender,
+    traditionalOrDeterministicRowsForRender,
+} from "./homeworlds/peripheralLayout.js";
 import { reviver } from "../common/index.js";
 import { CartesianProduct, Permutation, PowerSet } from "js-combinatorics";
 import { UserFacingError } from "../common/index.js";
@@ -105,6 +108,10 @@ export const gameApgamesEn = {
         "#layout": {
             name: "Deterministic",
             description: "Peripheral systems are laid out in columns by size.",
+        },
+        rows: {
+            name: "Deterministic (Rows)",
+            description: "Peripheral systems are laid out in rows by size (small to large).",
         },
         traditional: {
             name: "Traditional",
@@ -243,7 +250,10 @@ export class HomeworldsGame extends GameBaseSkipTurn {
             {uid: "#rules"},
         ],
         categories: ["goal>cripple", "mechanic>capture", "mechanic>move", "mechanic>convert", "mechanic>economy", "mechanic>place", "mechanic>share", "board>none", "components>pyramids", "other>2+players"],
-        displays: [{ uid: "traditional", group: "layout" }],
+        displays: [
+            { uid: "rows", group: "layout" },
+            { uid: "traditional", group: "layout" },
+        ],
         flags: ["shared-pieces", "perspective", "rotate90", "no-moves", "custom-rotation"]
     };
 
@@ -2796,15 +2806,24 @@ export class HomeworldsGame extends GameBaseSkipTurn {
 
         // Build rep
         let board = this.systems.map(s => s.renderSys()) as BoardHomeworlds;
-        if (this.numplayers === 2 && this.hasDisplay(opts, "traditional")) {
-            const rows = traditionalRowsForRender(this.systems, this.stack, this.numplayers);
-            if (rows !== undefined) {
+        if (this.numplayers === 2) {
+            let rowBySystem: Map<string, number> | undefined;
+            if (this.hasDisplay(opts, "traditional")) {
+                rowBySystem = traditionalOrDeterministicRowsForRender(
+                    this.systems,
+                    this.stack,
+                    this.numplayers,
+                );
+            } else if (this.hasDisplay(opts, "rows")) {
+                rowBySystem = deterministicRowsForRender(this.systems);
+            }
+            if (rowBySystem !== undefined && rowBySystem.size > 0) {
                 board = board.map((entry, i) => {
                     const sys = this.systems[i]!;
                     if (sys.owner !== undefined) {
                         return entry;
                     }
-                    const row = rows.get(sys.name);
+                    const row = rowBySystem.get(sys.name);
                     if (row === undefined) {
                         return entry;
                     }

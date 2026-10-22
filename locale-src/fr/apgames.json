@@ -2891,6 +2891,14 @@
     "src": "Deterministic",
     "out": "Déterministe"
   },
+  "displays.homeworlds.rows.description": {
+    "src": "Peripheral systems are laid out in rows by size (small to large).",
+    "out": "Les systèmes périphériques sont disposés en rangées selon leur taille (du plus petit au plus grand)."
+  },
+  "displays.homeworlds.rows.name": {
+    "src": "Deterministic (Rows)",
+    "out": "Déterministe (Rangées)"
+  },
   "displays.homeworlds.traditional.description": {
     "src": "A more-traditional horizontal approach; only applies to 2-player games.",
     "out": "Une approche horizontale plus traditionnelle ; s'applique uniquement aux parties à 2 joueurs."

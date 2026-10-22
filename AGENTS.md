@@ -22,7 +22,7 @@ npm run typecheck
 npm run lint
 ```
 
-Run tests appropriate to the change (see **Tests** below). CI runs the full `npm test` suite.
+Run tests appropriate to the change (see **Tests** below). CI runs the full `npm test` suite. If you changed **`docs/`**, also **`npm run docs:check`** (exit 0).
 
 ### Dependencies
 
@@ -48,10 +48,14 @@ Cursor: [`.cursor/rules/changelog-monthly.mdc`](.cursor/rules/changelog-monthly.
 - No optional-parenthesis plurals (`piece(s)`). Use i18next pairs: `KEY_one`, `KEY_other`.
 - Details: [docs/i18n.md](docs/i18n.md).
 
-### Documentation in this repo
+### Documentation (vendor-synced repos)
 
-- New page under `docs/**/*.md` → add its slug to [`docs/nav.json`](docs/nav.json).
-- Prefer absolute doc URLs (`/gameslib/...`) for cross-page links; run `npm run docs:check` when editing docs (needs sibling `docs` checkout or `AP_DOCS_ROOT`).
+Human docs ship from the [docs](https://github.com/AbstractPlay/docs) site ([docs.abstractplay.com](https://docs.abstractplay.com/)). Content is authored under each product repo’s `docs/` and aggregated via submodules; **`main` merges dispatch `dep_update_prod`**, which runs **`docs:check`** on vendored tips. Broken docs in gameslib/renderer/backend block prod deploy.
+
+- New published page (`docs/**/*.md`, not `_`-prefixed) → that repo’s [`docs/nav.json`](docs/nav.json) (`slug` without `.md`).
+- **Internal links** in `docs/**/*.md`: use **published paths** with trailing slash (`/gameslib/creating-games/`, `/renderer/homeworlds-layout/`, `/backend/.../`), **not** `other-page.md`, `./foo.md`, or `../foo.md`. `docs:check` resolves links from the **page URL** (e.g. `/renderer/engines/`), so relative `.md` targets become wrong paths and fail CI. Copy URL style from that repo’s `docs/index.md`.
+- **Renderer only:** `docs/samples/*.json` — sheet legend glyphs use **`paint`**, not `colour` / `colour2`; enforced by `npm test`.
+- Fix content in the **owning repo**, not copies under `docs/vendor/*` in the docs checkout.
 
 ### Secrets
 
@@ -89,7 +93,7 @@ Do **not** `git commit`, `git push`, or amend commits unless the human explicitl
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run lint` | Weblate keys, game names locale, JSON format, ESLint |
 | `npm run build` | Release compile, registry check, lint |
-| `npm run docs:check` | Doc links/nav after `docs/` edits |
+| `npm run docs:check` | Full site check via sibling `../docs` (syncs this repo into `vendor/gameslib`, runs `docs:check`; CI sets `AP_DOCS_ROOT`) |
 | `npm run json2ts` | Regenerate `.d.ts` from JSON schemas |
 
 Shared code (`src/common/**`, `src/games/_turn-model.ts`, registry/locale scripts): run **full** `npm test` before merge.
@@ -109,6 +113,14 @@ Tests must be **self-contained** and **deterministic**.
 ## Schemas
 
 After editing `src/schemas/*.json`, run `npm run json2ts`. Generated headers should use `eslint-disable @typescript-eslint/naming-convention` (not `tslint:disable`) — see [README.md](README.md).
+
+## Documentation
+
+Published: [docs.abstractplay.com/gameslib/](https://docs.abstractplay.com/gameslib/). See **Documentation (vendor-synced repos)** above for link and nav rules (shared across AP repos).
+
+- Changing **`GameBase`**, **`gameinfo.json`**, or public API surface → update **`docs/`** in the same PR ([`docs/index.md`](docs/index.md) lists main entry points).
+- **Catalog pages** (`meta-games.md`, `categories.md`) are generated — run `npm run gen-docs-catalog` or let `docs:check` regenerate them; do not hand-edit gitignored outputs.
+- **After `docs/` edits:** `npm run docs:check` (requires clone of [AbstractPlay/docs](https://github.com/AbstractPlay/docs) as `../docs`). Fix every **`ERROR:`** line (especially `Broken doc link in vendor/gameslib/...`). PR CI runs the same check.
 
 ## Contact
 

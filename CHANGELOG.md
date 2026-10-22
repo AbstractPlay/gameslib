@@ -15,7 +15,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Thue-Morse Go, Yodd.
 
-## [1.0.0-ci] - 2026-10-20
+## [1.0.0-ci] - 2026-10-22
 
 ### Added
 
@@ -36,7 +36,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **Gonnect:** Show score
 - **Mega-volcano/Volcano:** add frames
 - **Storisende:** Total disks for each side in status panel
-- **Homeworlds:** **Traditional** board display (2-player) — row bands for peripheries from opening `stack[2]` pairing (large, small, or micro universe); **Deterministic** remains size columns (render-only).
+- **Homeworlds:** **Traditional** board display (2-player) — row bands for peripheries from opening `stack[2]` pairing (large, small, micro, or one two-size home); falls back to **Deterministic (Rows)** when unsupported; **Deterministic (Rows)** display (size 1–3 → rows 0–2); columnar **Deterministic** unchanged (render-only).
 
 ### Changed
 

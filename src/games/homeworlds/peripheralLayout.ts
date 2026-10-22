@@ -40,13 +40,18 @@ export function classifyBinaryPairing(nStars: Star[], sStars: Star[]): BinaryPai
     const s = sizeSet(sStars);
     const overlap = ALL_SIZES.filter((z) => n.has(z) && s.has(z)).length;
 
-    if (isTwoDistinctStarHome(nStars) && isTwoDistinctStarHome(sStars)) {
+    const nTwoDistinct = isTwoDistinctStarHome(nStars);
+    const sTwoDistinct = isTwoDistinctStarHome(sStars);
+    if (nTwoDistinct && sTwoDistinct) {
         if (overlap === 1) {
             return "large";
         }
         if (overlap === 2) {
             return "small";
         }
+    }
+    if (nTwoDistinct !== sTwoDistinct) {
+        return "asymmetric";
     }
     if (overlap === 0) {
         return "micro";
@@ -129,10 +134,35 @@ export function binarySizeToRowMap(
     }
 }
 
+/** One-star periphery: size 1 → row 0, size 2 → row 1, size 3 → row 2. */
+export const DETERMINISTIC_ROWS_BY_SIZE: BinarySizeToRow = { 1: 0, 2: 1, 3: 2 };
+
+function tryBuildAsymmetricTwoSizeHomeMap(nStars: Star[], sStars: Star[]): BinarySizeToRow | undefined {
+    const nTwoDistinct = isTwoDistinctStarHome(nStars);
+    const sTwoDistinct = isTwoDistinctStarHome(sStars);
+    if (nTwoDistinct === sTwoDistinct) {
+        return undefined;
+    }
+    const twoSizeHomeIsNorth = nTwoDistinct;
+    const twoSet = twoSizeHomeIsNorth ? sizeSet(nStars) : sizeSet(sStars);
+    const absent = absentSize(twoSet);
+    if (absent === undefined) {
+        return undefined;
+    }
+    const remaining = ALL_SIZES.filter((z) => z !== absent);
+    const absentRow: TraditionalRow = twoSizeHomeIsNorth ? 0 : 2;
+    const otherRows: [TraditionalRow, TraditionalRow] = twoSizeHomeIsNorth ? [1, 2] : [0, 1];
+    return {
+        [absent]: absentRow,
+        [remaining[0]!]: otherRows[0],
+        [remaining[1]!]: otherRows[1],
+    } as BinarySizeToRow;
+}
+
 export function tryBuildBinarySizeToRow(nStars: Star[], sStars: Star[]): BinarySizeToRow | undefined {
     const kind = classifyBinaryPairing(nStars, sStars);
     if (kind === "asymmetric") {
-        return undefined;
+        return tryBuildAsymmetricTwoSizeHomeMap(nStars, sStars);
     }
     return binarySizeToRowMap(kind, nStars, sStars);
 }
@@ -160,6 +190,34 @@ export function binarySizeToRowFromStack(
     return tryBuildBinarySizeToRow(homes.n, homes.s);
 }
 
+function peripheralRowsForRender(
+    systems: { name: string; owner?: Seat; stars: Star[] }[],
+    sizeToRow: BinarySizeToRow,
+    requireAllOneStar: boolean,
+): Map<string, TraditionalRow> | undefined {
+    const rows = new Map<string, TraditionalRow>();
+    for (const sys of systems) {
+        if (sys.owner !== undefined) {
+            continue;
+        }
+        const sizes = distinctStarSizes(sys.stars);
+        if (sizes.length !== 1) {
+            if (requireAllOneStar) {
+                return undefined;
+            }
+            continue;
+        }
+        rows.set(sys.name, sizeToRow[sizes[0]!]);
+    }
+    return rows;
+}
+
+export function deterministicRowsForRender(
+    systems: { name: string; owner?: Seat; stars: Star[] }[],
+): Map<string, TraditionalRow> {
+    return peripheralRowsForRender(systems, DETERMINISTIC_ROWS_BY_SIZE, false) ?? new Map();
+}
+
 export function traditionalRowsForRender(
     systems: { name: string; owner?: Seat; stars: Star[] }[],
     stack: HomeworldsStackSnapshot[],
@@ -169,16 +227,18 @@ export function traditionalRowsForRender(
     if (sizeToRow === undefined) {
         return undefined;
     }
-    const rows = new Map<string, TraditionalRow>();
-    for (const sys of systems) {
-        if (sys.owner !== undefined) {
-            continue;
-        }
-        const sizes = distinctStarSizes(sys.stars);
-        if (sizes.length !== 1) {
-            return undefined;
-        }
-        rows.set(sys.name, sizeToRow[sizes[0]!]);
+    return peripheralRowsForRender(systems, sizeToRow, true);
+}
+
+/** Traditional row map when valid; otherwise deterministic rows by star size (2-player render fallback). */
+export function traditionalOrDeterministicRowsForRender(
+    systems: { name: string; owner?: Seat; stars: Star[] }[],
+    stack: HomeworldsStackSnapshot[],
+    numplayers: number,
+): Map<string, TraditionalRow> {
+    const traditional = traditionalRowsForRender(systems, stack, numplayers);
+    if (traditional !== undefined) {
+        return traditional;
     }
-    return rows;
+    return deterministicRowsForRender(systems);
 }

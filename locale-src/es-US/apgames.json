@@ -2891,6 +2891,14 @@
     "src": "Deterministic",
     "out": "Determinista"
   },
+  "displays.homeworlds.rows.description": {
+    "src": "Peripheral systems are laid out in rows by size (small to large).",
+    "out": "Los sistemas periféricos se organizan en filas según su tamaño (de pequeño a grande)."
+  },
+  "displays.homeworlds.rows.name": {
+    "src": "Deterministic (Rows)",
+    "out": "Determinista (Filas)"
+  },
   "displays.homeworlds.traditional.description": {
     "src": "A more-traditional horizontal approach; only applies to 2-player games.",
     "out": "Un enfoque horizontal más tradicional; solo aplica a partidas de 2 jugadores."

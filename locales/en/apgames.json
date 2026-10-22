@@ -5144,6 +5144,10 @@
         "name": "Deterministic",
         "description": "Peripheral systems are laid out in columns by size."
       },
+      "rows": {
+        "name": "Deterministic (Rows)",
+        "description": "Peripheral systems are laid out in rows by size (small to large)."
+      },
       "traditional": {
         "name": "Traditional",
         "description": "A more-traditional horizontal approach; only applies to 2-player games."

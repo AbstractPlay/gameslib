@@ -21599,6 +21599,22 @@
     "src": "Balanced start",
     "out": "Début équilibré"
   },
+  "variants.tablero.addVar.description": {
+    "src": "At game start, roll 1d6 and add it to each column’s default score value (1–6). Column dice for placing and moving are unchanged.",
+    "out": "Au début de la partie, lancez 1d6 et ajoutez-le à la valeur de score par défaut de chaque colonne (1–6). Les dés de colonne pour le placement et le déplacement restent inchangés."
+  },
+  "variants.tablero.addVar.name": {
+    "src": "Add 1d6",
+    "out": "Ajouter 1d6"
+  },
+  "variants.tablero.setVar.description": {
+    "src": "At game start, each column’s score value is set to an independent 1d6 roll (repeats allowed). Column positions and which die uses each column are unchanged.",
+    "out": "Au début de la partie, la valeur de score de chaque colonne est définie par un jet de 1d6 indépendant (répétitions autorisées). Les positions des colonnes et le dé utilisé par chaque colonne restent inchangés."
+  },
+  "variants.tablero.setVar.name": {
+    "src": "Random 1d6",
+    "out": "1d6 aléatoire"
+  },
   "variants.tafl.#variant.description": {
     "src": "Linnaean Sámi Tablut with historical rules based on a recent reconstruction from Linnaeus' diary. It is an edge escape variant with an armed king that is strong on the throne and on the four squares adjacent to the throne, but weak everywhere else.",
     "out": "Tablut sami linnéen avec des règles historiques basées sur une reconstruction récente du journal de Linné. Il s'agit d'une variante avec fuite par les bords et un roi armé qui est fort sur le trône et sur les quatre cases adjacentes au trône, mais faible partout ailleurs."

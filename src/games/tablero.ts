@@ -1,6 +1,6 @@
 import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, Glyph, PaintEntry } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { randomInt, reviver, UserFacingError, SquareOrthGraph, cloneState } from "../common/index.js";
 import i18next from "i18next";
@@ -28,6 +28,14 @@ export const gameApgamesEn = {
         "5-10": {
             name: "Compressed range (5–10)",
             description: "By adding 4 to the value of each centre space, the ratio of highest space to lowest is compressed from 6:1 to 2:1. This incentivizes more active competition for lower spaces.",
+        },
+        addVar: {
+            name: "Add 1d6",
+            description: "At game start, roll 1d6 and add it to each column’s default score value (1–6). Column dice for placing and moving are unchanged.",
+        },
+        setVar: {
+            name: "Random 1d6",
+            description: "At game start, each column’s score value is set to an independent 1d6 roll (repeats allowed). Column positions and which die uses each column are unchanged.",
         },
         abba: {
             name: "Balanced start",
@@ -60,9 +68,12 @@ export interface IMoveState extends IIndividualState {
     bumped?: playerid;
 };
 
+export type TableroSpaceScores = [number, number, number, number, number, number];
+
 export interface ITableroState extends IAPGameState {
     winner: playerid[];
     stack: Array<IMoveState>;
+    spaceScores?: TableroSpaceScores;
 };
 
 export class TableroGame extends GameBase {
@@ -97,7 +108,12 @@ export class TableroGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
-        variants: [{uid: "5-10", group: "scoring", fans: true}, {uid: "abba", fans: true}],
+        variants: [
+            {uid: "5-10", group: "scoring", fans: true},
+            {uid: "addVar", group: "scoring", fans: true},
+            {uid: "setVar", group: "scoring", fans: true},
+            {uid: "abba", fans: true},
+        ],
         categories: ["goal>score>eog", "mechanic>place",  "mechanic>move", "mechanic>coopt", "mechanic>random>play", "mechanic>stack", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["perspective", "scores", "automove", "no-explore", "custom-rotation"]
     };
@@ -107,9 +123,102 @@ export class TableroGame extends GameBase {
     public static algebraic2coords(cell: string): [number, number] {
         return GameBase.algebraic2coords(cell, 3);
     }
+    public static columnDie(col: number): number {
+        return col + 1;
+    }
     public static algebraic2d6(cell: string): number {
         const labels = "abcdef";
         return labels.indexOf(cell[0]) + 1;
+    }
+    private static dieInk(opacity: number): PaintEntry {
+        return {
+            colour: {func: "bestContrast", bg: "_context_board", fg: ["#000", "#fff"]},
+            opacity,
+        };
+    }
+    /** d6 sheet glyphs use fill / border / detail paint slots (see renderer glyph-slots). */
+    private static dieGlyphFace(die: number, role: "centerMarker" | "roll"): Glyph {
+        const inkOpacity = role === "centerMarker" ? 0.65 : 1;
+        const fillOpacity = role === "centerMarker" ? 0.95 : 1;
+        const ink = TableroGame.dieInk(inkOpacity);
+        const fill: PaintEntry = {colour: "_context_background", opacity: fillOpacity};
+        return {
+            name: `d6-${die}`,
+            paint: {fill, border: ink, detail: ink},
+            scale: role === "centerMarker" ? 0.5 : 1,
+        };
+    }
+    private hasVariableSpaceScores(): boolean {
+        return this.spaceScores !== undefined || this.variants.includes("5-10");
+    }
+    /** Centre-stack top piece char when score is shown (cols 0–5 × seats 1–2 → `C`…`N`). */
+    private static scoredTopPieceChar(col: number, player: playerid): string {
+        return String.fromCharCode("C".charCodeAt(0) + col * 2 + (player - 1));
+    }
+    private static scoredTopPieceLegend(player: playerid, score: number): [Glyph, ...Glyph[]] {
+        return [
+            {name: "piece", colour: player, paint: {fill: player}},
+            {
+                text: String(score),
+                colour: {func: "bestContrast", bg: player, fg: ["#fff", "#000"]},
+                scale: 0.55,
+                orientation: "vertical",
+            },
+        ];
+    }
+    /** Decktet-style stack: invisible full-cell backing (opacity 0), column die, score text. */
+    private static centerSpaceMarkerLegend(die: number, score: number): [Glyph, ...Glyph[]] {
+        const dieCorner = 300;
+        const scoreCorner = 250;
+        const ink = TableroGame.dieInk(1);
+        return [
+            {
+                name: "piece-square-borderless",
+                paint: {fill: "_context_background"},
+                opacity: 0,
+                scale: 1,
+            },
+            {
+                name: `d6-${die}`,
+                paint: {
+                    fill: {colour: "_context_background", opacity: 1},
+                    border: ink,
+                    detail: ink,
+                },
+                scale: 0.32,
+                nudge: {dx: -dieCorner, dy: -dieCorner},
+            },
+            {
+                text: String(score),
+                scale: 0.45,
+                nudge: {dx: scoreCorner, dy: scoreCorner},
+                orientation: "vertical",
+                colour: "_context_strokes",
+            },
+        ];
+    }
+    private static rollSpaceScores(variants: string[]): TableroSpaceScores | undefined {
+        if (variants.includes("addVar")) {
+            return [
+                TableroGame.columnDie(0) + randomInt(6),
+                TableroGame.columnDie(1) + randomInt(6),
+                TableroGame.columnDie(2) + randomInt(6),
+                TableroGame.columnDie(3) + randomInt(6),
+                TableroGame.columnDie(4) + randomInt(6),
+                TableroGame.columnDie(5) + randomInt(6),
+            ];
+        }
+        if (variants.includes("setVar")) {
+            return [
+                randomInt(6),
+                randomInt(6),
+                randomInt(6),
+                randomInt(6),
+                randomInt(6),
+                randomInt(6),
+            ];
+        }
+        return undefined;
     }
     public static move2d6(move: string): number {
         // adding a piece
@@ -137,6 +246,7 @@ export class TableroGame extends GameBase {
     public pieces!: [number,number];
     public winner: playerid[] = [];
     public variants: string[] = [];
+    public spaceScores?: TableroSpaceScores;
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     private emulated = false;
@@ -166,6 +276,7 @@ export class TableroGame extends GameBase {
             };
             this.results = [{type: "roll", values: d2 === undefined ? [d1] : [d1,d2]}];
             this.stack = [fresh];
+            this.spaceScores = TableroGame.rollSpaceScores(this.variants);
         } else {
             if (typeof state === "string") {
                 state = JSON.parse(state, reviver) as ITableroState;
@@ -177,8 +288,22 @@ export class TableroGame extends GameBase {
             this.winner = [...state.winner];
             this.variants = state.variants;
             this.stack = [...state.stack];
+            if (state.spaceScores !== undefined) {
+                this.spaceScores = [...state.spaceScores];
+            }
         }
         this.load();
+    }
+
+    public spaceScore(col: number): number {
+        if (this.spaceScores !== undefined) {
+            return this.spaceScores[col];
+        }
+        let pts = TableroGame.columnDie(col);
+        if (this.variants.includes("5-10")) {
+            pts += 4;
+        }
+        return pts;
     }
 
     public load(idx = -1): TableroGame {
@@ -865,11 +990,7 @@ export class TableroGame extends GameBase {
             if (this.board.has(cell)) {
                 const stack = this.board.get(cell)!;
                 if (stack[stack.length - 1] === player) {
-                    let pts = col + 1;
-                    if (this.variants.includes("5-10")) {
-                        pts += 4;
-                    }
-                    score += pts;
+                    score += this.spaceScore(col);
                 }
             }
         }
@@ -877,25 +998,39 @@ export class TableroGame extends GameBase {
     }
 
     public getHighestSpace(): playerid|undefined {
-        for (let col = 5; col >= 0; col--) {
+        let bestCol = -1;
+        let bestScore = -1;
+        for (let col = 0; col < 6; col++) {
             const cell = TableroGame.coords2algebraic(col, 1);
-            if (this.board.has(cell)) {
-                const stack = this.board.get(cell)!;
-                return stack[stack.length - 1];
+            if (! this.board.has(cell)) {
+                continue;
+            }
+            const pts = this.spaceScore(col);
+            if (pts >= bestScore) {
+                bestScore = pts;
+                bestCol = col;
             }
         }
-        return undefined;
+        if (bestCol < 0) {
+            return undefined;
+        }
+        const stack = this.board.get(TableroGame.coords2algebraic(bestCol, 1))!;
+        return stack[stack.length - 1];
     }
 
     public state(): ITableroState {
-        return {
+        const out: ITableroState = {
             game: TableroGame.gameinfo.uid,
             numplayers: this.numplayers,
             variants: this.variants,
             gameover: this.gameover,
             winner: [...this.winner],
-            stack: [...this.stack]
+            stack: [...this.stack],
         };
+        if (this.spaceScores !== undefined) {
+            out.spaceScores = [...this.spaceScores];
+        }
+        return out;
     }
 
     public moveState(): IMoveState {
@@ -917,6 +1052,8 @@ export class TableroGame extends GameBase {
         let pstr = "";
         const graph = new SquareOrthGraph(6, 3);
         const cells = graph.listCells(true);
+        const stackScoreLegend: NonNullable<APRenderRep["legend"]> = {};
+        const variableScoring = this.hasVariableSpaceScores();
         for (const row of cells) {
             if (pstr.length > 0) {
                 pstr += "\n";
@@ -924,9 +1061,18 @@ export class TableroGame extends GameBase {
             const pieces: string[] = [];
             for (const cell of row) {
                 if (this.board.has(cell)) {
-                    let str = this.board.get(cell)!.join("");
-                    str = str.replace(/1/g, "A");
-                    str = str.replace(/2/g, "B");
+                    const stack = this.board.get(cell)!;
+                    let str = stack.map(p => p === 1 ? "A" : "B").join("");
+                    if (variableScoring) {
+                        const [col, y] = TableroGame.algebraic2coords(cell);
+                        if (y === 1 && stack.length > 0) {
+                            const top = stack[stack.length - 1]!;
+                            const below = stack.slice(0, -1).map(p => p === 1 ? "A" : "B").join("");
+                            const key = TableroGame.scoredTopPieceChar(col, top);
+                            stackScoreLegend[key] = TableroGame.scoredTopPieceLegend(top, this.spaceScore(col));
+                            str = below + key;
+                        }
+                    }
                     pieces.push(str);
                 } else {
                     pieces.push("-");
@@ -934,6 +1080,38 @@ export class TableroGame extends GameBase {
             }
             pstr += pieces.join(",");
         }
+
+        const centerRowMarkers: Array<
+            | {type: "glyph"; glyph: string; points: [{row: number; col: number}]}
+            | {type: "edge"; colour: number; edge: "N" | "S"}
+        > = [];
+        const centerLegend: NonNullable<APRenderRep["legend"]> = {};
+        for (let col = 0; col < 6; col++) {
+            const die = TableroGame.columnDie(col);
+            const score = this.spaceScore(col);
+            const showScoreTile = this.hasVariableSpaceScores() || score !== die;
+            if (showScoreTile) {
+                const tileKey = `TS${col}`;
+                centerLegend[tileKey] = TableroGame.centerSpaceMarkerLegend(die, score);
+                centerRowMarkers.push({
+                    type: "glyph",
+                    glyph: tileKey,
+                    points: [{row: 1, col}],
+                });
+            } else {
+                const dieKey = `TD${col}`;
+                centerLegend[dieKey] = TableroGame.dieGlyphFace(die, "centerMarker");
+                centerRowMarkers.push({
+                    type: "glyph",
+                    glyph: dieKey,
+                    points: [{row: 1, col}],
+                });
+            }
+        }
+        centerRowMarkers.push(
+            {type: "edge", colour: 1, edge: "S"},
+            {type: "edge", colour: 2, edge: "N"},
+        );
 
         // Build rep
         const rep: APRenderRep =  {
@@ -943,78 +1121,7 @@ export class TableroGame extends GameBase {
                 width: 6,
                 height: 3,
                 startLight: true,
-                markers: [
-                    {
-                        type: "glyph",
-                        glyph: "D601",
-                        points: [
-                            {
-                                row: 1,
-                                col: 0
-                            }
-                        ]
-                    },
-                    {
-                        type: "glyph",
-                        glyph: "D602",
-                        points: [
-                            {
-                                row: 1,
-                                col: 1
-                            }
-                        ]
-                    },
-                    {
-                        type: "glyph",
-                        glyph: "D603",
-                        points: [
-                            {
-                                row: 1,
-                                col: 2
-                            }
-                        ]
-                    },
-                    {
-                        type: "glyph",
-                        glyph: "D604",
-                        points: [
-                            {
-                                row: 1,
-                                col: 3
-                            }
-                        ]
-                    },
-                    {
-                        type: "glyph",
-                        glyph: "D605",
-                        points: [
-                            {
-                                row: 1,
-                                col: 4
-                            }
-                        ]
-                    },
-                    {
-                        type: "glyph",
-                        glyph: "D606",
-                        points: [
-                            {
-                                row: 1,
-                                col: 5
-                            }
-                        ]
-                    },
-                    {
-                        type: "edge",
-                        "colour": 1,
-                        "edge": "S"
-                    },
-                    {
-                        type: "edge",
-                        "colour": 2,
-                        "edge": "N"
-                    }
-                ]
+                markers: centerRowMarkers,
             },
             legend: {
                 A: {
@@ -1025,42 +1132,14 @@ export class TableroGame extends GameBase {
                     name: "piece",
                     colour: 2,
                 },
-                D601: {
-                    name: "d6-1",
-                    opacity: 0.25,
-                    scale: 0.5
-                },
-                D602: {
-                    name: "d6-2",
-                    opacity: 0.25,
-                    scale: 0.5
-                },
-                D603: {
-                    name: "d6-3",
-                    opacity: 0.25,
-                    scale: 0.5
-                },
-                D604: {
-                    name: "d6-4",
-                    opacity: 0.25,
-                    scale: 0.5
-                },
-                D605: {
-                    name: "d6-5",
-                    opacity: 0.25,
-                    scale: 0.5
-                },
-                D606: {
-                    name: "d6-6",
-                    opacity: 0.25,
-                    scale: 0.5
-                },
+                ...stackScoreLegend,
+                ...centerLegend,
                 D1: {
-                    name: `d6-${this.roll[0]}`,
+                    ...TableroGame.dieGlyphFace(this.roll[0], "roll"),
                     opacity: this.emulated ? 0 : 1,
                 },
                 D2: {
-                    name: `d6-${this.roll.length > 1 ? this.roll[1] : 1}`,
+                    ...TableroGame.dieGlyphFace(this.roll.length > 1 ? this.roll[1]! : 1, "roll"),
                     opacity: this.emulated ? 0 : 1,
                 }
             },
@@ -1110,9 +1189,7 @@ export class TableroGame extends GameBase {
         if (this.stack.length > 1) {
             const prevRoll = this.stack[this.stack.length - 2].roll;
             for (let i = 0; i < prevRoll.length; i++) {
-                rep.legend![`PD${i+1}`] = {
-                    name: `d6-${prevRoll[i]}`,
-                }
+                rep.legend![`PD${i+1}`] = TableroGame.dieGlyphFace(prevRoll[i]!, "roll");
             }
             rep.areas!.push({
                 type: "pieces",

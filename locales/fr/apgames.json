@@ -8789,6 +8789,14 @@
         "name": "Plage restreinte (5–10)",
         "description": "En ajoutant 4 à la valeur de chaque case centrale, le ratio entre la case la plus élevée et la plus basse passe de 6:1 à 2:1. Cela incite à une compétition plus active pour les cases de plus faible valeur."
       },
+      "addVar": {
+        "name": "Ajouter 1d6",
+        "description": "Au début de la partie, lancez 1d6 et ajoutez-le à la valeur de score par défaut de chaque colonne (1–6). Les dés de colonne pour le placement et le déplacement restent inchangés."
+      },
+      "setVar": {
+        "name": "1d6 aléatoire",
+        "description": "Au début de la partie, la valeur de score de chaque colonne est définie par un jet de 1d6 indépendant (répétitions autorisées). Les positions des colonnes et le dé utilisé par chaque colonne restent inchangés."
+      },
       "abba": {
         "name": "Début équilibré",
         "description": "Au premier coup de la partie, le joueur ne lance qu'un seul dé."

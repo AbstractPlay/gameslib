@@ -8789,6 +8789,14 @@
         "name": "Komprimierter Bereich (5–10)",
         "description": "Durch Erhöhen des Werts jedes zentralen Feldes um 4 wird das Verhältnis zwischen dem höchsten und dem niedrigsten Feld von 6:1 auf 2:1 komprimiert. Dies fördert den aktiveren Wettbewerb um niedrigere Felder."
       },
+      "addVar": {
+        "name": "1W6 hinzufügen",
+        "description": "Zu Spielbeginn wird 1W6 gewürfelt und zum Standard-Punktwert jeder Spalte (1–6) addiert. Die Spaltenwürfel zum Platzieren und Bewegen bleiben unverändert."
+      },
+      "setVar": {
+        "name": "Zufälliger 1W6",
+        "description": "Zu Spielbeginn wird der Punktwert jeder Spalte durch einen unabhängigen 1W6-Wurf bestimmt (Wiederholungen erlaubt). Spaltenpositionen und welcher Würfel welche Spalte nutzt, bleiben unverändert."
+      },
       "abba": {
         "name": "Ausgeglichener Start",
         "description": "Beim ersten Zug des Spiels würfelt der Spieler nur einen Würfel."

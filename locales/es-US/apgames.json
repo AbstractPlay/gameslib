@@ -8789,6 +8789,14 @@
         "name": "Rango comprimido (5–10)",
         "description": "Al sumar 4 al valor de cada casilla central, la proporción de la casilla más alta a la más baja se comprime de 6:1 a 2:1. Esto incentiva una competencia más activa por las casillas más bajas."
       },
+      "addVar": {
+        "name": "Sumar 1d6",
+        "description": "Al inicio de la partida, tira 1d6 y súmalo al valor de puntuación predeterminado de cada columna (1–6). Los dados de columna para colocar y mover no cambian."
+      },
+      "setVar": {
+        "name": "1d6 aleatorio",
+        "description": "Al inicio de la partida, el valor de puntuación de cada columna se establece con una tirada independiente de 1d6 (se permiten repeticiones). Las posiciones de las columnas y qué dado usa cada columna no cambian."
+      },
       "abba": {
         "name": "Inicio equilibrado",
         "description": "En el primer movimiento de la partida, el jugador solo tira un dado."

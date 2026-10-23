@@ -278,7 +278,29 @@ describe("Guerrilla", () => {
             expect(g.currplayer).to.equal(2);
             expect(g.board.get("f4")).to.equal(2);
             expect(g.insurgents).to.equal(66);
-            expect(g.results.map(r => r.type)).to.deep.equal(["winners", "reset"]);
+            expect(g.results.map(r => r.type)).to.deep.equal(["reset"]);
+            expect(g.stack.length).to.equal(3);
+            const g1End = g.stack[1] as IMoveState;
+            const g2Reset = g.stack[2] as IMoveState;
+            expect(g1End._results?.map(r => r.type)).to.deep.equal(["winners"]);
+            expect(Object.prototype.hasOwnProperty.call(g2Reset, "lastmove")).to.be.false;
+            expect(g2Reset._results?.map(r => r.type)).to.deep.equal(["reset"]);
+        });
+
+        it("preserves lastmove on the game-1 ending stack row before reset", () => {
+            const g = guerrillaFrom({
+                board: [["d3|e4", 1]],
+                currplayer: 2,
+                insurgents: 64,
+                variants: ["match"],
+            });
+            g.lastmove = "f4-e5";
+            checkEOG(g);
+            const g1End = g.stack[1] as IMoveState;
+            expect(g1End.lastmove).to.equal("f4-e5");
+            const json = g.serialize();
+            const g2 = new GuerrillaGame(json);
+            expect(() => g2.getPlies()).to.not.throw();
         });
 
         it("announces the game 1 winner on the reset ply", () => {
@@ -289,12 +311,12 @@ describe("Guerrilla", () => {
                 variants: ["match"],
             });
             checkEOG(g);
-            (g as unknown as {saveState: () => void}).saveState();
             const lines = g.chatLogEntries(["Alice", "Bob"]);
-            expect(lines).to.have.length(1);
-            expect(lines[0]!.lines).to.have.length(1);
-            expect(lines[0]!.lines[0]!.textKey).to.equal("apresults:guerrilla.RESET.default");
-            expect(lines[0]!.lines[0]!.textParams?.player).to.equal("Alice");
+            const resetLine = lines.flatMap((e) => e.lines).find(
+                (l) => l.textKey === "apresults:guerrilla.RESET.default",
+            );
+            expect(resetLine).to.not.equal(undefined);
+            expect(resetLine!.textParams?.player).to.equal("Alice");
         });
 
         it("offers insurgent placements at the start of game 2", () => {

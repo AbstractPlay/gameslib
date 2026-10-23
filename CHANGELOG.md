@@ -15,7 +15,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Thue-Morse Go, Yodd.
 
-## [1.0.0-ci] - 2026-10-22
+## [1.0.0-ci] - 2026-10-23
 
 ### Added
 
@@ -59,6 +59,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Fixed
 
+- **Guerrilla Checkers (match):** game-1 ending ply is saved on the stack before the G2 reset checkpoint (with `lastmove`); sequenced export skips non-ply reset rows; `repairGuerrillaMatchStack` splits legacy combined transition frames for load/export.
 - **Weblate sync:** `overlay-weblate-locales` + `reset-weblate-export` for hosted export vs GitHub `develop` (merge conflicts in Diagnostics).
 - **Bao:** Fixed a regression introduced a few days ago that blocked taxing the nyumba.
 - **Tumbleweed:** standard opening ply `lastmove` is stored as the full `p1,p2` wire; legacy games with only P1 in `lastmove`/`_results` are repaired from the stack-1 board delta for move history, export, and load; chat log uses one combined setup line.

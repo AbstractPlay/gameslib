@@ -19,6 +19,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
+- **Tablero:** Fan scoring variants **Add 1d6** (`addVar`) and **Random 1d6** (`setVar`); optional per-column `spaceScores` on saved state; center-row render shows column dice plus score text when values differ.
 - **Tumbleweed:** "Fog of war" variant (line-of-sight visibility, stale dimmed cells, hidden scores, redacted move tree after the opening ply; explore disabled).
 - **Move table presentation API:** `getMoveTableRounds({ density, pathLength })`, `pathIndexForMoveTableCell`, `packPliesForMoveTable`, and exploration wire helpers (`moveTableRoundsFromExplorationPath`, …) on `GameBase` — export `getRounds()` unchanged; compact sequenced UI merges seat cycles.
 - **Docs:** [Exploration and emulation](/gameslib/exploration-emulation/) for explore-allowed games (`no-explore` moot on live play); WaldMeister and Frogger as primary references.

@@ -8791,6 +8791,14 @@
         "name": "Intervallo compresso (5–10)",
         "description": "Aggiungendo 4 al valore di ciascuno spazio centrale, il rapporto tra lo spazio più alto e quello più basso viene compresso da 6:1 a 2:1. Questo incentiva una competizione più attiva per gli spazi inferiori."
       },
+      "addVar": {
+        "name": "Aggiungi 1d6",
+        "description": "All'inizio della partita, tira 1d6 e aggiungilo al valore di punteggio predefinito di ciascuna colonna (1–6). I dadi di colonna per il posizionamento e il movimento rimangono invariati."
+      },
+      "setVar": {
+        "name": "1d6 casuale",
+        "description": "All'inizio della partita, il valore di punteggio di ciascuna colonna viene impostato da un tiro di 1d6 indipendente (ripetizioni consentite). Le posizioni delle colonne e il dado associato a ciascuna colonna rimangono invariati."
+      },
       "abba": {
         "name": "Inizio bilanciato",
         "description": "Alla prima mossa della partita, il giocatore lancia un solo dado."

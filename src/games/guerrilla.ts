@@ -1,4 +1,7 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base.js";
+import type { IGamePly, IGameRound, TurnModel } from "./_turn-model.js";
+import { defaultShouldCloseRound } from "./_turn-plies.js";
+import { sequencedShouldCloseRound } from "./_turn-sequenced.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -656,12 +659,14 @@ export class GuerrillaGame extends GameBase {
         }
         this.currplayer = newplayer as playerid;
 
-        this.checkEOG();
-        this.saveState();
+        if (!this.checkEOG()) {
+            this.saveState();
+        }
         return this;
     }
 
-    protected checkEOG(): GuerrillaGame {
+    /** @returns true when this turn already pushed stack state (match G1→G2 transition). */
+    protected checkEOG(): boolean {
         const insurgentPieces = this.pieceCount(1);
         const securityPieces = this.pieceCount(2);
 
@@ -680,7 +685,7 @@ export class GuerrillaGame extends GameBase {
         }
 
         if (gameWinner === undefined) {
-            return this;
+            return false;
         }
 
         if (!this.isMatch()) {
@@ -690,7 +695,7 @@ export class GuerrillaGame extends GameBase {
                 {type: "eog"},
                 {type: "winners", players: [...this.winner]}
             );
-            return this;
+            return false;
         }
 
         const score = this.insurgentGameScore(insurgentsWon!);
@@ -698,9 +703,12 @@ export class GuerrillaGame extends GameBase {
         if (this.g1insurgentScore === undefined && !this.rolesSwapped) {
             this.g1insurgentScore = score;
             this.results.push({type: "winners", players: [gameWinner]});
+            this.saveState();
+            this.results = [];
             this.results.push({type: "reset"});
             this.resetForG2();
-            return this;
+            this.saveState();
+            return true;
         }
 
         const g2Score = score;
@@ -728,7 +736,66 @@ export class GuerrillaGame extends GameBase {
             {type: "eog"},
             {type: "winners", players: [...this.winner]}
         );
-        return this;
+        return false;
+    }
+
+    public turnModel(): TurnModel {
+        return this.isMatch() ? "sequenced" : "sequential";
+    }
+
+    public getPlies(): IGamePly[] {
+        if (!this.isMatch()) {
+            return super.getPlies();
+        }
+        const host = {
+            stack: this.stack,
+            numplayers: this.numplayers,
+            plyFromStack: (stackIndex: number) => this.plyFromStack(stackIndex),
+            shouldCloseRound: (roundPlies: IGamePly[], stackIndex: number) =>
+                this.shouldCloseRound(roundPlies, stackIndex),
+        };
+        const plies: IGamePly[] = [];
+        let round = 0;
+        let playOrderInRound = 0;
+        let roundPlies: IGamePly[] = [];
+        for (let stackIndex = 1; stackIndex < this.stack.length; stackIndex++) {
+            if (!Object.prototype.hasOwnProperty.call(this.stack[stackIndex], "lastmove")) {
+                continue;
+            }
+            const ply = host.plyFromStack(stackIndex);
+            playOrderInRound += 1;
+            ply.round = round;
+            ply.playOrder = playOrderInRound;
+            roundPlies.push(ply);
+            plies.push(ply);
+            if (host.shouldCloseRound(roundPlies, stackIndex)) {
+                round += 1;
+                playOrderInRound = 0;
+                roundPlies = [];
+            }
+        }
+        return plies;
+    }
+
+    protected shouldCloseRound(roundPlies: IGamePly[], stackIndex: number): boolean {
+        if (!this.isMatch()) {
+            return defaultShouldCloseRound(this, roundPlies);
+        }
+        return sequencedShouldCloseRound(this, roundPlies, stackIndex);
+    }
+
+    public getRounds(): IGameRound[] {
+        if (!this.isMatch()) {
+            return super.getRounds();
+        }
+        return this.getPlies().map((ply) => this.buildRoundRow([ply]));
+    }
+
+    protected compactExportRounds(rounds: IGameRound[]): IGameRound[] {
+        if (!this.isMatch()) {
+            return super.compactExportRounds(rounds);
+        }
+        return rounds;
     }
 
     public sidebarStatuses(): IStatus[] {
@@ -766,17 +833,20 @@ export class GuerrillaGame extends GameBase {
     }
 
     public moveState(): IMoveState {
-        return {
+        const state: IMoveState = {
             _version: GuerrillaGame.gameinfo.version,
             _results: [...this.results],
             _timestamp: new Date(),
             currplayer: this.currplayer,
-            lastmove: this.lastmove,
             board: new Map(this.board),
             insurgents: this.insurgents,
             rolesSwapped: this.rolesSwapped,
             g1insurgentScore: this.g1insurgentScore,
         };
+        if (this.lastmove !== undefined) {
+            state.lastmove = this.lastmove;
+        }
+        return state;
     }
 
     public render(): APRenderRep {
@@ -864,18 +934,73 @@ export class GuerrillaGame extends GameBase {
     }
 
 
+    public chatLogEntries(players: string[] = []): ChatLogEntry[] {
+        const entries: ChatLogEntry[] = [];
+        for (let si = 0; si < this.stack.length; si++) {
+            const state = this.stack[si];
+            if (state._results === undefined || state._results.length === 0) {
+                continue;
+            }
+            const nextState = this.stack[si + 1];
+            const nextFrameHasReset = nextState?._results?.some((res) => res.type === "reset") ?? false;
+            const priorFrameWinners = si > 0
+                ? this.stack[si - 1]._results?.find((res) => res.type === "winners")
+                : undefined;
+            const lines: ChatLogLine[] = [];
+            const currplayer = state.currplayer as number;
+            const defaultSeat = this.resolveChatSeat(state._results[0], currplayer);
+            const ctx: ChatLogCollectContext & {
+                nextFrameHasReset?: boolean;
+                priorFrameWinners?: APMoveResult;
+            } = {
+                results: state._results,
+                currplayer,
+                defaultSeat,
+                players,
+                nextFrameHasReset,
+                priorFrameWinners,
+            };
+            for (const r of state._results) {
+                this.collectChatLogLine(lines, r, ctx);
+            }
+            if (state._results.find((res) => res.type === "deltaScore") !== undefined) {
+                const thisInfo = Object.getPrototypeOf(this).constructor.gameinfo as APGamesInformation;
+                if ("scores" in state && (thisInfo.flags === undefined || !thisInfo.flags.includes("simultaneous"))) {
+                    this.pushSeatChatLine(lines, defaultSeat, "apresults:_general.SCORE_REPORT.default", {
+                        score: (state.scores as number[])[defaultSeat - 1],
+                    });
+                }
+            }
+            entries.push({
+                timestamp: (state._timestamp && new Date(state._timestamp).toISOString()) || "unknown",
+                lines,
+            });
+        }
+        return entries;
+    }
+
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+        const gCtx = ctx as ChatLogCollectContext & {
+            nextFrameHasReset?: boolean;
+            priorFrameWinners?: APMoveResult;
+        };
         switch (r.type) {
             case "winners": {
                 const idx = ctx.results.indexOf(r);
                 if (idx >= 0 && ctx.results[idx + 1]?.type === "reset") {
                     return true;
                 }
+                if (gCtx.nextFrameHasReset) {
+                    return true;
+                }
                 return super.collectChatLogLine(lines, r, ctx);
             }
             case "reset": {
                 const idx = ctx.results.indexOf(r);
-                const prev = idx > 0 ? ctx.results[idx - 1] : undefined;
+                let prev = idx > 0 ? ctx.results[idx - 1] : undefined;
+                if (prev?.type !== "winners" && gCtx.priorFrameWinners?.type === "winners") {
+                    prev = gCtx.priorFrameWinners;
+                }
                 if (prev?.type === "winners" && prev.players.length > 0) {
                     const names = prev.players.map(w => this.resolveChatPlayerName(w, ctx.players));
                     this.pushNeutralChatLine(lines, "apresults:guerrilla.RESET.default", {

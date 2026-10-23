@@ -205,3 +205,11 @@ const gameinfoSorted: APGamesInformation[] = [...games.values()]
 export { gameinfo, gameinfoSorted };
 
 export { resolveLocale, supportedLocales, type AddResourceOptions } from "./i18n-shared.js";
+
+export {
+    repairGuerrillaMatchStack,
+    repairGuerrillaMatchStackJson,
+    isCombinedGuerrillaTransitionFrame,
+    guerrillaStateUsesMatchVariant,
+} from "./games/guerrilla-repair.js";
+export type { GuerrillaMatchStackRepairResult } from "./games/guerrilla-repair.js";

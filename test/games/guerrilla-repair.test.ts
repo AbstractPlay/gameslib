@@ -100,6 +100,24 @@ describe("Guerrilla match stack repair", () => {
         expect(isCombinedGuerrillaTransitionFrame(engine.stack[engine.stack.length - 1] as IMoveState)).to.be.false;
     });
 
+    it("repairs finished match games (gameover true on full state)", () => {
+        const g = guerrillaFrom({
+            board: [["a8", 2]],
+            currplayer: 1,
+            variants: ["match"],
+        });
+        const mv = g.moves().find((m) => m.split(",").includes("a8|b7"));
+        g.move(mv!, {trusted: true});
+        const broken = legacyCombinedFromGoodTransition(g);
+        broken.gameover = true;
+        broken.winner = [1];
+        const repaired = repairGuerrillaMatchStack(broken);
+        expect(repaired.repaired).to.be.true;
+        expect(repaired.state.gameover).to.be.true;
+        expect(repaired.state.winner).to.deep.equal([1]);
+        expect(() => new GuerrillaGame(repaired.state).getPlies()).to.not.throw();
+    });
+
     it("repairs JSON when game 2 moves follow the combined frame", () => {
         const g = guerrillaFrom({
             board: [["a8", 2]],

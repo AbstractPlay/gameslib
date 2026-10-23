@@ -64,6 +64,16 @@ function cloneMoveState(entry: IMoveState): IMoveState {
     return copy;
 }
 
+/** Replay prefix must not inherit terminal flags from the full saved game. */
+function replayPrefixState(state: IGuerrillaState, stackLength: number): IGuerrillaState {
+    return {
+        ...state,
+        gameover: false,
+        winner: [],
+        stack: state.stack.slice(0, stackLength),
+    };
+}
+
 function inferG1EndMove(partial: IGuerrillaState, corrupt: IMoveState): string | undefined {
     const g = new GuerrillaGame(partial);
     const prevIndex = partial.stack.length - 1;
@@ -110,10 +120,7 @@ function splitCombinedFrame(
     index: number,
 ): { g1End: IMoveState; g2Reset: IMoveState } | undefined {
     const corrupt = state.stack[index] as IMoveState;
-    const partial: IGuerrillaState = {
-        ...state,
-        stack: state.stack.slice(0, index),
-    };
+    const partial = replayPrefixState(state, index);
     const move = inferG1EndMove(partial, corrupt);
     if (move === undefined) {
         return undefined;

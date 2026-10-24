@@ -171,7 +171,7 @@ export class HulaGame extends GameBase {
                 state = JSON.parse(state, reviver) as IHulaState;
             }
             if (state.game !== HulaGame.gameinfo.uid) {
-                throw new Error(`The Tritium engine cannot process a game of '${state.game}'.`);
+                throw new Error(`The Hula engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];

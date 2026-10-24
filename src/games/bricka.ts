@@ -5,7 +5,8 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import {union} from 'graphology-operators';
 import { UndirectedGraph } from 'graphology';
-import { dfsFromNode } from 'graphology-traversal';
+import { dfsFromNode, bfsFromNode } from 'graphology-traversal';
+import {bidirectional} from 'graphology-shortest-path';
 import i18next from "i18next";
 import { indexToColumnLabel, columnLabelToIndex } from "../common/columnLabels.js";
 
@@ -127,8 +128,15 @@ export class BrickaGame extends GameBase {
                 apid: "36926ace-08c0-417d-89ec-15346119abf2",
             },
         ],
-        categories: ["goal>connect", "mechanic>place"],
-        flags: ["autopass"]
+        customizations: [
+            {
+                num: 3,
+                default: "#aaa",
+                explanation: "Colour of the neutral stones",
+            }
+        ],
+        categories: ["goal>connect", "mechanic>place", "components>simple>3c", "board>other", "board>shape>other", "board>connect>other", "mechanic>block"],
+        flags: ["experimental", "autopass"]
     };
 
     private regions: Region[] = this.getRegions();
@@ -242,7 +250,7 @@ export class BrickaGame extends GameBase {
                     n++;
                 }
             });
-            if((n + 1) > region.cells.length / 2) {
+            if((n + 1) > (region.cells.filter((c) => (this.board.get(c) !== "neutral")).length / 2)) {
                 return true;
             }
         };
@@ -272,7 +280,7 @@ export class BrickaGame extends GameBase {
                 state = JSON.parse(state, reviver) as IBrickaState;
             }
             if (state.game !== BrickaGame.gameinfo.uid) {
-                throw new Error(`The Tritium engine cannot process a game of '${state.game}'.`);
+                throw new Error(`The Bricka engine cannot process a game of '${state.game}'.`);
             }
             this.gameover = state.gameover;
             this.winner = [...state.winner];
@@ -447,13 +455,44 @@ export class BrickaGame extends GameBase {
             }
         });
 
+        let winning = false;
         for (const [a, b] of this.winningEdges) {
             if(groupIntersection(currentGroup, a) && groupIntersection(currentGroup, b)) {
-                return true;
+                winning = true;
+                /* Store the shortest winning path */
+                // First find the edge cells to use, i.e. closest to the placed stone
+                let edgeCells: string[] = [];
+                for( const edgeI of [0, 1]){
+                    const edge = [a, b][edgeI];
+                    bfsFromNode(graph, lastmove, (cell) => {
+                        const value = this.board.get(cell);
+                        if (value === player || value === "neutral") {
+                            if(edge.has(cell)){
+                                edgeCells.push(cell);
+                            }
+                            if(edgeCells.length > edgeI) {
+                                return true;
+                            }
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    });
+                }
+                const groupGraph = this.graph.copy();
+                for(const node of this.graph.nodes()){
+                    if(!currentGroup.has(node)){
+                        groupGraph.dropNode(node);
+                    }
+                }
+                const shortPath = bidirectional(groupGraph, edgeCells[0], edgeCells[1]);
+                if(shortPath != null && (this.winningGroup.length === 0 || shortPath.length < this.winningGroup.length)) {
+                    this.winningGroup = shortPath;
+                }
             }
         }
 
-        return false;
+        return winning;
     }
 
     protected checkEOG(): BrickaGame {
@@ -570,7 +609,7 @@ export class BrickaGame extends GameBase {
             legend: {
                 A: {name: "piece", colour: 1},
                 B: {name: "piece", colour: 2},
-                C: {name: "piece", colour: {func: "custom", default: "#aaa", palette: 3}}
+                C: {name: "piece", colour: 3}
             },
             pieces: pstr as [string[][], ...string[][][]],
             options: ["reverse-numbers"]

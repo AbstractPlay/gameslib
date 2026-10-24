@@ -18,6 +18,17 @@ const play = (g: ThueMorseGoGame, moves: string[]): ThueMorseGoGame => {
     return g;
 };
 
+/** Run `fn` with {@link ThueMorseGoGame.randomMove}'s `Math.random` source pinned to `value`. */
+const withRandom = <T>(value: number, fn: () => T): T => {
+    const original = Math.random;
+    Math.random = () => value;
+    try {
+        return fn();
+    } finally {
+        Math.random = original;
+    }
+};
+
 /** A fresh game on the 11x11 board. */
 const small = (variants: string[] = []): ThueMorseGoGame => new ThueMorseGoGame(undefined, ["size-11", ...variants]);
 
@@ -769,7 +780,8 @@ describe("Thue-Morse Go: the order of a move's placements", () => {
         expect(moves).to.include("e5,g7");
         expect(moves).to.not.include("g7,e5");
         expect(new Set(moves).size).to.equal(moves.length);
-        expect(g.randomMove()).to.match(/^(button|pass|[a-k]\d+)(,(button|pass|[a-k]\d+))?$/);
+        expect(withRandom(0, () => g.randomMove())).to.equal("a11,button");
+        expect(withRandom(0.5, () => g.randomMove())).to.equal("pass,pass");
         // Nothing happens between the placements, so the order changes nothing: every pair of
         // points tried in both orders is as legal, and leaves the same board, either way.
         const busy = small(["weak-eyes", "superko"]);
@@ -1622,7 +1634,8 @@ describe("Thue-Morse Go: reverse komi", () => {
         expect(g.validateMove("28,e5,g7").complete).to.equal(1);
         expect(g.validateMove("14,e5,g7,d4").valid).to.be.false;
         expect(g.moves()).to.include("7p,e5,g7");
-        expect(g.randomMove()).to.match(/^(7|14|21|28|35|42|49|56|63|70)p(,|$)/);
+        expect(withRandom(0, () => g.randomMove())).to.equal("7p,a11,b11");
+        expect(withRandom(0.5, () => g.randomMove())).to.equal("42p,pass,pass");
         // The numbered stones offer the multiples of 7 up to 70, always in the lower block, which
         // starts on the diagonal from the bottom left corner and snakes up, as the second batch of
         // Kill-All Go's Generalized Hoctaph's Pie does; f3 is covered but still means 28.
@@ -1732,10 +1745,8 @@ describe("Thue-Morse Go: reverse komi", () => {
         const s = play(sixteen(["reverse-komi"]), ["h8"]);
         expect(s.validateMove("7p,button").complete).to.equal(0);
         expect(s.validateMove("14p,button").valid).to.be.false;
-        for (let i = 0; i < 20; i++) {
-            const move = s.randomMove();
-            expect(s.validateMove(move).valid, move).to.be.true;
-        }
+        expect(withRandom(0, () => s.randomMove())).to.equal("7p,button,a16");
+        expect(withRandom(0.5, () => play(sixteen(["reverse-komi"]), ["h8"]).randomMove())).to.equal("77p,pass,pass");
         // The 0.5 point button does not wait for the komi.
         expect(small(["reverse-komi", "half-button"]).validateMove("button").valid).to.be.true;
     });
@@ -1818,6 +1829,6 @@ describe("Thue-Morse Go: reverse komi", () => {
         expect(one.board.get("e5")).to.equal(2);
         expect(new ThueMorseGoGame(undefined, ["kill-all", "reverse-komi"]).variants).to.deep.equal(["reverse-komi"]);
         expect(new ThueMorseGoGame(undefined, ["reverse-komi", "kill-all"]).variants).to.deep.equal(["kill-all"]);
-        expect(g.randomMove()).to.match(/^[a-k]\d+/);
+        expect(withRandom(0.05, () => g.randomMove())).to.equal("g10,h10");
     });
 });

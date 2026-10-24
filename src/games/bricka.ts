@@ -217,7 +217,7 @@ export class BrickaGame extends GameBase {
     private adjacentRegions(cell: string): Region[] {
         const coord = algebraic2coord(cell);
         const possibleRegionCenters: Set<string> = new Set(
-            [[-1, -1], [0, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1]].map(
+            ([[-1, -1], [0, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1]] as Coord[]).map(
                 (d) => (addCoord(d, coord))).filter(([x, y]) => (x >= 0 && y >= 0)).map(coord2algebraic));
         return this.regions.filter((region) => (possibleRegionCenters.has(
             region.center)));
@@ -471,8 +471,6 @@ export class BrickaGame extends GameBase {
             this.gameover = true;
             this.winner.push(this.otherPlayer());
         } else { // Check for full board
-            const n1 = [...this.board.values()].filter((piece) => (piece === 1)).length;
-            const n2 = [...this.board.values()].filter((piece) => (piece === 2)).length;
             if (this.board.size === this.graph.order) {
                 /* Player with most stones on the board wins, or a draw if equal */
                 this.gameover = true;

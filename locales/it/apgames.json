@@ -1290,7 +1290,7 @@
     },
     "bricka": {
       "INITIAL_INSTRUCTIONS": "Seleziona un'intersezione per posizionare un pezzo.",
-      "BLOCKED": "Non puoi piazzare su un'intersezione che condivide una casella con l'ultima pedina piazzata."
+      "BLOCKED": "Non puoi piazzare su un'intersezione che condivide una cella con l'ultima pietra piazzata."
     },
     "bridges": {
       "INITIAL_INSTRUCTIONS_FIRST_TURN": "Seleziona uno spazio vuoto (eccetto il centro) per posizionare una nuova base, oppure puoi passare.",
@@ -4227,7 +4227,7 @@
     "bounce": "Manovra le tue pedine scollegate per formarne un unico insieme connesso ortogonalmente.",
     "boxes": "Un gioco territoriale in cui cerchi di completare i quadrati tracciando linee per unire i punti. Se un quadrato viene conquistato, puoi effettuare un'altra mossa.",
     "breakthrough": "Uno dei giochi più semplici sul tema \"raggiungi la prima fila dell'avversario\". I pezzi si muovono e catturano come i pedoni degli scacchi. Vince chi raggiunge per primo la prima fila avversaria. Include anche la variante \"Bombardment\", in cui al posto delle regolari mosse di cattura è possibile far detonare un pezzo, distruggendo se stesso e tutti i pezzi circostanti.",
-    "bricka": "Gioco di connessione giocato su una plancia speciale. Piazzare in modo adiacente a una casella in cui possiedi la maggioranza delle intersezioni non neutre fa sì che la tua pedina diventi neutra. Inoltre, le intersezioni che circondano le caselle adiacenti all'ultimo piazzamento sono bloccate per il turno corrente.",
+    "bricka": "Gioco di connessione giocato su una plancia speciale. Piazzare una pietra adiacente a una cella in cui possiedi la maggioranza delle intersezioni non neutre rende la tua pietra neutra. Inoltre, le intersezioni che circondano le celle adiacenti all'ultimo posizionamento sono bloccate per il turno in corso.",
     "bridges": "Bridges è un gioco per due giocatori giocato su una plancia esagonale, ideato da Marc Rebillet. I giocatori posizionano basi e le collegano con dei ponti. Vince il giocatore con più pezzi ponte sulla plancia alla fine della partita. In caso di parità vince il ponte più lungo.",
     "btt": "Un gioco di piramidi che si ramificano su una scacchiera, in cui guadagni punti quando gli avversari puntano alle tue piramidi e li perdi quando punti alle loro.",
     "bug": "Riempi l'ecosistema con i tuoi insetti al punto da non poterti più espandere. Nel tuo turno, posiziona un pezzo per iniziare un nuovo insetto o farne crescere uno esistente. Poi, se uno qualsiasi dei tuoi insetti è adiacente a insetti nemici della stessa forma, deve mangiarli ed effettuare una crescita bonus (se la crescita bonus non è possibile, non si mangia). Questo può scatenare reazioni a catena. Se ci sono più scelte di insetti che possono mangiare, puoi determinare quali insetti lo fanno e in quale ordine.",

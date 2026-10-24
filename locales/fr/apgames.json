@@ -1290,7 +1290,7 @@
     },
     "bricka": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez une intersection pour placer une pièce.",
-      "BLOCKED": "Vous ne pouvez pas placer de pierre sur une intersection qui partage une case avec la dernière pierre posée."
+      "BLOCKED": "Vous ne pouvez pas placer de pierre sur une intersection qui partage une case avec la dernière pierre placée."
     },
     "bridges": {
       "INITIAL_INSTRUCTIONS_FIRST_TURN": "Sélectionnez une case vide (sauf au centre) pour placer une nouvelle base, ou vous pouvez passer.",
@@ -4227,7 +4227,7 @@
     "bounce": "Manœuvrez vos pions dispersés pour former un tout unique, connecté orthogonalement.",
     "boxes": "Un jeu de territoire où vous tentez de fermer des carrés en traçant des lignes pour relier les points. Si un carré est revendiqué, vous pouvez rejouer.",
     "breakthrough": "L'un des jeux de traversée les plus simples qui soient. Les pièces se déplacent et capturent comme les pions des échecs. Le premier à atteindre la rangée de départ adverse gagne. Comprend également une variante « Bombardement » où, au lieu des captures ordinaires, on peut faire exploser une pièce, ce qui la détruit ainsi que toutes les pièces environnantes.",
-    "bricka": "Jeu de connexion joué sur un plateau spécial. Placer une pierre de manière adjacente à une case dont vous possédez la majorité des intersections non neutres rend votre pierre neutre. De plus, les intersections entourant les cases adjacentes au dernier placement sont bloquées pour le tour en cours.",
+    "bricka": "Jeu de connexion joué sur un plateau spécial. Placer une pierre à côté d'une case dont vous possédez la majorité des intersections non neutres rend votre pierre neutre. De plus, les intersections entourant les cases adjacentes au dernier placement sont bloquées pour le tour en cours.",
     "bridges": "Bridges est un jeu pour deux joueurs se jouant sur un plateau hexagonal, conçu par Marc Rebillet. Les joueurs placent des bases et les relient par des ponts. Le joueur qui possède le plus de pièces de pont sur le plateau à la fin de la partie gagne. En cas d'égalité, le pont le plus long l'emporte.",
     "btt": "Un jeu de pyramides se ramifiant sur un échiquier, dans lequel vous gagnez des points lorsque vos adversaires pointent vers vos pyramides, et en perdez lorsque vous pointez vers les leurs.",
     "bug": "Remplissez l'écosystème avec vos insectes jusqu'à ne plus pouvoir vous étendre. À votre tour, placez une pièce pour commencer un nouvel insecte ou agrandir un insecte existant. Ensuite, si l'un de vos insectes est adjacent à des insectes ennemis de même forme, il doit les dévorer et effectuer une croissance bonus (si la croissance bonus n'est pas possible, aucune dévoration n'a lieu). Cela peut provoquer des réactions en chaîne. S'il y a plusieurs choix d'insectes pouvant dévorer, vous pouvez déterminer lesquels le font et dans quel ordre.",

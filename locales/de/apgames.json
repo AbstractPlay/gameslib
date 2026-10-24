@@ -1290,7 +1290,7 @@
     },
     "bricka": {
       "INITIAL_INSTRUCTIONS": "Wähle einen Schnittpunkt, um einen Stein zu platzieren.",
-      "BLOCKED": "Sie dürfen nicht auf einen Schnittpunkt setzen, der sich ein Feld mit dem zuletzt platzierten Stein teilt."
+      "BLOCKED": "Du darfst nicht auf einen Schnittpunkt setzen, der sich ein Feld mit dem zuletzt platzierten Stein teilt."
     },
     "bridges": {
       "INITIAL_INSTRUCTIONS_FIRST_TURN": "Wähle ein leeres Feld (außer der Mitte), um eine neue Basis zu platzieren, oder passe.",
@@ -4227,7 +4227,7 @@
     "bounce": "Manövriere deine unverbundenen Dame-Steine zu einem einzigen, orthogonal zusammenhängenden Ganzen.",
     "boxes": "Ein Gebietsspiel, bei dem du versuchst, Kästchen zu vervollständigen, indem du Linien ziehst, um die Punkte zu verbinden. Wenn ein Kästchen beansprucht wird, darfst du einen weiteren Zug machen.",
     "breakthrough": "Eines der einfachsten Spiele, bei denen man die Grundreihe des Gegners erreichen muss. Steine bewegen sich und schlagen wie Schachbauern. Wer zuerst die andere Grundreihe erreicht, gewinnt. Enthält auch eine \"Bombardement\"-Variante, bei der man anstelle regulärer Schlagzüge einen Stein detonieren lassen kann, wodurch er und alle umgebenden Steine zerstört werden.",
-    "bricka": "Verbindungsspiel, das auf einem speziellen Spielbrett gespielt wird. Wenn Sie angrenzend an ein Feld setzen, auf dem Sie die Mehrheit der nicht-neutralen Schnittpunkte besitzen, wird Ihr Stein neutral. Zudem sind Schnittpunkte, die an die letzte Platzierung angrenzende Felder umgeben, für den aktuellen Zug blockiert.",
+    "bricka": "Verbindungsspiel, das auf einem speziellen Spielbrett gespielt wird. Wenn du angrenzend an ein Feld setzt, auf dem du die Mehrheit der nicht-neutralen Schnittpunkte besitzt, wird dein Stein neutral. Zudem sind Schnittpunkte um Felder, die an die letzte Platzierung angrenzen, für den aktuellen Zug blockiert.",
     "bridges": "Bridges ist ein Spiel für zwei Personen auf einem sechseckigen Spielbrett, entworfen von Marc Rebillet. Die Spieler platzieren Basen und verbinden sie mit Brücken. Wer am Ende die meisten Brückenteile auf dem Brett hat, gewinnt. Bei Gleichstand entscheidet die längere Brücke.",
     "btt": "Ein Spiel mit Pyramiden, die sich über ein Schachbrett verzweigen, bei dem du Punkte erhältst, wenn Gegner auf deine Pyramiden zeigen, und Punkte verlierst, wenn du auf ihre zeigst.",
     "bug": "Fülle das Ökosystem so sehr mit deinen Käfern, dass du dich nicht mehr ausbreiten kannst. Platziere in deinem Zug einen Stein, um einen neuen Käfer zu beginnen oder einen bestehenden Käfer wachsen zu lassen. Wenn dann einer deiner Käfer an gegnerische Käfer derselben Form grenzt, müssen sie sie fressen und ein Bonuswachstum ausführen (wenn kein Bonuswachstum möglich ist, findet kein Fressen statt). Dies kann zu Kettenreaktionen führen. Wenn mehrere Käfer fressen können, darfst du bestimmen, welche Käfer dies in welcher Reihenfolge tun.",

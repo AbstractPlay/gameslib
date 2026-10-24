@@ -1509,7 +1509,7 @@
   },
   "descriptions.bricka": {
     "src": "Connection game played on a special board. Placing adjacent to a cell where you own the majority of non-neutral intersections means your stone becomes neutral. Also, intersections surrounding cells adjacent to the last placement are blocked for the current turn.",
-    "out": "Verbindungsspiel, das auf einem speziellen Spielbrett gespielt wird. Wenn Sie angrenzend an ein Feld setzen, auf dem Sie die Mehrheit der nicht-neutralen Schnittpunkte besitzen, wird Ihr Stein neutral. Zudem sind Schnittpunkte, die an die letzte Platzierung angrenzende Felder umgeben, für den aktuellen Zug blockiert."
+    "out": "Verbindungsspiel, das auf einem speziellen Spielbrett gespielt wird. Wenn du angrenzend an ein Feld setzt, auf dem du die Mehrheit der nicht-neutralen Schnittpunkte besitzt, wird dein Stein neutral. Zudem sind Schnittpunkte um Felder, die an die letzte Platzierung angrenzen, für den aktuellen Zug blockiert."
   },
   "descriptions.bridges": {
     "src": "Bridges is a two-player game played on a hexagonal board, designed by Marc Rebillet. Players place bases and join them with bridges. The player with the most bridge pieces on the board at the end wins. Longer bridge breaks ties.",
@@ -7369,7 +7369,7 @@
   },
   "validation.bricka.BLOCKED": {
     "src": "You may not place on an intersection that shares a cell with the last-placed stone.",
-    "out": "Sie dürfen nicht auf einen Schnittpunkt setzen, der sich ein Feld mit dem zuletzt platzierten Stein teilt."
+    "out": "Du darfst nicht auf einen Schnittpunkt setzen, der sich ein Feld mit dem zuletzt platzierten Stein teilt."
   },
   "validation.bricka.INITIAL_INSTRUCTIONS": {
     "src": "Select an intersection to place a piece.",

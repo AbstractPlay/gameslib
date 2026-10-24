@@ -1507,6 +1507,10 @@
     "src": "One of the simplest \"get to your opponent's home row\" games around. Pieces move and capture like chess pawns. First to the other home row wins. Also includes a \"Bombardment\" variant where instead of regular capture moves, one can detonate a piece, which destroys it and all pieces around it.",
     "out": "Uno dei giochi più semplici sul tema \"raggiungi la prima fila dell'avversario\". I pezzi si muovono e catturano come i pedoni degli scacchi. Vince chi raggiunge per primo la prima fila avversaria. Include anche la variante \"Bombardment\", in cui al posto delle regolari mosse di cattura è possibile far detonare un pezzo, distruggendo se stesso e tutti i pezzi circostanti."
   },
+  "descriptions.bricka": {
+    "src": "Connection game played on a special board. Placing adjacent to a cell where you own the majority of non-neutral intersections means your stone becomes neutral. Also, intersections surrounding cells adjacent to the last placement are blocked for the current turn.",
+    "out": "Gioco di connessione giocato su una plancia speciale. Piazzare una pietra adiacente a una cella in cui possiedi la maggioranza delle intersezioni non neutre rende la tua pietra neutra. Inoltre, le intersezioni che circondano le celle adiacenti all'ultimo posizionamento sono bloccate per il turno in corso."
+  },
   "descriptions.bridges": {
     "src": "Bridges is a two-player game played on a hexagonal board, designed by Marc Rebillet. Players place bases and join them with bridges. The player with the most bridge pieces on the board at the end wins. Longer bridge breaks ties.",
     "out": "Bridges è un gioco per due giocatori giocato su una plancia esagonale, ideato da Marc Rebillet. I giocatori posizionano basi e le collegano con dei ponti. Vince il giocatore con più pezzi ponte sulla plancia alla fine della partita. In caso di parità vince il ponte più lungo."
@@ -3578,6 +3582,10 @@
   "names.breakthrough": {
     "src": "Breakthrough",
     "out": "Breakthrough"
+  },
+  "names.bricka": {
+    "src": "Bricka",
+    "out": "Bricka"
   },
   "names.bridges": {
     "src": "Bridges",
@@ -7358,6 +7366,14 @@
   "validation.breakthrough.TOOFAR": {
     "src": "Pieces can only move one space at a time.",
     "out": "I pezzi possono muoversi di un solo spazio alla volta."
+  },
+  "validation.bricka.BLOCKED": {
+    "src": "You may not place on an intersection that shares a cell with the last-placed stone.",
+    "out": "Non puoi piazzare su un'intersezione che condivide una cella con l'ultima pietra piazzata."
+  },
+  "validation.bricka.INITIAL_INSTRUCTIONS": {
+    "src": "Select an intersection to place a piece.",
+    "out": "Seleziona un'intersezione per posizionare un pezzo."
   },
   "validation.bridges.BASE_HAS_BRIDGE_one": {
     "src": "Bases cannot support more than one bridge. You must still make 1 more move.",

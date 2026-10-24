@@ -252,7 +252,7 @@ export class StilettoGame extends InARowBase {
         if ( xe < 0 || ye < 0 || xe >= this.boardSize || ye >= this.boardSize ) { return false; }
         return true;
     }
-    
+
     public checkIllegalOpen4(moves : string[]): boolean {
         const [move1, move2] = moves;
         const [x1, y1] = this.algebraic2coords(move1);
@@ -687,9 +687,10 @@ export class StilettoGame extends InARowBase {
     public sidebarScores(): IScores[] {
         const daggerReport: string[] = ["", ""];
         if ( this.hasActiveDagger() || this.stack.length < 2) {
-            daggerReport[this.whoHasDagger() - 1] = "has the dagger";
+            daggerReport[this.whoHasDagger() - 1] = "†";
         } else {
-            daggerReport[this.whoHasDagger() - 1] = "has the dagger (inactive)";
+            daggerReport[this.whoHasDagger() - 1] = "†";
+            // daggerReport[this.whoHasDagger() - 1] = "† (inactive)";
         }
 
         return [

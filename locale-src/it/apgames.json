@@ -2891,6 +2891,14 @@
     "src": "Deterministic",
     "out": "Deterministico"
   },
+  "displays.homeworlds.rows.description": {
+    "src": "Peripheral systems are laid out in rows by size (small to large).",
+    "out": "I sistemi periferici sono disposti in righe per dimensione (da piccolo a grande)."
+  },
+  "displays.homeworlds.rows.name": {
+    "src": "Deterministic (Rows)",
+    "out": "Deterministico (Righe)"
+  },
   "displays.homeworlds.traditional.description": {
     "src": "A more-traditional horizontal approach; only applies to 2-player games.",
     "out": "Un approccio orizzontale più tradizionale; si applica solo alle partite a 2 giocatori."
@@ -21594,6 +21602,22 @@
   "variants.tablero.abba.name": {
     "src": "Balanced start",
     "out": "Inizio bilanciato"
+  },
+  "variants.tablero.addVar.description": {
+    "src": "At game start, roll 1d6 and add it to each column’s default score value (1–6). Column dice for placing and moving are unchanged.",
+    "out": "All'inizio della partita, tira 1d6 e aggiungilo al valore di punteggio predefinito di ciascuna colonna (1–6). I dadi di colonna per il posizionamento e il movimento rimangono invariati."
+  },
+  "variants.tablero.addVar.name": {
+    "src": "Add 1d6",
+    "out": "Aggiungi 1d6"
+  },
+  "variants.tablero.setVar.description": {
+    "src": "At game start, each column’s score value is set to an independent 1d6 roll (repeats allowed). Column positions and which die uses each column are unchanged.",
+    "out": "All'inizio della partita, il valore di punteggio di ciascuna colonna viene impostato da un tiro di 1d6 indipendente (ripetizioni consentite). Le posizioni delle colonne e il dado associato a ciascuna colonna rimangono invariati."
+  },
+  "variants.tablero.setVar.name": {
+    "src": "Random 1d6",
+    "out": "1d6 casuale"
   },
   "variants.tafl.#variant.description": {
     "src": "Linnaean Sámi Tablut with historical rules based on a recent reconstruction from Linnaeus' diary. It is an edge escape variant with an armed king that is strong on the throne and on the four squares adjacent to the throne, but weak everywhere else.",

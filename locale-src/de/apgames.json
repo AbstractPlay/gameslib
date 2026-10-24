@@ -2891,6 +2891,14 @@
     "src": "Deterministic",
     "out": "Deterministisch"
   },
+  "displays.homeworlds.rows.description": {
+    "src": "Peripheral systems are laid out in rows by size (small to large).",
+    "out": "Periphere Systeme sind nach Größe (klein bis groß) in Reihen angeordnet."
+  },
+  "displays.homeworlds.rows.name": {
+    "src": "Deterministic (Rows)",
+    "out": "Deterministisch (Reihen)"
+  },
   "displays.homeworlds.traditional.description": {
     "src": "A more-traditional horizontal approach; only applies to 2-player games.",
     "out": "Ein eher traditioneller horizontaler Ansatz; gilt nur für Spiele mit 2 Spielern."
@@ -21594,6 +21602,22 @@
   "variants.tablero.abba.name": {
     "src": "Balanced start",
     "out": "Ausgeglichener Start"
+  },
+  "variants.tablero.addVar.description": {
+    "src": "At game start, roll 1d6 and add it to each column’s default score value (1–6). Column dice for placing and moving are unchanged.",
+    "out": "Zu Spielbeginn wird 1W6 gewürfelt und zum Standard-Punktwert jeder Spalte (1–6) addiert. Die Spaltenwürfel zum Platzieren und Bewegen bleiben unverändert."
+  },
+  "variants.tablero.addVar.name": {
+    "src": "Add 1d6",
+    "out": "1W6 hinzufügen"
+  },
+  "variants.tablero.setVar.description": {
+    "src": "At game start, each column’s score value is set to an independent 1d6 roll (repeats allowed). Column positions and which die uses each column are unchanged.",
+    "out": "Zu Spielbeginn wird der Punktwert jeder Spalte durch einen unabhängigen 1W6-Wurf bestimmt (Wiederholungen erlaubt). Spaltenpositionen und welcher Würfel welche Spalte nutzt, bleiben unverändert."
+  },
+  "variants.tablero.setVar.name": {
+    "src": "Random 1d6",
+    "out": "Zufälliger 1W6"
   },
   "variants.tafl.#variant.description": {
     "src": "Linnaean Sámi Tablut with historical rules based on a recent reconstruction from Linnaeus' diary. It is an edge escape variant with an armed king that is strong on the throne and on the four squares adjacent to the throne, but weak everywhere else.",

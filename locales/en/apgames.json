@@ -5150,6 +5150,10 @@
         "name": "Deterministic",
         "description": "Peripheral systems are laid out in columns by size."
       },
+      "rows": {
+        "name": "Deterministic (Rows)",
+        "description": "Peripheral systems are laid out in rows by size (small to large)."
+      },
       "traditional": {
         "name": "Traditional",
         "description": "A more-traditional horizontal approach; only applies to 2-player games."
@@ -8792,6 +8796,14 @@
       "5-10": {
         "name": "Compressed range (5–10)",
         "description": "By adding 4 to the value of each centre space, the ratio of highest space to lowest is compressed from 6:1 to 2:1. This incentivizes more active competition for lower spaces."
+      },
+      "addVar": {
+        "name": "Add 1d6",
+        "description": "At game start, roll 1d6 and add it to each column’s default score value (1–6). Column dice for placing and moving are unchanged."
+      },
+      "setVar": {
+        "name": "Random 1d6",
+        "description": "At game start, each column’s score value is set to an independent 1d6 roll (repeats allowed). Column positions and which die uses each column are unchanged."
       },
       "abba": {
         "name": "Balanced start",

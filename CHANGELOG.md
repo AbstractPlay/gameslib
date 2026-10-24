@@ -15,10 +15,11 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Thue-Morse Go, Yodd.
 
-## [1.0.0-ci] - 2026-10-20
+## [1.0.0-ci] - 2026-10-23
 
 ### Added
 
+- **Tablero:** Fan scoring variants **Add 1d6** (`addVar`) and **Random 1d6** (`setVar`); optional per-column `spaceScores` on saved state; center-row render shows column dice plus score text when values differ.
 - **Tumbleweed:** "Fog of war" variant (line-of-sight visibility, stale dimmed cells, hidden scores, redacted move tree after the opening ply; explore disabled).
 - **Move table presentation API:** `getMoveTableRounds({ density, pathLength })`, `pathIndexForMoveTableCell`, `packPliesForMoveTable`, and exploration wire helpers (`moveTableRoundsFromExplorationPath`, …) on `GameBase` — export `getRounds()` unchanged; compact sequenced UI merges seat cycles.
 - **Docs:** [Exploration and emulation](/gameslib/exploration-emulation/) for explore-allowed games (`no-explore` moot on live play); WaldMeister and Frogger as primary references.
@@ -36,7 +37,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **Gonnect:** Show score
 - **Mega-volcano/Volcano:** add frames
 - **Storisende:** Total disks for each side in status panel
-- **Homeworlds:** **Traditional** board display (2-player) — row bands for peripheries from opening `stack[2]` pairing (large, small, or micro universe); **Deterministic** remains size columns (render-only).
+- **Homeworlds:** **Traditional** board display (2-player) — row bands for peripheries from opening `stack[2]` pairing (large, small, micro, or one two-size home); falls back to **Deterministic (Rows)** when unsupported; **Deterministic (Rows)** display (size 1–3 → rows 0–2); columnar **Deterministic** unchanged (render-only).
 
 ### Changed
 
@@ -59,6 +60,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Fixed
 
+- **Guerrilla Checkers (match):** game-1 ending ply is saved on the stack before the G2 reset checkpoint (with `lastmove`); sequenced export skips non-ply reset rows; `repairGuerrillaMatchStack` splits legacy combined transition frames for load/export (replay clears `gameover` on the stack prefix so finished matches can be inferred).
 - **Weblate sync:** `overlay-weblate-locales` + `reset-weblate-export` for hosted export vs GitHub `develop` (merge conflicts in Diagnostics).
 - **Bao:** Fixed a regression introduced a few days ago that blocked taxing the nyumba.
 - **Tumbleweed:** standard opening ply `lastmove` is stored as the full `p1,p2` wire; legacy games with only P1 in `lastmove`/`_results` are repaired from the stack-1 board delta for move history, export, and load; chat log uses one combined setup line.

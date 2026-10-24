@@ -3,10 +3,10 @@ import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, RowCol, MarkerFlood } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
-import {union} from 'graphology-operators';
-import { UndirectedGraph } from 'graphology';
-import { dfsFromNode, bfsFromNode } from 'graphology-traversal';
-import {bidirectional} from 'graphology-shortest-path';
+import { union } from "graphology-operators";
+import { UndirectedGraph } from "graphology";
+import { dfsFromNode, bfsFromNode } from "graphology-traversal";
+import {bidirectional} from "graphology-shortest-path";
 import i18next from "i18next";
 import { indexToColumnLabel, columnLabelToIndex } from "../common/columnLabels.js";
 
@@ -101,7 +101,7 @@ class Region {
         }
         return graph;
     }
-}
+};
 
 export class BrickaGame extends GameBase {
 

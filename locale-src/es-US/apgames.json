@@ -1509,7 +1509,7 @@
   },
   "descriptions.bricka": {
     "src": "Connection game played on a special board. Placing adjacent to a cell where you own the majority of non-neutral intersections means your stone becomes neutral. Also, intersections surrounding cells adjacent to the last placement are blocked for the current turn.",
-    "out": "Juego de conexión jugado en un tablero especial. Colocar junto a una casilla donde posees la mayoría de las intersecciones no neutrales hace que tu piedra se vuelva neutral. Además, las intersecciones que rodean a las casillas adyacentes a la última colocación quedan bloqueadas durante el turno actual."
+    "out": "Juego de conexión jugado en un tablero especial. Colocar junto a una casilla donde poseas la mayoría de las intersecciones no neutrales hace que tu piedra se vuelva neutral. Además, las intersecciones que rodean las casillas adyacentes a la última colocación quedan bloqueadas para el turno actual."
   },
   "descriptions.bridges": {
     "src": "Bridges is a two-player game played on a hexagonal board, designed by Marc Rebillet. Players place bases and join them with bridges. The player with the most bridge pieces on the board at the end wins. Longer bridge breaks ties.",

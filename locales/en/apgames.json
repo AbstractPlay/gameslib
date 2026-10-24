@@ -1291,7 +1291,8 @@
       "TOOFAR": "Pieces can only move one space at a time."
     },
     "bricka": {
-      "INITIAL_INSTRUCTIONS": "Welcome to Bricka."
+      "INITIAL_INSTRUCTIONS": "Select an intersection to place a piece.",
+      "BLOCKED": "You may not place on an intersection that shares a cell with the last-placed stone."
     },
     "bridges": {
       "INITIAL_INSTRUCTIONS_FIRST_TURN": "Select an empty space (except the middle) to place a new base, or you may pass.",

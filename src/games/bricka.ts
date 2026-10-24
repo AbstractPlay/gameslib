@@ -11,8 +11,8 @@ import { indexToColumnLabel, columnLabelToIndex } from "../common/columnLabels.j
 
 export const gameApgamesEn = {
     validation: {
-        INITIAL_INSTRUCTIONS: "Welcome to Bricka.",
-        BLOCKED: "You may not place on a cell that shares a region with the last-placed stone."
+        INITIAL_INSTRUCTIONS: "Select an intersection to place a piece.",
+        BLOCKED: "You may not place on an intersection that shares a cell with the last-placed stone."
     }
 };
 

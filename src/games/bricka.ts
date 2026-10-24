@@ -461,7 +461,7 @@ export class BrickaGame extends GameBase {
                 winning = true;
                 /* Store the shortest winning path */
                 // First find the edge cells to use, i.e. closest to the placed stone
-                let edgeCells: string[] = [];
+                const edgeCells: string[] = [];
                 for( const edgeI of [0, 1]){
                     const edge = [a, b][edgeI];
                     bfsFromNode(graph, lastmove, (cell) => {

@@ -1157,10 +1157,54 @@ describe("Kill-All Go", () => {
             expect(g.currplayer).to.equal(1);
             expect(g.validateMove("c4").valid).to.be.false;
             expect(g.moves()).to.not.include("c4");
+            expect(new KillAllGoGame(g.serialize()).validateMove("c4").valid).to.be.false;
+            expect(g.clone().moves()).to.not.include("c4");
             play(g, ["a9", "b9"]);
             expect(g.validateMove("c4").valid).to.be.true;
             g.move("c4");
             expect(g.board.has("d4")).to.be.false;
+        });
+
+        it("reconstructs setup positions between the stones of a batch", () => {
+            const g = play(new KillAllGoGame(undefined, ["size-9", "pie"]), ["a2,b2,c1,i9", "attacker"]);
+            const state = g.state();
+            // A synthetic current position: the Defender's b1 would suicide a1 and b1,
+            // returning to the position after the third setup stone, before i9 was added.
+            state.stack[state.stack.length - 1].board = new Map([
+                ["a2", RED], ["b2", RED], ["c1", RED], ["a1", BLUE],
+            ]);
+            const restored = new KillAllGoGame(state);
+            expect(restored.validateMove("b1").valid).to.be.false;
+            expect(restored.moves()).to.not.include("b1");
+            expect(restored.clone().validateMove("b1").valid).to.be.false;
+            expect(restored.serialize()).to.not.contain('"interim"');
+            expect(restored.serialize()).to.not.contain('"repetitionCache"');
+        });
+
+        it("distinguishes setup orders that leave different repetition histories", () => {
+            const g = play(new KillAllGoGame(undefined, ["size-9", "pie"]), ["a2,b2,c1,i9"]);
+            expect(g.sameMove("a2,b2,c1,i9", "b2,a2,c1,i9")).to.be.false;
+            expect(g.sameMove("a2,b2,c1,i9", "A2, B2, C1, I9")).to.be.true;
+        });
+
+        it("keeps partial-move positions out of the cached history", () => {
+            const g = attackerIsPlayerOne();
+            expect(g.validateMove("a1").valid).to.be.true;
+            g.move("a1", { partial: true });
+            g.load();
+            expect(g.validateMove("a1").valid).to.be.true;
+            g.move("a1");
+            expect(g.board.get("a1")).to.equal(BLUE);
+        });
+
+        it("strips legacy interim arrays without mutating the input", () => {
+            const g = attackerIsPlayerOne();
+            const state = g.state();
+            const legacy = state.stack.map((entry) => ({ ...entry, interim: ["obsolete"] }));
+            const restored = new KillAllGoGame({ ...state, stack: legacy });
+            expect(restored.serialize()).to.not.contain('"interim"');
+            expect(legacy.every((entry) => entry.interim[0] === "obsolete")).to.be.true;
+            expect(restored.moves()).to.deep.equal(g.moves());
         });
 
         it("applies a multi-stone suicide (Tromp-Taylor clearing)", () => {

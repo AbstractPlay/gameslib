@@ -13623,6 +13623,10 @@
     "src": "Select a stack to sow.",
     "out": "Selecciona una pila para sembrar."
   },
+  "validation.rincala.INITIAL_INSTRUCTIONS_first": {
+    "src": "Select a stack to sow. On the first turn, you may only sow a single stack.",
+    "out": "Selecciona una pila para sembrar. En el primer turno, solo puedes sembrar una sola pila."
+  },
   "validation.rincala.LABEL_STASH": {
     "src": "{{player}}'s captures",
     "out": "Capturas de {{player}}"

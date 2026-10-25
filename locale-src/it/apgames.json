@@ -13623,6 +13623,10 @@
     "src": "Select a stack to sow.",
     "out": "Seleziona una pila da seminare."
   },
+  "validation.rincala.INITIAL_INSTRUCTIONS_first": {
+    "src": "Select a stack to sow. On the first turn, you may only sow a single stack.",
+    "out": "Seleziona una pila da seminare. Al primo turno, puoi seminare una sola pila."
+  },
   "validation.rincala.LABEL_STASH": {
     "src": "{{player}}'s captures",
     "out": "Catture di {{player}}"

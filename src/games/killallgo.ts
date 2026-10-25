@@ -560,8 +560,6 @@ export interface IMoveState extends IIndividualState {
     phase: Phase;
     redSeat?: playerid;
     setup?: ISetup;
-    /** Board signatures of the intermediate positions inside this ply (positional superko). */
-    interim: string[];
     /** The stones that decided the game: the Defender's living strings, or the Attacker's that leave them no room. */
     alive?: string[];
 }
@@ -689,7 +687,6 @@ export class KillAllGoGame extends GameBase {
     public phase!: Phase;
     public redSeat?: playerid;
     public setup?: ISetup;
-    public interim: string[] = [];
     public alive?: string[];
     public gameover = false;
     public winner: playerid[] = [];
@@ -698,6 +695,7 @@ export class KillAllGoGame extends GameBase {
     public results: Array<APMoveResult> = [];
     private boardSize = 19;
     private geo!: Geometry;
+    private repetitionCache?: { length: number; last: IMoveState; seen: Set<string> };
 
     constructor(state?: IKillAllGoState | string, variants?: string[]) {
         super();
@@ -731,7 +729,6 @@ export class KillAllGoGame extends GameBase {
                 board,
                 phase,
                 redSeat,
-                interim: [],
             };
             this.stack = [fresh];
         } else {
@@ -747,7 +744,12 @@ export class KillAllGoGame extends GameBase {
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.variants = state.variants;
-            this.stack = [...state.stack];
+            this.stack = state.stack.map((entry) => {
+                const clean = { ...entry };
+                // Older saves carried derived intermediate signatures; do not write them back.
+                delete (clean as IMoveState & { interim?: string[] }).interim;
+                return clean;
+            });
         }
         this.load();
     }
@@ -767,10 +769,10 @@ export class KillAllGoGame extends GameBase {
         this.phase = state.phase;
         this.redSeat = state.redSeat;
         this.setup = state.setup === undefined ? undefined : { ...state.setup };
-        this.interim = [...state.interim];
         this.alive = state.alive === undefined ? undefined : [...state.alive];
         this.boardSize = KillAllGoGame.sizeFromVariants(this.variants);
         this.geo = makeGeometry(this.boardSize);
+        this.repetitionCache = undefined;
         return this;
     }
 
@@ -847,14 +849,53 @@ export class KillAllGoGame extends GameBase {
 
     /** Signatures of every position reached before the current ply (positional superko). */
     private positions(): Set<string> {
-        const seen = new Set<string>();
-        for (const state of this.stack) {
-            seen.add(signature(state.board, this.geo));
-            for (const sig of state.interim) {
+        let cache = this.repetitionCache;
+        if (cache === undefined || this.stack[cache.length - 1] !== cache.last) {
+            cache = { length: 0, last: this.stack[0], seen: new Set() };
+            this.repetitionCache = cache;
+        }
+        const seen = cache.seen;
+        for (let i = cache.length; i < this.stack.length; i++) {
+            const state = this.stack[i];
+            for (const sig of this.intermediatePositions(i)) {
                 seen.add(sig);
             }
+            seen.add(signature(state.board, this.geo));
         }
+        cache.length = this.stack.length;
+        cache.last = this.stack[this.stack.length - 1];
         return seen;
+    }
+
+    /** Only setup has multiple placements in a ply; replay its unsaved intermediate boards. */
+    private intermediatePositions(idx: number): string[] {
+        if (idx === 0) { return []; }
+        const placements = this.stack[idx]._results.filter((r) => r.type === "place");
+        if (placements.length < 2) { return []; }
+        const board = new Map(this.stack[idx - 1].board);
+        const positions: string[] = [];
+        for (const placement of placements.slice(0, -1)) {
+            applyPlacement(board, this.geo, placement.where!, RED);
+            positions.push(signature(board, this.geo));
+        }
+        return positions;
+    }
+
+    public sameMove(move1: string, move2: string): boolean {
+        if (!super.sameMove(move1, move2)) { return false; }
+        if (move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "")) {
+            return true;
+        }
+        // Equal final boards can leave different setup positions in the superko history.
+        const cloned = this.clone();
+        cloned.stack.pop();
+        cloned.load();
+        cloned.gameover = false;
+        cloned.winner = [];
+        cloned.move(move2, { trusted: true });
+        const a = this.intermediatePositions(this.stack.length - 1);
+        const b = cloned.intermediatePositions(cloned.stack.length - 1);
+        return a.length === b.length && a.every((sig, i) => sig === b[i]);
     }
 
     /** Result of placing `colour` at `cell` on a copy of `board`, or undefined when the position would repeat. */
@@ -1549,9 +1590,8 @@ export class KillAllGoGame extends GameBase {
         if (m.length === 0) { return this; }
 
         this.results = [];
-        this.interim = [];
         this.alive = undefined;
-        const seen = this.positions();
+        const seen = new Set(this.positions());
 
         switch (this.phase) {
             case "hand-n": {
@@ -1676,8 +1716,6 @@ export class KillAllGoGame extends GameBase {
         this.checkLifeAndDeath();
         this.checkStalemate(seen);
 
-        // The final position of the ply is the saved board; keep only the intermediate ones.
-        this.interim.pop();
         this.lastmove = m;
         this.saveState();
         return this;
@@ -1690,7 +1728,6 @@ export class KillAllGoGame extends GameBase {
             this.results.push({ type: "place", where: cell, what: "setup" });
             const sig = signature(this.board, this.geo);
             seen.add(sig);
-            this.interim.push(sig);
         }
     }
 
@@ -1706,7 +1743,6 @@ export class KillAllGoGame extends GameBase {
         }
         const sig = signature(this.board, this.geo);
         seen.add(sig);
-        this.interim.push(sig);
     }
 
     /** The opening protocol is over: normal play starts with the Defender to move. */
@@ -1794,7 +1830,6 @@ export class KillAllGoGame extends GameBase {
             lastmove: this.lastmove,
             board: new Map(this.board),
             phase: this.phase,
-            interim: [...this.interim],
         };
         if (this.redSeat !== undefined) { state.redSeat = this.redSeat; }
         if (this.setup !== undefined) { state.setup = { ...this.setup }; }

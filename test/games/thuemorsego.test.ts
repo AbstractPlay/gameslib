@@ -418,7 +418,7 @@ describe("Thue-Morse Go: moves", () => {
         expect(g.board.has("c2")).to.be.false;
         expect(g.board.get("k11")).to.equal(2);
         // Only the position the move left was recorded, so the next move sees one new position.
-        expect(g.interim).to.deep.equal([]);
+        expect(g.moveState()).to.not.have.property("interim");
         expect(g.novel).to.be.true;
         // The fifth occurrence by default is likewise counted when the move ends.
         const d = small(["weak-eyes"]);
@@ -833,6 +833,76 @@ describe("Thue-Morse Go: ko", () => {
         expect(g.validateMove("k11,b2").complete).to.equal(1);
         g.move("k11,b2");
         expect(g.board.has("c2")).to.be.false;
+    });
+
+    it("rebuilds intermediate suicide counts after reload and does not count passes", () => {
+        for (const variants of [["double-delayed-psk"], []]) {
+            let g = small(variants);
+            setStones(g, [], ["a2", "b1", "k11"]);
+            g.placed = 5;
+            g.stack[0].placed = 5;
+            // Both stones disappear: the initial board has now occurred three times.
+            g.move("a1,a1");
+            expect(g.gameover).to.be.false;
+            const saved = g.serialize();
+            expect(saved).to.not.contain('"interim"');
+            expect(saved).to.not.contain('"repetitionCache"');
+            g = new ThueMorseGoGame(saved);
+            g.move("pass,pass");
+            g = g.clone();
+            if (variants.length > 0) {
+                expect(g.validateMove("a1").valid).to.be.false;
+                expect(g.validateMove("a1").message).to.contain("three times");
+            } else {
+                g.move("a1,a1");
+                expect(g.gameover).to.be.true;
+                expect(g.results).to.deep.include({ type: "eog", reason: "repetition" });
+            }
+        }
+    });
+
+    it("counts only cleared end-of-move positions under checked weak eyes after reload", () => {
+        let g = small(["weak-eyes"]);
+        setStones(g, [], ["a2", "b1", "k10", "j11"]);
+        g.placed = 5;
+        g.stack[0].placed = 5;
+        for (const move of ["a1,k11", "pass,pass", "a1,k11", "pass", "a1", "pass,pass"]) {
+            g.move(move);
+            expect(g.gameover).to.be.false;
+            g = new ThueMorseGoGame(g.serialize());
+        }
+        g.move("a1");
+        expect(g.gameover).to.be.true;
+        expect(g.results).to.deep.include({ type: "eog", reason: "repetition" });
+    });
+
+    it("replays captures before an intermediate position is counted", () => {
+        let g = small(["double-delayed-psk"]);
+        setStones(g, ["a2", "b1", "b3"], ["b2", "c1", "c3", "d2", "k10", "j11"]);
+        g.placed = 5;
+        g.stack[0].placed = 5;
+        // c2 captures b2, then k11 suicides: that captured board occurs twice in one move.
+        for (const move of ["c2,k11", "b2,pass", "c2,pass", "b2"]) {
+            g.move(move);
+            g = new ThueMorseGoGame(g.serialize());
+        }
+        expect(g.validateMove("c2").valid).to.be.false;
+        expect(g.validateMove("c2").message).to.contain("fourth time");
+    });
+
+    it("rebuilds after undo and strips legacy interim arrays without mutating the input", () => {
+        const g = play(small(["superko"]), ["a1"]);
+        const state = g.state();
+        const legacy = state.stack.map((entry) => ({ ...entry, interim: ["obsolete"] }));
+        const copy = new ThueMorseGoGame({ ...state, stack: legacy });
+        expect(copy.serialize()).to.not.contain('"interim"');
+        expect(legacy.every((entry) => entry.interim[0] === "obsolete")).to.be.true;
+        // Warm the cache, discard that line, and take a different opening.
+        expect(copy.validateMove("b1,c1").valid).to.be.true;
+        copy.undo();
+        copy.load();
+        copy.move("b1");
+        expect(copy.validateMove("a1,c1").valid).to.be.true;
     });
 
     it("forbids only the fourth occurrence of a position under double delayed superko", () => {

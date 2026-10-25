@@ -9,6 +9,7 @@ export const gameApgamesEn = {
         BAD_DIR: "That stack can't move in that direction.",
         CONTINUE: "You must continue playing until you capture or sow over an empty pit. Select a stack to sow.",
         INITIAL_INSTRUCTIONS: "Select a stack to sow.",
+        INITIAL_INSTRUCTIONS_first: "Select a stack to sow. On the first turn, you may only sow a single stack.",
         LABEL_STASH: "{{player}}'s captures",
         NO_MOVES: "That stack doesn't have any legal moves.",
         PARTIAL: "Select an adjacent pit to start sowing in that direction.",
@@ -391,7 +392,11 @@ export class RincalaGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.rincala.INITIAL_INSTRUCTIONS");
+            if (this.stack.length === 1) {
+                result.message = i18next.t("apgames:validation.rincala.INITIAL_INSTRUCTIONS_first");
+            } else {
+                result.message = i18next.t("apgames:validation.rincala.INITIAL_INSTRUCTIONS");
+            }
             return result;
         }
 

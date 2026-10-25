@@ -3219,6 +3219,7 @@
       "BAD_DIR": "Cette pile ne peut pas se déplacer dans cette direction.",
       "CONTINUE": "Vous devez continuer à jouer jusqu'à ce que vous capturiez ou semiez au-dessus d'une fosse vide. Sélectionnez une pile à semer.",
       "INITIAL_INSTRUCTIONS": "Sélectionnez une pile à semer.",
+      "INITIAL_INSTRUCTIONS_first": "Sélectionnez une pile à semer. Au premier tour, vous ne pouvez semer qu'une seule pile.",
       "LABEL_STASH": "Captures de {{player}}",
       "NO_MOVES": "Cette pile n'a aucun coup légal.",
       "PARTIAL": "Sélectionnez une fosse adjacente pour commencer à semer dans cette direction."

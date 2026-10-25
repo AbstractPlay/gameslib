@@ -3219,6 +3219,7 @@
       "BAD_DIR": "That stack can't move in that direction.",
       "CONTINUE": "You must continue playing until you capture or sow over an empty pit. Select a stack to sow.",
       "INITIAL_INSTRUCTIONS": "Select a stack to sow.",
+      "INITIAL_INSTRUCTIONS_first": "Select a stack to sow. On the first turn, you may only sow a single stack.",
       "LABEL_STASH": "{{player}}'s captures",
       "NO_MOVES": "That stack doesn't have any legal moves.",
       "PARTIAL": "Select an adjacent pit to start sowing in that direction."

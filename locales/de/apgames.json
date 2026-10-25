@@ -3219,6 +3219,7 @@
       "BAD_DIR": "Dieser Stapel kann sich nicht in diese Richtung bewegen.",
       "CONTINUE": "Sie müssen weiterspielen, bis Sie schlagen oder über ein leeres Feld säen. Wählen Sie einen Stapel zum Säen aus.",
       "INITIAL_INSTRUCTIONS": "Wählen Sie einen Stapel zum Säen aus.",
+      "INITIAL_INSTRUCTIONS_first": "Wähle einen Stapel zum Aussäen. Im ersten Zug darfst du nur einen einzelnen Stapel aussäen.",
       "LABEL_STASH": "{{player}}s geschlagene Steine",
       "NO_MOVES": "Dieser Stapel hat keine legalen Züge.",
       "PARTIAL": "Wählen Sie eine benachbarte Mulde aus, um das Säen in diese Richtung zu beginnen."

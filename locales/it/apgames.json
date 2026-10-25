@@ -3219,6 +3219,7 @@
       "BAD_DIR": "Quella pila non può muoversi in quella direzione.",
       "CONTINUE": "Devi continuare a giocare finché non catturi o semini sopra una fossa vuota. Seleziona una pila da seminare.",
       "INITIAL_INSTRUCTIONS": "Seleziona una pila da seminare.",
+      "INITIAL_INSTRUCTIONS_first": "Seleziona una pila da seminare. Al primo turno, puoi seminare una sola pila.",
       "LABEL_STASH": "Catture di {{player}}",
       "NO_MOVES": "Quella pila non ha mosse legali.",
       "PARTIAL": "Seleziona una fossa adiacente per iniziare a seminare in quella direzione."

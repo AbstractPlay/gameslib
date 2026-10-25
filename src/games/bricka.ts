@@ -133,6 +133,21 @@ export class BrickaGame extends GameBase {
                 num: 3,
                 default: "#aaa",
                 explanation: "Colour of the neutral stones",
+            },
+            {
+                num: 4,
+                default: "#666",
+                explanation: "Colour of the first goal region",
+            },
+            {
+                num: 5,
+                default: "#999",
+                explanation: "Colour of the second goal region",
+            },
+            {
+                num: 6,
+                default: "#ccc",
+                explanation: "Colour of the third goal region",
             }
         ],
         categories: ["goal>connect", "mechanic>place", "components>simple>3c", "board>other", "board>shape>other", "board>connect>other", "mechanic>block"],
@@ -597,12 +612,37 @@ export class BrickaGame extends GameBase {
             board: {
                 style: "bricka",
                 markers: [
-                    {type:"edge", edge: "NW", colour: 4},
-                    {type:"edge", edge: "SE", colour: 4},
-                    {type:"edge", edge: "NE", colour: 5},
-                    {type:"edge", edge: "SW", colour: 5},
-                    {type:"edge", edge: "W", colour: 6},
-                    {type:"edge", edge: "E", colour: 6},
+                    {
+                        type: "halo",
+                        width: 10,
+                        wedge: true,
+                        offset: -83,
+                        segments: [
+                            {
+                                "colour": 4,
+                                "degrees": 83
+                            },
+                            {
+                                "colour": 5,
+                                "degrees": 83
+                            },
+                            {
+                                "colour": 6,
+                                "degrees": 14
+                            },
+                            {
+                                "colour": 4,
+                                "degrees": 83
+                            },
+                            {
+                                "colour": 5,
+                                "degrees": 83
+                            },
+                            {
+                                "colour": 6
+                            }
+                        ]
+                    },
                     ...blockedMarkers
                 ]
             },

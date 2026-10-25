@@ -13623,6 +13623,10 @@
     "src": "Select a stack to sow.",
     "out": "Wählen Sie einen Stapel zum Säen aus."
   },
+  "validation.rincala.INITIAL_INSTRUCTIONS_first": {
+    "src": "Select a stack to sow. On the first turn, you may only sow a single stack.",
+    "out": "Wähle einen Stapel zum Aussäen. Im ersten Zug darfst du nur einen einzelnen Stapel aussäen."
+  },
   "validation.rincala.LABEL_STASH": {
     "src": "{{player}}'s captures",
     "out": "{{player}}s geschlagene Steine"

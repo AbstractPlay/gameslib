@@ -3217,6 +3217,7 @@
       "BAD_DIR": "Esa pila no se puede mover en esa dirección.",
       "CONTINUE": "Debes continuar jugando hasta capturar o sembrar en un hoyo vacío. Selecciona una pila para sembrar.",
       "INITIAL_INSTRUCTIONS": "Selecciona una pila para sembrar.",
+      "INITIAL_INSTRUCTIONS_first": "Selecciona una pila para sembrar. En el primer turno, solo puedes sembrar una sola pila.",
       "LABEL_STASH": "Capturas de {{player}}",
       "NO_MOVES": "Esa pila no tiene movimientos legales.",
       "PARTIAL": "Selecciona un hoyo adyacente para comenzar a sembrar en esa dirección."

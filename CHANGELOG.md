@@ -15,10 +15,6 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Thue-Morse Go, Yodd.
 
-### Changed
-
-- **Thue-Morse Go / Kill-All Go:** Rebuild and cache repetition history from saved boards and recorded placements instead of storing intermediate board signatures in `interim`; older saves drop those redundant arrays when saved again.
-
 ## [1.0.0-ci] - 2026-10-23
 
 ### Added

@@ -318,8 +318,6 @@ interface IMoveState extends IIndividualState {
     placed: number;
     /** Seats of the trailing run of moves that each passed at least one placement voluntarily. */
     passes: playerid[];
-    /** Positions this move created other than the saved board (positional superko, repetition). */
-    interim: string[];
     /** Whether the saved board is a position this move created (false after a move without a stone). */
     novel: boolean;
     /** Stones of the strings the last pass marked dead, in board order. */
@@ -938,7 +936,6 @@ export class ThueMorseGoGame extends GameBase {
     public phase!: Phase;
     public placed = 0;
     public passes: playerid[] = [];
-    public interim: string[] = [];
     public novel = false;
     public marks: string[] = [];
     public locked = false;
@@ -955,6 +952,7 @@ export class ThueMorseGoGame extends GameBase {
     public results: Array<APMoveResult> = [];
     private boardSize = 16;
     private geo!: Geometry;
+    private repetitionCache?: { length: number; last: IMoveState; counts: Map<string, number> };
 
     constructor(state?: IThueMorseGoState | string, variants?: string[]) {
         super();
@@ -975,7 +973,6 @@ export class ThueMorseGoGame extends GameBase {
                 phase,
                 placed: 0,
                 passes: [],
-                interim: [],
                 novel: false,
                 marks: [],
                 locked: false,
@@ -996,7 +993,12 @@ export class ThueMorseGoGame extends GameBase {
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.variants = state.variants;
-            this.stack = [...state.stack];
+            this.stack = state.stack.map((entry) => {
+                const clean = { ...entry };
+                // Older saves carried derived intermediate signatures; do not write them back.
+                delete (clean as IMoveState & { interim?: string[] }).interim;
+                return clean;
+            });
         }
         this.load();
     }
@@ -1016,7 +1018,6 @@ export class ThueMorseGoGame extends GameBase {
         this.phase = state.phase;
         this.placed = state.placed;
         this.passes = [...state.passes];
-        this.interim = [...state.interim];
         this.novel = state.novel;
         this.marks = [...state.marks];
         this.locked = state.locked;
@@ -1028,6 +1029,7 @@ export class ThueMorseGoGame extends GameBase {
         this.alive = state.alive === undefined ? undefined : [...state.alive];
         this.boardSize = ThueMorseGoGame.sizeFromVariants(this.variants);
         this.geo = this.variants.includes("snub") ? makeSnubGeometry(this.boardSize) : makeGeometry(this.boardSize);
+        this.repetitionCache = undefined;
         return this;
     }
 
@@ -1486,7 +1488,20 @@ export class ThueMorseGoGame extends GameBase {
             return true;
         }
         const recorded = this.lastmove ?? "";
-        return super.sameMove(first === this.canonicalMove(recorded) ? recorded : move1, move2);
+        if (!super.sameMove(first === this.canonicalMove(recorded) ? recorded : move1, move2)) {
+            return false;
+        }
+        // The final boards may agree while the positions available for later repetition differ.
+        // GameBase compares saved fields, so compare this derived part of the position here.
+        const cloned = this.clone();
+        cloned.stack.pop();
+        cloned.load();
+        cloned.gameover = false;
+        cloned.winner = [];
+        cloned.move(move2, { trusted: true });
+        const a = this.intermediatePositions(this.stack.length - 1);
+        const b = cloned.intermediatePositions(cloned.stack.length - 1);
+        return a.length === b.length && a.every((sig, i) => sig === b[i]);
     }
 
     /** Whether `placements` are the voluntary passes of a whole-move pass, the only move that can end the game. */
@@ -1562,21 +1577,56 @@ export class ThueMorseGoGame extends GameBase {
      * the handicap's declaration and passes change nothing and create no position.
      */
     private positionCounts(): Map<string, number> {
-        const counts = new Map<string, number>();
+        let cache = this.repetitionCache;
+        if (cache === undefined || this.stack[cache.length - 1] !== cache.last) {
+            cache = {
+                length: 1,
+                last: this.stack[0],
+                counts: new Map([[signature(this.stack[0].board, this.geo), 1]]),
+            };
+            this.repetitionCache = cache;
+        }
+        const counts = cache.counts;
         const add = (sig: string): void => {
             counts.set(sig, (counts.get(sig) ?? 0) + 1);
         };
-        add(signature(this.stack[0].board, this.geo));
-        for (let i = 1; i < this.stack.length; i++) {
+        for (let i = cache.length; i < this.stack.length; i++) {
             const state = this.stack[i];
-            for (const sig of state.interim) {
+            for (const sig of this.intermediatePositions(i)) {
                 add(sig);
             }
             if (state.novel) {
                 add(signature(state.board, this.geo));
             }
         }
+        cache.length = this.stack.length;
+        cache.last = this.stack[this.stack.length - 1];
         return counts;
+    }
+
+    /** Recreate the positions between placements without retaining them on the saved stack. */
+    private intermediatePositions(idx: number): string[] {
+        if (idx === 0) { return []; }
+        const state = this.stack[idx];
+        const previous = this.stack[idx - 1];
+        // Checked weak eyes counts only the final board during play; setup counts every stone.
+        if (previous.phase === "play" && this.checkedEyes) { return []; }
+        const placements = state._results.filter((r) => r.type === "place");
+        if (placements.length < 2) { return []; }
+        const board = new Map(previous.board);
+        const colour = previous.phase !== "play" ? ATTACKER
+            : !this.killAll ? previous.currplayer
+            : previous.currplayer === previous.defenderSeat ? DEFENDER : ATTACKER;
+        const positions: string[] = [];
+        for (const placement of placements.slice(0, -1)) {
+            board.set(placement.where!, colour);
+            if (previous.phase === "play") {
+                clearColour(board, this.geo, otherColour(colour));
+                clearColour(board, this.geo, colour);
+            }
+            positions.push(signature(board, this.geo));
+        }
+        return positions;
     }
 
     /** A fresh simulation of a move of `length` placements, `placed` of them served, under a reverse komi of `komi`. */
@@ -2672,7 +2722,6 @@ export class ThueMorseGoGame extends GameBase {
         if (m.length === 0) { return this; }
 
         this.results = [];
-        this.interim = [];
         this.novel = false;
         this.alive = undefined;
 
@@ -2715,14 +2764,11 @@ export class ThueMorseGoGame extends GameBase {
 
     /** Opening stones for the Attacker (no captures are possible before the Defender has moved). */
     private placeSetupStones(cells: string[]): void {
-        const created: string[] = [];
         for (const cell of cells) {
             this.board.set(cell, ATTACKER);
             this.results.push({ type: "place", where: cell, what: "setup" });
-            created.push(signature(this.board, this.geo));
         }
-        this.interim = created.slice(0, -1);
-        this.novel = created.length > 0;
+        this.novel = cells.length > 0;
     }
 
     private moveAltPlace(m: string, partial: boolean): boolean {
@@ -2814,7 +2860,6 @@ export class ThueMorseGoGame extends GameBase {
         if (komiResult !== undefined) {
             this.results.unshift(komiResult);
         }
-        this.interim = sim.created.slice(0, -1);
         this.novel = sim.created.length > 0;
         let agreed = false;
         if (declared !== undefined && forced === length) {
@@ -2915,7 +2960,6 @@ export class ThueMorseGoGame extends GameBase {
             for (let i = 0; i < length; i++) {
                 this.results.push({ type: "pass", why: "handicap" });
             }
-            this.interim = [];
             this.novel = false;
             this.alive = undefined;
             this.passesOwed -= length;
@@ -3158,7 +3202,6 @@ export class ThueMorseGoGame extends GameBase {
             phase: this.phase,
             placed: this.placed,
             passes: [...this.passes],
-            interim: [...this.interim],
             novel: this.novel,
             marks: [...this.marks],
             locked: this.locked,

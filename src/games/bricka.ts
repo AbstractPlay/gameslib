@@ -1,6 +1,6 @@
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep, RowCol, MarkerFlood } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, RowCol, MarkerFlood, Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import { union } from "graphology-operators";
@@ -604,6 +604,31 @@ export class BrickaGame extends GameBase {
             )
         }
 
+        const colNeutral: Colourfuncs = {
+            func: "custom",
+            default: "#aaa",
+            palette: 3
+        }
+        
+        const colHalo1: Colourfuncs = {
+            func: "custom",
+            default: "#666",
+            palette: 4
+        }
+
+        const colHalo2: Colourfuncs = {
+            func: "custom",
+            default: "#999",
+            palette: 5
+        }
+
+        const colHalo3: Colourfuncs = {
+            func: "custom",
+            default: "#ccc",
+            palette: 6
+        }
+
+
 
         // Build rep
 
@@ -626,27 +651,27 @@ export class BrickaGame extends GameBase {
                         offset: -83,
                         segments: [
                             {
-                                "colour": 4,
+                                "colour": colHalo1,
                                 "degrees": 83
                             },
                             {
-                                "colour": 5,
+                                "colour": colHalo2,
                                 "degrees": 83
                             },
                             {
-                                "colour": 6,
+                                "colour": colHalo3,
                                 "degrees": 14
                             },
                             {
-                                "colour": 4,
+                                "colour": colHalo1,
                                 "degrees": 83
                             },
                             {
-                                "colour": 5,
+                                "colour": colHalo2,
                                 "degrees": 83
                             },
                             {
-                                "colour": 6
+                                "colour": colHalo3
                             }
                         ]
                     },
@@ -656,7 +681,7 @@ export class BrickaGame extends GameBase {
             legend: {
                 A: {name: "piece", colour: 1},
                 B: {name: "piece", colour: 2},
-                C: {name: "piece", colour: 3}
+                C: {name: "piece", colour: colNeutral}
             },
             pieces: pstr as [string[][], ...string[][][]],
             options: ["reverse-numbers"]

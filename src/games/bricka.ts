@@ -610,6 +610,14 @@ export class BrickaGame extends GameBase {
         const rep: APRenderRep =  {
             board: {
                 style: "bricka",
+                backFill: {
+                    type: "board",
+                    colour: {
+                        func: "custom",
+                        default: "#fff",
+                        palette: "_context_board"
+                    }
+                },
                 markers: [
                     {
                         type: "halo",

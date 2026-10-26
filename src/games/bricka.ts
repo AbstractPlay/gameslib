@@ -456,11 +456,10 @@ export class BrickaGame extends GameBase {
         Check if the current group is a winning group i.e. connects two opposite board edges
         */
         if(lastmove === "pass"){ return false };
-        const graph = this.getGraph();
 
         // Find the current group of player + neutral stones
         const currentGroup = new Set<string>();
-        dfsFromNode(graph, lastmove, (cell) => {
+        dfsFromNode(this.graph, lastmove, (cell) => {
             const value = this.board.get(cell);
             if (value === player || value === "neutral") {
                 currentGroup.add(cell);
@@ -479,7 +478,7 @@ export class BrickaGame extends GameBase {
                 const edgeCells: string[] = [];
                 for( const edgeI of [0, 1]){
                     const edge = [a, b][edgeI];
-                    bfsFromNode(graph, lastmove, (cell) => {
+                    bfsFromNode(this.graph, lastmove, (cell) => {
                         const value = this.board.get(cell);
                         if (value === player || value === "neutral") {
                             if(edge.has(cell)){

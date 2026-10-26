@@ -133,6 +133,21 @@ export class BrickaGame extends GameBase {
                 num: 3,
                 default: "#aaa",
                 explanation: "Colour of the neutral stones",
+            },
+            {
+                num: 4,
+                default: "#666",
+                explanation: "Colour of the first goal region",
+            },
+            {
+                num: 5,
+                default: "#999",
+                explanation: "Colour of the second goal region",
+            },
+            {
+                num: 6,
+                default: "#ccc",
+                explanation: "Colour of the third goal region",
             }
         ],
         categories: ["goal>connect", "mechanic>place", "components>simple>3c", "board>other", "board>shape>other", "board>connect>other", "mechanic>block"],
@@ -441,11 +456,10 @@ export class BrickaGame extends GameBase {
         Check if the current group is a winning group i.e. connects two opposite board edges
         */
         if(lastmove === "pass"){ return false };
-        const graph = this.getGraph();
 
         // Find the current group of player + neutral stones
         const currentGroup = new Set<string>();
-        dfsFromNode(graph, lastmove, (cell) => {
+        dfsFromNode(this.graph, lastmove, (cell) => {
             const value = this.board.get(cell);
             if (value === player || value === "neutral") {
                 currentGroup.add(cell);
@@ -464,7 +478,7 @@ export class BrickaGame extends GameBase {
                 const edgeCells: string[] = [];
                 for( const edgeI of [0, 1]){
                     const edge = [a, b][edgeI];
-                    bfsFromNode(graph, lastmove, (cell) => {
+                    bfsFromNode(this.graph, lastmove, (cell) => {
                         const value = this.board.get(cell);
                         if (value === player || value === "neutral") {
                             if(edge.has(cell)){
@@ -597,12 +611,37 @@ export class BrickaGame extends GameBase {
             board: {
                 style: "bricka",
                 markers: [
-                    {type:"edge", edge: "NW", colour: 4},
-                    {type:"edge", edge: "SE", colour: 4},
-                    {type:"edge", edge: "NE", colour: 5},
-                    {type:"edge", edge: "SW", colour: 5},
-                    {type:"edge", edge: "W", colour: 6},
-                    {type:"edge", edge: "E", colour: 6},
+                    {
+                        type: "halo",
+                        width: 10,
+                        wedge: true,
+                        offset: -83,
+                        segments: [
+                            {
+                                "colour": 4,
+                                "degrees": 83
+                            },
+                            {
+                                "colour": 5,
+                                "degrees": 83
+                            },
+                            {
+                                "colour": 6,
+                                "degrees": 14
+                            },
+                            {
+                                "colour": 4,
+                                "degrees": 83
+                            },
+                            {
+                                "colour": 5,
+                                "degrees": 83
+                            },
+                            {
+                                "colour": 6
+                            }
+                        ]
+                    },
                     ...blockedMarkers
                 ]
             },

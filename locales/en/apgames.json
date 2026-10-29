@@ -4175,6 +4175,14 @@
       "TOO_MANY_MOVES_START": "On the first turn, only one placement is allowed.",
       "VALID_MOVE": "Use Complete Move to end your turn, or keep clicking to change or remove stones."
     },
+    "yonkoma": {
+      "INITIAL_INSTRUCTIONS": "Select one of your checkers. The squares it may move to are then marked in green.",
+      "PARTIAL": "Select the square to move the checker to, or select your other checker instead.",
+      "NOT_DIAGONAL": "The checker on {{from}} cannot reach {{to}}. A checker moves any number of squares along a diagonal, as a bishop moves in chess, and cannot pass through another checker.",
+      "DISTANCE": "The checker on {{from}} may not move to {{to}}. A move must bring the checker closer to the two enemy checkers, so that the sum of its distances to them decreases, or keep that sum and take the checker farther from your other checker.",
+      "NO_PASS": "You may not pass while you have a legal move.",
+      "MUST_PASS": "You have no legal move. Your turn is skipped."
+    },
     "yonmoque": {
       "INITIAL_INSTRUCTIONS": "Select an empty cell to place a piece or an existing piece to start a move.",
       "PARTIAL": "Select a destination."
@@ -4485,6 +4493,7 @@
     "y": "The classic connnection game. Connect all three sides to win.",
     "yavalath": "Form a line of four or more pieces of your colour *without* forming a line of three pieces first.",
     "yodd": "Pass or place one or two stones of either colour. After your turn there must be an odd number of groups on the board. When both players pass in succession, the player with fewer groups of their colour wins.",
+    "yonkoma": "Two red and two blue checkers on a checkerboard. A checker moves along a diagonal like a bishop, and every move must bring the moved checker closer to the two enemy checkers, or else keep that distance and take it farther from its partner. Whoever completes a crosscut, a 2x2 block holding all four checkers, loses.",
     "yonmoque": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
     "zola": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins."
   },
@@ -4785,6 +4794,7 @@
     "y": "Y",
     "yavalath": "Yavalath",
     "yodd": "Yodd",
+    "yonkoma": "Yonkoma",
     "yonmoque": "Yonmoque",
     "zola": "Zola"
   },
@@ -4895,7 +4905,8 @@
     "witch": "The first player does not start as owning any pieces and may remove any piece (other than a crown) on their first turn. The second player chooses sun or moon stones on their first turn; both players then appear in those colours. Until then, both seats are grey. Removing your opponent's pieces is no longer possible after affiliations are set.",
     "xana": "Players, on their turns, drop/move a stack (there's a limited amount of stackable pieces) and optionally drop two walls into empty hexes. Stacks without liberties are captured. A stack has liberty if at least one of the adjacent hexes is empty (there is no concept of group of stacks). A hex is accessible if it is empty and connected to a friendly stack by a path of empty hexes. The goal is to build the highest score of territory plus captures. Xana was designed in 2005.",
     "y": "The game was designed by Charles Titus and Craige Schensted (Ea Ea) in 1953. A direct descended of Hex, the game was originally played on a triangular board, where the goal is to connect all three sides by a chain of friendly stones. Y is considered a more fundamental game than Hex, given its simpler rules and given that a Hex match can be setup on a sufficient large Y board. In their 1975 book **Mudcrack Y & Poly-Y**, the designers introduced the _mudcrack principle_ stating that connection games can be played on a wide range of progressively elaborate boards. One of those designs ('the bent Y', with three pentagonal cells) became the commercial Y board, instead of the standard triangular one.",
-    "yodd": "Yodd is played on a hex grid. The same rules on a square grid are published as **Xodd**; choose a square board size variant to play Xodd on Abstract Play. On your first turn only, you may place a single stone. Later turns allow pass or one or two stones of either colour, and the total number of groups on the board must be odd after each turn."
+    "yodd": "Yodd is played on a hex grid. The same rules on a square grid are published as **Xodd**; choose a square board size variant to play Xodd on Abstract Play. On your first turn only, you may place a single stone. Later turns allow pass or one or two stones of either colour, and the total number of groups on the board must be odd after each turn.",
+    "yonkoma": "Yonkoma was designed by Mark Steere in October 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nThe distance between two squares is the number of king moves between them, which is the larger of the number of rows apart and the number of columns apart. A move must either bring the moved checker closer to the two enemy checkers, so that the sum of its distances to them decreases, or keep that sum unchanged and take the checker farther from its partner. Select a checker and the squares it may move to are marked in green.\n\nA crosscut is a 2x2 block of squares holding all four checkers, with the two red checkers on one diagonal of the block and the two blue checkers on the other. Whoever completes a crosscut loses. Every move lowers the total of the four red-blue distances, or keeps that total and raises the distance between two checkers of one colour, so the game always ends, and it always ends in a crosscut that one player is eventually forced to complete.\n\nPassing is not allowed, but if a player has no legal move, that turn is skipped. The pass is submitted automatically."
   },
   "displays": {
     "agofmars": {
@@ -5490,6 +5501,16 @@
       "expanding": {
         "description": "Two dimensional board, with stacks expanding when hovered over.",
         "name": "Expanding"
+      }
+    },
+    "yonkoma": {
+      "#style": {
+        "name": "Felt board",
+        "description": "A felt board in an oak frame with glazed ceramic checkers, as in the designer's own app."
+      },
+      "plain": {
+        "name": "Plain board",
+        "description": "The standard Abstract Play checkered board and flat pieces."
       }
     },
     "zola": {
@@ -9407,6 +9428,14 @@
       "yopp": {
         "description": "Place only your own colour; pass only when you have no valid placement.",
         "name": "Yopp/Xopp"
+      }
+    },
+    "yonkoma": {
+      "#board": {
+        "name": "10x10 board"
+      },
+      "size-12": {
+        "name": "12x12 board"
       }
     },
     "zola": {

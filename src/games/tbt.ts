@@ -84,7 +84,6 @@ export class TBTGame extends GameBase {
     public winner: playerid[] = [];
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
-    private emulated = false;
     public results: Array<APMoveResult> = [];
 
     constructor(state?: ITBTState | string) {
@@ -331,8 +330,8 @@ export class TBTGame extends GameBase {
             }
         }
 
-        this.emulated = emulation;
         this.results = [];
+        const turnRoll = this.roll;
         if (m !== "pass") {
             const [from, to] = m.split("-");
             const fStack = this.board.get(from)!;
@@ -352,10 +351,6 @@ export class TBTGame extends GameBase {
         }
 
         this.lastmove = m;
-        // reroll the dice
-        const d1 = randomInt(6);
-        this.roll = d1;
-        this.results.push({type: "roll", values: [d1]});
 
         // update currplayer
         let newplayer = (this.currplayer as number) + 1;
@@ -363,6 +358,15 @@ export class TBTGame extends GameBase {
             newplayer = 1;
         }
         this.currplayer = newplayer as playerid;
+
+        // The next die is rolled on submission alone; previews keep this turn's roll.
+        if (!emulation) {
+            const d1 = randomInt(6);
+            this.roll = d1;
+            this.results.push({type: "roll", values: [d1]});
+        } else {
+            this.roll = turnRoll;
+        }
 
         this.checkEOG();
         this.saveState();
@@ -506,7 +510,6 @@ export class TBTGame extends GameBase {
                 },
                 D1: {
                     name: `d6-${this.roll}`,
-                    opacity: this.emulated ? 0 : 1,
                 },
             },
             pieces: pstr,

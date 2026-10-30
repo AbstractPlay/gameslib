@@ -5503,16 +5503,6 @@
         "name": "Ausdehnend"
       }
     },
-    "yonkoma": {
-      "#style": {
-        "name": "Filzbrett",
-        "description": "Ein Filzbrett in einem Eichenrahmen mit glasierten Keramiksteinen, wie in der eigenen App des Designers."
-      },
-      "plain": {
-        "name": "Einfaches Spielbrett",
-        "description": "Das gewöhnliche Schachbrettmuster-Spielbrett von Abstract Play mit flachen Spielsteinen."
-      }
-    },
     "zola": {
       "#projection": {
         "name": "Draufsicht"

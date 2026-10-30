@@ -3403,22 +3403,6 @@
     "src": "Expanding",
     "out": "Expansivo"
   },
-  "displays.yonkoma.#style.description": {
-    "src": "A felt board in an oak frame with glazed ceramic checkers, as in the designer's own app.",
-    "out": "Un tablero de fieltro en un marco de roble con fichas de cerámica esmaltada, como en la propia aplicación del diseñador."
-  },
-  "displays.yonkoma.#style.name": {
-    "src": "Felt board",
-    "out": "Tablero de fieltro"
-  },
-  "displays.yonkoma.plain.description": {
-    "src": "The standard Abstract Play checkered board and flat pieces.",
-    "out": "El tablero ajedrezado estándar y las piezas planas de Abstract Play."
-  },
-  "displays.yonkoma.plain.name": {
-    "src": "Plain board",
-    "out": "Tablero simple"
-  },
   "displays.zola.#projection.name": {
     "src": "Top-down view",
     "out": "Vista superior"

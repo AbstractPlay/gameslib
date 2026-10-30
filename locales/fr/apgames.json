@@ -5503,16 +5503,6 @@
         "name": "Agrandissement au survol"
       }
     },
-    "yonkoma": {
-      "#style": {
-        "name": "Plateau en feutre",
-        "description": "Un plateau en feutre dans un cadre en chêne avec des pions en céramique émaillée, comme dans l'application de l'auteur."
-      },
-      "plain": {
-        "name": "Plateau simple",
-        "description": "Le plateau à damier standard d'Abstract Play avec des pièces plates."
-      }
-    },
     "zola": {
       "#projection": {
         "name": "Vue de dessus"

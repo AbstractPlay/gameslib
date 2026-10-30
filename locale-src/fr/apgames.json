@@ -3403,22 +3403,6 @@
     "src": "Expanding",
     "out": "Agrandissement au survol"
   },
-  "displays.yonkoma.#style.description": {
-    "src": "A felt board in an oak frame with glazed ceramic checkers, as in the designer's own app.",
-    "out": "Un plateau en feutre dans un cadre en chêne avec des pions en céramique émaillée, comme dans l'application de l'auteur."
-  },
-  "displays.yonkoma.#style.name": {
-    "src": "Felt board",
-    "out": "Plateau en feutre"
-  },
-  "displays.yonkoma.plain.description": {
-    "src": "The standard Abstract Play checkered board and flat pieces.",
-    "out": "Le plateau à damier standard d'Abstract Play avec des pièces plates."
-  },
-  "displays.yonkoma.plain.name": {
-    "src": "Plain board",
-    "out": "Plateau simple"
-  },
   "displays.zola.#projection.name": {
     "src": "Top-down view",
     "out": "Vue de dessus"

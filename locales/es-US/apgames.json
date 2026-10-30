@@ -5503,16 +5503,6 @@
         "name": "Expansivo"
       }
     },
-    "yonkoma": {
-      "#style": {
-        "name": "Tablero de fieltro",
-        "description": "Un tablero de fieltro en un marco de roble con fichas de cerámica esmaltada, como en la propia aplicación del diseñador."
-      },
-      "plain": {
-        "name": "Tablero simple",
-        "description": "El tablero ajedrezado estándar y las piezas planas de Abstract Play."
-      }
-    },
     "zola": {
       "#projection": {
         "name": "Vista superior"

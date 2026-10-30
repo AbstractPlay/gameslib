@@ -7391,6 +7391,16 @@
       "newPath": "wunchunk.SWAP.default",
       "newFullKey": "apresults:wunchunk.SWAP.default",
       "english": "{{player}} swapped seats, choosing to play first."
+    },
+    {
+      "oldPath": "EOG.yonkoma_crosscut",
+      "oldFullKey": "apresults:EOG.yonkoma_crosscut",
+      "uid": "yonkoma",
+      "resultType": "EOG",
+      "newLeaf": "crosscut",
+      "newPath": "yonkoma.EOG.crosscut",
+      "newFullKey": "apresults:yonkoma.EOG.crosscut",
+      "english": "{{player}} completed a crosscut and loses the game."
     }
   ]
 }

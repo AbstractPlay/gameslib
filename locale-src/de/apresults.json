@@ -2954,5 +2954,9 @@
   "wunchunk.SWAP.default": {
     "src": "{{player}} swapped seats, choosing to play first.",
     "out": "{{player}} hat die Plätze getauscht und gewählt, als Erster zu spielen."
+  },
+  "yonkoma.EOG.crosscut": {
+    "src": "{{player}} completed a crosscut and loses the game.",
+    "out": "{{player}} hat einen Kreuzschnitt ausgeführt und verliert das Spiel."
   }
 }

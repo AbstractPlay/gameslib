@@ -3403,22 +3403,6 @@
     "src": "Expanding",
     "out": "Espansione"
   },
-  "displays.yonkoma.#style.description": {
-    "src": "A felt board in an oak frame with glazed ceramic checkers, as in the designer's own app.",
-    "out": "Un tabellone in feltro con cornice in quercia e pedine in ceramica smaltata, come nell'app dell'autore."
-  },
-  "displays.yonkoma.#style.name": {
-    "src": "Felt board",
-    "out": "Tabellone in feltro"
-  },
-  "displays.yonkoma.plain.description": {
-    "src": "The standard Abstract Play checkered board and flat pieces.",
-    "out": "Il tabellone a scacchi standard di Abstract Play con pezzi piatti."
-  },
-  "displays.yonkoma.plain.name": {
-    "src": "Plain board",
-    "out": "Tabellone semplice"
-  },
   "displays.zola.#projection.name": {
     "src": "Top-down view",
     "out": "Vista dall'alto"

@@ -2,7 +2,8 @@
 import "mocha";
 import { expect } from "chai";
 import i18next from "i18next";
-import { YonkomaGame, ykCheckerMarkup, ykDestinations, ykDistance, ykIsCrosscut, type Pos } from "../../src/games/yonkoma";
+import { YonkomaGame, ykDestinations, ykDistance, ykIsCrosscut, type Pos } from "../../src/games/yonkoma";
+import type { Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
 import { assertChatLogParity } from "../fixtures/chat/helpers";
 import { addResource } from "../../src";
 
@@ -89,12 +90,17 @@ describe("Yonkoma", () => {
             expect(g.moves().length).to.equal(20);
         });
 
-        it("exposes the designer's colours as the defaults of the player palette", () => {
-            const g = new YonkomaGame();
-            expect(g.getPlayerColour(1)).to.deep.equal({func: "custom", default: "#e65049", palette: 1});
-            expect(g.getPlayerColour(2)).to.deep.equal({func: "custom", default: "#5c6fb7", palette: 2});
-            expect(YonkomaGame.gameinfo.flags).to.include("custom-colours");
+        it("uses the autopass flag and documents felt-board palette slots", () => {
             expect(YonkomaGame.gameinfo.flags).to.include("autopass");
+            expect(YonkomaGame.gameinfo.flags).to.not.include("custom-colours");
+            expect(YonkomaGame.gameinfo.customizations).to.deep.equal([
+                {num: 1, default: 1, explanation: "Colour of Red's checkers (player 1)", player: 1},
+                {num: 2, default: 2, explanation: "Colour of Blue's checkers (player 2)", player: 2},
+                {num: 3, default: "#e8d6b2", explanation: "Colour of the light felt squares"},
+                {num: 4, default: "#b08e60", explanation: "Colour of the dark felt squares"},
+                {num: 5, default: "#28b446", explanation: "Colour of the squares marking legal destinations"},
+                {num: 6, default: "#f5c542", explanation: "Colour of the outline on the selected checker and on the crosscut at game end"},
+            ]);
         });
     });
 
@@ -218,45 +224,36 @@ describe("Yonkoma", () => {
     });
 
     describe("Rendering", () => {
-        it("uses the felt board by default and the standard board as an alternative", () => {
+        it("renders the felt board with customizable palette slots", () => {
             const g = new YonkomaGame();
-            const felt = g.render();
-            expect((felt.board as {style: string}).style).to.equal("squares");
-            expect(felt.glyphDefs).to.have.all.keys("checker", "target");
-            expect(felt.legend).to.have.all.keys("A", "B", "H");
-            expect((felt.legend!.A as {def: string}).def).to.equal("checker");
-            const markers = (felt.board as {markers: Array<{type: string; points?: Array<{row: number; col: number}>}>}).markers;
-            const floods = markers.filter(m => m.type === "flood");
-            expect(floods.length).to.equal(2);
-            expect(floods[0].points!.length + floods[1].points!.length).to.equal(100);
-            // a1 (bottom left) is a dark square
-            expect(floods[0].points!.some(p => p.row === 9 && p.col === 0)).to.be.true;
-            expect(markers.filter(m => m.type === "line").length).to.equal(4);
-            expect(felt.pieces).to.equal("B--------A\n_\n_\n_\n_\n_\n_\n_\n_\nA--------B");
-            const plain = g.render({altDisplays: ["plain"]});
-            expect((plain.board as {style: string}).style).to.equal("squares-checkered");
-            expect(plain.glyphDefs).to.be.undefined;
-            expect((plain.legend!.A as {name: string}).name).to.equal("piece");
-        });
-
-        it("keeps the custom checker within the renderer's markup limits", () => {
-            const markup = ykCheckerMarkup();
-            expect(markup).to.equal(ykCheckerMarkup());
-            expect(markup.length).to.be.lessThan(65536);
-            const elements = markup.match(/<[a-z]+/g)!;
-            expect(elements.length).to.be.lessThan(256);
-            expect(new Set(elements)).to.have.all.keys("<ellipse", "<circle", "<path");
-            expect(markup).to.include("data-slot-fill=\"fill\"");
-            expect(markup).to.include("data-slot-fill=\"side\"");
+            const rep = g.render();
+            const board = rep.board as {
+                style: string;
+                checkeredLight: Colourfuncs;
+                checkeredDark: Colourfuncs;
+            };
+            expect(board.style).to.equal("squares-checkered");
+            expect(board.checkeredLight).to.deep.equal({func: "custom", default: "#e8d6b2", palette: 3});
+            expect(board.checkeredDark).to.deep.equal({func: "custom", default: "#b08e60", palette: 4});
+            expect(rep.glyphDefs).to.be.undefined;
+            expect(rep.legend).to.have.all.keys("A", "B", "H");
+            expect((rep.legend!.H as {name: string; colour: Colourfuncs}).name).to.equal("piece-square-borderless");
+            expect((rep.legend!.H as {colour: Colourfuncs}).colour).to.deep.equal({func: "custom", default: "#28b446", palette: 5});
+            expect((rep.legend!.A as {name: string}).name).to.equal("piece-marbled");
+            expect((rep.legend!.A as {paint: {fill: number}}).paint.fill).to.equal(1);
+            expect((rep.legend!.B as {paint: {fill: number}}).paint.fill).to.equal(2);
+            expect(board).to.not.have.property("markers");
+            expect(rep.pieces).to.equal("B--------A\n_\n_\n_\n_\n_\n_\n_\n_\nA--------B");
+            expect(YonkomaGame.gameinfo.displays).to.be.undefined;
         });
 
         it("marks the selected checker and its destinations while a move is entered", () => {
             const g = new YonkomaGame();
             g.move("a1", {partial: true});
             expect(annotated(g, "enter")).to.deep.equal([["a1"]]);
+            const selectedEnter = (g.render().annotations ?? []).find(a => a.type === "enter") as {colour: Colourfuncs};
+            expect(selectedEnter.colour).to.deep.equal({func: "custom", default: "#f5c542", palette: 6});
             expect(annotated(g, "glyph")).to.deep.equal([["b2", "c3", "d4", "e5", "f6", "g7", "h8", "i9"]]);
-            expect(annotated(g, "glyph", {altDisplays: ["plain"]})).to.deep.equal([]);
-            expect(annotated(g, "dots", {altDisplays: ["plain"]})).to.deep.equal([["b2", "c3", "d4", "e5", "f6", "g7", "h8", "i9"]]);
             // the partial move changes nothing on the board
             expect(g.checkers(1)).to.deep.equal(["a1", "j10"]);
             expect(g.stack.length).to.equal(1);
@@ -268,6 +265,8 @@ describe("Yonkoma", () => {
         it("outlines the crosscut at the end of the game", () => {
             const g = play(FULL_GAME);
             expect(annotated(g, "enter")).to.deep.equal([["d8", "d9", "e8", "e9"]]);
+            const crosscutEnter = (g.render().annotations ?? []).find(a => a.type === "enter") as {colour: Colourfuncs};
+            expect(crosscutEnter.colour).to.deep.equal({func: "custom", default: "#f5c542", palette: 6});
             expect(annotated(g, "move")).to.deep.equal([["d8", "e7"]]);
             expect(annotated(play(FULL_GAME.slice(0, 5)), "enter")).to.deep.equal([]);
         });

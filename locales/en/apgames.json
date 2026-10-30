@@ -5503,16 +5503,6 @@
         "name": "Expanding"
       }
     },
-    "yonkoma": {
-      "#style": {
-        "name": "Felt board",
-        "description": "A felt board in an oak frame with glazed ceramic checkers, as in the designer's own app."
-      },
-      "plain": {
-        "name": "Plain board",
-        "description": "The standard Abstract Play checkered board and flat pieces."
-      }
-    },
     "zola": {
       "#projection": {
         "name": "Top-down view"

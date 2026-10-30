@@ -5501,16 +5501,6 @@
         "name": "Espansione"
       }
     },
-    "yonkoma": {
-      "#style": {
-        "name": "Tabellone in feltro",
-        "description": "Un tabellone in feltro con cornice in quercia e pedine in ceramica smaltata, come nell'app dell'autore."
-      },
-      "plain": {
-        "name": "Tabellone semplice",
-        "description": "Il tabellone a scacchi standard di Abstract Play con pezzi piatti."
-      }
-    },
     "zola": {
       "#projection": {
         "name": "Vista dall'alto"

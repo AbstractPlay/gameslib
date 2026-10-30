@@ -1,6 +1,6 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep, AnnotationBasic, Colourfuncs, Gradient, MarkerFlood, MarkerLine, RowCol } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, AnnotationBasic, Colourfuncs, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
@@ -20,16 +20,6 @@ export const gameApgamesEn = {
         },
         "size-12": {
             name: "12x12 board",
-        },
-    },
-    displays: {
-        "#style": {
-            name: "Felt board",
-            description: "A felt board in an oak frame with glazed ceramic checkers, as in the designer's own app.",
-        },
-        plain: {
-            name: "Plain board",
-            description: "The standard Abstract Play checkered board and flat pieces.",
         },
     },
 };
@@ -123,75 +113,18 @@ export function ykIsCrosscut(red: [Pos, Pos], blue: [Pos, Pos]): boolean {
     return diagonal(red[0], red[1]) && diagonal(blue[0], blue[1]);
 }
 
-/**
- * The SVG markup of the glazed ceramic checker used by the default display.
- * The checker is a flat cylinder seen slightly from above: a shadow, the
- * darker side of the cylinder, the top face, a mottled glaze made of faint
- * translucent spots, a rolled rim that is lit at the top left and shaded at
- * the bottom right, and a thin highlight along the top edge.  The top face
- * and the side are paint slots, so the player colours are applied by the
- * legend.  The spots are placed by a small deterministic generator so that
- * the markup is the same on every render.
- */
-export function ykCheckerMarkup(): string {
-    const R = 41;
-    const cx = 50;
-    const cy = 48;
-    const parts: string[] = [];
-    parts.push(`<ellipse cx="${cx}" cy="57" rx="46" ry="44" fill="#000000" fill-opacity="0.10"/>`);
-    parts.push(`<ellipse cx="${cx}" cy="55" rx="43" ry="42" fill="#000000" fill-opacity="0.20"/>`);
-    parts.push(`<circle cx="${cx}" cy="53" r="${R}" data-slot-fill="side" fill="#8a1114"/>`);
-    parts.push(`<circle cx="${cx}" cy="${cy}" r="${R}" data-slot-fill="fill" fill="#e6504a"/>`);
-    // mottled glaze: faint spots inside the top face (linear congruential generator, fixed seed)
-    let seed = 31;
-    const rnd = (): number => {
-        seed = (seed * 1103515245 + 12345) & 0x7fffffff;
-        return seed / 0x7fffffff;
-    };
-    for (let i = 0; i < 40; i++) {
-        const rr = 5 + rnd() * 7;
-        let x = 0;
-        let y = 0;
-        for (;;) {
-            x = (rnd() * 2 - 1) * R;
-            y = (rnd() * 2 - 1) * R;
-            if (Math.hypot(x, y) + rr <= R - 1) {
-                break;
-            }
-        }
-        const light = rnd() < 0.5;
-        const colour = light ? "#ffffff" : "#000000";
-        const opacity = light ? "0.06" : "0.045";
-        parts.push(`<circle cx="${(cx + x).toFixed(1)}" cy="${(cy + y).toFixed(1)}" r="${rr.toFixed(1)}" fill="${colour}" fill-opacity="${opacity}"/>`);
-    }
-    // rolled rim, lit at the top left and shaded at the bottom right
-    const arc = (a0: number, a1: number, r: number): string => {
-        const x0 = cx + r * Math.cos(a0);
-        const y0 = cy + r * Math.sin(a0);
-        const x1 = cx + r * Math.cos(a1);
-        const y1 = cy + r * Math.sin(a1);
-        const large = (a1 - a0) > Math.PI ? 1 : 0;
-        return `M ${x0.toFixed(2)} ${y0.toFixed(2)} A ${r} ${r} 0 ${large} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
-    };
-    const rim = R - 3.2;
-    parts.push(`<path d="${arc(0.95 * Math.PI, 1.85 * Math.PI, rim)}" fill="none" stroke="#ffffff" stroke-opacity="0.30" stroke-width="6" stroke-linecap="round"/>`);
-    parts.push(`<path d="${arc(-0.05 * Math.PI, 0.85 * Math.PI, rim)}" fill="none" stroke="#000000" stroke-opacity="0.22" stroke-width="6" stroke-linecap="round"/>`);
-    parts.push(`<circle cx="${cx}" cy="${cy}" r="${R - 6.5}" fill="none" stroke="#000000" stroke-opacity="0.07" stroke-width="2"/>`);
-    parts.push(`<path d="${arc(1.08 * Math.PI, 1.72 * Math.PI, R - 1.8)}" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.3" stroke-linecap="round"/>`);
-    return parts.join("");
-}
+const MOVE_TARGET_GREEN = "#28b446";
+const MOVE_TARGET_OPACITY = 0.45;
+const MOVE_TARGET_COLOUR: Colourfuncs = {func: "custom", default: MOVE_TARGET_GREEN, palette: 5};
+const CROSSCUT_HIGHLIGHT = "#f5c542";
+const CROSSCUT_COLOUR: Colourfuncs = {func: "custom", default: CROSSCUT_HIGHLIGHT, palette: 6};
 
-const CHECKER_MARKUP = ykCheckerMarkup();
-const TARGET_MARKUP = `<rect x="5" y="5" width="90" height="90" rx="5" ry="5" fill="#28b446" fill-opacity="0.45"/>`;
-
-// the colours of the designer's own app: red and blue checkers on tan felt squares in an oak frame
-const RED = "#e65049";
-const BLUE = "#5c6fb7";
+// tan felt squares in an oak frame (designer's app palette is the default AP player colours)
 const FELT_DARK = "#b08e60";
 const FELT_LIGHT = "#e8d6b2";
 const OAK = "#c48f4f";
-const OAK_INK = "#3b2410";
-const OAK_EDGE = "#2a1708";
+const FELT_LIGHT_COLOUR: Colourfuncs = {func: "custom", default: FELT_LIGHT, palette: 3};
+const FELT_DARK_COLOUR: Colourfuncs = {func: "custom", default: FELT_DARK, palette: 4};
 
 export class YonkomaGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
@@ -222,23 +155,40 @@ export class YonkomaGame extends GameBase {
             { uid: "#board" },
             { uid: "size-12", group: "board" },
         ],
-        displays: [
-            { uid: "plain", group: "style" },
-        ],
         categories: ["goal>arrange", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "autopass", "custom-colours"],
+        flags: ["experimental", "autopass"],
         customizations: [
             {
                 num: 1,
-                default: RED,
+                default: 1,
                 explanation: "Colour of Red's checkers (player 1)",
                 player: 1,
             },
             {
                 num: 2,
-                default: BLUE,
+                default: 2,
                 explanation: "Colour of Blue's checkers (player 2)",
                 player: 2,
+            },
+            {
+                num: 3,
+                default: FELT_LIGHT,
+                explanation: "Colour of the light squares",
+            },
+            {
+                num: 4,
+                default: FELT_DARK,
+                explanation: "Colour of the dark squares",
+            },
+            {
+                num: 5,
+                default: MOVE_TARGET_GREEN,
+                explanation: "Colour of the squares marking legal destinations",
+            },
+            {
+                num: 6,
+                default: CROSSCUT_HIGHLIGHT,
+                explanation: "Colour of the outline on the selected checker and on the crosscut at game end",
             },
         ],
     };
@@ -637,14 +587,6 @@ export class YonkomaGame extends GameBase {
         return super.collectChatLogLine(lines, r, ctx);
     }
 
-    public getPlayerColour(p: playerid): Colourfuncs {
-        return {
-            func: "custom",
-            default: p === 1 ? RED : BLUE,
-            palette: p,
-        };
-    }
-
     public state(): IYonkomaState {
         return {
             game: YonkomaGame.gameinfo.uid,
@@ -672,9 +614,8 @@ export class YonkomaGame extends GameBase {
         return {row: y, col: x};
     }
 
-    public render(opts?: IRenderOpts): APRenderRep {
+    public render(): APRenderRep {
         const size = this.boardsize;
-        const plain = this.hasDisplay(opts, "plain");
 
         // Build piece string
         let pstr = "";
@@ -693,97 +634,34 @@ export class YonkomaGame extends GameBase {
         }
         pstr = pstr.replace(new RegExp(`-{${size}}`, "g"), "_");
 
-        const red = this.getPlayerColour(1);
-        const blue = this.getPlayerColour(2);
-
-        let rep: APRenderRep;
-        if (plain) {
-            rep = {
-                board: {
-                    style: "squares-checkered",
-                    width: size,
-                    height: size,
+        const rep: APRenderRep = {
+            board: {
+                style: "squares-checkered",
+                width: size,
+                height: size,
+                checkeredLight: FELT_LIGHT_COLOUR,
+                checkeredDark: FELT_DARK_COLOUR,
+                backFill: {
+                    type: "full",
+                    colour: {func: "custom", default: OAK, palette: "_context_background"},
                 },
-                legend: {
-                    A: {name: "piece", colour: red},
-                    B: {name: "piece", colour: blue},
-                },
-                pieces: pstr,
-            };
-        } else {
-            // the felt board: tan felt squares, an oak frame carrying the
-            // coordinates, a dark edge where the felt meets the frame, and
-            // glazed checkers whose top face catches the light
-            const dark: RowCol[] = [];
-            const light: RowCol[] = [];
-            for (let row = 0; row < size; row++) {
-                for (let col = 0; col < size; col++) {
-                    // a1 (bottom left) is dark
-                    if ((col + (size - 1 - row)) % 2 === 0) {
-                        dark.push({row, col});
-                    } else {
-                        light.push({row, col});
-                    }
-                }
-            }
-            const edge = (a: RowCol, b: RowCol): MarkerLine => ({type: "line", points: [a, b], colour: OAK_EDGE, opacity: 0.7, width: 3});
-            const markers: (MarkerFlood | MarkerLine)[] = [
-                {type: "flood", colour: FELT_DARK, opacity: 1, points: dark as [RowCol, ...RowCol[]]},
-                {type: "flood", colour: FELT_LIGHT, opacity: 1, points: light as [RowCol, ...RowCol[]]},
-                edge({row: 0, col: 0}, {row: 0, col: size}),
-                edge({row: 0, col: size}, {row: size, col: size}),
-                edge({row: size, col: size}, {row: size, col: 0}),
-                edge({row: size, col: 0}, {row: 0, col: 0}),
-            ];
-            const glaze = (colour: Colourfuncs): Gradient => ({
-                x1: 0, y1: 0, x2: 0.75, y2: 1,
-                stops: [
-                    {offset: 0, colour: {func: "lighten", colour, ds: 0, dl: 0.45}},
-                    {offset: 0.5, colour},
-                    {offset: 1, colour: {func: "lighten", colour, ds: 0, dl: -0.25}},
-                ],
-            });
-            const side = (colour: Colourfuncs): Colourfuncs => ({func: "lighten", colour, ds: 0.1, dl: -0.9});
-            rep = {
-                board: {
-                    style: "squares",
-                    width: size,
-                    height: size,
-                    backFill: {
-                        type: "full",
-                        colour: {func: "custom", default: OAK, palette: "_context_board"},
-                    },
-                    labelColour: OAK_INK,
-                    strokeColour: OAK_INK,
-                    strokeOpacity: 0.35,
-                    strokeWeight: 1,
-                    markers,
-                },
-                glyphDefs: {
-                    checker: {viewBox: [0, 0, 100, 100], markup: CHECKER_MARKUP},
-                    target: {viewBox: [0, 0, 100, 100], markup: TARGET_MARKUP},
-                },
-                legend: {
-                    A: {def: "checker", paint: {fill: glaze(red), side: side(red)}},
-                    B: {def: "checker", paint: {fill: glaze(blue), side: side(blue)}},
-                    H: {def: "target"},
-                },
-                pieces: pstr,
-            };
-        }
+            },
+            legend: {
+                A: {name: "piece-marbled", paint: {fill: 1}},
+                B: {name: "piece-marbled", paint: {fill: 2}},
+                H: {name: "piece-square-borderless", colour: MOVE_TARGET_COLOUR, opacity: MOVE_TARGET_OPACITY},
+            },
+            pieces: pstr,
+        };
 
         // Add annotations
         const annotations: AnnotationBasic[] = [];
         if (this.selected !== undefined) {
-            annotations.push({type: "enter", targets: [this.rowCol(this.selected)], colour: "#f5c542", occlude: false});
+            annotations.push({type: "enter", targets: [this.rowCol(this.selected)], colour: CROSSCUT_COLOUR, occlude: false});
         }
         if (this.highlights.length > 0) {
             const targets = this.highlights.map(cell => this.rowCol(cell)) as [RowCol, ...RowCol[]];
-            if (plain) {
-                annotations.push({type: "dots", targets, colour: "#28b446"});
-            } else {
-                annotations.push({type: "glyph", glyph: "H", targets});
-            }
+            annotations.push({type: "glyph", glyph: "H", targets});
         }
         for (const r of this.results) {
             if (r.type === "move") {
@@ -793,7 +671,7 @@ export class YonkomaGame extends GameBase {
         if (this.gameover) {
             const block = this.crosscut();
             if (block.length > 0) {
-                annotations.push({type: "enter", targets: block.map(cell => this.rowCol(cell)) as [RowCol, ...RowCol[]], colour: "#f5c542", occlude: false});
+                annotations.push({type: "enter", targets: block.map(cell => this.rowCol(cell)) as [RowCol, ...RowCol[]], colour: CROSSCUT_COLOUR, occlude: false});
             }
         }
         if (annotations.length > 0) {

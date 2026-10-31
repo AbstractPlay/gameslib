@@ -36,6 +36,11 @@ export const gameApresultsEn = {
     CAPTURE: {
         default: "{{count}} pieces changed colour.",
     },
+    EOG: {
+        elimination: "The game has ended because one player's pieces were eliminated.",
+        full_board: "The game has ended because the board is full.",
+        repetition: "The game has ended because the same position has occurred three times by the same player.",
+    },
     MOVE: {
         duplicate: "{{player}} duplicated a piece from {{from}} to {{to}}.",
         jump: "{{player}} jumped a piece from {{from}} to {{to}}.",
@@ -750,6 +755,24 @@ export class TricouleurGame extends GameBase {
     }
 
 
+    protected eogReasonAliases(): Record<string, string> {
+        return {
+            "two passes": "consecutive_passes",
+            "full board": "full_board",
+        };
+    }
+
+    protected eogChatLineOverride(r: Extract<APMoveResult, { type: "eog" }>, ctx: ChatLogCollectContext): ChatLogLine | undefined {
+        void ctx;
+        if (r.reason === "repetition") {
+            return {
+                actor: { kind: "none" },
+                textKey: "apresults:tricouleur.EOG.repetition",
+            };
+        }
+        return undefined;
+    }
+
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
@@ -766,12 +789,7 @@ export class TricouleurGame extends GameBase {
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             case "eog":
-                if (r.reason === "repetition") {
-                this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 3 });
-                } else {
-                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
-                }
-                return true;
+                return this.collectEogChatLogLine(lines, r as Extract<APMoveResult, { type: "eog" }>, ctx);
             default:
                 return super.collectChatLogLine(lines, r, ctx);
         }

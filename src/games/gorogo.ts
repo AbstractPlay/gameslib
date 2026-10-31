@@ -21,6 +21,11 @@ export const gameApresultsEn = {
     PLACE: {
         henge: "{{player}} placed a henge piece at {{where}}.",
     },
+    EOG: {
+        henge_last: "The game has ended because a player placed their last henge piece.",
+        no_moves: "The game has ended because the player to move has no legal placement.",
+        scoring: "The game has ended because the scoring track was filled.",
+    },
 };
 
 
@@ -47,6 +52,13 @@ export interface IGorogoState extends IAPGameState {
 };
 
 export class GorogoGame extends GameBase {
+    protected eogReasonAliases(): Record<string, string> {
+        return {
+            "henge last": "henge_last",
+            "no moves": "no_moves",
+        };
+    }
+
     public static readonly gameinfo: APGamesInformation = {
         name: "GoRoGo",
         uid: "gorogo",

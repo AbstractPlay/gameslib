@@ -72,6 +72,8 @@
     "EOG": {
       "consecutive_passes": "La partida ha terminado porque ambos jugadores pasaron de forma consecutiva.",
       "default": "La partida ha terminado.",
+      "elimination": "El juego ha terminado porque un jugador fue eliminado.",
+      "breakthrough": "El juego ha terminado porque un jugador se abrió paso hasta la meta.",
       "material": "La partida ha terminado porque ambos jugadores tienen material insuficiente.",
       "repetition_one": "La partida ha terminado porque se ha repetido la misma posición por el mismo jugador.",
       "repetition_other": "La partida ha terminado porque la misma posición ocurrió {{count}} veces por el mismo jugador.",
@@ -235,6 +237,10 @@
     }
   },
   "anache": {
+    "EOG": {
+      "breakthrough": "El juego ha terminado porque un jugador ocupó las casillas de esquina del oponente.",
+      "stalemate": "El juego ha terminado porque un jugador no tiene movimientos legales."
+    },
     "MOVE": {
       "dragon": "{{player}} movió un grupo de tamaño {{count}} mediante un movimiento de dragón desde {{from}} en la dirección {{dir}}.",
       "dragon_jump": "{{player}} salta con su dragón de {{from}} a {{to}}.",
@@ -288,6 +294,10 @@
   "ataxx": {
     "CAPTURE_one": "1 pieza fue convertida.",
     "CAPTURE_other": "{{count}} piezas fueron convertidas.",
+    "EOG": {
+      "elimination": "El juego ha terminado porque a un bando no le quedan piezas en el tablero.",
+      "repetition": "El juego ha terminado porque la misma posición se ha repetido tres veces."
+    },
     "MOVE": {
       "jump": "{{player}} saltó una pieza de {{from}} a {{to}}.",
       "split": "{{player}} dividió una pieza de {{from}} a {{to}}."
@@ -308,7 +318,8 @@
   },
   "bashni": {
     "EOG": {
-      "stagnation": "La partida ha terminado en empate porque la cantidad y composición de las piezas permanecieron sin cambios durante {{count}} movimientos consecutivos."
+      "stagnation": "La partida ha terminado en empate porque la cantidad y composición de las piezas permanecieron sin cambios durante {{count}} movimientos consecutivos.",
+      "repetition": "El juego ha terminado porque la misma posición ocurrió tres veces por el mismo jugador."
     }
   },
   "biscuit": {
@@ -385,6 +396,9 @@
   "bridges": {
     "CONNECT": {
       "default": "{{player}} construyó un puente entre {{left}} y {{right}}."
+    },
+    "EOG": {
+      "double_pass": "El juego ha terminado porque ambos jugadores pasaron."
     }
   },
   "btt": {
@@ -416,7 +430,8 @@
       "singletons_other": "{{player}} reclamó las {{count}} piezas restantes de su color."
     },
     "EOG": {
-      "singletons": "La partida ha terminado porque todas las casillas contienen solo piezas individuales."
+      "singletons": "La partida ha terminado porque todas las casillas contienen solo piezas individuales.",
+      "repetition": "El juego ha terminado porque se repitió la misma posición en el tablero."
     },
     "TAKE": {
       "col_one": "{{player}} recogió 1 pieza de la columna {{col}}.",
@@ -440,6 +455,7 @@
   },
   "camelot": {
     "EOG": {
+      "breakthrough": "El juego ha terminado porque un jugador movió dos piezas al castillo del oponente.",
       "claim_draw_progression": "La partida ha terminado porque {{player}} ha reclamado un empate por la regla de los 50 movimientos.",
       "claim_draw_repetition": "La partida ha terminado porque {{player}} ha reclamado un empate por repetición."
     },
@@ -500,6 +516,13 @@
       "default": "{{player}} colocó una loseta en {{where}}."
     }
   },
+  "chameleon": {
+    "EOG": {
+      "annihilation": "El juego ha terminado porque todas las piezas de un jugador fueron aniquiladas.",
+      "full_infiltration": "El juego ha terminado porque un jugador se infiltró por completo en el lado opuesto.",
+      "last_minute_infiltration": "El juego ha terminado porque un jugador se infiltró en la colocación final."
+    }
+  },
   "chase": {
     "MOVE": {
       "default": "{{player}} se movió de {{from}} a {{to}} (a través de {{through}})."
@@ -545,6 +568,12 @@
       "default": "{{player}} colocó un triominó en {{where}}."
     }
   },
+  "connections": {
+    "EOG": {
+      "loop": "El juego ha terminado porque un jugador completó un bucle.",
+      "path": "El juego ha terminado porque un jugador conectó sus puntos."
+    }
+  },
   "court": {
     "PLACE": {
       "default": "{{player}} promovió {{where}} a un {{what}}."
@@ -553,6 +582,11 @@
   "courtesan": {
     "CONVERT": {
       "default": "El rey y la cortesana intercambiaron posiciones en {{where}}."
+    }
+  },
+  "croda": {
+    "EOG": {
+      "repetition": "El juego ha terminado porque la misma posición ocurrió tres veces por el mismo jugador."
     }
   },
   "crosshairs": {
@@ -576,8 +610,17 @@
     }
   },
   "cubeo": {
+    "EOG": {
+      "promotion": "El juego ha terminado porque un jugador promovió un dado al valor ganador.",
+      "nomoves": "El juego ha terminado porque el jugador en turno no tiene ninguna acción legal."
+    },
     "PROMOTE": {
       "default": "{{player}} promovió el dado en {{where}} de {{from}} a {{to}}."
+    }
+  },
+  "dama": {
+    "EOG": {
+      "repetition": "El juego ha terminado porque la misma posición ocurrió tres veces por el mismo jugador."
     }
   },
   "dameo": {
@@ -686,6 +729,9 @@
     "REMOVE": {
       "opponent": "{{player}} eligió conservar el explorador del oponente en {{how}}, eliminando el explorador en {{where}}.",
       "self": "{{player}} eligió conservar su propio explorador en {{how}}, eliminando el explorador en {{where}}."
+    },
+    "EOG": {
+      "stalemate": "El juego ha terminado en empate porque un jugador no puede hacer más movimientos."
     }
   },
   "entropy": {
@@ -717,6 +763,11 @@
   "exxit": {
     "CLAIM": {
       "default": "{{player}} reclamó el espacio del perímetro en {{where}}."
+    }
+  },
+  "fanorona": {
+    "EOG": {
+      "repetition": "El juego ha terminado porque la misma posición ocurrió cuatro veces por el mismo jugador."
     }
   },
   "fightopia": {
@@ -811,15 +862,27 @@
       "default": "{{player}} movió su planeador en {{where}} fuera del borde del tablero."
     }
   },
+  "go": {
+    "EOG": {
+      "repetition": "El juego ha terminado porque se repitió la misma posición (super-ko)."
+    }
+  },
   "gonnect": {
     "EOG": {
       "cascading_subboard": "{{player}} ganó en el subtablero de {{size}}x{{size}}.",
-      "direct_connection": "{{player}} ganó por conexión directa."
+      "direct_connection": "{{player}} ganó por conexión directa.",
+      "repetition": "El juego ha terminado porque se repitió la misma posición en el tablero.",
+      "stalemate": "El juego ha terminado porque un jugador no tiene movimientos legales."
     }
   },
   "gorogo": {
     "PLACE": {
       "henge": "{{player}} colocó una pieza de henge en {{where}}."
+    },
+    "EOG": {
+      "henge_last": "El juego ha terminado porque un jugador colocó su última pieza de henge.",
+      "no_moves": "La partida ha terminado porque el jugador en turno no tiene ninguna colocación legal.",
+      "scoring": "El juego ha terminado porque se llenó el marcador de puntuación."
     }
   },
   "guerrilla": {
@@ -839,6 +902,9 @@
     },
     "MOVE": {
       "king": "{{player}} movió al rey de {{from}} a {{to}}."
+    },
+    "EOG": {
+      "repetition": "El juego ha terminado porque la misma posición ocurrió tres veces por el mismo jugador."
     }
   },
   "homeworlds": {
@@ -890,6 +956,12 @@
   "jacynth": {
     "CLAIM": {
       "default": "{{player}} ejerció influencia en {{where}}."
+    }
+  },
+  "kachit": {
+    "EOG": {
+      "invasion": "El juego ha terminado porque una pieza real invadió el palacio opuesto.",
+      "regicide": "El juego ha terminado porque una pieza real fue capturada."
     }
   },
   "killallgo": {
@@ -1029,6 +1101,10 @@
     }
   },
   "meg": {
+    "EOG": {
+      "countdown": "El juego ha terminado porque la cuenta regresiva llegó a cero.",
+      "goal": "El juego ha terminado porque un jugador anotó un gol."
+    },
     "CLAIM": {
       "default": "{{player}} ha tomado la bola y la colocó en {{where}}."
     },
@@ -1129,11 +1205,22 @@
     "CAPTURE": {
       "approach": "{{player}} ahuyentó al ayudante en {{where}} fuera del bosque.",
       "replacement": "{{player}} devoró la pieza en {{where}}."
+    },
+    "EOG": {
+      "daybreak": "El juego ha terminado porque amaneció antes de que el Owlman fuera atrapado.",
+      "discovered": "El juego ha terminado porque el Doctor fue descubierto.",
+      "doc_killed": "El juego ha terminado porque el Doctor fue capturado.",
+      "no_helpers": "El juego ha terminado porque todos los ayudantes del Doctor fueron capturados.",
+      "trapped": "El juego ha terminado porque el Owlman no pudo moverse."
     }
   },
   "pacru": {
     "CONVERT": {
       "default": "{{player}} convirtió {{where}}."
+    },
+    "EOG": {
+      "last_man_standing": "El juego ha terminado porque solo a un jugador le quedan galones en el tablero.",
+      "score": "El juego ha terminado porque un jugador alcanzó la puntuación objetivo."
     }
   },
   "pahtum": {
@@ -1198,6 +1285,11 @@
   "pontedd": {
     "CONNECT": {
       "default": "{{player}} colocó un puente entre {{left}} y {{right}}."
+    },
+    "EOG": {
+      "bridges": "El juego ha terminado con un empate en puntuación e islas; el jugador con más puentes gana.",
+      "islands": "El juego ha terminado con una puntuación empatada; el jugador con más islas gana.",
+      "score": "El juego ha terminado cuando ambos jugadores terminaron de construir; la puntuación más alta gana."
     }
   },
   "posit": {
@@ -1551,7 +1643,8 @@
       "encirclement": "La partida ha terminado porque los defensores están rodeados.",
       "exit_fort": "La partida ha terminado porque los defensores crearon un fuerte de salida.",
       "king_captured": "La partida ha terminado porque el rey fue capturado.",
-      "king_escaped": "La partida ha terminado porque el rey escapó."
+      "king_escaped": "La partida ha terminado porque el rey escapó.",
+      "repetition": "El juego ha terminado porque la misma posición ocurrió tres veces por el mismo jugador."
     },
     "MOVE": {
       "default": "{{player}} movió una pieza de {{from}} a {{to}}.",
@@ -1617,6 +1710,9 @@
     }
   },
   "trax": {
+    "EOG": {
+      "stalemate": "El juego ha terminado porque se usaron todas las fichas jugables sin victoria (el último jugador en mover pierde)."
+    },
     "PLACE": {
       "default": "{{player}} colocó un {{piece}} en {{algebraic}} ({{where}})."
     }
@@ -1624,6 +1720,11 @@
   "tricouleur": {
     "CAPTURE": {
       "default": "{{count}} piezas cambiaron de color."
+    },
+    "EOG": {
+      "elimination": "El juego ha terminado porque las piezas de un jugador fueron eliminadas.",
+      "full_board": "El juego ha terminado porque el tablero está lleno.",
+      "repetition": "El juego ha terminado porque la misma posición ocurrió tres veces por el mismo jugador."
     },
     "MOVE": {
       "duplicate": "{{player}} duplicó una pieza de {{from}} a {{to}}.",
@@ -1735,6 +1836,12 @@
   "yonkoma": {
     "EOG": {
       "crosscut": "{{player}} completó un corte cruzado y pierde la partida."
+    }
+  },
+  "yonmoque": {
+    "EOG": {
+      "four": "El juego ha terminado porque un jugador hizo cuatro en línea.",
+      "five": "El juego ha terminado porque un jugador hizo cinco en línea."
     }
   }
 }

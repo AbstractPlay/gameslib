@@ -18,6 +18,7 @@ export const gameApgamesEn = {
 export const gameApresultsEn = {
     EOG: {
         stagnation: "The game has ended in a draw because the piece count and composition were unchanged for {{count}} consecutive moves.",
+        repetition: "The game has ended because the same position has occurred three times by the same player.",
     },
 };
 
@@ -827,7 +828,7 @@ export class BashniGame extends GameBase {
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", {count: 3});
+                    this.pushNeutralChatLine(lines, "apresults:bashni.EOG.repetition");
                 } else if (r.reason === "stagnation") {
                     this.pushNeutralChatLine(lines, "apresults:bashni.EOG.stagnation", {count: STAGNATION_DRAW});
                 } else {

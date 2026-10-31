@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, chatPlayerToken, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, MarkerFlood, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -7,6 +7,7 @@ import { Direction, RectGrid, reviver, UserFacingError } from "../common/index.j
 import i18next from "i18next";
 export const gameApresultsEn = {
     EOG: {
+        breakthrough: "The game has ended because a player moved two men into the opponent's castle.",
         claim_draw_progression: "The game has ended because {{player}} has claimed a draw by the 50 move rule.",
         claim_draw_repetition: "The game has ended because {{player}} has claimed a draw by repetition.",
     },
@@ -1384,6 +1385,31 @@ export class CamelotGame extends GameBase {
     }
 
 
+    protected eogReasonAliases(): Record<string, string> {
+        return {
+            "claim-draw-repetition": "claim_draw_repetition",
+            "claim-draw-progression": "claim_draw_progression",
+        };
+    }
+
+    protected eogChatLineOverride(r: Extract<APMoveResult, { type: "eog" }>, ctx: ChatLogCollectContext): ChatLogLine | undefined {
+        if (r.reason === "claim-draw-repetition") {
+            return {
+                actor: this.getChatActorRef(ctx.defaultSeat),
+                textKey: "apresults:camelot.EOG.claim_draw_repetition",
+                textParams: { player: chatPlayerToken(ctx.defaultSeat) },
+            };
+        }
+        if (r.reason === "claim-draw-progression") {
+            return {
+                actor: this.getChatActorRef(ctx.defaultSeat),
+                textKey: "apresults:camelot.EOG.claim_draw_progression",
+                textParams: { player: chatPlayerToken(ctx.defaultSeat) },
+            };
+        }
+        return undefined;
+    }
+
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
@@ -1428,18 +1454,7 @@ export class CamelotGame extends GameBase {
             case "claim":
                 return true;
             case "eog":
-                if (r.reason === "claim-draw-repetition") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:camelot.EOG.claim_draw_repetition", {});
-                } else if (r.reason === "claim-draw-progression") {
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:camelot.EOG.claim_draw_progression", {});
-                } else if (r.reason === "stalemate") {
-                this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
-                } else if (r.reason === "material") {
-                this.pushNeutralChatLine(lines, "apresults:_general.EOG.material");
-                } else if (r.reason === "breakthrough") {
-                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
-                }
-                return true;
+                return this.collectEogChatLogLine(lines, r as Extract<APMoveResult, { type: "eog" }>, ctx);
             default:
                 return super.collectChatLogLine(lines, r, ctx);
         }

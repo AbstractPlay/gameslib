@@ -23,6 +23,13 @@ export const gameApgamesEn = {
 };
 
 
+export const gameApresultsEn = {
+    EOG: {
+        repetition: "The game has ended because the same position has occurred four times by the same player.",
+    },
+};
+
+
 type playerid = 1|2;
 
 export interface IMoveState extends IIndividualState {
@@ -752,7 +759,7 @@ export class FanoronaGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         if (r.type === "eog") {
             if (r.reason === "repetition") {
-                this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 4 });
+                this.pushNeutralChatLine(lines, "apresults:fanorona.EOG.repetition");
             } else {
                 this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
             }

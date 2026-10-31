@@ -66,6 +66,12 @@ export interface IVoloState extends IAPGameState {
 };
 
 export class VoloGame extends GameBase {
+    protected eogReasonAliases(): Record<string, string> {
+        return {
+            pass: "consecutive_passes",
+        };
+    }
+
     public static readonly gameinfo: APGamesInformation = {
         name: "Volo",
         uid: "volo",

@@ -13,6 +13,13 @@ export const gameApgamesEn = {
 };
 
 
+export const gameApresultsEn = {
+    EOG: {
+        repetition: "The game has ended because the same position has occurred three times by the same player.",
+    },
+};
+
+
 const BOARD_SIZE = 8;
 
 export type playerid = 1|2;
@@ -701,7 +708,7 @@ export class DamaGame extends GameBase {
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 3 });
+                    this.pushNeutralChatLine(lines, "apresults:dama.EOG.repetition");
                 } else {
                     this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }

@@ -44,8 +44,8 @@ import { allowedChallengeVariantUids } from "./_gameinfo-filter.js";
 import { GameRng } from "../common/rng.js";
 import type { ChatActorRef, ChatLogCollectContext, ChatLogEntry, ChatLogLine, ChatLogTextParamsInput } from "../common/chat-log.js";
 export type { ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate, ChatLogCollectContext, ChatLogTextParamsInput } from "../common/chat-log.js";
-export { formatChatLogEntries, formatChatLogEntryNodes, chatPlayerToken, applyChatPlayerNames } from "../common/chat-log.js";
-import { chatPlayerToken, formatChatLogEntryNodes } from "../common/chat-log.js";
+export { formatChatLogEntries, formatChatLogEntryNodes, chatPlayerToken, applyChatPlayerNames, formatChatLogLine, normalizeEogReasonLeaf, resolveEogCatalogKey, findEogResult } from "../common/chat-log.js";
+import { chatPlayerToken, formatChatLogEntryNodes, formatChatLogLine, resolveEogCatalogKey } from "../common/chat-log.js";
 import type { RenderLabel, StructuredRenderLabel } from "../common/render-label.js";
 export type { RenderLabel, StructuredRenderLabel } from "../common/render-label.js";
 export { resolveRenderLabel, isStructuredRenderLabel } from "../common/render-label.js";
@@ -1166,6 +1166,82 @@ export abstract class GameBase  {
         lines.push(line);
     }
 
+    /** Map serialized `eog.reason` tokens to `gameApresultsEn.EOG` catalog leaves when normalization is not enough. */
+    protected eogReasonAliases(): Record<string, string> {
+        return {};
+    }
+
+    /**
+     * Game-specific EOG chat line (seat params, branching). When undefined, {@link defaultEogChatLine} runs.
+     */
+    protected eogChatLineOverride(r: Extract<APMoveResult, { type: "eog" }>, ctx: ChatLogCollectContext): ChatLogLine | undefined {
+        void r;
+        void ctx;
+        return undefined;
+    }
+
+    protected defaultEogChatLine(r: Extract<APMoveResult, { type: "eog" }>): ChatLogLine {
+        const uid = (this.constructor as typeof GameBase).gameinfo.uid;
+        const { textKey, textParams } = resolveEogCatalogKey(
+            uid,
+            r.reason,
+            this.eogReasonAliases(),
+            (key) => i18next.exists(key),
+        );
+        const line: ChatLogLine = {
+            actor: { kind: "none" },
+            textKey,
+        };
+        if (textParams !== undefined) {
+            line.textParams = textParams;
+        }
+        return line;
+    }
+
+    protected buildEogChatLogLine(r: Extract<APMoveResult, { type: "eog" }>, ctx: ChatLogCollectContext): ChatLogLine {
+        const override = this.eogChatLineOverride(r, ctx);
+        if (override !== undefined) {
+            return override;
+        }
+        return this.defaultEogChatLine(r);
+    }
+
+    protected collectEogChatLogLine(lines: ChatLogLine[], r: Extract<APMoveResult, { type: "eog" }>, ctx: ChatLogCollectContext): boolean {
+        lines.push(this.buildEogChatLogLine(r, ctx));
+        return true;
+    }
+
+    /** Structured EOG line for the terminal stack frame (game-over UI). */
+    public eogChatLogLine(players: string[] = []): ChatLogLine | undefined {
+        for (let i = this.stack.length - 1; i >= 0; i--) {
+            const state = this.stack[i];
+            if (state._results === undefined || state._results.length === 0) {
+                continue;
+            }
+            const eog = state._results.find((res) => res.type === "eog");
+            if (eog === undefined) {
+                continue;
+            }
+            const currplayer = state.currplayer as number;
+            const ctx: ChatLogCollectContext = {
+                results: state._results,
+                currplayer,
+                defaultSeat: this.resolveChatSeat(state._results[0], currplayer),
+                players,
+            };
+            return this.buildEogChatLogLine(eog as Extract<APMoveResult, { type: "eog" }>, ctx);
+        }
+        return undefined;
+    }
+
+    public formatEogSummary(players: string[] = [], t: (key: string, params?: Record<string, unknown>) => string): string | undefined {
+        const line = this.eogChatLogLine(players);
+        if (line === undefined) {
+            return undefined;
+        }
+        return formatChatLogLine(line, players, t);
+    }
+
     /**
      * Emit structured chat for one result. Return true when handled.
      * Games override alongside or instead of legacy {@link chat}.
@@ -1256,8 +1332,7 @@ export abstract class GameBase  {
                 this.pushSeatChatLine(lines, seat, "apresults:_general.CLAIM.default", { where: r.where });
                 return true;
             case "eog":
-                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
-                return true;
+                return this.collectEogChatLogLine(lines, r as Extract<APMoveResult, { type: "eog" }>, ctx);
             case "resigned": {
                 const rname = this.resolveChatPlayerName(r.player, ctx.players);
                 this.pushNeutralChatLine(lines, "apresults:_general.RESIGN.default", { player: rname });

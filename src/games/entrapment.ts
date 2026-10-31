@@ -61,6 +61,9 @@ export const gameApresultsEn = {
         opponent: "{{player}} chose to retain the opponent's roamer at {{how}}, removing the roamer at {{where}}.",
         self: "{{player}} chose to retain their own roamer at {{how}}, removing the roamer at {{where}}.",
     },
+    EOG: {
+        stalemate: "The game has ended in a draw because a player cannot make any further moves.",
+    },
 };
 
 
@@ -1532,7 +1535,7 @@ export class EntrapmentGame extends GameBase {
                 return true;
             case "eog":
                 if (r.reason === "stalemate") {
-                this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
+                this.pushNeutralChatLine(lines, "apresults:entrapment.EOG.stalemate");
                 } else {
                 this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }

@@ -6,6 +6,10 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 export const gameApresultsEn = {
+    EOG: {
+        breakthrough: "The game has ended because a player occupied the opponent's corner squares.",
+        stalemate: "The game has ended because a player has no legal moves.",
+    },
     MOVE: {
         dragon: "{{player}} moved a group of size {{count}} via a dragon move from {{from}} in the direction {{dir}}.",
         dragon_jump: "{{player}} jumps their dragon from {{from}} to {{to}}.",
@@ -1399,12 +1403,7 @@ export class AnacheGame extends GameBase {
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CAPTURE.noperson.nowhere_count", { count: r.count! });
                 return true;
             case "eog":
-                if (r.reason === "breakthrough") {
-                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
-                } else if (r.reason === "stalemate") {
-                this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
-                }
-                return true;
+                return this.collectEogChatLogLine(lines, r as Extract<APMoveResult, { type: "eog" }>, ctx);
             default:
                 return super.collectChatLogLine(lines, r, ctx);
         }

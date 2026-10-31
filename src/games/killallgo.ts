@@ -1994,6 +1994,15 @@ export class KillAllGoGame extends GameBase {
         return statuses;
     }
 
+    protected eogReasonAliases(): Record<string, string> {
+        return {
+            "pass-alive": "pass_alive",
+            "no-room": "no_room",
+            "no-moves": "no_moves",
+            "double-pass": "double_pass",
+        };
+    }
+
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
@@ -2031,19 +2040,7 @@ export class KillAllGoGame extends GameBase {
                 this.pushSeatChatLine(lines, ctx.defaultSeat, r.what === "iplace" ? "apresults:killallgo.SELECT.iplace" : "apresults:killallgo.SELECT.youplace");
                 return true;
             case "eog":
-                if (r.reason === "pass-alive") {
-                    this.pushNeutralChatLine(lines, "apresults:killallgo.EOG.pass_alive");
-                } else if (r.reason === "no-room") {
-                    this.pushNeutralChatLine(lines, "apresults:killallgo.EOG.no_room");
-                } else if (r.reason === "no-moves") {
-                    this.pushNeutralChatLine(lines, "apresults:killallgo.EOG.no_moves");
-                } else if (r.reason === "double-pass") {
-                    // Preserve the move log for games completed before normal-play passes were removed.
-                    this.pushNeutralChatLine(lines, "apresults:killallgo.EOG.double_pass");
-                } else {
-                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
-                }
-                return true;
+                return this.collectEogChatLogLine(lines, r as Extract<APMoveResult, { type: "eog" }>, ctx);
             default:
                 return super.collectChatLogLine(lines, r, ctx);
         }

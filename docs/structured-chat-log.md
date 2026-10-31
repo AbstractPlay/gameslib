@@ -228,7 +228,15 @@ formatChatLogEntryNodes(game.chatLogEntries(playerNames), playerNames, t);
 
 - Solo (`numplayers === 1`): `playerNames` length 1.
 - Label actors: optional UI styling on `line.actor.kind === "label"`; formatter substitutes label into `textParams.player` when present.
-- Related exports: `formatChatLogEntries`, `chatPlayerToken`, `applyChatPlayerNames`.
+- Related exports: `formatChatLogEntries`, `chatPlayerToken`, `applyChatPlayerNames`, `formatEogSummary`, `eogChatLogLine`, `normalizeEogReasonLeaf`.
+
+## EOG `reason` strings
+
+Games may push `{ type: "eog", reason?: string }` on the final ply. User-facing copy lives in **`gameApresultsEn.EOG.<leaf>`** or shared **`apresults:_general.EOG.*`**. Normalize machine tokens to catalog leaves (lowercase; spaces/`-`/`.` → `_`; camelCase → snake_case). Legacy tokens stay on the wire — map them with **`eogReasonAliases()`** on the game class.
+
+Default **`collectChatLogLine`** resolves reasons via **`collectEogChatLogLine`**. Branching endings (seat-specific loser, cascade wins) override **`eogChatLineOverride`**. The front game-over status calls **`formatEogSummary(players, t)`**, which must match the move-log EOG line for the same frame.
+
+Audit: `node scripts/audit-eog-reasons.mjs`. Progress checklist: [`docs/eog-reason-catalog.md`](/gameslib/eog-reason-catalog.md).
 
 `game.chatLog(playerNames)` returns the same formatted strings without actor metadata — convenience only; prefer `chatLogEntries` + formatters when actor styling matters.
 

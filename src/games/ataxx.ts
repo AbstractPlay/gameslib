@@ -41,6 +41,10 @@ export const gameApresultsEn = {
         one: "1 piece is converted.",
         other: "{{count}} pieces are converted.",
     },
+    EOG: {
+        elimination: "The game has ended because one side has no pieces left on the board.",
+        repetition: "The game has ended because the same position has occurred three times.",
+    },
     MOVE: {
         jump: "{{player}} jumped a piece from {{from}} to {{to}}.",
         split: "{{player}} split a piece from {{from}} to {{to}}.",
@@ -883,6 +887,17 @@ export class AtaxxGame extends GameBase {
     }
 
 
+    protected eogChatLineOverride(r: Extract<APMoveResult, { type: "eog" }>, ctx: ChatLogCollectContext): ChatLogLine | undefined {
+        void ctx;
+        if (r.reason === "repetition") {
+            return {
+                actor: { kind: "none" },
+                textKey: "apresults:ataxx.EOG.repetition",
+            };
+        }
+        return undefined;
+    }
+
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "move":
@@ -899,12 +914,7 @@ export class AtaxxGame extends GameBase {
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.forced", {});
                 return true;
             case "eog":
-                if (r.reason === "repetition") {
-                this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 3 });
-                } else {
-                this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
-                }
-                return true;
+                return this.collectEogChatLogLine(lines, r as Extract<APMoveResult, { type: "eog" }>, ctx);
             default:
                 return super.collectChatLogLine(lines, r, ctx);
         }

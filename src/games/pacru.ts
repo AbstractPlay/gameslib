@@ -41,6 +41,10 @@ export const gameApresultsEn = {
     CONVERT: {
         default: "{{player}} converted {{where}}.",
     },
+    EOG: {
+        last_man_standing: "The game has ended because only one player still has chevrons on the board.",
+        score: "The game has ended because a player reached the target score.",
+    },
 };
 
 

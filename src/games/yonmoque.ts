@@ -12,6 +12,14 @@ export const gameApgamesEn = {
 };
 
 
+export const gameApresultsEn = {
+    EOG: {
+        four: "The game has ended because a player made four in a row.",
+        five: "The game has ended because a player made five in a row.",
+    },
+};
+
+
 export type playerid = 1|2;
 export type Tile = "W"|"B"|"N";
 

@@ -393,6 +393,16 @@
       "english": "{{player}} was eliminated."
     },
     {
+      "oldPath": "EOG.breakthrough",
+      "oldFullKey": "apresults:EOG.breakthrough",
+      "uid": "_general",
+      "resultType": "EOG",
+      "newLeaf": "breakthrough",
+      "newPath": "_general.EOG.breakthrough",
+      "newFullKey": "apresults:_general.EOG.breakthrough",
+      "english": "The game has ended because a player broke through to the goal."
+    },
+    {
       "oldPath": "EOG.consecutive_passes",
       "oldFullKey": "apresults:EOG.consecutive_passes",
       "uid": "_general",
@@ -411,6 +421,16 @@
       "newPath": "_general.EOG.default",
       "newFullKey": "apresults:_general.EOG.default",
       "english": "The game has ended."
+    },
+    {
+      "oldPath": "EOG.elimination",
+      "oldFullKey": "apresults:EOG.elimination",
+      "uid": "_general",
+      "resultType": "EOG",
+      "newLeaf": "elimination",
+      "newPath": "_general.EOG.elimination",
+      "newFullKey": "apresults:_general.EOG.elimination",
+      "english": "The game has ended because one player was eliminated."
     },
     {
       "oldPath": "EOG.material",
@@ -1193,6 +1213,26 @@
       "english": "{{player}} sowed {{count}} pieces from {{from}} to {{to}}."
     },
     {
+      "oldPath": "EOG.anache_breakthrough",
+      "oldFullKey": "apresults:EOG.anache_breakthrough",
+      "uid": "anache",
+      "resultType": "EOG",
+      "newLeaf": "breakthrough",
+      "newPath": "anache.EOG.breakthrough",
+      "newFullKey": "apresults:anache.EOG.breakthrough",
+      "english": "The game has ended because a player occupied the opponent's corner squares."
+    },
+    {
+      "oldPath": "EOG.anache_stalemate",
+      "oldFullKey": "apresults:EOG.anache_stalemate",
+      "uid": "anache",
+      "resultType": "EOG",
+      "newLeaf": "stalemate",
+      "newPath": "anache.EOG.stalemate",
+      "newFullKey": "apresults:anache.EOG.stalemate",
+      "english": "The game has ended because a player has no legal moves."
+    },
+    {
       "oldPath": "MOVE.anache_dragon",
       "oldFullKey": "apresults:MOVE.anache_dragon",
       "uid": "anache",
@@ -1403,6 +1443,26 @@
       "english": "{{count}} pieces are converted."
     },
     {
+      "oldPath": "EOG.ataxx_elimination",
+      "oldFullKey": "apresults:EOG.ataxx_elimination",
+      "uid": "ataxx",
+      "resultType": "EOG",
+      "newLeaf": "elimination",
+      "newPath": "ataxx.EOG.elimination",
+      "newFullKey": "apresults:ataxx.EOG.elimination",
+      "english": "The game has ended because one side has no pieces left on the board."
+    },
+    {
+      "oldPath": "EOG.ataxx_repetition",
+      "oldFullKey": "apresults:EOG.ataxx_repetition",
+      "uid": "ataxx",
+      "resultType": "EOG",
+      "newLeaf": "repetition",
+      "newPath": "ataxx.EOG.repetition",
+      "newFullKey": "apresults:ataxx.EOG.repetition",
+      "english": "The game has ended because the same position has occurred three times."
+    },
+    {
       "oldPath": "MOVE.ataxx_jump",
       "oldFullKey": "apresults:MOVE.ataxx_jump",
       "uid": "ataxx",
@@ -1471,6 +1531,16 @@
       "newPath": "bao.MOVE.default",
       "newFullKey": "apresults:bao.MOVE.default",
       "english": "Initial direction of movement: {{direction}}."
+    },
+    {
+      "oldPath": "EOG.bashni_repetition",
+      "oldFullKey": "apresults:EOG.bashni_repetition",
+      "uid": "bashni",
+      "resultType": "EOG",
+      "newLeaf": "repetition",
+      "newPath": "bashni.EOG.repetition",
+      "newFullKey": "apresults:bashni.EOG.repetition",
+      "english": "The game has ended because the same position has occurred three times by the same player."
     },
     {
       "oldPath": "EOG.bashni_stagnation",
@@ -1763,6 +1833,16 @@
       "english": "{{player}} built a bridge between {{left}} and {{right}}."
     },
     {
+      "oldPath": "EOG.bridges_double_pass",
+      "oldFullKey": "apresults:EOG.bridges_double_pass",
+      "uid": "bridges",
+      "resultType": "EOG",
+      "newLeaf": "double_pass",
+      "newPath": "bridges.EOG.double_pass",
+      "newFullKey": "apresults:bridges.EOG.double_pass",
+      "english": "The game has ended because both players passed."
+    },
+    {
       "oldPath": "DELTASCORE.btt_opponent_gain_one",
       "oldFullKey": "apresults:DELTASCORE.btt_opponent_gain_one",
       "uid": "btt",
@@ -1893,6 +1973,16 @@
       "english": "{{player}} claimed the remaining {{count}} pieces on their colour."
     },
     {
+      "oldPath": "EOG.buku_repetition",
+      "oldFullKey": "apresults:EOG.buku_repetition",
+      "uid": "buku",
+      "resultType": "EOG",
+      "newLeaf": "repetition",
+      "newPath": "buku.EOG.repetition",
+      "newFullKey": "apresults:buku.EOG.repetition",
+      "english": "The game has ended because the same board position was repeated."
+    },
+    {
       "oldPath": "EOG.buku_singletons",
       "oldFullKey": "apresults:EOG.buku_singletons",
       "uid": "buku",
@@ -1991,6 +2081,16 @@
       "newPath": "c1.CAPTURE.default",
       "newFullKey": "apresults:c1.CAPTURE.default",
       "english": "{{player}} eliminates a tile at {{where}}."
+    },
+    {
+      "oldPath": "EOG.camelot_breakthrough",
+      "oldFullKey": "apresults:EOG.camelot_breakthrough",
+      "uid": "camelot",
+      "resultType": "EOG",
+      "newLeaf": "breakthrough",
+      "newPath": "camelot.EOG.breakthrough",
+      "newFullKey": "apresults:camelot.EOG.breakthrough",
+      "english": "The game has ended because a player moved two men into the opponent's castle."
     },
     {
       "oldPath": "EOG.camelot_claim_draw_progression",
@@ -2233,6 +2333,36 @@
       "english": "{{player}} placed a tile at {{where}}."
     },
     {
+      "oldPath": "EOG.chameleon_annihilation",
+      "oldFullKey": "apresults:EOG.chameleon_annihilation",
+      "uid": "chameleon",
+      "resultType": "EOG",
+      "newLeaf": "annihilation",
+      "newPath": "chameleon.EOG.annihilation",
+      "newFullKey": "apresults:chameleon.EOG.annihilation",
+      "english": "The game has ended because all of one player's pieces were annihilated."
+    },
+    {
+      "oldPath": "EOG.chameleon_full_infiltration",
+      "oldFullKey": "apresults:EOG.chameleon_full_infiltration",
+      "uid": "chameleon",
+      "resultType": "EOG",
+      "newLeaf": "full_infiltration",
+      "newPath": "chameleon.EOG.full_infiltration",
+      "newFullKey": "apresults:chameleon.EOG.full_infiltration",
+      "english": "The game has ended because a player fully infiltrated the opposing side."
+    },
+    {
+      "oldPath": "EOG.chameleon_last_minute_infiltration",
+      "oldFullKey": "apresults:EOG.chameleon_last_minute_infiltration",
+      "uid": "chameleon",
+      "resultType": "EOG",
+      "newLeaf": "last_minute_infiltration",
+      "newPath": "chameleon.EOG.last_minute_infiltration",
+      "newFullKey": "apresults:chameleon.EOG.last_minute_infiltration",
+      "english": "The game has ended because a player infiltrated on the final placement."
+    },
+    {
       "oldPath": "MOVE.chase",
       "oldFullKey": "apresults:MOVE.chase",
       "uid": "chase",
@@ -2403,6 +2533,26 @@
       "english": "{{player}} placed a triomino at {{where}}."
     },
     {
+      "oldPath": "EOG.connections_loop",
+      "oldFullKey": "apresults:EOG.connections_loop",
+      "uid": "connections",
+      "resultType": "EOG",
+      "newLeaf": "loop",
+      "newPath": "connections.EOG.loop",
+      "newFullKey": "apresults:connections.EOG.loop",
+      "english": "The game has ended because a player completed a loop."
+    },
+    {
+      "oldPath": "EOG.connections_path",
+      "oldFullKey": "apresults:EOG.connections_path",
+      "uid": "connections",
+      "resultType": "EOG",
+      "newLeaf": "path",
+      "newPath": "connections.EOG.path",
+      "newFullKey": "apresults:connections.EOG.path",
+      "english": "The game has ended because a player connected their dots."
+    },
+    {
       "oldPath": "PLACE.court",
       "oldFullKey": "apresults:PLACE.court",
       "uid": "court",
@@ -2421,6 +2571,16 @@
       "newPath": "courtesan.CONVERT.default",
       "newFullKey": "apresults:courtesan.CONVERT.default",
       "english": "King and courtesan swapped positions at {{where}}."
+    },
+    {
+      "oldPath": "EOG.croda_repetition",
+      "oldFullKey": "apresults:EOG.croda_repetition",
+      "uid": "croda",
+      "resultType": "EOG",
+      "newLeaf": "repetition",
+      "newPath": "croda.EOG.repetition",
+      "newFullKey": "apresults:croda.EOG.repetition",
+      "english": "The game has ended because the same position has occurred three times by the same player."
     },
     {
       "oldPath": "CAPTURE.crosshairs",
@@ -2503,6 +2663,26 @@
       "english": "{{player}} entered a plane at {{where}}."
     },
     {
+      "oldPath": "EOG.cubeo_nomoves",
+      "oldFullKey": "apresults:EOG.cubeo_nomoves",
+      "uid": "cubeo",
+      "resultType": "EOG",
+      "newLeaf": "nomoves",
+      "newPath": "cubeo.EOG.nomoves",
+      "newFullKey": "apresults:cubeo.EOG.nomoves",
+      "english": "The game has ended because the player to move has no legal action."
+    },
+    {
+      "oldPath": "EOG.cubeo_promotion",
+      "oldFullKey": "apresults:EOG.cubeo_promotion",
+      "uid": "cubeo",
+      "resultType": "EOG",
+      "newLeaf": "promotion",
+      "newPath": "cubeo.EOG.promotion",
+      "newFullKey": "apresults:cubeo.EOG.promotion",
+      "english": "The game has ended because a player promoted a die to the winning value."
+    },
+    {
       "oldPath": "PROMOTE.cubeo",
       "oldFullKey": "apresults:PROMOTE.cubeo",
       "uid": "cubeo",
@@ -2511,6 +2691,16 @@
       "newPath": "cubeo.PROMOTE.default",
       "newFullKey": "apresults:cubeo.PROMOTE.default",
       "english": "{{player}} promoted the die at {{where}} from a {{from}} to a {{to}}."
+    },
+    {
+      "oldPath": "EOG.dama_repetition",
+      "oldFullKey": "apresults:EOG.dama_repetition",
+      "uid": "dama",
+      "resultType": "EOG",
+      "newLeaf": "repetition",
+      "newPath": "dama.EOG.repetition",
+      "newFullKey": "apresults:dama.EOG.repetition",
+      "english": "The game has ended because the same position has occurred three times by the same player."
     },
     {
       "oldPath": "CAPTURE.dameo_king",
@@ -2923,6 +3113,16 @@
       "english": "{{player}} captured their own roamer at {{where}}."
     },
     {
+      "oldPath": "EOG.entrapment_stalemate",
+      "oldFullKey": "apresults:EOG.entrapment_stalemate",
+      "uid": "entrapment",
+      "resultType": "EOG",
+      "newLeaf": "stalemate",
+      "newPath": "entrapment.EOG.stalemate",
+      "newFullKey": "apresults:entrapment.EOG.stalemate",
+      "english": "The game has ended in a draw because a player cannot make any further moves."
+    },
+    {
       "oldPath": "MOVE.entrapment_barrier",
       "oldFullKey": "apresults:MOVE.entrapment_barrier",
       "uid": "entrapment",
@@ -3081,6 +3281,16 @@
       "newPath": "exxit.CLAIM.default",
       "newFullKey": "apresults:exxit.CLAIM.default",
       "english": "{{player}} claimed the perimeter space at {{where}}."
+    },
+    {
+      "oldPath": "EOG.fanorona_repetition",
+      "oldFullKey": "apresults:EOG.fanorona_repetition",
+      "uid": "fanorona",
+      "resultType": "EOG",
+      "newLeaf": "repetition",
+      "newPath": "fanorona.EOG.repetition",
+      "newFullKey": "apresults:fanorona.EOG.repetition",
+      "english": "The game has ended because the same position has occurred four times by the same player."
     },
     {
       "oldPath": "CAPTURE.fightopia_1",
@@ -3503,6 +3713,16 @@
       "english": "{{player}} moved their glider at {{where}} off the edge of the board."
     },
     {
+      "oldPath": "EOG.go_repetition",
+      "oldFullKey": "apresults:EOG.go_repetition",
+      "uid": "go",
+      "resultType": "EOG",
+      "newLeaf": "repetition",
+      "newPath": "go.EOG.repetition",
+      "newFullKey": "apresults:go.EOG.repetition",
+      "english": "The game has ended because the same position was repeated (super-ko)."
+    },
+    {
       "oldPath": "EOG.gonnect_cascading_subboard",
       "oldFullKey": "apresults:EOG.gonnect_cascading_subboard",
       "uid": "gonnect",
@@ -3521,6 +3741,56 @@
       "newPath": "gonnect.EOG.direct_connection",
       "newFullKey": "apresults:gonnect.EOG.direct_connection",
       "english": "{{player}} won by direct connection."
+    },
+    {
+      "oldPath": "EOG.gonnect_repetition",
+      "oldFullKey": "apresults:EOG.gonnect_repetition",
+      "uid": "gonnect",
+      "resultType": "EOG",
+      "newLeaf": "repetition",
+      "newPath": "gonnect.EOG.repetition",
+      "newFullKey": "apresults:gonnect.EOG.repetition",
+      "english": "The game has ended because the same board position was repeated."
+    },
+    {
+      "oldPath": "EOG.gonnect_stalemate",
+      "oldFullKey": "apresults:EOG.gonnect_stalemate",
+      "uid": "gonnect",
+      "resultType": "EOG",
+      "newLeaf": "stalemate",
+      "newPath": "gonnect.EOG.stalemate",
+      "newFullKey": "apresults:gonnect.EOG.stalemate",
+      "english": "The game has ended because a player has no legal moves."
+    },
+    {
+      "oldPath": "EOG.gorogo_henge_last",
+      "oldFullKey": "apresults:EOG.gorogo_henge_last",
+      "uid": "gorogo",
+      "resultType": "EOG",
+      "newLeaf": "henge_last",
+      "newPath": "gorogo.EOG.henge_last",
+      "newFullKey": "apresults:gorogo.EOG.henge_last",
+      "english": "The game has ended because a player placed their last henge piece."
+    },
+    {
+      "oldPath": "EOG.gorogo_no_moves",
+      "oldFullKey": "apresults:EOG.gorogo_no_moves",
+      "uid": "gorogo",
+      "resultType": "EOG",
+      "newLeaf": "no_moves",
+      "newPath": "gorogo.EOG.no_moves",
+      "newFullKey": "apresults:gorogo.EOG.no_moves",
+      "english": "The game has ended because the player to move has no legal placement."
+    },
+    {
+      "oldPath": "EOG.gorogo_scoring",
+      "oldFullKey": "apresults:EOG.gorogo_scoring",
+      "uid": "gorogo",
+      "resultType": "EOG",
+      "newLeaf": "scoring",
+      "newPath": "gorogo.EOG.scoring",
+      "newFullKey": "apresults:gorogo.EOG.scoring",
+      "english": "The game has ended because the scoring track was filled."
     },
     {
       "oldPath": "PLACE.gorogo_henge",
@@ -3571,6 +3841,16 @@
       "newPath": "hexentafl.CAPTURE.king",
       "newFullKey": "apresults:hexentafl.CAPTURE.king",
       "english": "The king was captured at {{where}}."
+    },
+    {
+      "oldPath": "EOG.hexentafl_repetition",
+      "oldFullKey": "apresults:EOG.hexentafl_repetition",
+      "uid": "hexentafl",
+      "resultType": "EOG",
+      "newLeaf": "repetition",
+      "newPath": "hexentafl.EOG.repetition",
+      "newFullKey": "apresults:hexentafl.EOG.repetition",
+      "english": "The game has ended because the same position has occurred three times by the same player."
     },
     {
       "oldPath": "MOVE.hexentafl_king",
@@ -3731,6 +4011,26 @@
       "newPath": "jacynth.CLAIM.default",
       "newFullKey": "apresults:jacynth.CLAIM.default",
       "english": "{{player}} exerted influence at {{where}}."
+    },
+    {
+      "oldPath": "EOG.kachit_invasion",
+      "oldFullKey": "apresults:EOG.kachit_invasion",
+      "uid": "kachit",
+      "resultType": "EOG",
+      "newLeaf": "invasion",
+      "newPath": "kachit.EOG.invasion",
+      "newFullKey": "apresults:kachit.EOG.invasion",
+      "english": "The game has ended because a royal piece invaded the opposing palace."
+    },
+    {
+      "oldPath": "EOG.kachit_regicide",
+      "oldFullKey": "apresults:EOG.kachit_regicide",
+      "uid": "kachit",
+      "resultType": "EOG",
+      "newLeaf": "regicide",
+      "newPath": "kachit.EOG.regicide",
+      "newFullKey": "apresults:kachit.EOG.regicide",
+      "english": "The game has ended because a royal piece was captured."
     },
     {
       "oldPath": "ANNOUNCE.killallgo_slice",
@@ -4263,6 +4563,26 @@
       "english": "{{player}} has taken the ball and placed it at {{where}}."
     },
     {
+      "oldPath": "EOG.meg_countdown",
+      "oldFullKey": "apresults:EOG.meg_countdown",
+      "uid": "meg",
+      "resultType": "EOG",
+      "newLeaf": "countdown",
+      "newPath": "meg.EOG.countdown",
+      "newFullKey": "apresults:meg.EOG.countdown",
+      "english": "The game has ended because the countdown reached zero."
+    },
+    {
+      "oldPath": "EOG.meg_goal",
+      "oldFullKey": "apresults:EOG.meg_goal",
+      "uid": "meg",
+      "resultType": "EOG",
+      "newLeaf": "goal",
+      "newPath": "meg.EOG.goal",
+      "newFullKey": "apresults:meg.EOG.goal",
+      "english": "The game has ended because a player scored a goal."
+    },
+    {
       "oldPath": "MOVE.meg",
       "oldFullKey": "apresults:MOVE.meg",
       "uid": "meg",
@@ -4623,6 +4943,56 @@
       "english": "{{player}} devoured the piece at {{where}}."
     },
     {
+      "oldPath": "EOG.owlman_daybreak",
+      "oldFullKey": "apresults:EOG.owlman_daybreak",
+      "uid": "owlman",
+      "resultType": "EOG",
+      "newLeaf": "daybreak",
+      "newPath": "owlman.EOG.daybreak",
+      "newFullKey": "apresults:owlman.EOG.daybreak",
+      "english": "The game has ended because day broke before the Owlman was trapped."
+    },
+    {
+      "oldPath": "EOG.owlman_discovered",
+      "oldFullKey": "apresults:EOG.owlman_discovered",
+      "uid": "owlman",
+      "resultType": "EOG",
+      "newLeaf": "discovered",
+      "newPath": "owlman.EOG.discovered",
+      "newFullKey": "apresults:owlman.EOG.discovered",
+      "english": "The game has ended because the Doctor was discovered."
+    },
+    {
+      "oldPath": "EOG.owlman_doc_killed",
+      "oldFullKey": "apresults:EOG.owlman_doc_killed",
+      "uid": "owlman",
+      "resultType": "EOG",
+      "newLeaf": "doc_killed",
+      "newPath": "owlman.EOG.doc_killed",
+      "newFullKey": "apresults:owlman.EOG.doc_killed",
+      "english": "The game has ended because the Doctor was captured."
+    },
+    {
+      "oldPath": "EOG.owlman_no_helpers",
+      "oldFullKey": "apresults:EOG.owlman_no_helpers",
+      "uid": "owlman",
+      "resultType": "EOG",
+      "newLeaf": "no_helpers",
+      "newPath": "owlman.EOG.no_helpers",
+      "newFullKey": "apresults:owlman.EOG.no_helpers",
+      "english": "The game has ended because all of the Doctor's helpers were captured."
+    },
+    {
+      "oldPath": "EOG.owlman_trapped",
+      "oldFullKey": "apresults:EOG.owlman_trapped",
+      "uid": "owlman",
+      "resultType": "EOG",
+      "newLeaf": "trapped",
+      "newPath": "owlman.EOG.trapped",
+      "newFullKey": "apresults:owlman.EOG.trapped",
+      "english": "The game has ended because the Owlman could not move."
+    },
+    {
       "oldPath": "CONVERT.pacru",
       "oldFullKey": "apresults:CONVERT.pacru",
       "uid": "pacru",
@@ -4631,6 +5001,26 @@
       "newPath": "pacru.CONVERT.default",
       "newFullKey": "apresults:pacru.CONVERT.default",
       "english": "{{player}} converted {{where}}."
+    },
+    {
+      "oldPath": "EOG.pacru_last_man_standing",
+      "oldFullKey": "apresults:EOG.pacru_last_man_standing",
+      "uid": "pacru",
+      "resultType": "EOG",
+      "newLeaf": "last_man_standing",
+      "newPath": "pacru.EOG.last_man_standing",
+      "newFullKey": "apresults:pacru.EOG.last_man_standing",
+      "english": "The game has ended because only one player still has chevrons on the board."
+    },
+    {
+      "oldPath": "EOG.pacru_score",
+      "oldFullKey": "apresults:EOG.pacru_score",
+      "uid": "pacru",
+      "resultType": "EOG",
+      "newLeaf": "score",
+      "newPath": "pacru.EOG.score",
+      "newFullKey": "apresults:pacru.EOG.score",
+      "english": "The game has ended because a player reached the target score."
     },
     {
       "oldPath": "PLACE.pahtum_block",
@@ -4851,6 +5241,36 @@
       "newPath": "pontedd.CONNECT.default",
       "newFullKey": "apresults:pontedd.CONNECT.default",
       "english": "{{player}} placed a bridge between {{left}} and {{right}}."
+    },
+    {
+      "oldPath": "EOG.pontedd_bridges",
+      "oldFullKey": "apresults:EOG.pontedd_bridges",
+      "uid": "pontedd",
+      "resultType": "EOG",
+      "newLeaf": "bridges",
+      "newPath": "pontedd.EOG.bridges",
+      "newFullKey": "apresults:pontedd.EOG.bridges",
+      "english": "The game has ended with tied score and islands; the player with more bridges wins."
+    },
+    {
+      "oldPath": "EOG.pontedd_islands",
+      "oldFullKey": "apresults:EOG.pontedd_islands",
+      "uid": "pontedd",
+      "resultType": "EOG",
+      "newLeaf": "islands",
+      "newPath": "pontedd.EOG.islands",
+      "newFullKey": "apresults:pontedd.EOG.islands",
+      "english": "The game has ended with a tied score; the player with more islands wins."
+    },
+    {
+      "oldPath": "EOG.pontedd_score",
+      "oldFullKey": "apresults:EOG.pontedd_score",
+      "uid": "pontedd",
+      "resultType": "EOG",
+      "newLeaf": "score",
+      "newPath": "pontedd.EOG.score",
+      "newFullKey": "apresults:pontedd.EOG.score",
+      "english": "The game has ended when both players finished building; higher score wins."
     },
     {
       "oldPath": "MOVE.posit",
@@ -6673,6 +7093,16 @@
       "english": "The game has ended because the king escaped."
     },
     {
+      "oldPath": "EOG.tafl_repetition",
+      "oldFullKey": "apresults:EOG.tafl_repetition",
+      "uid": "tafl",
+      "resultType": "EOG",
+      "newLeaf": "repetition",
+      "newPath": "tafl.EOG.repetition",
+      "newFullKey": "apresults:tafl.EOG.repetition",
+      "english": "The game has ended because the same position has occurred three times by the same player."
+    },
+    {
       "oldPath": "MOVE.tafl",
       "oldFullKey": "apresults:MOVE.tafl",
       "uid": "tafl",
@@ -6953,6 +7383,16 @@
       "english": "Pit {{pit}} became a tuz."
     },
     {
+      "oldPath": "EOG.trax_stalemate",
+      "oldFullKey": "apresults:EOG.trax_stalemate",
+      "uid": "trax",
+      "resultType": "EOG",
+      "newLeaf": "stalemate",
+      "newPath": "trax.EOG.stalemate",
+      "newFullKey": "apresults:trax.EOG.stalemate",
+      "english": "The game has ended because all playable tiles were used without a win (last player to move loses)."
+    },
+    {
       "oldPath": "PLACE.trax",
       "oldFullKey": "apresults:PLACE.trax",
       "uid": "trax",
@@ -6971,6 +7411,36 @@
       "newPath": "tricouleur.CAPTURE.default",
       "newFullKey": "apresults:tricouleur.CAPTURE.default",
       "english": "{{count}} pieces changed colour."
+    },
+    {
+      "oldPath": "EOG.tricouleur_elimination",
+      "oldFullKey": "apresults:EOG.tricouleur_elimination",
+      "uid": "tricouleur",
+      "resultType": "EOG",
+      "newLeaf": "elimination",
+      "newPath": "tricouleur.EOG.elimination",
+      "newFullKey": "apresults:tricouleur.EOG.elimination",
+      "english": "The game has ended because one player's pieces were eliminated."
+    },
+    {
+      "oldPath": "EOG.tricouleur_full_board",
+      "oldFullKey": "apresults:EOG.tricouleur_full_board",
+      "uid": "tricouleur",
+      "resultType": "EOG",
+      "newLeaf": "full_board",
+      "newPath": "tricouleur.EOG.full_board",
+      "newFullKey": "apresults:tricouleur.EOG.full_board",
+      "english": "The game has ended because the board is full."
+    },
+    {
+      "oldPath": "EOG.tricouleur_repetition",
+      "oldFullKey": "apresults:EOG.tricouleur_repetition",
+      "uid": "tricouleur",
+      "resultType": "EOG",
+      "newLeaf": "repetition",
+      "newPath": "tricouleur.EOG.repetition",
+      "newFullKey": "apresults:tricouleur.EOG.repetition",
+      "english": "The game has ended because the same position has occurred three times by the same player."
     },
     {
       "oldPath": "MOVE.tricouleur_duplicate",
@@ -7401,6 +7871,26 @@
       "newPath": "yonkoma.EOG.crosscut",
       "newFullKey": "apresults:yonkoma.EOG.crosscut",
       "english": "{{player}} completed a crosscut and loses the game."
+    },
+    {
+      "oldPath": "EOG.yonmoque_five",
+      "oldFullKey": "apresults:EOG.yonmoque_five",
+      "uid": "yonmoque",
+      "resultType": "EOG",
+      "newLeaf": "five",
+      "newPath": "yonmoque.EOG.five",
+      "newFullKey": "apresults:yonmoque.EOG.five",
+      "english": "The game has ended because a player made five in a row."
+    },
+    {
+      "oldPath": "EOG.yonmoque_four",
+      "oldFullKey": "apresults:EOG.yonmoque_four",
+      "uid": "yonmoque",
+      "resultType": "EOG",
+      "newLeaf": "four",
+      "newPath": "yonmoque.EOG.four",
+      "newFullKey": "apresults:yonmoque.EOG.four",
+      "english": "The game has ended because a player made four in a row."
     }
   ]
 }

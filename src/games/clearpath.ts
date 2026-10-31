@@ -561,14 +561,16 @@ export class ClearPathGame extends GameBase {
         return this;
     }
 
-    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
-        if (r.type === "eog" && r.reason === "cutoff") {
-            // the player to move after the final placement is the one cut off
+    protected eogChatLineOverride(r: Extract<APMoveResult, { type: "eog" }>, ctx: ChatLogCollectContext): ChatLogLine | undefined {
+        if (r.reason === "cutoff") {
             const loser = this.resolveChatPlayerName(ctx.currplayer, ctx.players);
-            this.pushNeutralChatLine(lines, "apresults:clearpath.EOG.cutoff", {player: loser});
-            return true;
+            return {
+                actor: { kind: "none" },
+                textKey: "apresults:clearpath.EOG.cutoff",
+                textParams: { player: loser },
+            };
         }
-        return super.collectChatLogLine(lines, r, ctx);
+        return undefined;
     }
 
     public isPieTurn(): boolean {

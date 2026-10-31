@@ -236,7 +236,7 @@ Games may push `{ type: "eog", reason?: string }` on the final ply. User-facing 
 
 Default **`collectChatLogLine`** resolves reasons via **`collectEogChatLogLine`**. Branching endings (seat-specific loser, cascade wins) override **`eogChatLineOverride`**. The front game-over status calls **`formatEogSummary(players, t)`**, which must match the move-log EOG line for the same frame.
 
-Audit: `node scripts/audit-eog-reasons.mjs`. Progress checklist: [`docs/eog-reason-catalog.md`](/gameslib/eog-reason-catalog.md).
+Audit: `node scripts/audit-eog-reasons.mjs`. Progress checklist: [EOG reason catalog](/gameslib/eog-reason-catalog/).
 
 `game.chatLog(playerNames)` returns the same formatted strings without actor metadata — convenience only; prefer `chatLogEntries` + formatters when actor styling matters.
 

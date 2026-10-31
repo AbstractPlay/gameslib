@@ -2527,6 +2527,10 @@
     "src": "Pass or place one or two stones of either colour. After your turn there must be an odd number of groups on the board. When both players pass in succession, the player with fewer groups of their colour wins.",
     "out": "Passa o posiziona una o due pietre di qualsiasi colore. Dopo il tuo turno ci deve essere un numero dispari di gruppi sul tabellone. Quando entrambi i giocatori passano di seguito, vince il giocatore con meno gruppi del proprio colore."
   },
+  "descriptions.yonkoma": {
+    "src": "Two red and two blue checkers on a checkerboard. A checker moves along a diagonal like a bishop, and every move must bring the moved checker closer to the two enemy checkers, or else keep that distance and take it farther from its partner. Whoever completes a crosscut, a 2x2 block holding all four checkers, loses.",
+    "out": "Due pedine rosse e due blu su una scacchiera. Una pedina si muove lungo una diagonale come un alfiere, e ogni mossa deve avvicinare la pedina mossa alle due pedine avversarie, oppure mantenere tale distanza e allontanarla dalla propria compagna. Chiunque completi un crosscut, un blocco 2x2 contenente tutte e quattro le pedine, perde."
+  },
   "descriptions.yonmoque": {
     "src": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
     "out": "Cerca di formare un quattro in linea in un gioco in cui non tutti gli spazi sono uguali e i pezzi avversari possono essere convertiti."
@@ -4603,6 +4607,10 @@
     "src": "Yodd",
     "out": "Yodd"
   },
+  "names.yonkoma": {
+    "src": "Yonkoma",
+    "out": "Yonkoma"
+  },
   "names.yonmoque": {
     "src": "Yonmoque",
     "out": "Yonmoque"
@@ -5039,6 +5047,10 @@
     "src": "Yodd is played on a hex grid. The same rules on a square grid are published as **Xodd**; choose a square board size variant to play Xodd on Abstract Play. On your first turn only, you may place a single stone. Later turns allow pass or one or two stones of either colour, and the total number of groups on the board must be odd after each turn.",
     "out": "Yodd si gioca su una griglia esagonale. Le stesse regole su una griglia quadrata sono pubblicate come **Xodd**; scegli una variante con tabellone quadrato per giocare a Xodd su Abstract Play. Solo al tuo primo turno, puoi posizionare una singola pietra. I turni successivi permettono di passare o posizionare una o due pietre di qualsiasi colore, e il numero totale di gruppi sul tabellone deve essere dispari dopo ogni turno."
   },
+  "notes.yonkoma": {
+    "src": "Yonkoma was designed by Mark Steere in October 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nThe distance between two squares is the number of king moves between them, which is the larger of the number of rows apart and the number of columns apart. A move must either bring the moved checker closer to the two enemy checkers, so that the sum of its distances to them decreases, or keep that sum unchanged and take the checker farther from its partner. Select a checker and the squares it may move to are marked in green.\n\nA crosscut is a 2x2 block of squares holding all four checkers, with the two red checkers on one diagonal of the block and the two blue checkers on the other. Whoever completes a crosscut loses. Every move lowers the total of the four red-blue distances, or keeps that total and raises the distance between two checkers of one colour, so the game always ends, and it always ends in a crosscut that one player is eventually forced to complete.\n\nPassing is not allowed, but if a player has no legal move, that turn is skipped. The pass is submitted automatically.",
+    "out": "Yonkoma è stato ideato da Mark Steere nell'ottobre 2026, in collaborazione con Claude, un modello di IA creato da Anthropic.\n\nLa distanza tra due caselle è il numero di mosse di re tra di esse, ovvero il valore maggiore tra il numero di righe e il numero di colonne di separazione. Una mossa deve avvicinare la pedina mossa alle due pedine avversarie, in modo che la somma delle sue distanze da esse diminuisca, oppure mantenere invariata tale somma e allontanare la pedina dalla propria compagna. Seleziona una pedina e le caselle in cui può muoversi verranno evidenziate in verde.\n\nUn crosscut è un blocco 2x2 di caselle che contiene tutte e quattro le pedine, con le due pedine rosse su una diagonale del blocco e le due pedine blu sull'altra. Chiunque completi un crosscut perde. Ogni mossa riduce il totale delle quattro distanze rosso-blu, oppure mantiene tale totale e aumenta la distanza tra due pedine dello stesso colore, quindi la partita termina sempre, e termina sempre in un crosscut che un giocatore è alla fine costretto a completare.\n\nPassare non è consentito, ma se un giocatore non ha mosse legali, il turno viene saltato. Il passo viene inviato automaticamente."
+  },
   "status.CARDSINHAND": {
     "src": "Cards in hand",
     "out": "Carte in mano"
@@ -5166,6 +5178,14 @@
   "status.bao.BALANCE": {
     "src": "Material balance",
     "out": "Bilancio del materiale"
+  },
+  "status.bao.PHASE_MTAJI": {
+    "src": "Mtaji",
+    "out": "Mtaji"
+  },
+  "status.bao.PHASE_NAMUA": {
+    "src": "Namua",
+    "out": "Namua"
   },
   "status.bashni.MATERIAL": {
     "src": "Material",
@@ -16811,6 +16831,30 @@
     "src": "Use Complete Move to end your turn, or keep clicking to change or remove stones.",
     "out": "Usa Completa mossa per terminare il tuo turno, oppure continua a fare clic per cambiare o rimuovere le pietre."
   },
+  "validation.yonkoma.DISTANCE": {
+    "src": "The checker on {{from}} may not move to {{to}}. A move must bring the checker closer to the two enemy checkers, so that the sum of its distances to them decreases, or keep that sum and take the checker farther from your other checker.",
+    "out": "La pedina in {{from}} non può muoversi in {{to}}. Una mossa deve avvicinare la pedina alle due pedine avversarie, in modo che la somma delle sue distanze da esse diminuisca, oppure mantenere tale somma e allontanare la pedina dall'altra tua pedina."
+  },
+  "validation.yonkoma.INITIAL_INSTRUCTIONS": {
+    "src": "Select one of your checkers. The squares it may move to are then marked in green.",
+    "out": "Seleziona una delle tue pedine. Le caselle in cui può muoversi verranno quindi evidenziate in verde."
+  },
+  "validation.yonkoma.MUST_PASS": {
+    "src": "You have no legal move. Your turn is skipped.",
+    "out": "Non hai mosse legali. Il tuo turno viene saltato."
+  },
+  "validation.yonkoma.NOT_DIAGONAL": {
+    "src": "The checker on {{from}} cannot reach {{to}}. A checker moves any number of squares along a diagonal, as a bishop moves in chess, and cannot pass through another checker.",
+    "out": "La pedina in {{from}} non può raggiungere {{to}}. Una pedina si muove di qualsiasi numero di caselle lungo una diagonale, come l'alfiere negli scacchi, e non può attraversare un'altra pedina."
+  },
+  "validation.yonkoma.NO_PASS": {
+    "src": "You may not pass while you have a legal move.",
+    "out": "Non puoi passare finché hai una mossa legale."
+  },
+  "validation.yonkoma.PARTIAL": {
+    "src": "Select the square to move the checker to, or select your other checker instead.",
+    "out": "Seleziona la casella in cui muovere la pedina, oppure seleziona l'altra tua pedina."
+  },
   "validation.yonmoque.INITIAL_INSTRUCTIONS": {
     "src": "Select an empty cell to place a piece or an existing piece to start a move.",
     "out": "Seleziona una casella vuota per posizionare un pezzo o un pezzo esistente per iniziare una mossa."
@@ -22530,6 +22574,14 @@
   "variants.yodd.yopp.name": {
     "src": "Yopp/Xopp",
     "out": "Yopp/Xopp"
+  },
+  "variants.yonkoma.#board.name": {
+    "src": "10x10 board",
+    "out": "Tavoliere 10x10"
+  },
+  "variants.yonkoma.size-12.name": {
+    "src": "12x12 board",
+    "out": "Tabellone 12x12"
   },
   "variants.zola.#board.name": {
     "src": "6x6 board",

@@ -2527,6 +2527,10 @@
     "src": "Pass or place one or two stones of either colour. After your turn there must be an odd number of groups on the board. When both players pass in succession, the player with fewer groups of their colour wins.",
     "out": "Passez ou placez une ou deux pierres de n'importe quelle couleur. Après votre tour, il doit y avoir un nombre impair de groupes sur le plateau. Lorsque les deux joueurs passent consécutivement, le joueur ayant le moins de groupes de sa couleur gagne."
   },
+  "descriptions.yonkoma": {
+    "src": "Two red and two blue checkers on a checkerboard. A checker moves along a diagonal like a bishop, and every move must bring the moved checker closer to the two enemy checkers, or else keep that distance and take it farther from its partner. Whoever completes a crosscut, a 2x2 block holding all four checkers, loses.",
+    "out": "Deux pions rouges et deux pions bleus sur un damier. Un pion se déplace en diagonale comme un fou, et chaque coup doit rapprocher le pion déplacé des deux pions adverses, ou conserver cette distance tout en l'éloignant de son propre partenaire. Le joueur qui complète un « crosscut », un bloc de 2x2 contenant les quatre pions, perd la partie."
+  },
   "descriptions.yonmoque": {
     "src": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
     "out": "Essayez de former un alignement de quatre pièces dans un jeu où toutes les cases ne se valent pas et où les pièces adverses peuvent être converties."
@@ -4603,6 +4607,10 @@
     "src": "Yodd",
     "out": "Yodd"
   },
+  "names.yonkoma": {
+    "src": "Yonkoma",
+    "out": "Yonkoma"
+  },
   "names.yonmoque": {
     "src": "Yonmoque",
     "out": "Yonmoque"
@@ -5039,6 +5047,10 @@
     "src": "Yodd is played on a hex grid. The same rules on a square grid are published as **Xodd**; choose a square board size variant to play Xodd on Abstract Play. On your first turn only, you may place a single stone. Later turns allow pass or one or two stones of either colour, and the total number of groups on the board must be odd after each turn.",
     "out": "Yodd se joue sur une grille hexagonale. Les mêmes règles appliquées à une grille carrée sont publiées sous le nom de **Xodd** ; choisissez une variante de taille de plateau carré pour jouer à Xodd sur Abstract Play. Lors de votre premier tour uniquement, vous ne pouvez placer qu'une seule pierre. Les tours suivants permettent de passer ou de placer une ou deux pierres de n'importe quelle couleur, et le nombre total de groupes sur le plateau doit être impair après chaque tour."
   },
+  "notes.yonkoma": {
+    "src": "Yonkoma was designed by Mark Steere in October 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nThe distance between two squares is the number of king moves between them, which is the larger of the number of rows apart and the number of columns apart. A move must either bring the moved checker closer to the two enemy checkers, so that the sum of its distances to them decreases, or keep that sum unchanged and take the checker farther from its partner. Select a checker and the squares it may move to are marked in green.\n\nA crosscut is a 2x2 block of squares holding all four checkers, with the two red checkers on one diagonal of the block and the two blue checkers on the other. Whoever completes a crosscut loses. Every move lowers the total of the four red-blue distances, or keeps that total and raises the distance between two checkers of one colour, so the game always ends, and it always ends in a crosscut that one player is eventually forced to complete.\n\nPassing is not allowed, but if a player has no legal move, that turn is skipped. The pass is submitted automatically.",
+    "out": "Yonkoma a été conçu par Mark Steere en octobre 2026, en collaboration avec Claude, un modèle d'IA créé par Anthropic.\n\nLa distance entre deux cases correspond au nombre de déplacements de roi entre elles, c'est-à-dire le plus grand nombre entre l'écart en rangées et l'écart en colonnes. Un coup doit soit rapprocher le pion déplacé des deux pions adverses, de sorte que la somme de ses distances par rapport à eux diminue, soit maintenir cette somme inchangée et éloigner le pion de son propre partenaire. Sélectionnez un pion et les cases où il peut se déplacer seront marquées en vert.\n\nUn « crosscut » est un bloc de 2x2 cases contenant les quatre pions, avec les deux pions rouges sur une diagonale du bloc et les deux pions bleus sur l'autre. Le joueur qui complète un crosscut perd la partie. Chaque coup réduit le total des quatre distances rouge-bleu, ou maintient ce total tout en augmentant la distance entre deux pions d'une même couleur ; ainsi, la partie se termine toujours, et se termine obligatoirement par un crosscut qu'un joueur finit par être contraint de former.\n\nPasser son tour n'est pas autorisé, mais si un joueur n'a aucun coup légal, son tour est sauté. Le passe est validé automatiquement."
+  },
   "status.CARDSINHAND": {
     "src": "Cards in hand",
     "out": "Cartes en main"
@@ -5166,6 +5178,14 @@
   "status.bao.BALANCE": {
     "src": "Material balance",
     "out": "Équilibre matériel"
+  },
+  "status.bao.PHASE_MTAJI": {
+    "src": "Mtaji",
+    "out": "Mtaji"
+  },
+  "status.bao.PHASE_NAMUA": {
+    "src": "Namua",
+    "out": "Namua"
   },
   "status.bashni.MATERIAL": {
     "src": "Material",
@@ -16811,6 +16831,30 @@
     "src": "Use Complete Move to end your turn, or keep clicking to change or remove stones.",
     "out": "Utilisez Terminer le coup pour finir votre tour, ou continuez à cliquer pour modifier ou retirer des pierres."
   },
+  "validation.yonkoma.DISTANCE": {
+    "src": "The checker on {{from}} may not move to {{to}}. A move must bring the checker closer to the two enemy checkers, so that the sum of its distances to them decreases, or keep that sum and take the checker farther from your other checker.",
+    "out": "Le pion en {{from}} ne peut pas se déplacer en {{to}}. Un coup doit rapprocher le pion des deux pions adverses, de sorte que la somme de ses distances avec eux diminue, ou conserver cette somme et éloigner le pion de votre autre pion."
+  },
+  "validation.yonkoma.INITIAL_INSTRUCTIONS": {
+    "src": "Select one of your checkers. The squares it may move to are then marked in green.",
+    "out": "Sélectionnez l'un de vos pions. Les cases sur lesquelles il peut se déplacer sont alors indiquées en vert."
+  },
+  "validation.yonkoma.MUST_PASS": {
+    "src": "You have no legal move. Your turn is skipped.",
+    "out": "Vous n'avez aucun coup légal. Votre tour est passé."
+  },
+  "validation.yonkoma.NOT_DIAGONAL": {
+    "src": "The checker on {{from}} cannot reach {{to}}. A checker moves any number of squares along a diagonal, as a bishop moves in chess, and cannot pass through another checker.",
+    "out": "Le pion en {{from}} ne peut pas atteindre {{to}}. Un pion se déplace d'un nombre quelconque de cases le long d'une diagonale, comme le fou au jeu d'échecs, et ne peut pas traverser un autre pion."
+  },
+  "validation.yonkoma.NO_PASS": {
+    "src": "You may not pass while you have a legal move.",
+    "out": "Vous ne pouvez pas passer votre tour tant que vous avez un coup légal."
+  },
+  "validation.yonkoma.PARTIAL": {
+    "src": "Select the square to move the checker to, or select your other checker instead.",
+    "out": "Sélectionnez la case vers laquelle déplacer le pion, ou sélectionnez votre autre pion à la place."
+  },
   "validation.yonmoque.INITIAL_INSTRUCTIONS": {
     "src": "Select an empty cell to place a piece or an existing piece to start a move.",
     "out": "Sélectionnez une case vide pour placer une pièce ou une pièce existante pour commencer un déplacement."
@@ -22530,6 +22574,14 @@
   "variants.yodd.yopp.name": {
     "src": "Yopp/Xopp",
     "out": "Yopp/Xopp"
+  },
+  "variants.yonkoma.#board.name": {
+    "src": "10x10 board",
+    "out": "Plateau 10x10"
+  },
+  "variants.yonkoma.size-12.name": {
+    "src": "12x12 board",
+    "out": "Plateau 12x12"
   },
   "variants.zola.#board.name": {
     "src": "6x6 board",

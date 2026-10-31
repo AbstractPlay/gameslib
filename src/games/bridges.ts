@@ -52,8 +52,10 @@ export class BridgesGame extends GameBase {
         dateAdded: "2026-09-09",
         description: "Bridges is a two-player game played on a hexagonal board, designed by Marc Rebillet. Players place bases and join them with bridges. The player with the most bridge pieces on the board at the end wins. Longer bridge breaks ties.",
         urls: [
-            "https://boardgamegeek.com/thread/3746400/new-game-bridges"
+            "https://boardgamegeek.com/thread/3746400/new-game-bridges",
+            "https://boardgamegeek.com/boardgame/476423/bridges",
         ],
+        bggid: "476423",
         people: [
             {
                 type: "designer",

@@ -1731,5 +1731,10 @@
     "SWAP": {
       "default": "{{player}} swapped seats, choosing to play first."
     }
+  },
+  "yonkoma": {
+    "EOG": {
+      "crosscut": "{{player}} completed a crosscut and loses the game."
+    }
   }
 }

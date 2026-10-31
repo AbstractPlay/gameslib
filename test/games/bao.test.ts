@@ -12,6 +12,18 @@ describe("Bao", () => {
         addResource("en");
     });
 
+    it ("sidebar phase shows Namua or Mtaji for the player on turn", () => {
+        const g = new BaoGame();
+        expect(g.inhand[g.currplayer - 1]).to.be.greaterThan(0);
+        const [phase] = g.sidebarStatuses();
+        expect(JSON.stringify(phase.key)).to.contain("status.PHASE");
+        expect(JSON.stringify(phase.value)).to.contain("PHASE_NAMUA");
+
+        g.inhand[g.currplayer - 1] = 0;
+        const [mtaji] = g.sidebarStatuses();
+        expect(JSON.stringify(mtaji.value)).to.contain("PHASE_MTAJI");
+    });
+
     it ("Cloning", () => {
         const g = new BaoGame();
         const cloned = BaoGame.clone(g);

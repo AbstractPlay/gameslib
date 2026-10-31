@@ -1731,5 +1731,10 @@
     "SWAP": {
       "default": "{{player}} a changé de place, choisissant de jouer en premier."
     }
+  },
+  "yonkoma": {
+    "EOG": {
+      "crosscut": "{{player}} a réalisé une coupe croisée et perd la partie."
+    }
   }
 }

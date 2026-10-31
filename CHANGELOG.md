@@ -13,9 +13,9 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
-- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Thue-Morse Go, Yodd.
+- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Thue-Morse Go, Yodd, Yonkoma.
 
-## [1.0.0-ci] - 2026-10-29
+## [1.0.0-ci] - 2026-10-31
 
 ### Added
 
@@ -42,7 +42,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 ### Changed
 
 - **Mimic:** Sidebar lists each player’s count of unfrozen (movable) pieces.
-- **Bao:** Now uses frames, letting you visualize multi-lap sowing much more clearly.
+- **Bao:** Sidebar **Phase** row shows **Namua** or **Mtaji** for the player on turn.
 - Normalized `localStash` emitters to dense bottom→top columns (no `"-"` spacers in Volcano, Mega-Volcano, Agents of MARS bag, and Ice Palace 3D hand/pool stashes).
 - **Locale JSON formatting:** English and community locale files normalized to 2-space indent (matching `translate` / `sync-game-names-locale` output); shared `locale-json-format.mjs` and `check-locale-json-format` in lint.
 - **CI:** Dev Server CI (`develop` pushes) runs `npm run test:scripts` after `npm run build`, matching PR validation.

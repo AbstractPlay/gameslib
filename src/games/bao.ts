@@ -3,7 +3,7 @@ import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, BoardBasic } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { BaoGraph, reviver, UserFacingError, cloneState } from "../common/index.js";
-import type { IRenderOpts, IScores } from "./_base.js";
+import type { IRenderOpts, IScores, IStatus } from "./_base.js";
 import i18next from "i18next";
 import type { PitType } from "../common/graphs/bao.js";
 export const gameApgamesEn = {
@@ -53,6 +53,8 @@ export const gameApgamesEn = {
     },
     status: {
         BALANCE: "Material balance",
+        PHASE_NAMUA: "Namua",
+        PHASE_MTAJI: "Mtaji",
     },
 };
 export const gameApresultsEn = {
@@ -2058,6 +2060,14 @@ export class BaoGame extends GameBase {
         }
     }
 
+
+    public sidebarStatuses(): IStatus[] {
+        const namua = this.inhand[this.currplayer - 1] > 0;
+        return [{
+            key: this.neutralAreaLabel("apgames:status.PHASE"),
+            value: [this.neutralAreaLabel(namua ? "apgames:status.bao.PHASE_NAMUA" : "apgames:status.bao.PHASE_MTAJI")],
+        }];
+    }
 
     public sidebarScores(): IScores[] {
         const statuses: IScores[] = [];

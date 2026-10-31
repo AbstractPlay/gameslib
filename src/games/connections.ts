@@ -25,6 +25,14 @@ export const gameApgamesEn = {
 };
 
 
+export const gameApresultsEn = {
+    EOG: {
+        loop: "The game has ended because a player completed a loop.",
+        path: "The game has ended because a player connected their dots.",
+    },
+};
+
+
 type playerid = 1 | 2;
 type PlayerLines = [string[], string[]];
 

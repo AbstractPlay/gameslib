@@ -145,8 +145,9 @@ The finished-game move table includes a **chat column** built from `chatLogEntri
 
 1. List every `_results` type your `move()` pushes — which need custom lines vs `super`?
 2. Add English strings to `gameApresultsEn` (or `_general` shards when reusing shared copy) for any new `textKey`, then `npm run locale-en -- merge apresults --write`.
-3. Run `assertChatLogParity` in game tests when you override the collector (see [Testing — Chat log](/gameslib/testing/#chat-log)).
-4. Play through a finished game in the playground and read the move log — wrong seat, missing winner line, or duplicate noise means fix the collector before merge.
+3. When pushing `{ type: "eog", reason: "…" }`, add matching `gameApresultsEn.EOG` (or `_general`) copy and use `eogReasonAliases` / `eogChatLineOverride` when lookup alone is not enough — see [Structured move log](/gameslib/structured-chat-log/) (EOG reasons section).
+4. Run `assertChatLogParity` in game tests when you override the collector (see [Testing — Chat log](/gameslib/testing/#chat-log)).
+5. Play through a finished game in the playground and read the move log — wrong seat, missing winner line, or duplicate noise means fix the collector before merge.
 
 Full API, patterns, and anti-patterns: **[Structured move log](/gameslib/structured-chat-log/)**.
 

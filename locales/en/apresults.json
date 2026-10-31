@@ -72,6 +72,8 @@
     "EOG": {
       "consecutive_passes": "The game has ended because both players passed consecutively.",
       "default": "The game has ended.",
+      "elimination": "The game has ended because one player was eliminated.",
+      "breakthrough": "The game has ended because a player broke through to the goal.",
       "material": "The game has ended because both players have insufficient material.",
       "repetition_one": "The game has ended because the same position has occurred by the same player.",
       "repetition_other": "The game has ended because the same position has occurred {{count}} times by the same player.",
@@ -235,6 +237,10 @@
     }
   },
   "anache": {
+    "EOG": {
+      "breakthrough": "The game has ended because a player occupied the opponent's corner squares.",
+      "stalemate": "The game has ended because a player has no legal moves."
+    },
     "MOVE": {
       "dragon": "{{player}} moved a group of size {{count}} via a dragon move from {{from}} in the direction {{dir}}.",
       "dragon_jump": "{{player}} jumps their dragon from {{from}} to {{to}}.",
@@ -288,6 +294,10 @@
   "ataxx": {
     "CAPTURE_one": "1 piece is converted.",
     "CAPTURE_other": "{{count}} pieces are converted.",
+    "EOG": {
+      "elimination": "The game has ended because one side has no pieces left on the board.",
+      "repetition": "The game has ended because the same position has occurred three times."
+    },
     "MOVE": {
       "jump": "{{player}} jumped a piece from {{from}} to {{to}}.",
       "split": "{{player}} split a piece from {{from}} to {{to}}."
@@ -308,7 +318,8 @@
   },
   "bashni": {
     "EOG": {
-      "stagnation": "The game has ended in a draw because the piece count and composition were unchanged for {{count}} consecutive moves."
+      "stagnation": "The game has ended in a draw because the piece count and composition were unchanged for {{count}} consecutive moves.",
+      "repetition": "The game has ended because the same position has occurred three times by the same player."
     }
   },
   "biscuit": {
@@ -385,6 +396,9 @@
   "bridges": {
     "CONNECT": {
       "default": "{{player}} built a bridge between {{left}} and {{right}}."
+    },
+    "EOG": {
+      "double_pass": "The game has ended because both players passed."
     }
   },
   "btt": {
@@ -416,7 +430,8 @@
       "singletons_other": "{{player}} claimed the remaining {{count}} pieces on their colour."
     },
     "EOG": {
-      "singletons": "The game has ended because all cells contain only singletons."
+      "singletons": "The game has ended because all cells contain only singletons.",
+      "repetition": "The game has ended because the same board position was repeated."
     },
     "TAKE": {
       "col_one": "{{player}} collected 1 piece from column {{col}}.",
@@ -440,6 +455,7 @@
   },
   "camelot": {
     "EOG": {
+      "breakthrough": "The game has ended because a player moved two men into the opponent's castle.",
       "claim_draw_progression": "The game has ended because {{player}} has claimed a draw by the 50 move rule.",
       "claim_draw_repetition": "The game has ended because {{player}} has claimed a draw by repetition."
     },
@@ -500,6 +516,13 @@
       "default": "{{player}} placed a tile at {{where}}."
     }
   },
+  "chameleon": {
+    "EOG": {
+      "annihilation": "The game has ended because all of one player's pieces were annihilated.",
+      "full_infiltration": "The game has ended because a player fully infiltrated the opposing side.",
+      "last_minute_infiltration": "The game has ended because a player infiltrated on the final placement."
+    }
+  },
   "chase": {
     "MOVE": {
       "default": "{{player}} moved from {{from}} to {{to}} (through {{through}})."
@@ -545,6 +568,12 @@
       "default": "{{player}} placed a triomino at {{where}}."
     }
   },
+  "connections": {
+    "EOG": {
+      "loop": "The game has ended because a player completed a loop.",
+      "path": "The game has ended because a player connected their dots."
+    }
+  },
   "court": {
     "PLACE": {
       "default": "{{player}} promoted {{where}} to a {{what}}."
@@ -553,6 +582,11 @@
   "courtesan": {
     "CONVERT": {
       "default": "King and courtesan swapped positions at {{where}}."
+    }
+  },
+  "croda": {
+    "EOG": {
+      "repetition": "The game has ended because the same position has occurred three times by the same player."
     }
   },
   "crosshairs": {
@@ -576,8 +610,17 @@
     }
   },
   "cubeo": {
+    "EOG": {
+      "promotion": "The game has ended because a player promoted a die to the winning value.",
+      "nomoves": "The game has ended because the player to move has no legal action."
+    },
     "PROMOTE": {
       "default": "{{player}} promoted the die at {{where}} from a {{from}} to a {{to}}."
+    }
+  },
+  "dama": {
+    "EOG": {
+      "repetition": "The game has ended because the same position has occurred three times by the same player."
     }
   },
   "dameo": {
@@ -686,6 +729,9 @@
     "REMOVE": {
       "opponent": "{{player}} chose to retain the opponent's roamer at {{how}}, removing the roamer at {{where}}.",
       "self": "{{player}} chose to retain their own roamer at {{how}}, removing the roamer at {{where}}."
+    },
+    "EOG": {
+      "stalemate": "The game has ended in a draw because a player cannot make any further moves."
     }
   },
   "entropy": {
@@ -717,6 +763,11 @@
   "exxit": {
     "CLAIM": {
       "default": "{{player}} claimed the perimeter space at {{where}}."
+    }
+  },
+  "fanorona": {
+    "EOG": {
+      "repetition": "The game has ended because the same position has occurred four times by the same player."
     }
   },
   "fightopia": {
@@ -811,15 +862,27 @@
       "default": "{{player}} moved their glider at {{where}} off the edge of the board."
     }
   },
+  "go": {
+    "EOG": {
+      "repetition": "The game has ended because the same position was repeated (super-ko)."
+    }
+  },
   "gonnect": {
     "EOG": {
       "cascading_subboard": "{{player}} won on the {{size}}x{{size}} subboard.",
-      "direct_connection": "{{player}} won by direct connection."
+      "direct_connection": "{{player}} won by direct connection.",
+      "repetition": "The game has ended because the same board position was repeated.",
+      "stalemate": "The game has ended because a player has no legal moves."
     }
   },
   "gorogo": {
     "PLACE": {
       "henge": "{{player}} placed a henge piece at {{where}}."
+    },
+    "EOG": {
+      "henge_last": "The game has ended because a player placed their last henge piece.",
+      "no_moves": "The game has ended because the player to move has no legal placement.",
+      "scoring": "The game has ended because the scoring track was filled."
     }
   },
   "guerrilla": {
@@ -839,6 +902,9 @@
     },
     "MOVE": {
       "king": "{{player}} moved the king from {{from}} to {{to}}."
+    },
+    "EOG": {
+      "repetition": "The game has ended because the same position has occurred three times by the same player."
     }
   },
   "homeworlds": {
@@ -890,6 +956,12 @@
   "jacynth": {
     "CLAIM": {
       "default": "{{player}} exerted influence at {{where}}."
+    }
+  },
+  "kachit": {
+    "EOG": {
+      "invasion": "The game has ended because a royal piece invaded the opposing palace.",
+      "regicide": "The game has ended because a royal piece was captured."
     }
   },
   "killallgo": {
@@ -1029,6 +1101,10 @@
     }
   },
   "meg": {
+    "EOG": {
+      "countdown": "The game has ended because the countdown reached zero.",
+      "goal": "The game has ended because a player scored a goal."
+    },
     "CLAIM": {
       "default": "{{player}} has taken the ball and placed it at {{where}}."
     },
@@ -1129,11 +1205,22 @@
     "CAPTURE": {
       "approach": "{{player}} scared the helper at {{where}} out of the forest.",
       "replacement": "{{player}} devoured the piece at {{where}}."
+    },
+    "EOG": {
+      "daybreak": "The game has ended because day broke before the Owlman was trapped.",
+      "discovered": "The game has ended because the Doctor was discovered.",
+      "doc_killed": "The game has ended because the Doctor was captured.",
+      "no_helpers": "The game has ended because all of the Doctor's helpers were captured.",
+      "trapped": "The game has ended because the Owlman could not move."
     }
   },
   "pacru": {
     "CONVERT": {
       "default": "{{player}} converted {{where}}."
+    },
+    "EOG": {
+      "last_man_standing": "The game has ended because only one player still has chevrons on the board.",
+      "score": "The game has ended because a player reached the target score."
     }
   },
   "pahtum": {
@@ -1198,6 +1285,11 @@
   "pontedd": {
     "CONNECT": {
       "default": "{{player}} placed a bridge between {{left}} and {{right}}."
+    },
+    "EOG": {
+      "bridges": "The game has ended with tied score and islands; the player with more bridges wins.",
+      "islands": "The game has ended with a tied score; the player with more islands wins.",
+      "score": "The game has ended when both players finished building; higher score wins."
     }
   },
   "posit": {
@@ -1551,7 +1643,8 @@
       "encirclement": "The game has ended because the defenders are encircled.",
       "exit_fort": "The game has ended because the defenders created an exit fort.",
       "king_captured": "The game has ended because the king was captured.",
-      "king_escaped": "The game has ended because the king escaped."
+      "king_escaped": "The game has ended because the king escaped.",
+      "repetition": "The game has ended because the same position has occurred three times by the same player."
     },
     "MOVE": {
       "default": "{{player}} moved a piece from {{from}} to {{to}}.",
@@ -1617,6 +1710,9 @@
     }
   },
   "trax": {
+    "EOG": {
+      "stalemate": "The game has ended because all playable tiles were used without a win (last player to move loses)."
+    },
     "PLACE": {
       "default": "{{player}} placed a {{piece}} at {{algebraic}} ({{where}})."
     }
@@ -1624,6 +1720,11 @@
   "tricouleur": {
     "CAPTURE": {
       "default": "{{count}} pieces changed colour."
+    },
+    "EOG": {
+      "elimination": "The game has ended because one player's pieces were eliminated.",
+      "full_board": "The game has ended because the board is full.",
+      "repetition": "The game has ended because the same position has occurred three times by the same player."
     },
     "MOVE": {
       "duplicate": "{{player}} duplicated a piece from {{from}} to {{to}}.",
@@ -1735,6 +1836,12 @@
   "yonkoma": {
     "EOG": {
       "crosscut": "{{player}} completed a crosscut and loses the game."
+    }
+  },
+  "yonmoque": {
+    "EOG": {
+      "four": "The game has ended because a player made four in a row.",
+      "five": "The game has ended because a player made five in a row."
     }
   }
 }

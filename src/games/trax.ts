@@ -39,6 +39,9 @@ export const gameApgamesEn = {
     },
 };
 export const gameApresultsEn = {
+    EOG: {
+        stalemate: "The game has ended because all playable tiles were used without a win (last player to move loses).",
+    },
     PLACE: {
         default: "{{player}} placed a {{piece}} at {{algebraic}} ({{where}}).",
     },
@@ -1075,7 +1078,7 @@ export class TraxGame extends GameBase {
                 return true;
             case "eog":
                 if (r.reason === "stalemate") {
-                this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate", { count: 1 });
+                this.pushNeutralChatLine(lines, "apresults:trax.EOG.stalemate");
                 } else {
                 this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }

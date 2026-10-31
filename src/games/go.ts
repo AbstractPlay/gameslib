@@ -61,6 +61,13 @@ export const gameApgamesEn = {
 };
 
 
+export const gameApresultsEn = {
+    EOG: {
+        repetition: "The game has ended because the same position was repeated (super-ko).",
+    },
+};
+
+
 
 type playerid = 1 | 2 | 3; // 3 is for neutral owned areas
 
@@ -807,7 +814,7 @@ export class GoGame extends GameBase {
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 1 });
+                    this.pushNeutralChatLine(lines, "apresults:go.EOG.repetition");
                 } else if (r.reason === "stalemate") {
                     this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
                 } else {

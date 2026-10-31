@@ -3648,6 +3648,15 @@ export class ThueMorseGoGame extends GameBase {
         return statuses;
     }
 
+    protected eogReasonAliases(): Record<string, string> {
+        return {
+            "consecutive-passes": "consecutive_passes",
+            "pass-alive": "pass_alive",
+            "no-room": "no_room",
+            "no-moves": "no_moves",
+        };
+    }
+
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
@@ -3704,26 +3713,7 @@ export class ThueMorseGoGame extends GameBase {
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:thuemorsego.DECLARE.komi", { count: r.value });
                 return true;
             case "eog":
-                switch (r.reason) {
-                    case "consecutive-passes":
-                        this.pushNeutralChatLine(lines, "apresults:_general.EOG.consecutive_passes");
-                        break;
-                    case "repetition":
-                        this.pushNeutralChatLine(lines, "apresults:thuemorsego.EOG.repetition");
-                        break;
-                    case "pass-alive":
-                        this.pushNeutralChatLine(lines, "apresults:thuemorsego.EOG.pass_alive");
-                        break;
-                    case "no-room":
-                        this.pushNeutralChatLine(lines, "apresults:thuemorsego.EOG.no_room");
-                        break;
-                    case "no-moves":
-                        this.pushNeutralChatLine(lines, "apresults:thuemorsego.EOG.no_moves");
-                        break;
-                    default:
-                        this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
-                }
-                return true;
+                return this.collectEogChatLogLine(lines, r as Extract<APMoveResult, { type: "eog" }>, ctx);
             default:
                 return super.collectChatLogLine(lines, r, ctx);
         }

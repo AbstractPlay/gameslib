@@ -13,6 +13,7 @@ export const gameApresultsEn = {
         exit_fort: "The game has ended because the defenders created an exit fort.",
         king_captured: "The game has ended because the king was captured.",
         king_escaped: "The game has ended because the king escaped.",
+        repetition: "The game has ended because the same position has occurred three times by the same player.",
     },
     MOVE: {
         default: "{{player}} moved a piece from {{from}} to {{to}}.",
@@ -1524,7 +1525,7 @@ export class TaflGame extends GameBase {
                         this.pushNeutralChatLine(lines, "apresults:tafl.EOG.king_escaped");
                         break;
                     case "repetition":
-                        this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 3 });
+                        this.pushNeutralChatLine(lines, "apresults:tafl.EOG.repetition");
                         break;
                     case "stalemate":
                         this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");

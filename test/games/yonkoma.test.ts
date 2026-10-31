@@ -220,6 +220,8 @@ describe("Yonkoma", () => {
             const skipped = entries[14];
             expect(skipped.lines.map(l => l.textKey)).to.deep.equal(["apresults:_general.PASS.simple"]);
             assertChatLogParity(g, names);
+            const summary = g.formatEogSummary(names, (key, params) => i18next.t(key, params));
+            expect(summary).to.equal(i18next.t("apresults:yonkoma.EOG.crosscut", { player: "Red player" }));
         });
     });
 

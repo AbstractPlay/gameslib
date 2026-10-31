@@ -1,4 +1,4 @@
-import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IValidationResult, chatPlayerToken, type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -33,6 +33,8 @@ export const gameApresultsEn = {
     EOG: {
         cascading_subboard: "{{player}} won on the {{size}}x{{size}} subboard.",
         direct_connection: "{{player}} won by direct connection.",
+        repetition: "The game has ended because the same board position was repeated.",
+        stalemate: "The game has ended because a player has no legal moves.",
     },
 };
 
@@ -746,6 +748,52 @@ export class GonnectGame extends GameBase {
     }
 
 
+    protected eogReasonAliases(): Record<string, string> {
+        return {
+            "gonnect_direct_connection": "direct_connection",
+        };
+    }
+
+    protected eogChatLineOverride(r: Extract<APMoveResult, { type: "eog" }>, ctx: ChatLogCollectContext): ChatLogLine | undefined {
+        void ctx;
+        if (r.reason === "repetition") {
+            return {
+                actor: { kind: "none" },
+                textKey: "apresults:gonnect.EOG.repetition",
+            };
+        }
+        if (r.reason === "stalemate") {
+            return { actor: { kind: "none" }, textKey: "apresults:gonnect.EOG.stalemate" };
+        }
+        if (r.reason === "gonnect_direct_connection") {
+            const seat = this.winner[0];
+            return {
+                actor: this.getChatActorRef(seat),
+                textKey: "apresults:gonnect.EOG.direct_connection",
+                textParams: { player: chatPlayerToken(seat) },
+            };
+        }
+        if (r.reason === "consecutive_passes") {
+            if (this.winner.length === 1 && this.cascadeWinSize !== undefined) {
+                const seat = this.winner[0];
+                if (this.cascadeWinSize === this.boardSize) {
+                    return {
+                        actor: this.getChatActorRef(seat),
+                        textKey: "apresults:gonnect.EOG.direct_connection",
+                        textParams: { player: chatPlayerToken(seat) },
+                    };
+                }
+                return {
+                    actor: this.getChatActorRef(seat),
+                    textKey: "apresults:gonnect.EOG.cascading_subboard",
+                    textParams: { player: chatPlayerToken(seat), size: this.cascadeWinSize },
+                };
+            }
+            return { actor: { kind: "none" }, textKey: "apresults:_general.EOG.consecutive_passes" };
+        }
+        return undefined;
+    }
+
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
@@ -757,30 +805,7 @@ export class GonnectGame extends GameBase {
                 });
                 return true;
             case "eog":
-                if (r.reason === "repetition") {
-                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 1 });
-                } else if (r.reason === "stalemate") {
-                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.stalemate");
-                } else if (r.reason === "gonnect_direct_connection") {
-                    this.pushSeatChatLine(lines, this.winner[0], "apresults:gonnect.EOG.direct_connection");
-                } else if (r.reason === "consecutive_passes") {
-                    if (this.winner.length === 1 && this.cascadeWinSize !== undefined) {
-                        if (this.cascadeWinSize === this.boardSize) {
-                            // Reachable only defensively: in real play a full-board connection
-                            // always ends the game immediately via the "gonnect_direct_connection"
-                            // branch above, before a pass-based cascade could ever see it. Kept
-                            // for correctness in case that ever changes.
-                            this.pushSeatChatLine(lines, this.winner[0], "apresults:gonnect.EOG.direct_connection");
-                        } else {
-                            this.pushSeatChatLine(lines, this.winner[0], "apresults:gonnect.EOG.cascading_subboard", { size: this.cascadeWinSize });
-                        }
-                    } else {
-                        this.pushNeutralChatLine(lines, "apresults:_general.EOG.consecutive_passes");
-                    }
-                } else {
-                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
-                }
-                return true;
+                return this.collectEogChatLogLine(lines, r as Extract<APMoveResult, { type: "eog" }>, ctx);
 
             default:
                 return super.collectChatLogLine(lines, r, ctx);

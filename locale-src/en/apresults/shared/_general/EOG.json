@@ -3,6 +3,8 @@
     "EOG": {
       "consecutive_passes": "The game has ended because both players passed consecutively.",
       "default": "The game has ended.",
+      "elimination": "The game has ended because one player was eliminated.",
+      "breakthrough": "The game has ended because a player broke through to the goal.",
       "material": "The game has ended because both players have insufficient material.",
       "repetition_one": "The game has ended because the same position has occurred by the same player.",
       "repetition_other": "The game has ended because the same position has occurred {{count}} times by the same player.",

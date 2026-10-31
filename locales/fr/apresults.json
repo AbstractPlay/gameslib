@@ -72,6 +72,8 @@
     "EOG": {
       "consecutive_passes": "La partie est terminée car les deux joueurs ont passé consécutivement.",
       "default": "La partie est terminée.",
+      "elimination": "La partie est terminée car un joueur a été éliminé.",
+      "breakthrough": "La partie est terminée car un joueur a réussi une percée jusqu'à l'objectif.",
       "material": "La partie est terminée car le matériel de chaque joueur est insuffisant.",
       "repetition_one": "La partie est terminée car la même position s'est produite par le même joueur.",
       "repetition_other": "La partie est terminée car la même position s'est produite {{count}} fois par le même joueur.",
@@ -235,6 +237,10 @@
     }
   },
   "anache": {
+    "EOG": {
+      "breakthrough": "La partie est terminée car un joueur a occupé les cases de coin de l'adversaire.",
+      "stalemate": "La partie est terminée car un joueur n'a aucun coup légal."
+    },
     "MOVE": {
       "dragon": "{{player}} a déplacé un groupe de taille {{count}} via un coup de dragon depuis {{from}} dans la direction {{dir}}.",
       "dragon_jump": "{{player}} fait sauter son dragon de {{from}} vers {{to}}.",
@@ -288,6 +294,10 @@
   "ataxx": {
     "CAPTURE_one": "1 pièce est convertie.",
     "CAPTURE_other": "{{count}} pièces sont converties.",
+    "EOG": {
+      "elimination": "La partie est terminée car un camp n'a plus aucune pièce sur le plateau.",
+      "repetition": "La partie est terminée car la même position s'est produite trois fois."
+    },
     "MOVE": {
       "jump": "{{player}} a fait sauter une pièce de {{from}} vers {{to}}.",
       "split": "{{player}} a divisé une pièce de {{from}} vers {{to}}."
@@ -308,7 +318,8 @@
   },
   "bashni": {
     "EOG": {
-      "stagnation": "La partie s'est terminée par un match nul car le nombre et la composition des pièces sont restés inchangés pendant {{count}} coups consécutifs."
+      "stagnation": "La partie s'est terminée par un match nul car le nombre et la composition des pièces sont restés inchangés pendant {{count}} coups consécutifs.",
+      "repetition": "La partie est terminée car la même position s'est produite trois fois par le même joueur."
     }
   },
   "biscuit": {
@@ -385,6 +396,9 @@
   "bridges": {
     "CONNECT": {
       "default": "{{player}} a construit un pont entre {{left}} et {{right}}."
+    },
+    "EOG": {
+      "double_pass": "La partie est terminée car les deux joueurs ont passé."
     }
   },
   "btt": {
@@ -416,7 +430,8 @@
       "singletons_other": "{{player}} a réclamé les {{count}} pièces restantes de sa couleur."
     },
     "EOG": {
-      "singletons": "La partie est terminée car toutes les cases ne contiennent que des pièces isolées."
+      "singletons": "La partie est terminée car toutes les cases ne contiennent que des pièces isolées.",
+      "repetition": "La partie est terminée car la même position sur le plateau a été répétée."
     },
     "TAKE": {
       "col_one": "{{player}} a récupéré 1 pièce de la colonne {{col}}.",
@@ -440,6 +455,7 @@
   },
   "camelot": {
     "EOG": {
+      "breakthrough": "La partie est terminée car un joueur a déplacé deux pions dans le château adverse.",
       "claim_draw_progression": "La partie est terminée car {{player}} a réclamé une nulle selon la règle des 50 coups.",
       "claim_draw_repetition": "La partie est terminée car {{player}} a réclamé une nulle par répétition."
     },
@@ -500,6 +516,13 @@
       "default": "{{player}} a placé une tuile en {{where}}."
     }
   },
+  "chameleon": {
+    "EOG": {
+      "annihilation": "La partie est terminée car toutes les pièces d'un joueur ont été anéanties.",
+      "full_infiltration": "La partie est terminée car un joueur s'est entièrement infiltré dans le camp adverse.",
+      "last_minute_infiltration": "La partie est terminée car un joueur s'est infiltré lors du dernier placement."
+    }
+  },
   "chase": {
     "MOVE": {
       "default": "{{player}} s'est déplacé de {{from}} vers {{to}} (via {{through}})."
@@ -545,6 +568,12 @@
       "default": "{{player}} a placé un triomino en {{where}}."
     }
   },
+  "connections": {
+    "EOG": {
+      "loop": "La partie est terminée car un joueur a formé une boucle.",
+      "path": "La partie est terminée car un joueur a relié ses points."
+    }
+  },
   "court": {
     "PLACE": {
       "default": "{{player}} a promu {{where}} en {{what}}."
@@ -553,6 +582,11 @@
   "courtesan": {
     "CONVERT": {
       "default": "Le roi et la courtisane ont échangé leurs positions en {{where}}."
+    }
+  },
+  "croda": {
+    "EOG": {
+      "repetition": "La partie est terminée car la même position s'est produite trois fois par le même joueur."
     }
   },
   "crosshairs": {
@@ -576,8 +610,17 @@
     }
   },
   "cubeo": {
+    "EOG": {
+      "promotion": "La partie est terminée car un joueur a promu un dé à la valeur victorieuse.",
+      "nomoves": "La partie est terminée car le joueur dont c'est le tour n'a aucune action légale."
+    },
     "PROMOTE": {
       "default": "{{player}} a promu le dé en {{where}} d'un {{from}} vers un {{to}}."
+    }
+  },
+  "dama": {
+    "EOG": {
+      "repetition": "La partie est terminée car la même position s'est produite trois fois par le même joueur."
     }
   },
   "dameo": {
@@ -686,6 +729,9 @@
     "REMOVE": {
       "opponent": "{{player}} a choisi de conserver le rôdeur de l'adversaire en {{how}}, retirant le rôdeur en {{where}}.",
       "self": "{{player}} a choisi de conserver son propre rôdeur en {{how}}, retirant le rôdeur en {{where}}."
+    },
+    "EOG": {
+      "stalemate": "La partie s'est terminée par une égalité car un joueur ne peut plus effectuer le moindre coup."
     }
   },
   "entropy": {
@@ -717,6 +763,11 @@
   "exxit": {
     "CLAIM": {
       "default": "{{player}} a réclamé l'emplacement périphérique en {{where}}."
+    }
+  },
+  "fanorona": {
+    "EOG": {
+      "repetition": "La partie est terminée car la même position s'est produite quatre fois par le même joueur."
     }
   },
   "fightopia": {
@@ -811,15 +862,27 @@
       "default": "{{player}} a déplacé son planeur en {{where}} hors du plateau."
     }
   },
+  "go": {
+    "EOG": {
+      "repetition": "La partie est terminée car la même position a été répétée (superko)."
+    }
+  },
   "gonnect": {
     "EOG": {
       "cascading_subboard": "{{player}} a gagné sur le sous-plateau {{size}}x{{size}}.",
-      "direct_connection": "{{player}} a gagné par connexion directe."
+      "direct_connection": "{{player}} a gagné par connexion directe.",
+      "repetition": "La partie est terminée car la même position sur le plateau a été répétée.",
+      "stalemate": "La partie est terminée car un joueur n'a aucun coup légal."
     }
   },
   "gorogo": {
     "PLACE": {
       "henge": "{{player}} a placé une pièce henge en {{where}}."
+    },
+    "EOG": {
+      "henge_last": "La partie est terminée car un joueur a placé sa dernière pièce henge.",
+      "no_moves": "La partie est terminée car le joueur dont c'est le tour n'a aucun placement légal.",
+      "scoring": "La partie est terminée car la piste de score est remplie."
     }
   },
   "guerrilla": {
@@ -839,6 +902,9 @@
     },
     "MOVE": {
       "king": "{{player}} a déplacé le roi de {{from}} vers {{to}}."
+    },
+    "EOG": {
+      "repetition": "La partie est terminée car la même position s'est produite trois fois par le même joueur."
     }
   },
   "homeworlds": {
@@ -890,6 +956,12 @@
   "jacynth": {
     "CLAIM": {
       "default": "{{player}} a exercé une influence en {{where}}."
+    }
+  },
+  "kachit": {
+    "EOG": {
+      "invasion": "La partie est terminée car une pièce royale a envahi le palais adverse.",
+      "regicide": "La partie est terminée car une pièce royale a été capturée."
     }
   },
   "killallgo": {
@@ -1029,6 +1101,10 @@
     }
   },
   "meg": {
+    "EOG": {
+      "countdown": "La partie est terminée car le compte à rebours a atteint zéro.",
+      "goal": "La partie est terminée car un joueur a marqué un but."
+    },
     "CLAIM": {
       "default": "{{player}} a pris la bille et l'a placée en {{where}}."
     },
@@ -1129,11 +1205,22 @@
     "CAPTURE": {
       "approach": "{{player}} a effrayé l'assistant en {{where}} hors de la forêt.",
       "replacement": "{{player}} a dévoré la pièce en {{where}}."
+    },
+    "EOG": {
+      "daybreak": "La partie est terminée car le jour s'est levé avant que l'Homme-Hibou ne soit piégé.",
+      "discovered": "La partie est terminée car le Docteur a été découvert.",
+      "doc_killed": "La partie est terminée car le Docteur a été capturé.",
+      "no_helpers": "La partie est terminée car tous les assistants du Docteur ont été capturés.",
+      "trapped": "La partie est terminée car l'Homme-Hibou ne pouvait plus se déplacer."
     }
   },
   "pacru": {
     "CONVERT": {
       "default": "{{player}} a converti {{where}}."
+    },
+    "EOG": {
+      "last_man_standing": "La partie est terminée car un seul joueur a encore des chevrons sur le plateau.",
+      "score": "La partie est terminée car un joueur a atteint le score cible."
     }
   },
   "pahtum": {
@@ -1198,6 +1285,11 @@
   "pontedd": {
     "CONNECT": {
       "default": "{{player}} a placé un pont entre {{left}} et {{right}}."
+    },
+    "EOG": {
+      "bridges": "La partie est terminée avec une égalité de score et d'îles ; le joueur ayant le plus de ponts l'emporte.",
+      "islands": "La partie est terminée avec une égalité de score ; le joueur ayant le plus d'îles l'emporte.",
+      "score": "La partie est terminée car les deux joueurs ont fini de construire ; le score le plus élevé l'emporte."
     }
   },
   "posit": {
@@ -1551,7 +1643,8 @@
       "encirclement": "La partie est terminée car les défenseurs sont encerclés.",
       "exit_fort": "La partie est terminée car les défenseurs ont créé une forteresse de sortie.",
       "king_captured": "La partie est terminée car le roi a été capturé.",
-      "king_escaped": "La partie est terminée car le roi s'est échappé."
+      "king_escaped": "La partie est terminée car le roi s'est échappé.",
+      "repetition": "La partie est terminée car la même position s'est produite trois fois par le même joueur."
     },
     "MOVE": {
       "default": "{{player}} a déplacé une pièce de {{from}} vers {{to}}.",
@@ -1617,6 +1710,9 @@
     }
   },
   "trax": {
+    "EOG": {
+      "stalemate": "La partie est terminée car toutes les tuiles jouables ont été utilisées sans victoire (le dernier joueur à avoir joué perd)."
+    },
     "PLACE": {
       "default": "{{player}} a placé un {{piece}} en {{algebraic}} ({{where}})."
     }
@@ -1624,6 +1720,11 @@
   "tricouleur": {
     "CAPTURE": {
       "default": "{{count}} pièces ont changé de couleur."
+    },
+    "EOG": {
+      "elimination": "La partie est terminée car les pièces d'un joueur ont été éliminées.",
+      "full_board": "La partie est terminée car le plateau est plein.",
+      "repetition": "La partie est terminée car la même position s'est produite trois fois par le même joueur."
     },
     "MOVE": {
       "duplicate": "{{player}} a dupliqué une pièce de {{from}} vers {{to}}.",
@@ -1735,6 +1836,12 @@
   "yonkoma": {
     "EOG": {
       "crosscut": "{{player}} a réalisé une coupe croisée et perd la partie."
+    }
+  },
+  "yonmoque": {
+    "EOG": {
+      "four": "La partie est terminée car un joueur a aligné quatre pièces.",
+      "five": "La partie est terminée car un joueur a aligné cinq pièces."
     }
   }
 }

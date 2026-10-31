@@ -22,6 +22,9 @@ export const gameApresultsEn = {
     CONNECT: {
         default: "{{player}} built a bridge between {{left}} and {{right}}.",
     },
+    EOG: {
+        double_pass: "The game has ended because both players passed.",
+    },
 };
 
 
@@ -543,7 +546,7 @@ export class BridgesGame extends GameBase {
 
         if (this.gameover) {
             this.results.push(
-                {type: "eog"},
+                {type: "eog", reason: "double_pass"},
                 {type: "winners", players: [...this.winner]}
             );
         }

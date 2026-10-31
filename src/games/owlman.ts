@@ -15,6 +15,13 @@ export const gameApresultsEn = {
         approach: "{{player}} scared the helper at {{where}} out of the forest.",
         replacement: "{{player}} devoured the piece at {{where}}.",
     },
+    EOG: {
+        daybreak: "The game has ended because day broke before the Owlman was trapped.",
+        discovered: "The game has ended because the Doctor was discovered.",
+        doc_killed: "The game has ended because the Doctor was captured.",
+        no_helpers: "The game has ended because all of the Doctor's helpers were captured.",
+        trapped: "The game has ended because the Owlman could not move.",
+    },
 };
 
 

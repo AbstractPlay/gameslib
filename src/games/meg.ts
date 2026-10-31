@@ -21,6 +21,10 @@ export const gameApgamesEn = {
     },
 };
 export const gameApresultsEn = {
+    EOG: {
+        countdown: "The game has ended because the countdown reached zero.",
+        goal: "The game has ended because a player scored a goal.",
+    },
     CLAIM: {
         default: "{{player}} has taken the ball and placed it at {{where}}.",
     },
@@ -53,6 +57,12 @@ export interface IMegState extends IAPGameState {
 };
 
 export class MegGame extends GameBase {
+    protected eogReasonAliases(): Record<string, string> {
+        return {
+            GOAL: "goal",
+        };
+    }
+
     public static readonly gameinfo: APGamesInformation = {
         name: "Meg",
         uid: "meg",

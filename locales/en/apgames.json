@@ -586,7 +586,9 @@
       "GOATS_CAPTURED": "Goats captured"
     },
     "bao": {
-      "BALANCE": "Material balance"
+      "BALANCE": "Material balance",
+      "PHASE_NAMUA": "Namua",
+      "PHASE_MTAJI": "Mtaji"
     },
     "bashni": {
       "STEPS": "Maneuverability",

@@ -5179,6 +5179,14 @@
     "src": "Material balance",
     "out": "Bilancio del materiale"
   },
+  "status.bao.PHASE_MTAJI": {
+    "src": "Mtaji",
+    "out": "Mtaji"
+  },
+  "status.bao.PHASE_NAMUA": {
+    "src": "Namua",
+    "out": "Namua"
+  },
   "status.bashni.MATERIAL": {
     "src": "Material",
     "out": "Materiale"

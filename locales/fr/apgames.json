@@ -586,7 +586,9 @@
       "GOATS_CAPTURED": "Chèvres capturées"
     },
     "bao": {
-      "BALANCE": "Équilibre matériel"
+      "BALANCE": "Équilibre matériel",
+      "PHASE_NAMUA": "Namua",
+      "PHASE_MTAJI": "Mtaji"
     },
     "bashni": {
       "STEPS": "Manoeuvrabilité",

@@ -586,7 +586,9 @@
       "GOATS_CAPTURED": "Ziegen geschlagen"
     },
     "bao": {
-      "BALANCE": "Materialbilanz"
+      "BALANCE": "Materialbilanz",
+      "PHASE_NAMUA": "Namua",
+      "PHASE_MTAJI": "Mtaji"
     },
     "bashni": {
       "STEPS": "Manövrierfähigkeit",

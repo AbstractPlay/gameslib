@@ -52,6 +52,11 @@ export const gameApresultsEn = {
     CONNECT: {
         default: "{{player}} placed a bridge between {{left}} and {{right}}.",
     },
+    EOG: {
+        bridges: "The game has ended with tied score and islands; the player with more bridges wins.",
+        islands: "The game has ended with a tied score; the player with more islands wins.",
+        score: "The game has ended when both players finished building; higher score wins.",
+    },
 };
 
 

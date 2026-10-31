@@ -14,6 +14,14 @@ export const gameApgamesEn = {
 };
 
 
+export const gameApresultsEn = {
+    EOG: {
+        invasion: "The game has ended because a royal piece invaded the opposing palace.",
+        regicide: "The game has ended because a royal piece was captured.",
+    },
+};
+
+
 export type playerid = 1|2;
 export type Orientation = "+"|"x"|undefined;
 export type RealPiece = {

@@ -22,8 +22,12 @@ export type { SoloReplayFactory } from "./replay.js";
 export {
     formatChatLogEntries,
     formatChatLogEntryNodes,
+    formatChatLogLine,
     applyChatPlayerNames,
     chatPlayerToken,
+    normalizeEogReasonLeaf,
+    resolveEogCatalogKey,
+    findEogResult,
 } from "./chat-log.js";
 export type { ChatActorRef, ChatLogLine, ChatLogEntry, ChatLogTranslate, ChatLogCollectContext } from "./chat-log.js";
 export {

@@ -47,6 +47,10 @@ export const gameApgamesEn = {
     },
 };
 export const gameApresultsEn = {
+    EOG: {
+        promotion: "The game has ended because a player promoted a die to the winning value.",
+        nomoves: "The game has ended because the player to move has no legal action.",
+    },
     PROMOTE: {
         default: "{{player}} promoted the die at {{where}} from a {{from}} to a {{to}}.",
     },

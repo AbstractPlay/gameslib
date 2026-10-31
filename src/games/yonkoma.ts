@@ -577,14 +577,16 @@ export class YonkomaGame extends GameBase {
         return this;
     }
 
-    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
-        if (r.type === "eog" && r.reason === "crosscut") {
-            // the player who made the final move completed the crosscut
+    protected eogChatLineOverride(r: Extract<APMoveResult, { type: "eog" }>, ctx: ChatLogCollectContext): ChatLogLine | undefined {
+        if (r.reason === "crosscut") {
             const loser = this.resolveChatPlayerName(ctx.defaultSeat, ctx.players);
-            this.pushNeutralChatLine(lines, "apresults:yonkoma.EOG.crosscut", {player: loser});
-            return true;
+            return {
+                actor: { kind: "none" },
+                textKey: "apresults:yonkoma.EOG.crosscut",
+                textParams: { player: loser },
+            };
         }
-        return super.collectChatLogLine(lines, r, ctx);
+        return undefined;
     }
 
     public state(): IYonkomaState {

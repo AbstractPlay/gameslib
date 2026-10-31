@@ -53,6 +53,7 @@ export const gameApresultsEn = {
     },
     EOG: {
         singletons: "The game has ended because all cells contain only singletons.",
+        repetition: "The game has ended because the same board position was repeated.",
     },
     TAKE: {
         col_one: "{{player}} collected 1 piece from column {{col}}.",
@@ -940,7 +941,7 @@ export class BukuGame extends GameBase {
                 if (r.reason === "singletons") {
                     this.pushNeutralChatLine(lines, "apresults:buku.EOG.singletons");
                 } else if (r.reason === "repetition") {
-                    this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition_positional", { count: 1 });
+                    this.pushNeutralChatLine(lines, "apresults:buku.EOG.repetition");
                 } else {
                     this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }

@@ -56,6 +56,103 @@ export function forEachGroupResult(
     return true;
 }
 
+/** Machine `eog.reason` token → nested `apresults` catalog leaf (snake_case). */
+export function normalizeEogReasonLeaf(reason: string): string {
+    return reason
+        .replace(/([a-z0-9])([A-Z])/g, "$1_$2")
+        .toLowerCase()
+        .replace(/[\s\-.]+/g, "_")
+        .replace(/_+/g, "_")
+        .replace(/^_|_$/g, "");
+}
+
+const EOG_DEFAULT_KEY = "apresults:_general.EOG.default";
+
+function apresultsEogPathExists(keyExists: (fullKey: string) => boolean, catalogPath: string): boolean {
+    const base = `apresults:${catalogPath}`;
+    if (keyExists(base)) {
+        return true;
+    }
+    if (keyExists(`${base}_one`)) {
+        return true;
+    }
+    if (keyExists(`${base}_other`)) {
+        return true;
+    }
+    return false;
+}
+
+/** Resolve move-log / UI key for an end-of-game reason (game-specific before `_general`). */
+export function resolveEogCatalogKey(
+    gameUid: string,
+    reason: string | undefined,
+    aliases: Record<string, string>,
+    keyExists: (fullKey: string) => boolean,
+): { textKey: string; textParams?: Record<string, ChatLogTextParamValue> } {
+    if (reason === undefined || reason.length === 0) {
+        return { textKey: EOG_DEFAULT_KEY };
+    }
+    const aliasLeaf = aliases[reason];
+    const leaf = aliasLeaf !== undefined ? aliasLeaf : normalizeEogReasonLeaf(reason);
+    const gamePath = `${gameUid}.EOG.${leaf}`;
+    if (apresultsEogPathExists(keyExists, gamePath)) {
+        return eogKeyWithPluralParams(`apresults:${gamePath}`, leaf, keyExists);
+    }
+    const generalPath = `_general.EOG.${leaf}`;
+    if (apresultsEogPathExists(keyExists, generalPath)) {
+        return eogKeyWithPluralParams(`apresults:${generalPath}`, leaf, keyExists);
+    }
+    return { textKey: EOG_DEFAULT_KEY };
+}
+
+function eogKeyWithPluralParams(
+    textKey: string,
+    leaf: string,
+    keyExists: (fullKey: string) => boolean,
+): { textKey: string; textParams?: Record<string, ChatLogTextParamValue> } {
+    if (leaf === "repetition" || leaf === "repetition_positional") {
+        if (keyExists(`${textKey}_one`) || keyExists(`${textKey}_other`)) {
+            return { textKey, textParams: { count: 1 } };
+        }
+        return { textKey };
+    }
+    return { textKey };
+}
+
+/** Last `{ type: "eog" }` on the move stack (terminal ending). */
+export function findEogResult(stack: Array<{ _results?: APMoveResult[] }>): Extract<APMoveResult, { type: "eog" }> | undefined {
+    for (let i = stack.length - 1; i >= 0; i--) {
+        const results = stack[i]._results;
+        if (results === undefined) {
+            continue;
+        }
+        for (let j = results.length - 1; j >= 0; j--) {
+            const r = results[j];
+            if (r.type === "eog") {
+                return r as Extract<APMoveResult, { type: "eog" }>;
+            }
+        }
+    }
+    return undefined;
+}
+
+/** Format one structured chat line (i18n + seat display names). */
+export function formatChatLogLine(
+    line: ChatLogLine,
+    playerNames: string[],
+    t: ChatLogTranslate,
+): string {
+    const params = line.textParams !== undefined ? { ...line.textParams } : undefined;
+    if (line.actor.kind === "label" && params?.player !== undefined) {
+        params.player = t(line.actor.key, line.actor.params);
+    }
+    let body = t(line.textKey, params);
+    if (line.actor.kind === "seat") {
+        body = applyChatPlayerNames(body, line.actor.seat, playerNames);
+    }
+    return body;
+}
+
 /** Replace Player N tokens in resolved text with display names from playerNames. */
 export function applyChatPlayerNames(text: string, seat: number, playerNames: string[]): string {
     const name = playerNames[seat - 1];
@@ -77,15 +174,7 @@ export function formatChatLogEntries(
     const out: string[] = [];
     for (const entry of entries) {
         for (const line of entry.lines) {
-            const params = line.textParams !== undefined ? { ...line.textParams } : undefined;
-            if (line.actor.kind === "label" && params?.player !== undefined) {
-                params.player = t(line.actor.key, line.actor.params);
-            }
-            let body = t(line.textKey, params);
-            if (line.actor.kind === "seat") {
-                body = applyChatPlayerNames(body, line.actor.seat, playerNames);
-            }
-            out.push(body);
+            out.push(formatChatLogLine(line, playerNames, t));
         }
     }
     return out;
@@ -103,15 +192,7 @@ export function formatChatLogEntryNodes(
     return entries.map((entry) => {
         const node: string[] = [entry.timestamp];
         for (const line of entry.lines) {
-            const params = line.textParams !== undefined ? { ...line.textParams } : undefined;
-            if (line.actor.kind === "label" && params?.player !== undefined) {
-                params.player = t(line.actor.key, line.actor.params);
-            }
-            let body = t(line.textKey, params);
-            if (line.actor.kind === "seat") {
-                body = applyChatPlayerNames(body, line.actor.seat, playerNames);
-            }
-            node.push(body);
+            node.push(formatChatLogLine(line, playerNames, t));
         }
         return node;
     });

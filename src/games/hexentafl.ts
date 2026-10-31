@@ -28,6 +28,9 @@ export const gameApresultsEn = {
     MOVE: {
         king: "{{player}} moved the king from {{from}} to {{to}}.",
     },
+    EOG: {
+        repetition: "The game has ended because the same position has occurred three times by the same player.",
+    },
 };
 
 
@@ -684,7 +687,7 @@ export class HexentaflGame extends GameBase {
                 return true;
             case "eog":
                 if (r.reason === "repetition") {
-                this.pushNeutralChatLine(lines, "apresults:_general.EOG.repetition", { count: 3 });
+                this.pushNeutralChatLine(lines, "apresults:hexentafl.EOG.repetition");
                 } else {
                 this.pushNeutralChatLine(lines, "apresults:_general.EOG.default");
                 }

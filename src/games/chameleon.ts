@@ -12,6 +12,15 @@ export const gameApgamesEn = {
 };
 
 
+export const gameApresultsEn = {
+    EOG: {
+        annihilation: "The game has ended because all of one player's pieces were annihilated.",
+        full_infiltration: "The game has ended because a player fully infiltrated the opposing side.",
+        last_minute_infiltration: "The game has ended because a player infiltrated on the final placement.",
+    },
+};
+
+
 export type playerid = 1|2;
 export type Tile = "W"|"B";
 export type Piece = "AB"|"AW"|"BB"|"BW";
@@ -36,6 +45,13 @@ export interface IChameleonState extends IAPGameState {
 };
 
 export class ChameleonGame extends GameBase {
+    protected eogReasonAliases(): Record<string, string> {
+        return {
+            "full infiltration": "full_infiltration",
+            "last-minute infiltration": "last_minute_infiltration",
+        };
+    }
+
     public static readonly gameinfo: APGamesInformation = {
         name: "Chameleon",
         uid: "chameleon",

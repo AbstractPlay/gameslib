@@ -227,11 +227,6 @@ export class QuaxGame extends GameBase {
         return `${this.coords2algebraic(fx - 1, fy - 1)}|${this.coords2algebraic(fx, fy)}`;
     }
 
-    private moveFromDiamondId(diamondId: string): string | undefined {
-        const moves = this.diamondMovesFromId(diamondId);
-        return moves[0];
-    }
-
     /**
      * Square-diamonds cells use ids `tl|br` (NW–SE of a 2×2). Quax links the other diagonal `tr–bl` of that block too.
      */

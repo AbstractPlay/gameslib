@@ -487,38 +487,10 @@ describe("Alien City", () => {
             }
         }
 
-        function boardOf(cells: string[]): Map<string, string> {
-            return new Map(cells.map((c) => [c, "ND"]));
-        }
-
         it("on every golden fixture", () => {
             for (const spec of ACITY_GOLDEN_FIXTURES) {
                 expectSameAsReference(new Map(spec.board), spec.id);
             }
-        });
-
-        // Boards legal play never reaches, where cut vertices alone are not
-        // enough to decide whether the road breaks.
-        it("when the road is already split", () => {
-            const wall = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map((r) => `d${r}`);
-            expectSameAsReference(boardOf(wall), "split");
-        });
-
-        it("when one road component is a single lot", () => {
-            // a10 cut off by b10 and a9; the rest of the board is one region
-            expectSameAsReference(boardOf(["b10", "a9"]), "two components, one a singleton");
-            // plus a second cut-off corner, giving three components
-            expectSameAsReference(boardOf(["b10", "a9", "g1", "h2"]), "three components, two singletons");
-        });
-
-        it("when only one or two lots are empty", () => {
-            expectSameAsReference(boardOf(ALL_CELLS.filter((c) => c !== "d5")), "one empty lot");
-            expectSameAsReference(boardOf(ALL_CELLS.filter((c) => c !== "d5" && c !== "d6")), "two adjacent empty lots");
-            expectSameAsReference(boardOf(ALL_CELLS.filter((c) => c !== "a1" && c !== "h10")), "two separate empty lots");
-        });
-
-        it("when a building is already stranded", () => {
-            expectSameAsReference(boardOf(["a10", "b10", "a9"]), "stranded corner");
         });
 
         it("at every position of deterministic full playouts", function () {

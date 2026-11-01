@@ -593,7 +593,6 @@ export class FracturedGame extends GameBase {
                     trackAnnotations.push({
                         type: "move",
                         targets: [{ row: 0, col: from }, { row: 0, col: to }],
-                        arrow: false,
                     });
                 }
             }

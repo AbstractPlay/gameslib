@@ -727,7 +727,7 @@ export class GonnectGame extends GameBase {
                     const [x,y] = this.algebraic2coords(cell);
                     targets.push({row: y, col: x})
                 }
-                rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+                rep.annotations.push({type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false});
             } else if (this.connPath.length === 1) {
                 // A cascading win decided by the sole stone on the 1x1 centre subboard has
                 // nothing to draw a line between. Highlight that single point instead, the

@@ -517,7 +517,7 @@ export class EstateGame extends GameBase {
                 const [x,y] = g.algebraic2coords(cell);
                 targets.push({ row: y, col: x })
             }
-            rep.annotations!.push({ type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false, colour: {func: "custom", default: 3, palette: 4} });
+            rep.annotations!.push({ type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false, colour: {func: "custom", default: 3, palette: 4} });
         }
 
 

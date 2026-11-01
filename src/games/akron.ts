@@ -1033,7 +1033,7 @@ export class AkronGame extends GameBase {
                     const [x, y] = this.algebraic2position(cell);
                     targets.push({row: y, col: x})
                 }
-                (rep.annotations as AnnotationBasic[]).push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+                (rep.annotations as AnnotationBasic[]).push({type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false});
             }
         }
         if (this.dots.length > 0) {

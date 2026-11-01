@@ -898,7 +898,7 @@ export class BasaltGame extends GameBase {
                 const [x,y] = this.algebraic2coords(cell);
                 targets.push({ row: y, col: x })
             }
-            rep.annotations!.push({ type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false, colour: 3 });
+            rep.annotations!.push({ type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false, colour: 3 });
         }
 
         return rep;

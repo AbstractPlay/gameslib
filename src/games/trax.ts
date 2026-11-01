@@ -1054,7 +1054,7 @@ export class TraxGame extends GameBase {
                         const [col, row] = this.absCoords2renCoords(absX, absY);
                         targets.push({ row, col })
                     }
-                    rep.annotations.push({ type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false });
+                    rep.annotations.push({ type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false });
                 }
             }
         }

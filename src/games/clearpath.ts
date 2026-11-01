@@ -698,7 +698,7 @@ export class ClearPathGame extends GameBase {
                 if (rep.annotations === undefined) {
                     rep.annotations = [];
                 }
-                rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+                rep.annotations.push({type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false});
             }
         }
 

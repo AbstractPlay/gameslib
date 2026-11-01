@@ -38,11 +38,11 @@ function dotsOf(g: ClearPathGame): Array<{colour: number | string | undefined; p
 /** The chain drawn at the end of the game, in algebraic notation. */
 function chainOf(g: ClearPathGame): string[] {
     const annotations = (g.render().annotations ?? []) as Array<{type: string; targets?: Array<{row: number; col: number}>}>;
-    const move = annotations.find(a => a.type === "move");
-    if (move === undefined) {
+    const line = annotations.find(a => a.type === "line");
+    if (line === undefined) {
         return [];
     }
-    return move.targets!.map(p => g.coords2algebraic(p.col, p.row));
+    return line.targets!.map(p => g.coords2algebraic(p.col, p.row));
 }
 
 describe("Clear Path", () => {

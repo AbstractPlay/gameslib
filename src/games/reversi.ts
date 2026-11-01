@@ -650,7 +650,7 @@ export class ReversiGame extends GameBase {
                     for (const m of move.how!.split(",")) {
                         const [xT, yT] = this.algebraic2coords(m);
                         const targets = [{ row: yF, col: xF }, { row: yT, col: xT }];
-                        rep.annotations.push({type: "move", style: "dashed", targets: targets as [{row: number; col: number}, ...{row: number; col: number}[]], arrow: false});
+                        rep.annotations.push({type: "line", style: "dashed", targets: targets as [{row: number; col: number}, ...{row: number; col: number}[]], arrow: false});
                     }
                 }
             }

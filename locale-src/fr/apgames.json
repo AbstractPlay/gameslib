@@ -3139,6 +3139,14 @@
     "src": "Play on intersections instead of squares",
     "out": "Jouer sur les intersections au lieu des cases"
   },
+  "displays.quax.diamond-board.description": {
+    "src": "Show diagonal connections as filled diamonds between stones on a squares-and-diamonds board.",
+    "out": "Afficher les connexions diagonales sous forme de losanges pleins entre les pierres sur un plateau à carrés et losanges."
+  },
+  "displays.quax.diamond-board.name": {
+    "src": "Diamond board",
+    "out": "Plateau à losanges"
+  },
   "displays.queensland.hide-scored.description": {
     "src": "Don't highlight scored cells.",
     "out": "Ne pas mettre en surbrillance les cases ayant rapporté des points."

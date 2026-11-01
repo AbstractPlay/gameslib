@@ -73,15 +73,48 @@ export interface StructuralConstraints {
 }
 
 /**
+ * Reference implementation: same answers as {@link roadNetworkAfterPlacement} on every empty lot.
+ */
+function structuralConstraintsBruteForce(board: ReadonlyMap<string, string>): StructuralConstraints {
+    const grid = baseGraph();
+    const roadBreaking = new Set<string>();
+    const isolating = new Set<string>();
+    for (const cell of grid.nodes()) {
+        if (board.has(cell)) {
+            continue;
+        }
+        const ref = roadNetworkAfterPlacement(board, "ND", cell);
+        if (! ref.roadOk) {
+            roadBreaking.add(cell);
+        }
+        if (ref.isolated) {
+            isolating.add(cell);
+        }
+    }
+    return { roadBreaking, isolating };
+}
+
+/**
  * For a board reached by legal play (one connected road network), gives the
  * same answers as calling {@link roadNetworkAfterPlacement} on every empty lot,
  * in one pass: road-breaking lots are the cut vertices of the empty-lot graph,
  * found with Tarjan's algorithm.
+ *
+ * When the road is already disconnected or the empty-lot graph has multiple
+ * components, falls back to {@link structuralConstraintsBruteForce}.
  */
 export function structuralConstraints(board: ReadonlyMap<string, string>): StructuralConstraints {
+    if (! isRoadNetworkConnected(board)) {
+        return structuralConstraintsBruteForce(board);
+    }
+
     const grid = baseGraph();
     const emptyNbrs = new Map<string, string[]>();
+    let emptyCount = 0;
     for (const c of grid.nodes()) {
+        if (! board.has(c)) {
+            emptyCount++;
+        }
         emptyNbrs.set(c, grid.neighbors(c).filter((n) => ! board.has(n)));
     }
 
@@ -124,6 +157,10 @@ export function structuralConstraints(board: ReadonlyMap<string, string>): Struc
     const start = grid.nodes().find((c) => ! board.has(c));
     if (start !== undefined) {
         visit(start, null);
+    }
+
+    if (disc.size !== emptyCount) {
+        return structuralConstraintsBruteForce(board);
     }
 
     return { roadBreaking, isolating };

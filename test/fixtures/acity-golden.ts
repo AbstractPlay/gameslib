@@ -49,6 +49,14 @@ export const ACITY_GOLDEN_FIXTURES: ACityGoldenFixtureSpec[] = [
         extraValidations: ["ND-d5"],
     },
     {
+        id: "road-pinch-closed",
+        currplayer: 1,
+        startpos: uniformStart("N", 0),
+        board: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1].map((row) => [`d${row}`, "ND"] as [string, ACityPiece]),
+        stashes: [ACITY_DEFAULT_STASHES[0].slice(), ACITY_DEFAULT_STASHES[1].slice()],
+        claimed: [[], []],
+    },
+    {
         id: "isolation-corner",
         currplayer: 1,
         startpos: uniformStart("N", 0),

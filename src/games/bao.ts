@@ -1354,7 +1354,7 @@ export class BaoGame extends GameBase {
             if ( (kichwa === undefined) || (kimbi === undefined) ) {
                 throw new Error(`Unable to find the ${dir} kichwa or kimbi for player ${this.currplayer}`);
             }
-            this.results.push({type: "move", from: kichwa, to: kimbi});
+            this.results.push({type: "move", from: kichwa, to: kimbi, how: dir});
         }
         // for all other moves and phases, draw a simple arrow from selected cell
         else {
@@ -1366,7 +1366,7 @@ export class BaoGame extends GameBase {
                 dir = marker === "<" ? "CCW" : "CW";
             }
             const next = this.graph.sow(cell, dir, 1)[0];
-            this.results.push({type: "move", from: cell, to: next});
+            this.results.push({type: "move", from: cell, to: next, how: dir});
         }
 
         // store board in advance for comparison
@@ -2039,6 +2039,9 @@ export class BaoGame extends GameBase {
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
                 return true;
             case "move":
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:bao.MOVE.default", {
+                    direction: r.how ?? this.graph.getDir(r.from, r.to) ?? r.from,
+                });
                 return true;
             case "sow":
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.SOW.general", {pits: r.pits!.join(", "), count: r.pits!.length});

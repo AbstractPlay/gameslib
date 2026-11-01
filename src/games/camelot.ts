@@ -1413,7 +1413,15 @@ export class CamelotGame extends GameBase {
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "place":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", { where: r.where!.split(",").join(", ") });
+                if (r.what === "tree") {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:camelot.PLACE.tree", {
+                        where: r.where!.split(",").join(", "),
+                    });
+                } else {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {
+                        where: r.where!.split(",").join(", "),
+                    });
+                }
                 return true;
             case "capture":
                 return true;

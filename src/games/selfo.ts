@@ -225,8 +225,9 @@ export class SelfoGame extends GameBase {
         people: [
             {
                 type: "designer",
-                name: "fjvico",
-                urls: [],
+                name: "Francisco Vico",
+                apid: "b4383498-70f1-7045-131e-b8ea62968c6c",
+                urls: ["https://fjvico.github.io/"],
             },
         ],
         categories: ["goal>unify", "mechanic>move", "mechanic>random>setup", "board>shape>hex", "board>connect>hex", "components>simple>1per"],

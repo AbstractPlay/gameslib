@@ -4910,6 +4910,12 @@
     "yonkoma": "Yonkoma fue diseñado por Mark Steere en octubre de 2026, en colaboración con Claude, un modelo de IA creado por Anthropic.\n\nLa distancia entre dos casillas es el número de movimientos de rey entre ellas, que es el mayor número entre la diferencia de filas y la diferencia de columnas. Un movimiento debe acercar la ficha movida a las dos fichas enemigas, de modo que la suma de sus distancias hacia ellas disminuya, o bien mantener esa suma sin cambios y alejar la ficha de su pareja. Selecciona una ficha y las casillas a las que puede moverse se marcarán en verde.\n\nUna intersección cruzada es un bloque de casillas de 2x2 que contiene las cuatro fichas, con las dos fichas rojas en una diagonal del bloque y las dos fichas azules en la otra. Quien complete una intersección cruzada pierde. Cada movimiento reduce el total de las cuatro distancias rojo-azul, o mantiene ese total y aumenta la distancia entre dos fichas del mismo color, por lo que el juego siempre termina, y siempre termina en una intersección cruzada que un jugador eventualmente se ve obligado a completar.\n\nNo se permite pasar, pero si un jugador no tiene ningún movimiento legal, ese turno se omite. El pase se envía automáticamente."
   },
   "displays": {
+    "acity": {
+      "roads": {
+        "description": "Muestra la red de caminos en crecimiento.",
+        "name": "Caminos"
+      }
+    },
     "agofmars": {
       "hide-bag-pool": {
         "description": "No mostrar las pirámides que aún están en la bolsa.",

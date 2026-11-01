@@ -4910,6 +4910,12 @@
     "yonkoma": "Yonkoma wurde im Oktober 2026 von Mark Steere in Zusammenarbeit mit Claude, einem KI-Modell von Anthropic, entwickelt.\n\nDie Distanz zwischen zwei Feldern ist die Anzahl der Königszüge zwischen ihnen, was dem größeren Wert aus Zeilen- und Spaltenabstand entspricht. Ein Zug muss den bewegten Spielstein entweder den beiden gegnerischen Spielsteinen näher bringen, sodass die Summe seiner Distanzen zu ihnen abnimmt, oder diese Summe unverändert lassen und den Spielstein weiter von seinem Partner entfernen. Wähle einen Spielstein aus, und die Felder, auf die er ziehen kann, werden grün markiert.\n\nEin Crosscut ist ein 2x2-Block von Feldern, der alle vier Spielsteine enthält, wobei sich die beiden roten Spielsteine auf einer Diagonalen des Blocks und die beiden blauen Spielsteine auf der anderen befinden. Wer einen Crosscut vervollständigt, verliert. Jeder Zug verringert die Gesamtsumme der vier Rot-Blau-Distanzen oder behält diese Gesamtsumme bei und erhöht die Distanz zwischen zwei Spielsteinen derselben Farbe. Daher endet das Spiel immer, und zwar stets in einem Crosscut, den einer der Spieler letztendlich vervollständigen muss.\n\nPassen ist nicht erlaubt. Wenn ein Spieler jedoch keinen legalen Zug hat, wird dieser Zug übersprungen. Das Passen erfolgt automatisch."
   },
   "displays": {
+    "acity": {
+      "roads": {
+        "description": "Zeigt das wachsende Straßennetz an.",
+        "name": "Straßen"
+      }
+    },
     "agofmars": {
       "hide-bag-pool": {
         "description": "Die Pyramiden, die sich noch im Beutel befinden, nicht anzeigen.",

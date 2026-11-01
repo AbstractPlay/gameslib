@@ -216,7 +216,7 @@ export class SelfoGame extends GameBase {
         uid: "selfo",
         playercounts: [2],
         version: "20261011",
-        dateAdded: "2026-10-11",
+        dateAdded: "2026-11-01",
         description:
             "A connection game on a hexagonal board. Each player starts with the same number of pieces scattered at random, and on your turn you slide one piece to an adjacent empty cell. The first player to bring all of their own pieces together into a single group wins.",
         notes:
@@ -229,8 +229,8 @@ export class SelfoGame extends GameBase {
                 urls: [],
             },
         ],
-        categories: ["goal>connect", "mechanic>move", "mechanic>random>setup", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
-        flags: ["experimental", "random-start"],
+        categories: ["goal>unify", "mechanic>move", "mechanic>random>setup", "board>shape>hex", "board>connect>hex", "components>simple>1per"],
+        flags: ["random-start"],
         variants: [
             { uid: "r2f5", group: "board" },
             { uid: "#board" },

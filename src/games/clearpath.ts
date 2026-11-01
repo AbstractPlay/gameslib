@@ -243,7 +243,7 @@ export class ClearPathGame extends GameBase {
         uid: "clearpath",
         playercounts: [2],
         version: "20261014",
-        dateAdded: "2026-09-10",
+        dateAdded: "2026-11-01",
         description: "An orthogonal connection game on the points of a square grid. Red connects the top and bottom edges, Blue the left and right edges, with a chain of orthogonally adjacent stones. Each turn you place one stone. A point is vital to a player if every possible connection of theirs passes through it. You may not place on a point vital to your opponent unless it is also vital to you, or your placement completes your connection. Crosscuts are allowed.",
         notes: "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe dots mark the points where the player to move may not place. Each dotted point is vital to the opponent (every possible connection of the opponent passes through it), not vital to the player to move, and not a winning placement. A point vital to both players is not dotted, since either player may take it, and neither is a point where the player to move completes a winning path. The dots are drawn in the opponent's colour. A player who no longer has any possible connection has no vital points.\n\nA placement that leaves the opponent without any possible connecting path ends the game at once, and the player who placed wins: the opponent can never connect and can never take the winner's vital points, so the winner's connection can no longer be stopped. The chain of stones that cuts the opponent off is drawn on the board, as is a completed winning path.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.",
         urls: [
@@ -270,7 +270,7 @@ export class ClearPathGame extends GameBase {
             { uid: "size-19", group: "board" },
         ],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["pie", "autopass", "experimental"],
+        flags: ["pie", "autopass"],
     };
 
     public numplayers = 2;

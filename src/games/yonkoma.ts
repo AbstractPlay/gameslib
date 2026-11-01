@@ -132,7 +132,7 @@ export class YonkomaGame extends GameBase {
         uid: "yonkoma",
         playercounts: [2],
         version: "20261029",
-        dateAdded: "2026-10-29",
+        dateAdded: "2026-11-01",
         description: "Two red and two blue checkers on a checkerboard. A checker moves along a diagonal like a bishop, and every move must bring the moved checker closer to the two enemy checkers, or else keep that distance and take it farther from its partner. Whoever completes a crosscut, a 2x2 block holding all four checkers, loses.",
         notes: "Yonkoma was designed by Mark Steere in October 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nThe distance between two squares is the number of king moves between them, which is the larger of the number of rows apart and the number of columns apart. A move must either bring the moved checker closer to the two enemy checkers, so that the sum of its distances to them decreases, or keep that sum unchanged and take the checker farther from its partner. Select a checker and the squares it may move to are marked in green.\n\nA crosscut is a 2x2 block of squares holding all four checkers, with the two red checkers on one diagonal of the block and the two blue checkers on the other. Whoever completes a crosscut loses. Every move lowers the total of the four red-blue distances, or keeps that total and raises the distance between two checkers of one colour, so the game always ends, and it always ends in a crosscut that one player is eventually forced to complete.\n\nPassing is not allowed, but if a player has no legal move, that turn is skipped. The pass is submitted automatically.",
         urls: [
@@ -156,7 +156,7 @@ export class YonkomaGame extends GameBase {
             { uid: "size-12", group: "board" },
         ],
         categories: ["goal>arrange", "mechanic>move", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "autopass"],
+        flags: ["autopass"],
         customizations: [
             {
                 num: 1,

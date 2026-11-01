@@ -579,7 +579,7 @@ export class KillAllGoGame extends GameBase {
         uid: "killallgo",
         playercounts: [2],
         version: "20260921",
-        dateAdded: "2026-09-21",
+        dateAdded: "2026-11-01",
         description: "A Go variant with asymmetric goals: the Attacker starts with stones on the board and must prevent the Defender from establishing unconditional life. The Defender wins by forming just one unconditionally alive string.",
         notes: "The Defender must form an unconditionally alive string (pass-alive according to Benson's algorithm): one that can survive any sequence of opposing moves without responding. Life dependent on seki or ko does not count. The Attacker wins when their unconditionally alive stones leave no room for such a string. Passing is not allowed after the opening, and a player with no legal placement loses.\n\nStones are placed and captured as in Go with Tromp-Taylor clearing: after a placement, opponent strings without liberties are removed, then your own string if it has none. Multi-stone suicide is therefore legal. Positional superko applies: no placement may recreate an earlier board position.",
         urls: [
@@ -647,7 +647,7 @@ export class KillAllGoGame extends GameBase {
             },
         ],
         categories: ["goal>cripple", "goal>arrange", "mechanic>place", "mechanic>capture", "mechanic>enclose", "mechanic>asymmetry", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "custom-colours", "custom-buttons"],
+        flags: ["custom-colours", "custom-buttons"],
         displays: [{ uid: "pass-alive-throughout" }],
         customizations: [
             {

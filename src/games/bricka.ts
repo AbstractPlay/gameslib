@@ -130,6 +130,11 @@ export class BrickaGame extends GameBase {
         ],
         customizations: [
             {
+                num: 3,
+                default: 3,
+                explanation: "Colour of the neutral stones",
+            },
+            {
                 num: 4,
                 default: "#666",
                 explanation: "Colour of the first goal region",
@@ -598,7 +603,7 @@ export class BrickaGame extends GameBase {
                 }
             )
         }
-        
+
         const colHalo1: Colourfuncs = {
             func: "custom",
             default: "#666",

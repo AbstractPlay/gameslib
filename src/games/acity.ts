@@ -1,7 +1,7 @@
 
 import {  GameBase, IAPGameState, IClickResult, IIndividualState, IRenderOpts, IScores, IValidationResult, IStashEntry, ICustomButton, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep, AreaPieces, BoardBasic, Colourfuncs, Glyph, MarkerGlyph, MarkerShading } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, AreaPieces, BoardBasic, Colourfuncs, Glyph, MarkerDots, MarkerGlyph, MarkerLine, MarkerShading, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, shuffle, cloneState } from "../common/index.js";
 import i18next from "i18next";
@@ -27,6 +27,12 @@ export const gameApgamesEn = {
         PARTIAL_MOVE: "Select the lot where you want to build.",
         VALID_W_CLAIMS: "Looks like a valid move. You may also choose to claim a tower.",
         LABEL_STASH: "{{player}}'s stash",
+    },
+    displays: {
+        roads: {
+            description: "Display the growing road network.",
+            name: "Roads",
+        },
     },
 };
 
@@ -119,7 +125,8 @@ export class ACityGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>network", "mechanic>place", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>pyramids", "components>piecepack"],
-        flags: ["player-stashes", "scores", "custom-colours", "random-start", "custom-buttons", "custom-randomization"]
+        flags: ["player-stashes", "scores", "custom-colours", "random-start", "custom-buttons", "custom-randomization"],
+        displays: [{uid: "roads"}],
     };
 
     public static piece2string(pc: Piece): string {
@@ -623,6 +630,21 @@ export class ACityGame extends GameBase {
         return isRoadNetworkConnected(this.board);
     }
 
+    // Lots that are illegal for any piece because building there would break
+    // the road or strand a structure. Uses the same check as canPlace() so the
+    // display can never disagree with the rules.
+    private structurallyIllegalCells(): Set<string> {
+        const illegal = new Set<string>();
+        const empties = (this.graph.listCells() as string[]).filter((c) => ! this.board.has(c));
+        for (const cell of empties) {
+            const { roadOk, isolated } = roadNetworkAfterPlacement(this.board, "ND", cell);
+            if (! roadOk || isolated) {
+                illegal.add(cell);
+            }
+        }
+        return illegal;
+    }
+
     /**
      * Refactor/golden harness only — mirrors private {@link canPlace}.
      */
@@ -883,7 +905,7 @@ export class ACityGame extends GameBase {
         }
 
         // Build rep
-        const markers: (MarkerShading|MarkerGlyph)[] = [];
+        const markers: (MarkerShading|MarkerGlyph|MarkerLine|MarkerDots)[] = [];
         // very lightly shade in tiles
         for (let i = 0; i < this.startpos.length; i++) {
             const tile = this.startpos[i];
@@ -936,6 +958,50 @@ export class ACityGame extends GameBase {
                 glyph: suit,
                 points: [{col: mx, row: my}]
             });
+        }
+
+        if (opts.altDisplay === "roads") {
+            const illegal = this.structurallyIllegalCells();
+
+            for (const cell of illegal) {
+                const [x, y] = this.graph.algebraic2coords(cell);
+                for (const n of this.graph.neighbours(cell)) {
+                    if (! illegal.has(n)) { continue; }
+                    const [nx, ny] = this.graph.algebraic2coords(n);
+                    // only look right/down so each edge is drawn once
+                    if ( (nx < x) || ( (nx === x) && (ny < y) ) ) { continue; }
+                    markers.push({
+                        type: "line",
+                        points: [{col: x, row: y}, {col: nx, row: ny}],
+                        colour: "_context_strokes",
+                        centered: true,
+                        // 1:3 dash-to-gap like US broken lane lines (10 ft
+                        // paint, 30 ft gap). Each segment starts and ends on a
+                        // half-dash (the zero gap joins adjacent halves), so
+                        // every cell centre gets a full dash however the
+                        // segments meeting there are oriented.
+                        style: "dashed",
+                        dasharray: [1.25, 7.5, 1.25, 0],
+                        width: 2,
+                    });
+                }
+            }
+
+            // dots only at chain ends, not at mid-chain cells or intersections
+            const terminalPoints: RowCol[] = [...illegal]
+                .filter((cell) => this.graph.neighbours(cell).filter((n) => illegal.has(n)).length <= 1)
+                .map((cell) => {
+                    const [x, y] = this.graph.algebraic2coords(cell);
+                    return {col: x, row: y};
+                });
+            if (terminalPoints.length > 0) {
+                markers.push({
+                    type: "dots",
+                    points: terminalPoints as [RowCol, ...RowCol[]],
+                    colour: "_context_strokes",
+                    size: 0.15,
+                });
+            }
         }
 
         const board: BoardBasic = {

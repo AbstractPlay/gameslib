@@ -236,6 +236,20 @@ describe("Alien City", () => {
             expect(r.complete).to.equal(1);
         });
 
+        it("rejects a claim when the placement ends construction for both players", () => {
+            const g = new ACityGame();
+            setUniformStart(g, "N");
+            g.board.set("b9", "BT");
+            g.stashes[0] = ["RT"];
+            g.stashes[1] = [];
+            g.currplayer = 1;
+            expect(g.validateMove("RT-e5").valid).to.be.true;
+            const r = g.validateMove("RT-e5(b9)");
+            expect(r.valid).to.be.false;
+            expect(r.message).to.equal(msg("CLAIM_ENDS_GAME"));
+            expect(() => g.move("RT-e5(b9)")).to.throw();
+        });
+
         it("will not let a player claim a dome they just placed", () => {
             const g = new ACityGame();
             setUniformStart(g, "N");
@@ -329,6 +343,8 @@ describe("Alien City", () => {
             expect(g.gameover).to.be.true;
             expect(g.claimed[0]).to.deep.equal([]);
             expect(g.results.some((r) => r.type === "nullifyClaim")).to.be.true;
+            const lastEntry = g.chatLogEntries(["One", "Two"]).at(-1);
+            expect(lastEntry?.lines.some((l) => l.textKey === "apresults:_general.NULLIFY_CLAIM.default")).to.be.true;
         });
 
         it("pass is not a legal move when placements are available", () => {
@@ -356,8 +372,7 @@ describe("Alien City", () => {
             expect(g.getButtons()).to.deep.equal([]);
         });
 
-        it("moves() yields only valid, complete moves and never 'pass' on a fresh board", function () {
-            this.timeout(120000);
+        it("moves() yields only valid, complete moves and never 'pass' on a fresh board", () => {
             const g = new ACityGame();
             setUniformStart(g, "N");
             const moves = g.moves();

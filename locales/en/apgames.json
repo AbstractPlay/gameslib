@@ -858,6 +858,7 @@
       "BAD_TOWER": "Towers may only be placed on tiles their own colour, on black tiles, or on tiles that already contain two legally placed structures.",
       "BROKEN_ROAD": "Placing a piece at {{where}} would break the road network.",
       "CLAIM_TOWERS": "You may only claim towers.",
+      "CLAIM_ENDS_GAME": "You may not claim a tower on the last placement of the game.",
       "DOUBLE_CLAIM": "The tower at {{where}} has already been claimed.",
       "INITIAL_INSTRUCTIONS": "Select a piece from your stash, or type 'pass' if you have no legal moves remaining.",
       "INVALID_PIECE": "You don't have {{piece}} in your stash to place.",

@@ -2539,6 +2539,14 @@
     "src": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins.",
     "out": "Un gioco in cui il tuo movimento è vincolato dalla tua distanza dal centro del tabellone. Le mosse di cattura non devono aumentare tale distanza. Le mosse non di cattura devono aumentare tale distanza. La prima persona che cattura tutti i pezzi avversari vince."
   },
+  "displays.acity.roads.description": {
+    "src": "Display the growing road network.",
+    "out": "Mostra la rete stradale in espansione."
+  },
+  "displays.acity.roads.name": {
+    "src": "Roads",
+    "out": "Strade"
+  },
   "displays.agofmars.hide-bag-pool.description": {
     "src": "Don't show the pyramids still in the draw bag.",
     "out": "Non mostrare le piramidi ancora nel sacchetto di pesca."

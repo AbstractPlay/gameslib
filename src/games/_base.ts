@@ -1000,6 +1000,9 @@ export abstract class GameBase  {
     // Check whether two moves with potentially different string representations are actually the same move.
     // For many games you can override this with just: return move1.toLowerCase().replace(/\s+/g, "") === move2.toLowerCase().replace(/\s+/g, "");
     protected sameMove(move1: string, move2: string): boolean {
+        if (move2 === undefined || move2 === null || move2 === "") {
+            return false;
+        }
         move1 = move1.toLowerCase().replace(/\s+/g, "");
         if (move1 === move2.toLowerCase().replace(/\s+/g, ""))
             return true;

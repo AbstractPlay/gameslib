@@ -4912,6 +4912,12 @@
     "yonkoma": "Yonkoma a été conçu par Mark Steere en octobre 2026, en collaboration avec Claude, un modèle d'IA créé par Anthropic.\n\nLa distance entre deux cases correspond au nombre de déplacements de roi entre elles, c'est-à-dire le plus grand nombre entre l'écart en rangées et l'écart en colonnes. Un coup doit soit rapprocher le pion déplacé des deux pions adverses, de sorte que la somme de ses distances par rapport à eux diminue, soit maintenir cette somme inchangée et éloigner le pion de son propre partenaire. Sélectionnez un pion et les cases où il peut se déplacer seront marquées en vert.\n\nUn « crosscut » est un bloc de 2x2 cases contenant les quatre pions, avec les deux pions rouges sur une diagonale du bloc et les deux pions bleus sur l'autre. Le joueur qui complète un crosscut perd la partie. Chaque coup réduit le total des quatre distances rouge-bleu, ou maintient ce total tout en augmentant la distance entre deux pions d'une même couleur ; ainsi, la partie se termine toujours, et se termine obligatoirement par un crosscut qu'un joueur finit par être contraint de former.\n\nPasser son tour n'est pas autorisé, mais si un joueur n'a aucun coup légal, son tour est sauté. Le passe est validé automatiquement."
   },
   "displays": {
+    "acity": {
+      "roads": {
+        "description": "Affiche le réseau routier en expansion.",
+        "name": "Routes"
+      }
+    },
     "agofmars": {
       "hide-bag-pool": {
         "description": "Ne pas afficher les pyramides encore dans le sac de pioche.",

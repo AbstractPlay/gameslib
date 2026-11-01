@@ -173,12 +173,12 @@ export class YonkomaGame extends GameBase {
             {
                 num: 3,
                 default: FELT_LIGHT,
-                explanation: "Colour of the light squares",
+                explanation: "Colour of the light felt squares",
             },
             {
                 num: 4,
                 default: FELT_DARK,
-                explanation: "Colour of the dark squares",
+                explanation: "Colour of the dark felt squares",
             },
             {
                 num: 5,

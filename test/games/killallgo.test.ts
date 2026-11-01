@@ -377,9 +377,9 @@ describe("Kill-All Go", () => {
             expect(new KillAllGoGame(undefined, []).render().board).to.deep.include({ width: 19, height: 19 });
         });
 
-        it("is experimental and cannot be rated with a handicap", () => {
+        it("is not experimental and cannot be rated with a handicap", () => {
             const flags = KillAllGoGame.gameinfo.flags ?? [];
-            expect(flags).to.include("experimental");
+            expect(flags).to.not.include("experimental");
             const variants = KillAllGoGame.gameinfo.variants ?? [];
             const handicap = variants.find((v) => v.uid === "handicap");
             expect(handicap).to.not.be.undefined;

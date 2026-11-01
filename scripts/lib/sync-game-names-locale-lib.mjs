@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { Project, SyntaxKind } from "ts-morph";
 import { MANAGED_LANGS } from "../locale-prune.mjs";
-import { writeLocaleJson } from "../locale-json-format.mjs";
+import { writeLocaleJson, formatLocaleJson, normalizeLocaleJsonText } from "../locale-json-format.mjs";
 import {
     collectGameFiles,
     DEFAULT_SKIP_FILES,
@@ -62,16 +62,46 @@ function sortObjectKeys(obj) {
     return Object.fromEntries(Object.keys(obj).sort().map((k) => [k, obj[k]]));
 }
 
-function mergeNamesIntoApgames(apgames, expectedNames) {
+function isTrackingKey(key) {
+    return key === "_src" || key.startsWith("_src_");
+}
+
+/**
+ * Update `names.{uid}` without reordering top-level keys (follow `keyOrderSource`, usually English apgames).
+ * @param {Record<string, unknown>} apgames
+ * @param {Record<string, string>} expectedNames
+ * @param {Record<string, unknown>} [keyOrderSource]
+ */
+export function mergeNamesIntoApgames(apgames, expectedNames, keyOrderSource = apgames) {
     const sortedNames = sortObjectKeys(expectedNames);
-    const rest = { ...apgames };
-    delete rest.names;
-    const { descriptions, ...tail } = rest;
-    return {
-        descriptions,
-        names: sortedNames,
-        ...tail,
-    };
+    /** @type {Record<string, unknown>} */
+    const out = {};
+    const seen = new Set();
+
+    for (const key of Object.keys(keyOrderSource)) {
+        if (isTrackingKey(key)) {
+            continue;
+        }
+        seen.add(key);
+        if (key === "names") {
+            out.names = sortedNames;
+        } else if (Object.prototype.hasOwnProperty.call(apgames, key)) {
+            out[key] = apgames[key];
+        }
+    }
+
+    for (const key of Object.keys(apgames)) {
+        if (seen.has(key) || isTrackingKey(key)) {
+            continue;
+        }
+        out[key] = apgames[key];
+    }
+
+    if (!Object.prototype.hasOwnProperty.call(out, "names")) {
+        out.names = sortedNames;
+    }
+
+    return out;
 }
 
 function loadProject() {
@@ -91,14 +121,19 @@ function loadEnglishNames() {
 }
 
 function seedManagedLocales(englishNames) {
+    const enApgames = JSON.parse(fs.readFileSync(APGAMES_PATH, "utf8"));
     for (const lang of MANAGED_LANGS) {
         const localePath = path.join(ROOT, "locales", lang, "apgames.json");
         if (!fs.existsSync(localePath)) {
             throw new Error(`Missing managed locale: ${localePath}`);
         }
         const apgames = JSON.parse(fs.readFileSync(localePath, "utf8"));
-        const merged = mergeNamesIntoApgames(apgames, englishNames);
-        writeLocaleJson(localePath, merged);
+        const merged = mergeNamesIntoApgames(apgames, englishNames, enApgames);
+        const beforeNorm = normalizeLocaleJsonText(formatLocaleJson(apgames));
+        const afterNorm = normalizeLocaleJsonText(formatLocaleJson(merged));
+        if (beforeNorm !== afterNorm) {
+            writeLocaleJson(localePath, merged);
+        }
 
         const srcPath = path.join(ROOT, "locale-src", lang, "apgames.json");
         const srcTracking = fs.existsSync(srcPath)
@@ -110,8 +145,14 @@ function seedManagedLocales(englishNames) {
         const sortedTracking = Object.fromEntries(
             Object.keys(srcTracking).sort().map((key) => [key, srcTracking[key]]),
         );
-        fs.mkdirSync(path.dirname(srcPath), { recursive: true });
-        writeLocaleJson(srcPath, sortedTracking);
+        const trackingNorm = fs.existsSync(srcPath)
+            ? normalizeLocaleJsonText(fs.readFileSync(srcPath, "utf8"))
+            : "";
+        const nextTrackingNorm = normalizeLocaleJsonText(formatLocaleJson(sortedTracking));
+        if (trackingNorm !== nextTrackingNorm) {
+            fs.mkdirSync(path.dirname(srcPath), { recursive: true });
+            writeLocaleJson(srcPath, sortedTracking);
+        }
         console.log(`Seeded names (${Object.keys(englishNames).length}) → ${localePath} + locale-src`);
     }
 }

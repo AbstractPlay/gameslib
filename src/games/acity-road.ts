@@ -8,11 +8,16 @@ const GRID_H = 10;
 
 let roadTemplate: UndirectedGraph | undefined;
 
-function templateGraph(): UndirectedGraph {
+/** Shared full grid; callers must not mutate it. */
+function baseGraph(): UndirectedGraph {
     if (roadTemplate === undefined) {
         roadTemplate = new SquareOrthGraph(GRID_W, GRID_H).graph;
     }
-    return roadTemplate.copy();
+    return roadTemplate;
+}
+
+function templateGraph(): UndirectedGraph {
+    return baseGraph().copy();
 }
 
 /** Road adjacency graph: orthogonal edges minus edges between adjacent occupied lots. */
@@ -58,6 +63,107 @@ export function roadNetworkAfterPlacement(
     const roadOk = connectedComponents(roadOnly).length === 1;
 
     return { roadOk, isolated };
+}
+
+export interface StructuralConstraints {
+    /** Empty lots where a placement would split the road network. */
+    roadBreaking: Set<string>;
+    /** Empty lots where a placement would leave a building with no adjacent road. */
+    isolating: Set<string>;
+}
+
+/**
+ * Reference implementation: same answers as {@link roadNetworkAfterPlacement} on every empty lot.
+ */
+function structuralConstraintsBruteForce(board: ReadonlyMap<string, string>): StructuralConstraints {
+    const grid = baseGraph();
+    const roadBreaking = new Set<string>();
+    const isolating = new Set<string>();
+    for (const cell of grid.nodes()) {
+        if (board.has(cell)) {
+            continue;
+        }
+        const ref = roadNetworkAfterPlacement(board, "ND", cell);
+        if (! ref.roadOk) {
+            roadBreaking.add(cell);
+        }
+        if (ref.isolated) {
+            isolating.add(cell);
+        }
+    }
+    return { roadBreaking, isolating };
+}
+
+/**
+ * For a board reached by legal play (one connected road network), gives the
+ * same answers as calling {@link roadNetworkAfterPlacement} on every empty lot,
+ * in one pass: road-breaking lots are the cut vertices of the empty-lot graph,
+ * found with Tarjan's algorithm.
+ *
+ * When the road is already disconnected or the empty-lot graph has multiple
+ * components, falls back to {@link structuralConstraintsBruteForce}.
+ */
+export function structuralConstraints(board: ReadonlyMap<string, string>): StructuralConstraints {
+    if (! isRoadNetworkConnected(board)) {
+        return structuralConstraintsBruteForce(board);
+    }
+
+    const grid = baseGraph();
+    const emptyNbrs = new Map<string, string[]>();
+    let emptyCount = 0;
+    for (const c of grid.nodes()) {
+        if (! board.has(c)) {
+            emptyCount++;
+        }
+        emptyNbrs.set(c, grid.neighbors(c).filter((n) => ! board.has(n)));
+    }
+
+    // A building's road neighbours are exactly its empty neighbours, so a
+    // placement strands a building iff it fills that building's last one.
+    const isolating = new Set<string>();
+    for (const c of board.keys()) {
+        const open = emptyNbrs.get(c)!;
+        if (open.length === 1) {
+            isolating.add(open[0]);
+        }
+    }
+
+    const disc = new Map<string, number>();
+    const low = new Map<string, number>();
+    const roadBreaking = new Set<string>();
+    let timer = 0;
+    const visit = (u: string, parent: string | null): void => {
+        disc.set(u, timer);
+        low.set(u, timer);
+        timer++;
+        let children = 0;
+        for (const v of emptyNbrs.get(u)!) {
+            if (v === parent) { continue; }
+            if (! disc.has(v)) {
+                children++;
+                visit(v, u);
+                low.set(u, Math.min(low.get(u)!, low.get(v)!));
+                if ( (parent !== null) && (low.get(v)! >= disc.get(u)!) ) {
+                    roadBreaking.add(u);
+                }
+            } else {
+                low.set(u, Math.min(low.get(u)!, disc.get(v)!));
+            }
+        }
+        if ( (parent === null) && (children > 1) ) {
+            roadBreaking.add(u);
+        }
+    };
+    const start = grid.nodes().find((c) => ! board.has(c));
+    if (start !== undefined) {
+        visit(start, null);
+    }
+
+    if (disc.size !== emptyCount) {
+        return structuralConstraintsBruteForce(board);
+    }
+
+    return { roadBreaking, isolating };
 }
 
 /** Whether the road network (buildings removed) is a single component. */

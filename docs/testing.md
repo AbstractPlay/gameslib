@@ -6,6 +6,8 @@
 npm test
 ```
 
+`npm test` runs the Mocha suite and **`test/scripts/locale-catalog-missing.test.mjs`**, which fails if any game source references an `apgames:` or `apresults:` key missing from the merged English JSON (the runtime “missing JSON” / raw-key problem). Deeper locale debt (unused catalog leaves, managed file shape drift, stale `locale-src` tracking) is **`npm run audit-locale`** — dev-only, allowlisted via [`locale-src/en/_locale-audit-allowlist.json`](https://github.com/AbstractPlay/gameslib/tree/develop/locale-src/en/_locale-audit-allowlist.json). CI **`npm run test:scripts`** still runs the full script test suite (duplicate-en collectors, per-game pilots, etc.).
+
 Game-specific tests live in `test/games/`. Good unit tests will save future you (and future maintainers) a lot of headaches. No need to test basic stuff tested elsewhere (like graph/grid functions), but it's wise to test end-of-game resolution and any edge cases. See existing tests for patterns.
 
 ## CLI example

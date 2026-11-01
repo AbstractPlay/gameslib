@@ -72,6 +72,178 @@ function isThisMethodCall(expr, methodName) {
     return expr.getName() === methodName;
 }
 
+/** Match `src/common/chat-log.ts` `normalizeEogReasonLeaf`. */
+function normalizeEogReasonLeaf(reason) {
+    return reason
+        .replace(/([a-z0-9])([A-Z])/g, "$1_$2")
+        .toLowerCase()
+        .replace(/[\s\-.]+/g, "_")
+        .replace(/_+/g, "_")
+        .replace(/^_|_$/g, "");
+}
+
+/**
+ * @param {string} text
+ * @returns {Record<string, string>}
+ */
+function parseEogReasonAliasesFromSource(text) {
+    const m = text.match(/eogReasonAliases\s*\(\s*\)\s*:\s*Record<string,\s*string>\s*\{([\s\S]*?)\n\s*\}/);
+    if (!m) {
+        return {};
+    }
+    /** @type {Record<string, string>} */
+    const out = {};
+    for (const pair of m[1].matchAll(/(?:["']([^"']+)["']|(\w+))\s*:\s*["']([^"']+)["']/g)) {
+        const key = pair[1] ?? pair[2];
+        out[key] = pair[3];
+    }
+    return out;
+}
+
+/** GameBase {@link resolveEogCatalogKey} default when `reason` is omitted. */
+const EOG_DEFAULT_CATALOG_PATH = "_general.EOG.default";
+
+/** @param {string} text */
+function collectEndGameReasonLiterals(text) {
+    const reasons = new Set();
+    const re = /\bendGame\s*\(/g;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+        let i = m.index + m[0].length;
+        let depth = 1;
+        while (i < text.length && depth > 0) {
+            const ch = text[i];
+            if (ch === "(") {
+                depth++;
+            } else if (ch === ")") {
+                depth--;
+            }
+            i++;
+        }
+        const inside = text.slice(m.index + m[0].length, i - 1);
+        for (const sm of inside.matchAll(/["']([^"']+)["']/g)) {
+            const token = sm[1];
+            if (token.length > 0 && token !== "eog") {
+                reasons.add(token);
+            }
+        }
+    }
+    return reasons;
+}
+
+/**
+ * Machine `reason` tokens that can flow into `{ type: "eog", reason }` (mirrors `scripts/audit-eog-reasons.mjs`).
+ * @param {string} text
+ * @returns {Set<string>}
+ */
+export function collectEogReasonMachineTokens(text) {
+    const reasons = new Set();
+    const patterns = [
+        /type:\s*["']eog["'],\s*reason:\s*["']([^"']+)["']/g,
+        /\breason\s*=\s*["']([^"']+)["']/g,
+    ];
+    for (const re of patterns) {
+        re.lastIndex = 0;
+        for (const m of text.matchAll(re)) {
+            const token = m[1];
+            if (token.length > 0 && token !== "eog") {
+                reasons.add(token);
+            }
+        }
+    }
+    for (const token of collectEndGameReasonLiterals(text)) {
+        reasons.add(token);
+    }
+    return reasons;
+}
+
+/**
+ * @param {Record<string, unknown>} merged
+ * @param {string} uid game uid or `"_general"`
+ * @param {string} leaf normalized EOG leaf (no `_one` / `_other` suffix)
+ */
+function mergedApresultsEogHasLeaf(merged, uid, leaf) {
+    const eog =
+        uid === "_general"
+            ? merged._general?.EOG
+            : merged[uid]?.EOG;
+    if (!eog || typeof eog !== "object") {
+        return false;
+    }
+    const section = /** @type {Record<string, unknown>} */ (eog);
+    if (section[leaf] !== undefined) {
+        return true;
+    }
+    return section[`${leaf}_one`] !== undefined || section[`${leaf}_other`] !== undefined;
+}
+
+/**
+ * Catalog paths (no `apresults:`) reachable via GameBase EOG chat for one reason token.
+ * @param {string} uid
+ * @param {string | undefined} reason
+ * @param {Record<string, string>} aliases
+ * @param {Record<string, unknown>} merged
+ * @returns {Set<string>}
+ */
+function catalogPathsForEogReason(uid, reason, aliases, merged) {
+    const paths = new Set();
+    if (reason === undefined || reason.length === 0) {
+        paths.add(EOG_DEFAULT_CATALOG_PATH);
+        return paths;
+    }
+    const aliasLeaf = aliases[reason];
+    const leaf = normalizeEogReasonLeaf(aliasLeaf !== undefined ? aliasLeaf : reason);
+    const gamePath = `${uid}.EOG.${leaf}`;
+    const generalPath = `_general.EOG.${leaf}`;
+    if (mergedApresultsEogHasLeaf(merged, uid, leaf)) {
+        paths.add(gamePath);
+    }
+    if (mergedApresultsEogHasLeaf(merged, "_general", leaf)) {
+        paths.add(generalPath);
+    }
+    return paths;
+}
+
+/**
+ * @param {string} text
+ * @param {Record<string, unknown>} merged
+ * @returns {Set<string>}
+ */
+function collectBareEogDefaultPaths(text, merged) {
+    const paths = new Set();
+    if (/\{type:\s*["']eog["']\s*\}/.test(text) && mergedApresultsEogHasLeaf(merged, "_general", "default")) {
+        paths.add(EOG_DEFAULT_CATALOG_PATH);
+    }
+    return paths;
+}
+
+/**
+ * `gameApresultsEn.EOG.*` / shared `_general.EOG.*` via move-log reasons and GameBase {@link resolveEogCatalogKey}.
+ * @param {import("ts-morph").SourceFile} sourceFile
+ * @param {string} uid
+ * @param {Record<string, unknown>} [merged]
+ * @returns {Set<string>} catalog paths without `apresults:` prefix
+ */
+export function collectEogReasonApresultsPaths(sourceFile, uid, merged = mergeApresultsEnSources()) {
+    const paths = new Set();
+    const text = sourceFile.getFullText();
+    const aliases = parseEogReasonAliasesFromSource(text);
+    for (const reason of collectEogReasonMachineTokens(text)) {
+        for (const ref of catalogPathsForEogReason(uid, reason, aliases, merged)) {
+            paths.add(ref);
+        }
+    }
+    for (const aliasKey of Object.keys(aliases)) {
+        for (const ref of catalogPathsForEogReason(uid, aliasKey, aliases, merged)) {
+            paths.add(ref);
+        }
+    }
+    for (const ref of collectBareEogDefaultPaths(text, merged)) {
+        paths.add(ref);
+    }
+    return paths;
+}
+
 /**
  * @param {import("ts-morph").SourceFile} sourceFile
  * @returns {Set<string>}
@@ -136,6 +308,38 @@ export function collectApresultsRefPathsFromSourceFile(sourceFile) {
     }
 
     return paths;
+}
+
+/**
+ * Static prefix of `apresults:…${…}` template keys in chat helpers (e.g. armadas PLACE sizes).
+ * @param {import("ts-morph").SourceFile} sourceFile
+ * @returns {Set<string>} catalog path prefixes without `apresults:` (include trailing segment, e.g. `armadas.PLACE.`)
+ */
+export function collectDynamicApresultsCatalogPrefixes(sourceFile) {
+    const prefixes = new Set();
+    for (const node of sourceFile.getDescendantsOfKind(SyntaxKind.TemplateExpression)) {
+        const head = node.getHead();
+        const text = head.getLiteralText();
+        if (text.startsWith("apresults:")) {
+            prefixes.add(text.slice("apresults:".length));
+        }
+    }
+    return prefixes;
+}
+
+/**
+ * @param {Set<string>} refs
+ * @param {Set<string>} prefixes
+ * @param {Set<string>} catalogLeaves
+ */
+function applyDynamicTemplatePrefixRefs(refs, prefixes, catalogLeaves) {
+    for (const prefix of prefixes) {
+        for (const leaf of catalogLeaves) {
+            if (leaf.startsWith(prefix)) {
+                refs.add(leaf);
+            }
+        }
+    }
 }
 
 function findUidForSourceFile(sourceFile) {
@@ -216,6 +420,76 @@ function collectGlobalApresultsRefs() {
         return new Set();
     }
     return collectApresultsRefPathsFromSourceFile(sourceFile);
+}
+
+/**
+ * All `apresults:` catalog paths referenced from GameBase and every registry game module.
+ * @returns {Set<string>}
+ */
+export function collectAllApresultsRefPaths() {
+    const { project, uidToPaths } = getGamesContext();
+    const merged = mergeApresultsEnSources();
+    const refs = new Set(collectGlobalApresultsRefs());
+    if (mergedApresultsEogHasLeaf(merged, "_general", "default")) {
+        refs.add(EOG_DEFAULT_CATALOG_PATH);
+    }
+    const dynamicPrefixes = new Set();
+    const baseFile = project.getSourceFile(BASE_TS);
+    if (baseFile) {
+        for (const prefix of collectDynamicApresultsCatalogPrefixes(baseFile)) {
+            dynamicPrefixes.add(prefix);
+        }
+    }
+    for (const paths of uidToPaths.values()) {
+        for (const filePath of paths) {
+            const sourceFile = project.getSourceFile(filePath);
+            if (!sourceFile) {
+                continue;
+            }
+            for (const ref of collectApresultsRefPathsFromSourceFile(sourceFile)) {
+                refs.add(ref);
+            }
+            for (const prefix of collectDynamicApresultsCatalogPrefixes(sourceFile)) {
+                dynamicPrefixes.add(prefix);
+            }
+            const uid = findUidForSourceFile(sourceFile);
+            if (uid) {
+                for (const ref of collectEogReasonApresultsPaths(sourceFile, uid, merged)) {
+                    refs.add(ref);
+                }
+            }
+        }
+    }
+    const generalLeaves = new Set(Object.keys(collectLeaves(merged._general ?? {}, "_general")));
+    applyDynamicTemplatePrefixRefs(refs, dynamicPrefixes, generalLeaves);
+    return refs;
+}
+
+/**
+ * Shared `_general.*` catalog leaves with no literal reference in game source or GameBase.
+ * @param {{ legacyPathExclude?: (legacyPath: string) => boolean }} [options]
+ * @returns {string[]}
+ */
+export function findOrphanApresultsGeneralLeaves(options = {}) {
+    const merged = mergeApresultsEnSources();
+    const generalLeaves = Object.keys(collectLeaves(merged._general ?? {}, "_general"));
+    const refs = collectAllApresultsRefPaths();
+    const orphans = new Set();
+    for (const leafPath of generalLeaves) {
+        const legacyPath = leafPath.startsWith("_general.") ? leafPath.slice("_general.".length) : leafPath;
+        if (isOrphanExcluded(legacyPath)) {
+            continue;
+        }
+        if (options.legacyPathExclude?.(legacyPath)) {
+            continue;
+        }
+        if (!refsCoverCatalogLeaf(refs, leafPath)) {
+            orphans.add(
+                `orphan catalog leaf apresults:${leafPath} (no reference in game source or GameBase)`,
+            );
+        }
+    }
+    return [...orphans].sort();
 }
 
 /**
@@ -313,6 +587,7 @@ export function findOrphanApresultsLeaves(options = {}) {
 
     const refs = new Set(collectGlobalApresultsRefs());
     let usesExport = false;
+    const dynamicPrefixes = new Set();
     for (const filePath of paths) {
         const sourceFile = project.getSourceFile(filePath);
         if (!sourceFile) {
@@ -323,6 +598,12 @@ export function findOrphanApresultsLeaves(options = {}) {
         }
         for (const ref of collectApresultsRefPathsFromSourceFile(sourceFile)) {
             refs.add(ref);
+        }
+        for (const ref of collectEogReasonApresultsPaths(sourceFile, uidFilter, merged)) {
+            refs.add(ref);
+        }
+        for (const prefix of collectDynamicApresultsCatalogPrefixes(sourceFile)) {
+            dynamicPrefixes.add(prefix);
         }
     }
 
@@ -342,6 +623,8 @@ export function findOrphanApresultsLeaves(options = {}) {
             }
         }
     }
+
+    applyDynamicTemplatePrefixRefs(refs, dynamicPrefixes, catalogLeaves);
 
     const orphans = new Set();
     for (const leafPath of catalogLeaves) {

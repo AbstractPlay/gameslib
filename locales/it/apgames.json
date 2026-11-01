@@ -4912,6 +4912,12 @@
     "yonkoma": "Yonkoma è stato ideato da Mark Steere nell'ottobre 2026, in collaborazione con Claude, un modello di IA creato da Anthropic.\n\nLa distanza tra due caselle è il numero di mosse di re tra di esse, ovvero il valore maggiore tra il numero di righe e il numero di colonne di separazione. Una mossa deve avvicinare la pedina mossa alle due pedine avversarie, in modo che la somma delle sue distanze da esse diminuisca, oppure mantenere invariata tale somma e allontanare la pedina dalla propria compagna. Seleziona una pedina e le caselle in cui può muoversi verranno evidenziate in verde.\n\nUn crosscut è un blocco 2x2 di caselle che contiene tutte e quattro le pedine, con le due pedine rosse su una diagonale del blocco e le due pedine blu sull'altra. Chiunque completi un crosscut perde. Ogni mossa riduce il totale delle quattro distanze rosso-blu, oppure mantiene tale totale e aumenta la distanza tra due pedine dello stesso colore, quindi la partita termina sempre, e termina sempre in un crosscut che un giocatore è alla fine costretto a completare.\n\nPassare non è consentito, ma se un giocatore non ha mosse legali, il turno viene saltato. Il passo viene inviato automaticamente."
   },
   "displays": {
+    "acity": {
+      "roads": {
+        "description": "Mostra la rete stradale in espansione.",
+        "name": "Strade"
+      }
+    },
     "agofmars": {
       "hide-bag-pool": {
         "description": "Non mostrare le piramidi ancora nel sacchetto di pesca.",

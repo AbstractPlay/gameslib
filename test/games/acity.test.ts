@@ -2,8 +2,10 @@
 import "mocha";
 import { expect } from "chai";
 import { ACityGame } from "../../src/games/acity";
+import { roadNetworkAfterPlacement, structuralConstraints } from "../../src/games/acity-road";
 import { addResource } from "../../src";
 import i18next from "i18next";
+import { ACITY_GOLDEN_FIXTURES } from "../fixtures/acity-golden";
 
 // Alien City's starting position is randomised on construction (guild colour +
 // marker position for each of the 20 tiles). These helpers pin it down so the
@@ -24,6 +26,17 @@ function setStartByTile(g: ACityGame, colours: Color[]): void {
 
 function msg(key: string): string {
     return i18next.t(`apgames:validation.acity.${key}`);
+}
+
+// Fill column d (x = 3) except d5, pinching the empty network into a left
+// half (cols a-c) and a right half (cols e-h) joined only at d5.
+function pinchedBoard(): ACityGame {
+    const g = new ACityGame();
+    setUniformStart(g);
+    for (const row of [10, 9, 8, 7, 6, 4, 3, 2, 1]) {
+        g.board.set(`d${row}`, "ND");
+    }
+    return g;
 }
 
 describe("Alien City", () => {
@@ -103,17 +116,6 @@ describe("Alien City", () => {
     });
 
     describe("road connectivity rules", () => {
-        // Fill column d (x = 3) except d5, pinching the empty network into a
-        // left half (cols a-c) and a right half (cols e-h) joined only at d5.
-        function pinchedBoard(): ACityGame {
-            const g = new ACityGame();
-            setUniformStart(g);
-            for (const row of [10, 9, 8, 7, 6, 4, 3, 2, 1]) {
-                g.board.set(`d${row}`, "ND");
-            }
-            return g;
-        }
-
         it("isConnected() is true while the pinch point is still open", () => {
             expect(pinchedBoard().isConnected()).to.be.true;
         });
@@ -426,6 +428,25 @@ describe("Alien City", () => {
             expect(rep.board).to.not.be.undefined;
         });
 
+        it("plain render() draws no road markers", () => {
+            const rep = pinchedBoard().render();
+            const markers = (rep.board as { markers?: { type: string }[] }).markers ?? [];
+            expect(markers.some((m) => m.type === "line" || m.type === "dots")).to.be.false;
+        });
+
+        it("render({altDisplay:'roads'}) marks the pinch chain (c5-d5-e5)", () => {
+            const rep = pinchedBoard().render({ altDisplay: "roads" });
+            const markers = (rep.board as { markers?: { type: string, points: { col: number, row: number }[] }[] }).markers ?? [];
+            const lines = markers.filter((m) => m.type === "line");
+            const dots = markers.filter((m) => m.type === "dots");
+            // c5, d5 and e5 all break the road. d5 (col 3) is mid-chain so it
+            // gets connecting lines; c5 (col 2) and e5 (col 4) are the ends.
+            expect(lines.some((m) => m.points.some((p) => p.col === 3 && p.row === 5))).to.be.true;
+            expect(dots.some((m) => m.points.some((p) => p.col === 3 && p.row === 5))).to.be.false;
+            expect(dots.some((m) => m.points.some((p) => p.col === 2 && p.row === 5))).to.be.true;
+            expect(dots.some((m) => m.points.some((p) => p.col === 4 && p.row === 5))).to.be.true;
+        });
+
         it("handleClick on a stash piece selects it", () => {
             const g = new ACityGame();
             setUniformStart(g, "N");
@@ -451,6 +472,40 @@ describe("Alien City", () => {
             expect(clone.board.get("b9")).to.equal("ND");
             expect(clone.currplayer).to.equal(2);
             expect(clone.getStartingPosition()).to.equal(g.getStartingPosition());
+        });
+    });
+
+    describe("structuralConstraints matches the per-lot reference", () => {
+        const ALL_CELLS = "abcdefgh".split("").flatMap((col) => [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((row) => `${col}${row}`));
+
+        function expectSameAsReference(board: Map<string, string>, label: string): void {
+            const { roadBreaking, isolating } = structuralConstraints(board);
+            for (const cell of ALL_CELLS.filter((c) => ! board.has(c))) {
+                const ref = roadNetworkAfterPlacement(board, "ND", cell);
+                expect(roadBreaking.has(cell), `${label}: road at ${cell}`).to.equal(! ref.roadOk);
+                expect(isolating.has(cell), `${label}: isolated at ${cell}`).to.equal(ref.isolated);
+            }
+        }
+
+        it("on every golden fixture", () => {
+            for (const spec of ACITY_GOLDEN_FIXTURES) {
+                expectSameAsReference(new Map(spec.board), spec.id);
+            }
+        });
+
+        it("at every position of deterministic full playouts", function () {
+            this.timeout(60000);
+            for (const step of [3, 7]) {
+                const g = new ACityGame();
+                setUniformStart(g, "N");
+                let turn = 0;
+                while (! g.gameover) {
+                    expectSameAsReference(new Map(g.board), `playout ${step}, turn ${turn}`);
+                    const moves = g.moves().filter((m) => ! m.includes("("));
+                    g.move(moves[(turn * step) % moves.length]);
+                    turn++;
+                }
+            }
         });
     });
 });

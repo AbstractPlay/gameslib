@@ -768,7 +768,7 @@ export class SponnectGame extends GameBase {
                     const [x, y] = this.algebraicToPosition(cell);
                     targets.push({row: y, col: x})
                 }
-                rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+                rep.annotations.push({type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false});
             }
         }
 

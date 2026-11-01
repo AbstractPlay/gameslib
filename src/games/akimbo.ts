@@ -589,7 +589,7 @@ export class AkimboGame extends GameBase {
                     const [x,y] = this.algebraic2coords(cell);
                     targets.push({row: y, col: x})                ;
                 }
-                rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+                rep.annotations.push({type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false});
             }
         }
 
@@ -601,7 +601,7 @@ export class AkimboGame extends GameBase {
                 const [x,y] = this.algebraic2coords(cell);
                 targets.push({row: y, col: x})                ;
             }
-            rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+            rep.annotations.push({type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false});
         }
 
         if ( this.nakedDiagonalP2.length > 0 ) {
@@ -611,7 +611,7 @@ export class AkimboGame extends GameBase {
                 const [x,y] = this.algebraic2coords(cell);
                 targets.push({row: y, col: x})                ;
             }
-            rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+            rep.annotations.push({type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false});
         }
 
         return rep;

@@ -423,7 +423,7 @@ export class SquaredanceGame extends GameBase {
             }
             if (this.line !== undefined) {
                 const [[lx, ly], [rx, ry]] = this.line.map(c => this.graph.algebraic2coords(c));
-                rep.annotations!.push({type: "move", targets: [{row: ly, col: lx}, {row: ry, col: rx}], arrow: false});
+                rep.annotations!.push({type: "line", targets: [{row: ly, col: lx}, {row: ry, col: rx}], arrow: false});
             }
             if (this.dots.length > 0) {
                 const targets: RowCol[] = [];

@@ -908,7 +908,7 @@ export class MajoritiesGame extends GameBase {
                     } else {
                         if (move.where === "H") {
                             rep.annotations.push({
-                                type: "move",
+                                type: "line",
                                 targets: [{ row: 0, col: this.boardSize }, { row: this.boardSize, col: 2 * this.boardSize }, { row: 2 * this.boardSize, col: this.boardSize }],
                                 opacity: 0.5,
                                 strokeWidth: 0.12,
@@ -918,7 +918,7 @@ export class MajoritiesGame extends GameBase {
                             });
                         } else if (move.where === "A") {
                             rep.annotations.push({
-                                type: "move",
+                                type: "line",
                                 targets: [{ row: this.boardSize, col: 0 }, { row: 2 * this.boardSize, col: 0 }, { row: 2 * this.boardSize, col: this.boardSize }],
                                 opacity: 0.5,
                                 strokeWidth: 0.12,
@@ -928,7 +928,7 @@ export class MajoritiesGame extends GameBase {
                             });
                         } else {
                             rep.annotations.push({
-                                type: "move",
+                                type: "line",
                                 targets: [{ row: this.boardSize, col: 0 }, { row: 0, col: 0 }, { row: 0, col: this.boardSize }],
                                 opacity: 0.5,
                                 strokeWidth: 0.12,

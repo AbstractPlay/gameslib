@@ -585,7 +585,7 @@ export class PippinzipGame extends GameBase {
                         const [x,y] = PippinzipGame.algebraic2coords(cell, this.boardSize);
                         targets.push({row: y, col: x})
                     }
-                    rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+                    rep.annotations.push({type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false});
 
                     targets = [];
                     const path2 = this.connPath.slice(i+1);
@@ -593,14 +593,14 @@ export class PippinzipGame extends GameBase {
                         const [x,y] = PippinzipGame.algebraic2coords(cell, this.boardSize);
                         targets.push({row: y, col: x})
                     }
-                    rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+                    rep.annotations.push({type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false});
                 } else { // it is a connection between opposite edges
                     const targets: RowCol[] = [];
                     for (const cell of this.connPath) {
                         const [x,y] = PippinzipGame.algebraic2coords(cell, this.boardSize);
                         targets.push({row: y, col: x})
                     }
-                    rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+                    rep.annotations.push({type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false});
                 }
             }
         }

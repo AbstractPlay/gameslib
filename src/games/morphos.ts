@@ -948,7 +948,7 @@ export class MorphosGame extends GameBase {
                 const [x,y] = this.algebraic2coords(cell);
                 targets.push({row: y, col: x})                ;
             }
-            rep.annotations.push({type: "move", strokeWidth: 0.04, targets: targets as [RowCol, ...RowCol[]], arrow: false});
+            rep.annotations.push({type: "line", strokeWidth: 0.04, targets: targets as [RowCol, ...RowCol[]], arrow: false});
         }
         if (rep.annotations.length === 0) {
             rep.annotations = undefined;

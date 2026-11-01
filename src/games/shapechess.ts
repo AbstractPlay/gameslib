@@ -692,7 +692,7 @@ export class ShapeChessGame extends GameBase {
                 const [fromX, fromY]:number[] = line[0];
                 const [toX,   toY]  :number[] = line[1];
                 const player = line[2][0] as playerid;
-                rep.annotations.push({ type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}],
+                rep.annotations.push({ type: "line", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}],
                                        opacity: 0.75, arrow: false, strokeWidth: 0.05, colour: player });
             }
         }

@@ -781,7 +781,7 @@ export class YGame extends GameBase {
             for (const cell of this.connPath) {
                 targets.push(annotationRowCol(cell));
             }
-            rep.annotations.push({ type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+            rep.annotations.push({ type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false});
         }
 
         return rep;

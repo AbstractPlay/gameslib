@@ -6,17 +6,6 @@ import { APRenderRep, AreaStackingExpanded, AreaVolcanoStash, Colourfuncs, Glyph
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-import { gameApgamesUidKey } from "../common/game-apgames-t.js";
-
-/** Display strings are resolved in {@link GameBase}; anchors for strict apgames key coverage. */
-void gameApgamesUidKey("icepalace", "displays", "#areas", "name");
-void gameApgamesUidKey("icepalace", "displays", "#areas", "description");
-void gameApgamesUidKey("icepalace", "displays", "#board", "name");
-void gameApgamesUidKey("icepalace", "displays", "#board", "description");
-void gameApgamesUidKey("icepalace", "displays", "perspective", "name");
-void gameApgamesUidKey("icepalace", "displays", "perspective", "description");
-void gameApgamesUidKey("icepalace", "displays", "perspective-areas", "name");
-void gameApgamesUidKey("icepalace", "displays", "perspective-areas", "description");
 
 export const gameApgamesEn = {
     validation: {

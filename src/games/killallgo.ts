@@ -4,24 +4,6 @@ import type { APRenderRep, Colourfuncs, Glyph, RowCol } from "@abstractplay/rend
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { algebraic2coords, coords2algebraic, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-import { gameApgamesUidKey } from "../common/game-apgames-t.js";
-
-/** Variant and display labels are resolved in {@link GameBase}; anchors for strict apgames key coverage. */
-void gameApgamesUidKey("killallgo", "variants", "size-9", "name");
-void gameApgamesUidKey("killallgo", "variants", "size-13", "name");
-void gameApgamesUidKey("killallgo", "variants", "#board", "name");
-void gameApgamesUidKey("killallgo", "variants", "#opening", "name");
-void gameApgamesUidKey("killallgo", "variants", "#opening", "description");
-void gameApgamesUidKey("killallgo", "variants", "handicap", "name");
-void gameApgamesUidKey("killallgo", "variants", "handicap", "description");
-void gameApgamesUidKey("killallgo", "variants", "classic", "name");
-void gameApgamesUidKey("killallgo", "variants", "classic", "description");
-void gameApgamesUidKey("killallgo", "variants", "pie", "name");
-void gameApgamesUidKey("killallgo", "variants", "pie", "description");
-void gameApgamesUidKey("killallgo", "variants", "hoctaph", "name");
-void gameApgamesUidKey("killallgo", "variants", "hoctaph", "description");
-void gameApgamesUidKey("killallgo", "displays", "pass-alive-throughout", "name");
-void gameApgamesUidKey("killallgo", "displays", "pass-alive-throughout", "description");
 
 export const gameApgamesEn = {
     validation: {
@@ -597,7 +579,7 @@ export class KillAllGoGame extends GameBase {
         uid: "killallgo",
         playercounts: [2],
         version: "20260921",
-        dateAdded: "2026-09-21",
+        dateAdded: "2026-11-01",
         description: "A Go variant with asymmetric goals: the Attacker starts with stones on the board and must prevent the Defender from establishing unconditional life. The Defender wins by forming just one unconditionally alive string.",
         notes: "The Defender must form an unconditionally alive string (pass-alive according to Benson's algorithm): one that can survive any sequence of opposing moves without responding. Life dependent on seki or ko does not count. The Attacker wins when their unconditionally alive stones leave no room for such a string. Passing is not allowed after the opening, and a player with no legal placement loses.\n\nStones are placed and captured as in Go with Tromp-Taylor clearing: after a placement, opponent strings without liberties are removed, then your own string if it has none. Multi-stone suicide is therefore legal. Positional superko applies: no placement may recreate an earlier board position.",
         urls: [
@@ -665,7 +647,7 @@ export class KillAllGoGame extends GameBase {
             },
         ],
         categories: ["goal>cripple", "goal>arrange", "mechanic>place", "mechanic>capture", "mechanic>enclose", "mechanic>asymmetry", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "custom-colours", "custom-buttons"],
+        flags: ["custom-colours", "custom-buttons"],
         displays: [{ uid: "pass-alive-throughout" }],
         customizations: [
             {

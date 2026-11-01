@@ -5,45 +5,6 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { algebraic2coords, coords2algebraic, reviver, shuffle, SnubSquareGraph, UserFacingError } from "../common/index.js";
 import type { FlagContext, GameFlag } from "../common/flags.js";
 import i18next from "i18next";
-import { gameApgamesUidKey } from "../common/game-apgames-t.js";
-
-/** Variant and display labels are resolved in {@link GameBase}; anchors for strict apgames key coverage. */
-void gameApgamesUidKey("thuemorsego", "variants", "size-11", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "#board", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "size-19", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "size-23", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "#connect", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "#connect", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "snub", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "snub", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "#protocol", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "#protocol", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "marseillais", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "marseillais", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "handicap", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "handicap", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "reverse-komi", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "reverse-komi", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "#repetition", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "#repetition", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "superko", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "superko", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "double-delayed-psk", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "double-delayed-psk", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "weak-eyes", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "weak-eyes", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "half-button", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "half-button", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "kill-all", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "kill-all", "description");
-void gameApgamesUidKey("thuemorsego", "displays", "tms-tracker", "name");
-void gameApgamesUidKey("thuemorsego", "displays", "tms-tracker", "description");
-void gameApgamesUidKey("thuemorsego", "displays", "digits-down", "name");
-void gameApgamesUidKey("thuemorsego", "displays", "digits-down", "description");
-void gameApgamesUidKey("thuemorsego", "displays", "hide-territory", "name");
-void gameApgamesUidKey("thuemorsego", "displays", "hide-territory", "description");
-void gameApgamesUidKey("thuemorsego", "displays", "pass-alive-throughout", "name");
-void gameApgamesUidKey("thuemorsego", "displays", "pass-alive-throughout", "description");
 
 export const gameApgamesEn = {
     validation: {
@@ -818,7 +779,7 @@ export class ThueMorseGoGame extends GameBase {
         uid: "thuemorsego",
         playercounts: [2],
         version: "20261004",
-        dateAdded: "2026-10-04",
+        dateAdded: "2026-11-01",
         description: "Go in which the order of placements follows the Thue-Morse sequence (0110 1001 1001 0110 …), so every move is one or two stones. It is conjectured that the game is balanced without komi, having no first-player advantage or disadvantage, but it bears noting that the mathematical claims about the Thue-Morse Sequence being fair are generally about much simpler toy problems in which the value of each move does not impact the value of other moves, something which is patently false for Go.",
         notes: "Placement `n` (counting from 0) belongs to Player 1 when `n` has an even number of `1` bits in binary and to Player 2 when `n` has an odd number of `1` bits in binary. The TMS Tracker fronts this with a stylized representation of `n` in hexadecimal, while the default tracker more straightforwardly shows the next 16 placements.\n\nThe game ends after two passes which agree on which strings are dead. If one or both players resume the game after the agreement phase, players must manually capture all dead stones: two passes at that point will score the game as is with all strings considered alive.\n\nIn Handicap Stone and/or Reverse Komi games, Player 2 is the stronger player and chooses the relevant value(s) on their first turn; except in Kill-All games, where Player 1 is the stronger player and chooses the number of handicap stones on their first turn.\n\nThe Thue-Morse order appears to have been independently proposed for Go by atimholt and TheElvenAngelCatboy on r/baduk, and by BHydden on the Online Go Forum, each pointing to the same Stand-up Maths video about the sequence; the forum community then built tools for playing it on OGS, ran tournaments, and worked out the rules implemented here. The Balanced Marseillais order comes from chess: Marseillais Chess (AABB) is attributed either to Albert Fortis with J. Rossow or to Jehan de Queylar, and Robert Bruce first proposed the ABBA correction that balances it.",
         urls: [
@@ -889,7 +850,7 @@ export class ThueMorseGoGame extends GameBase {
             { uid: "kill-all", conflictsWith: ["half-button"] },
         ],
         categories: ["goal>area", "goal>cripple", "mechanic>place", "mechanic>capture", "mechanic>enclose", "board>shape>rect", "board>connect>rect", "board>connect>snub", "components>simple>1per"],
-        flags: ["experimental", "scores", "custom-buttons", "no-moves", "custom-randomization"],
+        flags: ["scores", "custom-buttons", "no-moves", "custom-randomization"],
         displays: [{ uid: "tms-tracker" }, { uid: "digits-down" }, { uid: "hide-territory" }, { uid: "pass-alive-throughout" }],
         // Kill-All games draw their roles from slots 3 and 4, so that the Attacker takes the first
         // colour as in Kill-All Go by default, and a player who prefers the Defender in the first

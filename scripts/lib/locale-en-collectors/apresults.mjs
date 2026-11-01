@@ -72,6 +72,53 @@ function isThisMethodCall(expr, methodName) {
     return expr.getName() === methodName;
 }
 
+/** Match `src/common/chat-log.ts` `normalizeEogReasonLeaf`. */
+function normalizeEogReasonLeaf(reason) {
+    return reason
+        .replace(/([a-z0-9])([A-Z])/g, "$1_$2")
+        .toLowerCase()
+        .replace(/[\s\-.]+/g, "_")
+        .replace(/_+/g, "_")
+        .replace(/^_|_$/g, "");
+}
+
+/**
+ * @param {string} text
+ * @returns {Record<string, string>}
+ */
+function parseEogReasonAliasesFromSource(text) {
+    const m = text.match(/eogReasonAliases\s*\(\s*\)\s*:\s*Record<string,\s*string>\s*\{([\s\S]*?)\n\s*\}/);
+    if (!m) {
+        return {};
+    }
+    /** @type {Record<string, string>} */
+    const out = {};
+    for (const pair of m[1].matchAll(/(?:["']([^"']+)["']|(\w+))\s*:\s*["']([^"']+)["']/g)) {
+        const key = pair[1] ?? pair[2];
+        out[key] = pair[3];
+    }
+    return out;
+}
+
+/**
+ * `gameApresultsEn.EOG.*` keys resolved at runtime via {@link resolveEogCatalogKey} from move-log reasons.
+ * @param {import("ts-morph").SourceFile} sourceFile
+ * @param {string} uid
+ * @returns {Set<string>} catalog paths without `apresults:` prefix
+ */
+export function collectEogReasonApresultsPaths(sourceFile, uid) {
+    const paths = new Set();
+    const text = sourceFile.getFullText();
+    const reasonRe = /type:\s*["']eog["'],\s*reason:\s*["']([^"']+)["']/g;
+    for (const m of text.matchAll(reasonRe)) {
+        paths.add(`${uid}.EOG.${normalizeEogReasonLeaf(m[1])}`);
+    }
+    for (const leaf of Object.values(parseEogReasonAliasesFromSource(text))) {
+        paths.add(`${uid}.EOG.${normalizeEogReasonLeaf(leaf)}`);
+    }
+    return paths;
+}
+
 /**
  * @param {import("ts-morph").SourceFile} sourceFile
  * @returns {Set<string>}
@@ -136,6 +183,38 @@ export function collectApresultsRefPathsFromSourceFile(sourceFile) {
     }
 
     return paths;
+}
+
+/**
+ * Static prefix of `apresults:…${…}` template keys in chat helpers (e.g. armadas PLACE sizes).
+ * @param {import("ts-morph").SourceFile} sourceFile
+ * @returns {Set<string>} catalog path prefixes without `apresults:` (include trailing segment, e.g. `armadas.PLACE.`)
+ */
+export function collectDynamicApresultsCatalogPrefixes(sourceFile) {
+    const prefixes = new Set();
+    for (const node of sourceFile.getDescendantsOfKind(SyntaxKind.TemplateExpression)) {
+        const head = node.getHead();
+        const text = head.getLiteralText();
+        if (text.startsWith("apresults:")) {
+            prefixes.add(text.slice("apresults:".length));
+        }
+    }
+    return prefixes;
+}
+
+/**
+ * @param {Set<string>} refs
+ * @param {Set<string>} prefixes
+ * @param {Set<string>} catalogLeaves
+ */
+function applyDynamicTemplatePrefixRefs(refs, prefixes, catalogLeaves) {
+    for (const prefix of prefixes) {
+        for (const leaf of catalogLeaves) {
+            if (leaf.startsWith(prefix)) {
+                refs.add(leaf);
+            }
+        }
+    }
 }
 
 function findUidForSourceFile(sourceFile) {
@@ -225,6 +304,13 @@ function collectGlobalApresultsRefs() {
 export function collectAllApresultsRefPaths() {
     const { project, uidToPaths } = getGamesContext();
     const refs = new Set(collectGlobalApresultsRefs());
+    const dynamicPrefixes = new Set();
+    const baseFile = project.getSourceFile(BASE_TS);
+    if (baseFile) {
+        for (const prefix of collectDynamicApresultsCatalogPrefixes(baseFile)) {
+            dynamicPrefixes.add(prefix);
+        }
+    }
     for (const paths of uidToPaths.values()) {
         for (const filePath of paths) {
             const sourceFile = project.getSourceFile(filePath);
@@ -234,8 +320,20 @@ export function collectAllApresultsRefPaths() {
             for (const ref of collectApresultsRefPathsFromSourceFile(sourceFile)) {
                 refs.add(ref);
             }
+            for (const prefix of collectDynamicApresultsCatalogPrefixes(sourceFile)) {
+                dynamicPrefixes.add(prefix);
+            }
+            const uid = findUidForSourceFile(sourceFile);
+            if (uid) {
+                for (const ref of collectEogReasonApresultsPaths(sourceFile, uid)) {
+                    refs.add(ref);
+                }
+            }
         }
     }
+    const merged = mergeApresultsEnSources();
+    const generalLeaves = new Set(Object.keys(collectLeaves(merged._general ?? {}, "_general")));
+    applyDynamicTemplatePrefixRefs(refs, dynamicPrefixes, generalLeaves);
     return refs;
 }
 
@@ -361,6 +459,7 @@ export function findOrphanApresultsLeaves(options = {}) {
 
     const refs = new Set(collectGlobalApresultsRefs());
     let usesExport = false;
+    const dynamicPrefixes = new Set();
     for (const filePath of paths) {
         const sourceFile = project.getSourceFile(filePath);
         if (!sourceFile) {
@@ -371,6 +470,12 @@ export function findOrphanApresultsLeaves(options = {}) {
         }
         for (const ref of collectApresultsRefPathsFromSourceFile(sourceFile)) {
             refs.add(ref);
+        }
+        for (const ref of collectEogReasonApresultsPaths(sourceFile, uidFilter)) {
+            refs.add(ref);
+        }
+        for (const prefix of collectDynamicApresultsCatalogPrefixes(sourceFile)) {
+            dynamicPrefixes.add(prefix);
         }
     }
 
@@ -390,6 +495,8 @@ export function findOrphanApresultsLeaves(options = {}) {
             }
         }
     }
+
+    applyDynamicTemplatePrefixRefs(refs, dynamicPrefixes, catalogLeaves);
 
     const orphans = new Set();
     for (const leafPath of catalogLeaves) {

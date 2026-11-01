@@ -30,7 +30,7 @@ neutral stone, other player wins with equally long loop but fewer neutrals
 neutral stone, two loops of equal size and #neutrals, p2 wins
 */
 
-describe.only("Bricka", () => {
+describe("Bricka", () => {
     it("p1 win with partisan stone placement", () => {
         const g = state(
             ['c4', 'd5', 'e6', 'f6', 'g7', 'h8', 'i8', 'k10'],

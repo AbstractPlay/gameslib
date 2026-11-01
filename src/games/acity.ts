@@ -9,7 +9,8 @@ import { SquareOrthGraph } from "../common/graphs/index.js";
 import {
     isRoadNetworkConnected,
     realDistanceOnBoard,
-    roadNetworkAfterPlacement,
+    structuralConstraints,
+    type StructuralConstraints,
 } from "./acity-road.js";
 export const gameApgamesEn = {
     validation: {
@@ -176,6 +177,8 @@ export class ACityGame extends GameBase {
     public claimed!: [string[],string[]];
     private distCacheSig = "";
     private distCache = new Map<string, number>();
+    private structuralCacheSig = "";
+    private structuralCache: StructuralConstraints | undefined;
 
     constructor(state?: IACityState | string) {
         super();
@@ -630,19 +633,24 @@ export class ACityGame extends GameBase {
         return isRoadNetworkConnected(this.board);
     }
 
+    // Shared by every canPlace() call on the same board (moves() makes
+    // hundreds), keyed by board contents because tests and callers sometimes
+    // edit this.board directly.
+    private structural(): StructuralConstraints {
+        const sig = this.boardCacheSig();
+        if ( (this.structuralCache === undefined) || (sig !== this.structuralCacheSig) ) {
+            this.structuralCache = structuralConstraints(this.board);
+            this.structuralCacheSig = sig;
+        }
+        return this.structuralCache;
+    }
+
     // Lots that are illegal for any piece because building there would break
     // the road or strand a structure. Uses the same check as canPlace() so the
     // display can never disagree with the rules.
     private structurallyIllegalCells(): Set<string> {
-        const illegal = new Set<string>();
-        const empties = (this.graph.listCells() as string[]).filter((c) => ! this.board.has(c));
-        for (const cell of empties) {
-            const { roadOk, isolated } = roadNetworkAfterPlacement(this.board, "ND", cell);
-            if (! roadOk || isolated) {
-                illegal.add(cell);
-            }
-        }
-        return illegal;
+        const { roadBreaking, isolating } = this.structural();
+        return new Set([...roadBreaking, ...isolating]);
     }
 
     /**
@@ -658,11 +666,11 @@ export class ACityGame extends GameBase {
     }
 
     private canPlace(piece: Piece, cell: string): PlacementResult {
-        const { roadOk, isolated } = roadNetworkAfterPlacement(this.board, piece, cell);
-        if (! roadOk) {
+        const { roadBreaking, isolating } = this.structural();
+        if (roadBreaking.has(cell)) {
             return "ROAD";
         }
-        if (isolated) {
+        if (isolating.has(cell)) {
             return "ISOLATED";
         }
 
@@ -675,8 +683,7 @@ export class ACityGame extends GameBase {
                 const cells = this.getEmptyGuild(pcColor, trialBoard);
                 let broken = true;
                 for (const c of cells) {
-                    const alt = roadNetworkAfterPlacement(this.board, piece, c);
-                    if (alt.roadOk && ! alt.isolated) {
+                    if ( (! roadBreaking.has(c)) && (! isolating.has(c)) ) {
                         broken = false;
                         break;
                     }
@@ -1168,12 +1175,12 @@ export class ACityGame extends GameBase {
         return entry;
     }
 
-    private boardDistCacheSig(): string {
+    private boardCacheSig(): string {
         return [...this.board.entries()].map(([k, v]) => `${k}:${v}`).sort().join("|");
     }
 
     private ensureDistanceCache(): void {
-        const sig = this.boardDistCacheSig();
+        const sig = this.boardCacheSig();
         if (sig === this.distCacheSig) {
             return;
         }

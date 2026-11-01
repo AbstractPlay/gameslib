@@ -130,11 +130,6 @@ export class BrickaGame extends GameBase {
         ],
         customizations: [
             {
-                num: 3,
-                default: "#aaa",
-                explanation: "Colour of the neutral stones",
-            },
-            {
                 num: 4,
                 default: "#666",
                 explanation: "Colour of the first goal region",
@@ -603,12 +598,6 @@ export class BrickaGame extends GameBase {
                 }
             )
         }
-
-        const colNeutral: Colourfuncs = {
-            func: "custom",
-            default: "#aaa",
-            palette: 3
-        }
         
         const colHalo1: Colourfuncs = {
             func: "custom",
@@ -681,7 +670,7 @@ export class BrickaGame extends GameBase {
             legend: {
                 A: {name: "piece", colour: 1},
                 B: {name: "piece", colour: 2},
-                C: {name: "piece", colour: colNeutral}
+                C: {name: "piece", colour: 3}
             },
             pieces: pstr as [string[][], ...string[][][]],
             options: ["reverse-numbers"]

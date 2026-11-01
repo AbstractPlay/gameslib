@@ -5971,6 +5971,10 @@
     "src": "Placing a piece at {{where}} would break the road network.",
     "out": "Placer une pièce en {{where}} romprait le réseau routier."
   },
+  "validation.acity.CLAIM_ENDS_GAME": {
+    "src": "You may not claim a tower on the last placement of the game.",
+    "out": "Vous ne pouvez pas revendiquer une tour lors du dernier placement de la partie."
+  },
   "validation.acity.CLAIM_TOWERS": {
     "src": "You may only claim towers.",
     "out": "Vous ne pouvez revendiquer que des tours."

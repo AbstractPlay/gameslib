@@ -1,0 +1,18 @@
+{
+  "note": "Before/after Alien City refactor (phases 1–5). Regenerate with: npx tsx scripts/bench-acity.ts",
+  "machine": "local dev; Node via npx tsx",
+  "before": {
+    "movesFreshOpenMs": 1708.5,
+    "validatePassFreshOpenMs": 696.6,
+    "scoresScoringFixtureMs": 0.87,
+    "isConnectedPinchMs": 0.53,
+    "placementGridSampleMs": 1.84
+  },
+  "after": {
+    "movesFreshOpenMs": 104.3,
+    "validatePassFreshOpenMs": 0.92,
+    "scoresScoringFixtureMs": 0.37,
+    "isConnectedPinchMs": 0.27,
+    "placementGridSampleMs": 0.48
+  }
+}

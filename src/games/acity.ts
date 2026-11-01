@@ -6,12 +6,18 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, shuffle, cloneState } from "../common/index.js";
 import i18next from "i18next";
 import { SquareOrthGraph } from "../common/graphs/index.js";
+import {
+    isRoadNetworkConnected,
+    realDistanceOnBoard,
+    roadNetworkAfterPlacement,
+} from "./acity-road.js";
 export const gameApgamesEn = {
     validation: {
         BAD_DOME: "Domes may only be placed on tiles of the same colour unless all such placements break the road network.",
         BAD_TOWER: "Towers may only be placed on tiles their own colour, on black tiles, or on tiles that already contain two legally placed structures.",
         BROKEN_ROAD: "Placing a piece at {{where}} would break the road network.",
         CLAIM_TOWERS: "You may only claim towers.",
+        CLAIM_ENDS_GAME: "You may not claim a tower on the last placement of the game.",
         DOUBLE_CLAIM: "The tower at {{where}} has already been claimed.",
         INITIAL_INSTRUCTIONS: "Select a piece from your stash, or type 'pass' if you have no legal moves remaining.",
         INVALID_PIECE: "You don't have {{piece}} in your stash to place.",
@@ -30,7 +36,11 @@ export type playerid = 1|2;
 type Piece = "RT"|"RD"|"BT"|"BD"|"GT"|"GD"|"ND";
 type Color = "R"|"B"|"G"|"N";
 type MarkerPos = 0|1|2|3;
+export type ACityPiece = Piece;
+export type ACityColor = Color;
+export type ACityMarkerPos = MarkerPos;
 type PlacementResult = "GOOD"|"ROAD"|"ISOLATED"|"DOMES"|"TOWERS"|"MARKER";
+export type ACityPlacementResult = PlacementResult;
 
 export interface IMoveState extends IIndividualState {
     currplayer: playerid;
@@ -109,7 +119,7 @@ export class ACityGame extends GameBase {
             },
         ],
         categories: ["goal>score>eog", "mechanic>network", "mechanic>place", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>pyramids", "components>piecepack"],
-        flags: ["player-stashes", "scores", "no-moves", "custom-colours", "random-start", "custom-buttons", "custom-randomization"]
+        flags: ["player-stashes", "scores", "custom-colours", "random-start", "custom-buttons", "custom-randomization"]
     };
 
     public static piece2string(pc: Piece): string {
@@ -157,6 +167,8 @@ export class ACityGame extends GameBase {
     public results: Array<APMoveResult> = [];
     public startpos!: [Color,MarkerPos][];
     public claimed!: [string[],string[]];
+    private distCacheSig = "";
+    private distCache = new Map<string, number>();
 
     constructor(state?: IACityState | string) {
         super();
@@ -231,6 +243,54 @@ export class ACityGame extends GameBase {
         return this;
     }
 
+    /** True when the player has at least one complete placement (including optional-claim partials). */
+    private hasLegalPlacement(player: playerid): boolean {
+        const saved = this.currplayer;
+        this.currplayer = player;
+        try {
+            const stash = new Set<string>(this.stashes[player - 1]);
+            const empties = (this.graph.listCells() as string[]).filter((c) => ! this.board.has(c));
+            for (const piece of stash) {
+                for (const cell of empties) {
+                    const result = this.validateMove(`${piece}-${cell}`);
+                    if ( (result.valid) && (result.complete !== undefined) && (result.complete >= 0) ) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } finally {
+            this.currplayer = saved;
+        }
+    }
+
+    private anyPlayerHasLegalPlacement(): boolean {
+        return this.hasLegalPlacement(1) || this.hasLegalPlacement(2);
+    }
+
+    /** After applying placement and claim, would neither seat have a legal placement? */
+    private claimWouldEndConstruction(pc: Piece, to: string, claim: string): boolean {
+        const snap = this.moveState();
+        const seat = snap.currplayer;
+        const idx = snap.stashes[seat - 1].findIndex((p) => p === pc);
+        if (idx !== -1) {
+            snap.stashes[seat - 1].splice(idx, 1);
+        }
+        snap.board.set(to, pc);
+        snap.claimed[seat - 1].push(claim);
+        snap.currplayer = seat === 1 ? 2 : 1;
+        const g = new ACityGame({
+            game: ACityGame.gameinfo.uid,
+            numplayers: this.numplayers,
+            variants: [...this.variants],
+            gameover: false,
+            winner: [],
+            stack: [snap],
+            startpos: cloneState(this.startpos) as [Color, MarkerPos][],
+        });
+        return ! g.anyPlayerHasLegalPlacement();
+    }
+
     public moves(player?: playerid): string[] {
         if (this.gameover) { return []; }
         if (player === undefined) {
@@ -239,27 +299,37 @@ export class ACityGame extends GameBase {
 
         const moves: string[] = [];
 
-        const stash = new Set<string>(this.stashes[player - 1]);
-        const empties = (this.graph.listCells() as string[]).filter(c => ! this.board.has(c));
-        for (const piece of stash) {
-            for (const cell of empties) {
-                const move = `${piece}-${cell}`
-                const result = this.validateMove(move);
-                if ( (result.valid) && (result.complete !== undefined) && (result.complete >= 0) ) {
-                    moves.push(move);
+        const saved = this.currplayer;
+        this.currplayer = player;
+        try {
+            const stash = new Set<string>(this.stashes[player - 1]);
+            const empties = (this.graph.listCells() as string[]).filter(c => ! this.board.has(c));
+            for (const piece of stash) {
+                for (const cell of empties) {
+                    const move = `${piece}-${cell}`
+                    const result = this.validateMove(move);
+                    if ( (result.valid) && (result.complete !== undefined) && (result.complete >= 0) ) {
+                        moves.push(move);
+                    }
                 }
             }
-        }
 
-        if (this.claimed[player - 1].length < 3) {
-            const unclaimed = [...this.board.entries()].filter(node => ( (node[1].endsWith("T")) && (! this.claimed[0].includes(node[0])) && (! this.claimed[1].includes(node[0])) )).map(node => node[0]);
-            const caps: string[] = [];
-            for (const move of moves)  {
-                for (const cell of unclaimed) {
-                    caps.push(`${move}(${cell})`);
+            if (this.claimed[player - 1].length < 3) {
+                const unclaimed = [...this.board.entries()].filter(node => ( (node[1].endsWith("T")) && (! this.claimed[0].includes(node[0])) && (! this.claimed[1].includes(node[0])) )).map(node => node[0]);
+                const caps: string[] = [];
+                for (const move of moves)  {
+                    for (const cell of unclaimed) {
+                        const capped = `${move}(${cell})`;
+                        const capResult = this.validateMove(capped);
+                        if (capResult.valid && capResult.complete !== undefined && capResult.complete >= 0) {
+                            caps.push(capped);
+                        }
+                    }
                 }
+                moves.push(...caps);
             }
-            moves.push(...caps);
+        } finally {
+            this.currplayer = saved;
         }
 
         if (moves.length === 0) {
@@ -280,7 +350,7 @@ export class ACityGame extends GameBase {
     // never makes a claim
     public randomMove(): string {
         const stash = shuffle([...new Set<string>(this.stashes[this.currplayer - 1])]) as string[];
-        const empties = shuffle((new SquareOrthGraph(8, 10)).graph.nodes().filter(c => ! this.board.has(c))) as string[];
+        const empties = shuffle((this.graph.listCells() as string[]).filter((c) => ! this.board.has(c))) as string[];
         for (const piece of stash) {
             for (const cell of empties) {
                 const move = `${piece}-${cell}`
@@ -409,7 +479,7 @@ export class ACityGame extends GameBase {
         }
 
         if (m === "pass") {
-            if (this.moves().includes("pass")) {
+            if (! this.hasLegalPlacement(this.currplayer)) {
                 result.valid = true;
                 result.complete = 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
@@ -508,6 +578,12 @@ export class ACityGame extends GameBase {
                         }
                     }
 
+                    if (this.claimWouldEndConstruction(pc as Piece, to, claim)) {
+                        result.valid = false;
+                        result.message = i18next.t("apgames:validation.acity.CLAIM_ENDS_GAME");
+                        return result;
+                    }
+
                     // We're good
                     result.valid = true;
                     result.complete = 1;
@@ -543,104 +619,67 @@ export class ACityGame extends GameBase {
         }
     }
 
-    private placePiece(piece: Piece, cell: string): void {
-        this.board.set(cell, piece);
-        for (const n of this.graph.neighbours(cell)) {
-            if (this.board.has(n)) {
-                this.graph.graph.dropEdge(cell, n);
-            }
-        }
-    }
-
-    // To test for connectivity, you have to delete all the placed buildings
-    // But to score, you need all the buildings present
-    // So chose to do it here when testing connectivity because it's easier to remove than add
     public isConnected(): boolean {
-        const cloned = Object.assign(new ACityGame(), cloneState(this) as ACityGame);
-        cloned.buildGraph();
-        for (const cell of this.board.keys()) {
-            cloned.graph.graph.dropNode(cell);
-        }
-        return cloned.graph.isConnected();
+        return isRoadNetworkConnected(this.board);
     }
 
-    // RECURSION ALERT!
-    // This function has to call itself to validate certain types of placement.
+    /**
+     * Refactor/golden harness only — mirrors private {@link canPlace}.
+     */
+    public goldenPlacementResult(piece: ACityPiece, cell: string): ACityPlacementResult {
+        return this.canPlace(piece, cell);
+    }
+
+    /** Refactor/golden harness only — mirrors private {@link getRealDistance}. */
+    public goldenRealDistance(from: string, to: string): number {
+        return this.getRealDistance(from, to);
+    }
+
     private canPlace(piece: Piece, cell: string): PlacementResult {
-        // ROAD
-        let cloned = Object.assign(new ACityGame(), cloneState(this) as ACityGame);
-        cloned.buildGraph();
-        cloned.placePiece(piece, cell);
-        if (! cloned.isConnected()) {
+        const { roadOk, isolated } = roadNetworkAfterPlacement(this.board, piece, cell);
+        if (! roadOk) {
             return "ROAD";
         }
-
-        // ISOLATED
-        for (const c of cloned.board.keys()) {
-            if (cloned.graph.neighbours(c).length === 0) {
-                return "ISOLATED";
-            }
+        if (isolated) {
+            return "ISOLATED";
         }
 
-        // DOMES
-        // domes on own colours unless all lots of that colour break the road
         const pcColor = piece[0] as Color;
-        const [cellColor,] = this.cell2guild(cell);
+        const [cellColor] = this.cell2guild(cell);
         if (piece.endsWith("D")) {
             if (pcColor !== cellColor) {
-                // get list of empty cells of that colour
-                const cells = cloned.getEmptyGuild(pcColor);
-                // check that every cell breaks the road
+                const trialBoard = new Map(this.board);
+                trialBoard.set(cell, piece);
+                const cells = this.getEmptyGuild(pcColor, trialBoard);
                 let broken = true;
                 for (const c of cells) {
-                    cloned = Object.assign(new ACityGame(), cloneState(this) as ACityGame);
-                    cloned.buildGraph();
-                    cloned.placePiece(piece, c);
-                    if (cloned.isConnected()) {
-                        // even if connected, check for isolated pieces
-                        let isolated = false;
-                        for (const c2 of cloned.board.keys()) {
-                            if (cloned.graph.neighbours(c2).length === 0) {
-                                isolated = true;
-                                break;
-                            }
-                        }
-                        if (! isolated) {
-                            broken = false;
-                            break;
-                        }
+                    const alt = roadNetworkAfterPlacement(this.board, piece, c);
+                    if (alt.roadOk && ! alt.isolated) {
+                        broken = false;
+                        break;
                     }
                 }
-                // if any valid placement is found, return the error
                 if (! broken) {
                     return "DOMES";
                 }
             }
         }
 
-        // TOWERS
-        // The first two structures built on a tile must be the same color as the tile, except for towers on black tiles
         if ( (cellColor !== "N") && (piece.endsWith("T")) && (pcColor !== cellColor) ) {
-            // get list of occupied cells on that tile
-            const built = this.cell2tile(cell).cells.filter(c => this.board.has(c)).length;
+            const built = this.cell2tile(cell).cells.filter((c) => this.board.has(c)).length;
             if (built < 2) {
                 return "TOWERS";
             }
         }
 
-        // MARKER
-        // can't build on marker until all other possible lots occupied (SDG did exhaustive search of all possible piece placements on the tile)
         const tile = this.cell2tile(cell);
         if (tile.marker === cell) {
-            // get list of other empty cells on the tile
-            const empties = tile.cells.filter(c => c !== cell && ! this.board.has(c));
+            const empties = tile.cells.filter((c) => c !== cell && ! this.board.has(c));
             const allPieces = new Set<string>(...this.stashes[0], ...this.stashes[1]);
             let otherOptions = false;
             for (const other of empties) {
                 for (const pc of allPieces) {
-                    cloned = Object.assign(new ACityGame(), cloneState(this) as ACityGame);
-                    cloned.buildGraph();
-                    if (cloned.canPlace(pc as Piece, other) === "GOOD") {
+                    if (this.canPlace(pc as Piece, other) === "GOOD") {
                         otherOptions = true;
                         break;
                     }
@@ -655,8 +694,8 @@ export class ACityGame extends GameBase {
         return "GOOD";
     }
 
-    private getEmptyGuild(color: Color): string[] {
-        const empties = (this.graph.listCells() as string[]).filter(cell => ! this.board.has(cell));
+    private getEmptyGuild(color: Color, board: Map<string, Piece> = this.board): string[] {
+        const empties = (this.graph.listCells() as string[]).filter((cell) => ! board.has(cell));
         const cells: string[] = [];
         for (const cell of empties) {
             const [c,] = this.cell2guild(cell);
@@ -1063,12 +1102,37 @@ export class ACityGame extends GameBase {
         return entry;
     }
 
+    private boardDistCacheSig(): string {
+        return [...this.board.entries()].map(([k, v]) => `${k}:${v}`).sort().join("|");
+    }
+
+    private ensureDistanceCache(): void {
+        const sig = this.boardDistCacheSig();
+        if (sig === this.distCacheSig) {
+            return;
+        }
+        this.distCache.clear();
+        this.distCacheSig = sig;
+        const keys = [...this.board.keys()];
+        for (const from of keys) {
+            for (const to of keys) {
+                if (from === to) {
+                    continue;
+                }
+                this.distCache.set(`${from}|${to}`, realDistanceOnBoard(this.board, from, to));
+            }
+        }
+    }
+
     private getRealDistance(from: string, to: string): number {
-        const cloned = Object.assign(new ACityGame(), cloneState(this) as ACityGame);
-        cloned.buildGraph();
-        const drop = [...this.board.keys()].filter(c => c !== from && c !== to);
-        const path = cloned.graph.path(from, to, drop)!;
-        return path.length - 2;
+        this.ensureDistanceCache();
+        const key = `${from}|${to}`;
+        let dist = this.distCache.get(key);
+        if (dist === undefined) {
+            dist = realDistanceOnBoard(this.board, from, to);
+            this.distCache.set(key, dist);
+        }
+        return dist;
     }
 
     public getPlayerScore(player: number): number {
@@ -1149,6 +1213,9 @@ export class ACityGame extends GameBase {
                 return true;
             case "claim":
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.CLAIM.default", {where: r.where!});
+                return true;
+            case "nullifyClaim":
+                this.pushNeutralChatLine(lines, "apresults:_general.NULLIFY_CLAIM.default", {where: r.where!});
                 return true;
             default:
                 return super.collectChatLogLine(lines, r, ctx);

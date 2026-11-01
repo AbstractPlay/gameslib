@@ -57,6 +57,10 @@ describe("apresults path map", () => {
         assert.equal(mapCatalogLeafPath("MOVE.blockade", uidSet).newPath, "blockade.MOVE.default");
         assert.equal(mapCatalogLeafPath("DESTROY.string", new Set(["strings"])).newPath, "strings.DESTROY.string");
         assert.equal(
+            mapCatalogLeafPath("EOG.breakthrough", uidSet).newPath,
+            "_general.EOG.breakthrough",
+        );
+        assert.equal(
             mapCatalogLeafPath("SCRIBE.glyphs.bomber", new Set(["scribe"])).newPath,
             "scribe.SCRIBE.glyphs.bomber",
         );

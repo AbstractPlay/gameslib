@@ -20,6 +20,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 ### Fixed
 
 - **`GameBase.sameMove`:** treat empty or missing `move2` as not a match instead of throwing when comparing exploration or premove branches.
+- **apresults path map:** keep shared `EOG.breakthrough` under `_general` when the Breakthrough game uid is in the registry (fixes `test:scripts` round-trip after catalogue collision).
 
 ## [1.0.0-ci] - 2026-10-31
 

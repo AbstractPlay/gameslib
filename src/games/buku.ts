@@ -853,10 +853,10 @@ export class BukuGame extends GameBase {
                 if (move.type === "take") {
                     if (move.how === "row" || move.how === "row_bonus") {
                         const row = this.boardSize - parseInt(move.from, 10);
-                        rep.annotations.push({ type: "move", targets: [{ row, col: 0 }, { row, col: this.boardSize - 1 }], dashed: [4], arrow: false, opacity: 0.8, colour: 1 });
+                        rep.annotations.push({ type: "line", targets: [{ row, col: 0 }, { row, col: this.boardSize - 1 }], dashed: [4], arrow: false, opacity: 0.8, colour: 1 });
                     } else {
                         const col = columnLabels.indexOf(move.from);
-                        rep.annotations.push({ type: "move", targets: [{ row: 0, col }, { row: this.boardSize - 1, col }], dashed: [4], arrow: false, opacity: 0.8, colour: 2 });
+                        rep.annotations.push({ type: "line", targets: [{ row: 0, col }, { row: this.boardSize - 1, col }], dashed: [4], arrow: false, opacity: 0.8, colour: 2 });
                     }
                 } else if (move.type === "capture") {
                     const [x, y] = this.algebraic2coords(move.where!);

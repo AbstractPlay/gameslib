@@ -869,7 +869,7 @@ export class SunspotGame extends GameBase {
                 const [x, y] = this.graph.algebraic2coords(cell);
                 targets.push({row: y, col: x})
             }
-            rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+            rep.annotations.push({type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false});
         }
 
         return rep;

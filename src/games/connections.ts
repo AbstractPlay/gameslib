@@ -590,12 +590,12 @@ export class ConnectionsGame extends GameBase {
         if (this.results.length > 0) {
             for (const move of this.results) {
                 if (move.type === "place") {
-                    rep.annotations.push({ type: "move", targets: this.lineToRowCol(move.where!) as [RowCol, ...RowCol[]], arrow: false, colour: "#FFFF00", strokeWidth: 0.2, anchors: false, opacity: 0.5 });
+                    rep.annotations.push({ type: "line", targets: this.lineToRowCol(move.where!) as [RowCol, ...RowCol[]], arrow: false, colour: "#FFFF00", strokeWidth: 0.2, anchors: false, opacity: 0.5 });
                 }
             }
             if (this.connPath.length > 0) {
                 const targets = this.connPathToRowCol(this.connPath);
-                rep.annotations.push({ type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false });
+                rep.annotations.push({ type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false });
             }
         }
         return rep;

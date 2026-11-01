@@ -555,13 +555,13 @@ export class SentinelGame extends GameBase {
         const prevplayer = this.currplayer % 2 + 1 as playerid;
         for (const cell of this.linesSeen(this.currplayer)) {
             const [fromX, fromY] = SentinelGame.algebraic2coords(cell);
-            rep.annotations.push({ type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}],
+            rep.annotations.push({ type: "line", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}],
                            style: "dashed", opacity: 0.3, arrow: false, strokeWidth: 0.05,
                            colour: this.currplayer });
         }
         for (const cell of this.linesSeen(prevplayer)) {
             const [fromX, fromY] = SentinelGame.algebraic2coords(cell);
-            rep.annotations.push({ type: "move", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}],
+            rep.annotations.push({ type: "line", targets: [{row: fromY, col: fromX}, {row: toY, col: toX}],
                            style: "dashed", opacity: 0.3, arrow: false, strokeWidth: 0.05,
                            colour: prevplayer });
         }

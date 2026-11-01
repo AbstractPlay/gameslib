@@ -651,7 +651,7 @@ export class StilettoGame extends InARowBase {
                     for (const coords of connPath) {
                         targets.push({row: coords[1], col: coords[0]})
                     }
-                    rep.annotations.push({type: "move", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+                    rep.annotations.push({type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false});
                 }
             }
         }

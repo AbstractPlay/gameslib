@@ -17,6 +17,10 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ## [1.0.0-ci] - 2026-11-01
 
+### Changed
+
+- **Render annotations:** connection paths, win lines, and other undirected polylines use `type: "line"` instead of `type: "move"` with `arrow: false` (dozens of games; piece-slide highlights unchanged in Tintas, Chase, and Swarm; Even at Odds unchanged; Fractured score-track shifts stay `move` with arrows).
+
 ### Fixed
 
 - **`GameBase.sameMove`:** treat empty or missing `move2` as not a match instead of throwing when comparing exploration or premove branches.

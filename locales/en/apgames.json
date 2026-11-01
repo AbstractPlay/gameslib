@@ -5325,6 +5325,12 @@
         "name": "Play on intersections instead of squares"
       }
     },
+    "quax": {
+      "diamond-board": {
+        "description": "Show diagonal connections as filled diamonds between stones on a squares-and-diamonds board.",
+        "name": "Diamond board"
+      }
+    },
     "queensland": {
       "hide-scored": {
         "description": "Don't highlight scored cells.",

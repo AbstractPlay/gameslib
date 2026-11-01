@@ -1,8 +1,9 @@
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
+import { GameBase, IAPGameState, IClickResult, IClickBoardContext, IHandleClickUi, IIndividualState, IRenderOpts, IValidationResult , type ChatLogCollectContext, type ChatLogLine} from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { RectGrid, reviver, UserFacingError } from "../common/index.js";
+import { SquareDiamondsDirectedGraph } from "../common/graphs/index.js";
 import i18next from "i18next";
 import { UndirectedGraph } from "graphology";
 import { bidirectional } from "graphology-shortest-path";
@@ -21,6 +22,12 @@ export const gameApgamesEn = {
         },
         "size-15": {
             name: "15x15 board",
+        },
+    },
+    displays: {
+        "diamond-board": {
+            description: "Show diagonal connections as filled diamonds between stones on a squares-and-diamonds board.",
+            name: "Diamond board",
         },
     },
 };
@@ -74,6 +81,7 @@ export class QuaxGame extends GameBase {
         variants: [
             { uid: "size-15", group: "board" },
         ],
+        displays: [{ uid: "diamond-board", group: "board-style" }],
         categories: ["goal>connect", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["pie"],
     };
@@ -191,6 +199,115 @@ export class QuaxGame extends GameBase {
         return 11;
     }
 
+    private sdGraph(): SquareDiamondsDirectedGraph {
+        return new SquareDiamondsDirectedGraph(this.boardSize, this.boardSize);
+    }
+
+    private isDiamondNode(cell: string): boolean {
+        return cell.includes("|");
+    }
+
+    private crossedDiamond(from: string, to: string): string | undefined {
+        const [fx, fy] = this.algebraic2coords(from);
+        const [tx, ty] = this.algebraic2coords(to);
+        const dx = tx - fx;
+        const dy = ty - fy;
+        if (Math.abs(dx) !== 1 || Math.abs(dy) !== 1) {
+            return undefined;
+        }
+        if (dx === 1 && dy === 1) {
+            return `${from}|${to}`;
+        }
+        if (dx === 1 && dy === -1) {
+            return `${this.coords2algebraic(fx, fy - 1)}|${this.coords2algebraic(fx + 1, fy)}`;
+        }
+        if (dx === -1 && dy === 1) {
+            return `${this.coords2algebraic(fx - 1, fy)}|${this.coords2algebraic(fx, fy + 1)}`;
+        }
+        return `${this.coords2algebraic(fx - 1, fy - 1)}|${this.coords2algebraic(fx, fy)}`;
+    }
+
+    private moveFromDiamondId(diamondId: string): string | undefined {
+        const moves = this.diamondMovesFromId(diamondId);
+        return moves[0];
+    }
+
+    /**
+     * Square-diamonds cells use ids `tl|br` (NW–SE of a 2×2). Quax links the other diagonal `tr–bl` of that block too.
+     */
+    private diamondMovesFromId(diamondId: string): string[] {
+        const [tl, br] = diamondId.split("|", 2);
+        if (tl === undefined || br === undefined || tl === "" || br === "") {
+            return [];
+        }
+        const moves: string[] = [this.normaliseMove(`${tl}-${br}`)];
+        const [tcx, tcy] = this.algebraic2coords(tl);
+        const [bcx, bcy] = this.algebraic2coords(br);
+        if (bcx === tcx + 1 && bcy === tcy + 1) {
+            const tr = this.coords2algebraic(tcx + 1, tcy);
+            const bl = this.coords2algebraic(tcx, tcy + 1);
+            const alternate = this.normaliseMove(`${tr}-${bl}`);
+            if (alternate !== moves[0]) {
+                moves.push(alternate);
+            }
+        }
+        return moves;
+    }
+
+    private sdRowColForSquare(cell: string): RowCol {
+        const [x, y] = this.algebraic2coords(cell);
+        return { col: x, row: y * 2 };
+    }
+
+    private sdRowColForDiag(diagKey: string): RowCol | undefined {
+        const split = diagKey.split("-", 2);
+        if (split.length !== 2 || split[0] === undefined || split[1] === undefined) {
+            return undefined;
+        }
+        const diamond = this.crossedDiamond(split[0], split[1]);
+        if (diamond === undefined) {
+            return undefined;
+        }
+        try {
+            const [col, row] = this.sdGraph().algebraic2coords(diamond);
+            return { col, row };
+        } catch {
+            return undefined;
+        }
+    }
+
+    private sdCellAt(col: number, row: number): string | undefined {
+        try {
+            return this.sdGraph().coords2algebraic(col, row);
+        } catch {
+            return undefined;
+        }
+    }
+
+    private vertexCellAt(col: number, row: number): string | undefined {
+        if (row < 0 || row >= this.boardSize || col < 0 || col >= this.boardSize) {
+            return undefined;
+        }
+        return this.coords2algebraic(col, row);
+    }
+
+    private buildSquareClickMove(cell: string, move: string): string {
+        if (!this.board.has(cell)) {
+            return cell;
+        }
+        if (move === "") {
+            const diags = this.getDiags(cell, this.currplayer);
+            if (diags.length === 1) {
+                return this.normaliseMove(cell + "-" + diags[0]);
+            }
+            return cell + "-";
+        }
+        if (move.includes("-")) {
+            return this.normaliseMove(move + cell);
+        }
+        return move + "-" + cell;
+    }
+
     public moves(player?: playerid): string[] {
         if (player === undefined) {
             player = this.currplayer;
@@ -215,29 +332,68 @@ export class QuaxGame extends GameBase {
         return moves;
     }
 
-    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+    private clickUsesSquaresDiamonds(ctx?: IClickBoardContext): boolean {
+        return ctx?.boardStyle === "squares-diamonds";
+    }
+
+    /** Map a board click to a square id for the active draw grid. */
+    private resolveSquareCell(col: number, row: number, boardContext?: IClickBoardContext): string {
+        if (this.clickUsesSquaresDiamonds(boardContext)) {
+            const sdCell = this.sdCellAt(col, row);
+            if (sdCell === undefined || this.isDiamondNode(sdCell)) {
+                throw new Error("Click is off the board.");
+            }
+            return sdCell;
+        }
+        const vCell = this.vertexCellAt(col, row);
+        if (vCell === undefined) {
+            throw new Error("Click is off the board.");
+        }
+        return vCell;
+    }
+
+    public handleClick(
+        move: string,
+        row: number,
+        col: number,
+        piece?: string,
+        ui?: IHandleClickUi,
+    ): IClickResult {
         try {
-            const cell = this.coords2algebraic(col, row);
-            let newmove = "";
-            if (!this.board.has(cell)) {
-                newmove = cell;
-            } else {
-                if (move === "") {
-                    const diags = this.getDiags(cell, this.currplayer);
-                    if (diags.length === 1) {
-                        newmove = this.normaliseMove(cell + "-" + diags[0]);
-                    } else {
-                        newmove = cell + "-";
+            const sdCell = this.sdCellAt(col, row);
+
+            if (sdCell !== undefined && this.isDiamondNode(sdCell)) {
+                const diamondMoves = this.diamondMovesFromId(sdCell);
+                if (diamondMoves.length === 0) {
+                    if (this.clickUsesSquaresDiamonds(ui?.board)) {
+                        return {
+                            move,
+                            valid: false,
+                            message: i18next.t("apgames:validation._general.INVALIDCELL", { cell: sdCell }),
+                        };
                     }
-                } else if (move.includes("-")) {
-                    newmove = this.normaliseMove(move + cell);
                 } else {
-                    newmove = move + "-" + cell;
+                    let lastResult: IClickResult | undefined;
+                    for (const candidate of diamondMoves) {
+                        const diamondResult = this.validateMove(candidate) as IClickResult;
+                        if (diamondResult.valid && diamondResult.complete === 1) {
+                            diamondResult.move = candidate;
+                            return diamondResult;
+                        }
+                        lastResult = diamondResult;
+                    }
+                    if (this.clickUsesSquaresDiamonds(ui?.board) && lastResult !== undefined) {
+                        lastResult.move = move;
+                        return lastResult;
+                    }
                 }
             }
+
+            const cell = this.resolveSquareCell(col, row, ui?.board);
+            const newmove = this.buildSquareClickMove(cell, move);
             const result = this.validateMove(newmove) as IClickResult;
             if (!result.valid) {
-                result.move = "";
+                result.move = move;
             } else {
                 result.move = newmove;
             }
@@ -320,12 +476,12 @@ export class QuaxGame extends GameBase {
             return result;
         }
         const diags = this.getDiags(split[0], this.currplayer);
-        if (diags.length === 0) {
-            result.valid = false;
-            result.message = i18next.t("apgames:validation.quax.NO_DIAGS", { where: split[0] });
-            return result;
-        }
         if (split[1] === "") {
+            if (diags.length === 0) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.quax.NO_DIAGS", { where: split[0] });
+                return result;
+            }
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
@@ -500,7 +656,14 @@ export class QuaxGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts?: IRenderOpts): APRenderRep {
+        if (this.hasDisplay(opts, "diamond-board")) {
+            return this.renderDiamondBoard();
+        }
+        return this.renderVertexBoard();
+    }
+
+    private renderVertexBoard(): APRenderRep {
         // Build piece string
         let pstr = "";
         for (let row = 0; row < this.boardSize; row++) {
@@ -553,7 +716,6 @@ export class QuaxGame extends GameBase {
             }
         }
 
-        // Build rep
         const rep: APRenderRep =  {
             board: {
                 style: "vertex",
@@ -577,7 +739,6 @@ export class QuaxGame extends GameBase {
                 }
             }
             if (this.connPath.length > 0) {
-                type RowCol = {row: number; col: number;};
                 const targets: RowCol[] = [];
                 for (const cell of this.connPath) {
                     const [x,y] = this.algebraic2coords(cell);
@@ -593,6 +754,104 @@ export class QuaxGame extends GameBase {
                 points.push({ row: y, col: x });
             }
             rep.annotations.push({ type: "dots", targets: points as [{row: number; col: number}, ...{row: number; col: number}[]] });
+        }
+        return rep;
+    }
+
+    private renderDiamondBoard(): APRenderRep {
+        const g = this.sdGraph();
+        let pstr = "";
+        for (const row of g.listCells(true) as string[][]) {
+            if (pstr.length > 0) {
+                pstr += "\n";
+            }
+            const pieces: string[] = [];
+            for (const cell of row) {
+                if (this.isDiamondNode(cell)) {
+                    pieces.push("-");
+                } else if (this.board.has(cell)) {
+                    const contents = this.board.get(cell)!;
+                    pieces.push(contents === 1 ? "A" : "B");
+                } else {
+                    pieces.push("-");
+                }
+            }
+            pstr += pieces.join("");
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const markers: Array<any> = [
+            { type: "edge", edge: "N", colour: 1 },
+            { type: "edge", edge: "S", colour: 1 },
+            { type: "edge", edge: "E", colour: 2 },
+            { type: "edge", edge: "W", colour: 2 },
+        ];
+        for (const [diagKey, player] of this.diags) {
+            const pt = this.sdRowColForDiag(diagKey);
+            if (pt !== undefined) {
+                markers.push({ type: "flood", colour: player, opacity: 0.9, points: [pt] });
+            }
+        }
+
+        const rep: APRenderRep = {
+            board: {
+                style: "squares-diamonds",
+                width: this.boardSize,
+                height: this.boardSize,
+                markers,
+            },
+            legend: {
+                A: [{ name: "piece", colour: 1, scale: 0.85 }],
+                B: [{ name: "piece", colour: 2, scale: 0.85 }],
+            },
+            pieces: pstr,
+        };
+
+        rep.annotations = [];
+        if (this.results.length > 0) {
+            for (const move of this.results) {
+                if (move.type === "place" && move.what === "diag") {
+                    const pt = this.sdRowColForDiag(move.where!);
+                    if (pt !== undefined) {
+                        rep.annotations.push({ type: "enter", targets: [pt] });
+                    }
+                } else if (move.type === "place") {
+                    rep.annotations.push({ type: "enter", targets: [this.sdRowColForSquare(move.where!)] });
+                }
+            }
+            if (this.connPath.length > 0) {
+                const targets: RowCol[] = [];
+                for (const cell of this.connPath) {
+                    targets.push(this.sdRowColForSquare(cell));
+                }
+                rep.annotations.push({ type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false });
+            }
+        }
+        if (this.dots.length > 0) {
+            const hintPoints: RowCol[] = [];
+            for (const target of this.dots) {
+                for (const [square, owner] of this.board) {
+                    if (owner !== this.currplayer) {
+                        continue;
+                    }
+                    if (!this.getDiags(square, this.currplayer).includes(target)) {
+                        continue;
+                    }
+                    const pt = this.sdRowColForDiag(this.normaliseMove(`${square}-${target}`));
+                    if (pt !== undefined) {
+                        hintPoints.push(pt);
+                    }
+                    break;
+                }
+            }
+            if (hintPoints.length > 0) {
+                markers.push({
+                    type: "flood",
+                    colour: "#FFA500",
+                    opacity: 0.35,
+                    points: hintPoints as [RowCol, ...RowCol[]],
+                });
+            }
         }
         return rep;
     }

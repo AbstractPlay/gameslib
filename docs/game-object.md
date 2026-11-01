@@ -190,7 +190,7 @@ Optional `render()` arguments: `perspective`, `altDisplay` (legacy single uid), 
 
 `render()` may return a single `APRenderRep`, an array of reps (frame stack), or an `APRenderComposite` for multi-board SVGs. Composite games should use stable `panels[].id` values for routing.
 
-`handleClick(move, row, col, piece?, panelId?)` — optional `panelId` when the UI uses composite `boardClick`; existing games can ignore it.
+`handleClick(move, row, col, piece?, ui?)` — optional **`ui`** (`IHandleClickUi`: `panelId` for composite `boardClick`, `board` as **`IClickBoardContext`** with `boardStyle`, `width`, `height`) describes client context for the click. Pass **`ui.board`** from the drawn `APRenderRep` when alternative displays change `board.style`. Games that ignore layout may omit **`ui`**.
 
 ### Render labels
 

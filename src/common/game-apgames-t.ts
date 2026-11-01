@@ -2,7 +2,10 @@ import i18next from "i18next";
 
 const APGAMES_PREFIX = "apgames:";
 
-/** Build a namespaced apgames key for a per-game section leaf. */
+/**
+ * Build a namespaced apgames key for a per-game section leaf.
+ * Use at runtime when constructing keys; do not add no-op `void gameApgamesUidKey(…)` lines for strict lint (variant/display orphans are covered via `gameinfo` + `gameApgamesEn`; see docs/i18n.md).
+ */
 export function gameApgamesUidKey(
     uid: string,
     section: "validation" | "variants" | "displays" | "buttons" | "status",

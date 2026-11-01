@@ -79,7 +79,7 @@ export class YoddGame extends GameBase {
         uid: "yodd",
         playercounts: [2],
         version: "20260930",
-        dateAdded: "2026-09-30",
+        dateAdded: "2026-11-01",
         description: "Pass or place one or two stones of either colour. After your turn there must be an odd number of groups on the board. When both players pass in succession, the player with fewer groups of their colour wins.",
         notes: "Yodd is played on a hex grid. The same rules on a square grid are published as **Xodd**; choose a square board size variant to play Xodd on Abstract Play. On your first turn only, you may place a single stone. Later turns allow pass or one or two stones of either colour, and the total number of groups on the board must be odd after each turn.",
         urls: [
@@ -124,7 +124,7 @@ export class YoddGame extends GameBase {
             { uid: "square-15", group: "board" },
             { uid: "yopp" },
         ],
-        flags: ["experimental", "no-moves", "custom-buttons", "custom-randomization", "scores"],
+        flags: ["no-moves", "custom-buttons", "custom-randomization", "scores"],
     };
 
     public numplayers = 2;

@@ -219,6 +219,54 @@ function collectGlobalApresultsRefs() {
 }
 
 /**
+ * All `apresults:` catalog paths referenced from GameBase and every registry game module.
+ * @returns {Set<string>}
+ */
+export function collectAllApresultsRefPaths() {
+    const { project, uidToPaths } = getGamesContext();
+    const refs = new Set(collectGlobalApresultsRefs());
+    for (const paths of uidToPaths.values()) {
+        for (const filePath of paths) {
+            const sourceFile = project.getSourceFile(filePath);
+            if (!sourceFile) {
+                continue;
+            }
+            for (const ref of collectApresultsRefPathsFromSourceFile(sourceFile)) {
+                refs.add(ref);
+            }
+        }
+    }
+    return refs;
+}
+
+/**
+ * Shared `_general.*` catalog leaves with no literal reference in game source or GameBase.
+ * @param {{ legacyPathExclude?: (legacyPath: string) => boolean }} [options]
+ * @returns {string[]}
+ */
+export function findOrphanApresultsGeneralLeaves(options = {}) {
+    const merged = mergeApresultsEnSources();
+    const generalLeaves = Object.keys(collectLeaves(merged._general ?? {}, "_general"));
+    const refs = collectAllApresultsRefPaths();
+    const orphans = new Set();
+    for (const leafPath of generalLeaves) {
+        const legacyPath = leafPath.startsWith("_general.") ? leafPath.slice("_general.".length) : leafPath;
+        if (isOrphanExcluded(legacyPath)) {
+            continue;
+        }
+        if (options.legacyPathExclude?.(legacyPath)) {
+            continue;
+        }
+        if (!refsCoverCatalogLeaf(refs, leafPath)) {
+            orphans.add(
+                `orphan catalog leaf apresults:${leafPath} (no reference in game source or GameBase)`,
+            );
+        }
+    }
+    return [...orphans].sort();
+}
+
+/**
  * @param {string} oldPath
  */
 function isOrphanExcluded(leafPath) {

@@ -20,6 +20,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 ### Added
 
 - **Quax:** optional **Diamond board** display (`squares-diamonds` with connection flood fill; vertex board remains default).
+- **Locale tooling:** `npm run audit-locale` (dev-only catalog/shape/stale-MT audit with `locale-src/en/_locale-audit-allowlist.json`); `npm test` includes full-registry **missing catalog key** checks for runtime i18n.
 
 ### Fixed
 
@@ -27,6 +28,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Changed
 
+- **Locale merge / translate:** `locale-en merge --write` name seeding keeps managed `apgames.json` in **English key order**; `locale-prune` and `translate` **reshape on disk** when translations are up to date (no Gemini) so merge-only runs do not leave `descriptions`-first drift.
 - **Alien City:** faster placement legality (board-local road graph instead of full-state clones), cached road distances for scoring, **`hasLegalPlacement`** for pass validation, **`no-moves` removed** so legal move lists are available to clients again; reject endgame tower claims when no legal placements remain; structured move log includes **`nullifyClaim`** when a claim is voided at game end.
 - **`handleClick` API:** optional fifth argument **`IHandleClickUi`** (`panelId`, `board` as **`IClickBoardContext`**) for composite panels and draw-grid-aware board clicks; clients pass `ui.board` from the visible `APRenderRep.board` (Abstract Play front and playground ship this for Quax diamond-board).
 - **Render annotations:** connection paths, win lines, and other undirected polylines use `type: "line"` instead of `type: "move"` with `arrow: false` (dozens of games; piece-slide highlights unchanged in Tintas, Chase, and Swarm; Even at Odds unchanged; Fractured score-track shifts stay `move` with arrows).

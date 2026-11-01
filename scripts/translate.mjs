@@ -2,7 +2,7 @@ import { GoogleGenAI } from "@google/genai";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { pruneManagedLocale, pruneToSourceShape } from "./locale-prune.mjs";
+import { pruneManagedLocale, pruneToSourceShape, normalizeManagedLocaleOnDisk } from "./locale-prune.mjs";
 import { writeLocaleJson } from "./locale-json-format.mjs";
 import { assertEnLocaleMergeCurrent } from "./lib/ensure-merged-locale-en.mjs";
 
@@ -819,10 +819,27 @@ async function translateFile(ai, sourcePath) {
     const leavesToTranslate = Object.keys(pendingTranslate);
 
     if (leavesToTranslate.length === 0) {
+      let wrote = false;
+      if (
+        normalizeManagedLocaleOnDisk(
+          targetPath,
+          repoRoot,
+          lang.code,
+          fileName,
+          sourceData,
+          targetData,
+          srcTracking,
+        )
+      ) {
+        console.log(
+          `[${lang.code}] ${fileName}: Normalized JSON shape to match English (no machine translation).`,
+        );
+        wrote = true;
+      }
       if (backfillSrcTracking(sourceData, targetData, srcTracking)) {
         writeSrcTracking(repoRoot, lang.code, fileName, srcTracking);
         console.log(`[${lang.code}] ${fileName}: Backfilled locale-src stamps (translations already up to date).`);
-      } else {
+      } else if (!wrote) {
         console.log(`[${lang.code}] ${fileName}: 100% up to date. Skipping.`);
       }
       continue;

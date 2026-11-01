@@ -2,7 +2,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-import { writeLocaleJson } from "./locale-json-format.mjs";
+import { writeLocaleJson, formatLocaleJson, normalizeLocaleJsonText } from "./locale-json-format.mjs";
 import { assertEnLocaleMergeCurrent } from "./lib/ensure-merged-locale-en.mjs";
 
 export const MANAGED_LANGS = ["de", "fr", "it", "es-US"];
@@ -130,6 +130,30 @@ function writeTargetFile(targetPath, repoRoot, langCode, fileName, sourceData, t
   writeSrcTracking(repoRoot, langCode, fileName, srcTracking);
 }
 
+/**
+ * Whether on-disk managed locale already matches English tree shape and leaf values in memory.
+ */
+export function managedLocaleOnDiskMatchesShape(targetPath, sourceData, targetData) {
+  const shaped = pruneToSourceShape(sourceData, targetData) ?? {};
+  const expected = formatLocaleJson(shaped);
+  if (!fs.existsSync(targetPath)) {
+    return false;
+  }
+  try {
+    return normalizeLocaleJsonText(fs.readFileSync(targetPath, "utf8")) === expected;
+  } catch {
+    return false;
+  }
+}
+
+export function normalizeManagedLocaleOnDisk(targetPath, repoRoot, langCode, fileName, sourceData, targetData, srcTracking) {
+  if (managedLocaleOnDiskMatchesShape(targetPath, sourceData, targetData)) {
+    return false;
+  }
+  writeTargetFile(targetPath, repoRoot, langCode, fileName, sourceData, targetData, srcTracking);
+  return true;
+}
+
 export function pruneManagedLocaleFile(sourcePath, langCode, { dryRun = false } = {}) {
   if (!fs.existsSync(sourcePath)) {
     throw new Error(`File not found: ${sourcePath}`);
@@ -148,9 +172,23 @@ export function pruneManagedLocaleFile(sourcePath, langCode, { dryRun = false } 
   const srcTracking = loadSrcTracking(repoRoot, langCode, fileName, targetData);
   const result = pruneManagedLocale({ sourceData, targetData, srcTracking });
 
-  if (result.changed && !dryRun) {
-    fs.mkdirSync(path.dirname(targetPath), { recursive: true });
-    writeTargetFile(targetPath, repoRoot, langCode, fileName, sourceData, result.targetData, result.srcTracking);
+  if (!dryRun) {
+    if (result.changed) {
+      fs.mkdirSync(path.dirname(targetPath), { recursive: true });
+      writeTargetFile(targetPath, repoRoot, langCode, fileName, sourceData, result.targetData, result.srcTracking);
+    } else if (
+      normalizeManagedLocaleOnDisk(
+        targetPath,
+        repoRoot,
+        langCode,
+        fileName,
+        sourceData,
+        result.targetData,
+        result.srcTracking,
+      )
+    ) {
+      result.changed = true;
+    }
   }
 
   return {
@@ -197,16 +235,34 @@ function runCli() {
   let changedCount = 0;
 
   for (const file of files) {
+    const sourceData = JSON.parse(fs.readFileSync(file, "utf-8"));
     for (const langCode of MANAGED_LANGS) {
       const result = pruneManagedLocaleFile(file, langCode, { dryRun });
-      if (!result.changed) {
+      const shapeOnly =
+        !result.changed &&
+        !managedLocaleOnDiskMatchesShape(result.targetPath, sourceData, result.targetData);
+      if (!result.changed && !shapeOnly) {
         console.log(`[${langCode}] ${result.fileName}: No stale keys.`);
         continue;
       }
 
       changedCount++;
-      const action = dryRun ? "Would prune" : "Pruned";
-      console.log(`[${langCode}] ${result.fileName}: ${action} ${summarizeRemoved(result)}.`);
+      if (dryRun) {
+        if (result.changed) {
+          const action = "Would prune";
+          console.log(`[${langCode}] ${result.fileName}: ${action} ${summarizeRemoved(result)}.`);
+        } else {
+          console.log(`[${langCode}] ${result.fileName}: Would normalize JSON shape to match English.`);
+        }
+        continue;
+      }
+
+      if (result.changed && (result.removedLeaves > 0 || result.removedTracking > 0)) {
+        const action = "Pruned";
+        console.log(`[${langCode}] ${result.fileName}: ${action} ${summarizeRemoved(result)}.`);
+      } else if (result.changed) {
+        console.log(`[${langCode}] ${result.fileName}: Normalized JSON shape to match English.`);
+      }
     }
   }
 

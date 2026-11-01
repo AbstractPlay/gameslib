@@ -1476,7 +1476,7 @@ export class DeckfishGame extends GameBase {
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:deckfish.SWAP.default", {what: r.what!, with: r.with!, where: r.where!});
                 return true;
             case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PASS.simple", {});
+                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:deckfish.PASS.default", {});
                 return true;
             case "announce":
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:deckfish.ANNOUNCE.default", {});

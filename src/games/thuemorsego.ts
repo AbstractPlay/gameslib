@@ -5,45 +5,6 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { algebraic2coords, coords2algebraic, reviver, shuffle, SnubSquareGraph, UserFacingError } from "../common/index.js";
 import type { FlagContext, GameFlag } from "../common/flags.js";
 import i18next from "i18next";
-import { gameApgamesUidKey } from "../common/game-apgames-t.js";
-
-/** Variant and display labels are resolved in {@link GameBase}; anchors for strict apgames key coverage. */
-void gameApgamesUidKey("thuemorsego", "variants", "size-11", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "#board", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "size-19", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "size-23", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "#connect", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "#connect", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "snub", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "snub", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "#protocol", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "#protocol", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "marseillais", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "marseillais", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "handicap", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "handicap", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "reverse-komi", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "reverse-komi", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "#repetition", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "#repetition", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "superko", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "superko", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "double-delayed-psk", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "double-delayed-psk", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "weak-eyes", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "weak-eyes", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "half-button", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "half-button", "description");
-void gameApgamesUidKey("thuemorsego", "variants", "kill-all", "name");
-void gameApgamesUidKey("thuemorsego", "variants", "kill-all", "description");
-void gameApgamesUidKey("thuemorsego", "displays", "tms-tracker", "name");
-void gameApgamesUidKey("thuemorsego", "displays", "tms-tracker", "description");
-void gameApgamesUidKey("thuemorsego", "displays", "digits-down", "name");
-void gameApgamesUidKey("thuemorsego", "displays", "digits-down", "description");
-void gameApgamesUidKey("thuemorsego", "displays", "hide-territory", "name");
-void gameApgamesUidKey("thuemorsego", "displays", "hide-territory", "description");
-void gameApgamesUidKey("thuemorsego", "displays", "pass-alive-throughout", "name");
-void gameApgamesUidKey("thuemorsego", "displays", "pass-alive-throughout", "description");
 
 export const gameApgamesEn = {
     validation: {

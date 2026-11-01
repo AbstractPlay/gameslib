@@ -4,24 +4,6 @@ import type { APRenderRep, Colourfuncs, Glyph, RowCol } from "@abstractplay/rend
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { algebraic2coords, coords2algebraic, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-import { gameApgamesUidKey } from "../common/game-apgames-t.js";
-
-/** Variant and display labels are resolved in {@link GameBase}; anchors for strict apgames key coverage. */
-void gameApgamesUidKey("killallgo", "variants", "size-9", "name");
-void gameApgamesUidKey("killallgo", "variants", "size-13", "name");
-void gameApgamesUidKey("killallgo", "variants", "#board", "name");
-void gameApgamesUidKey("killallgo", "variants", "#opening", "name");
-void gameApgamesUidKey("killallgo", "variants", "#opening", "description");
-void gameApgamesUidKey("killallgo", "variants", "handicap", "name");
-void gameApgamesUidKey("killallgo", "variants", "handicap", "description");
-void gameApgamesUidKey("killallgo", "variants", "classic", "name");
-void gameApgamesUidKey("killallgo", "variants", "classic", "description");
-void gameApgamesUidKey("killallgo", "variants", "pie", "name");
-void gameApgamesUidKey("killallgo", "variants", "pie", "description");
-void gameApgamesUidKey("killallgo", "variants", "hoctaph", "name");
-void gameApgamesUidKey("killallgo", "variants", "hoctaph", "description");
-void gameApgamesUidKey("killallgo", "displays", "pass-alive-throughout", "name");
-void gameApgamesUidKey("killallgo", "displays", "pass-alive-throughout", "description");
 
 export const gameApgamesEn = {
     validation: {

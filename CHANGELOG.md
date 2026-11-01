@@ -17,12 +17,18 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ## [1.0.0-ci] - 2026-11-01
 
+### Added
+
+- **Quax:** optional **Diamond board** display (`squares-diamonds` with connection flood fill; vertex board remains default).
+
 ### Changed
 
+- **`handleClick` API:** optional fifth argument **`IHandleClickUi`** (`panelId`, `board` as **`IClickBoardContext`**) for composite panels and draw-grid-aware board clicks; clients pass `ui.board` from the visible `APRenderRep.board` (Abstract Play front and playground ship this for Quax diamond-board).
 - **Render annotations:** connection paths, win lines, and other undirected polylines use `type: "line"` instead of `type: "move"` with `arrow: false` (dozens of games; piece-slide highlights unchanged in Tintas, Chase, and Swarm; Even at Odds unchanged; Fractured score-track shifts stay `move` with arrows).
 
 ### Fixed
 
+- **Quax diamond-board:** square placement clicks map on the squares-diamonds grid when draw context is supplied (vertex fallback when omitted).
 - **`GameBase.sameMove`:** treat empty or missing `move2` as not a match instead of throwing when comparing exploration or premove branches.
 - **apresults path map:** keep shared `EOG.breakthrough` under `_general` when the Breakthrough game uid is in the registry (fixes `test:scripts` round-trip after catalogue collision).
 

@@ -7,7 +7,7 @@
 /**
  * This is where you import the various types and functions you need. Most of it is types, but there are commonly things like `RectGrid` and other helper functions you'll probably want from `common`
  */
-import { GameBase, IAPGameState, IClickResult, IIndividualState, IValidationResult } from "./_base";
+import { GameBase, IAPGameState, IClickResult, IHandleClickUi, IIndividualState, IValidationResult } from "./_base";
 import { APGamesInformation } from "../schemas/gameinfo";
 import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults";
@@ -165,7 +165,7 @@ export class ComplicaGame extends GameBase {
      * - `canrender` is for games where the moves consist of multiple steps and need to be rendered as you go. If `canrender` is true, then even if `complete` is -1, it will be send to the renderer for updating.
      * - `message` is a translatable string explaining what the user should do next.
      */
-    public handleClick(move: string, row: number, col: number, piece?: string, panelId?: string): IClickResult {
+    public handleClick(move: string, row: number, col: number, piece?: string, ui?: IHandleClickUi): IClickResult {
         try {
             const cell = ComplicaGame.coords2algebraic(col, row);
             const newmove = cell[0];

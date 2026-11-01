@@ -125,3 +125,7 @@ if (!this.hasDisplay(opts, "hide-bag-pool")) {
 ```
 
 Locale: `apgames:displays.agofmars.hide-bag-pool` (label in the render-options picker).
+
+## Board clicks and layout
+
+When an alternative display changes **`board.style`** (or otherwise changes which grid `(row, col)` refers to), the client must pass **`ui.board`** on **`handleClick`** — built from the visible **`APRenderRep.board`**. Use **`ui.panelId`** for composite panels. See **[Game object — handleClick](/gameslib/game-object/)**.

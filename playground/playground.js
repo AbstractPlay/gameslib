@@ -51,6 +51,27 @@ function generateUniqueSvgId(base = "") {
 }
 
 let currentRenderRep = null;
+/** @type {import('@abstractplay/gameslib').IHandleClickUi | undefined} */
+let lastHandleClickUi = undefined;
+
+function clickBoardContextFromDisplayRep(displayRep) {
+    const board = displayRep?.board;
+    if (!board || board.style == null) {
+        return undefined;
+    }
+    return {
+        boardStyle: String(board.style),
+        width: board.width,
+        height: board.height,
+    };
+}
+
+function buildHandleClickUi(board) {
+    if (board == null) {
+        return undefined;
+    }
+    return { board };
+}
 let currentRenderFrames = null;
 let currentRenderFrameIndex = 0;
 let skipFrameRefresh = false;
@@ -557,7 +578,7 @@ function boardClick(row, col, piece) {
         return;
     }
     var movebox = document.getElementById("moveEntry");
-    var result = game.handleClick(movebox.value, row, col, piece);
+    var result = game.handleClick(movebox.value, row, col, piece, lastHandleClickUi);
     applyPlaygroundClickResult(game, gamename, result);
 }
 
@@ -2222,6 +2243,7 @@ function renderGame(...args) {
         }
         currentRenderRep = data;
         data = prepareRenderRep(data, game, gamename);
+        lastHandleClickUi = buildHandleClickUi(clickBoardContextFromDisplayRep(data));
         var canvas;
         try {
             canvas = APRender.render(data, options);

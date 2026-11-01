@@ -3139,6 +3139,14 @@
     "src": "Play on intersections instead of squares",
     "out": "Jugar en intersecciones en lugar de casillas"
   },
+  "displays.quax.diamond-board.description": {
+    "src": "Show diagonal connections as filled diamonds between stones on a squares-and-diamonds board.",
+    "out": "Muestra las conexiones diagonales como rombos rellenos entre las fichas en un tablero de cuadrados y rombos."
+  },
+  "displays.quax.diamond-board.name": {
+    "src": "Diamond board",
+    "out": "Tablero de rombos"
+  },
   "displays.queensland.hide-scored.description": {
     "src": "Don't highlight scored cells.",
     "out": "No resaltar celdas puntuadas."

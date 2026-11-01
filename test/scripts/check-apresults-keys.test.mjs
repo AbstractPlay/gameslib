@@ -9,8 +9,12 @@ import {
 } from "../../scripts/lib/apresults-duplicate-en.mjs";
 import {
     catalogContainsRef,
+    collectAllApresultsRefPaths,
     collectApresultsRefPathsFromSourceFile,
+    collectDynamicApresultsCatalogPrefixes,
+    collectEogReasonApresultsPaths,
     findMissingApresultsReferences,
+    findOrphanApresultsGeneralLeaves,
     findOrphanApresultsLeaves,
     resetApresultsGamesContextCache,
 } from "../../scripts/lib/check-apresults-refs.mjs";
@@ -86,6 +90,75 @@ describe("check-apresults-keys", () => {
         const opts = { uidFilter: "homeworlds" };
         assert.deepEqual(findMissingApresultsReferences(opts), []);
         assert.deepEqual(findOrphanApresultsLeaves(opts), []);
+    });
+
+    it("anache: gameApresultsEn EOG leaves referenced via eog reason pushes", () => {
+        resetGamesContextCache();
+        resetApresultsGamesContextCache();
+        const opts = { uidFilter: "anache" };
+        const orphans = findOrphanApresultsLeaves(opts);
+        assert.equal(
+            orphans.filter((o) => o.includes("anache.EOG.")).length,
+            0,
+            orphans.filter((o) => o.includes("anache.EOG.")).join("\n"),
+        );
+    });
+
+    it("collectEogReasonApresultsPaths finds breakthrough/stalemate on anache.ts", () => {
+        const project = loadGamesProject();
+        const sf = project.getSourceFile(path.join(repoRoot, "src/games/anache.ts"));
+        assert.ok(sf);
+        const refs = collectEogReasonApresultsPaths(sf, "anache");
+        assert.ok(refs.has("anache.EOG.breakthrough"));
+        assert.ok(refs.has("anache.EOG.stalemate"));
+    });
+
+    it("armadas: PLACE.1–3 referenced via apresults template prefix in chat", () => {
+        resetGamesContextCache();
+        resetApresultsGamesContextCache();
+        const opts = { uidFilter: "armadas" };
+        const orphans = findOrphanApresultsLeaves(opts);
+        assert.equal(
+            orphans.filter((o) => o.includes("armadas.PLACE.")).length,
+            0,
+            orphans.filter((o) => o.includes("armadas.PLACE.")).join("\n"),
+        );
+    });
+
+    it("collectDynamicApresultsCatalogPrefixes finds armadas PLACE.* template", () => {
+        const project = loadGamesProject();
+        const sf = project.getSourceFile(path.join(repoRoot, "src/games/armadas.ts"));
+        assert.ok(sf);
+        const prefixes = collectDynamicApresultsCatalogPrefixes(sf);
+        assert.ok([...prefixes].some((p) => p.startsWith("armadas.PLACE.")));
+    });
+
+    it("collectDynamicApresultsCatalogPrefixes finds _general PLACE.PYRAMID_* on pylon", () => {
+        const project = loadGamesProject();
+        const sf = project.getSourceFile(path.join(repoRoot, "src/games/pylon.ts"));
+        assert.ok(sf);
+        const prefixes = collectDynamicApresultsCatalogPrefixes(sf);
+        assert.ok(prefixes.has("_general.PLACE.PYRAMID_"));
+    });
+
+    it("collectAllApresultsRefPaths expands _general template prefixes (PYRAMID_1–3)", () => {
+        resetGamesContextCache();
+        resetApresultsGamesContextCache();
+        const refs = collectAllApresultsRefPaths();
+        assert.ok(refs.has("_general.PLACE.PYRAMID_1"));
+        assert.ok(refs.has("_general.PLACE.PYRAMID_2"));
+        assert.ok(refs.has("_general.PLACE.PYRAMID_3"));
+    });
+
+    it("pylon/subdivision: _general PLACE.PYRAMID_* not orphan apresults leaves", () => {
+        resetGamesContextCache();
+        resetApresultsGamesContextCache();
+        const orphans = findOrphanApresultsGeneralLeaves();
+        assert.equal(
+            orphans.filter((o) => o.includes("_general.PLACE.PYRAMID_")).length,
+            0,
+            orphans.filter((o) => o.includes("_general.PLACE.PYRAMID_")).join("\n"),
+        );
     });
 
     it("collects apresults literals from homeworlds.ts", () => {

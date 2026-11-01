@@ -13,12 +13,13 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
-- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Clearpath, Croda, Dama, Ice Palace, Kill-All Go, Neutron, Selfo, Thricewise, Thue-Morse Go, Yodd, Yonkoma.
+- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Croda, Dama, Ice Palace, Neutron, Squares, Thricewise.
 
 ## [1.0.0-ci] - 2026-11-01
 
 ### Added
 
+- **New games:** Clear Path, Kill-All Go, Selfo, Thue-Morse Go, Yodd, Yonkoma (Kill-All Go handicap opening variant remains unrated).
 - **Quax:** optional **Diamond board** display (`squares-diamonds` with connection flood fill; vertex board remains default).
 - **Locale tooling:** `npm run audit-locale` (dev-only catalog/shape/stale-MT audit with `locale-src/en/_locale-audit-allowlist.json`); `npm test` includes full-registry **missing catalog key** checks for runtime i18n.
 

@@ -1,0 +1,22 @@
+{
+  "suppress": {
+    "missingApgames": [],
+    "missingApresults": [],
+    "orphanApgames": [],
+    "orphanApresults": [],
+    "orphanApresultsGeneral": [],
+    "managedShape": [],
+    "translateStale": [],
+    "mergeDrift": []
+  },
+  "warnOnly": [
+    "orphanApgames",
+    "orphanApresults",
+    "orphanApresultsGeneral",
+    "managedShape",
+    "translateStale",
+    "duplicateEnApgames",
+    "duplicateEnApresults",
+    "duplicateEnApresultsGeneral"
+  ]
+}

@@ -216,6 +216,25 @@ export interface IRenderOpts {
 }
 
 /**
+ * Board grid that produced a `boardClick` — copy from `APRenderRep.board` after display merge.
+ * Clients pass the rep that was drawn; games use it only to interpret `(row, col)`, not to render.
+ */
+export interface IClickBoardContext {
+    /** `rep.board.style`, e.g. `vertex` or `squares-diamonds`. */
+    boardStyle: string;
+    width: number;
+    height: number;
+}
+
+/** Optional client metadata for `handleClick` (composite panels, drawn board grid). */
+export interface IHandleClickUi {
+    /** Composite panel that received the click. */
+    panelId?: string;
+    /** Drawn board slice used to interpret `(row, col)`. */
+    board?: IClickBoardContext;
+}
+
+/**
  * valid: A simple boolean that tells you whether the move to this point is valid, even if only partially so.
  * See `message` for details.
  * message: A localized message that explains the state of the move at this point.
@@ -679,14 +698,21 @@ export abstract class GameBase  {
         return typeof score === "number" ? score : undefined;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public handleClick(move: string, row: number, col: number, piece?: string, panelId?: string): IClickResult {
+    /* eslint-disable @typescript-eslint/no-unused-vars -- default handleClick stub */
+    public handleClick(
+        move: string,
+        row: number,
+        col: number,
+        piece?: string,
+        ui?: IHandleClickUi,
+    ): IClickResult {
         return {
             move,
             valid: false,
             message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")
         };
     }
+    /* eslint-enable @typescript-eslint/no-unused-vars */
 
     public undo(): GameBase {
         if (this.stack.length < 1) {

@@ -75,6 +75,8 @@ export type {
     LegacyStatusGlyphShorthand,
     LegendEntry,
     APRenderGameOutput,
+    IClickBoardContext,
+    IHandleClickUi,
 } from "./games/_base.js";
 export type { APRenderRep, APRenderComposite } from "@abstractplay/renderer";
 export { isAPRenderComposite } from "./common/renderOutput.js";

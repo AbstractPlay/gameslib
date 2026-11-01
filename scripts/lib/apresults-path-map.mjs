@@ -57,6 +57,9 @@ const SHARED_LEAF_HEADS = new Set([
     "complete_other",
 ]);
 
+/** Shared `_general.EOG.*` leaves whose name equals a registry game uid. */
+const EOG_GENERAL_UID_COLLISION_LEAVES = new Set(["breakthrough"]);
+
 let cachedUids = null;
 
 /** @returns {string[]} registry uids longest-first */
@@ -107,6 +110,9 @@ export function inferUidForLeaf(leafPath, resultType, uidSet) {
         return "spook";
     }
     if (SHARED_LEAF_HEADS.has(head) || SHARED_LEAF_HEADS.has(leafPath)) {
+        return "_general";
+    }
+    if (resultType === "EOG" && EOG_GENERAL_UID_COLLISION_LEAVES.has(leafPath)) {
         return "_general";
     }
     for (const uid of registryUidsLongestFirst()) {

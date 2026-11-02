@@ -210,11 +210,11 @@ ${table(bucketC)}
 
 | Priority | uid | Action |
 | --- | --- | --- |
-| P0 | armadas | Implemented: `withdrawalWinnersAmongContenders` + ships. |
+| P0 | armadas | Implemented: \`withdrawalWinnersAmongContenders\` + ships. |
 | P1 | pacru | Implemented: chevrons + target score. |
-| P1 | pigs | Implemented: `!isEliminated` (not pigs2 — that game no-ops resign). |
+| P1 | pigs | Implemented: \`!isEliminated\` (not pigs2 — that game no-ops resign). |
 | P2 | homeworlds, knightline, stawvs, yavalath | Implemented: exclude eliminated / shipless from co-win. |
-| Skip | thricewise | `isEliminated` is phase-inactive seats, not permanent elimination — do not use withdrawal hook. |
+| Skip | thricewise | \`isEliminated\` is phase-inactive seats, not permanent elimination — do not use withdrawal hook. |
 | Defer | homeworlds (early resign) | Keep all non-resigners as winners when no elimination yet (\`homeworlds.test.ts\`). |
 | Pattern | clusterfuss, many 2p annihilate | 2p resign → one opponent wins; low priority unless player counts expand. |
 

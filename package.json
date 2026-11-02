@@ -29,6 +29,7 @@
   },
   "scripts": {
     "generate-registry": "node scripts/generate-registry.mjs",
+    "audit-resign-winners": "node scripts/audit-resign-winners.mjs",
     "check-registry": "node scripts/check-registry.mjs",
     "filter-locales-prod": "node scripts/filter-locales-prod.mjs",
     "pretest": "node scripts/patch-honeycomb-grid-dts.mjs && node scripts/generate-registry.mjs && npm run typecheck",
@@ -41,7 +42,7 @@
     "replay:cubeo-prod": "tsx scripts/replay-cubeo-prod-records.ts",
     "test:cubeo": "mocha --no-config --require tsx/cjs --extension ts test/games/cubeo.test.ts test/games/cubeo.moves-golden.test.ts test/games/cubeo.slide-parity.test.ts",
     "test:cubeo-gates": "mocha --no-config --require tsx/cjs --extension ts test/games/cubeo.moves-golden.test.ts test/games/cubeo.slide-parity.test.ts",
-    "test0": "mocha --no-config --require tsx/cjs --extension ts test/games/dama.test.ts",
+    "test0": "mocha --no-config --require tsx/cjs --extension ts test/games/armadas.test.ts test/games/withdrawalWinners.test.ts",
     "test": "mocha && node --test test/scripts/locale-catalog-missing.test.mjs",
     "test:scripts": "node --test test/scripts/*.test.mjs",
     "test:postbuild": "node scripts/smoke-package-entry.mjs",

@@ -802,6 +802,14 @@ export class StawvsGame extends GameBase {
         return this;
     }
 
+    protected winnersAfterWithdrawal(withdrawingPlayer: number, reason: "resign" | "timeout"): number[] | undefined {
+        void reason;
+        return this.withdrawalWinnersAmongContenders(
+            withdrawingPlayer,
+            (p) => this.eliminated.indexOf(p as playerid) < 0,
+        );
+    }
+
     public getPlayerScore(indata: number | IOrganizedCaps): number {
         //Scoring algorithm simplified from the one for mega-volcano.
         let org: IOrganizedCaps;

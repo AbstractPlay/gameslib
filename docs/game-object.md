@@ -81,6 +81,8 @@ Each `IIndividualState` requires `_version`, `_results`, `_timestamp`. The rest 
 
 Serialization: `serialize()`, `undo()`, `resign()`, `timeout()`, `draw()`, `abandoned()`.
 
+Override **`winnersAfterWithdrawal(withdrawingPlayer, reason)`** when resign or timeout should not treat every other seat as a co-winner (for example, eliminated or shipless seats in a multi-player elimination game). Return `undefined` to keep the default behaviour. Use **`withdrawalWinnersAmongContenders(withdrawingPlayer, inContention)`** when the rule is “drop seats that fail `inContention`; sole survivor wins, otherwise co-win among contenders only.”
+
 **Flags:** `getFlags()` returns effective flags for this session (variant and player-count aware). Override `static resolveFlags(context)` on the game class when flags depend on context. See [Flags](/gameslib/flags/). Session capability (`getFlags()` includes `pie` / `pie-even`) is separate from turn phase (`isPieTurn()`, `isKomiTurn()` on individual games).
 
 UI: `handleClick()`, `moves()`, `validateMove()`, `sidebarStatuses()`, `sidebarScores()`, `getButtons()` (when flagged). Sidebar status/score labels use structured `RenderLabel` objects (`seatStatusValue()`, `neutralAreaLabel()`); front resolves them at display time. See **[Structured render labels](/gameslib/structured-render-labels/#sidebar-status)**.

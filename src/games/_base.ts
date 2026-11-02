@@ -564,9 +564,51 @@ export abstract class GameBase  {
         return move === "resign" || move === "draw" || move === "timeout" || move === "abandoned";
     }
 
+    /**
+     * Optional override when a seat resigns or times out.
+     * Return a definitive `winner` list when rules make the outcome knowable without playing on.
+     * Return `undefined` to use the default: every seat except the withdrawing player wins together.
+     */
+    protected winnersAfterWithdrawal(
+        withdrawingPlayer: number,
+        reason: "resign" | "timeout",
+    ): number[] | undefined {
+        void withdrawingPlayer;
+        void reason;
+        return undefined;
+    }
+
+    /**
+     * Helper for resign/timeout when some seats are out of contention (eliminated, shipless, …).
+     * Returns a sole winner, a filtered co-win omitting ghosts, or `undefined` for the default.
+     */
+    protected withdrawalWinnersAmongContenders(
+        withdrawingPlayer: number,
+        inContention: (player: number) => boolean,
+    ): number[] | undefined {
+        const contenders: number[] = [];
+        for (let p = 1; p <= this.numplayers; p++) {
+            if (p === withdrawingPlayer) {
+                continue;
+            }
+            if (!inContention(p)) {
+                continue;
+            }
+            contenders.push(p);
+        }
+        const defaultSize = withdrawingPlayer >= 1 ? this.numplayers - 1 : this.numplayers;
+        if (contenders.length === 1) {
+            return contenders;
+        }
+        if (contenders.length > 0 && contenders.length < defaultSize) {
+            return contenders;
+        }
+        return undefined;
+    }
+
     private eog(player: number, move: string, result: APMoveResult): GameBase {
         this.results = [result]
-        // If one person resigns, the others win together
+        // If one person resigns, the others win together (unless winnersAfterWithdrawal overrides)
         this.gameover = true;
         this.lastmove = move;
         this.results.push({type: "eog"});
@@ -592,7 +634,15 @@ export abstract class GameBase  {
         } else {
             this.lastmove = move;
         }
-        this.winner = [...winners];
+        let finalWinners = winners;
+        if (result.type === "resigned" || result.type === "timeout") {
+            const reason = result.type === "resigned" ? "resign" : "timeout";
+            const override = this.winnersAfterWithdrawal(player, reason);
+            if (override !== undefined) {
+                finalWinners = override;
+            }
+        }
+        this.winner = [...finalWinners];
         this.results.push({type: "winners", players: [...this.winner]});
         this.saveState();
         return this;

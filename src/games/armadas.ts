@@ -1173,6 +1173,14 @@ export class ArmadasGame extends GameBaseSkipTurn {
         return this;
     }
 
+    protected winnersAfterWithdrawal(withdrawingPlayer: number, reason: "resign" | "timeout"): number[] | undefined {
+        void reason;
+        return this.withdrawalWinnersAmongContenders(
+            withdrawingPlayer,
+            (p) => this.ships.some((s) => s.owner === p),
+        );
+    }
+
     public state(): IArmadasState {
         return {
             game: ArmadasGame.gameinfo.uid,

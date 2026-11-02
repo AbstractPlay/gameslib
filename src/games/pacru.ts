@@ -1391,6 +1391,23 @@ export class PacruGame extends GameBase {
         return this;
     }
 
+    protected winnersAfterWithdrawal(withdrawingPlayer: number, reason: "resign" | "timeout"): number[] | undefined {
+        void reason;
+        const atTarget: number[] = [];
+        for (let p = 1; p <= this.numplayers; p++) {
+            if (this.getPlayerScore(p) >= this.targetScore) {
+                atTarget.push(p);
+            }
+        }
+        if (atTarget.length === 1) {
+            return atTarget;
+        }
+        return this.withdrawalWinnersAmongContenders(
+            withdrawingPlayer,
+            (p) => this.numChevrons(p as playerid) > 0,
+        );
+    }
+
     public state(): IPacruState {
         return {
             game: PacruGame.gameinfo.uid,

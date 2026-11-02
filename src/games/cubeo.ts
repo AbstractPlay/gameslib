@@ -4,9 +4,9 @@ import { APRenderRep, MarkerOutline, RowCol } from "@abstractplay/renderer/build
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, SquareOrthGraph, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { CubeoBoard } from "./cubeo/board.js";
+import { CubeoBoard, CubeoBoardMoveCache } from "./cubeo/board.js";
 import { CubeoDie } from "./cubeo/die.js";
-import { UndirectedGraph } from "graphology";
+import type { UndirectedGraph } from "graphology";
 import { Combination } from "js-combinatorics";
 import { Glyph } from "@abstractplay/renderer";
 export const gameApgamesEn = {
@@ -78,15 +78,20 @@ export interface ICubeoState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-const genPathsRecursive = (g: UndirectedGraph, paths: string[][], sofar: string[], pips: number): void => {
-    if (sofar.length === pips+1) {
-        paths.push([...sofar]);
-    } else {
-        for (const n of g.neighbors(sofar[sofar.length - 1])) {
-            genPathsRecursive(g, paths, [...sofar, n], pips);
+/** Cells reachable in exactly `steps` moves on the undirected move graph (backtracking allowed). */
+const moveEndNodes = (graph: UndirectedGraph, start: string, steps: number): Set<string> => {
+    let frontier = new Set<string>([start]);
+    for (let i = 0; i < steps; i++) {
+        const next = new Set<string>();
+        for (const v of frontier) {
+            for (const n of graph.neighbors(v)) {
+                next.add(n);
+            }
         }
+        frontier = next;
     }
-}
+    return frontier;
+};
 
 export class CubeoGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
@@ -132,6 +137,7 @@ export class CubeoGame extends GameBase {
     public dots: [number,number][] = [];
     private eogTriggered = false;
     private diesize = 0;
+    private movelistCache: string[] | undefined;
 
     constructor(state?: ICubeoState | string, variants?: string[]) {
         super();
@@ -179,7 +185,12 @@ export class CubeoGame extends GameBase {
         this.lastmove = state.lastmove;
         this.results = [...state._results];
         this.diesize = this.getDieSize();
+        this.invalidateMovelistCache();
         return this;
+    }
+
+    private invalidateMovelistCache(): void {
+        this.movelistCache = undefined;
     }
 
     private getDieSize(): number {
@@ -205,10 +216,21 @@ export class CubeoGame extends GameBase {
     }
 
     public moves(): string[] {
-        if (this.gameover) { return []; }
+        if (this.gameover) {
+            return [];
+        }
+        if (this.movelistCache !== undefined) {
+            return this.movelistCache;
+        }
+        const list = this.computeMoves();
+        this.movelistCache = list;
+        return list;
+    }
 
+    private computeMoves(): string[] {
         const moves: string[] = [];
-        const g = this.board.graph();
+        const boardCache = new CubeoBoardMoveCache(this.board);
+        const g = boardCache.graph();
         const gOrth = new SquareOrthGraph(g.width, g.height);
 
         // adding to the board
@@ -232,44 +254,34 @@ export class CubeoGame extends GameBase {
                 if (isSelfAdj && !isEnemyAdj) {
                     const [absx, absy] = this.board.rel2abs(...g.algebraic2coords(cell));
                     // finally, make sure this final cell can be slid to
-                    if (this.board.canSlide(absx, absy)) {
+                    if (boardCache.canSlide(absx, absy)) {
                         moves.push(`+${absx},${absy}`);
                     }
                 }
             }
         }
         const mine = this.board.getDiceOf(this.currplayer);
+        const strict = this.variants.includes("strict");
+        const baseShapeKey = strict ? this.board.formationCanonicalKey() : undefined;
         // moving
         for (const die of mine) {
             // pinned dice may not move *at all*
-            if (this.board.isPinned(die.x, die.y)) {
+            if (boardCache.isPinned(die.x, die.y)) {
                 continue;
             }
             // get graph of moving die and all empty spaces
-            const gMove = this.board.moveGraphFor(die.x, die.y);
-            if (gMove !== undefined) {
-                const start = gMove.coords2algebraic(...this.board.abs2rel(die.x, die.y)!);
-                // recursively generate a list of paths of the correct length, including backtracking
-                const paths: string[][] = [];
-                genPathsRecursive(gMove.graph, paths, [start], die.pips);
-                // for each path, move the piece and make sure the board has changed
-                const validTargets = new Set<string>(paths.map(p => p[p.length - 1]));
-                // remove the starting cell from this list
-                validTargets.delete(start);
-                for (const target of validTargets) {
-                    const [newx, newy] = this.board.rel2abs(...gMove.algebraic2coords(target));
-                    const next = new CubeoDie({x: newx, y: newy, owner: die.owner, pips: die.pips});
-                    const cloned = this.board.clone();
-                    // these should never throw!
-                    cloned.removeDie(die);
-                    cloned.add(next);
-                    if (this.variants.includes("strict")) {
-                        if (!this.board.isEquivalent(cloned)) {
-                            moves.push(`${[die.pips, die.x, die.y].join(",")}->${next.x},${next.y}`);
-                        }
-                    } else {
-                        moves.push(`${[die.pips, die.x, die.y].join(",")}->${next.x},${next.y}`);
+            const gMove = boardCache.moveGraphFor(die.x, die.y);
+            const start = gMove.coords2algebraic(...this.board.abs2rel(die.x, die.y)!);
+            const validTargets = moveEndNodes(gMove.graph, start, die.pips);
+            validTargets.delete(start);
+            for (const target of validTargets) {
+                const [newx, newy] = this.board.rel2abs(...gMove.algebraic2coords(target));
+                if (strict) {
+                    if (this.board.formationCanonicalKeyAfterMove(die, newx, newy) !== baseShapeKey) {
+                        moves.push(`${[die.pips, die.x, die.y].join(",")}->${newx},${newy}`);
                     }
+                } else {
+                    moves.push(`${[die.pips, die.x, die.y].join(",")}->${newx},${newy}`);
                 }
             }
         }
@@ -285,7 +297,7 @@ export class CubeoGame extends GameBase {
                         // at least one die can't be pinned
                         let isPinned = true;
                         for (const d of [d1, d2]) {
-                            if (!this.board.isPinned(d.x, d.y)) {
+                            if (!boardCache.isPinned(d.x, d.y)) {
                                 isPinned = false;
                                 break;
                             }
@@ -293,7 +305,7 @@ export class CubeoGame extends GameBase {
                         // at least one die must have access to the outside
                         let canSlide = false;
                         for (const d of [d1, d2]) {
-                            if (this.board.canSlide(d.x, d.y)) {
+                            if (boardCache.canSlide(d.x, d.y)) {
                                 canSlide = true;
                                 break;
                             }
@@ -301,10 +313,10 @@ export class CubeoGame extends GameBase {
                         if (!isPinned && canSlide) {
                             // still no guarantee
                             // it's possible one die is pinned and the other is blocked
-                            if (!this.board.isPinned(d1.x, d1.y) && this.board.canSlide(d1.x, d1.y)) {
+                            if (!boardCache.isPinned(d1.x, d1.y) && boardCache.canSlide(d1.x, d1.y)) {
                                 moves.push(`${[d1.pips, d1.x, d1.y].join(",")}+>${[d2.x, d2.y].join(",")}`);
                             }
-                            if (!this.board.isPinned(d2.x, d2.y) && this.board.canSlide(d2.x, d2.y)) {
+                            if (!boardCache.isPinned(d2.x, d2.y) && boardCache.canSlide(d2.x, d2.y)) {
                                 moves.push(`${[d2.pips, d2.x, d2.y].join(",")}+>${[d1.x, d1.y].join(",")}`);
                             }
                         }
@@ -313,7 +325,7 @@ export class CubeoGame extends GameBase {
             }
         }
 
-        return moves.sort((a,b) => a.localeCompare(b))
+        return moves.sort((a, b) => a.localeCompare(b));
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -462,15 +474,15 @@ export class CubeoGame extends GameBase {
 
         m = m.toLowerCase();
         m = m.replace(/\s+/g, "");
-        const allmoves = this.moves();
-        if (! trusted) {
+        if (!trusted) {
             const result = this.validateMove(m);
-            if (! result.valid) {
-                throw new UserFacingError("VALIDATION_GENERAL", result.message)
+            if (!result.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", result.message);
             }
-            if ( (!partial) && (! allmoves.includes(m)) ) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-            }
+        }
+        const allmoves = this.moves();
+        if (!trusted && !partial && !allmoves.includes(m)) {
+            throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}));
         }
 
         // if partial, populate dots and get out
@@ -519,6 +531,8 @@ export class CubeoGame extends GameBase {
         if (!this.board.isConnected) {
             throw new Error("Invalid formation detected.");
         }
+
+        this.invalidateMovelistCache();
 
         // update currplayer
         this.lastmove = m;

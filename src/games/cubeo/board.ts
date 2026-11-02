@@ -328,15 +328,31 @@ export class CubeoBoard {
         const found = this.getDieAt(x, y);
         if (found === undefined) {
             return null;
-        } else {
-            const cloned = this.clone();
-            try {
-                cloned.removeDieAt(x, y);
-            } catch {
-                return true;
-            }
+        }
+        if (this._dice.length <= 1) {
             return false;
         }
+
+        const occupied = new Set(this._dice.map(d => `${d.x},${d.y}`));
+        occupied.delete(`${x},${y}`);
+
+        const others = this._dice.filter(d => d.x !== x || d.y !== y);
+        const start = others[0]!;
+        const seen = new Set<string>([`${start.x},${start.y}`]);
+        const stack = [`${start.x},${start.y}`];
+
+        while (stack.length > 0) {
+            const k = stack.pop()!;
+            const [cx, cy] = k.split(",").map(n => parseInt(n, 10));
+            for (const [nx, ny] of [[cx + 1, cy], [cx - 1, cy], [cx, cy + 1], [cx, cy - 1]] as const) {
+                const nk = `${nx},${ny}`;
+                if (occupied.has(nk) && !seen.has(nk)) {
+                    seen.add(nk);
+                    stack.push(nk);
+                }
+            }
+        }
+        return seen.size !== others.length;
     }
 
     // A die can slide in or out of a spot if its associated move graph
@@ -368,25 +384,43 @@ export class CubeoBoard {
         return rep;
     }
 
-    public isEquivalent(other: CubeoBoard): boolean {
-        // get the current board rep
-        const lstThis = this.arrayRep;
-        // get the other board rep and all rotations
-        const lstOther = other.arrayRep;
-        const lstsOther: string[][][] = [];
-        lstsOther.push(lstOther);
-        let rotated = [...lstOther.map(r => [...r])];
-        let flipx = [...lstOther.map(r => [...r])].reverse();
-        let flipy = [...lstOther.map(r => [...r])].map(r => [...r].reverse());
-        lstsOther.push(rotated, flipx, flipy);
+    /** Minimum string among the eight dihedral images of a formation matrix (strict-move symmetry). */
+    public static matrixCanonicalKey(matrix: string[][]): string {
+        const variants: string[][][] = [];
+        let rotated = matrix.map(r => [...r]);
+        let flipx = [...rotated.map(r => [...r])].reverse();
+        let flipy = [...rotated.map(r => [...r])].map(r => [...r].reverse());
+        variants.push(rotated, flipx, flipy);
         for (let i = 0; i < 3; i++) {
             rotated = matrixRectRot90(rotated) as string[][];
             flipx = [...rotated.map(r => [...r])].reverse();
             flipy = [...rotated.map(r => [...r])].map(r => [...r].reverse());
-            lstsOther.push(rotated, flipx, flipy);
+            variants.push(rotated, flipx, flipy);
         }
-        // if any permutation matches current board rep, return true
-        return lstsOther.map(lst => lst.map(r => r.join("|")).join("\n")).includes(lstThis.map(r => r.join("|")).join("\n"));
+        const keys = variants.map(lst => lst.map(r => r.join("|")).join("\n"));
+        keys.sort((a, b) => a.localeCompare(b));
+        return keys[0]!;
+    }
+
+    public formationCanonicalKey(): string {
+        return CubeoBoard.matrixCanonicalKey(this.arrayRep);
+    }
+
+    /** Shape key after moving one die (connectivity not re-checked; caller only uses legal slide targets). */
+    public formationCanonicalKeyAfterMove(die: CubeoDie, newx: number, newy: number): string {
+        const temp = new CubeoBoard();
+        for (const d of this._dice) {
+            if (d.x === die.x && d.y === die.y && d.owner === die.owner && d.pips === die.pips) {
+                continue;
+            }
+            temp.add(d.clone(), false);
+        }
+        temp.add(new CubeoDie({x: newx, y: newy, owner: die.owner, pips: die.pips}), false);
+        return temp.formationCanonicalKey();
+    }
+
+    public isEquivalent(other: CubeoBoard): boolean {
+        return this.formationCanonicalKey() === other.formationCanonicalKey();
     }
 
     // Takes an absolute coordinate and translates it to the relative version
@@ -437,4 +471,51 @@ export class CubeoBoard {
         return cloned;
     }
 
+}
+
+/** Dedupes formation graph / moveGraph / slide / pin queries within one `moves()` pass. */
+export class CubeoBoardMoveCache {
+    private formationGraph?: SquareGraph;
+    private readonly moveGraphByCell = new Map<string, SquareGraph>();
+    private readonly pinnedByCell = new Map<string, boolean>();
+    private readonly slideByCell = new Map<string, boolean>();
+
+    public constructor(private readonly board: CubeoBoard) {}
+
+    public graph(): SquareGraph {
+        if (this.formationGraph === undefined) {
+            this.formationGraph = this.board.graph();
+        }
+        return this.formationGraph;
+    }
+
+    public moveGraphFor(x: number, y: number): SquareGraph {
+        const key = `${x},${y}`;
+        let g = this.moveGraphByCell.get(key);
+        if (g === undefined) {
+            g = this.board.moveGraphFor(x, y);
+            this.moveGraphByCell.set(key, g);
+        }
+        return g;
+    }
+
+    public isPinned(x: number, y: number): boolean {
+        const key = `${x},${y}`;
+        let pinned = this.pinnedByCell.get(key);
+        if (pinned === undefined) {
+            pinned = this.board.isPinned(x, y) ?? true;
+            this.pinnedByCell.set(key, pinned);
+        }
+        return pinned;
+    }
+
+    public canSlide(x: number, y: number): boolean {
+        const key = `${x},${y}`;
+        let slide = this.slideByCell.get(key);
+        if (slide === undefined) {
+            slide = this.board.canSlide(x, y);
+            this.slideByCell.set(key, slide);
+        }
+        return slide;
+    }
 }

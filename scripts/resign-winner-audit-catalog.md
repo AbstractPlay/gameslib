@@ -86,11 +86,11 @@ Only **23** games advertise 3+ seats in `gameinfo.playercounts`; most of the cat
 
 | Priority | uid | Action |
 | --- | --- | --- |
-| P0 | armadas | Confirmed prod bug; un-skip `armadas.test.ts` desired winner when fixed. |
-| P1 | pacru | 3–4p: sole chevron holder should win if another seat resigns while eliminated. |
-| P1 | pigs | 3–8p simultaneous: eliminated robots may still co-win on someone else's resign (compare pigs2). |
-| P2 | homeworlds, knightline, stawvs, thricewise | Exclude eliminated seats from `winner[]` on resign; may still be multiple winners. |
-| P2 | yavalath | Elimination + single-winner EOG; verify 3p resign. |
+| P0 | armadas | Implemented: `withdrawalWinnersAmongContenders` + ships. |
+| P1 | pacru | Implemented: chevrons + target score. |
+| P1 | pigs | Implemented: `!isEliminated` (not pigs2 — that game no-ops resign). |
+| P2 | homeworlds, knightline, stawvs, yavalath | Implemented: exclude eliminated / shipless from co-win. |
+| Skip | thricewise | `isEliminated` is phase-inactive seats, not permanent elimination — do not use withdrawal hook. |
 | Defer | homeworlds (early resign) | Keep all non-resigners as winners when no elimination yet (`homeworlds.test.ts`). |
 | Pattern | clusterfuss, many 2p annihilate | 2p resign → one opponent wins; low priority unless player counts expand. |
 

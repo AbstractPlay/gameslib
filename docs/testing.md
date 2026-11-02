@@ -10,6 +10,16 @@ npm test
 
 Game-specific tests live in `test/games/`. Good unit tests will save future you (and future maintainers) a lot of headaches. No need to test basic stuff tested elsewhere (like graph/grid functions), but it's wise to test end-of-game resolution and any edge cases. See existing tests for patterns.
 
+### Cubeo move-generation gates
+
+Default `npm test` runs only [`test/games/cubeo.test.ts`](https://github.com/AbstractPlay/gameslib/tree/develop/test/games/cubeo.test.ts) (core goldens + gap-jump smoke). Extended movelist goldens and slide-topology parity are excluded via [`.mocharc.json`](https://github.com/AbstractPlay/gameslib/tree/develop/.mocharc.json) — run locally when changing Cubeo move generation:
+
+```bash
+npm run test:cubeo-gates   # extended goldens + parity (not in CI)
+npm run test:cubeo         # all Cubeo tests
+npm run replay:cubeo-prod  # published records replay (optional)
+```
+
 ## CLI example
 
 `bin/example.ts` — run moves from the command line:

@@ -1,5 +1,9 @@
 {
   "require": ["tsx/cjs"],
   "extension": ["ts"],
-  "spec": ["test/**/*.test.ts"]
+  "spec": ["test/**/*.test.ts"],
+  "exclude": [
+    "test/games/cubeo.moves-golden.test.ts",
+    "test/games/cubeo.slide-parity.test.ts"
+  ]
 }

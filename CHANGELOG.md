@@ -15,7 +15,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Croda, Dama, Ice Palace, Neutron, Squares, Thricewise.
 
-## [1.0.0-ci] - 2026-11-01
+## [1.0.0-ci] - 2026-11-02
 
 ### Added
 
@@ -29,6 +29,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Changed
 
+- **Cubeo:** faster legal move listing on midgame boards (including d10/d12) via shared slide-topology pass caching; unchanged rules and move strings for clients using automove or full movelists.
 - **Locale merge / translate:** `locale-en merge --write` name seeding keeps managed `apgames.json` in **English key order**; `locale-prune` and `translate` **reshape on disk** when translations are up to date (no Gemini) so merge-only runs do not leave `descriptions`-first drift.
 - **Alien City:** faster placement legality (board-local road graph instead of full-state clones), cached road distances for scoring, **`hasLegalPlacement`** for pass validation, **`no-moves` removed** so legal move lists are available to clients again; reject endgame tower claims when no legal placements remain; structured move log includes **`nullifyClaim`** when a claim is voided at game end.
 - **`handleClick` API:** optional fifth argument **`IHandleClickUi`** (`panelId`, `board` as **`IClickBoardContext`**) for composite panels and draw-grid-aware board clicks; clients pass `ui.board` from the visible `APRenderRep.board` (Abstract Play front and playground ship this for Quax diamond-board).

@@ -26,6 +26,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 ### Fixed
 
 - **Alien City:** reject tower claims on a placement after which neither player can legally build (rules last-placement claim); EOG claim nullification unchanged as a fallback.
+- **Armadas, Pacru, Pigs, Homeworlds, Knight Line, Stawvs, Yavalath:** resign and timeout use `winnersAfterWithdrawal` so shipless, eliminated, or otherwise out-of-contention seats are not co-winners when a sole remaining contender is knowable (Armadas prod case); early Homeworlds resign without eliminations unchanged.
 
 ### Changed
 

@@ -552,6 +552,14 @@ export class PigsGame extends GameBaseSimultaneous {
         return this;
     }
 
+    protected winnersAfterWithdrawal(withdrawingPlayer: number, reason: "resign" | "timeout"): number[] | undefined {
+        void reason;
+        return this.withdrawalWinnersAmongContenders(
+            withdrawingPlayer,
+            (p) => !this.isEliminated(p),
+        );
+    }
+
     public sidebarScores(): IScores[] {
         return [
             { name: this.neutralAreaLabel("apgames:status.DAMAGE"), scores: [...this.damage] },

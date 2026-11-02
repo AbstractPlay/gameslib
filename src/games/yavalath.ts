@@ -385,6 +385,14 @@ export class YavalathGame extends GameBase {
         return this;
     }
 
+    protected winnersAfterWithdrawal(withdrawingPlayer: number, reason: "resign" | "timeout"): number[] | undefined {
+        void reason;
+        return this.withdrawalWinnersAmongContenders(
+            withdrawingPlayer,
+            (p) => this.eliminated === undefined || p !== this.eliminated,
+        );
+    }
+
     public state(): IYavalathState {
         return {
             game: YavalathGame.gameinfo.uid,

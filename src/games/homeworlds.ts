@@ -2652,6 +2652,14 @@ export class HomeworldsGame extends GameBaseSkipTurn {
         return this;
     }
 
+    protected winnersAfterWithdrawal(withdrawingPlayer: number, reason: "resign" | "timeout"): number[] | undefined {
+        void reason;
+        return this.withdrawalWinnersAmongContenders(
+            withdrawingPlayer,
+            (p) => !this.eliminated.includes(this.player2seat(p as playerid)),
+        );
+    }
+
     public state(): IHomeworldsState {
         return {
             game: HomeworldsGame.gameinfo.uid,

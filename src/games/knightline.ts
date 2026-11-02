@@ -1024,6 +1024,14 @@ export class KnightLineGame extends GameBase {
         return this;
     }
 
+    protected winnersAfterWithdrawal(withdrawingPlayer: number, reason: "resign" | "timeout"): number[] | undefined {
+        void reason;
+        return this.withdrawalWinnersAmongContenders(
+            withdrawingPlayer,
+            (p) => this.eliminated.indexOf(p as playerid) < 0,
+        );
+    }
+
     public state(): IKnightLineState {
         return {
             game: KnightLineGame.gameinfo.uid,

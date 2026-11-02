@@ -34,6 +34,18 @@ Regenerate timings with `npm run bench:cubeo` (also writes gitignored `bin/cubeo
 
 Track 1 incremental work is complete. Draft gapJump target was ~3 ms/op; remaining cost is mostly `moveGraphFor` / formation graph builds (Track 2 rewrite optional).
 
+## After Track 2 Phase B — slide topology wired in `computeMoves` (2026-11-02)
+
+Shared `CubeoGraphPassCache` + cached move graphs per `moves()` pass. Same goldens and parity tests.
+
+| scenario | ms/op | \|moves\| | vs Track 1 complete |
+|----------|------:|--------:|---------------------|
+| opening | 1.19 | 5 | ~1.16× |
+| gapJump | 4.00 | 9 | **~1.7×** |
+| gapJumpStrict | 8.23 | 9 | ~1.04× |
+| d10Midgame | 11.87 | 9 | **~1.9×** |
+| d12Midgame | 14.73 | 9 | **~2.0×** |
+
 **Fixtures:** `npx tsx scripts/gen-cubeo-golden.ts --write` after intentional rule changes.
 
 **d10/d12 states:** `npx tsx scripts/build-cubeo-fixture-states.ts` then regen goldens.

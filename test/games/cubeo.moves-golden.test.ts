@@ -1,8 +1,6 @@
 /**
- * Extended Cubeo regression gates (d10/d12 midgames, all scenarios).
- * Run locally during move-gen work:
- *   npm run test:cubeo-gates
- * Also runs under full `npm test`.
+ * Extended Cubeo regression gates (d10/d12 midgames, slide-topology parity).
+ * Not part of default `npm test` — run locally: `npm run test:cubeo-gates`.
  */
 
 import "mocha";

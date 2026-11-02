@@ -78,21 +78,6 @@ export interface ICubeoState extends IAPGameState {
     stack: Array<IMoveState>;
 };
 
-/** Cells reachable in exactly `steps` moves on the undirected move graph (backtracking allowed). */
-const moveEndNodes = (graph: UndirectedGraph, start: string, steps: number): Set<string> => {
-    let frontier = new Set<string>([start]);
-    for (let i = 0; i < steps; i++) {
-        const next = new Set<string>();
-        for (const v of frontier) {
-            for (const n of graph.neighbors(v)) {
-                next.add(n);
-            }
-        }
-        frontier = next;
-    }
-    return frontier;
-};
-
 export class CubeoGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
         name: "Cubeo",
@@ -269,13 +254,11 @@ export class CubeoGame extends GameBase {
             if (boardCache.isPinned(die.x, die.y)) {
                 continue;
             }
-            // get graph of moving die and all empty spaces
-            const gMove = boardCache.moveGraphFor(die.x, die.y);
-            const start = gMove.coords2algebraic(...this.board.abs2rel(die.x, die.y)!);
-            const validTargets = moveEndNodes(gMove.graph, start, die.pips);
-            validTargets.delete(start);
+            const startKey = `${die.x},${die.y}`;
+            const validTargets = boardCache.moveEndAbsKeys(die);
+            validTargets.delete(startKey);
             for (const target of validTargets) {
-                const [newx, newy] = this.board.rel2abs(...gMove.algebraic2coords(target));
+                const [newx, newy] = target.split(",").map(n => parseInt(n, 10));
                 if (strict) {
                     if (this.board.formationCanonicalKeyAfterMove(die, newx, newy) !== baseShapeKey) {
                         moves.push(`${[die.pips, die.x, die.y].join(",")}->${newx},${newy}`);

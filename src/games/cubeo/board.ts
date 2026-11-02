@@ -1,8 +1,11 @@
 import type { Pips, playerid } from "../cubeo.js";
 import { CubeoDie } from "./die.js";
-import { matrixRectRot90, SquareGraph, SquareOrthGraph } from "../../common/index.js";
+import { matrixRectRot90, SquareGraph } from "../../common/index.js";
 import { connectedComponents } from "graphology-components";
-import type { EdgeData } from "../../common/graphs/square.js";
+import {
+    buildCubeoFormationGraph,
+} from "./formation-graph.js";
+import { CubeoSlideTopology } from "./slide-topology.js";
 
 export class CubeoBoard {
     private _dice: CubeoDie[];
@@ -128,199 +131,7 @@ export class CubeoBoard {
     // removes diagonal edges you can't actually slide a die through
     // and removes diagonal edges describing "moves through space" and not along the formation
     public graph(ignore?: string): SquareGraph {
-        const g = new SquareGraph(this.width + 2, this.height + 2);
-        const gOrth = new SquareOrthGraph(this.width + 2, this.height + 2);
-        for (const node of g.graph.nodes()) {
-            const [relx, rely] = g.algebraic2coords(node);
-            const die = this.getDieAt(...this.rel2abs(relx, rely));
-            if (die === undefined) {
-                // if node is not orthogonally adjacent to a real die, drop it
-                let isAdj = false;
-                for (const n of gOrth.neighbours(node)) {
-                    const [relnx, relny] = g.algebraic2coords(n);
-                    if (this.getDieAt(...this.rel2abs(relnx, relny)) !== undefined) {
-                        isAdj = true;
-                        break;
-                    }
-                }
-                if (!isAdj) {
-                    g.graph.dropNode(node);
-                }
-            } else {
-                g.graph.setNodeAttribute(node, "contents", die);
-            }
-        }
-
-        /**
-         * Clean up edges:
-         * - Get rid of diagonal edges between two dice (you can't merge diagonally).
-         * - Drop diagonal edges that include an empty cell if there are dice on both sides.
-         * - Drop diagonal edges that include an empty cell if *both* side cells are empty.
-         */
-        const todrop: string[] = [];
-        for (const edge of g.graph.edgeEntries()) {
-            const {edge: eid, attributes, source, target, sourceAttributes, targetAttributes} = edge;
-            // ignore orthogonal edges
-            if ((attributes as EdgeData).type === "orth") {
-                continue;
-            }
-            // drop diagonal edges when both ends are occupied
-            if ("contents" in sourceAttributes && "contents" in targetAttributes) {
-                todrop.push(eid);
-                continue;
-            }
-
-            // at this point, we should only be seeing edges where at least one end is empty
-            const [sx, sy] = g.algebraic2coords(source);
-            const [tx, ty] = g.algebraic2coords(target);
-            // calculate left and right nodes (remember we're in quadrant-IV space)
-            let left: string;
-            let right: string;
-            // rightward slant
-            if (tx > sx) {
-                // upward
-                if (ty < sy) {
-                    // straight up
-                    left = g.coords2algebraic(sx, sy-1);
-                    // straight right
-                    right = g.coords2algebraic(sx+1, sy);
-                }
-                // downward
-                else {
-                    // straight down
-                    left = g.coords2algebraic(sx, sy+1);
-                    // straight right
-                    right = g.coords2algebraic(sx+1, sy);
-
-                }
-            }
-            // leftward slant
-            else {
-                // upward
-                if (ty < sy) {
-                    // straight up
-                    left = g.coords2algebraic(sx, sy-1);
-                    // straight left
-                    right = g.coords2algebraic(sx-1, sy);
-                }
-                // downward
-                else {
-                    // straight down
-                    left = g.coords2algebraic(sx, sy+1);
-                    // straight left
-                    right = g.coords2algebraic(sx-1, sy);
-
-                }
-            }
-            // if both are occupied, drop the edge (unless one of those is marked `ignore`)
-            // if both are empty, drop the edge
-            // if one of the nodes doesn't exist, then we're at the edge of the board and
-            // can keep the edge
-            if (g.graph.hasNode(left) && g.graph.hasNodeAttribute(left, "contents") &&
-                g.graph.hasNode(right) && g.graph.hasNodeAttribute(right, "contents") && ignore !== left && ignore !== right) {
-                todrop.push(eid);
-            } else if (
-                g.graph.hasNode(left) && !g.graph.hasNodeAttribute(left, "contents") &&
-                g.graph.hasNode(right) && !g.graph.hasNodeAttribute(right, "contents")) {
-                todrop.push(eid);
-            }
-        }
-        // execute the drop
-        todrop.forEach(eid => g.graph.dropEdge(eid));
-
-        return g;
-    }
-
-    // given a die, return a graph representing valid places it can go
-    // don't do die checking; sometimes you need it for an empty space
-    public moveGraphFor(x: number, y: number): SquareGraph {
-        const die = this.getDieAt(x, y);
-        let startCell: string|undefined;
-        // start with the basic graph
-        let g = this.graph();
-        g = this.graph(g.coords2algebraic(...this.abs2rel(x, y)!));
-        const gOrth = this.graphOrth;
-        // If we started from a die, remove any spaces that are orthogonally adjacent *only*
-        // to the moving die
-        if (die !== undefined) {
-            startCell = g.coords2algebraic(...this.abs2rel(x, y)!);
-            const empties = g.graph.nodes().filter(node => !g.graph.hasNodeAttribute(node, "contents"))
-            for (const node of empties) {
-                const ndice: CubeoDie[] = [];
-                for (const n of gOrth.neighbours(node)) {
-                    if (g.graph.hasNode(n) && g.graph.hasNodeAttribute(n, "contents")) {
-                        ndice.push(CubeoDie.deserialize(g.graph.getNodeAttribute(n, "contents") as CubeoDie));
-                    }
-                }
-                if (ndice.length === 1 && ndice[0].uid === die.uid) {
-                    g.graph.dropNode(node);
-                }
-            }
-        }
-
-        // To deal with "jumping the gap" scenarios, we have to delete edges where the destination
-        // node is neither adjacent to one of the same dice it was before nor adjacent to one of
-        // the source node's orthogonal neighbours.
-        for (const edge of g.graph.edges()) {
-            const [left, right] = g.graph.extremities(edge);
-            // ignore edges that include dice that are not the moving die
-            if ( (g.graph.hasNodeAttribute(left, "contents") && left !== startCell) || (g.graph.hasNodeAttribute(right, "contents") && right !== startCell) ) {
-                continue;
-            }
-            const nLeft = new Set<string>(gOrth.graph.neighbors(left).filter(node => node !== startCell && g.graph.hasNode(node) && g.graph.hasNodeAttribute(node, "contents")));
-            const nRight = new Set<string>(gOrth.graph.neighbors(right).filter(node => node !== startCell && g.graph.hasNode(node) && g.graph.hasNodeAttribute(node, "contents")));
-            let shared = new Set<string>([...nLeft].filter(n => nRight.has(n)));
-            // if both nodes are adjacent to a shared die, then this is a valid edge
-            if (shared.size > 0) {
-                continue;
-            }
-            // generate a list of dice orthogonally adjacent to each of the original neighbours
-            const nnLeft = new Set<string>();
-            nLeft.forEach(n => gOrth.graph.neighbors(n).filter(node => node !== startCell && g.graph.hasNode(node) && g.graph.hasNodeAttribute(node, "contents")).forEach(nn => nnLeft.add(nn)));
-            const nnRight = new Set<string>();
-            nRight.forEach(n => gOrth.graph.neighbors(n).filter(node => node !== startCell && g.graph.hasNode(node) && g.graph.hasNodeAttribute(node, "contents")).forEach(nn => nnRight.add(nn)));
-            shared = new Set<string>([...nnLeft, ...nLeft].filter(n => nnRight.has(n) || nRight.has(n)));
-            // if the two nodes share a neighbour, it's a valid edge
-            if (shared.size > 0) {
-                continue;
-            }
-            // otherwise, drop this edge
-            // console.log(`Dropping the edge between ${left} and ${right} when developing the move graph for ${x},${y}`);
-            // console.log(`nLeft: ${JSON.stringify([...nLeft])}`);
-            // console.log(`nnLeft: ${JSON.stringify([...nnLeft])}`);
-            // console.log(`nRight: ${JSON.stringify([...nRight])}`);
-            // console.log(`nnRight: ${JSON.stringify([...nnRight])}`);
-            g.graph.dropEdge(edge);
-        }
-
-        // now drop all nodes occupied by dice except the moving die (if we started with a die)
-        for (const node of g.graph.nodes()) {
-            if (g.graph.hasNodeAttribute(node, "contents")) {
-                const other = CubeoDie.deserialize(g.graph.getNodeAttribute(node, "contents") as CubeoDie);
-                if (die === undefined || other.uid !== die.uid) {
-                    g.graph.dropNode(node);
-                }
-            }
-        }
-        // now drop all nodes that don't have a path to the target node
-        const target = g.coords2algebraic(...this.abs2rel(x, y)!);
-        for (const node of g.graph.nodes()) {
-            if (g.path(node, target) === null) {
-                g.graph.dropNode(node);
-            }
-        }
-        return g;
-    }
-
-    public get graphOrth(): SquareGraph {
-        const g = this.graph();
-        // drop all diagonal edges
-        for (const edge of g.graph.edges()) {
-            if (g.graph.getEdgeAttribute(edge, "type") === "diag") {
-                g.graph.dropEdge(edge);
-            }
-        }
-        return g;
+        return buildCubeoFormationGraph(this, ignore);
     }
 
     // null means there is no die at the given coordinates
@@ -360,9 +171,7 @@ export class CubeoBoard {
     // a layer of empty cells, it's enough to ensure the move graph
     // includes a `0` in it (top row or left column).
     public canSlide(x: number, y: number): boolean {
-        const g = this.moveGraphFor(x, y);
-        const coords = g.graph.nodes().map(n => g.algebraic2coords(n)).flat();
-        return coords.includes(0);
+        return CubeoSlideTopology.fromBoard(this).canSlideAt(x, y);
     }
 
     public get arrayRep(): string[][] {
@@ -473,30 +282,18 @@ export class CubeoBoard {
 
 }
 
-/** Dedupes formation graph / moveGraph / slide / pin queries within one `moves()` pass. */
+/** Dedupes formation graph / slide topology / pin queries within one `moves()` pass. */
 export class CubeoBoardMoveCache {
-    private formationGraph?: SquareGraph;
-    private readonly moveGraphByCell = new Map<string, SquareGraph>();
+    private readonly topology: CubeoSlideTopology;
     private readonly pinnedByCell = new Map<string, boolean>();
     private readonly slideByCell = new Map<string, boolean>();
 
-    public constructor(private readonly board: CubeoBoard) {}
-
-    public graph(): SquareGraph {
-        if (this.formationGraph === undefined) {
-            this.formationGraph = this.board.graph();
-        }
-        return this.formationGraph;
+    public constructor(private readonly board: CubeoBoard) {
+        this.topology = CubeoSlideTopology.fromBoard(board);
     }
 
-    public moveGraphFor(x: number, y: number): SquareGraph {
-        const key = `${x},${y}`;
-        let g = this.moveGraphByCell.get(key);
-        if (g === undefined) {
-            g = this.board.moveGraphFor(x, y);
-            this.moveGraphByCell.set(key, g);
-        }
-        return g;
+    public graph(): SquareGraph {
+        return this.topology.formationGraph();
     }
 
     public isPinned(x: number, y: number): boolean {
@@ -513,9 +310,14 @@ export class CubeoBoardMoveCache {
         const key = `${x},${y}`;
         let slide = this.slideByCell.get(key);
         if (slide === undefined) {
-            slide = this.board.canSlide(x, y);
+            slide = this.topology.canSlideAt(x, y);
             this.slideByCell.set(key, slide);
         }
         return slide;
+    }
+
+    /** Move endpoints as absolute `"x,y"` keys (includes start). */
+    public moveEndAbsKeys(die: CubeoDie): Set<string> {
+        return this.topology.moveEndAbsKeys(die);
     }
 }

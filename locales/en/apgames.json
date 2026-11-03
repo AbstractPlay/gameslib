@@ -3027,6 +3027,12 @@
       "PARTIAL_MOVEMENT": "Click an orthogonally adjacent, occupied space to move on top of.",
       "PARTIAL_PLACEMENT": "Click an empty space on the board to place your {{size}} piece."
     },
+    "qbf": {
+      "INITIAL_INSTRUCTIONS_ROOT": "Select any square for the root, a stack of two red checkers.",
+      "INITIAL_INSTRUCTIONS": "Select an unoccupied square that is orthogonally adjacent to exactly one checker. The squares you may play are marked in green.",
+      "NOT_ADJACENT": "{{where}} is not orthogonally adjacent to any checker. A placed checker must be orthogonally adjacent to exactly one checker.",
+      "TOO_MANY": "{{where}} is orthogonally adjacent to more than one checker. A placed checker must be orthogonally adjacent to exactly one checker."
+    },
     "quagmire": {
       "LEGAL_MOVES": "You can only walk/run to non-flooded, unoccupied adjacent spaces or jump over an unoccupied adjacent space to a non-flooded unoccupied space.",
       "MAY_RUN": "You may submit or select another destination cell to run to.",
@@ -4406,6 +4412,7 @@
     "product": "Players score by multiplying their two largest groups. Largest score wins. If tied, the second player wins.",
     "prudh": "Prudh (\"prew\") is a game of shared pieces where one player owns the light squares and the other owns the dark. Manipulate stacks of pieces to earn points. Highest score at the end of the game wins.",
     "pylon": "The game is played in two phases: a placement phase, in which all the pyramids are placed onto the board, followed by a stacking phase, in which pyramids are collected into stacks. Control the majority of the pyramids to win.",
+    "qbf": "Red and Blue grow a tree of checkers from Red's first checker, the root. Every checker must be placed orthogonally adjacent to exactly one checker. When no such square is left, the checkers are claimed from the leaves inward: a checker belongs to its own colour if all of its children belong to its own colour, and otherwise to the other colour. Whoever claims the root wins.",
     "quagmire": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
     "quax": "Quax is a connection game on a square board with a special move: instead of placing a stone, you may connect diagonally adjacent stones.",
     "queensland": "Create long open corridors between your pieces to score points. Easy, right?",
@@ -4707,6 +4714,7 @@
     "product": "Product",
     "prudh": "Prudh",
     "pylon": "Pylon",
+    "qbf": "QBF",
     "quagmire": "Quagmire",
     "quax": "Quax",
     "queensland": "Queensland",
@@ -4867,6 +4875,7 @@
     "pletore": "An intersection is controlled by a player if they 'pinch' it while the opponent does not. You 'pinch' an intersection if you have pieces that can see that intersection from two different axes. Your score is the sum of the number of stones of your color on the board and the number of empty points you control, plus a komi bonus and a button bonus. The button is used when the komi value plus the number of intersections on the board is even, and any player may take a turn off and claim the button if it has yet to be claimed. The game ends when both players pass in succession, but claiming the button does not count toward this. Players cannot pass until the entire board is occupied or controlled.",
     "plurality": "Plurality is a finite territorial game. The concept of territory exist disconnected from concepts like groups or liberty. Territories' ownership depend on the most represented color in their perimeters. On their turn, players drop two friendly stones and one adversary stone as a single orthogonally connected group (a tromino). It is forbidden to make a 2x2 shape of stones of any color configuration.",
     "posit": "Posit was designed by Shinichi Tobita in 1991. The game was published by Yonezawa corp. as a videogame called **Posit: 3-D board**.\n\nPosit is played on a 6x6 square board. Each player has a pawn. Initially, the pawns are placed on the c6 and d1 squares. In each turn, players move their pawn to an adjacent square (orthogonally or diagonally), and then place a neutral piece in any square that does not have a pawn. Neutral pieces can be stacked up to three levels. Pawns can climb one level up, but cannot go down, climb two levels at once, or climb on top of three levels. A player wins by stalemating the adversary.",
+    "qbf": "QBF, which stands for Quantified Boolean Formula, was designed by Mark Steere in November 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nRed begins by placing the root, a stack of two red checkers, on any square. QBF uses the pie rule: Blue, for his first turn, can choose to switch colours with Red instead of placing a checker. If he does, the root remains red, but the player who placed the root is now Blue, and places a blue checker. Thereafter, players take turns placing one checker per turn.\n\nAfter the root, every checker must be placed on an unoccupied square orthogonally adjacent to exactly one checker, of either colour. Diagonal adjacencies are irrelevant. The checker it is placed next to is its parent, and the placed checker is a child of that parent. The squares a checker may be placed on are marked in green. The game ends when no such square is left.\n\nWhen the game ends, the players claim the checkers on the board. A player can claim ownership of checkers of either or both colours. Start with the checkers that have no children and work inward toward the root: a checker belongs to its own colour if all of its children belong to its own colour. Otherwise it belongs to the other colour. Childless checkers belong to their own colour. You win if you claim the root.\n\nThe owner of every checker is shown throughout the game by the mark on the checker: a black ring holding a disc of the owner's colour. The marks on the board show who would own each checker if the game ended at once. The game ends as soon as no placement could change the owner of the root any more, which can be before the open squares run out.",
     "queensland": "After the first game completes, the board resets and you play a second game but with blue playing first. Highest combined score wins.",
     "quincunx": "A game consists of as many rounds as there are players. Highest accumulated score wins.\n\nBasic scoring: For each orthogonally adjacent card, add the ranks together.\n* 2-9 w/ matching Ace: gain, otherwise lose\n* 10: no effect\n* 11: draw a card\n* 12-19: gain sum - 10\n* 20: draw a card\n\nPairs: For each orthogonally adjacent card that is the same rank, gain 5 points. (**Exception:** If that pair is also part of a set, it does *not* also score as a pair.)\n\nSets: If the placed card creates a line (including diagonal) of three *or more* cards of the same rank, gain 30 pts for each line.\n\nStraights: If the placed card creates or extends sequence of three or more cards in rank order along a line (including diagonal), gain 20 points for each line.\n\nPower play: If you played an Ace or Crown orthogonally adjacent to the matching Ace or Crown, score the number of points equal to the sum of the ranks of all the *other* cards in the tableau that share that suit.\n\nMore information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers and opponents.",
     "rincala": "For reasons, the colours are instead red (4 pts), blue (3 pts), green (2 pts), yellow (1 pt). Also, the game terminates as soon as one player earns more than half the points (>=26 pts).",
@@ -8109,6 +8118,20 @@
       "quickStart": {
         "name": "Quick start",
         "description": "A learning mode that randomly places the pyramids for you, so players start directly at the stacking half of the game."
+      }
+    },
+    "qbf": {
+      "#board": {
+        "name": "9x9 board"
+      },
+      "size-7": {
+        "name": "7x7 board"
+      },
+      "size-11": {
+        "name": "11x11 board"
+      },
+      "size-13": {
+        "name": "13x13 board"
       }
     },
     "quagmire": {

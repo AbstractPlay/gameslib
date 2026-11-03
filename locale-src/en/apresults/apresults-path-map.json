@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-02",
+  "generatedAt": "2026-11-03",
   "schemaVersion": 1,
   "entries": [
     {
@@ -5291,6 +5291,36 @@
       "newPath": "prudh.SOW.default",
       "newFullKey": "apresults:prudh.SOW.default",
       "english": "{{player}} sowed checkers from {{from}} to {{to}}."
+    },
+    {
+      "oldPath": "EOG.qbf_root",
+      "oldFullKey": "apresults:EOG.qbf_root",
+      "uid": "qbf",
+      "resultType": "EOG",
+      "newLeaf": "root",
+      "newPath": "qbf.EOG.root",
+      "newFullKey": "apresults:qbf.EOG.root",
+      "english": "{{player}} claims the root."
+    },
+    {
+      "oldPath": "EOG.qbf_settled",
+      "oldFullKey": "apresults:EOG.qbf_settled",
+      "uid": "qbf",
+      "resultType": "EOG",
+      "newLeaf": "settled",
+      "newPath": "qbf.EOG.settled",
+      "newFullKey": "apresults:qbf.EOG.settled",
+      "english": "The owner of the root could no longer change. {{player}} claims the root."
+    },
+    {
+      "oldPath": "PLACE.qbf_root",
+      "oldFullKey": "apresults:PLACE.qbf_root",
+      "uid": "qbf",
+      "resultType": "PLACE",
+      "newLeaf": "root",
+      "newPath": "qbf.PLACE.root",
+      "newFullKey": "apresults:qbf.PLACE.root",
+      "english": "{{player}} placed the root on {{where}}."
     },
     {
       "oldPath": "PLACE.quax_diag",

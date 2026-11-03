@@ -4263,6 +4263,10 @@
     "src": "Pylon",
     "out": "Pylon"
   },
+  "names.qbf": {
+    "src": "QBF",
+    "out": "QBF"
+  },
   "names.quagmire": {
     "src": "Quagmire",
     "out": "Quagmire"

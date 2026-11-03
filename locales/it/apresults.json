@@ -1302,6 +1302,15 @@
       "default": "{{player}} ha seminato dame da {{from}} a {{to}}."
     }
   },
+  "qbf": {
+    "PLACE": {
+      "root": "{{player}} ha posizionato la radice su {{where}}."
+    },
+    "EOG": {
+      "root": "{{player}} rivendica la radice.",
+      "settled": "Il proprietario della radice non poteva più cambiare. {{player}} rivendica la radice."
+    }
+  },
   "quax": {
     "PLACE": {
       "diag": "{{player}} ha posizionato una connessione diagonale in {{where}}."

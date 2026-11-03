@@ -1302,6 +1302,15 @@
       "default": "{{player}} sembró fichas de {{from}} a {{to}}."
     }
   },
+  "qbf": {
+    "PLACE": {
+      "root": "{{player}} colocó la raíz en {{where}}."
+    },
+    "EOG": {
+      "root": "{{player}} reclama la raíz.",
+      "settled": "El dueño de la raíz ya no podía cambiar. {{player}} reclama la raíz."
+    }
+  },
   "quax": {
     "PLACE": {
       "diag": "{{player}} colocó una conexión diagonal en {{where}}."

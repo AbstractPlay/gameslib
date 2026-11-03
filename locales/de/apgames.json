@@ -3027,6 +3027,12 @@
       "PARTIAL_MOVEMENT": "Klicken Sie auf ein orthogonal benachbartes, besetztes Feld, um darauf zu ziehen.",
       "PARTIAL_PLACEMENT": "Klicken Sie auf ein leeres Feld auf dem Spielbrett, um Ihren Stein der Größe {{size}} zu platzieren."
     },
+    "qbf": {
+      "INITIAL_INSTRUCTIONS_ROOT": "Wählen Sie ein beliebiges Feld für die Wurzel, einen Stapel aus zwei roten Spielsteinen.",
+      "INITIAL_INSTRUCTIONS": "Wählen Sie ein unbesetztes Feld, das orthogonal benachbart zu genau einem Spielstein ist. Die Felder, auf die Sie spielen können, sind grün markiert.",
+      "NOT_ADJACENT": "{{where}} ist zu keinem Spielstein orthogonal benachbart. Ein platzierter Spielstein muss zu genau einem Spielstein orthogonal benachbart sein.",
+      "TOO_MANY": "{{where}} ist zu mehr als einem Spielstein orthogonal benachbart. Ein platzierter Spielstein muss zu genau einem Spielstein orthogonal benachbart sein."
+    },
     "quagmire": {
       "LEGAL_MOVES": "Sie können nur zu nicht überschwemmten, unbesetzten Nachbarfeldern gehen/rennen oder über ein unbesetztes Nachbarfeld auf ein nicht überschwemmtes, unbesetztes Feld springen.",
       "MAY_RUN": "Sie können Ihren Zug bestätigen oder ein anderes Zielfeld auswählen, zu dem Sie rennen möchten.",
@@ -4406,6 +4412,7 @@
     "product": "Spieler erzielen Punkte, indem sie ihre zwei größten Gruppen multiplizieren. Die höchste Punktzahl gewinnt. Bei Gleichstand gewinnt der zweite Spieler.",
     "prudh": "Prudh (\"prew\") ist ein Spiel mit gemeinsamen Steinen, bei dem ein Spieler die hellen Felder besitzt und der andere die dunklen. Manipulieren Sie Steinstapel, um Punkte zu erzielen. Die höchste Punktzahl am Ende des Spiels gewinnt.",
     "pylon": "Das Spiel wird in zwei Phasen gespielt: einer Platzierungsphase, in der alle Pyramiden auf dem Brett platziert werden, gefolgt von einer Stapelphase, in der Pyramiden zu Stapeln gesammelt werden. Kontrollieren Sie die Mehrheit der Pyramiden, um zu gewinnen.",
+    "qbf": "Rot und Blau lassen einen Baum aus Spielsteinen aus Rots erstem Stein, der Wurzel, wachsen. Jeder Spielstein muss orthogonal benachbart zu genau einem Spielstein platziert werden. Wenn kein solches Feld mehr übrig ist, werden die Spielsteine von den Blättern nach innen hin beansprucht: Ein Spielstein gehört seiner eigenen Farbe, wenn alle seine Kindsteine seiner eigenen Farbe gehören, und andernfalls der anderen Farbe. Wer die Wurzel beansprucht, gewinnt.",
     "quagmire": "Ein Wettlauf ums Überleben, während der Boden unter den Füßen nachgibt. Gehen, laufen und springen Sie über das Brett, um das andere Team zu behindern, aber achten Sie darauf, genügend Platz für Ihr eigenes Team zu lassen!",
     "quax": "Quax ist ein Verbindungsspiel auf einem quadratischen Brett mit einem Spezialzug: Statt einen Stein zu platzieren, können Sie diagonal benachbarte Steine verbinden.",
     "queensland": "Erschaffen Sie lange offene Korridore zwischen Ihren Steinen, um Punkte zu erzielen. Einfach, oder?",
@@ -4707,6 +4714,7 @@
     "product": "Product",
     "prudh": "Prudh",
     "pylon": "Pylon",
+    "qbf": "QBF",
     "quagmire": "Quagmire",
     "quax": "Quax",
     "queensland": "Queensland",
@@ -4867,6 +4875,7 @@
     "pletore": "Ein Schnittpunkt wird von einem Spieler kontrolliert, wenn er ihn 'einklemmt' (pinch), der Gegner jedoch nicht. Du 'klemmst' einen Schnittpunkt ein, wenn du Steine hast, die diesen Schnittpunkt aus zwei verschiedenen Achsen sehen können. Deine Punktzahl ist die Summe der Anzahl der Steine deiner Farbe auf dem Brett und der Anzahl der leeren Punkte, die du kontrollierst, plus ein Komi-Bonus und ein Button-Bonus. Der Button wird verwendet, wenn der Komi-Wert plus die Anzahl der Schnittpunkte auf dem Brett gerade ist, und jeder Spieler kann einen Zug aussetzen und den Button beanspruchen, wenn er noch nicht beansprucht wurde. Das Spiel endet, wenn beide Spieler nacheinander passen, aber das Beanspruchen des Buttons zählt nicht dazu. Spieler können nicht passen, bis das gesamte Brett besetzt oder kontrolliert ist.",
     "plurality": "Plurality ist ein endliches Territorialspiel. Das Konzept von Territorium existiert losgelöst von Konzepten wie Gruppen oder Freiheiten. Der Besitz von Territorien hängt von der am stärksten vertretenen Farbe in ihren Perimetern ab. In ihrem Zug setzen die Spieler zwei eigene Steine und einen gegnerischen Stein als eine einzige orthogonal verbundene Gruppe (ein Tromino). Es ist verboten, eine 2x2-Form von Steinen jeglicher Farbkonfiguration zu bilden.",
     "posit": "Posit wurde 1991 von Shinichi Tobita entworfen. Das Spiel wurde von Yonezawa Corp. als Videospiel unter dem Namen **Posit: 3-D board** veröffentlicht.\n\nPosit wird auf einem 6x6 quadratischen Brett gespielt. Jeder Spieler hat einen Bauer. Zu Beginn werden die Bauern auf den Feldern c6 und d1 platziert. In jedem Zug bewegen die Spieler ihren Bauern auf ein angrenzendes Feld (orthogonal oder diagonal) und platzieren dann einen neutralen Stein auf einem beliebigen Feld, das keinen Bauern enthält. Neutrale Steine können bis zu drei Ebenen hoch gestapelt werden. Bauern können eine Ebene nach oben klettern, können aber nicht nach unten gehen, zwei Ebenen auf einmal klettern oder auf drei Ebenen klettern. Ein Spieler gewinnt, indem er den Gegner pattsetzt.",
+    "qbf": "QBF, was für Quantified Boolean Formula steht, wurde von Mark Steere im November 2026 in Zusammenarbeit mit Claude, einem KI-Modell von Anthropic, entwickelt.\n\nRot beginnt, indem die Wurzel – ein Stapel aus zwei roten Spielsteinen – auf einem beliebigen Feld platziert wird. QBF verwendet die Pie-Regel: Blau kann sich in seinem ersten Zug dafür entscheiden, die Farben mit Rot zu tauschen, anstatt einen Spielstein zu platzieren. Tut er dies, bleibt die Wurzel rot, aber der Spieler, der die Wurzel platziert hat, ist nun Blau und platziert einen blauen Spielstein. Danach setzen die Spieler abwechselnd einen Spielstein pro Zug.\n\nNach der Wurzel muss jeder Spielstein auf einem unbesetzten Feld platziert werden, das an genau einen Spielstein beliebiger Farbe orthogonal benachbart ist. Diagonale Nachbarschaften sind irrelevant. Der Spielstein, neben dem er platziert wird, ist sein Elternstein, und der platzierte Spielstein ist ein Kindstein dieses Elternsteins. Die Felder, auf denen ein Spielstein platziert werden kann, sind grün markiert. Das Spiel endet, wenn kein solches Feld mehr übrig ist.\n\nWenn das Spiel endet, übernehmen die Spieler die Spielsteine auf dem Brett. Ein Spieler kann Spielsteine einer oder beider Farben beanspruchen. Man beginnt mit den Spielsteinen, die keine Kindsteine haben, und arbeitet sich nach innen zur Wurzel vor: Ein Spielstein gehört seiner eigenen Farbe, wenn alle seine Kindsteine seiner eigenen Farbe gehören. Andernfalls gehört er der anderen Farbe. Kinderlose Spielsteine gehören ihrer eigenen Farbe. Wer die Wurzel beansprucht, gewinnt.\n\nDer Besitzer jedes Spielsteins wird während des gesamten Spiels durch eine kleine Markierung auf dem Spielstein angezeigt: eine Scheibe in der Farbe des Besitzers mit einer kontrastierenden Umrandung. Die Markierungen auf dem Brett zeigen, wer welchen Spielstein besitzen würde, wenn das Spiel sofort enden würde. Das Spiel endet, sobald kein Zug den Besitzer der Wurzel mehr ändern kann – dies kann schon geschehen, bevor die freien Felder ausgehen.",
     "queensland": "Nachdem das erste Spiel beendet ist, wird das Brett zurückgesetzt und ihr spielt ein zweites Spiel, aber Blau beginnt. Die höchste Gesamtpunktzahl gewinnt.",
     "quincunx": "Ein Spiel besteht aus so vielen Runden, wie es Spieler gibt. Die höchste angesammelte Punktzahl gewinnt.\n\nGrundwertung: Addiere für jede orthogonal angrenzende Karte die Ränge zusammen.\n* 2-9 mit passendem Ass: Gewinn, ansonsten Verlust\n* 10: keine Wirkung\n* 11: eine Karte ziehen\n* 12-19: Gewinn Summe - 10\n* 20: eine Karte ziehen\n\nPaare: Für jede orthogonal angrenzende Karte desselben Rangs erhältst du 5 Punkte. (**Ausnahme:** Wenn dieses Paar auch Teil eines Sets ist, wird es *nicht* zusätzlich als Paar gewertet.)\n\nSets: Wenn die platzierte Karte eine Linie (einschließlich diagonal) aus drei *oder mehr* Karten desselben Rangs bildet, erhältst du 30 Punkte für jede Linie.\n\nStraßen: Wenn die platzierte Karte eine Sequenz von drei oder mehr Karten in Rangfolge entlang einer Linie (einschließlich diagonal) bildet oder erweitert, erhältst du 20 Punkte für jede Linie.\n\nPower Play: Wenn du ein Ass oder eine Krone orthogonal angrenzend an das passende Ass oder die passende Krone gespielt hast, erhältst du die Anzahl an Punkten, die der Summe der Ränge aller *anderen* Karten im Tableau entspricht, die diese Farbe teilen.\n\nWeitere Informationen zum Decktet-System findest du auf der [offiziellen Decktet-Website](https://www.decktet.com). Karten auf den Händen der Spieler sind vor Beobachtern und Gegnern verborgen.",
     "rincala": "Aus bestimmten Gründen sind die Farben stattdessen Rot (4 Punkte), Blau (3 Punkte), Grün (2 Punkte), Gelb (1 Punkt). Außerdem endet das Spiel, sobald ein Spieler mehr als die Hälfte der Punkte erzielt (>=26 Punkte).",
@@ -8109,6 +8118,20 @@
       "quickStart": {
         "name": "Schnellstart",
         "description": "Ein Lernmodus, der die Pyramiden zufällig für dich platziert, sodass die Spieler direkt mit der Stapelhälfte des Spiels beginnen."
+      }
+    },
+    "qbf": {
+      "#board": {
+        "name": "9x9-Brett"
+      },
+      "size-7": {
+        "name": "7x7-Brett"
+      },
+      "size-11": {
+        "name": "11x11-Brett"
+      },
+      "size-13": {
+        "name": "13x13-Brett"
       }
     },
     "quagmire": {

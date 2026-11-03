@@ -3027,6 +3027,12 @@
       "PARTIAL_MOVEMENT": "Fai clic su uno spazio occupato, ortogonalmente adiacente, su cui salire.",
       "PARTIAL_PLACEMENT": "Fai clic su uno spazio vuoto sulla plancia per posizionare il tuo pezzo di dimensione {{size}}."
     },
+    "qbf": {
+      "INITIAL_INSTRUCTIONS_ROOT": "Seleziona una casella qualsiasi per la radice, una pila di due pedine rosse.",
+      "INITIAL_INSTRUCTIONS": "Seleziona una casella libera ortogonalmente adiacente a esattamente una pedina. Le caselle su cui puoi giocare sono contrassegnate in verde.",
+      "NOT_ADJACENT": "{{where}} non è ortogonalmente adiacente ad alcuna pedina. Una pedina piazzata deve essere ortogonalmente adiacente a esattamente una pedina.",
+      "TOO_MANY": "{{where}} è ortogonalmente adiacente a più di una pedina. Una pedina piazzata deve essere ortogonalmente adiacente a esattamente una pedina."
+    },
     "quagmire": {
       "LEGAL_MOVES": "Puoi solo camminare/correre verso spazi adiacenti non allagati e non occupati, oppure saltare oltre uno spazio adiacente non occupato verso uno spazio non allagato e non occupato.",
       "MAY_RUN": "Puoi confermare o selezionare un'altra casella di destinazione verso cui correre.",
@@ -4406,6 +4412,7 @@
     "product": "I giocatori segnano punti moltiplicando i loro due gruppi più grandi. Il punteggio più alto vince. In caso di parità, vince il secondo giocatore.",
     "prudh": "Prudh (\"prew\") è un gioco a pezzi condivisi in cui un giocatore possiede le caselle chiare e l'altro quelle scure. Manipola le pile di pezzi per guadagnare punti. Il punteggio più alto alla fine della partita vince.",
     "pylon": "Il gioco si svolge in due fasi: una fase di posizionamento, in cui tutte le piramidi vengono posizionate sul tabellone, seguita da una fase di impilamento, in cui le piramidi vengono raccolte in pile. Controlla la maggior parte delle piramidi per vincere.",
+    "qbf": "Il Rosso e il Blu sviluppano un albero di pedine a partire dalla prima pedina del Rosso, la radice. Ogni pedina deve essere posizionata in modo ortogonalmente adiacente a esattamente una pedina. Quando non rimane alcuna casella valida, le pedine vengono assegnate dalle foglie verso l'interno: una pedina appartiene al proprio colore se tutti i suoi figli appartengono al suo stesso colore, altrimenti appartiene all'altro colore. Chi controlla la radice vince.",
     "quagmire": "Una corsa per rimanere a galla mentre il terreno cede sotto i piedi. Cammina, corri e salta sul tabellone per ostacolare l'altra squadra, ma assicurati di lasciare abbastanza spazio per la tua!",
     "quax": "Quax è un gioco di connessione su un tabellone quadrato con una mossa speciale: invece di posizionare una pietra, puoi collegare pietre adiacenti in diagonale.",
     "queensland": "Crea lunghi corridoi aperti tra i tuoi pezzi per segnare punti. Facile, no?",
@@ -4707,6 +4714,7 @@
     "product": "Product",
     "prudh": "Prudh",
     "pylon": "Pylon",
+    "qbf": "QBF",
     "quagmire": "Quagmire",
     "quax": "Quax",
     "queensland": "Queensland",
@@ -4867,6 +4875,7 @@
     "pletore": "Un'intersezione è controllata da un giocatore se la 'stringe' (pinch) mentre l'avversario non lo fa. 'Stringi' un'intersezione se possiedi pezzi in grado di vedere quell'intersezione da due assi differenti. Il tuo punteggio è dato dalla somma del numero di pedine del tuo colore sul tabellone e del numero di punti vuoti che controlli, più un bonus komi e un bonus bottone. Il bottone viene utilizzato quando il valore del komi più il numero di intersezioni sul tabellone è pari, e qualsiasi giocatore può rinunciare a un turno per reclamare il bottone se non è ancora stato reclamato. La partita termina quando entrambi i giocatori passano consecutivamente, ma reclamare il bottone non conta ai fini di questa sequenza. I giocatori non possono passare finché l'intero tabellone non è occupato o controllato.",
     "plurality": "Plurality è un gioco territoriale finito. Il concetto di territorio esiste scollegato da concetti come gruppi o libertà. La proprietà dei territori dipende dal colore maggiormente rappresentato nei loro perimetri. Nel proprio turno, i giocatori collocano due pedine amiche e una pedina avversaria come un unico gruppo ortogonalmente connesso (un tromino). È vietato formare una configurazione 2x2 di pedine di qualsiasi combinazione di colore.",
     "posit": "Posit è stato progettato da Shinichi Tobita nel 1991. Il gioco è stato pubblicato da Yonezawa Corp. come videogioco intitolato **Posit: 3-D board**.\n\nPosit si gioca su un tabellone quadrato 6x6. Ciascun giocatore possiede una pedina. Inizialmente, le pedine sono posizionate sulle caselle c6 e d1. In ogni turno, i giocatori muovono la propria pedina su una casella adiacente (ortogonalmente o diagonalmente) e poi piazzano un pezzo neutrale in qualsiasi casella priva di pedine. I pezzi neutrali possono essere impilati fino a tre livelli. Le pedine possono salire di un livello, ma non possono scendere, salire di due livelli contemporaneamente o salire in cima a tre livelli. Un giocatore vince riducendo l'avversario in stallo.",
+    "qbf": "QBF, che sta per Quantified Boolean Formula, è stato progettato da Mark Steere nel novembre 2026, in collaborazione con Claude, un modello d'IA creato da Anthropic.\n\nIl Rosso inizia posizionando la radice, una pila di due pedine rosse, su una casella qualsiasi. QBF utilizza la regola della torta: il Blu, al suo primo turno, può scegliere di scambiare i colori con il Rosso invece di posizionare una pedina. Se lo fa, la radice rimane rossa, ma il giocatore che ha posizionato la radice diventa il Blu e posiziona una pedina blu. In seguito, i giocatori si alternano posizionando una pedina a turno.\n\nDopo la radice, ogni pedina deve essere posizionata su una casella vuota ortogonalmente adiacente a esattamente una pedina, di qualsiasi colore. Le adiacenze diagonali sono irrilevanti. La pedina a cui viene affiancata è il suo genitore, e la pedina posizionata è un figlio di quel genitore. Le caselle su cui è possibile posizionare una pedina sono contrassegnate in verde. La partita termina quando non rimane alcuna casella di questo tipo.\n\nQuando la partita termina, i giocatori rivendicano le pedine sul tabellone. Un giocatore può reclamare la proprietà di pedine di uno o di entrambi i colori. Si parte dalle pedine che non hanno figli e si procede verso l'interno, in direzione della radice: una pedina appartiene al proprio colore se tutti i suoi figli appartengono al suo stesso colore. Altrimenti appartiene all'altro colore. Le pedine senza figli appartengono al proprio colore. Vinci se rivendichi la radice.\n\nIl proprietario di ciascuna pedina è indicato durante tutta la partita da un piccolo segno sulla pedina: un disco del colore del proprietario con un bordo a contrasto. I segni sul tabellone mostrano chi possederebbe ciascuna pedina se la partita terminasse immediatamente. La partita termina non appena nessuna mossa può più cambiare il proprietario della radice, il che può avvenire prima dell'esaurimento delle caselle libere.",
     "queensland": "Al termine della prima partita, il tabellone viene ripristinato e si gioca una seconda partita, ma con il blu che gioca per primo. Vince il punteggio combinato più alto.",
     "quincunx": "Una partita è composta da un numero di round pari al numero di giocatori. Vince il punteggio accumulato più alto.\n\nPunteggio base: Per ogni carta ortogonalmente adiacente, somma i valori (ranghi).\n* 2-9 con Asso corrispondente: guadagni, altrimenti perdi\n* 10: nessun effetto\n* 11: pesca una carta\n* 12-19: guadagni la somma - 10\n* 20: pesca una carta\n\nCoppie: Per ogni carta ortogonalmente adiacente dello stesso valore, guadagni 5 punti. (**Eccezione:** Se la coppia fa parte anche di un tris/insieme, *non* ottiene punti come coppia.)\n\nInsiemi: Se la carta giocata crea una linea (anche diagonale) di tre *o più* carte dello stesso valore, guadagni 30 punti per ciascuna linea.\n\nScale: Se la carta giocata crea o estende una sequenza di tre o più carte in ordine di valore lungo una linea (anche diagonale), guadagni 20 punti per ciascuna linea.\n\nMossa di potenza (Power play): Se hai giocato un Asso o una Corona ortogonalmente adiacente all'Asso o alla Corona corrispondente, ottieni un punteggio pari alla somma dei valori di tutte le *altre* carte del tabellone che condividono quel seme.\n\nMaggiori informazioni sul sistema Decktet sono disponibili sul [sito ufficiale del Decktet](https://www.decktet.com). Le carte nella mano dei giocatori sono nascoste agli osservatori e agli avversari.",
     "rincala": "Per vari motivi, i colori sono invece rosso (4 pt), blu (3 pt), verde (2 pt), giallo (1 pt). Inoltre, la partita termina non appena un giocatore ottiene più della metà dei punti (>=26 pt).",
@@ -8109,6 +8118,20 @@
       "quickStart": {
         "name": "Avvio rapido",
         "description": "Una modalità per imparare che posiziona casualmente le piramidi per te, in modo che i giocatori inizino direttamente dalla fase di impilamento."
+      }
+    },
+    "qbf": {
+      "#board": {
+        "name": "Tavoliere 9x9"
+      },
+      "size-7": {
+        "name": "Tavoliere 7x7"
+      },
+      "size-11": {
+        "name": "Tavoliere 11x11"
+      },
+      "size-13": {
+        "name": "Tavoliere 13x13"
       }
     },
     "quagmire": {

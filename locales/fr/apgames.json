@@ -3027,6 +3027,12 @@
       "PARTIAL_MOVEMENT": "Cliquez sur une case occupée, orthogonalement adjacente, pour vous déplacer dessus.",
       "PARTIAL_PLACEMENT": "Cliquez sur une case vide du plateau pour y placer votre pièce de taille {{size}}."
     },
+    "qbf": {
+      "INITIAL_INSTRUCTIONS_ROOT": "Sélectionnez n'importe quelle case pour la racine, une pile de deux pions rouges.",
+      "INITIAL_INSTRUCTIONS": "Sélectionnez une case libre orthogonalement adjacente à exactement un pion. Les cases que vous pouvez jouer sont marquées en vert.",
+      "NOT_ADJACENT": "{{where}} n'est orthogonalement adjacente à aucun pion. Un pion placé doit être orthogonalement adjacent à exactement un pion.",
+      "TOO_MANY": "{{where}} est orthogonalement adjacente à plus d'un pion. Un pion placé doit être orthogonalement adjacent à exactement un pion."
+    },
     "quagmire": {
       "LEGAL_MOVES": "Vous ne pouvez marcher/courir que vers des cases adjacentes non inondées et non occupées, ou sauter par-dessus une case adjacente non occupée vers une case non inondée et non occupée.",
       "MAY_RUN": "Vous pouvez valider votre coup ou sélectionner une autre case de destination vers laquelle courir.",
@@ -4406,6 +4412,7 @@
     "product": "Les joueurs marquent des points en multipliant leurs deux plus grands groupes. Le plus grand score gagne. En cas d'égalité, le second joueur gagne.",
     "prudh": "Prudh (\"prew\") est un jeu de pièces partagées où un joueur possède les cases claires et l'autre les cases sombres. Manipulez des piles de pièces pour gagner des points. Le score le plus élevé à la fin de la partie gagne.",
     "pylon": "Le jeu se joue en deux phases : une phase de placement, au cours de laquelle toutes les pyramides sont placées sur le plateau, suivie d'une phase d'empilement, au cours de laquelle les pyramides sont rassemblées en piles. Contrôlez la majorité des pyramides pour gagner.",
+    "qbf": "Rouge et Bleu font grandir un arbre de pions à partir du premier pion de Rouge, la racine. Chaque pion doit être placé de manière orthogonalement adjacente à exactement un pion. Lorsqu'il ne reste aucune case valide, les pions sont attribués depuis les feuilles vers l'intérieur : un pion appartient à sa propre couleur si tous ses enfants appartiennent à sa propre couleur, et sinon à l'autre couleur. Quiconque remporte la racine gagne.",
     "quagmire": "Une course pour rester à flot tandis que le sol se dérobe sous vos pieds. Marchez, courez et sautez sur le plateau pour gêner l'équipe adverse, mais veillez à laisser assez d'espace pour la vôtre !",
     "quax": "Quax est un jeu de connexion sur plateau carré avec un coup spécial : au lieu de placer une pierre, vous pouvez connecter des pierres adjacentes en diagonale.",
     "queensland": "Créez de longs couloirs ouverts entre vos pièces pour marquer des points. Facile, non ?",
@@ -4707,6 +4714,7 @@
     "product": "Product",
     "prudh": "Prudh",
     "pylon": "Pylon",
+    "qbf": "QBF",
     "quagmire": "Quagmire",
     "quax": "Quax",
     "queensland": "Queensland",
@@ -4867,6 +4875,7 @@
     "pletore": "Une intersection est contrôlée par un joueur s'il la « pince » sans que l'adversaire ne le fasse. Vous « pincez » une intersection si vous avez des pièces qui voient cette intersection depuis deux axes différents. Votre score est la somme du nombre de pierres de votre couleur sur le plateau et du nombre de points vides que vous contrôlez, plus un bonus de komi et un bonus de bouton. Le bouton est utilisé lorsque la valeur du komi plus le nombre d'intersections sur le plateau est pair, et n'importe quel joueur peut passer son tour pour réclamer le bouton s'il n'a pas encore été réclamé. La partie se termine lorsque les deux joueurs passent consécutivement leur tour, mais réclamer le bouton ne compte pas pour cela. Les joueurs ne peuvent pas passer tant que l'ensemble du plateau n'est pas occupé ou contrôlé.",
     "plurality": "Plurality est un jeu territorial fini. Le concept de territoire existe indépendamment de concepts tels que les groupes ou les libertés. La possession des territoires dépend de la couleur la plus représentée sur leur périmètre. À son tour, le joueur pose deux pierres alliées et une pierre adverse sous la forme d'un seul groupe orthogonalement connecté (un tromino). Il est interdit de former un pavé de 2x2 pierres, quelle que soit la configuration de couleur.",
     "posit": "Posit a été conçu par Shinichi Tobita en 1991. Le jeu a été publié par Yonezawa corp. sous forme de jeu vidéo intitulé **Posit: 3-D board**.\n\nPosit se joue sur un plateau carré de 6x6. Chaque joueur possède un pion. Au départ, les pions sont placés sur les cases c6 et d1. À chaque tour, les joueurs déplacent leur pion vers une case adjacente (orthogonale ou diagonale), puis placent une pièce neutre sur n'importe quelle case ne contenant pas de pion. Les pièces neutres peuvent être empilées jusqu'à trois niveaux. Les pions peuvent monter d'un niveau, mais ne peuvent pas descendre, monter de deux niveaux à la fois, ni monter au sommet de trois niveaux. Un joueur gagne en réduisant l'adversaire au pat.",
+    "qbf": "QBF, qui signifie « Quantified Boolean Formula », a été conçu par Mark Steere en novembre 2026, en collaboration avec Claude, un modèle d'IA créé par Anthropic.\n\nRouge commence par placer la racine, une pile de deux pions rouges, sur n'importe quelle case. QBF utilise la règle du gâteau (pie rule) : Bleu, lors de son premier tour, peut choisir d'échanger les couleurs avec Rouge au lieu de placer un pion. S'il le fait, la racine reste rouge, mais le joueur qui l'a placée devient Bleu et pose un pion bleu. Par la suite, les joueurs posent alternativement un pion par tour.\n\nAprès la racine, chaque pion doit être placé sur une case libre orthogonalement adjacente à exactement un pion, quelle que soit sa couleur. Les adjacences en diagonale ne sont pas prises en compte. Le pion à côté duquel il est placé est son parent, et le pion posé est un enfant de ce parent. Les cases sur lesquelles un pion peut être placé sont marquées en vert. La partie se termine lorsqu'il ne reste plus aucune case répondant à cette condition.\n\nLorsque la partie se termine, les joueurs revendiquent la propriété des pions sur le plateau. Un joueur peut revendiquer des pions de l'une ou l'autre couleur, voire des deux. En commençant par les pions sans enfants et en remontant vers la racine : un pion appartient à sa propre couleur si tous ses enfants appartiennent à sa propre couleur. Sinon, il appartient à l'autre couleur. Les pions sans enfants appartiennent à leur propre couleur. Vous gagnez si vous revendiquez la racine.\n\nLe propriétaire de chaque pion est indiqué tout au long de la partie par un petit symbole sur le pion : un disque de la couleur du propriétaire avec un contour contrasté. Les symboles sur le plateau montrent qui posséderait chaque pion si la partie s'arrêtait immédiatement. La partie se termine dès qu'aucun placement ne peut plus modifier le propriétaire de la racine, ce qui peut arriver avant l'épuisement des cases libres.",
     "queensland": "Une fois la première partie terminée, le plateau est réinitialisé et vous jouez une seconde partie, mais les bleus jouant en premier. Le score cumulé le plus élevé l'emporte.",
     "quincunx": "Une partie se compose d'autant de manches qu'il y a de joueurs. Le score cumulé le plus élevé l'emporte.\n\nDécompte de base des points : Pour chaque carte orthogonalement adjacente, additionnez les valeurs.\n* 2-9 avec As correspondant : gain, sinon perte\n* 10 : aucun effet\n* 11 : piochez une carte\n* 12-19 : gagnez la somme - 10\n* 20 : piochez une carte\n\nPaires : Pour chaque carte orthogonalement adjacente de même valeur, gagnez 5 points. (**Exception :** Si cette paire fait également partie d'un brelan/carré, elle ne *compte pas* aussi comme une paire.)\n\nSéries : Si la carte posée crée une ligne (y compris en diagonale) de trois cartes *ou plus* de même valeur, gagnez 30 points pour chaque ligne.\n\nSuites : Si la carte posée crée ou prolonge une séquence de trois cartes ou plus par ordre de valeur le long d'une ligne (y compris en diagonale), gagnez 20 points pour chaque ligne.\n\nCoup d'éclat (Power play) : Si vous avez joué un As ou une Couronne de manière orthogonalement adjacente à l'As ou la Couronne correspondante, marquez un nombre de points égal à la somme des valeurs de toutes les *autres* cartes du tableau partageant cette enseigne.\n\nPlus d'informations sur le système Decktet sont disponibles sur le [site officiel de Decktet](https://www.decktet.com). Les cartes dans la main des joueurs sont cachées aux spectateurs et aux adversaires.",
     "rincala": "Pour certaines raisons, les couleurs sont plutôt le rouge (4 pts), le bleu (3 pts), le vert (2 pts) et le jaune (1 pt). De plus, la partie se termine dès qu'un joueur obtient plus de la moitié des points (>=26 pts).",
@@ -8109,6 +8118,20 @@
       "quickStart": {
         "name": "Démarrage rapide",
         "description": "Un mode d'apprentissage qui place aléatoirement les pyramides pour vous, afin que les joueurs commencent directement à la seconde moitié de la partie (l'empilement)."
+      }
+    },
+    "qbf": {
+      "#board": {
+        "name": "Plateau 9x9"
+      },
+      "size-7": {
+        "name": "Plateau 7x7"
+      },
+      "size-11": {
+        "name": "Plateau 11x11"
+      },
+      "size-13": {
+        "name": "Plateau 13x13"
       }
     },
     "quagmire": {

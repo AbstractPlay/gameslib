@@ -3027,6 +3027,12 @@
       "PARTIAL_MOVEMENT": "Haz clic en un espacio ocupado ortogonalmente adyacente para moverte encima de él.",
       "PARTIAL_PLACEMENT": "Haz clic en un espacio vacío del tablero para colocar tu pieza de tamaño {{size}}."
     },
+    "qbf": {
+      "INITIAL_INSTRUCTIONS_ROOT": "Selecciona cualquier casilla para la raíz, una pila de dos fichas rojas.",
+      "INITIAL_INSTRUCTIONS": "Selecciona una casilla desocupada que sea ortogonalmente adyacente a exactamente una ficha. Las casillas en las que puedes jugar están marcadas en verde.",
+      "NOT_ADJACENT": "{{where}} no es ortogonalmente adyacente a ninguna ficha. Una ficha colocada debe ser ortogonalmente adyacente a exactamente una ficha.",
+      "TOO_MANY": "{{where}} es ortogonalmente adyacente a más de una ficha. Una ficha colocada debe ser ortogonalmente adyacente a exactamente una ficha."
+    },
     "quagmire": {
       "LEGAL_MOVES": "Solo puedes caminar/correr a espacios adyacentes desocupados no inundados o saltar sobre un espacio adyacente desocupado hacia un espacio desocupado no inundado.",
       "MAY_RUN": "Puedes confirmar o seleccionar otra casilla de destino hacia la cual correr.",
@@ -4406,6 +4412,7 @@
     "product": "Los jugadores puntúan multiplicando sus dos grupos más grandes. La puntuación más alta gana. En caso de empate, gana el segundo jugador.",
     "prudh": "Prudh (\"pru\") es un juego de piezas compartidas en el que un jugador posee las casillas claras y el otro las oscuras. Manipula pilas de piezas para ganar puntos. La puntuación más alta al final del juego gana.",
     "pylon": "El juego se juega en dos fases: una fase de colocación, en la que se colocan todas las pirámides en el tablero, seguida de una fase de apilamiento, en la que las pirámides se recogen en pilas. Controla la mayoría de las pirámides para ganar.",
+    "qbf": "Rojo y Azul hacen crecer un árbol de fichas a partir de la primera ficha de Rojo, la raíz. Cada ficha debe colocarse ortogonalmente adyacente a exactamente una ficha. Cuando no quede ninguna casilla así, las fichas se reclaman desde las hojas hacia adentro: una ficha pertenece a su propio color si todos sus hijos pertenecen a su propio color, y de lo contrario al otro color. Quien reclame la raíz gana.",
     "quagmire": "Una carrera por mantenerse a flote mientras la tierra se cede bajo tus pies. ¡Camina, corre y salta por el tablero para obstaculizar al otro equipo, pero asegúrate de dejar suficiente espacio para el tuyo!",
     "quax": "Quax es un juego de conexión en un tablero cuadrado con un movimiento especial: en lugar de colocar una ficha, puedes conectar fichas adyacentes en diagonal.",
     "queensland": "Crea largos pasillos abiertos entre tus piezas para sumar puntos. Fácil, ¿verdad?",
@@ -4707,6 +4714,7 @@
     "product": "Product",
     "prudh": "Prudh",
     "pylon": "Pylon",
+    "qbf": "QBF",
     "quagmire": "Quagmire",
     "quax": "Quax",
     "queensland": "Queensland",
@@ -4867,6 +4875,7 @@
     "pletore": "Una intersección es controlada por un jugador si la 'pellizca' mientras que el oponente no lo hace. 'Pellizcas' una intersección si tienes piezas que pueden ver esa intersección desde dos ejes diferentes. Tu puntuación es la suma del número de piedras de tu color en el tablero y el número de puntos vacíos que controlas, más un bono de komi y un bono de botón. El botón se utiliza cuando el valor del komi más el número de intersecciones en el tablero es par, y cualquier jugador puede pasar un turno y reclamar el botón si aún no ha sido reclamado. El juego termina cuando ambos jugadores pasan sucesivamente, pero reclamar el botón no cuenta para esto. Los jugadores no pueden pasar hasta que todo el tablero esté ocupado o controlado.",
     "plurality": "Plurality es un juego territorial finito. El concepto de territorio existe desconectado de conceptos como grupos o libertades. La propiedad de los territorios depende del color más representado en sus perímetros. En su turno, los jugadores sueltan dos piedras propias y una piedra adversaria como un solo grupo conectado ortogonalmente (un tromino). Está prohibido hacer una forma de 2x2 de piedras de cualquier configuración de color.",
     "posit": "Posit fue diseñado por Shinichi Tobita en 1991. El juego fue publicado por Yonezawa Corp. como un videojuego llamado **Posit: 3-D board**.\n\nPosit se juega en un tablero cuadrado de 6x6. Cada jugador tiene un peón. Inicialmente, los peones se colocan en las casillas c6 y d1. En cada turno, los jugadores mueven su peón a una casilla adyacente (ortogonal o diagonalmente) y luego colocan una pieza neutral en cualquier casilla que no tenga un peón. Las piezas neutrales se pueden apilar hasta tres niveles. Los peones pueden subir un nivel, pero no pueden bajar, subir dos niveles a la vez ni subir encima de tres niveles. Un jugador gana dejando sin movimientos (ahogado) al adversario.",
+    "qbf": "QBF, siglas de Quantified Boolean Formula, fue diseñado por Mark Steere en noviembre de 2026, en colaboración con Claude, un modelo de IA creado por Anthropic.\n\nRojo comienza colocando la raíz, una pila de dos fichas rojas, en cualquier casilla. QBF utiliza la regla del pastel (pie rule): Azul, en su primer turno, puede optar por cambiar colores con Rojo en lugar de colocar una ficha. Si lo hace, la raíz sigue siendo roja, pero el jugador que colocó la raíz ahora es Azul y coloca una ficha azul. A partir de ahí, los jugadores se turnan para colocar una ficha por turno.\n\nDespués de la raíz, cada ficha debe colocarse en una casilla desocupada adyacente de forma ortogonal a exactamente una ficha, de cualquier color. Las adyacencias diagonales son irrelevantes. La ficha a la que se coloca al lado es su padre, y la ficha colocada es un hijo de ese padre. Las casillas en las que se puede colocar una ficha están marcadas en verde. El juego termina cuando no queda ninguna casilla disponible.\n\nCuando el juego termina, los jugadores reclaman las fichas del tablero. Un jugador puede reclamar la propiedad de fichas de cualquiera de los dos colores o de ambos. Comienza con las fichas que no tienen hijos y avanza hacia la raíz: una ficha pertenece a su propio color si todos sus hijos pertenecen a su propio color. De lo contrario, pertenece al otro color. Las fichas sin hijos pertenecen a su propio color. Ganas si reclamas la raíz.\n\nEl propietario de cada ficha se muestra a lo largo del juego mediante una pequeña marca en la ficha: un disco del color del propietario con un contorno contrastante. Las marcas en el tablero muestran quién sería el propietario de cada ficha si el juego terminara de inmediato. El juego termina tan pronto como ningún movimiento pueda cambiar más el propietario de la raíz, lo que puede ocurrir antes de que se agoten las casillas libres.",
     "queensland": "Una vez que se completa la primera partida, el tablero se reinicia y juegas una segunda partida, pero con el azul jugando primero. La puntuación combinada más alta gana.",
     "quincunx": "Una partida consta de tantas rondas como jugadores haya. La puntuación acumulada más alta gana.\n\nPuntuación básica: Por cada carta adyacente ortogonalmente, suma los rangos.\n* 2-9 con As coincidente: gana puntos, de lo contrario pierde\n* 10: sin efecto\n* 11: roba una carta\n* 12-19: gana la suma - 10\n* 20: roba una carta\n\nParejas: Por cada carta adyacente ortogonalmente que sea del mismo rango, gana 5 puntos. (**Excepción:** Si esa pareja también forma parte de un conjunto, *no* puntúa también como pareja).\n\nConjuntos: Si la carta colocada crea una línea (incluida la diagonal) de tres *o más* cartas del mismo rango, gana 30 ptos por cada línea.\n\nEscaleras: Si la carta colocada crea o extiende una secuencia de tres o más cartas en orden de rango a lo largo de una línea (incluida la diagonal), gana 20 puntos por cada línea.\n\nJugada de poder: Si jugaste un As o Corona adyacente ortogonalmente al As o Corona coincidente, obtén la cantidad de puntos igual a la suma de los rangos de todas las *demás* cartas en la mesa que compartan ese palo.\n\nPuedes encontrar más información sobre el sistema Decktet en el [sitio web oficial de Decktet](https://www.decktet.com). Las cartas en las manos de los jugadores están ocultas para observadores y oponentes.",
     "rincala": "Por ciertas razones, los colores son en su lugar rojo (4 ptos), azul (3 ptos), verde (2 ptos), amarillo (1 pto). Además, el juego termina tan pronto como un jugador gana más de la mitad de los puntos (>=26 ptos).",
@@ -8109,6 +8118,20 @@
       "quickStart": {
         "name": "Inicio rápido",
         "description": "Un modo de aprendizaje que coloca las pirámides al azar por ti, de modo que los jugadores comienzan directamente en la fase de apilamiento del juego."
+      }
+    },
+    "qbf": {
+      "#board": {
+        "name": "Tablero de 9x9"
+      },
+      "size-7": {
+        "name": "Tablero de 7x7"
+      },
+      "size-11": {
+        "name": "Tablero de 11x11"
+      },
+      "size-13": {
+        "name": "Tablero de 13x13"
       }
     },
     "quagmire": {

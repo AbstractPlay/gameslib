@@ -874,7 +874,7 @@ export class GuerrillaGame extends GameBase {
 
         const rep: APRenderRep = {
             board: {
-                style: "squares-diamonds",
+                style: "squares-diamonds-checkered",
                 width: GuerrillaGame.BOARD_SIZE,
                 height: GuerrillaGame.BOARD_SIZE,
             },

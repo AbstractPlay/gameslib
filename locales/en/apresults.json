@@ -1302,6 +1302,15 @@
       "default": "{{player}} sowed checkers from {{from}} to {{to}}."
     }
   },
+  "qbf": {
+    "PLACE": {
+      "root": "{{player}} placed the root on {{where}}."
+    },
+    "EOG": {
+      "root": "{{player}} claims the root.",
+      "settled": "The owner of the root could no longer change. {{player}} claims the root."
+    }
+  },
   "quax": {
     "PLACE": {
       "diag": "{{player}} placed a diagonal connection at {{where}}."

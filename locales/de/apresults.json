@@ -1302,6 +1302,15 @@
       "default": "{{player}} hat Steine von {{from}} nach {{to}} gesät."
     }
   },
+  "qbf": {
+    "PLACE": {
+      "root": "{{player}} platzierte die Wurzel auf {{where}}."
+    },
+    "EOG": {
+      "root": "{{player}} beansprucht die Wurzel.",
+      "settled": "Der Besitzer der Wurzel konnte sich nicht mehr ändern. {{player}} beansprucht die Wurzel."
+    }
+  },
   "quax": {
     "PLACE": {
       "diag": "{{player}} hat eine diagonale Verbindung bei {{where}} platziert."

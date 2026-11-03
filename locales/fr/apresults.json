@@ -1302,6 +1302,15 @@
       "default": "{{player}} a semé des pions de {{from}} à {{to}}."
     }
   },
+  "qbf": {
+    "PLACE": {
+      "root": "{{player}} a placé la racine sur {{where}}."
+    },
+    "EOG": {
+      "root": "{{player}} revendique la racine.",
+      "settled": "Le propriétaire de la racine ne pouvait plus changer. {{player}} revendique la racine."
+    }
+  },
   "quax": {
     "PLACE": {
       "diag": "{{player}} a placé une connexion diagonale en {{where}}."

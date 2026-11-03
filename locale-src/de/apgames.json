@@ -2167,6 +2167,10 @@
     "src": "The game is played in two phases: a placement phase, in which all the pyramids are placed onto the board, followed by a stacking phase, in which pyramids are collected into stacks. Control the majority of the pyramids to win.",
     "out": "Das Spiel wird in zwei Phasen gespielt: einer Platzierungsphase, in der alle Pyramiden auf dem Brett platziert werden, gefolgt von einer Stapelphase, in der Pyramiden zu Stapeln gesammelt werden. Kontrollieren Sie die Mehrheit der Pyramiden, um zu gewinnen."
   },
+  "descriptions.qbf": {
+    "src": "Red and Blue grow a tree of checkers from Red's first checker, the root. Every checker must be placed orthogonally adjacent to exactly one checker. When no such square is left, the checkers are claimed from the leaves inward: a checker belongs to its own colour if all of its children belong to its own colour, and otherwise to the other colour. Whoever claims the root wins.",
+    "out": "Rot und Blau lassen einen Baum aus Spielsteinen aus Rots erstem Stein, der Wurzel, wachsen. Jeder Spielstein muss orthogonal benachbart zu genau einem Spielstein platziert werden. Wenn kein solches Feld mehr übrig ist, werden die Spielsteine von den Blättern nach innen hin beansprucht: Ein Spielstein gehört seiner eigenen Farbe, wenn alle seine Kindsteine seiner eigenen Farbe gehören, und andernfalls der anderen Farbe. Wer die Wurzel beansprucht, gewinnt."
+  },
   "descriptions.quagmire": {
     "src": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
     "out": "Ein Wettlauf ums Überleben, während der Boden unter den Füßen nachgibt. Gehen, laufen und springen Sie über das Brett, um das andere Team zu behindern, aber achten Sie darauf, genügend Platz für Ihr eigenes Team zu lassen!"
@@ -4263,6 +4267,10 @@
     "src": "Pylon",
     "out": "Pylon"
   },
+  "names.qbf": {
+    "src": "QBF",
+    "out": "QBF"
+  },
   "names.quagmire": {
     "src": "Quagmire",
     "out": "Quagmire"
@@ -4894,6 +4902,10 @@
   "notes.posit": {
     "src": "Posit was designed by Shinichi Tobita in 1991. The game was published by Yonezawa corp. as a videogame called **Posit: 3-D board**.\n\nPosit is played on a 6x6 square board. Each player has a pawn. Initially, the pawns are placed on the c6 and d1 squares. In each turn, players move their pawn to an adjacent square (orthogonally or diagonally), and then place a neutral piece in any square that does not have a pawn. Neutral pieces can be stacked up to three levels. Pawns can climb one level up, but cannot go down, climb two levels at once, or climb on top of three levels. A player wins by stalemating the adversary.",
     "out": "Posit wurde 1991 von Shinichi Tobita entworfen. Das Spiel wurde von Yonezawa Corp. als Videospiel unter dem Namen **Posit: 3-D board** veröffentlicht.\n\nPosit wird auf einem 6x6 quadratischen Brett gespielt. Jeder Spieler hat einen Bauer. Zu Beginn werden die Bauern auf den Feldern c6 und d1 platziert. In jedem Zug bewegen die Spieler ihren Bauern auf ein angrenzendes Feld (orthogonal oder diagonal) und platzieren dann einen neutralen Stein auf einem beliebigen Feld, das keinen Bauern enthält. Neutrale Steine können bis zu drei Ebenen hoch gestapelt werden. Bauern können eine Ebene nach oben klettern, können aber nicht nach unten gehen, zwei Ebenen auf einmal klettern oder auf drei Ebenen klettern. Ein Spieler gewinnt, indem er den Gegner pattsetzt."
+  },
+  "notes.qbf": {
+    "src": "QBF, which stands for Quantified Boolean Formula, was designed by Mark Steere in November 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nRed begins by placing the root, a stack of two red checkers, on any square. QBF uses the pie rule: Blue, for his first turn, can choose to switch colours with Red instead of placing a checker. If he does, the root remains red, but the player who placed the root is now Blue, and places a blue checker. Thereafter, players take turns placing one checker per turn.\n\nAfter the root, every checker must be placed on an unoccupied square orthogonally adjacent to exactly one checker, of either colour. Diagonal adjacencies are irrelevant. The checker it is placed next to is its parent, and the placed checker is a child of that parent. The squares a checker may be placed on are marked in green. The game ends when no such square is left.\n\nWhen the game ends, the players claim the checkers on the board. A player can claim ownership of checkers of either or both colours. Start with the checkers that have no children and work inward toward the root: a checker belongs to its own colour if all of its children belong to its own colour. Otherwise it belongs to the other colour. Childless checkers belong to their own colour. You win if you claim the root.\n\nThe owner of every checker is shown throughout the game by a small mark on the checker: a disc of the owner's colour with a contrasting outline. The marks on the board show who would own each checker if the game ended at once. The game ends as soon as no placement could change the owner of the root any more, which can be before the open squares run out.",
+    "out": "QBF, was für Quantified Boolean Formula steht, wurde von Mark Steere im November 2026 in Zusammenarbeit mit Claude, einem KI-Modell von Anthropic, entwickelt.\n\nRot beginnt, indem die Wurzel – ein Stapel aus zwei roten Spielsteinen – auf einem beliebigen Feld platziert wird. QBF verwendet die Pie-Regel: Blau kann sich in seinem ersten Zug dafür entscheiden, die Farben mit Rot zu tauschen, anstatt einen Spielstein zu platzieren. Tut er dies, bleibt die Wurzel rot, aber der Spieler, der die Wurzel platziert hat, ist nun Blau und platziert einen blauen Spielstein. Danach setzen die Spieler abwechselnd einen Spielstein pro Zug.\n\nNach der Wurzel muss jeder Spielstein auf einem unbesetzten Feld platziert werden, das an genau einen Spielstein beliebiger Farbe orthogonal benachbart ist. Diagonale Nachbarschaften sind irrelevant. Der Spielstein, neben dem er platziert wird, ist sein Elternstein, und der platzierte Spielstein ist ein Kindstein dieses Elternsteins. Die Felder, auf denen ein Spielstein platziert werden kann, sind grün markiert. Das Spiel endet, wenn kein solches Feld mehr übrig ist.\n\nWenn das Spiel endet, übernehmen die Spieler die Spielsteine auf dem Brett. Ein Spieler kann Spielsteine einer oder beider Farben beanspruchen. Man beginnt mit den Spielsteinen, die keine Kindsteine haben, und arbeitet sich nach innen zur Wurzel vor: Ein Spielstein gehört seiner eigenen Farbe, wenn alle seine Kindsteine seiner eigenen Farbe gehören. Andernfalls gehört er der anderen Farbe. Kinderlose Spielsteine gehören ihrer eigenen Farbe. Wer die Wurzel beansprucht, gewinnt.\n\nDer Besitzer jedes Spielsteins wird während des gesamten Spiels durch eine kleine Markierung auf dem Spielstein angezeigt: eine Scheibe in der Farbe des Besitzers mit einer kontrastierenden Umrandung. Die Markierungen auf dem Brett zeigen, wer welchen Spielstein besitzen würde, wenn das Spiel sofort enden würde. Das Spiel endet, sobald kein Zug den Besitzer der Wurzel mehr ändern kann – dies kann schon geschehen, bevor die freien Felder ausgehen."
   },
   "notes.queensland": {
     "src": "After the first game completes, the board resets and you play a second game but with blue playing first. Highest combined score wins.",
@@ -12975,6 +12987,22 @@
     "src": "Click an empty space on the board to place your {{size}} piece.",
     "out": "Klicken Sie auf ein leeres Feld auf dem Spielbrett, um Ihren Stein der Größe {{size}} zu platzieren."
   },
+  "validation.qbf.INITIAL_INSTRUCTIONS": {
+    "src": "Select an unoccupied square that is orthogonally adjacent to exactly one checker. The squares you may play are marked in green.",
+    "out": "Wählen Sie ein unbesetztes Feld, das orthogonal benachbart zu genau einem Spielstein ist. Die Felder, auf die Sie spielen können, sind grün markiert."
+  },
+  "validation.qbf.INITIAL_INSTRUCTIONS_ROOT": {
+    "src": "Select any square for the root, a stack of two red checkers.",
+    "out": "Wählen Sie ein beliebiges Feld für die Wurzel, einen Stapel aus zwei roten Spielsteinen."
+  },
+  "validation.qbf.NOT_ADJACENT": {
+    "src": "{{where}} is not orthogonally adjacent to any checker. A placed checker must be orthogonally adjacent to exactly one checker.",
+    "out": "{{where}} ist zu keinem Spielstein orthogonal benachbart. Ein platzierter Spielstein muss zu genau einem Spielstein orthogonal benachbart sein."
+  },
+  "validation.qbf.TOO_MANY": {
+    "src": "{{where}} is orthogonally adjacent to more than one checker. A placed checker must be orthogonally adjacent to exactly one checker.",
+    "out": "{{where}} ist zu mehr als einem Spielstein orthogonal benachbart. Ein platzierter Spielstein muss zu genau einem Spielstein orthogonal benachbart sein."
+  },
   "validation.quagmire.LEGAL_MOVES": {
     "src": "You can only walk/run to non-flooded, unoccupied adjacent spaces or jump over an unoccupied adjacent space to a non-flooded unoccupied space.",
     "out": "Sie können nur zu nicht überschwemmten, unbesetzten Nachbarfeldern gehen/rennen oder über ein unbesetztes Nachbarfeld auf ein nicht überschwemmtes, unbesetztes Feld springen."
@@ -20650,6 +20678,22 @@
   "variants.pylon.quickStart.name": {
     "src": "Quick start",
     "out": "Schnellstart"
+  },
+  "variants.qbf.#board.name": {
+    "src": "9x9 board",
+    "out": "9x9-Brett"
+  },
+  "variants.qbf.size-11.name": {
+    "src": "11x11 board",
+    "out": "11x11-Brett"
+  },
+  "variants.qbf.size-13.name": {
+    "src": "13x13 board",
+    "out": "13x13-Brett"
+  },
+  "variants.qbf.size-7.name": {
+    "src": "7x7 board",
+    "out": "7x7-Brett"
   },
   "variants.quagmire.#board.name": {
     "src": "Default board (37 cells)",

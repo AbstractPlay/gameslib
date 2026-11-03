@@ -2115,6 +2115,18 @@
     "src": "{{player}} sowed checkers from {{from}} to {{to}}.",
     "out": "{{player}} a semé des pions de {{from}} à {{to}}."
   },
+  "qbf.EOG.root": {
+    "src": "{{player}} claims the root.",
+    "out": "{{player}} revendique la racine."
+  },
+  "qbf.EOG.settled": {
+    "src": "The owner of the root could no longer change. {{player}} claims the root.",
+    "out": "Le propriétaire de la racine ne pouvait plus changer. {{player}} revendique la racine."
+  },
+  "qbf.PLACE.root": {
+    "src": "{{player}} placed the root on {{where}}.",
+    "out": "{{player}} a placé la racine sur {{where}}."
+  },
   "quax.PLACE.diag": {
     "src": "{{player}} placed a diagonal connection at {{where}}.",
     "out": "{{player}} a placé une connexion diagonale en {{where}}."

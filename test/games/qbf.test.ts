@@ -336,17 +336,19 @@ describe("QBF", () => {
             expect(rep.legend).to.have.all.keys("A", "B", "C", "D", "E", "F", "H");
             expect((rep.legend!.H as {name: string; colour: Colourfuncs}).name).to.equal("piece-square-borderless");
             expect((rep.legend!.H as {colour: Colourfuncs}).colour).to.deep.equal({func: "custom", default: "#28b446", palette: 5});
-            // a checker is the marbled piece with a ring and a disc on top; the root is two checkers
-            const A = rep.legend!.A as Array<{name: string; paint: {fill: number | string}}>;
-            expect(A.map(l => l.name)).to.deep.equal(["piece-marbled", "piece-borderless", "piece-borderless"]);
+            // a checker is the marbled piece with an owner mark on top; the root is two checkers
+            const markBorder = (checkerColour: playerid) =>
+                ({func: "bestContrast", bg: checkerColour, fg: ["#000", "#fff"]} as Colourfuncs);
+            const A = rep.legend!.A as Array<{name: string; paint: {fill: number | string; border?: Colourfuncs}}>;
+            expect(A.map(l => l.name)).to.deep.equal(["piece-marbled", "piece"]);
             expect(A[0].paint.fill).to.equal(1);
-            expect(A[2].paint.fill).to.equal(1);
-            const B = rep.legend!.B as Array<{name: string; paint: {fill: number | string}}>;
+            expect(A[1].paint).to.deep.equal({fill: 1, border: markBorder(1)});
+            const B = rep.legend!.B as Array<{name: string; paint: {fill: number | string; border?: Colourfuncs}}>;
             expect(B[0].paint.fill).to.equal(1);
-            expect(B[2].paint.fill).to.equal(2);
-            const F = rep.legend!.F as Array<{name: string; paint: {fill: number | string}}>;
-            expect(F.map(l => l.name)).to.deep.equal(["piece-marbled", "piece-marbled", "piece-borderless", "piece-borderless"]);
-            expect(F[3].paint.fill).to.equal(2);
+            expect(B[1].paint).to.deep.equal({fill: 2, border: markBorder(1)});
+            const F = rep.legend!.F as Array<{name: string; paint: {fill: number | string; border?: Colourfuncs}}>;
+            expect(F.map(l => l.name)).to.deep.equal(["piece-marbled", "piece-marbled", "piece"]);
+            expect(F[2].paint).to.deep.equal({fill: 2, border: markBorder(1)});
             // Figure 2: Blue owns the root and the red checkers c5 and c6, Red owns the blue checker d4
             expect(rep.pieces).to.equal("_\nCCC----\n--B-A--\n--FDA--\n---B---\n---C---\n_");
         });

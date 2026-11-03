@@ -283,12 +283,14 @@ describe("QBF", () => {
             const c = g.clone();
             expect(c.moves()).to.deep.equal([]);
             expect(c.root).to.equal("e7");
-            // an earlier state can be loaded
+            // load() restores stack[idx] board state; gameover/winner stay at the serialized top-level values
             again.load(3);
             expect(again.currplayer).to.equal(2);
             expect(again.board.size).to.equal(3);
             expect(again.root).to.equal("e7");
             expect(again.gameover).to.be.true;
+            expect(again.winner).to.deep.equal([1]);
+            expect(again.moves()).to.deep.equal([]);
         });
     });
 

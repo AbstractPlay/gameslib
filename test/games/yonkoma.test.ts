@@ -197,10 +197,13 @@ describe("Yonkoma", () => {
             const c = g.clone();
             expect(c.moves()).to.deep.equal([]);
             expect(c.crosscut()).to.deep.equal(g.crosscut());
-            // an earlier state can be loaded
+            // load() restores stack[idx] board state; gameover/winner stay at the serialized top-level values
             again.load(3);
             expect(again.currplayer).to.equal(2);
             expect(again.checkers(1)).to.deep.equal(["c3", "g7"]);
+            expect(again.gameover).to.be.true;
+            expect(again.winner).to.deep.equal([2]);
+            expect(again.moves()).to.deep.equal([]);
         });
     });
 

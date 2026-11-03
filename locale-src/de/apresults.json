@@ -2115,6 +2115,18 @@
     "src": "{{player}} sowed checkers from {{from}} to {{to}}.",
     "out": "{{player}} hat Steine von {{from}} nach {{to}} gesät."
   },
+  "qbf.EOG.root": {
+    "src": "{{player}} claims the root.",
+    "out": "{{player}} beansprucht die Wurzel."
+  },
+  "qbf.EOG.settled": {
+    "src": "The owner of the root could no longer change. {{player}} claims the root.",
+    "out": "Der Besitzer der Wurzel konnte sich nicht mehr ändern. {{player}} beansprucht die Wurzel."
+  },
+  "qbf.PLACE.root": {
+    "src": "{{player}} placed the root on {{where}}.",
+    "out": "{{player}} platzierte die Wurzel auf {{where}}."
+  },
   "quax.PLACE.diag": {
     "src": "{{player}} placed a diagonal connection at {{where}}.",
     "out": "{{player}} hat eine diagonale Verbindung bei {{where}} platziert."

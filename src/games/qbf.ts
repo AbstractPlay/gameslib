@@ -384,6 +384,11 @@ export class QBFGame extends GameBase {
         return this;
     }
 
+    /** Pie rule: Blue may swap seats on the turn immediately after the root is placed. */
+    public isPieTurn(): boolean {
+        return !this.gameover && this.stack.length === 2 && this.currplayer === 2;
+    }
+
     private getBoardSize(): number {
         for (const size of [7, 11, 13]) {
             if (this.variants.includes(`size-${size}`)) {

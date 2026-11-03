@@ -2167,6 +2167,10 @@
     "src": "The game is played in two phases: a placement phase, in which all the pyramids are placed onto the board, followed by a stacking phase, in which pyramids are collected into stacks. Control the majority of the pyramids to win.",
     "out": "El juego se juega en dos fases: una fase de colocación, en la que se colocan todas las pirámides en el tablero, seguida de una fase de apilamiento, en la que las pirámides se recogen en pilas. Controla la mayoría de las pirámides para ganar."
   },
+  "descriptions.qbf": {
+    "src": "Red and Blue grow a tree of checkers from Red's first checker, the root. Every checker must be placed orthogonally adjacent to exactly one checker. When no such square is left, the checkers are claimed from the leaves inward: a checker belongs to its own colour if all of its children belong to its own colour, and otherwise to the other colour. Whoever claims the root wins.",
+    "out": "Rojo y Azul hacen crecer un árbol de fichas a partir de la primera ficha de Rojo, la raíz. Cada ficha debe colocarse ortogonalmente adyacente a exactamente una ficha. Cuando no quede ninguna casilla así, las fichas se reclaman desde las hojas hacia adentro: una ficha pertenece a su propio color si todos sus hijos pertenecen a su propio color, y de lo contrario al otro color. Quien reclame la raíz gana."
+  },
   "descriptions.quagmire": {
     "src": "A race to stay afloat as the land gives away underfoot. Walk, run, and jump around the board to hamper the other team, but make sure to leave enough room for your own!",
     "out": "Una carrera por mantenerse a flote mientras la tierra se cede bajo tus pies. ¡Camina, corre y salta por el tablero para obstaculizar al otro equipo, pero asegúrate de dejar suficiente espacio para el tuyo!"
@@ -4898,6 +4902,10 @@
   "notes.posit": {
     "src": "Posit was designed by Shinichi Tobita in 1991. The game was published by Yonezawa corp. as a videogame called **Posit: 3-D board**.\n\nPosit is played on a 6x6 square board. Each player has a pawn. Initially, the pawns are placed on the c6 and d1 squares. In each turn, players move their pawn to an adjacent square (orthogonally or diagonally), and then place a neutral piece in any square that does not have a pawn. Neutral pieces can be stacked up to three levels. Pawns can climb one level up, but cannot go down, climb two levels at once, or climb on top of three levels. A player wins by stalemating the adversary.",
     "out": "Posit fue diseñado por Shinichi Tobita en 1991. El juego fue publicado por Yonezawa Corp. como un videojuego llamado **Posit: 3-D board**.\n\nPosit se juega en un tablero cuadrado de 6x6. Cada jugador tiene un peón. Inicialmente, los peones se colocan en las casillas c6 y d1. En cada turno, los jugadores mueven su peón a una casilla adyacente (ortogonal o diagonalmente) y luego colocan una pieza neutral en cualquier casilla que no tenga un peón. Las piezas neutrales se pueden apilar hasta tres niveles. Los peones pueden subir un nivel, pero no pueden bajar, subir dos niveles a la vez ni subir encima de tres niveles. Un jugador gana dejando sin movimientos (ahogado) al adversario."
+  },
+  "notes.qbf": {
+    "src": "QBF, which stands for Quantified Boolean Formula, was designed by Mark Steere in November 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nRed begins by placing the root, a stack of two red checkers, on any square. QBF uses the pie rule: Blue, for his first turn, can choose to switch colours with Red instead of placing a checker. If he does, the root remains red, but the player who placed the root is now Blue, and places a blue checker. Thereafter, players take turns placing one checker per turn.\n\nAfter the root, every checker must be placed on an unoccupied square orthogonally adjacent to exactly one checker, of either colour. Diagonal adjacencies are irrelevant. The checker it is placed next to is its parent, and the placed checker is a child of that parent. The squares a checker may be placed on are marked in green. The game ends when no such square is left.\n\nWhen the game ends, the players claim the checkers on the board. A player can claim ownership of checkers of either or both colours. Start with the checkers that have no children and work inward toward the root: a checker belongs to its own colour if all of its children belong to its own colour. Otherwise it belongs to the other colour. Childless checkers belong to their own colour. You win if you claim the root.\n\nThe owner of every checker is shown throughout the game by the mark on the checker: a black ring holding a disc of the owner's colour. The marks on the board show who would own each checker if the game ended at once. The game ends as soon as no placement could change the owner of the root any more, which can be before the open squares run out.",
+    "out": "QBF, que significa Quantified Boolean Formula (Fórmula Booleana Cuantificada), fue diseñado por Mark Steere en noviembre de 2026, en colaboración con Claude, un modelo de IA creado por Anthropic.\n\nRojo comienza colocando la raíz, una pila de dos fichas rojas, en cualquier casilla. QBF utiliza la regla del pastel (pie rule): Azul, en su primer turno, puede elegir cambiar de color con Rojo en lugar de colocar una ficha. Si lo hace, la raíz sigue siendo roja, pero el jugador que colocó la raíz ahora es Azul, y coloca una ficha azul. A partir de ahí, los jugadores se turnan para colocar una ficha por turno.\n\nDespués de la raíz, cada ficha debe colocarse en una casilla desocupada ortogonalmente adyacente a exactamente una ficha, de cualquier color. Las adyacencias diagonales no son relevantes. La ficha junto a la que se coloca es su padre, y la ficha colocada es un hijo de ese padre. Las casillas en las que se puede colocar una ficha están marcadas en verde. El juego termina cuando no queda ninguna casilla así.\n\nCuando el juego termina, los jugadores reclaman las fichas del tablero. Un jugador puede reclamar la propiedad de fichas de cualquiera de los dos colores o de ambos. Se comienza con las fichas que no tienen hijos y se avanza hacia adentro rumbo a la raíz: una ficha pertenece a su propio color si todos sus hijos pertenecen a su propio color. De lo contrario, pertenece al otro color. Las fichas sin hijos pertenecen a su propio color. Ganas si reclamas la raíz.\n\nEl propietario de cada ficha se muestra a lo largo del juego mediante la marca en la ficha: un anillo negro que sostiene un disco del color del propietario. Las marcas en el tablero muestran quién sería el dueño de cada ficha si el juego terminara de inmediato. El juego termina tan pronto como ninguna jugada pueda cambiar más el propietario de la raíz, lo cual puede ocurrir antes de que se agoten las casillas libres."
   },
   "notes.queensland": {
     "src": "After the first game completes, the board resets and you play a second game but with blue playing first. Highest combined score wins.",
@@ -12979,6 +12987,22 @@
     "src": "Click an empty space on the board to place your {{size}} piece.",
     "out": "Haz clic en un espacio vacío del tablero para colocar tu pieza de tamaño {{size}}."
   },
+  "validation.qbf.INITIAL_INSTRUCTIONS": {
+    "src": "Select an unoccupied square that is orthogonally adjacent to exactly one checker. The squares you may play are marked in green.",
+    "out": "Selecciona una casilla desocupada que sea ortogonalmente adyacente a exactamente una ficha. Las casillas en las que puedes jugar están marcadas en verde."
+  },
+  "validation.qbf.INITIAL_INSTRUCTIONS_ROOT": {
+    "src": "Select any square for the root, a stack of two red checkers.",
+    "out": "Selecciona cualquier casilla para la raíz, una pila de dos fichas rojas."
+  },
+  "validation.qbf.NOT_ADJACENT": {
+    "src": "{{where}} is not orthogonally adjacent to any checker. A placed checker must be orthogonally adjacent to exactly one checker.",
+    "out": "{{where}} no es ortogonalmente adyacente a ninguna ficha. Una ficha colocada debe ser ortogonalmente adyacente a exactamente una ficha."
+  },
+  "validation.qbf.TOO_MANY": {
+    "src": "{{where}} is orthogonally adjacent to more than one checker. A placed checker must be orthogonally adjacent to exactly one checker.",
+    "out": "{{where}} es ortogonalmente adyacente a más de una ficha. Una ficha colocada debe ser ortogonalmente adyacente a exactamente una ficha."
+  },
   "validation.quagmire.LEGAL_MOVES": {
     "src": "You can only walk/run to non-flooded, unoccupied adjacent spaces or jump over an unoccupied adjacent space to a non-flooded unoccupied space.",
     "out": "Solo puedes caminar/correr a espacios adyacentes desocupados no inundados o saltar sobre un espacio adyacente desocupado hacia un espacio desocupado no inundado."
@@ -20654,6 +20678,22 @@
   "variants.pylon.quickStart.name": {
     "src": "Quick start",
     "out": "Inicio rápido"
+  },
+  "variants.qbf.#board.name": {
+    "src": "9x9 board",
+    "out": "Tablero de 9x9"
+  },
+  "variants.qbf.size-11.name": {
+    "src": "11x11 board",
+    "out": "Tablero de 11x11"
+  },
+  "variants.qbf.size-13.name": {
+    "src": "13x13 board",
+    "out": "Tablero de 13x13"
+  },
+  "variants.qbf.size-7.name": {
+    "src": "7x7 board",
+    "out": "Tablero de 7x7"
   },
   "variants.quagmire.#board.name": {
     "src": "Default board (37 cells)",

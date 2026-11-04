@@ -4930,7 +4930,7 @@
       "newLeaf": "flip_one",
       "newPath": "outbound.CAPTURE.flip_one",
       "newFullKey": "apresults:outbound.CAPTURE.flip_one",
-      "english": "{{player}} flipped the Black stone at {{where}}."
+      "english": "{{player}} flipped the Defender stone at {{where}}."
     },
     {
       "oldPath": "CAPTURE.outbound_flip_other",
@@ -4940,7 +4940,7 @@
       "newLeaf": "flip_other",
       "newPath": "outbound.CAPTURE.flip_other",
       "newFullKey": "apresults:outbound.CAPTURE.flip_other",
-      "english": "{{player}} flipped {{count}} Black stones: {{where}}."
+      "english": "{{player}} flipped {{count}} Defender stones: {{where}}."
     },
     {
       "oldPath": "CLAIM.outbound_white",
@@ -4950,7 +4950,7 @@
       "newLeaf": "white",
       "newPath": "outbound.CLAIM.white",
       "newFullKey": "apresults:outbound.CLAIM.white",
-      "english": "{{player}} declared that White can stop Black, and plays White."
+      "english": "{{player}} declared that the Hunter can stop the Defender, and plays as the Hunter."
     },
     {
       "oldPath": "EOG.outbound_edge",

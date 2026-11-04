@@ -8,11 +8,11 @@ import { chatCollectFakePlayerNames } from "../fixtures/chat/collectFake";
 import { OutboundGame, type Stone } from "../../src/games/outbound";
 
 /**
- * A 9x9 game past the auction. Seat 1 plays White and seat 2 plays Black; `black` and `white`
+ * A game past the auction. Seat 1 plays White and seat 2 plays Black; `black` and `white`
  * list cells, and the first Black cell carries the crown unless `crown` says otherwise.
  */
 const setup = (black: string[], white: string[], { crown, turn = 1 }: { crown?: string; turn?: 1 | 2 } = {}): OutboundGame => {
-    const g = new OutboundGame(undefined, ["size-9"]);
+    const g = new OutboundGame();
     g.board = new Map<string, Stone>([
         ...black.map((c) => [c, "B"] as [string, Stone]),
         ...white.map((c) => [c, "W"] as [string, Stone]),
@@ -25,7 +25,7 @@ const setup = (black: string[], white: string[], { crown, turn = 1 }: { crown?: 
 
 /** `handleClick` takes row and column from the top left of the board. */
 const click = (g: OutboundGame, move: string, cell: string) => {
-    const [x, y] = OutboundGame.algebraic2coords(cell, 9);
+    const [x, y] = OutboundGame.algebraic2coords(cell, 19);
     return g.handleClick(move, y, x);
 };
 
@@ -36,24 +36,24 @@ describe("Outbound", () => {
 
     describe("auction", () => {
         it("starts with a lone crowned Black stone in the centre and no White seat", () => {
-            const g = new OutboundGame(undefined, ["size-9"]);
-            expect([...g.board]).to.deep.equal([["e5", "B"]]);
-            expect(g.crown).to.equal("e5");
+            const g = new OutboundGame();
+            expect([...g.board]).to.deep.equal([["j10", "B"]]);
+            expect(g.crown).to.equal("j10");
             expect(g.whiteSeat).to.be.undefined;
         });
 
         it("accepts perimeter placements only", () => {
-            const g = new OutboundGame(undefined, ["size-9"]);
+            const g = new OutboundGame();
             expect(g.validateMove("a1").valid).to.be.true;
-            expect(g.validateMove("e9").valid).to.be.true;
+            expect(g.validateMove("j19").valid).to.be.true;
             expect(g.validateMove("b2").valid).to.be.false;
-            expect(g.validateMove("e5").valid).to.be.false;
+            expect(g.validateMove("j10").valid).to.be.false;
         });
 
         it("makes the player who moves a White stone White, and Black the other seat", () => {
-            const g = new OutboundGame(undefined, ["size-9"]);
+            const g = new OutboundGame();
             g.move("a1");
-            g.move("i9");
+            g.move("s19");
             expect(g.currplayer).to.equal(1);
             g.move("a1-a3");
             expect(g.whiteSeat).to.equal(1);
@@ -63,18 +63,18 @@ describe("Outbound", () => {
         });
 
         it("cannot declare before any White stone is on the board", () => {
-            const g = new OutboundGame(undefined, ["size-9"]);
+            const g = new OutboundGame();
             expect(g.validateMove("a1-a3").valid).to.be.false;
         });
     });
 
     describe("White", () => {
         it("slides in straight lines over friendly stones but not Black ones", () => {
-            const g = setup(["e5", "c1"], ["a1", "b1", "a5", "c5"]);
+            const g = setup(["e5", "c1", "d5"], ["a1", "b1", "a5", "c5"]);
             expect(g.validateMove("a1-d1").valid).to.be.false; // c1 is Black
             expect(g.validateMove("a1-a4").valid).to.be.true;
             expect(g.validateMove("a5-b5").valid).to.be.true;
-            expect(g.validateMove("a5-e5").valid).to.be.false;
+            expect(g.validateMove("a5-e5").valid).to.be.false; // d5 is Black
             expect(g.validateMove("a5-b7").valid).to.be.false; // not a line
             expect(g.validateMove("a1-b1").valid).to.be.false; // occupied
         });
@@ -166,7 +166,7 @@ describe("Outbound", () => {
 
         it("keeps the move unchanged when no reordering makes the click legal", () => {
             const g = setup(["e5", "g5"], ["a1"], { turn: 2 });
-            const result = click(g, "f5", "a9");
+            const result = click(g, "f5", "n15");
             expect(result.valid).to.be.false;
             expect(result.move).to.equal("f5");
         });
@@ -179,16 +179,16 @@ describe("Outbound", () => {
 
     describe("end of game", () => {
         it("gives Black the win when the king reaches the edge", () => {
-            const g = setup(["e8"], ["a1"], { turn: 2 });
-            g.move("e9");
+            const g = setup(["b10"], ["c1"], { turn: 2 });
+            g.move("a10");
             expect(g.gameover).to.be.true;
             expect(g.winner).to.deep.equal([2]);
         });
 
         it("counts any king stone on the edge", () => {
-            const g = setup(["e8", "e9"], ["a1"], { turn: 2 });
-            // e9 was already on the edge; a king stone there ends the game after Black's turn
-            g.move("d8");
+            const g = setup(["b10", "a10"], ["c1"], { turn: 2 });
+            // a10 was already on the edge; a king stone there ends the game after Black's turn
+            g.move("c10");
             expect(g.winner).to.deep.equal([2]);
         });
 
@@ -208,12 +208,12 @@ describe("Outbound", () => {
 
     describe("move log", () => {
         it("matches the structured chat log through a full opening", () => {
-            const g = new OutboundGame(undefined, ["size-9"]);
+            const g = new OutboundGame();
             g.move("a1");
-            g.move("i9");
+            g.move("s19");
             g.move("a1-a3");
-            g.move("e6");
-            expect(g.board.get("e6")).to.equal("B");
+            g.move("j11");
+            expect(g.board.get("j11")).to.equal("B");
             assertChatLogParity(g, chatCollectFakePlayerNames);
         });
 

@@ -7,8 +7,8 @@ import i18next from "i18next";
 
 export const gameApgamesEn = {
     validation: {
-        INSTRUCTIONS_AUCTION: "Place a White stone on the perimeter of the board. If you think White can stop Black from this setup, instead move a White stone: you then play White and have made the first White move.",
-        INSTRUCTIONS_WHITE: "Select a White stone to move.",
+        INSTRUCTIONS_AUCTION: "Place a Hunter stone on the perimeter of the board. If you think the Hunter can stop the Defender from this setup, instead move a Hunter stone: you then play as the Hunter and have made the first Hunter move.",
+        INSTRUCTIONS_WHITE: "Select a Hunter stone to move.",
         INSTRUCTIONS_WHITE_TO: "Select an empty space in a straight line from the stone to move it there.",
         INSTRUCTIONS_WHITE_PASS: "You have no legal move, so you must pass.",
         INSTRUCTIONS_BLACK: "Place stones next to your groups. Every group that has liberties must grow exactly once.",
@@ -16,36 +16,25 @@ export const gameApgamesEn = {
         BLACK_MORE_other: "{{count}} groups can still grow. Place a stone next to one of them.",
         NOT_PERIMETER: "{{where}} is not on the perimeter of the board.",
         OCCUPIED: "{{where}} is not empty.",
-        NOT_WHITE: "{{where}} does not hold a White stone.",
-        BAD_LINE: "A White stone must move in a straight line, orthogonally or diagonally.",
+        NOT_WHITE: "{{where}} does not hold a Hunter stone.",
+        BAD_LINE: "A Hunter stone must move in a straight line, orthogonally or diagonally.",
         BLOCKED: "The path from {{from}} to {{to}} is blocked.",
-        NOT_GROWABLE: "{{where}} is not next to a Black group that can still grow this turn.",
-    },
-    variants: {
-        "size-9": {
-            name: "9x9 board",
-        },
-        "size-13": {
-            name: "13x13 board",
-        },
-        "#board": {
-            name: "19x19 board",
-        },
+        NOT_GROWABLE: "{{where}} is not next to a Defender group that can still grow this turn.",
     },
     status: {
-        WHITE: "White",
-        BLACK: "Black",
+        WHITE: "Hunter",
+        BLACK: "Defender",
         UNDECIDED: "Not yet chosen",
-        PHASE_AUCTION: "{{player}} places a White stone or moves one to play White",
+        PHASE_AUCTION: "{{player}} places a Hunter stone or moves one to play as the Hunter",
     },
 };
 export const gameApresultsEn = {
     CAPTURE: {
-        flip_one: "{{player}} flipped the Black stone at {{where}}.",
-        flip_other: "{{player}} flipped {{count}} Black stones: {{where}}.",
+        flip_one: "{{player}} flipped the Defender stone at {{where}}.",
+        flip_other: "{{player}} flipped {{count}} Defender stones: {{where}}.",
     },
     CLAIM: {
-        white: "{{player}} declared that White can stop Black, and plays White.",
+        white: "{{player}} declared that the Hunter can stop the Defender, and plays as the Hunter.",
     },
     EOG: {
         edge: "The game has ended because the king reached the edge of the board.",
@@ -101,18 +90,13 @@ export class OutboundGame extends GameBase {
         playercounts: [2],
         version: "20261104",
         dateAdded: "2026-11-04",
-        description: "An asymmetric game on a Go board. Black grows groups of stones, one stone per group per turn, and wins by bringing the crowned group to the edge; White slides stones around the board and flips lone Black stones to trap it.",
-        notes: "Black starts with one stone in the centre, holding the crown. The king is the Black group containing the crown. White starts with stones placed along the perimeter: players take turns adding White stones until one of them, instead of placing, declares that they can stop Black and makes the first White move.\n\nOn White's turn, one White stone slides in a straight line, orthogonally or diagonally, over empty or White spaces onto an empty space. If the moved stone and another White stone flank a single Black stone, orthogonally or diagonally, that stone becomes White. One move can flip several stones, but the stone carrying the crown is never flipped. White must pass if there is no legal move.\n\nOn Black's turn, each Black group with liberties must grow once by a stone placed orthogonally next to it. A placement uses up the growth of every group it touches, so growing another group may merge groups that have already grown. At the end of the turn the crown moves to the most recently placed stone in the king.\n\nBlack wins if the king reaches the edge. White wins if the king has no liberties.",
+        description: "An asymmetric game on a Go board. The Defender grows groups of stones, one stone per group per turn, and wins by bringing the crowned group to the edge; the Hunter slides stones around the board and flips lone Defender stones to trap it.",
+        notes: "The Defender starts with one stone in the centre, holding the crown. The king is the Defender group containing the crown. The Hunter starts with stones placed along the perimeter: players take turns adding Hunter stones until one of them, instead of placing, declares that they can stop the Defender and makes the first Hunter move.\n\nOn the Hunter's turn, one Hunter stone slides in a straight line, orthogonally or diagonally, over empty or Hunter spaces onto an empty space. If the moved stone and another Hunter stone flank a single Defender stone, orthogonally or diagonally, that stone changes sides. One move can flip several stones, but the stone carrying the crown is never flipped. The Hunter must pass if there is no legal move.\n\nOn the Defender's turn, each Defender group with liberties must grow once by a stone placed orthogonally next to it. A placement uses up the growth of every group it touches, so growing another group may merge groups that have already grown. At the end of the turn the crown moves to the most recently placed stone in the king.\n\nThe Defender wins if the king reaches the edge. The Hunter wins if the king has no liberties.",
         people: [
             {
                 type: "designer",
                 name: "Alek Erickson",
             },
-        ],
-        variants: [
-            { uid: "size-9", group: "board" },
-            { uid: "size-13", group: "board" },
-            { uid: "#board" },
         ],
         categories: ["goal>breakthrough", "goal>immobilize", "mechanic>place", "mechanic>move", "mechanic>convert", "mechanic>asymmetry", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "custom-colours", "custom-buttons", "no-moves"],
@@ -120,12 +104,12 @@ export class OutboundGame extends GameBase {
             {
                 num: 1,
                 default: 1,
-                explanation: "Colour of White's stones",
+                explanation: "Colour of the Hunter's stones",
             },
             {
                 num: 2,
                 default: 2,
-                explanation: "Colour of Black's stones",
+                explanation: "Colour of the Defender's stones",
             },
         ],
     };
@@ -140,19 +124,15 @@ export class OutboundGame extends GameBase {
     public variants: string[] = [];
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
-    private boardSize = 19;
+    private readonly boardSize = 19;
     /** A White stone picked up by a partial move; never saved. */
     private selected?: string;
 
-    constructor(state?: IOutboundState | string, variants?: string[]) {
+    constructor(state?: IOutboundState | string) {
         super();
         if (state === undefined) {
-            if (variants !== undefined && variants.length > 0) {
-                this.variants = this.applyVariantConstraints(variants);
-            }
-            const size = OutboundGame.sizeFromVariants(this.variants);
-            const mid = (size - 1) / 2;
-            const centre = GameBase.coords2algebraic(mid, mid, size);
+            const mid = (this.boardSize - 1) / 2;
+            const centre = GameBase.coords2algebraic(mid, mid, this.boardSize);
             const fresh: IMoveState = {
                 _version: OutboundGame.gameinfo.version,
                 _results: [],
@@ -192,14 +172,7 @@ export class OutboundGame extends GameBase {
         this.crown = state.crown;
         this.whiteSeat = state.whiteSeat;
         this.selected = undefined;
-        this.boardSize = OutboundGame.sizeFromVariants(this.variants);
         return this;
-    }
-
-    private static sizeFromVariants(variants: string[]): number {
-        if (variants.includes("size-9")) { return 9; }
-        if (variants.includes("size-13")) { return 13; }
-        return 19;
     }
 
     private get phase(): Phase {

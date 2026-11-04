@@ -1651,7 +1651,11 @@
   },
   "tablero": {
     "PASS": {
-      "default": "¡{{player}} chocó!"
+      "default": "{{player}} pasó.",
+      "afterTake": "{{player}} tuvo que pasar para que quien capturó pudiera jugar de nuevo."
+    },
+    "BUMP": {
+      "default": "¡{{player}} empujó!"
     },
     "ROLL": {
       "default": "Se tiraron los dados: {{values}}."

@@ -7120,7 +7120,7 @@
       "newLeaf": "afterTake",
       "newPath": "tablero.PASS.afterTake",
       "newFullKey": "apresults:tablero.PASS.afterTake",
-      "english": "{{player}} had no move after the take and passed."
+      "english": "{{player}} was forced to pass so the taker could play again."
     },
     {
       "oldPath": "PASS.tablero",

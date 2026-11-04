@@ -1651,7 +1651,11 @@
   },
   "tablero": {
     "PASS": {
-      "default": "{{player}} a passé !"
+      "default": "{{player}} a passé.",
+      "afterTake": "{{player}} a été contraint de passer afin que le preneur puisse rejouer."
+    },
+    "BUMP": {
+      "default": "{{player}} a bousculé !"
     },
     "ROLL": {
       "default": "Les dés ont été lancés : {{values}}."

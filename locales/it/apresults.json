@@ -1651,7 +1651,11 @@
   },
   "tablero": {
     "PASS": {
-      "default": "{{player}} ha passato!"
+      "default": "{{player}} ha passato.",
+      "afterTake": "{{player}} è stato costretto a passare per permettere a chi ha preso di giocare di nuovo."
+    },
+    "BUMP": {
+      "default": "{{player}} ha spinto!"
     },
     "ROLL": {
       "default": "I dadi sono stati tirati: {{values}}."

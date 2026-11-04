@@ -175,7 +175,7 @@ describe("QBF", () => {
             expect(QBFGame.gameinfo.flags).to.include("experimental");
             expect(QBFGame.gameinfo.flags).to.include("pie");
             expect(QBFGame.gameinfo.flags).to.not.include("custom-colours");
-            expect(QBFGame.gameinfo.customizations!.map(c => c.num)).to.deep.equal([1, 2, 3, 4, 5, 6, 7]);
+            expect(QBFGame.gameinfo.customizations!.map(c => c.num)).to.deep.equal([1, 2, 3, 4, 5, 6]);
             expect(QBFGame.gameinfo.customizations![0]).to.deep.include({player: 1, default: 1});
             expect(QBFGame.gameinfo.customizations![1]).to.deep.include({player: 2, default: 2});
         });
@@ -346,15 +346,18 @@ describe("QBF", () => {
             expect((rep.legend!.H as {name: string; colour: Colourfuncs}).name).to.equal("piece-square-borderless");
             expect((rep.legend!.H as {colour: Colourfuncs}).colour).to.deep.equal({func: "custom", default: "#28b446", palette: 5});
             // a checker is the marbled piece with a black ring and a disc of the owner's colour on top; the root is two checkers
-            const ring = {func: "custom", default: "#000000", palette: 7};
+            // black ring, silver on a checker too dark for black
+            const ring = (checkerColour: playerid) => ({func: "bestContrast", bg: checkerColour, fg: ["#000000", "#c0c0c0"]});
             const A = rep.legend!.A as Array<{name: string; paint: {fill: number | string | Colourfuncs}}>;
             expect(A.map(l => l.name)).to.deep.equal(["piece-marbled", "piece-borderless", "piece-borderless"]);
             expect(A[0].paint.fill).to.equal(1);
-            expect(A[1].paint.fill).to.deep.equal(ring);
+            expect(A[1].paint.fill).to.deep.equal(ring(1));
             expect(A[2].paint.fill).to.equal(1);
             const B = rep.legend!.B as Array<{name: string; paint: {fill: number | string | Colourfuncs}}>;
             expect(B[0].paint.fill).to.equal(1);
             expect(B[2].paint.fill).to.equal(2);
+            const C = rep.legend!.C as Array<{name: string; paint: {fill: number | string | Colourfuncs}}>;
+            expect(C[1].paint.fill).to.deep.equal(ring(2));
             const F = rep.legend!.F as Array<{name: string; paint: {fill: number | string | Colourfuncs}}>;
             expect(F.map(l => l.name)).to.deep.equal(["piece-marbled", "piece-marbled", "piece-borderless", "piece-borderless"]);
             expect(F[3].paint.fill).to.equal(2);

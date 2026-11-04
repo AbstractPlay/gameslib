@@ -217,7 +217,7 @@ const LAST_WHITE = "#ffffff";
 const LAST_OPACITY = 0.9;
 const LAST_COLOUR: Colourfuncs = {func: "custom", default: LAST_WHITE, palette: 6};
 const MARK_BLACK = "#000000";
-const MARK_RING_COLOUR: Colourfuncs = {func: "custom", default: MARK_BLACK, palette: 7};
+const MARK_SILVER = "#c0c0c0";
 
 // the board of the designer's own app: one tan felt, grid lines in a darker tan, an oak frame
 const FELT = "#e8d6b2";
@@ -227,8 +227,10 @@ const FELT_COLOUR: Colourfuncs = {func: "custom", default: FELT, palette: 3};
 const GRID_COLOUR: Colourfuncs = {func: "custom", default: GRID, palette: 4};
 
 // Every checker carries an owner mark: a small black ring holding a disc of
-// the colour of the player who owns the checker.  The checker placed last
-// carries a white ring around its mark.  The root is a stack of two red
+// the colour of the player who owns the checker.  On a checker too dark for
+// a black ring to show (a custom colour), the ring is silver instead: black
+// wins the contrast test against every default colour.  The checker placed
+// last carries a white ring around its mark.  The root is a stack of two red
 // checkers, drawn as two checkers slightly offset up and down.  A nudge is
 // measured in 1/500 of a cell and is applied before the layer's scale, so a
 // scaled layer divides the wanted offset by its scale.  The face of the
@@ -247,21 +249,23 @@ function checkerGlyph(colour: playerid, dy = 0): Glyph {
     return g;
 }
 
-function markGlyphs(owner: playerid, dy = 0): Glyph[] {
+/** The owner mark on a checker of `checkerColour`: the ring, then the owner's disc. */
+function markGlyphs(owner: playerid, checkerColour: playerid, dy = 0): Glyph[] {
+    const ring: Colourfuncs = {func: "bestContrast", bg: checkerColour, fg: [MARK_BLACK, MARK_SILVER]};
     return [
-        {name: "piece-borderless", paint: {fill: MARK_RING_COLOUR}, scale: MARK_RING, nudge: {dx: 0, dy: (MARK_DY + dy) / MARK_RING}},
+        {name: "piece-borderless", paint: {fill: ring}, scale: MARK_RING, nudge: {dx: 0, dy: (MARK_DY + dy) / MARK_RING}},
         {name: "piece-borderless", paint: {fill: owner}, scale: MARK_DISC, nudge: {dx: 0, dy: (MARK_DY + dy) / MARK_DISC}},
     ];
 }
 
 /** A checker of `colour` owned by `owner`. */
 function pieceGlyph(colour: playerid, owner: playerid): [Glyph, ...Glyph[]] {
-    return [checkerGlyph(colour), ...markGlyphs(owner)];
+    return [checkerGlyph(colour), ...markGlyphs(owner, colour)];
 }
 
 /** The root, a stack of two red checkers, owned by `owner`. */
 function rootGlyph(owner: playerid): [Glyph, ...Glyph[]] {
-    return [checkerGlyph(1, STACK_DY), checkerGlyph(1, -STACK_DY), ...markGlyphs(owner, -STACK_DY)];
+    return [checkerGlyph(1, STACK_DY), checkerGlyph(1, -STACK_DY), ...markGlyphs(owner, 1, -STACK_DY)];
 }
 
 /** The ring marking the checker placed last, drawn over the checker by a glyph annotation. */
@@ -283,7 +287,7 @@ export class QBFGame extends GameBase {
         version: "20261103",
         dateAdded: "2026-11-03",
         description: "Red and Blue grow a tree of checkers from Red's first checker, the root. Every checker must be placed orthogonally adjacent to exactly one checker. When no such square is left, the checkers are claimed from the leaves inward: a checker belongs to its own colour if all of its children belong to its own colour, and otherwise to the other colour. Whoever claims the root wins.",
-        notes: "QBF, which stands for Quantified Boolean Formula, was designed by Mark Steere in November 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nRed begins by placing the root, a stack of two red checkers, on any square. QBF uses the pie rule: Blue, for his first turn, can choose to switch colours with Red instead of placing a checker. If he does, the root remains red, but the player who placed the root is now Blue, and places a blue checker. Thereafter, players take turns placing one checker per turn.\n\nAfter the root, every checker must be placed on an unoccupied square orthogonally adjacent to exactly one checker, of either colour. Diagonal adjacencies are irrelevant. The checker it is placed next to is its parent, and the placed checker is a child of that parent. The squares a checker may be placed on are marked in green. The game ends when no such square is left.\n\nWhen the game ends, the players claim the checkers on the board. A player can claim ownership of checkers of either or both colours. Start with the checkers that have no children and work inward toward the root: a checker belongs to its own colour if all of its children belong to its own colour. Otherwise it belongs to the other colour. Childless checkers belong to their own colour. You win if you claim the root.\n\nThe owner of every checker is shown throughout the game by the mark on the checker: a black ring holding a disc of the owner's colour. The marks on the board show who would own each checker if the game ended at once. The checker placed last carries a white ring. The game ends as soon as no placement could change the owner of the root any more, which can be before the open squares run out.",
+        notes: "QBF, which stands for Quantified Boolean Formula, was designed by Mark Steere in November 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nRed begins by placing the root, a stack of two red checkers, on any square. QBF uses the pie rule: Blue, for his first turn, can choose to switch colours with Red instead of placing a checker. If he does, the root remains red, but the player who placed the root is now Blue, and places a blue checker. Thereafter, players take turns placing one checker per turn.\n\nAfter the root, every checker must be placed on an unoccupied square orthogonally adjacent to exactly one checker, of either colour. Diagonal adjacencies are irrelevant. The checker it is placed next to is its parent, and the placed checker is a child of that parent. The squares a checker may be placed on are marked in green. The game ends when no such square is left.\n\nWhen the game ends, the players claim the checkers on the board. A player can claim ownership of checkers of either or both colours. Start with the checkers that have no children and work inward toward the root: a checker belongs to its own colour if all of its children belong to its own colour. Otherwise it belongs to the other colour. Childless checkers belong to their own colour. You win if you claim the root.\n\nThe owner of every checker is shown throughout the game by the mark on the checker: a black ring holding a disc of the owner's colour (the ring is silver on a checker too dark for black to show). The marks on the board show who would own each checker if the game ended at once. The checker placed last carries a white ring. The game ends as soon as no placement could change the owner of the root any more, which can be before the open squares run out.",
         urls: [
             "https://www.marksteeregames.com/QBF_rules.pdf",
             "https://www.marksteeregames.com",
@@ -339,11 +343,6 @@ export class QBFGame extends GameBase {
                 num: 6,
                 default: LAST_WHITE,
                 explanation: "Colour of the ring on the last placed checker",
-            },
-            {
-                num: 7,
-                default: MARK_BLACK,
-                explanation: "Colour of the ring of the owner marks",
             },
         ],
     };

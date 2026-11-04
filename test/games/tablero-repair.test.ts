@@ -5,6 +5,7 @@ import { expect } from "chai";
 import { TableroGame, type IMoveState, type ITableroState, type playerid } from "../../src/games/tablero.js";
 import {
     isLegacyDuplicatePassFrame,
+    isRedundantForcedPassFrame,
     repairTableroStack,
     repairTableroStackJson,
     verifyTableroStackIntegrity,
@@ -49,6 +50,20 @@ describe("Tablero stack repair", () => {
         ];
         expect(isLegacyDuplicatePassFrame(stack, 1)).to.be.false;
         expect(isLegacyDuplicatePassFrame(stack, 2)).to.be.true;
+    });
+
+    it("isRedundantForcedPassFrame detects pass row after take already replayed by engine", () => {
+        const takeResults: APMoveResult[] = [
+            {type: "take", from: "c3"},
+            {type: "roll", values: [5, 6]},
+        ];
+        const stack = [
+            moveState(),
+            moveState({lastmove: "-c3", _results: takeResults, currplayer: 1}),
+            moveState({lastmove: "pass", _results: [{type: "pass"}], currplayer: 2}),
+        ];
+        expect(isRedundantForcedPassFrame(stack, 2)).to.be.true;
+        expect(isRedundantForcedPassFrame(stack, 1)).to.be.false;
     });
 
     it("verifyTableroStackIntegrity passes a clean post-Phase-1 take stack", () => {
@@ -98,11 +113,14 @@ describe("Tablero stack repair", () => {
 
         const {state: repaired, repaired: didRepair} = repairTableroStack(tableroState(stack));
         expect(didRepair).to.be.true;
-        expect(repaired.stack).to.have.length(2);
+        expect(repaired.stack).to.have.length(3);
         expect(repaired.stack[0]!.board.get("c3")).to.deep.equal([2, 2]);
         expect(repaired.stack[1]!.board.get("c3")).to.deep.equal([2]);
-        expect(repaired.stack[1]!._results!.some((r) => r.type === "pass")).to.be.true;
+        expect(repaired.stack[1]!._results!.map((r) => r.type)).to.deep.equal(["take", "roll"]);
         expect(repaired.stack[1]!.currplayer).to.equal(1);
+        expect(repaired.stack[2]!.lastmove).to.equal("pass");
+        expect(repaired.stack[2]!._results!.map((r) => r.type)).to.deep.equal(["pass"]);
+        expect(repaired.stack[2]!.currplayer).to.equal(2);
 
         expect(verifyTableroStackIntegrity(repaired).ok).to.be.true;
     });
@@ -116,11 +134,11 @@ describe("Tablero stack repair", () => {
         g.pieces = [12, 12];
         g.load(0);
         g.move("-a3", {trusted: true});
-        expect(g.stack[g.stack.length - 1]!.currplayer).to.equal(1);
-        g.stack[g.stack.length - 1]!.currplayer = 2;
+        expect(g.stack[g.stack.length - 1]!.currplayer).to.equal(2);
+        g.stack[g.stack.length - 1]!.currplayer = 1;
         const {state: repaired, repaired: didRepair} = repairTableroStack(g.state());
         expect(didRepair).to.be.true;
-        expect(repaired.stack[repaired.stack.length - 1]!.currplayer).to.equal(1);
+        expect(repaired.stack[repaired.stack.length - 1]!.currplayer).to.equal(2);
     });
 
     it("repair replaces corrupt playable tip when replay self-verifies", () => {
@@ -201,6 +219,6 @@ describe("Tablero stack repair", () => {
         const again = new TableroGame(stateJson);
         expect(verifyTableroStackIntegrity(again.state()).ok).to.be.true;
         expect(again.stack[0]!.board.get("c3")).to.deep.equal([2, 2]);
-        expect(again.stack).to.have.length(2);
+        expect(again.stack).to.have.length(3);
     });
 });

@@ -694,6 +694,12 @@
       "PYRAMIDSCAPTURED": "Pyramids captured",
       "UNCAPTUREDCOLOURS": "Colours not yet captured"
     },
+    "outbound": {
+      "WHITE": "White",
+      "BLACK": "Black",
+      "UNDECIDED": "Not yet chosen",
+      "PHASE_AUCTION": "{{player}} places a White stone or moves one to play White"
+    },
     "pacru": {
       "TARGET": "Tiles to win",
       "TILES": "Tiles on board"
@@ -2792,6 +2798,21 @@
       "MORE": "You have just made a capture placement. You must continue making placements.",
       "PLACEMENT_AFTER_NONCAPTURE": "You may not make any more placements after a non-capture placement."
     },
+    "outbound": {
+      "INSTRUCTIONS_AUCTION": "Place a White stone on the perimeter of the board. If you think White can stop Black from this setup, instead move a White stone: you then play White and have made the first White move.",
+      "INSTRUCTIONS_WHITE": "Select a White stone to move.",
+      "INSTRUCTIONS_WHITE_TO": "Select an empty space in a straight line from the stone to move it there.",
+      "INSTRUCTIONS_WHITE_PASS": "You have no legal move, so you must pass.",
+      "INSTRUCTIONS_BLACK": "Place stones next to your groups. Every group that has liberties must grow exactly once.",
+      "BLACK_MORE_one": "One group can still grow. Place a stone next to it.",
+      "BLACK_MORE_other": "{{count}} groups can still grow. Place a stone next to one of them.",
+      "NOT_PERIMETER": "{{where}} is not on the perimeter of the board.",
+      "OCCUPIED": "{{where}} is not empty.",
+      "NOT_WHITE": "{{where}} does not hold a White stone.",
+      "BAD_LINE": "A White stone must move in a straight line, orthogonally or diagonally.",
+      "BLOCKED": "The path from {{from}} to {{to}} is blocked.",
+      "NOT_GROWABLE": "{{where}} is not next to a Black group that can still grow this turn."
+    },
     "oware": {
       "INITIAL_INSTRUCTIONS": "Select one of your pits containing stones to sow them.",
       "NO_PIECES": "When your opponent starts with no pieces, your move must give them pieces."
@@ -4389,6 +4410,7 @@
     "orb": "Generatorb is 2-player game played on a standard chess board. Players start in opposite corners and attempt to reach their opponent's generator core or occupy the majority of cells on the front line. During play, you can stack up to three checkers in a space. Stacks of different heights behave differently, leading to engaging strategic options.",
     "ordo": "Ordo is a \"get to your opponent's home row\" game in which you must always keep your pieces connected. Pieces can move singly and also as a group in certain situations. You can also win by breaking up your opponent's group in such a way that they can't reconnect it.",
     "oust": "Oust is the classic \"exnihilation\" game where the game starts with an empty board and the goal is to eliminate all of your opponent's pieces. On your turn, you may make multiple capturing placements if available, but you must end it with a non-capturing placement. You must pass if you are not able to make any placements.",
+    "outbound": "An asymmetric game on a Go board. Black grows groups of stones, one stone per group per turn, and wins by bringing the crowned group to the edge; White slides stones around the board and flips lone Black stones to trap it.",
     "oware": "A traditional West African sowing game where you try to capture the most pieces.",
     "owlman": "An asymmetrical game where a professor and his assistants are trying to track down the mythical Owlman and his lair, while the Owlman tries to scare them all out of the forest.",
     "pacru": "A territory-control game where directional pieces navigate a subdivided board to claim cells.",
@@ -4691,6 +4713,7 @@
     "orb": "Generatorb",
     "ordo": "Ordo",
     "oust": "Oust",
+    "outbound": "Outbound",
     "oware": "Oware",
     "owlman": "Owlman",
     "pacru": "Pacru",
@@ -4866,6 +4889,7 @@
     "narrows": "Narrows, designed by Mark Steere in 2026, is an unification game inspired by the ancient Hawiian game of Kōnane. True to the spirit of Kōnane, Ūnane begins with a checkerboard pattern of stones and is extremely simple. In this case, the unification goal includes the use of orthogonal paths of empty cells to connect different groups of friendly pieces.",
     "neutron": "Each turn (except White's first turn in standard Neutron) consists of sliding the neutron, then sliding one of your pawns. All pieces slide in straight lines as far as possible without jumping. **CoNeutron** swaps the winning row to your opponent's back rank and removes White's pawn-only opening.\n\n**Mobility** restrictions apply to pawn moves only. With **restricted** mobility, pawns may not land on the opponent's home row. With **double restricted** mobility, pawns also may not re-enter their own home row after leaving it; pawns still on the home row may slide along that row.\n\nMoves are notated `neutronDest,pawnFrom-pawnTo`, or `pawnFrom-pawnTo` on White's first turn in standard Neutron. A winning neutron slide alone is notated as just the destination cell.",
     "oonpia": "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
+    "outbound": "Black starts with one stone in the centre, holding the crown. The king is the Black group containing the crown. White starts with stones placed along the perimeter: players take turns adding White stones until one of them, instead of placing, declares that they can stop Black and makes the first White move.\n\nOn White's turn, one White stone slides in a straight line, orthogonally or diagonally, over empty or White spaces onto an empty space. If the moved stone and another White stone flank a single Black stone, orthogonally or diagonally, that stone becomes White. One move can flip several stones, but the stone carrying the crown is never flipped. White must pass if there is no legal move.\n\nOn Black's turn, each Black group with liberties must grow once by a stone placed orthogonally next to it. A placement uses up the growth of every group it touches, so growing another group may merge groups that have already grown. At the end of the turn the crown moves to the most recently placed stone in the king.\n\nBlack wins if the king reaches the edge. White wins if the king has no liberties.",
     "oware": "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
     "pacru": "This implementation adheres to the 2011 rule change that requires at least one opponent to have at least nine tiles on the board before meetings will trigger.",
     "pigs": "Unlike the old Super Duper Games implementation, this one implements the core rule set. Each player enters all five moves, and they are resolved at once.\n\nMovement is resolved before damage is applied.",
@@ -7862,6 +7886,17 @@
       },
       "square-11": {
         "name": "size-11 square"
+      }
+    },
+    "outbound": {
+      "size-9": {
+        "name": "9x9 board"
+      },
+      "size-13": {
+        "name": "13x13 board"
+      },
+      "#board": {
+        "name": "19x19 board"
       }
     },
     "pahtum": {

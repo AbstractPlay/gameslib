@@ -4923,6 +4923,56 @@
       "english": "{{player}} promoted spheroid to a globe at {{where}}."
     },
     {
+      "oldPath": "CAPTURE.outbound_flip_one",
+      "oldFullKey": "apresults:CAPTURE.outbound_flip_one",
+      "uid": "outbound",
+      "resultType": "CAPTURE",
+      "newLeaf": "flip_one",
+      "newPath": "outbound.CAPTURE.flip_one",
+      "newFullKey": "apresults:outbound.CAPTURE.flip_one",
+      "english": "{{player}} flipped the Black stone at {{where}}."
+    },
+    {
+      "oldPath": "CAPTURE.outbound_flip_other",
+      "oldFullKey": "apresults:CAPTURE.outbound_flip_other",
+      "uid": "outbound",
+      "resultType": "CAPTURE",
+      "newLeaf": "flip_other",
+      "newPath": "outbound.CAPTURE.flip_other",
+      "newFullKey": "apresults:outbound.CAPTURE.flip_other",
+      "english": "{{player}} flipped {{count}} Black stones: {{where}}."
+    },
+    {
+      "oldPath": "CLAIM.outbound_white",
+      "oldFullKey": "apresults:CLAIM.outbound_white",
+      "uid": "outbound",
+      "resultType": "CLAIM",
+      "newLeaf": "white",
+      "newPath": "outbound.CLAIM.white",
+      "newFullKey": "apresults:outbound.CLAIM.white",
+      "english": "{{player}} declared that White can stop Black, and plays White."
+    },
+    {
+      "oldPath": "EOG.outbound_edge",
+      "oldFullKey": "apresults:EOG.outbound_edge",
+      "uid": "outbound",
+      "resultType": "EOG",
+      "newLeaf": "edge",
+      "newPath": "outbound.EOG.edge",
+      "newFullKey": "apresults:outbound.EOG.edge",
+      "english": "The game has ended because the king reached the edge of the board."
+    },
+    {
+      "oldPath": "EOG.outbound_trapped",
+      "oldFullKey": "apresults:EOG.outbound_trapped",
+      "uid": "outbound",
+      "resultType": "EOG",
+      "newLeaf": "trapped",
+      "newPath": "outbound.EOG.trapped",
+      "newFullKey": "apresults:outbound.EOG.trapped",
+      "english": "The game has ended because the king has no liberties and cannot grow."
+    },
+    {
       "oldPath": "CAPTURE.owlman_approach",
       "oldFullKey": "apresults:CAPTURE.owlman_approach",
       "uid": "owlman",

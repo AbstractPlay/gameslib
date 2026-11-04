@@ -4175,6 +4175,10 @@
     "src": "Oust",
     "out": "Oust"
   },
+  "names.outbound": {
+    "src": "Outbound",
+    "out": "Outbound"
+  },
   "names.oware": {
     "src": "Oware",
     "out": "Oware"

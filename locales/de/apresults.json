@@ -1651,7 +1651,11 @@
   },
   "tablero": {
     "PASS": {
-      "default": "{{player}} hat ausgesetzt!"
+      "default": "{{player}} hat gepasst.",
+      "afterTake": "{{player}} hatte nach dem Schlagen keinen Zug mehr und hat gepasst."
+    },
+    "BUMP": {
+      "default": "{{player}} hat gestoßen!"
     },
     "ROLL": {
       "default": "Die Würfel wurden gewürfelt: {{values}}."

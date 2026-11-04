@@ -1651,7 +1651,11 @@
   },
   "tablero": {
     "PASS": {
-      "default": "{{player}} ha passato!"
+      "default": "{{player}} ha passato.",
+      "afterTake": "{{player}} non aveva mosse dopo la presa e ha passato."
+    },
+    "BUMP": {
+      "default": "{{player}} ha spinto!"
     },
     "ROLL": {
       "default": "I dadi sono stati tirati: {{values}}."

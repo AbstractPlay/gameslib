@@ -1651,7 +1651,11 @@
   },
   "tablero": {
     "PASS": {
-      "default": "¡{{player}} chocó!"
+      "default": "{{player}} pasó.",
+      "afterTake": "{{player}} no tenía movimientos después de la captura y pasó."
+    },
+    "BUMP": {
+      "default": "¡{{player}} empujó!"
     },
     "ROLL": {
       "default": "Se tiraron los dados: {{values}}."

@@ -2839,9 +2839,17 @@
     "src": "{{player}} place at {{where}} a size {{size}} piece directed at {{dir}}.",
     "out": "{{player}} a placé en {{where}} une pièce de taille {{size}} dirigée vers {{dir}}."
   },
-  "tablero.PASS.default": {
+  "tablero.BUMP.default": {
     "src": "{{player}} bumped!",
-    "out": "{{player}} a passé !"
+    "out": "{{player}} a bousculé !"
+  },
+  "tablero.PASS.afterTake": {
+    "src": "{{player}} had no move after the take and passed.",
+    "out": "{{player}} n'avait aucun coup après la prise et a passé."
+  },
+  "tablero.PASS.default": {
+    "src": "{{player}} passed.",
+    "out": "{{player}} a passé."
   },
   "tablero.ROLL.default": {
     "src": "The dice were rolled: {{values}}.",

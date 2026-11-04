@@ -1651,6 +1651,10 @@
   },
   "tablero": {
     "PASS": {
+      "default": "{{player}} passed.",
+      "afterTake": "{{player}} had no move after the take and passed."
+    },
+    "BUMP": {
       "default": "{{player}} bumped!"
     },
     "ROLL": {

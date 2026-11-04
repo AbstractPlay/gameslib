@@ -14,6 +14,23 @@ export type TableroStackVerifyResult = {
     reason?: string;
 };
 
+export type TableroStackDiagnosis = {
+    verifyOk: boolean;
+    verifyReason?: string;
+    playableMismatch: string[];
+    storedTipPieces: [number, number];
+    replayTipPieces: [number, number];
+    storedBoardCells: number;
+    replayBoardCells: number;
+    storedStackLen: number;
+    replayStackLen: number;
+    replaySelfVerifyOk: boolean;
+    legacyDuplicatePassFrames: number;
+    firstBoardDiff?: string;
+    /** Replay is self-consistent but saved tip board/pieces differ — stack can be replaced safely. */
+    tipSnapshotRepairCandidate: boolean;
+};
+
 function cloneBoard(board: unknown): Map<string, playerid[]> {
     return TableroGame.normalizeBoard(board);
 }
@@ -255,6 +272,70 @@ function stacksMatchCanonical(original: ITableroState, rebuilt: ITableroState): 
     return true;
 }
 
+function boardCellCount(board: Map<string, playerid[]>): number {
+    return board.size;
+}
+
+function firstBoardCellDiff(a: Map<string, playerid[]>, b: Map<string, playerid[]>): string | undefined {
+    const keys = new Set([...a.keys(), ...b.keys()]);
+    for (const key of keys) {
+        const stackA = a.get(key);
+        const stackB = b.get(key);
+        if (stackA === undefined && stackB === undefined) {
+            continue;
+        }
+        if (stackA === undefined || stackB === undefined || stackA.length !== stackB.length) {
+            return key;
+        }
+        for (let i = 0; i < stackA.length; i++) {
+            if (stackA[i] !== stackB[i]) {
+                return key;
+            }
+        }
+    }
+    return undefined;
+}
+
+function countLegacyDuplicatePassFrames(stack: IMoveState[]): number {
+    let n = 0;
+    for (let i = 1; i < stack.length; i++) {
+        if (isLegacyDuplicatePassFrame(stack, i)) {
+            n += 1;
+        }
+    }
+    return n;
+}
+
+function rebuildStoredState(state: ITableroState): TableroGame {
+    return rebuildTableroStack(state);
+}
+
+function analyzeReplay(state: ITableroState): {
+    rebuilt: ITableroState;
+    playableMismatch: string[];
+    replaySelfVerifyOk: boolean;
+    firstBoardDiff?: string;
+    tipSnapshotRepairCandidate: boolean;
+} {
+    const engine = rebuildStoredState(state);
+    const rebuilt = engine.state();
+    const playableMismatch = tableroPlayableTipMismatchFields(state, rebuilt);
+    const origTip = state.stack[state.stack.length - 1]!;
+    const newTip = rebuilt.stack[rebuilt.stack.length - 1]!;
+    const firstBoardDiff = boardsEqual(origTip.board, newTip.board)
+        ? undefined
+        : firstBoardCellDiff(origTip.board, newTip.board);
+    const replaySelfVerifyOk = verifyTableroStackIntegrity(rebuilt).ok;
+    const tipSnapshotRepairCandidate = playableMismatch.length > 0 && replaySelfVerifyOk;
+    return {
+        rebuilt,
+        playableMismatch,
+        replaySelfVerifyOk,
+        firstBoardDiff,
+        tipSnapshotRepairCandidate,
+    };
+}
+
 function findFirstFrameMismatch(original: ITableroState, rebuilt: ITableroState): number | undefined {
     let rebuiltIndex = 0;
     for (let i = 0; i < original.stack.length; i++) {
@@ -273,6 +354,69 @@ function findFirstFrameMismatch(original: ITableroState, rebuilt: ITableroState)
         return original.stack.length - 1;
     }
     return undefined;
+}
+
+export function diagnoseTableroStackIntegrity(input: ITableroState | string): TableroStackDiagnosis {
+    let state: ITableroState;
+    if (typeof input === "string") {
+        state = JSON.parse(input, reviver) as ITableroState;
+    } else {
+        state = input;
+    }
+    if (state.game !== TableroGame.gameinfo.uid || state.stack.length === 0) {
+        const verify = verifyTableroStackIntegrity(input);
+        return {
+            verifyOk: verify.ok,
+            verifyReason: verify.reason,
+            playableMismatch: [],
+            storedTipPieces: [0, 0],
+            replayTipPieces: [0, 0],
+            storedBoardCells: 0,
+            replayBoardCells: 0,
+            storedStackLen: state.stack?.length ?? 0,
+            replayStackLen: 0,
+            replaySelfVerifyOk: false,
+            legacyDuplicatePassFrames: 0,
+            tipSnapshotRepairCandidate: false,
+        };
+    }
+    state = normalizeStackBoards(state);
+    const verify = verifyTableroStackIntegrity(state);
+    const origTip = state.stack[state.stack.length - 1]!;
+    try {
+        const analysis = analyzeReplay(state);
+        const newTip = analysis.rebuilt.stack[analysis.rebuilt.stack.length - 1]!;
+        return {
+            verifyOk: verify.ok,
+            verifyReason: verify.reason,
+            playableMismatch: analysis.playableMismatch,
+            storedTipPieces: [...origTip.pieces],
+            replayTipPieces: [...newTip.pieces],
+            storedBoardCells: boardCellCount(origTip.board),
+            replayBoardCells: boardCellCount(newTip.board),
+            storedStackLen: state.stack.length,
+            replayStackLen: analysis.rebuilt.stack.length,
+            replaySelfVerifyOk: analysis.replaySelfVerifyOk,
+            legacyDuplicatePassFrames: countLegacyDuplicatePassFrames(state.stack),
+            firstBoardDiff: analysis.firstBoardDiff,
+            tipSnapshotRepairCandidate: analysis.tipSnapshotRepairCandidate,
+        };
+    } catch (e) {
+        return {
+            verifyOk: false,
+            verifyReason: (e as Error).message,
+            playableMismatch: tableroPlayableTipMismatchFields(state, state),
+            storedTipPieces: [...origTip.pieces],
+            replayTipPieces: [...origTip.pieces],
+            storedBoardCells: boardCellCount(origTip.board),
+            replayBoardCells: boardCellCount(origTip.board),
+            storedStackLen: state.stack.length,
+            replayStackLen: 0,
+            replaySelfVerifyOk: false,
+            legacyDuplicatePassFrames: countLegacyDuplicatePassFrames(state.stack),
+            tipSnapshotRepairCandidate: false,
+        };
+    }
 }
 
 export function verifyTableroStackIntegrity(input: ITableroState | string): TableroStackVerifyResult {
@@ -320,6 +464,12 @@ export function repairTableroStack(input: ITableroState | string): TableroStackR
         const engine = rebuildTableroStack(state);
         const rebuilt = engine.state();
         if (!tipsCompatible(state, rebuilt)) {
+            if (verifyTableroStackIntegrity(rebuilt).ok) {
+                if (state.gameover && JSON.stringify(rebuilt.winner) !== JSON.stringify(state.winner)) {
+                    return {state, repaired: false, reason: "winner mismatch"};
+                }
+                return {state: rebuilt, repaired: true, reason: "corrected playable tip from replay"};
+            }
             return {state, repaired: false, reason: tipMismatchReason(state, rebuilt)};
         }
         if (stacksMatchCanonical(state, rebuilt)) {

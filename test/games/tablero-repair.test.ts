@@ -123,6 +123,21 @@ describe("Tablero stack repair", () => {
         expect(repaired.stack[repaired.stack.length - 1]!.currplayer).to.equal(1);
     });
 
+    it("repair replaces corrupt playable tip when replay self-verifies", () => {
+        const g = new TableroGame(undefined, []);
+        g.stack[0]!.board = new Map([["a3", [2]]]);
+        g.currplayer = 2;
+        g.roll = [6, 6];
+        g.pieces = [12, 12];
+        g.load(0);
+        g.move("-a3", {trusted: true});
+        g.stack[g.stack.length - 1]!.pieces = [99, 99];
+        const {state: repaired, repaired: didRepair, reason} = repairTableroStack(g.state());
+        expect(didRepair, reason).to.be.true;
+        expect(repaired.stack[repaired.stack.length - 1]!.pieces).to.deep.equal([13, 12]);
+        expect(verifyTableroStackIntegrity(repaired).ok).to.be.true;
+    });
+
     it("verifyTableroStackIntegrity replays resign ending stacks", () => {
         const g = new TableroGame(undefined, []);
         g.stack[0]!.board = new Map([["b2", [1, 1]]]);

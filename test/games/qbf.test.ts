@@ -44,6 +44,12 @@ function annotated(g: QBFGame, type: string): string[][] {
     return annotations.filter(a => a.type === type).map(a => a.targets!.map(t => g.coords2algebraic(t.col, t.row)).sort());
 }
 
+/** Cells of the glyph annotations using the given legend key, in algebraic notation. */
+function annotatedGlyph(g: QBFGame, key: string): string[][] {
+    const annotations = (g.render().annotations ?? []) as Array<{type: string; glyph?: string; targets?: Array<{row: number; col: number}>}>;
+    return annotations.filter(a => a.type === "glyph" && a.glyph === key).map(a => a.targets!.map(t => g.coords2algebraic(t.col, t.row)).sort());
+}
+
 function seededRandom(seed: number): () => number {
     let s = seed;
     return () => {
@@ -169,7 +175,7 @@ describe("QBF", () => {
             expect(QBFGame.gameinfo.flags).to.include("experimental");
             expect(QBFGame.gameinfo.flags).to.include("pie");
             expect(QBFGame.gameinfo.flags).to.not.include("custom-colours");
-            expect(QBFGame.gameinfo.customizations!.map(c => c.num)).to.deep.equal([1, 2, 3, 4, 5, 6]);
+            expect(QBFGame.gameinfo.customizations!.map(c => c.num)).to.deep.equal([1, 2, 3, 4, 5, 6, 7]);
             expect(QBFGame.gameinfo.customizations![0]).to.deep.include({player: 1, default: 1});
             expect(QBFGame.gameinfo.customizations![1]).to.deep.include({player: 2, default: 2});
         });
@@ -328,27 +334,34 @@ describe("QBF", () => {
                 style: string;
                 checkeredLight: Colourfuncs;
                 checkeredDark: Colourfuncs;
+                strokeColour: Colourfuncs;
             };
+            // one felt colour on every square, grid lines in a darker tan
             expect(board.style).to.equal("squares-checkered");
             expect(board.checkeredLight).to.deep.equal({func: "custom", default: "#e8d6b2", palette: 3});
-            expect(board.checkeredDark).to.deep.equal({func: "custom", default: "#b08e60", palette: 4});
+            expect(board.checkeredDark).to.deep.equal(board.checkeredLight);
+            expect(board.strokeColour).to.deep.equal({func: "custom", default: "#b08e60", palette: 4});
             expect(rep.glyphDefs).to.be.undefined;
-            expect(rep.legend).to.have.all.keys("A", "B", "C", "D", "E", "F", "H");
+            expect(rep.legend).to.have.all.keys("A", "B", "C", "D", "E", "F", "H", "L", "M");
             expect((rep.legend!.H as {name: string; colour: Colourfuncs}).name).to.equal("piece-square-borderless");
             expect((rep.legend!.H as {colour: Colourfuncs}).colour).to.deep.equal({func: "custom", default: "#28b446", palette: 5});
-            // a checker is the marbled piece with an owner mark on top; the root is two checkers
-            const markBorder = (checkerColour: playerid) =>
-                ({func: "bestContrast", bg: checkerColour, fg: ["#000", "#fff"]} as Colourfuncs);
-            const A = rep.legend!.A as Array<{name: string; paint: {fill: number | string; border?: Colourfuncs}}>;
-            expect(A.map(l => l.name)).to.deep.equal(["piece-marbled", "piece"]);
+            // a checker is the marbled piece with a black ring and a disc of the owner's colour on top; the root is two checkers
+            const ring = {func: "custom", default: "#000000", palette: 7};
+            const A = rep.legend!.A as Array<{name: string; paint: {fill: number | string | Colourfuncs}}>;
+            expect(A.map(l => l.name)).to.deep.equal(["piece-marbled", "piece-borderless", "piece-borderless"]);
             expect(A[0].paint.fill).to.equal(1);
-            expect(A[1].paint).to.deep.equal({fill: 1, border: markBorder(1)});
-            const B = rep.legend!.B as Array<{name: string; paint: {fill: number | string; border?: Colourfuncs}}>;
+            expect(A[1].paint.fill).to.deep.equal(ring);
+            expect(A[2].paint.fill).to.equal(1);
+            const B = rep.legend!.B as Array<{name: string; paint: {fill: number | string | Colourfuncs}}>;
             expect(B[0].paint.fill).to.equal(1);
-            expect(B[1].paint).to.deep.equal({fill: 2, border: markBorder(1)});
-            const F = rep.legend!.F as Array<{name: string; paint: {fill: number | string; border?: Colourfuncs}}>;
-            expect(F.map(l => l.name)).to.deep.equal(["piece-marbled", "piece-marbled", "piece"]);
-            expect(F[2].paint).to.deep.equal({fill: 2, border: markBorder(1)});
+            expect(B[2].paint.fill).to.equal(2);
+            const F = rep.legend!.F as Array<{name: string; paint: {fill: number | string | Colourfuncs}}>;
+            expect(F.map(l => l.name)).to.deep.equal(["piece-marbled", "piece-marbled", "piece-borderless", "piece-borderless"]);
+            expect(F[3].paint.fill).to.equal(2);
+            // the ring on the last placed checker
+            const L = rep.legend!.L as {name: string; paint: {border: Colourfuncs}};
+            expect(L.name).to.equal("ring-02");
+            expect(L.paint.border).to.deep.equal({func: "custom", default: "#ffffff", palette: 6});
             // Figure 2: Blue owns the root and the red checkers c5 and c6, Red owns the blue checker d4
             expect(rep.pieces).to.equal("_\nCCC----\n--B-A--\n--FDA--\n---B---\n---C---\n_");
         });
@@ -357,22 +370,24 @@ describe("QBF", () => {
             const g = new QBFGame(undefined, ["size-7"]);
             expect(g.render().annotations).to.be.undefined;
             g.move("f3");
-            expect(annotated(g, "glyph")).to.deep.equal([["e3", "f2", "f4", "g3"]]);
-            expect(annotated(g, "enter")).to.deep.equal([["f3"]]);
-            const enter = (g.render().annotations ?? []).find(a => a.type === "enter") as {colour: Colourfuncs};
-            expect(enter.colour).to.deep.equal({func: "custom", default: "#f5c542", palette: 6});
+            // the squares beside the root in green, the ring on the root (glyph M)
+            expect(annotatedGlyph(g, "H")).to.deep.equal([["e3", "f2", "f4", "g3"]]);
+            expect(annotatedGlyph(g, "M")).to.deep.equal([["f3"]]);
+            expect(annotatedGlyph(g, "L")).to.deep.equal([]);
+            expect(annotated(g, "enter")).to.deep.equal([]);
             g.move("e3");
             g.move("e4");
-            expect(annotated(g, "glyph")).to.deep.equal([["d3", "d4", "e2", "e5", "f2", "g3"]]);
-            expect(annotated(g, "enter")).to.deep.equal([["e4"]]);
+            expect(annotatedGlyph(g, "H")).to.deep.equal([["d3", "d4", "e2", "e5", "f2", "g3"]]);
+            expect(annotatedGlyph(g, "L")).to.deep.equal([["e4"]]);
+            expect(annotatedGlyph(g, "M")).to.deep.equal([]);
             // the red checker on e4 is owned by Red, so the blue checker on e3 and the root belong to Red too
             expect(g.render().pieces).to.equal("_\n_\n_\n----A--\n----DE-\n_\n_");
         });
 
-        it("shows no legal squares once the game is over", () => {
+        it("shows no legal squares and no last-placement ring once the game is over", () => {
             const g = play(EARLY_GAME);
             expect(annotated(g, "glyph")).to.deep.equal([]);
-            expect(annotated(g, "enter")).to.deep.equal([["f4"]]);
+            expect(g.render().annotations).to.be.undefined;
             expect(annotated(play(FULL_GAME), "glyph")).to.deep.equal([]);
         });
     });

@@ -211,24 +211,31 @@ export function qbfSettled(colours: (playerid | undefined)[], root: number, size
 
 const LEGAL_GREEN = "#28b446";
 const LEGAL_OPACITY = 0.45;
+const LEGAL_SCALE = 0.94;   // a little smaller than the square, so that the grid lines stay visible
 const LEGAL_COLOUR: Colourfuncs = {func: "custom", default: LEGAL_GREEN, palette: 5};
-const LAST_HIGHLIGHT = "#f5c542";
-const LAST_COLOUR: Colourfuncs = {func: "custom", default: LAST_HIGHLIGHT, palette: 6};
+const LAST_WHITE = "#ffffff";
+const LAST_OPACITY = 0.9;
+const LAST_COLOUR: Colourfuncs = {func: "custom", default: LAST_WHITE, palette: 6};
+const MARK_BLACK = "#000000";
+const MARK_RING_COLOUR: Colourfuncs = {func: "custom", default: MARK_BLACK, palette: 7};
 
-// tan felt squares in an oak frame, as in the designer's own app
-const FELT_DARK = "#b08e60";
-const FELT_LIGHT = "#e8d6b2";
+// the board of the designer's own app: one tan felt, grid lines in a darker tan, an oak frame
+const FELT = "#e8d6b2";
+const GRID = "#b08e60";
 const OAK = "#c48f4f";
-const FELT_LIGHT_COLOUR: Colourfuncs = {func: "custom", default: FELT_LIGHT, palette: 3};
-const FELT_DARK_COLOUR: Colourfuncs = {func: "custom", default: FELT_DARK, palette: 4};
+const FELT_COLOUR: Colourfuncs = {func: "custom", default: FELT, palette: 3};
+const GRID_COLOUR: Colourfuncs = {func: "custom", default: GRID, palette: 4};
 
-// Every checker carries an owner mark: a small disc of the owner's colour with a
-// border that contrasts against the checker underneath (black or white via bestContrast).
-// The root is a stack of two red checkers, drawn as two checkers slightly offset up and down.
-// A nudge is measured in 1/500 of a cell and is applied before the layer's scale, so
-// a scaled layer divides the wanted offset by its scale.  The face of the marbled checker
-// sits 2% of a cell above the centre of the cell.
-const MARK_SCALE = 0.33;
+// Every checker carries an owner mark: a small black ring holding a disc of
+// the colour of the player who owns the checker.  The checker placed last
+// carries a white ring around its mark.  The root is a stack of two red
+// checkers, drawn as two checkers slightly offset up and down.  A nudge is
+// measured in 1/500 of a cell and is applied before the layer's scale, so a
+// scaled layer divides the wanted offset by its scale.  The face of the
+// marbled checker sits 2% of a cell above the centre of the cell.
+const MARK_RING = 0.3;
+const MARK_DISC = 0.22;
+const LAST_SCALE = 0.78;
 const MARK_DY = -10;
 const STACK_DY = 30;
 
@@ -240,27 +247,32 @@ function checkerGlyph(colour: playerid, dy = 0): Glyph {
     return g;
 }
 
-/** Owner mark on a checker of `checkerColour`; fill is the owner, border contrasts with the checker. */
-function markGlyph(owner: playerid, checkerColour: playerid, dy = 0): Glyph {
-    return {
-        name: "piece",
-        paint: {
-            fill: owner,
-            border: {func: "bestContrast", bg: checkerColour, fg: ["#000", "#fff"]},
-        },
-        scale: MARK_SCALE,
-        nudge: {dx: 0, dy: (MARK_DY + dy) / MARK_SCALE},
-    };
+function markGlyphs(owner: playerid, dy = 0): Glyph[] {
+    return [
+        {name: "piece-borderless", paint: {fill: MARK_RING_COLOUR}, scale: MARK_RING, nudge: {dx: 0, dy: (MARK_DY + dy) / MARK_RING}},
+        {name: "piece-borderless", paint: {fill: owner}, scale: MARK_DISC, nudge: {dx: 0, dy: (MARK_DY + dy) / MARK_DISC}},
+    ];
 }
 
 /** A checker of `colour` owned by `owner`. */
 function pieceGlyph(colour: playerid, owner: playerid): [Glyph, ...Glyph[]] {
-    return [checkerGlyph(colour), markGlyph(owner, colour)];
+    return [checkerGlyph(colour), ...markGlyphs(owner)];
 }
 
 /** The root, a stack of two red checkers, owned by `owner`. */
 function rootGlyph(owner: playerid): [Glyph, ...Glyph[]] {
-    return [checkerGlyph(1, STACK_DY), checkerGlyph(1, -STACK_DY), markGlyph(owner, 1, -STACK_DY)];
+    return [checkerGlyph(1, STACK_DY), checkerGlyph(1, -STACK_DY), ...markGlyphs(owner, -STACK_DY)];
+}
+
+/** The ring marking the checker placed last, drawn over the checker by a glyph annotation. */
+function lastGlyph(dy = 0): Glyph {
+    return {
+        name: "ring-02",
+        paint: {fill: {colour: LAST_WHITE, opacity: 0}, border: LAST_COLOUR},
+        opacity: LAST_OPACITY,
+        scale: LAST_SCALE,
+        nudge: {dx: 0, dy: (MARK_DY + dy) / LAST_SCALE},
+    };
 }
 
 export class QBFGame extends GameBase {
@@ -271,7 +283,7 @@ export class QBFGame extends GameBase {
         version: "20261103",
         dateAdded: "2026-11-03",
         description: "Red and Blue grow a tree of checkers from Red's first checker, the root. Every checker must be placed orthogonally adjacent to exactly one checker. When no such square is left, the checkers are claimed from the leaves inward: a checker belongs to its own colour if all of its children belong to its own colour, and otherwise to the other colour. Whoever claims the root wins.",
-        notes: "QBF, which stands for Quantified Boolean Formula, was designed by Mark Steere in November 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nRed begins by placing the root, a stack of two red checkers, on any square. QBF uses the pie rule: Blue, for his first turn, can choose to switch colours with Red instead of placing a checker. If he does, the root remains red, but the player who placed the root is now Blue, and places a blue checker. Thereafter, players take turns placing one checker per turn.\n\nAfter the root, every checker must be placed on an unoccupied square orthogonally adjacent to exactly one checker, of either colour. Diagonal adjacencies are irrelevant. The checker it is placed next to is its parent, and the placed checker is a child of that parent. The squares a checker may be placed on are marked in green. The game ends when no such square is left.\n\nWhen the game ends, the players claim the checkers on the board. A player can claim ownership of checkers of either or both colours. Start with the checkers that have no children and work inward toward the root: a checker belongs to its own colour if all of its children belong to its own colour. Otherwise it belongs to the other colour. Childless checkers belong to their own colour. You win if you claim the root.\n\nThe owner of every checker is shown throughout the game by a small mark on the checker: a disc of the owner's colour with a contrasting outline. The marks on the board show who would own each checker if the game ended at once. The game ends as soon as no placement could change the owner of the root any more, which can be before the open squares run out.",
+        notes: "QBF, which stands for Quantified Boolean Formula, was designed by Mark Steere in November 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nRed begins by placing the root, a stack of two red checkers, on any square. QBF uses the pie rule: Blue, for his first turn, can choose to switch colours with Red instead of placing a checker. If he does, the root remains red, but the player who placed the root is now Blue, and places a blue checker. Thereafter, players take turns placing one checker per turn.\n\nAfter the root, every checker must be placed on an unoccupied square orthogonally adjacent to exactly one checker, of either colour. Diagonal adjacencies are irrelevant. The checker it is placed next to is its parent, and the placed checker is a child of that parent. The squares a checker may be placed on are marked in green. The game ends when no such square is left.\n\nWhen the game ends, the players claim the checkers on the board. A player can claim ownership of checkers of either or both colours. Start with the checkers that have no children and work inward toward the root: a checker belongs to its own colour if all of its children belong to its own colour. Otherwise it belongs to the other colour. Childless checkers belong to their own colour. You win if you claim the root.\n\nThe owner of every checker is shown throughout the game by the mark on the checker: a black ring holding a disc of the owner's colour. The marks on the board show who would own each checker if the game ended at once. The checker placed last carries a white ring. The game ends as soon as no placement could change the owner of the root any more, which can be before the open squares run out.",
         urls: [
             "https://www.marksteeregames.com/QBF_rules.pdf",
             "https://www.marksteeregames.com",
@@ -310,13 +322,13 @@ export class QBFGame extends GameBase {
             },
             {
                 num: 3,
-                default: FELT_LIGHT,
-                explanation: "Colour of the light felt squares",
+                default: FELT,
+                explanation: "Colour of the felt board",
             },
             {
                 num: 4,
-                default: FELT_DARK,
-                explanation: "Colour of the dark felt squares",
+                default: GRID,
+                explanation: "Colour of the grid lines",
             },
             {
                 num: 5,
@@ -325,8 +337,13 @@ export class QBFGame extends GameBase {
             },
             {
                 num: 6,
-                default: LAST_HIGHLIGHT,
-                explanation: "Colour of the outline on the last placed checker",
+                default: LAST_WHITE,
+                explanation: "Colour of the ring on the last placed checker",
+            },
+            {
+                num: 7,
+                default: MARK_BLACK,
+                explanation: "Colour of the ring of the owner marks",
             },
         ],
     };
@@ -683,11 +700,15 @@ export class QBFGame extends GameBase {
 
         const rep: APRenderRep = {
             board: {
+                // one felt colour on both kinds of square, as in the app
                 style: "squares-checkered",
                 width: size,
                 height: size,
-                checkeredLight: FELT_LIGHT_COLOUR,
-                checkeredDark: FELT_DARK_COLOUR,
+                checkeredLight: FELT_COLOUR,
+                checkeredDark: FELT_COLOUR,
+                strokeColour: GRID_COLOUR,
+                strokeOpacity: 0.9,
+                strokeWeight: 1.25,
                 backFill: {
                     type: "full",
                     colour: {func: "custom", default: OAK, palette: "_context_background"},
@@ -700,7 +721,9 @@ export class QBFGame extends GameBase {
                 D: pieceGlyph(2, 1),
                 E: rootGlyph(1),
                 F: rootGlyph(2),
-                H: {name: "piece-square-borderless", colour: LEGAL_COLOUR, opacity: LEGAL_OPACITY},
+                H: {name: "piece-square-borderless", colour: LEGAL_COLOUR, opacity: LEGAL_OPACITY, scale: LEGAL_SCALE},
+                L: lastGlyph(),
+                M: lastGlyph(-STACK_DY),
             },
             pieces: pstr,
         };
@@ -713,9 +736,12 @@ export class QBFGame extends GameBase {
                 annotations.push({type: "glyph", glyph: "H", targets: targets as [RowCol, ...RowCol[]]});
             }
         }
-        for (const r of this.results) {
-            if (r.type === "place") {
-                annotations.push({type: "enter", targets: [this.rowCol(r.where!)], colour: LAST_COLOUR, occlude: false});
+        if (!this.gameover) {
+            // the white ring on the checker placed last
+            for (const r of this.results) {
+                if (r.type === "place") {
+                    annotations.push({type: "glyph", glyph: r.where === this.root ? "M" : "L", targets: [this.rowCol(r.where!)]});
+                }
             }
         }
         if (annotations.length > 0) {

@@ -136,6 +136,22 @@ describe("Tablero stack repair", () => {
         expect(verify.ok, verify.reason).to.be.true;
     });
 
+    it("verifyTableroStackIntegrity normalizes legacy plain-object stack boards", () => {
+        const g = new TableroGame(undefined, []);
+        g.stack[0]!.board = new Map([["a3", [2]]]);
+        g.currplayer = 2;
+        g.roll = [6, 6];
+        g.pieces = [12, 12];
+        g.load(0);
+        g.move("-a3", {trusted: true});
+        const withPlainBoards = g.state();
+        for (const frame of withPlainBoards.stack) {
+            frame.board = Object.fromEntries(frame.board) as unknown as Map<string, playerid[]>;
+        }
+        const verify = verifyTableroStackIntegrity(withPlainBoards);
+        expect(verify.ok, verify.reason).to.be.true;
+    });
+
     it("repairTableroStackJson round-trips repaired state", () => {
         const openingC3: playerid[] = [2, 2];
         const shared: playerid[] = [2, 2];

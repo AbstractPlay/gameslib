@@ -2798,7 +2798,9 @@
     },
     "outbound": {
       "INSTRUCTIONS_AUCTION": "Placez une pierre de Chasseur sur le périmètre du plateau. Si vous pensez que le Chasseur peut arrêter le Défenseur avec cette disposition, déplacez plutôt une pierre de Chasseur : vous jouez alors le Chasseur et avez effectué le premier coup du Chasseur.",
-      "INSTRUCTIONS_WHITE": "Sélectionnez une pierre de Chasseur à déplacer.",
+      "INSTRUCTIONS_WHITE": "Sélectionnez une pierre Chasseur à déplacer, ou la case vide vers laquelle la déplacer.",
+      "INSTRUCTIONS_WHITE_FROM": "Sélectionnez la pierre Chasseur en surbrillance pour la déplacer là.",
+      "NO_SOURCES": "Aucune pierre Chasseur ne peut se déplacer vers {{where}}.",
       "INSTRUCTIONS_WHITE_TO": "Sélectionnez une case vide en ligne droite depuis la pierre pour l'y déplacer.",
       "INSTRUCTIONS_WHITE_PASS": "Vous n'avez aucun coup légal, vous devez donc passer.",
       "INSTRUCTIONS_BLACK": "Placez des pierres à côté de vos groupes. Chaque groupe ayant des libertés doit s'agrandir exactement une fois.",

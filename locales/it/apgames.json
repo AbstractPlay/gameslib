@@ -2798,7 +2798,9 @@
     },
     "outbound": {
       "INSTRUCTIONS_AUCTION": "Piazza una pedina del Cacciatore sul perimetro del tavoliere. Se pensi che il Cacciatore possa fermare il Difensore con questa configurazione, muovi invece una pedina del Cacciatore: giocherai così come Cacciatore e avrai effettuato la prima mossa del Cacciatore.",
-      "INSTRUCTIONS_WHITE": "Seleziona una pedina del Cacciatore da muovere.",
+      "INSTRUCTIONS_WHITE": "Seleziona una pedina Cacciatore da muovere, oppure lo spazio vuoto verso cui muoverti.",
+      "INSTRUCTIONS_WHITE_FROM": "Seleziona la pedina Cacciatore evidenziata per muoverla lì.",
+      "NO_SOURCES": "Nessuna pedina Cacciatore può muoversi in {{where}}.",
       "INSTRUCTIONS_WHITE_TO": "Seleziona uno spazio vuoto in linea retta dalla pedina per muoverla lì.",
       "INSTRUCTIONS_WHITE_PASS": "Non hai mosse legali, quindi devi passare.",
       "INSTRUCTIONS_BLACK": "Piazza pedine accanto ai tuoi gruppi. Ogni gruppo che possiede libertà deve crescere esattamente una volta.",

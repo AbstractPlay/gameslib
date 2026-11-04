@@ -22,10 +22,12 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **New games:** Clear Path, Kill-All Go, Selfo, Thue-Morse Go, Yodd, Yonkoma (Kill-All Go handicap opening variant remains unrated).
 - **Quax:** optional **Diamond board** display (`squares-diamonds` with connection flood fill; vertex board remains default).
 - **Locale tooling:** `npm run audit-locale` (dev-only catalog/shape/stale-MT audit with `locale-src/en/_locale-audit-allowlist.json`); `npm test` includes full-registry **missing catalog key** checks for runtime i18n.
+- **Tablero:** exported stack repair helpers (`verifyTableroStackIntegrity`, `repairTableroStack`, `repairTableroStackJson`, `isLegacyDuplicatePassFrame`) to replay saved stacks with stored rolls and merge legacy duplicate `pass` frames.
 
 ### Fixed
 
 - **Tablero:** deep-copy board stacks in saved state so history replay stays correct after doubles takes; forced bump after a take is one stack frame with `pass` in `_results`; move log attributes takes and bumps to the correct player (including legacy duplicate `pass` rows).
+- **Tablero stack repair:** replay handles resign/timeout/abandoned/draw plies, skips post-`gameover` noise frames, and uses `_results` roll values when rebuilding stacks for audit/backfill.
 - **Alien City:** reject tower claims on a placement after which neither player can legally build (rules last-placement claim); EOG claim nullification unchanged as a fallback.
 - **Armadas, Pacru, Pigs, Homeworlds, Knight Line, Stawvs, Yavalath:** resign and timeout use `winnersAfterWithdrawal` so shipless, eliminated, or otherwise out-of-contention seats are not co-winners when a sole remaining contender is knowable (Armadas prod case); early Homeworlds resign without eliminations unchanged.
 

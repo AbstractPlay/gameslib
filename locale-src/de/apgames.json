@@ -12284,8 +12284,12 @@
     "out": "Platziere Steine neben deinen Gruppen. Jede Gruppe, die Freiheiten hat, muss genau einmal wachsen."
   },
   "validation.outbound.INSTRUCTIONS_WHITE": {
-    "src": "Select a Hunter stone to move.",
-    "out": "Wähle einen Jägerstein zum Ziehen aus."
+    "src": "Select a Hunter stone to move, or the empty space to move to.",
+    "out": "Wähle einen Jägerstein zum Ziehen oder das freie Feld, auf das gezogen werden soll."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE_FROM": {
+    "src": "Select the highlighted Hunter stone to move there.",
+    "out": "Wähle den hervorgehobenen Jägerstein, um dorthin zu ziehen."
   },
   "validation.outbound.INSTRUCTIONS_WHITE_PASS": {
     "src": "You have no legal move, so you must pass.",
@@ -12306,6 +12310,10 @@
   "validation.outbound.NOT_WHITE": {
     "src": "{{where}} does not hold a Hunter stone.",
     "out": "Auf {{where}} befindet sich kein Jägerstein."
+  },
+  "validation.outbound.NO_SOURCES": {
+    "src": "No Hunter stone can move to {{where}}.",
+    "out": "Kein Jägerstein kann nach {{where}} ziehen."
   },
   "validation.outbound.OCCUPIED": {
     "src": "{{where}} is not empty.",

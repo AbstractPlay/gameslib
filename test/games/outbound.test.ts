@@ -29,6 +29,14 @@ const click = (g: OutboundGame, move: string, cell: string) => {
     return g.handleClick(move, y, x);
 };
 
+/** The cells the rendered board marks with a `dots` annotation, sorted. */
+const dots = (g: OutboundGame): string[] =>
+    (g.render().annotations ?? [])
+        .filter((a) => a.type === "dots")
+        .flatMap((a) => (a as { targets: Array<{ row: number; col: number }> }).targets)
+        .map(({ row, col }) => OutboundGame.coords2algebraic(col, row, 19))
+        .sort();
+
 describe("Outbound", () => {
     before(() => {
         addResource("en");
@@ -174,6 +182,92 @@ describe("Outbound", () => {
         it("undoes the last placement when it is clicked again", () => {
             const g = setup(["e5", "g5"], ["a1"], { turn: 2 });
             expect(click(g, "e6", "e6").move).to.equal("");
+        });
+    });
+
+    describe("Hunter destination first", () => {
+        it("turns a click on an empty space into a destination", () => {
+            const g = setup(["j10"], ["a1", "b1", "a5"]);
+            const result = click(g, "", "d1");
+            expect(result.valid).to.be.true;
+            expect(result.move).to.equal("-d1");
+            expect(result.complete).to.equal(-1);
+        });
+
+        it("completes the move when a Hunter stone that can reach it is clicked", () => {
+            const g = setup(["j10"], ["a1", "b1", "a5"]);
+            const result = click(g, "-d1", "a1");
+            expect(result.move).to.equal("a1-d1");
+            expect(result.complete).to.equal(1);
+            g.move(result.move);
+            expect(g.board.get("d1")).to.equal("W");
+        });
+
+        it("keeps the destination when a stone that cannot reach it is clicked", () => {
+            const g = setup(["j10"], ["a1", "b1", "a5"]);
+            const result = click(g, "-d1", "a5");
+            expect(result.valid).to.be.false;
+            expect(result.move).to.equal("-d1");
+        });
+
+        it("rejects a destination no Hunter stone can reach", () => {
+            const g = setup(["j10"], ["a1", "b1", "a5"]);
+            const result = click(g, "", "j15");
+            expect(result.valid).to.be.false;
+            expect(result.move).to.equal("");
+        });
+
+        it("lets another empty space replace the destination, and the same one clear it", () => {
+            const g = setup(["j10"], ["a1", "b1", "a5"]);
+            expect(click(g, "-d1", "c1").move).to.equal("-c1");
+            expect(click(g, "-d1", "d1").move).to.equal("");
+        });
+
+        it("still selects a stone first", () => {
+            const g = setup(["j10"], ["a1", "b1", "a5"]);
+            expect(click(g, "", "a1").move).to.equal("a1");
+            expect(click(g, "a1", "d1").move).to.equal("a1-d1");
+        });
+
+        it("highlights the stones that can move to the destination, over friendly stones but not Black ones", () => {
+            const g = setup(["j10", "c1"], ["a1", "b1", "a5", "e1"]);
+            g.move("-d1", { partial: true });
+            expect(dots(g)).to.deep.equal(["e1"]);
+            const open = setup(["j10"], ["a1", "b1", "a5"]);
+            open.move("-d1", { partial: true });
+            expect(dots(open)).to.deep.equal(["a1", "b1"]);
+        });
+
+        it("keeps placement on a click during the auction", () => {
+            const g = new OutboundGame();
+            expect(click(g, "", "a1").move).to.equal("a1");
+        });
+    });
+
+    describe("Defender highlights", () => {
+        it("marks the empty spaces around every group that has not grown", () => {
+            const g = setup(["e5", "g5"], ["a1"], { turn: 2 });
+            expect(dots(g)).to.deep.equal(["d5", "e4", "e6", "f5", "g4", "g6", "h5"]);
+        });
+
+        it("leaves out groups that have already grown", () => {
+            const g = setup(["e5", "g5"], ["a1"], { turn: 2 });
+            g.move("e6", { partial: true });
+            expect(dots(g)).to.deep.equal(["f5", "g4", "g6", "h5"]);
+        });
+
+        it("still marks a group grown by a merge where moving the merge later would allow it", () => {
+            const g = setup(["e5", "g5"], ["a1"], { turn: 2 });
+            g.move("f5", { partial: true });
+            // f4 and f6 touch only the merging stone, so they are not legal without it
+            expect(dots(g)).to.deep.equal(["d5", "e4", "e6", "g4", "g6", "h5"]);
+        });
+
+        it("marks nothing on the Hunter's turn or once the game is over", () => {
+            expect(dots(setup(["e5", "g5"], ["a1"]))).to.deep.equal([]);
+            const over = setup(["b10"], ["c1"], { turn: 2 });
+            over.move("a10");
+            expect(dots(over)).to.deep.equal([]);
         });
     });
 

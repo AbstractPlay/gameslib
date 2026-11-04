@@ -8,7 +8,9 @@ import i18next from "i18next";
 export const gameApgamesEn = {
     validation: {
         INSTRUCTIONS_AUCTION: "Place a Hunter stone on the perimeter of the board. If you think the Hunter can stop the Defender from this setup, instead move a Hunter stone: you then play as the Hunter and have made the first Hunter move.",
-        INSTRUCTIONS_WHITE: "Select a Hunter stone to move.",
+        INSTRUCTIONS_WHITE: "Select a Hunter stone to move, or the empty space to move to.",
+        INSTRUCTIONS_WHITE_FROM: "Select the highlighted Hunter stone to move there.",
+        NO_SOURCES: "No Hunter stone can move to {{where}}.",
         INSTRUCTIONS_WHITE_TO: "Select an empty space in a straight line from the stone to move it there.",
         INSTRUCTIONS_WHITE_PASS: "You have no legal move, so you must pass.",
         INSTRUCTIONS_BLACK: "Place stones next to your groups. Every group that has liberties must grow exactly once.",
@@ -70,12 +72,16 @@ interface IBlackSim {
     remaining: number;
     /** Indices of placements that touched two or more distinct groups. */
     mergers: number[];
+    /** Every stone of a group that has grown; a group is grown as a whole. */
+    grown: Set<string>;
 }
 
 const DIRS: [number, number][] = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]];
 const ORTH: [number, number][] = [[1, 0], [-1, 0], [0, 1], [0, -1]];
 const CELL_RE = /^[a-z]+\d+$/;
 const MOVE_RE = /^([a-z]+\d+)-([a-z]+\d+)$/;
+/** A Hunter move whose destination has been clicked before the stone to move. */
+const TARGET_RE = /^-([a-z]+\d+)$/;
 const UNDECIDED_COLOUR = "#999999";
 
 const stonePaint = (fill: number | string): { fill: number | string; border: Colourfuncs } => ({
@@ -135,6 +141,10 @@ export class OutboundGame extends GameBase {
     private readonly boardSize = 19;
     /** A White stone picked up by a partial move; never saved. */
     private selected?: string;
+    /** A destination picked before its stone by a partial move; never saved. */
+    private target?: string;
+    /** The placements of a partial Defender move, already on `board`; never saved. */
+    private pending: string[] = [];
 
     constructor(state?: IOutboundState | string) {
         super();
@@ -180,6 +190,8 @@ export class OutboundGame extends GameBase {
         this.crown = state.crown;
         this.whiteSeat = state.whiteSeat;
         this.selected = undefined;
+        this.target = undefined;
+        this.pending = [];
         return this;
     }
 
@@ -290,12 +302,12 @@ export class OutboundGame extends GameBase {
     }
 
     /** Replay a Black turn placement by placement, reporting the first illegal one. */
-    private simulateBlack(cells: string[]): IBlackSim {
-        const board = new Map(this.board);
+    private simulateBlack(cells: string[], base: Board = this.board, full = true): IBlackSim {
+        const board = new Map(base);
         const grown = new Set<string>();
         const mergers: number[] = [];
         const fail = (key: string, params: Record<string, string>): IBlackSim =>
-            ({ error: { key, params }, board, crown: this.crown, remaining: 0, mergers });
+            ({ error: { key, params }, board, crown: this.crown, remaining: 0, mergers, grown });
         for (let i = 0; i < cells.length; i++) {
             const cell = cells[i];
             if (!this.isValidCell(cell)) {
@@ -321,6 +333,9 @@ export class OutboundGame extends GameBase {
             grown.add(cell);
             groups.forEach((g) => g.forEach((s) => grown.add(s)));
         }
+        if (!full) {
+            return { board, crown: this.crown, remaining: 0, mergers, grown };
+        }
         let remaining = 0;
         const counted = new Set<string>();
         for (const [cell, stone] of board) {
@@ -338,7 +353,68 @@ export class OutboundGame extends GameBase {
                 break;
             }
         }
-        return { board, crown, remaining, mergers };
+        return { board, crown, remaining, mergers, grown };
+    }
+
+    /**
+     * The empty cells a click could place a Defender stone on, given the placements already made
+     * on top of `base`: next to a group that has not grown, or next to a merged group that a
+     * reordering of the merge (see `clickBlack`) would leave free to grow. Replays are limited to
+     * cells touching a group that contains a merging stone; every other cell is decided from one
+     * labelling of the groups.
+     */
+    private growableCells(base: Board, list: string[]): string[] {
+        const sim = this.simulateBlack(list, base);
+        if (sim.error !== undefined) { return []; }
+        const board = sim.board;
+        const label = new Map<string, number>();
+        const grownGroup: boolean[] = [];
+        for (const [cell, stone] of board) {
+            if (stone === "B" && !label.has(cell)) {
+                const id = grownGroup.length;
+                this.group(board, cell).forEach((c) => label.set(c, id));
+                grownGroup.push(sim.grown.has(cell));
+            }
+        }
+        const mergersOf = new Map<number, number[]>();
+        for (const idx of sim.mergers) {
+            const id = label.get(list[idx])!;
+            mergersOf.set(id, [...(mergersOf.get(id) ?? []), idx]);
+        }
+        const cells: string[] = [];
+        const seen = new Set<string>();
+        for (const [cell, stone] of board) {
+            if (stone !== "B") { continue; }
+            for (const c of this.orth(cell)) {
+                if (board.has(c) || seen.has(c)) { continue; }
+                seen.add(c);
+                const ids = new Set(this.orth(c).filter((n) => board.get(n) === "B").map((n) => label.get(n)!));
+                const growable = [...ids].some((id) => !grownGroup[id]) || [...ids].some((id) =>
+                    [...(mergersOf.get(id) ?? [])].reverse().some((idx) =>
+                        this.simulateBlack([...list.slice(0, idx), ...list.slice(idx + 1), c, list[idx]], base, false).error === undefined));
+                if (growable) { cells.push(c); }
+            }
+        }
+        return cells;
+    }
+
+    /** Hunter stones that can slide onto the empty cell `to`: the slide rules, run backwards. */
+    private sources(to: string): string[] {
+        const [x, y] = this.toXY(to);
+        const found: string[] = [];
+        for (const [dx, dy] of DIRS) {
+            let cx = x + dx;
+            let cy = y + dy;
+            while (this.inBounds(cx, cy)) {
+                const cell = this.toCell(cx, cy);
+                const contents = this.board.get(cell);
+                if (contents === "B") { break; }
+                if (contents === "W") { found.push(cell); }
+                cx += dx;
+                cy += dy;
+            }
+        }
+        return found;
     }
 
     public moves(): string[] {
@@ -381,8 +457,14 @@ export class OutboundGame extends GameBase {
 
     /** Auction placements, stone selections and slides all start from a click on a cell. */
     private clickWhite(move: string, cell: string): string {
+        const target = TARGET_RE.exec(move)?.[1];
+        if (target !== undefined) {
+            if (cell === target) { return ""; }
+            return this.board.get(cell) === "W" ? `${cell}-${target}` : `-${cell}`;
+        }
         if (!CELL_RE.test(move) || this.board.get(move) !== "W") {
-            return cell;
+            // Outside the auction an empty cell is a destination, to be followed by the stone to move.
+            return this.phase !== "auction" && !this.board.has(cell) ? `-${cell}` : cell;
         }
         if (cell === move) { return ""; }
         if (this.board.get(cell) === "W") { return cell; }
@@ -442,6 +524,20 @@ export class OutboundGame extends GameBase {
                 return invalid("apgames:validation._general.INVALID_PASS");
             }
             return { valid: true, complete: 1, message: i18next.t("apgames:validation._general.VALID_MOVE") };
+        }
+        const targetMatch = TARGET_RE.exec(m);
+        if (targetMatch !== null) {
+            const to = targetMatch[1];
+            if (auction || !this.isValidCell(to)) {
+                return invalid("apgames:validation._general.INVALID_MOVE", { move: m });
+            }
+            if (this.board.has(to)) {
+                return invalid("apgames:validation.outbound.OCCUPIED", { where: to });
+            }
+            if (this.sources(to).length === 0) {
+                return invalid("apgames:validation.outbound.NO_SOURCES", { where: to });
+            }
+            return { valid: true, complete: -1, canrender: true, message: i18next.t("apgames:validation.outbound.INSTRUCTIONS_WHITE_FROM") };
         }
         if (CELL_RE.test(m)) {
             if (!this.isValidCell(m)) {
@@ -529,6 +625,8 @@ export class OutboundGame extends GameBase {
         }
         this.results = [];
         this.selected = undefined;
+        this.target = undefined;
+        this.pending = [];
         if (m.length === 0) { return this; }
 
         const phase = this.phase;
@@ -540,8 +638,13 @@ export class OutboundGame extends GameBase {
             }
             this.board = sim.board;
             this.crown = sim.crown;
+            this.pending = cells;
         } else if (m === "pass") {
             this.results.push({ type: "pass" });
+        } else if (TARGET_RE.test(m)) {
+            // Partial move: a destination has been picked.
+            this.target = m.slice(1);
+            return this;
         } else if (CELL_RE.test(m)) {
             if (this.board.get(m) === "W") {
                 // Partial move: a stone has been picked up.
@@ -693,6 +796,21 @@ export class OutboundGame extends GameBase {
             const targets = this.slides(this.selected).map(toRowCol);
             if (targets.length > 0) {
                 annotations.push({ type: "dots", targets: targets as [RowCol, ...RowCol[]] });
+            }
+        }
+        if (this.target !== undefined) {
+            annotations.push({ type: "enter", targets: [toRowCol(this.target)] });
+            const sources = this.sources(this.target).map(toRowCol);
+            if (sources.length > 0) {
+                annotations.push({ type: "dots", targets: sources as [RowCol, ...RowCol[]] });
+            }
+        }
+        if (this.phase === "black" && !this.gameover) {
+            const base = new Map(this.board);
+            this.pending.forEach((c) => base.delete(c));
+            const growable = this.growableCells(base, this.pending).map(toRowCol);
+            if (growable.length > 0) {
+                annotations.push({ type: "dots", targets: growable as [RowCol, ...RowCol[]] });
             }
         }
         if (annotations.length > 0) {

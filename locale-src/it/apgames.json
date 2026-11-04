@@ -12284,8 +12284,12 @@
     "out": "Piazza pedine accanto ai tuoi gruppi. Ogni gruppo che possiede libertà deve crescere esattamente una volta."
   },
   "validation.outbound.INSTRUCTIONS_WHITE": {
-    "src": "Select a Hunter stone to move.",
-    "out": "Seleziona una pedina del Cacciatore da muovere."
+    "src": "Select a Hunter stone to move, or the empty space to move to.",
+    "out": "Seleziona una pedina Cacciatore da muovere, oppure lo spazio vuoto verso cui muoverti."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE_FROM": {
+    "src": "Select the highlighted Hunter stone to move there.",
+    "out": "Seleziona la pedina Cacciatore evidenziata per muoverla lì."
   },
   "validation.outbound.INSTRUCTIONS_WHITE_PASS": {
     "src": "You have no legal move, so you must pass.",
@@ -12306,6 +12310,10 @@
   "validation.outbound.NOT_WHITE": {
     "src": "{{where}} does not hold a Hunter stone.",
     "out": "{{where}} non contiene una pedina del Cacciatore."
+  },
+  "validation.outbound.NO_SOURCES": {
+    "src": "No Hunter stone can move to {{where}}.",
+    "out": "Nessuna pedina Cacciatore può muoversi in {{where}}."
   },
   "validation.outbound.OCCUPIED": {
     "src": "{{where}} is not empty.",

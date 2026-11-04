@@ -2800,7 +2800,9 @@
     },
     "outbound": {
       "INSTRUCTIONS_AUCTION": "Coloca una piedra del Cazador en el perímetro del tablero. Si crees que el Cazador puede detener al Defensor con esta configuración, mueve una piedra del Cazador en su lugar: pasarás a jugar como el Cazador y habrás realizado el primer movimiento del Cazador.",
-      "INSTRUCTIONS_WHITE": "Selecciona una piedra del Cazador para moverla.",
+      "INSTRUCTIONS_WHITE": "Selecciona una piedra de Cazador para moverla, o el espacio vacío al que moverte.",
+      "INSTRUCTIONS_WHITE_FROM": "Selecciona la piedra de Cazador resaltada para moverla allí.",
+      "NO_SOURCES": "Ninguna piedra de Cazador puede moverse a {{where}}.",
       "INSTRUCTIONS_WHITE_TO": "Selecciona una casilla vacía en línea recta desde la piedra para moverla allí.",
       "INSTRUCTIONS_WHITE_PASS": "No tienes movimientos legales, por lo que debes pasar.",
       "INSTRUCTIONS_BLACK": "Coloca piedras junto a tus grupos. Cada grupo que tenga libertades debe crecer exactamente una vez.",

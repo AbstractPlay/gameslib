@@ -12284,8 +12284,12 @@
     "out": "Coloca piedras junto a tus grupos. Cada grupo que tenga libertades debe crecer exactamente una vez."
   },
   "validation.outbound.INSTRUCTIONS_WHITE": {
-    "src": "Select a Hunter stone to move.",
-    "out": "Selecciona una piedra del Cazador para moverla."
+    "src": "Select a Hunter stone to move, or the empty space to move to.",
+    "out": "Selecciona una piedra de Cazador para moverla, o el espacio vacío al que moverte."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE_FROM": {
+    "src": "Select the highlighted Hunter stone to move there.",
+    "out": "Selecciona la piedra de Cazador resaltada para moverla allí."
   },
   "validation.outbound.INSTRUCTIONS_WHITE_PASS": {
     "src": "You have no legal move, so you must pass.",
@@ -12306,6 +12310,10 @@
   "validation.outbound.NOT_WHITE": {
     "src": "{{where}} does not hold a Hunter stone.",
     "out": "{{where}} no contiene una piedra del Cazador."
+  },
+  "validation.outbound.NO_SOURCES": {
+    "src": "No Hunter stone can move to {{where}}.",
+    "out": "Ninguna piedra de Cazador puede moverse a {{where}}."
   },
   "validation.outbound.OCCUPIED": {
     "src": "{{where}} is not empty.",

@@ -2800,7 +2800,9 @@
     },
     "outbound": {
       "INSTRUCTIONS_AUCTION": "Platziere einen Jägerstein am Rand des Brettes. Wenn du glaubst, dass der Jäger den Verteidiger aus dieser Aufstellung heraus aufhalten kann, ziehe stattdessen einen Jägerstein: Du spielst dann als Jäger und hast den ersten Jägerzug gemacht.",
-      "INSTRUCTIONS_WHITE": "Wähle einen Jägerstein zum Ziehen aus.",
+      "INSTRUCTIONS_WHITE": "Wähle einen Jägerstein zum Ziehen oder das freie Feld, auf das gezogen werden soll.",
+      "INSTRUCTIONS_WHITE_FROM": "Wähle den hervorgehobenen Jägerstein, um dorthin zu ziehen.",
+      "NO_SOURCES": "Kein Jägerstein kann nach {{where}} ziehen.",
       "INSTRUCTIONS_WHITE_TO": "Wähle ein leeres Feld in einer geraden Linie vom Stein, um ihn dorthin zu ziehen.",
       "INSTRUCTIONS_WHITE_PASS": "Du hast keinen legalen Zug, daher musst du passen.",
       "INSTRUCTIONS_BLACK": "Platziere Steine neben deinen Gruppen. Jede Gruppe, die Freiheiten hat, muss genau einmal wachsen.",

@@ -238,8 +238,27 @@ export class TableroGame extends GameBase {
         return cloned;
     }
 
-    private static cloneBoard(board: Map<string, playerid[]>): Map<string, playerid[]> {
-        return new Map([...board].map(([k, v]) => [k, [...v]]));
+    /** Normalize Map / serialized Map / legacy plain-object boards from saved state. */
+    public static normalizeBoard(board: unknown): Map<string, playerid[]> {
+        if (board instanceof Map) {
+            return new Map([...board].map(([k, v]) => [k, [...v]]));
+        }
+        if (typeof board === "object" && board !== null && "dataType" in board) {
+            const boxed = board as {dataType?: string; value?: [string, playerid[]][]};
+            if (boxed.dataType === "Map" && Array.isArray(boxed.value)) {
+                return new Map(boxed.value.map(([k, v]) => [k, [...v]]));
+            }
+        }
+        if (typeof board === "object" && board !== null) {
+            return new Map(
+                Object.entries(board as Record<string, playerid[]>).map(([k, v]) => [k, [...v]]),
+            );
+        }
+        throw new Error("invalid board snapshot in saved state");
+    }
+
+    private static cloneBoard(board: unknown): Map<string, playerid[]> {
+        return TableroGame.normalizeBoard(board);
     }
 
     public numplayers = 2;
@@ -292,7 +311,22 @@ export class TableroGame extends GameBase {
             this.gameover = state.gameover;
             this.winner = [...state.winner];
             this.variants = state.variants;
-            this.stack = [...state.stack];
+            this.stack = state.stack.map((frame) => {
+                const copy: IMoveState = {
+                    _version: frame._version,
+                    _results: frame._results !== undefined ? [...frame._results] : [],
+                    _timestamp: frame._timestamp,
+                    currplayer: frame.currplayer,
+                    board: TableroGame.normalizeBoard(frame.board),
+                    roll: [...frame.roll],
+                    pieces: [...frame.pieces],
+                    bumped: frame.bumped,
+                };
+                if (frame.lastmove !== undefined) {
+                    copy.lastmove = frame.lastmove;
+                }
+                return copy;
+            });
             if (state.spaceScores !== undefined) {
                 this.spaceScores = [...state.spaceScores];
             }

@@ -107,6 +107,22 @@ describe("Tablero stack repair", () => {
         expect(verifyTableroStackIntegrity(repaired).ok).to.be.true;
     });
 
+    it("repair normalizes stack when only tip currplayer differed before repair", () => {
+        const g = new TableroGame(undefined, []);
+        g.stack[0]!.board = new Map([["a3", [2]]]);
+        g.stack[0]!.currplayer = 2;
+        g.currplayer = 2;
+        g.roll = [6, 6];
+        g.pieces = [12, 12];
+        g.load(0);
+        g.move("-a3", {trusted: true});
+        expect(g.stack[g.stack.length - 1]!.currplayer).to.equal(1);
+        g.stack[g.stack.length - 1]!.currplayer = 2;
+        const {state: repaired, repaired: didRepair} = repairTableroStack(g.state());
+        expect(didRepair).to.be.true;
+        expect(repaired.stack[repaired.stack.length - 1]!.currplayer).to.equal(1);
+    });
+
     it("verifyTableroStackIntegrity replays resign ending stacks", () => {
         const g = new TableroGame(undefined, []);
         g.stack[0]!.board = new Map([["b2", [1, 1]]]);

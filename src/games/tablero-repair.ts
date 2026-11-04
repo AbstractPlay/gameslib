@@ -14,11 +14,31 @@ export type TableroStackVerifyResult = {
     reason?: string;
 };
 
-function cloneBoard(board: Map<string, playerid[]> | Record<string, playerid[]>): Map<string, playerid[]> {
-    if (board instanceof Map) {
-        return new Map([...board].map(([k, v]) => [k, [...v]]));
+function cloneBoard(board: unknown): Map<string, playerid[]> {
+    return TableroGame.normalizeBoard(board);
+}
+
+/** Which tip fields differ after replay (empty when tips match). */
+export function tableroTipMismatchFields(original: ITableroState, rebuilt: ITableroState): string[] {
+    const origTip = original.stack[original.stack.length - 1]!;
+    const newTip = rebuilt.stack[rebuilt.stack.length - 1]!;
+    const fields: string[] = [];
+    if (!boardsEqual(origTip.board, newTip.board)) {
+        fields.push("board");
     }
-    return new Map(Object.entries(board).map(([k, v]) => [k, [...v]]));
+    if (origTip.pieces[0] !== newTip.pieces[0] || origTip.pieces[1] !== newTip.pieces[1]) {
+        fields.push("pieces");
+    }
+    if (!rollsEqual(origTip.roll, newTip.roll)) {
+        fields.push("roll");
+    }
+    if (origTip.bumped !== newTip.bumped) {
+        fields.push("bumped");
+    }
+    if (origTip.currplayer !== newTip.currplayer) {
+        fields.push("currplayer");
+    }
+    return fields;
 }
 
 function rollOverrideForFrame(frame: IMoveState): [number, number] | [number] {
@@ -51,6 +71,9 @@ function withdrawingPlayer(frame: IMoveState): playerid {
 
 function replayStackMove(g: TableroGame, frame: IMoveState, lastmove: string): void {
     const normalized = lastmove.toLowerCase().replace(/\s+/g, "");
+    if (g.gameover && normalized === "pass") {
+        return;
+    }
     if (normalized === "pass") {
         g.move("pass", {trusted: true});
         return;
@@ -146,7 +169,7 @@ function rollsEqual(a: IMoveState["roll"], b: IMoveState["roll"]): boolean {
     return a[0] === b[0] && a[1] === b[1];
 }
 
-/** Legacy take/pass rows may keep stale `currplayer`; board state must still match. */
+/** Playable position match; roll/currplayer/bumped may differ on legacy rows. */
 function tipsCompatible(original: ITableroState, rebuilt: ITableroState): boolean {
     const origTip = original.stack[original.stack.length - 1]!;
     const newTip = rebuilt.stack[rebuilt.stack.length - 1]!;
@@ -156,23 +179,15 @@ function tipsCompatible(original: ITableroState, rebuilt: ITableroState): boolea
     if (origTip.pieces[0] !== newTip.pieces[0] || origTip.pieces[1] !== newTip.pieces[1]) {
         return false;
     }
-    if (!rollsEqual(origTip.roll, newTip.roll)) {
-        return false;
+    return true;
+}
+
+function tipMismatchReason(original: ITableroState, rebuilt: ITableroState): string {
+    const fields = tableroTipMismatchFields(original, rebuilt);
+    if (fields.length === 0) {
+        return "tip playfields mismatch after replay";
     }
-    if (origTip.bumped !== newTip.bumped) {
-        return false;
-    }
-    if (origTip.currplayer === newTip.currplayer) {
-        return true;
-    }
-    const n = original.stack.length;
-    if (n >= 2 && isLegacyDuplicatePassFrame(original.stack, n - 1)) {
-        return true;
-    }
-    if (origTip.lastmove !== undefined && origTip.lastmove.startsWith("-")) {
-        return true;
-    }
-    return false;
+    return `tip playfields mismatch after replay (${fields.join(", ")})`;
 }
 
 function replayPrefixState(state: ITableroState): ITableroState {
@@ -258,7 +273,7 @@ export function verifyTableroStackIntegrity(input: ITableroState | string): Tabl
         const engine = rebuildTableroStack(state);
         const rebuilt = engine.state();
         if (!tipsCompatible(state, rebuilt)) {
-            return {ok: false, reason: "tip playfields mismatch after replay"};
+            return {ok: false, reason: tipMismatchReason(state, rebuilt)};
         }
         if (stacksMatchCanonical(state, rebuilt)) {
             return {ok: true};
@@ -280,15 +295,14 @@ export function repairTableroStack(input: ITableroState | string): TableroStackR
     if (state.game !== TableroGame.gameinfo.uid) {
         return {state, repaired: false, reason: "not tablero"};
     }
-    const verifyBefore = verifyTableroStackIntegrity(state);
-    if (verifyBefore.ok) {
-        return {state, repaired: false};
-    }
     try {
         const engine = rebuildTableroStack(state);
         const rebuilt = engine.state();
         if (!tipsCompatible(state, rebuilt)) {
-            return {state, repaired: false, reason: "tip playfields mismatch after replay"};
+            return {state, repaired: false, reason: tipMismatchReason(state, rebuilt)};
+        }
+        if (stacksMatchCanonical(state, rebuilt)) {
+            return {state, repaired: false};
         }
         if (state.gameover) {
             const origTip = state.stack[state.stack.length - 1]!;

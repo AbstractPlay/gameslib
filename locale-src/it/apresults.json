@@ -2844,8 +2844,8 @@
     "out": "{{player}} ha spinto!"
   },
   "tablero.PASS.afterTake": {
-    "src": "{{player}} had no move after the take and passed.",
-    "out": "{{player}} non aveva mosse dopo la presa e ha passato."
+    "src": "{{player}} was forced to pass so the taker could play again.",
+    "out": "{{player}} è stato costretto a passare per permettere a chi ha preso di giocare di nuovo."
   },
   "tablero.PASS.default": {
     "src": "{{player}} passed.",

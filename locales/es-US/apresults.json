@@ -1652,7 +1652,7 @@
   "tablero": {
     "PASS": {
       "default": "{{player}} pasó.",
-      "afterTake": "{{player}} no tenía movimientos después de la captura y pasó."
+      "afterTake": "{{player}} tuvo que pasar para que quien capturó pudiera jugar de nuevo."
     },
     "BUMP": {
       "default": "¡{{player}} empujó!"

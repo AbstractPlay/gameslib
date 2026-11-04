@@ -2839,9 +2839,17 @@
     "src": "{{player}} place at {{where}} a size {{size}} piece directed at {{dir}}.",
     "out": "{{player}} hat bei {{where}} einen Stein der Größe {{size}} in Richtung {{dir}} platziert."
   },
-  "tablero.PASS.default": {
+  "tablero.BUMP.default": {
     "src": "{{player}} bumped!",
-    "out": "{{player}} hat ausgesetzt!"
+    "out": "{{player}} hat gestoßen!"
+  },
+  "tablero.PASS.afterTake": {
+    "src": "{{player}} had no move after the take and passed.",
+    "out": "{{player}} hatte nach dem Schlagen keinen Zug mehr und hat gepasst."
+  },
+  "tablero.PASS.default": {
+    "src": "{{player}} passed.",
+    "out": "{{player}} hat gepasst."
   },
   "tablero.ROLL.default": {
     "src": "The dice were rolled: {{values}}.",

@@ -82,7 +82,8 @@ Do **not** `git commit`, `git push`, or amend commits unless the human explicitl
 1. Fork and branch from **`develop`**.
 2. After adding/changing `gameinfo`, run `npm run generate-registry` (or any test/build).
 3. New games: flag `experimental` in `gameinfo` until production-ready.
-4. Guide: [docs/creating-games.md](docs/creating-games.md).
+4. **Scaffold `test/games/<uid>.test.ts` from the game’s rules** (sources cited in `gameinfo` / design notes) **before or alongside** the first implementation pass — see **Tests → New games** below.
+5. Guide: [docs/creating-games.md](docs/creating-games.md).
 
 ## Commands
 
@@ -107,6 +108,19 @@ Tests must be **self-contained** and **deterministic**.
 - Reproduce bugs from `bin/state.json` by **copying** state into a fixture, not pointing tests at `bin/`.
 - After `new SomeGame(...)`, set `hands`, `board`, `deferred`, and every seat that affects assertions — do not rely on random deals.
 - Assert **behaviour and contracts** (ordering, presence, public APIs), not tunable visuals or private legend key strings when a pattern-based check is enough.
+
+Cursor: [`.cursor/rules/test-fixtures.mdc`](.cursor/rules/test-fixtures.mdc), [`.cursor/rules/test-contracts.mdc`](.cursor/rules/test-contracts.mdc).
+
+### New games
+
+When adding a game, **always** create an initial test file grounded in **rule contracts**, not in whatever structure or helpers the implementation happened to use.
+
+- **Derive cases from the rules:** starting setup (board, hands, piles, turn order, variants), legal vs illegal moves, scoring, captures, phase changes, win/draw/stalemate (EOG), and any hidden-information or simultaneous-play rules. Name tests after behaviours (“cannot jump own piece”, “threefold repetition draws”) not after private methods.
+- **Write against outcomes:** `move()`, `getMoveList()`, `gameover`, `winner`, `serialize`/`restore`, chat log parity when customized — whatever players and integrators depend on — not on internal field names, call order, or incidental constructor defaults unless those defaults *are* part of the published rules.
+- **Fixtures express positions from the rules** (inline or `test/fixtures/`): “white to move, black wins on capture” rather than “state after my `refillPending` runs”.
+- **Later tests are fine** for specific subroutines, regressions, render/legend edge cases, or refactors — add them once core rule coverage exists; do not replace rule-based tests with tests that only mirror the current code path.
+
+If implementation and a rule-based test disagree, **fix the implementation** (or clarify the spec with the human); do not weaken the test to match the first draft of the code.
 
 **Local scope:** one game or narrow surface → `npm run test0` on that file. Touching shared helpers → full `npm test`. See [docs/testing.md](docs/testing.md).
 

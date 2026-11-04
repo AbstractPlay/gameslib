@@ -99,10 +99,10 @@ export class DamaGame extends GameBase {
                 board.set(GameBase.coords2algebraic(col, y, BOARD_SIZE), [player, 1]);
             }
         };
-        placeRow(1, 2);
-        placeRow(2, 2);
-        placeRow(5, 1);
-        placeRow(6, 1);
+        placeRow(2, 1);
+        placeRow(3, 1);
+        placeRow(6, 2);
+        placeRow(7, 2);
         return board;
     }
 

@@ -2075,6 +2075,10 @@
     "src": "Oust is the classic \"exnihilation\" game where the game starts with an empty board and the goal is to eliminate all of your opponent's pieces. On your turn, you may make multiple capturing placements if available, but you must end it with a non-capturing placement. You must pass if you are not able to make any placements.",
     "out": "Oust es el clásico juego de \"exnihilation\" en el que la partida comienza con un tablero vacío y el objetivo es eliminar todas las piezas de tu oponente. En tu turno, puedes realizar múltiples colocaciones de captura si están disponibles, pero debes terminar con una colocación de no captura. Debes pasar si no puedes realizar ninguna colocación."
   },
+  "descriptions.outbound": {
+    "src": "An asymmetric game on a Go board. The Defender grows groups of stones, one stone per group per turn, and wins by bringing the crowned group to the edge; the Hunter slides stones around the board and flips lone Defender stones to trap it.",
+    "out": "Un juego asimétrico en un tablero de Go. El Defensor hace crecer grupos de piedras, una piedra por grupo por turno, y gana al llevar el grupo coronado al borde; el Cazador desliza piedras por el tablero y voltea piedras solitarias del Defensor para atraparlo."
+  },
   "descriptions.oware": {
     "src": "A traditional West African sowing game where you try to capture the most pieces.",
     "out": "Un juego tradicional de siembra del áfrica occidental donde intentas capturar la mayor cantidad de piezas."
@@ -4175,6 +4179,10 @@
     "src": "Oust",
     "out": "Oust"
   },
+  "names.outbound": {
+    "src": "Outbound",
+    "out": "Outbound"
+  },
   "names.oware": {
     "src": "Oware",
     "out": "Oware"
@@ -4867,6 +4875,10 @@
     "src": "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
     "out": "Utiliza la leyenda para seleccionar una pieza o haz clic en la misma ubicación varias veces para desplazarte por todas las piezas posibles. Las casillas bloqueadas están resaltadas: un punto traslúcido significa que solo se puede colocar allí una piedra con punto (es decir, bloqueada para piezas lisas), una pieza traslúcida significa que solo se puede colocar allí una pieza lisa (es decir, bloqueada para piezas con punto). Si ambos resaltados están presentes, entonces la casilla está bloqueada para todas las piezas."
   },
+  "notes.outbound": {
+    "src": "The Defender starts with one stone in the centre, holding the crown. The king is the Defender group containing the crown. The Hunter starts with stones placed along the perimeter: players take turns adding Hunter stones until one of them, instead of placing, declares that they can stop the Defender and makes the first Hunter move.\n\nOn the Hunter's turn, one Hunter stone slides in a straight line, orthogonally or diagonally, over empty or Hunter spaces onto an empty space. If the moved stone and another Hunter stone flank a single Defender stone, orthogonally or diagonally, that stone changes sides. One move can flip several stones, but the stone carrying the crown is never flipped. The Hunter must pass if there is no legal move.\n\nOn the Defender's turn, each Defender group with liberties must grow once by a stone placed orthogonally next to it. A placement uses up the growth of every group it touches, so growing another group may merge groups that have already grown. At the end of the turn the crown moves to the most recently placed stone in the king.\n\nThe Defender wins if the king reaches the edge. The Hunter wins if the king has no liberties.",
+    "out": "El Defensor comienza con una piedra en el centro, la cual lleva la corona. El rey es el grupo del Defensor que contiene la corona. El Cazador comienza con piedras colocadas a lo largo del perímetro: los jugadores se turnan para añadir piedras del Cazador hasta que uno de ellos, en lugar de colocar una piedra, declara que puede detener al Defensor y realiza el primer movimiento del Cazador.\n\nEn el turno del Cazador, una piedra del Cazador se desliza en línea recta, ortogonal o diagonalmente, sobre casillas vacías o del Cazador hasta una casilla vacía. Si la piedra movida y otra piedra del Cazador flanquean a una sola piedra del Defensor, ortogonal o diagonalmente, esa piedra cambia de bando. Un movimiento puede voltear varias piedras, pero la piedra que lleva la corona nunca se voltea. El Cazador debe pasar si no hay ningún movimiento legal.\n\nEn el turno del Defensor, cada grupo del Defensor con libertades debe crecer una vez mediante una piedra colocada ortogonalmente junto a él. Una colocación agota el crecimiento de cada grupo que toca, por lo que hacer crecer otro grupo puede fusionar grupos que ya hayan crecido. Al final del turno, la corona se mueve a la piedra del rey colocada más recientemente.\n\nEl Defensor gana si el rey llega al borde. El Cazador gana si el rey no tiene libertades."
+  },
   "notes.oware": {
     "src": "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
     "out": "Esta implementación sigue la regla común de torneo de que se permiten los movimientos de gran slam, pero no se capturan piezas. Representar los cambios de estado en los juegos de siembra es un desafío. El pozo inicial elegido está marcado, al igual que cualquier captura. Aparecen números pequeños para mostrar el cambio en la cantidad de piedras en cada pozo. Si crees que has encontrado un error, por favor avísanos en Discord."
@@ -5450,6 +5462,22 @@
   "status.mvolcano.UNCAPTUREDCOLOURS": {
     "src": "Colours not yet captured",
     "out": "Colores aún no capturados"
+  },
+  "status.outbound.BLACK": {
+    "src": "Defender",
+    "out": "Defensor"
+  },
+  "status.outbound.PHASE_AUCTION": {
+    "src": "{{player}} places a Hunter stone or moves one to play as the Hunter",
+    "out": "{{player}} coloca una piedra del Cazador o mueve una para jugar como el Cazador"
+  },
+  "status.outbound.UNDECIDED": {
+    "src": "Not yet chosen",
+    "out": "Aún no elegido"
+  },
+  "status.outbound.WHITE": {
+    "src": "Hunter",
+    "out": "Cazador"
   },
   "status.pacru.TARGET": {
     "src": "Tiles to win",
@@ -12230,6 +12258,58 @@
   "validation.oust.PLACEMENT_AFTER_NONCAPTURE": {
     "src": "You may not make any more placements after a non-capture placement.",
     "out": "No puedes realizar más colocaciones después de una colocación sin captura."
+  },
+  "validation.outbound.BAD_LINE": {
+    "src": "A Hunter stone must move in a straight line, orthogonally or diagonally.",
+    "out": "Una piedra del Cazador debe moverse en línea recta, ortogonal o diagonalmente."
+  },
+  "validation.outbound.BLACK_MORE_one": {
+    "src": "One group can still grow. Place a stone next to it.",
+    "out": "Un grupo todavía puede crecer. Coloca una piedra junto a él."
+  },
+  "validation.outbound.BLACK_MORE_other": {
+    "src": "{{count}} groups can still grow. Place a stone next to one of them.",
+    "out": "{{count}} grupos todavía pueden crecer. Coloca una piedra junto a uno de ellos."
+  },
+  "validation.outbound.BLOCKED": {
+    "src": "The path from {{from}} to {{to}} is blocked.",
+    "out": "El camino de {{from}} a {{to}} está bloqueado."
+  },
+  "validation.outbound.INSTRUCTIONS_AUCTION": {
+    "src": "Place a Hunter stone on the perimeter of the board. If you think the Hunter can stop the Defender from this setup, instead move a Hunter stone: you then play as the Hunter and have made the first Hunter move.",
+    "out": "Coloca una piedra del Cazador en el perímetro del tablero. Si crees que el Cazador puede detener al Defensor con esta configuración, mueve una piedra del Cazador en su lugar: pasarás a jugar como el Cazador y habrás realizado el primer movimiento del Cazador."
+  },
+  "validation.outbound.INSTRUCTIONS_BLACK": {
+    "src": "Place stones next to your groups. Every group that has liberties must grow exactly once.",
+    "out": "Coloca piedras junto a tus grupos. Cada grupo que tenga libertades debe crecer exactamente una vez."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE": {
+    "src": "Select a Hunter stone to move.",
+    "out": "Selecciona una piedra del Cazador para moverla."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE_PASS": {
+    "src": "You have no legal move, so you must pass.",
+    "out": "No tienes movimientos legales, por lo que debes pasar."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE_TO": {
+    "src": "Select an empty space in a straight line from the stone to move it there.",
+    "out": "Selecciona una casilla vacía en línea recta desde la piedra para moverla allí."
+  },
+  "validation.outbound.NOT_GROWABLE": {
+    "src": "{{where}} is not next to a Defender group that can still grow this turn.",
+    "out": "{{where}} no está junto a un grupo del Defensor que todavía pueda crecer este turno."
+  },
+  "validation.outbound.NOT_PERIMETER": {
+    "src": "{{where}} is not on the perimeter of the board.",
+    "out": "{{where}} no está en el perímetro del tablero."
+  },
+  "validation.outbound.NOT_WHITE": {
+    "src": "{{where}} does not hold a Hunter stone.",
+    "out": "{{where}} no contiene una piedra del Cazador."
+  },
+  "validation.outbound.OCCUPIED": {
+    "src": "{{where}} is not empty.",
+    "out": "{{where}} no está vacía."
   },
   "validation.oware.INITIAL_INSTRUCTIONS": {
     "src": "Select one of your pits containing stones to sow them.",

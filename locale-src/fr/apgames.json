@@ -2075,6 +2075,10 @@
     "src": "Oust is the classic \"exnihilation\" game where the game starts with an empty board and the goal is to eliminate all of your opponent's pieces. On your turn, you may make multiple capturing placements if available, but you must end it with a non-capturing placement. You must pass if you are not able to make any placements.",
     "out": "Oust est le jeu d'« exnihilation » classique où la partie commence avec un plateau vide et le but est d'éliminer toutes les pièces de votre adversaire. À votre tour, vous pouvez effectuer plusieurs placements avec capture si possible, mais vous devez terminer votre tour par un placement sans capture. Vous devez passer si vous ne pouvez effectuer aucun placement."
   },
+  "descriptions.outbound": {
+    "src": "An asymmetric game on a Go board. The Defender grows groups of stones, one stone per group per turn, and wins by bringing the crowned group to the edge; the Hunter slides stones around the board and flips lone Defender stones to trap it.",
+    "out": "Un jeu asymétrique sur un goban. Le Défenseur agrandit des groupes de pierres, une pierre par groupe et par tour, et gagne en amenant le groupe couronné jusqu'au bord ; le Chasseur fait glisser des pierres sur le plateau et retourne les pierres isolées du Défenseur pour le piéger."
+  },
   "descriptions.oware": {
     "src": "A traditional West African sowing game where you try to capture the most pieces.",
     "out": "Un jeu de semailles traditionnel d'Afrique de l'Ouest où vous tentez de capturer le plus de pièces."
@@ -4175,6 +4179,10 @@
     "src": "Oust",
     "out": "Oust"
   },
+  "names.outbound": {
+    "src": "Outbound",
+    "out": "Outbound"
+  },
   "names.oware": {
     "src": "Oware",
     "out": "Oware"
@@ -4867,6 +4875,10 @@
     "src": "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
     "out": "Utilisez la légende pour sélectionner une pièce, ou cliquez plusieurs fois sur le même emplacement pour faire défiler toutes les pièces possibles. Les cases bloquées sont mises en surbrillance : un point translucide signifie que seule une pierre à point peut y être placée (c.-à-d. bloquée pour les pièces simples), une pièce translucide signifie que seule une pièce simple peut y être placée (c.-à-d. bloquée pour les pièces à point). Si les deux surbrillances sont présentes, la case est bloquée pour toutes les pièces."
   },
+  "notes.outbound": {
+    "src": "The Defender starts with one stone in the centre, holding the crown. The king is the Defender group containing the crown. The Hunter starts with stones placed along the perimeter: players take turns adding Hunter stones until one of them, instead of placing, declares that they can stop the Defender and makes the first Hunter move.\n\nOn the Hunter's turn, one Hunter stone slides in a straight line, orthogonally or diagonally, over empty or Hunter spaces onto an empty space. If the moved stone and another Hunter stone flank a single Defender stone, orthogonally or diagonally, that stone changes sides. One move can flip several stones, but the stone carrying the crown is never flipped. The Hunter must pass if there is no legal move.\n\nOn the Defender's turn, each Defender group with liberties must grow once by a stone placed orthogonally next to it. A placement uses up the growth of every group it touches, so growing another group may merge groups that have already grown. At the end of the turn the crown moves to the most recently placed stone in the king.\n\nThe Defender wins if the king reaches the edge. The Hunter wins if the king has no liberties.",
+    "out": "Le Défenseur commence avec une pierre au centre, portant la couronne. Le roi est le groupe du Défenseur contenant la couronne. Le Chasseur commence avec des pierres placées le long du périmètre : les joueurs ajoutent tour à tour des pierres de Chasseur jusqu'à ce que l'un d'eux, au lieu de placer une pierre, déclare qu'il peut arrêter le Défenseur et effectue le premier coup du Chasseur.\n\nAu tour du Chasseur, une pierre de Chasseur glisse en ligne droite, orthogonalement ou diagonalement, par-dessus des cases vides ou occupées par le Chasseur, jusqu'à une case vide. Si la pierre déplacée et une autre pierre de Chasseur encadrent une pierre isolée du Défenseur, orthogonalement ou diagonalement, cette pierre change de camp. Un coup peut retourner plusieurs pierres, mais la pierre portant la couronne n'est jamais retournée. Le Chasseur doit passer s'il n'a aucun coup légal.\n\nAu tour du Défenseur, chaque groupe du Défenseur ayant des libertés doit s'agrandir une fois d'une pierre placée orthogonalement à côté de lui. Un placement consomme la croissance de chaque groupe qu'il touche, ainsi l'agrandissement d'un autre groupe peut fusionner des groupes ayant déjà grandi. À la fin du tour, la couronne se déplace sur la pierre la plus récemment placée dans le roi.\n\nLe Défenseur gagne si le roi atteint le bord. Le Chasseur gagne si le roi n'a plus aucune liberté."
+  },
   "notes.oware": {
     "src": "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
     "out": "Cette implémentation suit la règle de tournoi courante selon laquelle les coups « grand chelem » sont autorisés, mais aucune pièce n'est capturée. Représenter les changements d'état dans les jeux d'égrenage est un défi. Le trou initialement choisi est marqué, de même que toute capture. De petits chiffres apparaissent pour indiquer l'évolution du nombre de graines dans chaque trou. Si vous pensez avoir rencontré un bug, veuillez nous en informer sur Discord."
@@ -5450,6 +5462,22 @@
   "status.mvolcano.UNCAPTUREDCOLOURS": {
     "src": "Colours not yet captured",
     "out": "Couleurs non encore capturées"
+  },
+  "status.outbound.BLACK": {
+    "src": "Defender",
+    "out": "Défenseur"
+  },
+  "status.outbound.PHASE_AUCTION": {
+    "src": "{{player}} places a Hunter stone or moves one to play as the Hunter",
+    "out": "{{player}} place une pierre de Chasseur ou en déplace une pour jouer en tant que Chasseur"
+  },
+  "status.outbound.UNDECIDED": {
+    "src": "Not yet chosen",
+    "out": "Pas encore choisi"
+  },
+  "status.outbound.WHITE": {
+    "src": "Hunter",
+    "out": "Chasseur"
   },
   "status.pacru.TARGET": {
     "src": "Tiles to win",
@@ -12230,6 +12258,58 @@
   "validation.oust.PLACEMENT_AFTER_NONCAPTURE": {
     "src": "You may not make any more placements after a non-capture placement.",
     "out": "Vous ne pouvez plus effectuer de placements après un placement sans capture."
+  },
+  "validation.outbound.BAD_LINE": {
+    "src": "A Hunter stone must move in a straight line, orthogonally or diagonally.",
+    "out": "Une pierre de Chasseur doit se déplacer en ligne droite, orthogonalement ou diagonalement."
+  },
+  "validation.outbound.BLACK_MORE_one": {
+    "src": "One group can still grow. Place a stone next to it.",
+    "out": "Un groupe peut encore s'agrandir. Placez une pierre à côté de lui."
+  },
+  "validation.outbound.BLACK_MORE_other": {
+    "src": "{{count}} groups can still grow. Place a stone next to one of them.",
+    "out": "{{count}} groupes peuvent encore s'agrandir. Placez une pierre à côté de l'un d'eux."
+  },
+  "validation.outbound.BLOCKED": {
+    "src": "The path from {{from}} to {{to}} is blocked.",
+    "out": "Le chemin de {{from}} à {{to}} est bloqué."
+  },
+  "validation.outbound.INSTRUCTIONS_AUCTION": {
+    "src": "Place a Hunter stone on the perimeter of the board. If you think the Hunter can stop the Defender from this setup, instead move a Hunter stone: you then play as the Hunter and have made the first Hunter move.",
+    "out": "Placez une pierre de Chasseur sur le périmètre du plateau. Si vous pensez que le Chasseur peut arrêter le Défenseur avec cette disposition, déplacez plutôt une pierre de Chasseur : vous jouez alors le Chasseur et avez effectué le premier coup du Chasseur."
+  },
+  "validation.outbound.INSTRUCTIONS_BLACK": {
+    "src": "Place stones next to your groups. Every group that has liberties must grow exactly once.",
+    "out": "Placez des pierres à côté de vos groupes. Chaque groupe ayant des libertés doit s'agrandir exactement une fois."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE": {
+    "src": "Select a Hunter stone to move.",
+    "out": "Sélectionnez une pierre de Chasseur à déplacer."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE_PASS": {
+    "src": "You have no legal move, so you must pass.",
+    "out": "Vous n'avez aucun coup légal, vous devez donc passer."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE_TO": {
+    "src": "Select an empty space in a straight line from the stone to move it there.",
+    "out": "Sélectionnez une case vide en ligne droite depuis la pierre pour l'y déplacer."
+  },
+  "validation.outbound.NOT_GROWABLE": {
+    "src": "{{where}} is not next to a Defender group that can still grow this turn.",
+    "out": "{{where}} n'est pas à côté d'un groupe du Défenseur pouvant encore s'agrandir ce tour-ci."
+  },
+  "validation.outbound.NOT_PERIMETER": {
+    "src": "{{where}} is not on the perimeter of the board.",
+    "out": "{{where}} n'est pas sur le périmètre du plateau."
+  },
+  "validation.outbound.NOT_WHITE": {
+    "src": "{{where}} does not hold a Hunter stone.",
+    "out": "{{where}} ne contient pas de pierre de Chasseur."
+  },
+  "validation.outbound.OCCUPIED": {
+    "src": "{{where}} is not empty.",
+    "out": "{{where}} n'est pas vide."
   },
   "validation.oware.INITIAL_INSTRUCTIONS": {
     "src": "Select one of your pits containing stones to sow them.",

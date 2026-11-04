@@ -1967,6 +1967,26 @@
     "src": "{{player}} promoted spheroid to a globe at {{where}}.",
     "out": "{{player}} ha promosso uno sferoide a globo in {{where}}."
   },
+  "outbound.CAPTURE.flip_one": {
+    "src": "{{player}} flipped the Defender stone at {{where}}.",
+    "out": "{{player}} ha ribaltato la pietra del Difensore in {{where}}."
+  },
+  "outbound.CAPTURE.flip_other": {
+    "src": "{{player}} flipped {{count}} Defender stones: {{where}}.",
+    "out": "{{player}} ha ribaltato {{count}} pietre del Difensore: {{where}}."
+  },
+  "outbound.CLAIM.white": {
+    "src": "{{player}} declared that the Hunter can stop the Defender, and plays as the Hunter.",
+    "out": "{{player}} ha dichiarato che il Cacciatore può fermare il Difensore e gioca come Cacciatore."
+  },
+  "outbound.EOG.edge": {
+    "src": "The game has ended because the king reached the edge of the board.",
+    "out": "La partita è terminata perché il re ha raggiunto il bordo del tabellone."
+  },
+  "outbound.EOG.trapped": {
+    "src": "The game has ended because the king has no liberties and cannot grow.",
+    "out": "La partita è terminata perché il re non ha libertà e non può crescere."
+  },
   "owlman.CAPTURE.approach": {
     "src": "{{player}} scared the helper at {{where}} out of the forest.",
     "out": "{{player}} ha spaventato l'aiutante in {{where}} portandolo fuori dalla foresta."

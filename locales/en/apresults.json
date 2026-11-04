@@ -1201,6 +1201,19 @@
       "23": "{{player}} promoted spheroid to a globe at {{where}}."
     }
   },
+  "outbound": {
+    "CAPTURE": {
+      "flip_one": "{{player}} flipped the Defender stone at {{where}}.",
+      "flip_other": "{{player}} flipped {{count}} Defender stones: {{where}}."
+    },
+    "CLAIM": {
+      "white": "{{player}} declared that the Hunter can stop the Defender, and plays as the Hunter."
+    },
+    "EOG": {
+      "edge": "The game has ended because the king reached the edge of the board.",
+      "trapped": "The game has ended because the king has no liberties and cannot grow."
+    }
+  },
   "owlman": {
     "CAPTURE": {
       "approach": "{{player}} scared the helper at {{where}} out of the forest.",

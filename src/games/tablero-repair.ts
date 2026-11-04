@@ -165,6 +165,38 @@ export function isLegacyDuplicatePassFrame(stack: IMoveState[], index: number): 
     return JSON.stringify(prev._results) === JSON.stringify(state._results);
 }
 
+/** Stored `pass` row after a take is replayed by `move("-…")` on the current engine. */
+export function isRedundantForcedPassFrame(stack: IMoveState[], index: number): boolean {
+    if (index <= 0) {
+        return false;
+    }
+    const state = stack[index]!;
+    if (state.lastmove !== "pass") {
+        return false;
+    }
+    const prev = stack[index - 1]!;
+    const prevTake = prev.lastmove !== undefined && prev.lastmove.startsWith("-");
+    if (!prevTake) {
+        return false;
+    }
+    if (isLegacyDuplicatePassFrame(stack, index)) {
+        return true;
+    }
+    const results = state._results;
+    if (results === undefined || results.length !== 1 || results[0]!.type !== "pass") {
+        return false;
+    }
+    const prevResults = prev._results;
+    if (prevResults === undefined) {
+        return false;
+    }
+    return prevResults.some((r) => r.type === "take") && !prevResults.some((r) => r.type === "pass");
+}
+
+function skipStackFrameOnReplay(stack: IMoveState[], index: number): boolean {
+    return isLegacyDuplicatePassFrame(stack, index) || isRedundantForcedPassFrame(stack, index);
+}
+
 function boardsEqual(a: Map<string, playerid[]>, b: Map<string, playerid[]>): boolean {
     if (a.size !== b.size) {
         return false;
@@ -242,7 +274,7 @@ function rebuildTableroStack(state: ITableroState): TableroGame {
     const prefix = replayPrefixState(state);
     const g = new TableroGame(prefix);
     for (let i = 1; i < state.stack.length; i++) {
-        if (isLegacyDuplicatePassFrame(state.stack, i)) {
+        if (skipStackFrameOnReplay(state.stack, i)) {
             continue;
         }
         const frame = state.stack[i]!;
@@ -339,7 +371,7 @@ function analyzeReplay(state: ITableroState): {
 function findFirstFrameMismatch(original: ITableroState, rebuilt: ITableroState): number | undefined {
     let rebuiltIndex = 0;
     for (let i = 0; i < original.stack.length; i++) {
-        if (isLegacyDuplicatePassFrame(original.stack, i)) {
+        if (skipStackFrameOnReplay(original.stack, i)) {
             continue;
         }
         rebuiltIndex += 1;

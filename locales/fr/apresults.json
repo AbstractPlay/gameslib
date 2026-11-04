@@ -1201,6 +1201,19 @@
       "23": "{{player}} a promu un sphéroïde en globe en {{where}}."
     }
   },
+  "outbound": {
+    "CAPTURE": {
+      "flip_one": "{{player}} a retourné la pierre du Défenseur en {{where}}.",
+      "flip_other": "{{player}} a retourné {{count}} pierres du Défenseur : {{where}}."
+    },
+    "CLAIM": {
+      "white": "{{player}} a déclaré que le Chasseur peut arrêter le Défenseur et joue le Chasseur."
+    },
+    "EOG": {
+      "edge": "La partie est terminée car le roi a atteint le bord du plateau.",
+      "trapped": "La partie est terminée car le roi n'a aucune liberté et ne peut pas s'étendre."
+    }
+  },
   "owlman": {
     "CAPTURE": {
       "approach": "{{player}} a effrayé l'assistant en {{where}} hors de la forêt.",

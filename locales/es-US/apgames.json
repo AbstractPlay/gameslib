@@ -694,6 +694,12 @@
       "PYRAMIDSCAPTURED": "Pirámides capturadas",
       "UNCAPTUREDCOLOURS": "Colores aún no capturados"
     },
+    "outbound": {
+      "WHITE": "Cazador",
+      "BLACK": "Defensor",
+      "UNDECIDED": "Aún no elegido",
+      "PHASE_AUCTION": "{{player}} coloca una piedra del Cazador o mueve una para jugar como el Cazador"
+    },
     "pacru": {
       "TARGET": "Fichas para ganar",
       "TILES": "Fichas en el tablero"
@@ -2792,6 +2798,21 @@
       "MORE": "Acabas de realizar una colocación de captura. Debes continuar realizando colocaciones.",
       "PLACEMENT_AFTER_NONCAPTURE": "No puedes realizar más colocaciones después de una colocación sin captura."
     },
+    "outbound": {
+      "INSTRUCTIONS_AUCTION": "Coloca una piedra del Cazador en el perímetro del tablero. Si crees que el Cazador puede detener al Defensor con esta configuración, mueve una piedra del Cazador en su lugar: pasarás a jugar como el Cazador y habrás realizado el primer movimiento del Cazador.",
+      "INSTRUCTIONS_WHITE": "Selecciona una piedra del Cazador para moverla.",
+      "INSTRUCTIONS_WHITE_TO": "Selecciona una casilla vacía en línea recta desde la piedra para moverla allí.",
+      "INSTRUCTIONS_WHITE_PASS": "No tienes movimientos legales, por lo que debes pasar.",
+      "INSTRUCTIONS_BLACK": "Coloca piedras junto a tus grupos. Cada grupo que tenga libertades debe crecer exactamente una vez.",
+      "BLACK_MORE_one": "Un grupo todavía puede crecer. Coloca una piedra junto a él.",
+      "BLACK_MORE_other": "{{count}} grupos todavía pueden crecer. Coloca una piedra junto a uno de ellos.",
+      "NOT_PERIMETER": "{{where}} no está en el perímetro del tablero.",
+      "OCCUPIED": "{{where}} no está vacía.",
+      "NOT_WHITE": "{{where}} no contiene una piedra del Cazador.",
+      "BAD_LINE": "Una piedra del Cazador debe moverse en línea recta, ortogonal o diagonalmente.",
+      "BLOCKED": "El camino de {{from}} a {{to}} está bloqueado.",
+      "NOT_GROWABLE": "{{where}} no está junto a un grupo del Defensor que todavía pueda crecer este turno."
+    },
     "oware": {
       "INITIAL_INSTRUCTIONS": "Selecciona uno de tus hoyos con piedras para sembrarlas.",
       "NO_PIECES": "Cuando tu oponente comience sin piezas, tu movimiento debe darle piezas."
@@ -4389,6 +4410,7 @@
     "orb": "Generatorb es un juego para 2 jugadores que se juega en un tablero de ajedrez estándar. Los jugadores comienzan en esquinas opuestas e intentan llegar al núcleo generador de su oponente u ocupar la mayoría de las casillas de la línea del frente. Durante la partida, puedes apilar hasta tres fichas en una casilla. Las pilas de diferentes alturas se comportan de manera distinta, lo que ofrece opciones estratégicas apasionantes.",
     "ordo": "Ordo es un juego de \"llegar a la fila inicial de tu oponente\" en el que siempre debes mantener tus piezas conectadas. Las piezas pueden moverse individualmente y también en grupo en ciertas situaciones. También puedes ganar dividiendo el grupo de tu oponente de tal manera que no puedan volver a conectarlo.",
     "oust": "Oust es el clásico juego de \"exnihilation\" en el que la partida comienza con un tablero vacío y el objetivo es eliminar todas las piezas de tu oponente. En tu turno, puedes realizar múltiples colocaciones de captura si están disponibles, pero debes terminar con una colocación de no captura. Debes pasar si no puedes realizar ninguna colocación.",
+    "outbound": "Un juego asimétrico en un tablero de Go. El Defensor hace crecer grupos de piedras, una piedra por grupo por turno, y gana al llevar el grupo coronado al borde; el Cazador desliza piedras por el tablero y voltea piedras solitarias del Defensor para atraparlo.",
     "oware": "Un juego tradicional de siembra del áfrica occidental donde intentas capturar la mayor cantidad de piezas.",
     "owlman": "Un juego asimétrico en el que un profesor y sus asistentes intentan rastrear al mítico Hombre Búho (Owlman) y su guarida, mientras que el Hombre Búho intenta ahuyentarlos a todos del bosque.",
     "pacru": "Un juego de control territorial donde piezas direccionales navegan por un tablero subdividido para reclamar casillas.",
@@ -4867,6 +4889,7 @@
     "narrows": "Narrows, diseñado por Mark Steere en 2026, es un juego de unificación inspirado en el antiguo juego hawaiano Kōnane. Fiel al espíritu de Kōnane, Ūnane comienza con un patrón de piedras en tablero de ajedrez y es extremadamente simple. En este caso, el objetivo de unificación incluye el uso de caminos ortogonales de casillas vacías para conectar diferentes grupos de piezas propias.",
     "neutron": "Cada turno (excepto el primer turno de las blancas en Neutron estándar) consiste en deslizar el neutrón y luego deslizar uno de tus peones. Todas las piezas se deslizan en línea recta lo más lejos posible sin saltar. **CoNeutron** cambia la fila ganadora a la fila trasera de tu oponente y elimina la apertura solo de peón de las blancas.\n\nLas restricciones de **movilidad** se aplican solo a los movimientos de peones. Con movilidad **restringida**, los peones no pueden caer en la fila inicial del oponente. Con movilidad **doblemente restringida**, los peones tampoco pueden volver a entrar a su propia fila inicial después de salir de ella; los peones que aún estén en la fila inicial pueden deslizarse a lo largo de esa fila.\n\nLos movimientos se anotan `neutronDest,pawnFrom-pawnTo`, o `pawnFrom-pawnTo` en el primer turno de las blancas en Neutron estándar. Un deslizamiento del neutrón que dé la victoria solo se anota como la casilla de destino.",
     "oonpia": "Utiliza la leyenda para seleccionar una pieza o haz clic en la misma ubicación varias veces para desplazarte por todas las piezas posibles. Las casillas bloqueadas están resaltadas: un punto traslúcido significa que solo se puede colocar allí una piedra con punto (es decir, bloqueada para piezas lisas), una pieza traslúcida significa que solo se puede colocar allí una pieza lisa (es decir, bloqueada para piezas con punto). Si ambos resaltados están presentes, entonces la casilla está bloqueada para todas las piezas.",
+    "outbound": "El Defensor comienza con una piedra en el centro, la cual lleva la corona. El rey es el grupo del Defensor que contiene la corona. El Cazador comienza con piedras colocadas a lo largo del perímetro: los jugadores se turnan para añadir piedras del Cazador hasta que uno de ellos, en lugar de colocar una piedra, declara que puede detener al Defensor y realiza el primer movimiento del Cazador.\n\nEn el turno del Cazador, una piedra del Cazador se desliza en línea recta, ortogonal o diagonalmente, sobre casillas vacías o del Cazador hasta una casilla vacía. Si la piedra movida y otra piedra del Cazador flanquean a una sola piedra del Defensor, ortogonal o diagonalmente, esa piedra cambia de bando. Un movimiento puede voltear varias piedras, pero la piedra que lleva la corona nunca se voltea. El Cazador debe pasar si no hay ningún movimiento legal.\n\nEn el turno del Defensor, cada grupo del Defensor con libertades debe crecer una vez mediante una piedra colocada ortogonalmente junto a él. Una colocación agota el crecimiento de cada grupo que toca, por lo que hacer crecer otro grupo puede fusionar grupos que ya hayan crecido. Al final del turno, la corona se mueve a la piedra del rey colocada más recientemente.\n\nEl Defensor gana si el rey llega al borde. El Cazador gana si el rey no tiene libertades.",
     "oware": "Esta implementación sigue la regla común de torneo de que se permiten los movimientos de gran slam, pero no se capturan piezas. Representar los cambios de estado en los juegos de siembra es un desafío. El pozo inicial elegido está marcado, al igual que cualquier captura. Aparecen números pequeños para mostrar el cambio en la cantidad de piedras en cada pozo. Si crees que has encontrado un error, por favor avísanos en Discord.",
     "pacru": "Esta implementación se adhiere al cambio de reglas de 2011 que requiere que al menos un oponente tenga al menos nueve fichas en el tablero antes de que se activen las reuniones.",
     "pigs": "A diferencia de la antigua implementación de Super Duper Games, esta implementa el reglamento principal. Cada jugador ingresa sus cinco movimientos y se resuelven de una sola vez.\n\nEl movimiento se resuelve antes de aplicar el daño.",

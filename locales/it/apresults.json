@@ -1201,6 +1201,19 @@
       "23": "{{player}} ha promosso uno sferoide a globo in {{where}}."
     }
   },
+  "outbound": {
+    "CAPTURE": {
+      "flip_one": "{{player}} ha ribaltato la pietra del Difensore in {{where}}.",
+      "flip_other": "{{player}} ha ribaltato {{count}} pietre del Difensore: {{where}}."
+    },
+    "CLAIM": {
+      "white": "{{player}} ha dichiarato che il Cacciatore può fermare il Difensore e gioca come Cacciatore."
+    },
+    "EOG": {
+      "edge": "La partita è terminata perché il re ha raggiunto il bordo del tabellone.",
+      "trapped": "La partita è terminata perché il re non ha libertà e non può crescere."
+    }
+  },
   "owlman": {
     "CAPTURE": {
       "approach": "{{player}} ha spaventato l'aiutante in {{where}} portandolo fuori dalla foresta.",

@@ -1652,7 +1652,7 @@
   "tablero": {
     "PASS": {
       "default": "{{player}} hat gepasst.",
-      "afterTake": "{{player}} hatte nach dem Schlagen keinen Zug mehr und hat gepasst."
+      "afterTake": "{{player}} musste passen, damit der Schlagende erneut ziehen konnte."
     },
     "BUMP": {
       "default": "{{player}} hat gestoßen!"

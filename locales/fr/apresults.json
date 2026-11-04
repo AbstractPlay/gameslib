@@ -1652,7 +1652,7 @@
   "tablero": {
     "PASS": {
       "default": "{{player}} a passé.",
-      "afterTake": "{{player}} n'avait aucun coup après la prise et a passé."
+      "afterTake": "{{player}} a été contraint de passer afin que le preneur puisse rejouer."
     },
     "BUMP": {
       "default": "{{player}} a bousculé !"

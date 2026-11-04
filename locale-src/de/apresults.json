@@ -2844,8 +2844,8 @@
     "out": "{{player}} hat gestoßen!"
   },
   "tablero.PASS.afterTake": {
-    "src": "{{player}} had no move after the take and passed.",
-    "out": "{{player}} hatte nach dem Schlagen keinen Zug mehr und hat gepasst."
+    "src": "{{player}} was forced to pass so the taker could play again.",
+    "out": "{{player}} musste passen, damit der Schlagende erneut ziehen konnte."
   },
   "tablero.PASS.default": {
     "src": "{{player}} passed.",

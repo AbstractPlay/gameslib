@@ -47,7 +47,7 @@ export const gameApgamesEn = {
 export const gameApresultsEn = {
     PASS: {
         default: "{{player}} passed.",
-        afterTake: "{{player}} had no move after the take and passed.",
+        afterTake: "{{player}} was forced to pass so the taker could play again.",
     },
     BUMP: {
         default: "{{player}} bumped!",

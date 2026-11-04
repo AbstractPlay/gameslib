@@ -2075,6 +2075,10 @@
     "src": "Oust is the classic \"exnihilation\" game where the game starts with an empty board and the goal is to eliminate all of your opponent's pieces. On your turn, you may make multiple capturing placements if available, but you must end it with a non-capturing placement. You must pass if you are not able to make any placements.",
     "out": "Oust è il classico gioco di \"annientamento\" in cui la partita inizia con un tabellone vuoto e l'obiettivo è eliminare tutti i pezzi del tuo avversario. Nel tuo turno, puoi effettuare più posizionamenti di cattura se disponibili, ma devi terminare con un posizionamento senza cattura. Devi passare se non sei in grado di effettuare alcun posizionamento."
   },
+  "descriptions.outbound": {
+    "src": "An asymmetric game on a Go board. The Defender grows groups of stones, one stone per group per turn, and wins by bringing the crowned group to the edge; the Hunter slides stones around the board and flips lone Defender stones to trap it.",
+    "out": "Un gioco asimmetrico su un tavoliere da Go. Il Difensore fa crescere gruppi di pedine, una pedina per gruppo a turno, e vince portando il gruppo incoronato al bordo; il Cacciatore fa scivolare le pedine sul tavoliere e converte le pedine singole del Difensore per intrappolarlo."
+  },
   "descriptions.oware": {
     "src": "A traditional West African sowing game where you try to capture the most pieces.",
     "out": "Un gioco di semina tradizionale dell'Africa occidentale in cui cerchi di catturare il maggior numero di pezzi."
@@ -4175,6 +4179,10 @@
     "src": "Oust",
     "out": "Oust"
   },
+  "names.outbound": {
+    "src": "Outbound",
+    "out": "Outbound"
+  },
   "names.oware": {
     "src": "Oware",
     "out": "Oware"
@@ -4867,6 +4875,10 @@
     "src": "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
     "out": "Usa la legenda per selezionare un pezzo, oppure fai clic sullo stesso punto più volte per scorrere tutti i pezzi possibili. Le caselle bloccate sono evidenziate: un punto traslucido significa che vi si può piazzare solo una pedina con punto (cioè bloccata per le pedine semplici), un pezzo traslucido significa che vi si può piazzare solo una pedina semplice (cioè bloccata per le pedine con punto). Se sono presenti entrambe le evidenziazioni, la casella è bloccata per tutti i pezzi."
   },
+  "notes.outbound": {
+    "src": "The Defender starts with one stone in the centre, holding the crown. The king is the Defender group containing the crown. The Hunter starts with stones placed along the perimeter: players take turns adding Hunter stones until one of them, instead of placing, declares that they can stop the Defender and makes the first Hunter move.\n\nOn the Hunter's turn, one Hunter stone slides in a straight line, orthogonally or diagonally, over empty or Hunter spaces onto an empty space. If the moved stone and another Hunter stone flank a single Defender stone, orthogonally or diagonally, that stone changes sides. One move can flip several stones, but the stone carrying the crown is never flipped. The Hunter must pass if there is no legal move.\n\nOn the Defender's turn, each Defender group with liberties must grow once by a stone placed orthogonally next to it. A placement uses up the growth of every group it touches, so growing another group may merge groups that have already grown. At the end of the turn the crown moves to the most recently placed stone in the king.\n\nThe Defender wins if the king reaches the edge. The Hunter wins if the king has no liberties.",
+    "out": "Il Difensore inizia con una pedina al centro, che porta la corona. Il re è il gruppo del Difensore che contiene la corona. Il Cacciatore inizia con pedine posizionate lungo il perimetro: i giocatori, a turno, aggiungono pedine del Cacciatore finché uno di essi, invece di piazzare, dichiara di poter fermare il Difensore ed effettua la prima mossa del Cacciatore.\n\nNel turno del Cacciatore, una pedina del Cacciatore scivola in linea retta, ortogonalmente o diagonalmente, attraverso spazi vuoti o del Cacciatore fino a uno spazio vuoto. Se la pedina mossa e un'altra pedina del Cacciatore stringono a tenaglia una singola pedina del Difensore, ortogonalmente o diagonalmente, quella pedina cambia fazione. Una singola mossa può convertire diverse pedine, ma la pedina che porta la corona non viene mai convertita. Il Cacciatore deve passare se non ci sono mosse legali.\n\nNel turno del Difensore, ogni gruppo del Difensore dotato di libertà deve crescere una volta mediante una pedina piazzata ortogonalmente ad esso. Un piazzamento consuma la crescita di ogni gruppo che tocca, quindi far crescere un altro gruppo potrebbe unire gruppi che sono già cresciuti. Alla fine del turno, la corona si sposta sulla pedina piazzata più di recente nel re.\n\nIl Difensore vince se il re raggiunge il bordo. Il Cacciatore vince se il re non ha libertà."
+  },
   "notes.oware": {
     "src": "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
     "out": "Questa implementazione segue la comune regola da torneo secondo cui le mosse grand slam sono consentite, ma non viene catturato alcun pezzo. Rappresentare i cambiamenti di stato nei giochi di semina è complesso. La fossetta iniziale scelta viene contrassegnata, così come qualsiasi cattura. Piccoli numeri mostrano la variazione del numero di pedine in ciascuna fossetta. Se ritieni di aver riscontrato un bug, faccelo sapere su Discord."
@@ -5450,6 +5462,22 @@
   "status.mvolcano.UNCAPTUREDCOLOURS": {
     "src": "Colours not yet captured",
     "out": "Colori non ancora catturati"
+  },
+  "status.outbound.BLACK": {
+    "src": "Defender",
+    "out": "Difensore"
+  },
+  "status.outbound.PHASE_AUCTION": {
+    "src": "{{player}} places a Hunter stone or moves one to play as the Hunter",
+    "out": "{{player}} piazza una pedina del Cacciatore o ne muove una per giocare come Cacciatore"
+  },
+  "status.outbound.UNDECIDED": {
+    "src": "Not yet chosen",
+    "out": "Non ancora scelto"
+  },
+  "status.outbound.WHITE": {
+    "src": "Hunter",
+    "out": "Cacciatore"
   },
   "status.pacru.TARGET": {
     "src": "Tiles to win",
@@ -12230,6 +12258,58 @@
   "validation.oust.PLACEMENT_AFTER_NONCAPTURE": {
     "src": "You may not make any more placements after a non-capture placement.",
     "out": "Non puoi effettuare altri piazzamenti dopo un piazzamento senza cattura."
+  },
+  "validation.outbound.BAD_LINE": {
+    "src": "A Hunter stone must move in a straight line, orthogonally or diagonally.",
+    "out": "Una pedina del Cacciatore deve muoversi in linea retta, ortogonalmente o diagonalmente."
+  },
+  "validation.outbound.BLACK_MORE_one": {
+    "src": "One group can still grow. Place a stone next to it.",
+    "out": "Un gruppo può ancora crescere. Piazza una pedina accanto ad esso."
+  },
+  "validation.outbound.BLACK_MORE_other": {
+    "src": "{{count}} groups can still grow. Place a stone next to one of them.",
+    "out": "{{count}} gruppi possono ancora crescere. Piazza una pedina accanto a uno di essi."
+  },
+  "validation.outbound.BLOCKED": {
+    "src": "The path from {{from}} to {{to}} is blocked.",
+    "out": "Il percorso da {{from}} a {{to}} è bloccato."
+  },
+  "validation.outbound.INSTRUCTIONS_AUCTION": {
+    "src": "Place a Hunter stone on the perimeter of the board. If you think the Hunter can stop the Defender from this setup, instead move a Hunter stone: you then play as the Hunter and have made the first Hunter move.",
+    "out": "Piazza una pedina del Cacciatore sul perimetro del tavoliere. Se pensi che il Cacciatore possa fermare il Difensore con questa configurazione, muovi invece una pedina del Cacciatore: giocherai così come Cacciatore e avrai effettuato la prima mossa del Cacciatore."
+  },
+  "validation.outbound.INSTRUCTIONS_BLACK": {
+    "src": "Place stones next to your groups. Every group that has liberties must grow exactly once.",
+    "out": "Piazza pedine accanto ai tuoi gruppi. Ogni gruppo che possiede libertà deve crescere esattamente una volta."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE": {
+    "src": "Select a Hunter stone to move.",
+    "out": "Seleziona una pedina del Cacciatore da muovere."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE_PASS": {
+    "src": "You have no legal move, so you must pass.",
+    "out": "Non hai mosse legali, quindi devi passare."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE_TO": {
+    "src": "Select an empty space in a straight line from the stone to move it there.",
+    "out": "Seleziona uno spazio vuoto in linea retta dalla pedina per muoverla lì."
+  },
+  "validation.outbound.NOT_GROWABLE": {
+    "src": "{{where}} is not next to a Defender group that can still grow this turn.",
+    "out": "{{where}} non è accanto a un gruppo del Difensore che può ancora crescere in questo turno."
+  },
+  "validation.outbound.NOT_PERIMETER": {
+    "src": "{{where}} is not on the perimeter of the board.",
+    "out": "{{where}} non è sul perimetro del tavoliere."
+  },
+  "validation.outbound.NOT_WHITE": {
+    "src": "{{where}} does not hold a Hunter stone.",
+    "out": "{{where}} non contiene una pedina del Cacciatore."
+  },
+  "validation.outbound.OCCUPIED": {
+    "src": "{{where}} is not empty.",
+    "out": "{{where}} non è vuoto."
   },
   "validation.oware.INITIAL_INSTRUCTIONS": {
     "src": "Select one of your pits containing stones to sow them.",

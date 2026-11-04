@@ -1201,6 +1201,19 @@
       "23": "{{player}} hat den Spheroid bei {{where}} zu einem Globus befördert."
     }
   },
+  "outbound": {
+    "CAPTURE": {
+      "flip_one": "{{player}} hat den Verteidigerstein bei {{where}} umgedreht.",
+      "flip_other": "{{player}} hat {{count}} Verteidigersteine umgedreht: {{where}}."
+    },
+    "CLAIM": {
+      "white": "{{player}} hat erklärt, dass der Jäger den Verteidiger aufhalten kann, und spielt als Jäger."
+    },
+    "EOG": {
+      "edge": "Das Spiel ist beendet, da der König den Spielfeldrand erreicht hat.",
+      "trapped": "Das Spiel ist beendet, da der König keine Freiheiten mehr hat und nicht wachsen kann."
+    }
+  },
   "owlman": {
     "CAPTURE": {
       "approach": "{{player}} hat den Helfer bei {{where}} aus dem Wald vertrieben.",

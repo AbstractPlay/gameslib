@@ -1,4 +1,5 @@
-import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogLine } from "./_base.js";
+import {  GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult, type ChatLogCollectContext, type ChatLogEntry, type ChatLogLine } from "./_base.js";
+import { defaultPlyActor } from "./_turn-plies.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, Glyph, PaintEntry } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
@@ -237,6 +238,10 @@ export class TableroGame extends GameBase {
         return cloned;
     }
 
+    private static cloneBoard(board: Map<string, playerid[]>): Map<string, playerid[]> {
+        return new Map([...board].map(([k, v]) => [k, [...v]]));
+    }
+
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, playerid[]>;
@@ -316,7 +321,7 @@ export class TableroGame extends GameBase {
 
         const state = this.stack[idx];
         this.currplayer = state.currplayer;
-        this.board = new Map(state.board);
+        this.board = TableroGame.cloneBoard(state.board);
         this.lastmove = state.lastmove;
         this.roll = [...state.roll];
         this.pieces = [...state.pieces];
@@ -846,6 +851,21 @@ export class TableroGame extends GameBase {
 
         this.emulated = emulation;
         this.results = [];
+        if (m === "pass") {
+            this.results.push({type: "pass"});
+            if (partial) {
+                return this;
+            }
+            this.lastmove = "pass";
+            let newplayer = (this.currplayer as number) + 1;
+            if (newplayer > this.numplayers) {
+                newplayer = 1;
+            }
+            this.currplayer = newplayer as playerid;
+            this.checkEOG();
+            this.saveState();
+            return this;
+        }
         const moves = (m.split(","));
         for (const move of moves) {
             // bump
@@ -859,12 +879,13 @@ export class TableroGame extends GameBase {
             else if (move.startsWith("-")) {
                 if (move !== "-") {
                     const from = move.substring(1);
-                    const stack = this.board.get(from)!;
-                    // remove top piece
+                    const stack = [...this.board.get(from)!];
                     stack.pop();
-                    // replace stack
-                    this.board.set(from, [...stack]);
-                    // add piece to hand
+                    if (stack.length === 0) {
+                        this.board.delete(from);
+                    } else {
+                        this.board.set(from, stack);
+                    }
                     this.pieces[this.currplayer - 1]++;
 
                     this.results.push({type: "take", from});
@@ -926,22 +947,14 @@ export class TableroGame extends GameBase {
         this.roll = [d1,d2];
         this.results.push({type: "roll", values: [d1,d2]});
 
-        // update currplayer
-        // if player took a piece, force a pass and leave currplayer
+        let newplayer = (this.currplayer as number) + 1;
+        if (newplayer > this.numplayers) {
+            newplayer = 1;
+        }
         if (m.startsWith("-")) {
-            // save the current move
-            this.saveState();
-            // insert a forced pass (but no `result`)
-            this.lastmove = "pass"
+            this.results.push({type: "pass"});
         }
-        // otherwise
-        else {
-            let newplayer = (this.currplayer as number) + 1;
-            if (newplayer > this.numplayers) {
-                newplayer = 1;
-            }
-            this.currplayer = newplayer as playerid;
-        }
+        this.currplayer = newplayer as playerid;
 
         this.checkEOG();
         this.saveState();
@@ -1040,7 +1053,7 @@ export class TableroGame extends GameBase {
             _timestamp: new Date(),
             currplayer: this.currplayer,
             lastmove: this.lastmove,
-            board: new Map(this.board),
+            board: TableroGame.cloneBoard(this.board),
             bumped: this.bumped,
             roll: [...this.roll],
             pieces: [...this.pieces],
@@ -1228,6 +1241,58 @@ export class TableroGame extends GameBase {
         return rep;
     }
 
+
+    private static legacyDuplicatePassFrame(stack: IMoveState[], index: number): boolean {
+        if (index <= 0) {
+            return false;
+        }
+        const state = stack[index];
+        if (state.lastmove !== "pass") {
+            return false;
+        }
+        const prev = stack[index - 1];
+        if (prev._results === undefined || state._results === undefined) {
+            return false;
+        }
+        return JSON.stringify(prev._results) === JSON.stringify(state._results);
+    }
+
+    public chatLogEntries(players: string[] = []): ChatLogEntry[] {
+        const entries: ChatLogEntry[] = [];
+        for (let i = 0; i < this.stack.length; i++) {
+            const state = this.stack[i];
+            if (state._results === undefined || state._results.length === 0) {
+                continue;
+            }
+            if (TableroGame.legacyDuplicatePassFrame(this.stack, i)) {
+                const lines: ChatLogLine[] = [];
+                const defaultSeat = defaultPlyActor(this, i);
+                this.pushSeatChatLine(lines, defaultSeat, "apresults:tablero.PASS.default", {});
+                entries.push({
+                    timestamp: (state._timestamp && new Date(state._timestamp).toISOString()) || "unknown",
+                    lines,
+                });
+                continue;
+            }
+            const lines: ChatLogLine[] = [];
+            const currplayer = state.currplayer as number;
+            const defaultSeat = i >= 1 ? defaultPlyActor(this, i) : this.resolveChatSeat(state._results[0], currplayer);
+            const ctx: ChatLogCollectContext = {
+                results: state._results,
+                currplayer,
+                defaultSeat,
+                players,
+            };
+            for (const r of state._results) {
+                this.collectChatLogLine(lines, r, ctx);
+            }
+            entries.push({
+                timestamp: (state._timestamp && new Date(state._timestamp).toISOString()) || "unknown",
+                lines,
+            });
+        }
+        return entries;
+    }
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {

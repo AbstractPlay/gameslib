@@ -45,17 +45,17 @@ function moveDecreasesY(g: DamaGame, mv: string): boolean {
 }
 
 describe("Dama", () => {
-    it("starts with 32 men on rows 1–2 and 5–6; back ranks empty", () => {
+    it("starts with 32 men on ranks 2–3 and 6–7; back ranks empty", () => {
         const g = new DamaGame();
         expect(g.board.size).to.equal(32);
         for (let algebraicRow = 1; algebraicRow <= 8; algebraicRow++) {
             const y = 8 - algebraicRow;
             for (let col = 0; col < 8; col++) {
                 const cell = g.coords2algebraic(col, y);
-                if (algebraicRow === 1 || algebraicRow === 2) {
-                    expect(g.board.get(cell)).to.deep.equal([2, 1]);
-                } else if (algebraicRow === 5 || algebraicRow === 6) {
+                if (algebraicRow === 2 || algebraicRow === 3) {
                     expect(g.board.get(cell)).to.deep.equal([1, 1]);
+                } else if (algebraicRow === 6 || algebraicRow === 7) {
+                    expect(g.board.get(cell)).to.deep.equal([2, 1]);
                 } else {
                     expect(g.board.has(cell)).to.be.false;
                 }
@@ -130,14 +130,14 @@ describe("Dama", () => {
             currplayer: 1,
             board: [
                 ["a7", [1, 1]],
-                ["b3", [1, 1]],
-                ["h2", [2, 1]],
+                ["b4", [1, 1]],
+                ["h7", [2, 1]],
             ],
         });
         g.move("a7-a8");
         expect(g.board.get("a8")).to.deep.equal([1, 1]);
         expect(g.crownsPending).to.include("a8");
-        g.move("h2-g2");
+        g.move("h7-g7");
         expect(g.board.get("a8")).to.deep.equal([1, 2]);
         expect(g.crownsPending).to.not.include("a8");
         expect(g.moves().some(mv => mv.startsWith("a8-"))).to.be.true;
@@ -147,15 +147,15 @@ describe("Dama", () => {
         const g = damaFrom({
             currplayer: 1,
             board: [
-                ["a4", [1, 1]],
+                ["a6", [1, 1]],
                 ["e2", [2, 1]],
             ],
         });
-        g.move("a4-a5");
+        g.move("a6-a7");
         g.move("e2-e1");
         expect(g.board.get("e1")).to.deep.equal([2, 1]);
         expect(g.crownsPending).to.include("e1");
-        g.move("a5-a6");
+        g.move("a7-a8");
         expect(g.board.get("e1")).to.deep.equal([2, 2]);
         expect(g.crownsPending).to.not.include("e1");
     });

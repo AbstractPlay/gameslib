@@ -3,6 +3,8 @@
 import "mocha";
 import { expect } from "chai";
 import { TableroGame, type IMoveState, type ITableroState } from "../../src/games/tablero.js";
+import { formatChatLogEntries } from "../../src/games/_base.js";
+import type { APMoveResult } from "../../src/schemas/moveresults.js";
 import type { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { Glyph } from "@abstractplay/renderer/build/schemas/schema";
 
@@ -155,5 +157,122 @@ describe("Tablero", () => {
             stack: [moveState()],
         });
         expect(g.state().spaceScores).to.deep.equal([...scores]);
+    });
+
+    it("take: earlier stack frames keep board stacks when a later take mutates the live board", () => {
+        const g = gameFrom({
+            stack: [
+                moveState({
+                    currplayer: 2,
+                    roll: [4, 4],
+                    board: new Map([["c3", [2, 2]]]),
+                    pieces: [10, 11],
+                }),
+            ],
+        });
+        expect(g.stack).to.have.length(1);
+        g.move("-c3", {trusted: true});
+        expect(g.stack).to.have.length(2);
+        expect(g.stack[0]!.board.get("c3")).to.deep.equal([2, 2]);
+        expect(g.stack[1]!.board.get("c3")).to.deep.equal([2]);
+    });
+
+    it("take on doubles: one stack frame with take, roll, and pass results", () => {
+        const g = gameFrom({
+            stack: [
+                moveState({
+                    currplayer: 2,
+                    roll: [6, 6],
+                    board: new Map([["a3", [2]]]),
+                    pieces: [10, 12],
+                }),
+            ],
+        });
+        g.move("-a3", {trusted: true});
+        expect(g.stack).to.have.length(2);
+        expect(g.stack.some((s) => s.lastmove === "pass")).to.be.false;
+        const frame = g.stack[1]!;
+        expect(frame.lastmove).to.equal("-a3");
+        expect(frame.currplayer).to.equal(1);
+        const types = frame._results!.map((r) => r.type);
+        expect(types).to.deep.equal(["take", "roll", "pass"]);
+        expect(g.pieces[1]).to.equal(13);
+    });
+
+    it("move(pass): legacy standalone pass advances player without re-roll", () => {
+        const g = gameFrom({
+            stack: [
+                moveState({
+                    currplayer: 2,
+                    roll: [3, 5],
+                    board: new Map(),
+                    pieces: [12, 11],
+                    lastmove: "-c3",
+                }),
+            ],
+        });
+        g.move("pass", {trusted: true});
+        expect(g.stack).to.have.length(2);
+        const frame = g.stack[1]!;
+        expect(frame._results!.map((r) => r.type)).to.deep.equal(["pass"]);
+        expect(frame.roll).to.deep.equal([3, 5]);
+        expect(frame.currplayer).to.equal(1);
+    });
+
+    it("chatLogEntries: take attributes actor to the player who took", () => {
+        const takeResults: APMoveResult[] = [
+            {type: "take", from: "c3"},
+            {type: "roll", values: [5, 6]},
+            {type: "pass"},
+        ];
+        const g = gameFrom({
+            stack: [
+                moveState({currplayer: 2, roll: [5, 5]}),
+                moveState({
+                    currplayer: 1,
+                    roll: [5, 6],
+                    lastmove: "-c3",
+                    _results: takeResults,
+                    board: new Map([["c3", [2]]]),
+                    pieces: [10, 12],
+                }),
+            ],
+        });
+        const entries = g.chatLogEntries(["Alice", "Bob"]);
+        expect(entries).to.have.length(1);
+        const lines = entries[0]!.lines;
+        const takeLine = lines.find((l) => l.textKey === "apresults:tablero.TAKE.default");
+        const passLine = lines.find((l) => l.textKey === "apresults:tablero.PASS.default");
+        expect(takeLine?.actor).to.deep.equal({kind: "seat", seat: 2});
+        expect(passLine?.actor).to.deep.equal({kind: "seat", seat: 2});
+    });
+
+    it("chatLogEntries: legacy duplicate pass frame emits bump only once", () => {
+        const dupResults: APMoveResult[] = [
+            {type: "take", from: "c3"},
+            {type: "roll", values: [5, 6]},
+        ];
+        const g = gameFrom({
+            stack: [
+                moveState({currplayer: 2, roll: [5, 5]}),
+                moveState({
+                    currplayer: 2,
+                    roll: [5, 6],
+                    lastmove: "-c3",
+                    _results: dupResults,
+                }),
+                moveState({
+                    currplayer: 2,
+                    roll: [5, 6],
+                    lastmove: "pass",
+                    _results: dupResults,
+                }),
+            ],
+        });
+        const text = formatChatLogEntries(g.chatLogEntries(["Alice", "Bob"]), ["Alice", "Bob"], (k) => k);
+        const takeLines = text.filter((l) => l.includes("tablero.TAKE"));
+        const passLines = text.filter((l) => l.includes("tablero.PASS"));
+        expect(takeLines).to.have.length(1);
+        expect(passLines).to.have.length(1);
     });
 });

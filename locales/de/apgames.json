@@ -693,6 +693,12 @@
       "PYRAMIDSCAPTURED": "Eroberte Pyramiden",
       "UNCAPTUREDCOLOURS": "Noch nicht eroberte Farben"
     },
+    "outbound": {
+      "WHITE": "Jäger",
+      "BLACK": "Verteidiger",
+      "UNDECIDED": "Noch nicht gewählt",
+      "PHASE_AUCTION": "{{player}} platziert einen Jägerstein oder zieht einen, um als Jäger zu spielen"
+    },
     "pacru": {
       "TARGET": "Plättchen zum Sieg",
       "TILES": "Plättchen auf dem Spielplan"
@@ -2790,6 +2796,21 @@
       "MORE": "Du hast gerade eine Schlag-Platzierung gemacht. Du musst weitere Steine platzieren.",
       "PLACEMENT_AFTER_NONCAPTURE": "Nach einer Platzierung, die nichts schlägt, darfst du keine weiteren Steine platzieren."
     },
+    "outbound": {
+      "INSTRUCTIONS_AUCTION": "Platziere einen Jägerstein am Rand des Brettes. Wenn du glaubst, dass der Jäger den Verteidiger aus dieser Aufstellung heraus aufhalten kann, ziehe stattdessen einen Jägerstein: Du spielst dann als Jäger und hast den ersten Jägerzug gemacht.",
+      "INSTRUCTIONS_WHITE": "Wähle einen Jägerstein zum Ziehen aus.",
+      "INSTRUCTIONS_WHITE_TO": "Wähle ein leeres Feld in einer geraden Linie vom Stein, um ihn dorthin zu ziehen.",
+      "INSTRUCTIONS_WHITE_PASS": "Du hast keinen legalen Zug, daher musst du passen.",
+      "INSTRUCTIONS_BLACK": "Platziere Steine neben deinen Gruppen. Jede Gruppe, die Freiheiten hat, muss genau einmal wachsen.",
+      "BLACK_MORE_one": "Eine Gruppe kann noch wachsen. Platziere einen Stein neben ihr.",
+      "BLACK_MORE_other": "{{count}} Gruppen können noch wachsen. Platziere einen Stein neben einer von ihnen.",
+      "NOT_PERIMETER": "{{where}} befindet sich nicht am Rand des Brettes.",
+      "OCCUPIED": "{{where}} ist nicht leer.",
+      "NOT_WHITE": "Auf {{where}} befindet sich kein Jägerstein.",
+      "BAD_LINE": "Ein Jägerstein muss sich in einer geraden Linie bewegen, orthogonal oder diagonal.",
+      "BLOCKED": "Der Pfad von {{from}} nach {{to}} ist blockiert.",
+      "NOT_GROWABLE": "{{where}} befindet sich nicht neben einer Verteidigergruppe, die in diesem Zug noch wachsen kann."
+    },
     "oware": {
       "INITIAL_INSTRUCTIONS": "Wähle eine deiner Mulden mit Steinen aus, um diese auszusäen.",
       "NO_PIECES": "Wenn dein Gegner ohne Steine beginnt, muss dein Zug ihm Steine geben."
@@ -4387,6 +4408,7 @@
     "orb": "Generatorb ist ein Spiel für 2 Spieler auf einem Standard-Schachbrett. Die Spieler beginnen in gegenüberliegenden Ecken und versuchen, den Generatorkern ihres Gegners zu erreichen oder die Mehrheit der Felder in der Frontlinie zu besetzen. Während des Spiels können Sie bis zu drei Spielsteine auf einem Feld stapeln. Stapel unterschiedlicher Höhe verhalten sich anders, was zu fesselnden strategischen Optionen führt.",
     "ordo": "Ordo ist ein \"Erreiche die gegnerische Grundlinie\"-Spiel, bei dem Sie Ihre Steine immer zusammenhängend halten müssen. Steine können sich einzeln und in bestimmten Situationen auch als Gruppe bewegen. Sie können auch gewinnen, indem Sie die gegnerische Gruppe so trennen, dass sie nicht wieder verbunden werden kann.",
     "oust": "Oust ist das klassische \"Exnihilation\"-Spiel, bei dem das Spiel mit einem leeren Brett beginnt und das Ziel darin besteht, alle gegnerischen Steine zu eliminieren. In Ihrem Zug können Sie mehrere Schlag-Platzierungen vornehmen, falls verfügbar, müssen diesen jedoch mit einer Nicht-Schlag-Platzierung beenden. Sie müssen passen, wenn Sie keine Platzierungen vornehmen können.",
+    "outbound": "Ein asymmetrisches Spiel auf einem Go-Brett. Der Verteidiger lässt Steingruppen wachsen – ein Stein pro Gruppe pro Zug – und gewinnt, indem er die gekrönte Gruppe an den Rand bringt; der Jäger schiebt Steine über das Brett und dreht einzelne Verteidigersteine um, um ihn einzuschließen.",
     "oware": "Ein traditionelles westafrikanisches Mancala-Spiel (Säspiel), bei dem Sie versuchen, die meisten Steine zu schlagen.",
     "owlman": "Ein asymmetrisches Spiel, bei dem ein Professor und seine Assistenten versuchen, den mythischen Eulenmann und sein Versteck aufzuspüren, während der Eulenmann versucht, sie alle aus dem Wald zu vertreiben.",
     "pacru": "Ein Gebietskontrollspiel, bei dem gerichtete Steine ein unterteiltes Brett navigieren, um Felder zu beanspruchen.",
@@ -4865,6 +4887,7 @@
     "narrows": "Narrows, entworfen von Mark Steere im Jahr 2026, ist ein Vereinigungsspiel, das vom alten hawaiianischen Spiel Kōnane inspiriert wurde. Ganz im Geiste von Kōnane beginnt Ūnane mit einem Schachbrettmuster aus Steinen und ist extrem einfach. In diesem Fall beinhaltet das Vereinigungsziel die Nutzung orthogonaler Pfade aus leeren Feldern, um verschiedene Gruppen eigener Steine zu verbinden.",
     "neutron": "Jeder Zug (außer dem ersten Zug von Weiß beim Standard-Neutron) besteht darin, zuerst das Neutron und danach einen eigenen Bauern zu schieben. Alle Figuren gleiten ohne Überspringen geradlinig so weit wie möglich. **CoNeutron** verlegt die Siegreihe auf die Grundreihe des Gegners und entfernt die reine Bauern-Eröffnung für Weiß.\n\nEinschränkungen der **Beweglichkeit** gelten nur für Bauernzüge. Bei **eingeschränkter** Beweglichkeit dürfen Bauern nicht auf der gegnerischen Grundreihe landen. Bei **doppelt eingeschränkter** Beweglichkeit dürfen Bauern nach dem Verlassen ihrer eigenen Grundreihe diese auch nicht mehr betreten; Bauern, die sich noch auf ihrer eigenen Grundreihe befinden, dürfen entlang dieser Reihe gleiten.\n\nZüge werden als `neutronDest,pawnFrom-pawnTo` notiert, oder im ersten Zug von Weiß bei Standard-Neutron als `pawnFrom-pawnTo`. Ein einzelner gewinnender Neutronenzug wird nur als Zielfeld notiert.",
     "oonpia": "Verwende entweder die Legende, um einen Stein auszuwählen, oder klicke mehrmals auf dieselbe Stelle, um alle möglichen Steine durchzugehen. Blockierte Felder sind hervorgehoben: Ein halbtransparenter Punkt bedeutet, dass dort nur ein punktierter Stein platziert werden kann (d. h. für einfache Steine blockiert), ein halbtransparenter Stein bedeutet, dass dort nur ein einfacher Stein platziert werden kann (d. h. für punktierte Steine blockiert). Wenn beide Hervorhebungen vorhanden sind, ist das Feld für alle Steine blockiert.",
+    "outbound": "Der Verteidiger beginnt mit einem Stein in der Mitte, der die Krone trägt. Der König ist die Verteidigergruppe, welche die Krone enthält. Der Jäger beginnt mit Steinen, die entlang des Randes platziert werden: Die Spieler setzen abwechselnd Jägersteine, bis einer von ihnen, anstatt zu setzen, erklärt, dass er den Verteidiger aufhalten kann, und den ersten Jägerzug macht.\n\nIn der Runde des Jägers gleitet ein Jägerstein in einer geraden Linie, orthogonal oder diagonal, über leere Felder oder Felder mit Jägersteinen auf ein leeres Feld. Wenn der bewegte Stein und ein anderer Jägerstein einen einzelnen Verteidigerstein orthogonal oder diagonal flankieren, wechselt dieser Stein die Seite. Ein Zug kann mehrere Steine umdrehen, aber der Stein, der die Krone trägt, wird niemals umgedreht. Der Jäger muss passen, wenn kein legaler Zug möglich ist.\n\nIn der Runde des Verteidigers muss jede Verteidigergruppe mit Freiheiten einmal wachsen, indem ein Stein orthogonal neben ihr platziert wird. Ein Platzieren verbraucht das Wachstum jeder Gruppe, die es berührt, sodass das Wachsenlassen einer weiteren Gruppe Gruppen zusammenführen kann, die bereits gewachsen sind. Am Ende des Zugs wandert die Krone auf den zuletzt platzierten Stein im König.\n\nDer Verteidiger gewinnt, wenn der König den Rand erreicht. Der Jäger gewinnt, wenn der König keine Freiheiten mehr hat.",
     "oware": "Diese Implementierung folgt der üblichen Turnierregel, dass Grand-Slam-Züge erlaubt sind, aber keine Steine geschlagen werden. Die Darstellung von Zustandsänderungen in Sähspielen ist eine Herausforderung. Die ursprünglich gewählte Mulde wird ebenso markiert wie jeder Schlagzug. Kleine Zahlen zeigen die Änderung der Anzahl der Steine in jeder Mulde an. Wenn du glaubst, auf einen Fehler gestoßen zu sein, teile uns dies bitte auf Discord mit.",
     "pacru": "Diese Implementierung hält sich an die Regeländerung von 2011, die erfordert, dass mindestens ein Gegner mindestens neun Plättchen auf dem Brett hat, bevor Begegnungen (Meetings) ausgelöst werden.",
     "pigs": "Im Gegensatz zur alten Super Duper Games-Implementierung setzt diese das Kernregelwerk um. Jeder Spieler gibt alle fünf Züge ein, und diese werden gleichzeitig aufgelöst.\n\nBewegung wird aufgelöst, bevor Schaden angewendet wird.",

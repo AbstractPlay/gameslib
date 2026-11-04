@@ -1201,6 +1201,19 @@
       "23": "{{player}} promovió un esferoide a globo en {{where}}."
     }
   },
+  "outbound": {
+    "CAPTURE": {
+      "flip_one": "{{player}} volteó la piedra del Defensor en {{where}}.",
+      "flip_other": "{{player}} volteó {{count}} piedras del Defensor: {{where}}."
+    },
+    "CLAIM": {
+      "white": "{{player}} declaró que el Cazador puede detener al Defensor y juega como el Cazador."
+    },
+    "EOG": {
+      "edge": "El juego ha terminado porque el rey llegó al borde del tablero.",
+      "trapped": "El juego ha terminado porque el rey no tiene libertades y no puede crecer."
+    }
+  },
   "owlman": {
     "CAPTURE": {
       "approach": "{{player}} ahuyentó al ayudante en {{where}} fuera del bosque.",

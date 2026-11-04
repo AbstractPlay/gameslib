@@ -2075,6 +2075,10 @@
     "src": "Oust is the classic \"exnihilation\" game where the game starts with an empty board and the goal is to eliminate all of your opponent's pieces. On your turn, you may make multiple capturing placements if available, but you must end it with a non-capturing placement. You must pass if you are not able to make any placements.",
     "out": "Oust ist das klassische \"Exnihilation\"-Spiel, bei dem das Spiel mit einem leeren Brett beginnt und das Ziel darin besteht, alle gegnerischen Steine zu eliminieren. In Ihrem Zug können Sie mehrere Schlag-Platzierungen vornehmen, falls verfügbar, müssen diesen jedoch mit einer Nicht-Schlag-Platzierung beenden. Sie müssen passen, wenn Sie keine Platzierungen vornehmen können."
   },
+  "descriptions.outbound": {
+    "src": "An asymmetric game on a Go board. The Defender grows groups of stones, one stone per group per turn, and wins by bringing the crowned group to the edge; the Hunter slides stones around the board and flips lone Defender stones to trap it.",
+    "out": "Ein asymmetrisches Spiel auf einem Go-Brett. Der Verteidiger lässt Steingruppen wachsen – ein Stein pro Gruppe pro Zug – und gewinnt, indem er die gekrönte Gruppe an den Rand bringt; der Jäger schiebt Steine über das Brett und dreht einzelne Verteidigersteine um, um ihn einzuschließen."
+  },
   "descriptions.oware": {
     "src": "A traditional West African sowing game where you try to capture the most pieces.",
     "out": "Ein traditionelles westafrikanisches Mancala-Spiel (Säspiel), bei dem Sie versuchen, die meisten Steine zu schlagen."
@@ -4871,6 +4875,10 @@
     "src": "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
     "out": "Verwende entweder die Legende, um einen Stein auszuwählen, oder klicke mehrmals auf dieselbe Stelle, um alle möglichen Steine durchzugehen. Blockierte Felder sind hervorgehoben: Ein halbtransparenter Punkt bedeutet, dass dort nur ein punktierter Stein platziert werden kann (d. h. für einfache Steine blockiert), ein halbtransparenter Stein bedeutet, dass dort nur ein einfacher Stein platziert werden kann (d. h. für punktierte Steine blockiert). Wenn beide Hervorhebungen vorhanden sind, ist das Feld für alle Steine blockiert."
   },
+  "notes.outbound": {
+    "src": "The Defender starts with one stone in the centre, holding the crown. The king is the Defender group containing the crown. The Hunter starts with stones placed along the perimeter: players take turns adding Hunter stones until one of them, instead of placing, declares that they can stop the Defender and makes the first Hunter move.\n\nOn the Hunter's turn, one Hunter stone slides in a straight line, orthogonally or diagonally, over empty or Hunter spaces onto an empty space. If the moved stone and another Hunter stone flank a single Defender stone, orthogonally or diagonally, that stone changes sides. One move can flip several stones, but the stone carrying the crown is never flipped. The Hunter must pass if there is no legal move.\n\nOn the Defender's turn, each Defender group with liberties must grow once by a stone placed orthogonally next to it. A placement uses up the growth of every group it touches, so growing another group may merge groups that have already grown. At the end of the turn the crown moves to the most recently placed stone in the king.\n\nThe Defender wins if the king reaches the edge. The Hunter wins if the king has no liberties.",
+    "out": "Der Verteidiger beginnt mit einem Stein in der Mitte, der die Krone trägt. Der König ist die Verteidigergruppe, welche die Krone enthält. Der Jäger beginnt mit Steinen, die entlang des Randes platziert werden: Die Spieler setzen abwechselnd Jägersteine, bis einer von ihnen, anstatt zu setzen, erklärt, dass er den Verteidiger aufhalten kann, und den ersten Jägerzug macht.\n\nIn der Runde des Jägers gleitet ein Jägerstein in einer geraden Linie, orthogonal oder diagonal, über leere Felder oder Felder mit Jägersteinen auf ein leeres Feld. Wenn der bewegte Stein und ein anderer Jägerstein einen einzelnen Verteidigerstein orthogonal oder diagonal flankieren, wechselt dieser Stein die Seite. Ein Zug kann mehrere Steine umdrehen, aber der Stein, der die Krone trägt, wird niemals umgedreht. Der Jäger muss passen, wenn kein legaler Zug möglich ist.\n\nIn der Runde des Verteidigers muss jede Verteidigergruppe mit Freiheiten einmal wachsen, indem ein Stein orthogonal neben ihr platziert wird. Ein Platzieren verbraucht das Wachstum jeder Gruppe, die es berührt, sodass das Wachsenlassen einer weiteren Gruppe Gruppen zusammenführen kann, die bereits gewachsen sind. Am Ende des Zugs wandert die Krone auf den zuletzt platzierten Stein im König.\n\nDer Verteidiger gewinnt, wenn der König den Rand erreicht. Der Jäger gewinnt, wenn der König keine Freiheiten mehr hat."
+  },
   "notes.oware": {
     "src": "This implementation follows the common tournament rule that grand slam moves are allowed, but no pieces are captured. Depicting state changes in sowing games is challenging. The initial chosen pit is marked, as is any capture. Small numbers appear to show the change in the number of stones in each pit. If you believe you have encountered a bug, please let us know in Discord.",
     "out": "Diese Implementierung folgt der üblichen Turnierregel, dass Grand-Slam-Züge erlaubt sind, aber keine Steine geschlagen werden. Die Darstellung von Zustandsänderungen in Sähspielen ist eine Herausforderung. Die ursprünglich gewählte Mulde wird ebenso markiert wie jeder Schlagzug. Kleine Zahlen zeigen die Änderung der Anzahl der Steine in jeder Mulde an. Wenn du glaubst, auf einen Fehler gestoßen zu sein, teile uns dies bitte auf Discord mit."
@@ -5454,6 +5462,22 @@
   "status.mvolcano.UNCAPTUREDCOLOURS": {
     "src": "Colours not yet captured",
     "out": "Noch nicht eroberte Farben"
+  },
+  "status.outbound.BLACK": {
+    "src": "Defender",
+    "out": "Verteidiger"
+  },
+  "status.outbound.PHASE_AUCTION": {
+    "src": "{{player}} places a Hunter stone or moves one to play as the Hunter",
+    "out": "{{player}} platziert einen Jägerstein oder zieht einen, um als Jäger zu spielen"
+  },
+  "status.outbound.UNDECIDED": {
+    "src": "Not yet chosen",
+    "out": "Noch nicht gewählt"
+  },
+  "status.outbound.WHITE": {
+    "src": "Hunter",
+    "out": "Jäger"
   },
   "status.pacru.TARGET": {
     "src": "Tiles to win",
@@ -12234,6 +12258,58 @@
   "validation.oust.PLACEMENT_AFTER_NONCAPTURE": {
     "src": "You may not make any more placements after a non-capture placement.",
     "out": "Nach einer Platzierung, die nichts schlägt, darfst du keine weiteren Steine platzieren."
+  },
+  "validation.outbound.BAD_LINE": {
+    "src": "A Hunter stone must move in a straight line, orthogonally or diagonally.",
+    "out": "Ein Jägerstein muss sich in einer geraden Linie bewegen, orthogonal oder diagonal."
+  },
+  "validation.outbound.BLACK_MORE_one": {
+    "src": "One group can still grow. Place a stone next to it.",
+    "out": "Eine Gruppe kann noch wachsen. Platziere einen Stein neben ihr."
+  },
+  "validation.outbound.BLACK_MORE_other": {
+    "src": "{{count}} groups can still grow. Place a stone next to one of them.",
+    "out": "{{count}} Gruppen können noch wachsen. Platziere einen Stein neben einer von ihnen."
+  },
+  "validation.outbound.BLOCKED": {
+    "src": "The path from {{from}} to {{to}} is blocked.",
+    "out": "Der Pfad von {{from}} nach {{to}} ist blockiert."
+  },
+  "validation.outbound.INSTRUCTIONS_AUCTION": {
+    "src": "Place a Hunter stone on the perimeter of the board. If you think the Hunter can stop the Defender from this setup, instead move a Hunter stone: you then play as the Hunter and have made the first Hunter move.",
+    "out": "Platziere einen Jägerstein am Rand des Brettes. Wenn du glaubst, dass der Jäger den Verteidiger aus dieser Aufstellung heraus aufhalten kann, ziehe stattdessen einen Jägerstein: Du spielst dann als Jäger und hast den ersten Jägerzug gemacht."
+  },
+  "validation.outbound.INSTRUCTIONS_BLACK": {
+    "src": "Place stones next to your groups. Every group that has liberties must grow exactly once.",
+    "out": "Platziere Steine neben deinen Gruppen. Jede Gruppe, die Freiheiten hat, muss genau einmal wachsen."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE": {
+    "src": "Select a Hunter stone to move.",
+    "out": "Wähle einen Jägerstein zum Ziehen aus."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE_PASS": {
+    "src": "You have no legal move, so you must pass.",
+    "out": "Du hast keinen legalen Zug, daher musst du passen."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE_TO": {
+    "src": "Select an empty space in a straight line from the stone to move it there.",
+    "out": "Wähle ein leeres Feld in einer geraden Linie vom Stein, um ihn dorthin zu ziehen."
+  },
+  "validation.outbound.NOT_GROWABLE": {
+    "src": "{{where}} is not next to a Defender group that can still grow this turn.",
+    "out": "{{where}} befindet sich nicht neben einer Verteidigergruppe, die in diesem Zug noch wachsen kann."
+  },
+  "validation.outbound.NOT_PERIMETER": {
+    "src": "{{where}} is not on the perimeter of the board.",
+    "out": "{{where}} befindet sich nicht am Rand des Brettes."
+  },
+  "validation.outbound.NOT_WHITE": {
+    "src": "{{where}} does not hold a Hunter stone.",
+    "out": "Auf {{where}} befindet sich kein Jägerstein."
+  },
+  "validation.outbound.OCCUPIED": {
+    "src": "{{where}} is not empty.",
+    "out": "{{where}} ist nicht leer."
   },
   "validation.oware.INITIAL_INSTRUCTIONS": {
     "src": "Select one of your pits containing stones to sow them.",

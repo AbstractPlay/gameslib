@@ -827,7 +827,13 @@ export class TableroGame extends GameBase {
         }
     }
 
-    public move(m: string, {trusted = false, partial = false, emulation = false} = {}): TableroGame {
+    public move(m: string, {trusted = false, partial = false, emulation = false, rollOverride}: {
+        trusted?: boolean;
+        partial?: boolean;
+        emulation?: boolean;
+        /** Repair/replay only — use stored dice instead of `randomInt`. */
+        rollOverride?: [number, number] | [number];
+    } = {}): TableroGame {
         if (this.gameover) {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
@@ -941,11 +947,15 @@ export class TableroGame extends GameBase {
         delete this.moving;
 
         this.lastmove = m;
-        // reroll the dice
-        const d1 = randomInt(6);
-        const d2 = randomInt(6);
-        this.roll = [d1,d2];
-        this.results.push({type: "roll", values: [d1,d2]});
+        if (rollOverride !== undefined) {
+            this.roll = rollOverride.length === 1 ? [rollOverride[0]] : [rollOverride[0], rollOverride[1]];
+            this.results.push({type: "roll", values: [...this.roll]});
+        } else {
+            const d1 = randomInt(6);
+            const d2 = randomInt(6);
+            this.roll = [d1,d2];
+            this.results.push({type: "roll", values: [d1,d2]});
+        }
 
         let newplayer = (this.currplayer as number) + 1;
         if (newplayer > this.numplayers) {

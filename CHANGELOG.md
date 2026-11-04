@@ -22,6 +22,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **New games:** Clear Path, Kill-All Go, Selfo, Thue-Morse Go, Yodd, Yonkoma (Kill-All Go handicap opening variant remains unrated).
 - **Quax:** optional **Diamond board** display (`squares-diamonds` with connection flood fill; vertex board remains default).
 - **Locale tooling:** `npm run audit-locale` (dev-only catalog/shape/stale-MT audit with `locale-src/en/_locale-audit-allowlist.json`); `npm test` includes full-registry **missing catalog key** checks for runtime i18n.
+- **Tablero:** exported stack repair helpers (`verifyTableroStackIntegrity`, `repairTableroStack`, `repairTableroStackJson`, `isLegacyDuplicatePassFrame`) to replay saved stacks with stored rolls and merge legacy duplicate `pass` frames.
 
 ### Fixed
 

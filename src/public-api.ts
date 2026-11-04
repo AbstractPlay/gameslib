@@ -219,3 +219,11 @@ export {
     guerrillaStateUsesMatchVariant,
 } from "./games/guerrilla-repair.js";
 export type { GuerrillaMatchStackRepairResult } from "./games/guerrilla-repair.js";
+
+export {
+    repairTableroStack,
+    repairTableroStackJson,
+    verifyTableroStackIntegrity,
+    isLegacyDuplicatePassFrame,
+} from "./games/tablero-repair.js";
+export type { TableroStackRepairResult, TableroStackVerifyResult } from "./games/tablero-repair.js";

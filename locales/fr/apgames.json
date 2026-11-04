@@ -694,6 +694,12 @@
       "PYRAMIDSCAPTURED": "Pyramides capturées",
       "UNCAPTUREDCOLOURS": "Couleurs non encore capturées"
     },
+    "outbound": {
+      "WHITE": "Chasseur",
+      "BLACK": "Défenseur",
+      "UNDECIDED": "Pas encore choisi",
+      "PHASE_AUCTION": "{{player}} place une pierre de Chasseur ou en déplace une pour jouer en tant que Chasseur"
+    },
     "pacru": {
       "TARGET": "Tuiles pour gagner",
       "TILES": "Tuiles sur le plateau"
@@ -2792,6 +2798,21 @@
       "MORE": "Vous venez d'effectuer un placement de capture. Vous devez continuer à poser des pièces.",
       "PLACEMENT_AFTER_NONCAPTURE": "Vous ne pouvez plus effectuer de placements après un placement sans capture."
     },
+    "outbound": {
+      "INSTRUCTIONS_AUCTION": "Placez une pierre de Chasseur sur le périmètre du plateau. Si vous pensez que le Chasseur peut arrêter le Défenseur avec cette disposition, déplacez plutôt une pierre de Chasseur : vous jouez alors le Chasseur et avez effectué le premier coup du Chasseur.",
+      "INSTRUCTIONS_WHITE": "Sélectionnez une pierre de Chasseur à déplacer.",
+      "INSTRUCTIONS_WHITE_TO": "Sélectionnez une case vide en ligne droite depuis la pierre pour l'y déplacer.",
+      "INSTRUCTIONS_WHITE_PASS": "Vous n'avez aucun coup légal, vous devez donc passer.",
+      "INSTRUCTIONS_BLACK": "Placez des pierres à côté de vos groupes. Chaque groupe ayant des libertés doit s'agrandir exactement une fois.",
+      "BLACK_MORE_one": "Un groupe peut encore s'agrandir. Placez une pierre à côté de lui.",
+      "BLACK_MORE_other": "{{count}} groupes peuvent encore s'agrandir. Placez une pierre à côté de l'un d'eux.",
+      "NOT_PERIMETER": "{{where}} n'est pas sur le périmètre du plateau.",
+      "OCCUPIED": "{{where}} n'est pas vide.",
+      "NOT_WHITE": "{{where}} ne contient pas de pierre de Chasseur.",
+      "BAD_LINE": "Une pierre de Chasseur doit se déplacer en ligne droite, orthogonalement ou diagonalement.",
+      "BLOCKED": "Le chemin de {{from}} à {{to}} est bloqué.",
+      "NOT_GROWABLE": "{{where}} n'est pas à côté d'un groupe du Défenseur pouvant encore s'agrandir ce tour-ci."
+    },
     "oware": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez l'un de vos trous contenant des graines pour les semer.",
       "NO_PIECES": "Lorsque votre adversaire commence sans aucune pièce, votre coup doit lui donner des pièces."
@@ -4389,6 +4410,7 @@
     "orb": "Generatorb est un jeu pour 2 joueurs joué sur un échiquier standard. Les joueurs commencent dans des coins opposés et tentent d'atteindre le cœur du générateur adverse ou d'occuper la majorité des cases sur la ligne de front. Pendant le jeu, vous pouvez empiler jusqu'à trois pions sur une case. Les piles de hauteurs différentes se comportent différemment, offrant des options stratégiques captivantes.",
     "ordo": "Ordo est un jeu du type « atteignez la rangée de départ adverse » dans lequel vous devez toujours garder vos pièces connectées. Les pièces peuvent se déplacer individuellement ainsi qu'en groupe dans certaines situations. Vous pouvez également gagner en divisant le groupe adverse de telle sorte qu'il ne puisse plus se reconnecter.",
     "oust": "Oust est le jeu d'« exnihilation » classique où la partie commence avec un plateau vide et le but est d'éliminer toutes les pièces de votre adversaire. À votre tour, vous pouvez effectuer plusieurs placements avec capture si possible, mais vous devez terminer votre tour par un placement sans capture. Vous devez passer si vous ne pouvez effectuer aucun placement.",
+    "outbound": "Un jeu asymétrique sur un goban. Le Défenseur agrandit des groupes de pierres, une pierre par groupe et par tour, et gagne en amenant le groupe couronné jusqu'au bord ; le Chasseur fait glisser des pierres sur le plateau et retourne les pierres isolées du Défenseur pour le piéger.",
     "oware": "Un jeu de semailles traditionnel d'Afrique de l'Ouest où vous tentez de capturer le plus de pièces.",
     "owlman": "Un jeu asymétrique où un professeur et ses assistants tentent de traquer le mythique Homme-Hibou et son repaire, tandis que l'Homme-Hibou tente de tous les effrayer pour les chasser de la forêt.",
     "pacru": "Un jeu de contrôle de territoire où des pièces directionnelles naviguent sur un plateau subdivisé pour revendiquer des cases.",
@@ -4867,6 +4889,7 @@
     "narrows": "Narrows, conçu par Mark Steere en 2026, est un jeu d'unification inspiré de l'ancien jeu hawaïen Kōnane. Fidèle à l'esprit de Kōnane, Ūnane commence avec une disposition de pierres en damier et reste extrêmement simple. Dans ce cas, l'objectif d'unification inclut l'utilisation de chemins orthogonaux de cases vides pour connecter différents groupes de pièces alliées.",
     "neutron": "Chaque tour (sauf le premier tour des Blancs dans le Neutron standard) consiste à faire glisser le neutron, puis à faire glisser l'un de vos pions. Toutes les pièces glissent en ligne droite aussi loin que possible sans sauter. **CoNeutron** inverse la ligne gagnante vers la ligne arrière de votre adversaire et supprime l'ouverture à pion seul des Blancs.\n\nLes restrictions de **mobilité** s'appliquent uniquement aux déplacements de pions. Avec une mobilité **restreinte**, les pions ne peuvent pas s'arrêter sur la ligne arrière de l'adversaire. Avec une mobilité **doublement restreinte**, les pions ne peuvent pas non plus revenir sur leur propre ligne arrière après l'avoir quittée ; les pions se trouvant toujours sur leur ligne arrière peuvent glisser le long de celle-ci.\n\nLes coups sont notés `neutronDest,pawnFrom-pawnTo`, ou `pawnFrom-pawnTo` au premier tour des Blancs dans le Neutron standard. Un déplacement gagnant du neutron seul est noté uniquement par sa case de destination.",
     "oonpia": "Utilisez la légende pour sélectionner une pièce, ou cliquez plusieurs fois sur le même emplacement pour faire défiler toutes les pièces possibles. Les cases bloquées sont mises en surbrillance : un point translucide signifie que seule une pierre à point peut y être placée (c.-à-d. bloquée pour les pièces simples), une pièce translucide signifie que seule une pièce simple peut y être placée (c.-à-d. bloquée pour les pièces à point). Si les deux surbrillances sont présentes, la case est bloquée pour toutes les pièces.",
+    "outbound": "Le Défenseur commence avec une pierre au centre, portant la couronne. Le roi est le groupe du Défenseur contenant la couronne. Le Chasseur commence avec des pierres placées le long du périmètre : les joueurs ajoutent tour à tour des pierres de Chasseur jusqu'à ce que l'un d'eux, au lieu de placer une pierre, déclare qu'il peut arrêter le Défenseur et effectue le premier coup du Chasseur.\n\nAu tour du Chasseur, une pierre de Chasseur glisse en ligne droite, orthogonalement ou diagonalement, par-dessus des cases vides ou occupées par le Chasseur, jusqu'à une case vide. Si la pierre déplacée et une autre pierre de Chasseur encadrent une pierre isolée du Défenseur, orthogonalement ou diagonalement, cette pierre change de camp. Un coup peut retourner plusieurs pierres, mais la pierre portant la couronne n'est jamais retournée. Le Chasseur doit passer s'il n'a aucun coup légal.\n\nAu tour du Défenseur, chaque groupe du Défenseur ayant des libertés doit s'agrandir une fois d'une pierre placée orthogonalement à côté de lui. Un placement consomme la croissance de chaque groupe qu'il touche, ainsi l'agrandissement d'un autre groupe peut fusionner des groupes ayant déjà grandi. À la fin du tour, la couronne se déplace sur la pierre la plus récemment placée dans le roi.\n\nLe Défenseur gagne si le roi atteint le bord. Le Chasseur gagne si le roi n'a plus aucune liberté.",
     "oware": "Cette implémentation suit la règle de tournoi courante selon laquelle les coups « grand chelem » sont autorisés, mais aucune pièce n'est capturée. Représenter les changements d'état dans les jeux d'égrenage est un défi. Le trou initialement choisi est marqué, de même que toute capture. De petits chiffres apparaissent pour indiquer l'évolution du nombre de graines dans chaque trou. Si vous pensez avoir rencontré un bug, veuillez nous en informer sur Discord.",
     "pacru": "Cette implémentation respecte la modification de règle de 2011 qui exige qu'au moins un adversaire possède au moins neuf tuiles sur le plateau avant que les rencontres (« meetings ») ne se déclenchent.",
     "pigs": "Contrairement à l'ancienne implémentation sur Super Duper Games, celle-ci applique les règles de base. Chaque joueur saisit ses cinq coups, et ils sont résolus simultanément.\n\nLes déplacements sont résolus avant l'application des dégâts.",

@@ -694,6 +694,12 @@
       "PYRAMIDSCAPTURED": "Piramidi catturate",
       "UNCAPTUREDCOLOURS": "Colori non ancora catturati"
     },
+    "outbound": {
+      "WHITE": "Cacciatore",
+      "BLACK": "Difensore",
+      "UNDECIDED": "Non ancora scelto",
+      "PHASE_AUCTION": "{{player}} piazza una pedina del Cacciatore o ne muove una per giocare come Cacciatore"
+    },
     "pacru": {
       "TARGET": "Tessere per vincere",
       "TILES": "Tessere sulla plancia"
@@ -2792,6 +2798,21 @@
       "MORE": "Hai appena effettuato un piazzamento con cattura. Devi continuare a piazzare pezzi.",
       "PLACEMENT_AFTER_NONCAPTURE": "Non puoi effettuare altri piazzamenti dopo un piazzamento senza cattura."
     },
+    "outbound": {
+      "INSTRUCTIONS_AUCTION": "Piazza una pedina del Cacciatore sul perimetro del tavoliere. Se pensi che il Cacciatore possa fermare il Difensore con questa configurazione, muovi invece una pedina del Cacciatore: giocherai così come Cacciatore e avrai effettuato la prima mossa del Cacciatore.",
+      "INSTRUCTIONS_WHITE": "Seleziona una pedina del Cacciatore da muovere.",
+      "INSTRUCTIONS_WHITE_TO": "Seleziona uno spazio vuoto in linea retta dalla pedina per muoverla lì.",
+      "INSTRUCTIONS_WHITE_PASS": "Non hai mosse legali, quindi devi passare.",
+      "INSTRUCTIONS_BLACK": "Piazza pedine accanto ai tuoi gruppi. Ogni gruppo che possiede libertà deve crescere esattamente una volta.",
+      "BLACK_MORE_one": "Un gruppo può ancora crescere. Piazza una pedina accanto ad esso.",
+      "BLACK_MORE_other": "{{count}} gruppi possono ancora crescere. Piazza una pedina accanto a uno di essi.",
+      "NOT_PERIMETER": "{{where}} non è sul perimetro del tavoliere.",
+      "OCCUPIED": "{{where}} non è vuoto.",
+      "NOT_WHITE": "{{where}} non contiene una pedina del Cacciatore.",
+      "BAD_LINE": "Una pedina del Cacciatore deve muoversi in linea retta, ortogonalmente o diagonalmente.",
+      "BLOCKED": "Il percorso da {{from}} a {{to}} è bloccato.",
+      "NOT_GROWABLE": "{{where}} non è accanto a un gruppo del Difensore che può ancora crescere in questo turno."
+    },
     "oware": {
       "INITIAL_INSTRUCTIONS": "Seleziona una delle tue buche contenente pietre per seminarle.",
       "NO_PIECES": "Quando il tuo avversario inizia senza pezzi, la tua mossa deve dargli dei pezzi."
@@ -4389,6 +4410,7 @@
     "orb": "Generatorb è un gioco per 2 giocatori giocato su una scacchiera standard. I giocatori iniziano negli angoli opposti e tentano di raggiungere il nucleo generatore dell'avversario o di occupare la maggior parte delle caselle sulla prima linea. Durante il gioco, puoi impilare fino a tre pedine in uno spazio. Pile di altezze diverse si comportano diversamente, offrendo opzioni strategiche avvincenti.",
     "ordo": "Ordo è un gioco del tipo \"raggiungi la riga di partenza dell'avversario\" in cui devi mantenere sempre i tuoi pezzi connessi. I pezzi possono muoversi singolarmente e anche come gruppo in determinate situazioni. Puoi vincere anche dividendo il gruppo dell'avversario in modo tale che non possa ricongiungerlo.",
     "oust": "Oust è il classico gioco di \"annientamento\" in cui la partita inizia con un tabellone vuoto e l'obiettivo è eliminare tutti i pezzi del tuo avversario. Nel tuo turno, puoi effettuare più posizionamenti di cattura se disponibili, ma devi terminare con un posizionamento senza cattura. Devi passare se non sei in grado di effettuare alcun posizionamento.",
+    "outbound": "Un gioco asimmetrico su un tavoliere da Go. Il Difensore fa crescere gruppi di pedine, una pedina per gruppo a turno, e vince portando il gruppo incoronato al bordo; il Cacciatore fa scivolare le pedine sul tavoliere e converte le pedine singole del Difensore per intrappolarlo.",
     "oware": "Un gioco di semina tradizionale dell'Africa occidentale in cui cerchi di catturare il maggior numero di pezzi.",
     "owlman": "Un gioco asimmetrico in cui un professore e i suoi assistenti cercano di rintracciare il mitico Uomo Gufo e il suo covo, mentre l'Uomo Gufo cerca di spaventarli tutti e scacciarli dalla foresta.",
     "pacru": "Un gioco di controllo del territorio in cui pezzi direzionali navigano su una plancia suddivisa per rivendicare le caselle.",
@@ -4867,6 +4889,7 @@
     "narrows": "Narrows, progettato da Mark Steere nel 2026, è un gioco di unificazione ispirato all'antico gioco hawaiiano Kōnane. Fedele allo spirito di Kōnane, Ūnane inizia con uno schema di pedine a scacchiera ed è estremamente semplice. In questo caso, l'obiettivo di unificazione include l'uso di percorsi ortogonali di caselle vuote per collegare diversi gruppi di pezzi amici.",
     "neutron": "Ogni turno (eccetto il primo turno del Bianco nel Neutron standard) consiste nel far scivolare il neutrone, per poi far scivolare una delle proprie pedine. Tutti i pezzi scivolano in linea retta il più lontano possibile senza saltare. **CoNeutron** scambia la traversa vincente con la traversa di base dell'avversario e rimuove l'apertura con sola pedina del Bianco.\n\nLe restrizioni di **mobilità** si applicano solo ai movimenti delle pedine. Con mobilità **limitata**, le pedine non possono finire sulla traversa di base dell'avversario. Con mobilità **doppiamente limitata**, le pedine non possono nemmeno rientrare nella propria traversa di base dopo averla lasciata; le pedine ancora sulla traversa di base possono scivolare lungo di essa.\n\nLe mosse sono annotate come `neutronDest,pawnFrom-pawnTo`, o `pawnFrom-pawnTo` al primo turno del Bianco nel Neutron standard. Una mossa vincente del solo neutrone è annotata semplicemente con la casella di destinazione.",
     "oonpia": "Usa la legenda per selezionare un pezzo, oppure fai clic sullo stesso punto più volte per scorrere tutti i pezzi possibili. Le caselle bloccate sono evidenziate: un punto traslucido significa che vi si può piazzare solo una pedina con punto (cioè bloccata per le pedine semplici), un pezzo traslucido significa che vi si può piazzare solo una pedina semplice (cioè bloccata per le pedine con punto). Se sono presenti entrambe le evidenziazioni, la casella è bloccata per tutti i pezzi.",
+    "outbound": "Il Difensore inizia con una pedina al centro, che porta la corona. Il re è il gruppo del Difensore che contiene la corona. Il Cacciatore inizia con pedine posizionate lungo il perimetro: i giocatori, a turno, aggiungono pedine del Cacciatore finché uno di essi, invece di piazzare, dichiara di poter fermare il Difensore ed effettua la prima mossa del Cacciatore.\n\nNel turno del Cacciatore, una pedina del Cacciatore scivola in linea retta, ortogonalmente o diagonalmente, attraverso spazi vuoti o del Cacciatore fino a uno spazio vuoto. Se la pedina mossa e un'altra pedina del Cacciatore stringono a tenaglia una singola pedina del Difensore, ortogonalmente o diagonalmente, quella pedina cambia fazione. Una singola mossa può convertire diverse pedine, ma la pedina che porta la corona non viene mai convertita. Il Cacciatore deve passare se non ci sono mosse legali.\n\nNel turno del Difensore, ogni gruppo del Difensore dotato di libertà deve crescere una volta mediante una pedina piazzata ortogonalmente ad esso. Un piazzamento consuma la crescita di ogni gruppo che tocca, quindi far crescere un altro gruppo potrebbe unire gruppi che sono già cresciuti. Alla fine del turno, la corona si sposta sulla pedina piazzata più di recente nel re.\n\nIl Difensore vince se il re raggiunge il bordo. Il Cacciatore vince se il re non ha libertà.",
     "oware": "Questa implementazione segue la comune regola da torneo secondo cui le mosse grand slam sono consentite, ma non viene catturato alcun pezzo. Rappresentare i cambiamenti di stato nei giochi di semina è complesso. La fossetta iniziale scelta viene contrassegnata, così come qualsiasi cattura. Piccoli numeri mostrano la variazione del numero di pedine in ciascuna fossetta. Se ritieni di aver riscontrato un bug, faccelo sapere su Discord.",
     "pacru": "Questa implementazione rispetta la modifica alle regole del 2011 che richiede che almeno un avversario abbia almeno nove tessere sul tabellone prima che gli incontri (meetings) possano attivarsi.",
     "pigs": "A differenza della vecchia implementazione di Super Duper Games, questa applica il regolamento principale. Ogni giocatore inserisce tutte e cinque le mosse, che vengono risolte contemporaneamente.\n\nIl movimento viene risolto prima dell'applicazione dei danni.",

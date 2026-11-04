@@ -12284,8 +12284,12 @@
     "out": "Placez des pierres à côté de vos groupes. Chaque groupe ayant des libertés doit s'agrandir exactement une fois."
   },
   "validation.outbound.INSTRUCTIONS_WHITE": {
-    "src": "Select a Hunter stone to move.",
-    "out": "Sélectionnez une pierre de Chasseur à déplacer."
+    "src": "Select a Hunter stone to move, or the empty space to move to.",
+    "out": "Sélectionnez une pierre Chasseur à déplacer, ou la case vide vers laquelle la déplacer."
+  },
+  "validation.outbound.INSTRUCTIONS_WHITE_FROM": {
+    "src": "Select the highlighted Hunter stone to move there.",
+    "out": "Sélectionnez la pierre Chasseur en surbrillance pour la déplacer là."
   },
   "validation.outbound.INSTRUCTIONS_WHITE_PASS": {
     "src": "You have no legal move, so you must pass.",
@@ -12306,6 +12310,10 @@
   "validation.outbound.NOT_WHITE": {
     "src": "{{where}} does not hold a Hunter stone.",
     "out": "{{where}} ne contient pas de pierre de Chasseur."
+  },
+  "validation.outbound.NO_SOURCES": {
+    "src": "No Hunter stone can move to {{where}}.",
+    "out": "Aucune pierre Chasseur ne peut se déplacer vers {{where}}."
   },
   "validation.outbound.OCCUPIED": {
     "src": "{{where}} is not empty.",

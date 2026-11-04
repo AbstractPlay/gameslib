@@ -225,5 +225,6 @@ export {
     repairTableroStackJson,
     verifyTableroStackIntegrity,
     isLegacyDuplicatePassFrame,
+    tableroTipMismatchFields,
 } from "./games/tablero-repair.js";
 export type { TableroStackRepairResult, TableroStackVerifyResult } from "./games/tablero-repair.js";

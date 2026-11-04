@@ -96,7 +96,15 @@ export class OutboundGame extends GameBase {
             {
                 type: "designer",
                 name: "Alek Erickson",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/101050/alek-erickson"],
+                apid: "e98f96b2-5dbb-492c-bf46-85207bd29242",
             },
+            {
+                type: "coder",
+                name: "ManaT",
+                urls: [],
+                apid: "a82c4aa8-7d43-4661-b027-17afd1d1586f",
+            }
         ],
         categories: ["goal>breakthrough", "goal>immobilize", "mechanic>place", "mechanic>move", "mechanic>convert", "mechanic>asymmetry", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "custom-colours", "custom-buttons", "no-moves"],

@@ -2800,7 +2800,9 @@
     },
     "outbound": {
       "INSTRUCTIONS_AUCTION": "Place a Hunter stone on the perimeter of the board. If you think the Hunter can stop the Defender from this setup, instead move a Hunter stone: you then play as the Hunter and have made the first Hunter move.",
-      "INSTRUCTIONS_WHITE": "Select a Hunter stone to move.",
+      "INSTRUCTIONS_WHITE": "Select a Hunter stone to move, or the empty space to move to.",
+      "INSTRUCTIONS_WHITE_FROM": "Select the highlighted Hunter stone to move there.",
+      "NO_SOURCES": "No Hunter stone can move to {{where}}.",
       "INSTRUCTIONS_WHITE_TO": "Select an empty space in a straight line from the stone to move it there.",
       "INSTRUCTIONS_WHITE_PASS": "You have no legal move, so you must pass.",
       "INSTRUCTIONS_BLACK": "Place stones next to your groups. Every group that has liberties must grow exactly once.",

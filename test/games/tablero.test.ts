@@ -172,12 +172,13 @@ describe("Tablero", () => {
         });
         expect(g.stack).to.have.length(1);
         g.move("-c3", {trusted: true});
-        expect(g.stack).to.have.length(2);
+        expect(g.stack).to.have.length(3);
         expect(g.stack[0]!.board.get("c3")).to.deep.equal([2, 2]);
         expect(g.stack[1]!.board.get("c3")).to.deep.equal([2]);
+        expect(g.stack[2]!.board.get("c3")).to.deep.equal([2]);
     });
 
-    it("take on doubles: one stack frame with take, roll, and pass results", () => {
+    it("take on doubles: take frame then forced pass stack frame", () => {
         const g = gameFrom({
             stack: [
                 moveState({
@@ -189,13 +190,15 @@ describe("Tablero", () => {
             ],
         });
         g.move("-a3", {trusted: true});
-        expect(g.stack).to.have.length(2);
-        expect(g.stack.some((s) => s.lastmove === "pass")).to.be.false;
-        const frame = g.stack[1]!;
-        expect(frame.lastmove).to.equal("-a3");
-        expect(frame.currplayer).to.equal(1);
-        const types = frame._results!.map((r) => r.type);
-        expect(types).to.deep.equal(["take", "roll", "pass"]);
+        expect(g.stack).to.have.length(3);
+        const takeFrame = g.stack[1]!;
+        expect(takeFrame.lastmove).to.equal("-a3");
+        expect(takeFrame.currplayer).to.equal(1);
+        expect(takeFrame._results!.map((r) => r.type)).to.deep.equal(["take", "roll"]);
+        const passFrame = g.stack[2]!;
+        expect(passFrame.lastmove).to.equal("pass");
+        expect(passFrame.currplayer).to.equal(2);
+        expect(passFrame._results!.map((r) => r.type)).to.deep.equal(["pass"]);
         expect(g.pieces[1]).to.equal(13);
     });
 
@@ -223,8 +226,8 @@ describe("Tablero", () => {
         const takeResults: APMoveResult[] = [
             {type: "take", from: "c3"},
             {type: "roll", values: [5, 6]},
-            {type: "pass"},
         ];
+        const passResults: APMoveResult[] = [{type: "pass"}];
         const g = gameFrom({
             stack: [
                 moveState({currplayer: 2, roll: [5, 5]}),
@@ -236,15 +239,47 @@ describe("Tablero", () => {
                     board: new Map([["c3", [2]]]),
                     pieces: [10, 12],
                 }),
+                moveState({
+                    currplayer: 2,
+                    roll: [5, 6],
+                    lastmove: "pass",
+                    _results: passResults,
+                    board: new Map([["c3", [2]]]),
+                    pieces: [10, 12],
+                }),
+            ],
+        });
+        const entries = g.chatLogEntries(["Alice", "Bob"]);
+        expect(entries).to.have.length(2);
+        const takeLines = entries[0]!.lines;
+        const passLines = entries[1]!.lines;
+        const takeLine = takeLines.find((l) => l.textKey === "apresults:tablero.TAKE.default");
+        const passLine = passLines.find((l) => l.textKey === "apresults:tablero.PASS.default");
+        expect(takeLine?.actor).to.deep.equal({kind: "seat", seat: 2});
+        expect(passLine?.actor).to.deep.equal({kind: "seat", seat: 1});
+    });
+
+    it("chatLogEntries: legacy merged take+pass frame attributes forced pass to skipped seat", () => {
+        const mergedResults: APMoveResult[] = [
+            {type: "take", from: "c3"},
+            {type: "roll", values: [5, 6]},
+            {type: "pass"},
+        ];
+        const g = gameFrom({
+            stack: [
+                moveState({currplayer: 2, roll: [5, 5]}),
+                moveState({
+                    currplayer: 1,
+                    roll: [5, 6],
+                    lastmove: "-c3",
+                    _results: mergedResults,
+                }),
             ],
         });
         const entries = g.chatLogEntries(["Alice", "Bob"]);
         expect(entries).to.have.length(1);
-        const lines = entries[0]!.lines;
-        const takeLine = lines.find((l) => l.textKey === "apresults:tablero.TAKE.default");
-        const passLine = lines.find((l) => l.textKey === "apresults:tablero.PASS.default");
-        expect(takeLine?.actor).to.deep.equal({kind: "seat", seat: 2});
-        expect(passLine?.actor).to.deep.equal({kind: "seat", seat: 2});
+        const passLine = entries[0]!.lines.find((l) => l.textKey === "apresults:tablero.PASS.default");
+        expect(passLine?.actor).to.deep.equal({kind: "seat", seat: 1});
     });
 
     it("chatLogEntries: legacy duplicate pass frame emits bump only once", () => {

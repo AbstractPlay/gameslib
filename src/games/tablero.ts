@@ -995,13 +995,13 @@ export class TableroGame extends GameBase {
         if (newplayer > this.numplayers) {
             newplayer = 1;
         }
-        if (m.startsWith("-")) {
-            this.results.push({type: "pass"});
-        }
         this.currplayer = newplayer as playerid;
 
         this.checkEOG();
         this.saveState();
+        if (m.startsWith("-") && !this.gameover) {
+            this.move("pass", {trusted: true});
+        }
         return this;
     }
 
@@ -1349,9 +1349,12 @@ export class TableroGame extends GameBase {
             case "roll":
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tablero.ROLL.default", {values: r.values!.join(",")});
                 return true;
-            case "pass":
-                this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tablero.PASS.default", {});
+            case "pass": {
+                const forcedAfterTake = ctx.results.some((res) => res.type === "take");
+                const seat = forcedAfterTake ? ctx.currplayer : ctx.defaultSeat;
+                this.pushSeatChatLine(lines, seat, "apresults:tablero.PASS.default", {});
                 return true;
+            }
             default:
                 return super.collectChatLogLine(lines, r, ctx);
         }
@@ -1370,7 +1373,7 @@ export class TableroGame extends GameBase {
         return new TableroGame(this.serialize());
     }
 
-    // TODO: Short-term kludge until forced pass can be reflected in game tree
+    /** Exploration treats standalone `pass` as matching any ply (forced pass after take). */
     protected sameMove(move1: string, move2: string): boolean {
         if (move1 === "pass" || move2 === "pass") {
             return true;

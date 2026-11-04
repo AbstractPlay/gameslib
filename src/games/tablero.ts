@@ -46,6 +46,10 @@ export const gameApgamesEn = {
 };
 export const gameApresultsEn = {
     PASS: {
+        default: "{{player}} passed.",
+        afterTake: "{{player}} had no move after the take and passed.",
+    },
+    BUMP: {
         default: "{{player}} bumped!",
     },
     ROLL: {
@@ -892,7 +896,7 @@ export class TableroGame extends GameBase {
         this.emulated = emulation;
         this.results = [];
         if (m === "pass") {
-            this.results.push({type: "pass"});
+            this.results.push({type: "pass", why: "afterTake"});
             if (partial) {
                 return this;
             }
@@ -913,7 +917,7 @@ export class TableroGame extends GameBase {
                 if (this.bumped === undefined) {
                     this.bumped = this.currplayer;
                 }
-                this.results.push({type: "pass"});
+                this.results.push({type: "pass", why: "bump"});
             }
             // take
             else if (move.startsWith("-")) {
@@ -1301,6 +1305,40 @@ export class TableroGame extends GameBase {
         return JSON.stringify(prev._results) === JSON.stringify(state._results);
     }
 
+    private tableroPassChatKey(
+        stackIndex: number,
+        state: IMoveState,
+        ctx: ChatLogCollectContext,
+        r: Extract<APMoveResult, {type: "pass"}>,
+    ): string {
+        if (r.why === "bump" || state.lastmove === "bump") {
+            return "apresults:tablero.BUMP.default";
+        }
+        if (r.why === "afterTake" || ctx.results.some((res) => res.type === "take")) {
+            return "apresults:tablero.PASS.afterTake";
+        }
+        const prev = stackIndex > 0 ? this.stack[stackIndex - 1] : undefined;
+        if (state.lastmove === "pass" && prev?.lastmove !== undefined && prev.lastmove.startsWith("-")) {
+            return "apresults:tablero.PASS.afterTake";
+        }
+        return "apresults:tablero.PASS.default";
+    }
+
+    private tableroPassActor(
+        stackIndex: number,
+        state: IMoveState,
+        ctx: ChatLogCollectContext,
+        textKey: string,
+    ): number {
+        if (textKey === "apresults:tablero.PASS.afterTake") {
+            if (ctx.results.some((res) => res.type === "take")) {
+                return ctx.currplayer;
+            }
+            return defaultPlyActor(this, stackIndex);
+        }
+        return ctx.defaultSeat;
+    }
+
     public chatLogEntries(players: string[] = []): ChatLogEntry[] {
         const entries: ChatLogEntry[] = [];
         for (let i = 0; i < this.stack.length; i++) {
@@ -1310,8 +1348,19 @@ export class TableroGame extends GameBase {
             }
             if (TableroGame.legacyDuplicatePassFrame(this.stack, i)) {
                 const lines: ChatLogLine[] = [];
-                const defaultSeat = defaultPlyActor(this, i);
-                this.pushSeatChatLine(lines, defaultSeat, "apresults:tablero.PASS.default", {});
+                const prev = this.stack[i - 1]!;
+                const ctx: ChatLogCollectContext = {
+                    results: state._results ?? [],
+                    currplayer: state.currplayer as number,
+                    defaultSeat: defaultPlyActor(this, i),
+                    players,
+                };
+                const passResult = {type: "pass" as const};
+                const textKey = prev.lastmove !== undefined && prev.lastmove.startsWith("-")
+                    ? "apresults:tablero.PASS.afterTake"
+                    : this.tableroPassChatKey(i, state, ctx, passResult);
+                const seat = this.tableroPassActor(i, state, ctx, textKey);
+                this.pushSeatChatLine(lines, seat, textKey, {});
                 entries.push({
                     timestamp: (state._timestamp && new Date(state._timestamp).toISOString()) || "unknown",
                     lines,
@@ -1328,7 +1377,7 @@ export class TableroGame extends GameBase {
                 players,
             };
             for (const r of state._results) {
-                this.collectChatLogLine(lines, r, ctx);
+                this.collectChatLogLine(lines, r, ctx, i, state);
             }
             entries.push({
                 timestamp: (state._timestamp && new Date(state._timestamp).toISOString()) || "unknown",
@@ -1338,7 +1387,13 @@ export class TableroGame extends GameBase {
         return entries;
     }
 
-    public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
+    public collectChatLogLine(
+        lines: ChatLogLine[],
+        r: APMoveResult,
+        ctx: ChatLogCollectContext,
+        stackIndex?: number,
+        state?: IMoveState,
+    ): boolean {
         switch (r.type) {
             case "place":
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:_general.PLACE.nowhat", {where: r.where!});
@@ -1350,9 +1405,11 @@ export class TableroGame extends GameBase {
                 this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:tablero.ROLL.default", {values: r.values!.join(",")});
                 return true;
             case "pass": {
-                const forcedAfterTake = ctx.results.some((res) => res.type === "take");
-                const seat = forcedAfterTake ? ctx.currplayer : ctx.defaultSeat;
-                this.pushSeatChatLine(lines, seat, "apresults:tablero.PASS.default", {});
+                const frameIndex = stackIndex ?? 0;
+                const frameState = state ?? this.stack[frameIndex]!;
+                const textKey = this.tableroPassChatKey(frameIndex, frameState, ctx, r);
+                const seat = this.tableroPassActor(frameIndex, frameState, ctx, textKey);
+                this.pushSeatChatLine(lines, seat, textKey, {});
                 return true;
             }
             default:

@@ -254,7 +254,7 @@ describe("Tablero", () => {
         const takeLines = entries[0]!.lines;
         const passLines = entries[1]!.lines;
         const takeLine = takeLines.find((l) => l.textKey === "apresults:tablero.TAKE.default");
-        const passLine = passLines.find((l) => l.textKey === "apresults:tablero.PASS.default");
+        const passLine = passLines.find((l) => l.textKey === "apresults:tablero.PASS.afterTake");
         expect(takeLine?.actor).to.deep.equal({kind: "seat", seat: 2});
         expect(passLine?.actor).to.deep.equal({kind: "seat", seat: 1});
     });
@@ -278,8 +278,26 @@ describe("Tablero", () => {
         });
         const entries = g.chatLogEntries(["Alice", "Bob"]);
         expect(entries).to.have.length(1);
-        const passLine = entries[0]!.lines.find((l) => l.textKey === "apresults:tablero.PASS.default");
+        const passLine = entries[0]!.lines.find((l) => l.textKey === "apresults:tablero.PASS.afterTake");
         expect(passLine?.actor).to.deep.equal({kind: "seat", seat: 1});
+    });
+
+    it("chatLogEntries: bump uses BUMP copy, not forced pass after take", () => {
+        const g = gameFrom({
+            stack: [
+                moveState({currplayer: 1, roll: [4, 4], pieces: [0, 12]}),
+                moveState({
+                    currplayer: 2,
+                    roll: [4, 4],
+                    lastmove: "bump",
+                    bumped: 1,
+                    _results: [{type: "pass", why: "bump"}],
+                }),
+            ],
+        });
+        const line = g.chatLogEntries(["Alice", "Bob"])[0]!.lines[0]!;
+        expect(line.textKey).to.equal("apresults:tablero.BUMP.default");
+        expect(line.actor).to.deep.equal({kind: "seat", seat: 1});
     });
 
     it("chatLogEntries: legacy duplicate pass frame emits bump only once", () => {
@@ -306,7 +324,7 @@ describe("Tablero", () => {
         });
         const text = formatChatLogEntries(g.chatLogEntries(["Alice", "Bob"]), ["Alice", "Bob"], (k) => k);
         const takeLines = text.filter((l) => l.includes("tablero.TAKE"));
-        const passLines = text.filter((l) => l.includes("tablero.PASS"));
+        const passLines = text.filter((l) => l.includes("tablero.PASS.afterTake") || l.includes("passed"));
         expect(takeLines).to.have.length(1);
         expect(passLines).to.have.length(1);
     });

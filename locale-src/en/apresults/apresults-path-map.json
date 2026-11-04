@@ -7103,6 +7103,26 @@
       "english": "{{player}} place at {{where}} a size {{size}} piece directed at {{dir}}."
     },
     {
+      "oldPath": "BUMP.tablero",
+      "oldFullKey": "apresults:BUMP.tablero",
+      "uid": "tablero",
+      "resultType": "BUMP",
+      "newLeaf": "default",
+      "newPath": "tablero.BUMP.default",
+      "newFullKey": "apresults:tablero.BUMP.default",
+      "english": "{{player}} bumped!"
+    },
+    {
+      "oldPath": "PASS.tablero_afterTake",
+      "oldFullKey": "apresults:PASS.tablero_afterTake",
+      "uid": "tablero",
+      "resultType": "PASS",
+      "newLeaf": "afterTake",
+      "newPath": "tablero.PASS.afterTake",
+      "newFullKey": "apresults:tablero.PASS.afterTake",
+      "english": "{{player}} had no move after the take and passed."
+    },
+    {
       "oldPath": "PASS.tablero",
       "oldFullKey": "apresults:PASS.tablero",
       "uid": "tablero",
@@ -7110,7 +7130,7 @@
       "newLeaf": "default",
       "newPath": "tablero.PASS.default",
       "newFullKey": "apresults:tablero.PASS.default",
-      "english": "{{player}} bumped!"
+      "english": "{{player}} passed."
     },
     {
       "oldPath": "ROLL.tablero",

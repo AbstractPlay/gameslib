@@ -27,6 +27,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 ### Fixed
 
 - **Tablero:** deep-copy board stacks in saved state so history replay stays correct after doubles takes; forced bump after a take is one stack frame with `pass` in `_results`; move log attributes takes and bumps to the correct player (including legacy duplicate `pass` rows).
+- **Tablero stack repair:** replay handles resign/timeout/abandoned/draw plies, skips post-`gameover` noise frames, and uses `_results` roll values when rebuilding stacks for audit/backfill.
 - **Alien City:** reject tower claims on a placement after which neither player can legally build (rules last-placement claim); EOG claim nullification unchanged as a fallback.
 - **Armadas, Pacru, Pigs, Homeworlds, Knight Line, Stawvs, Yavalath:** resign and timeout use `winnersAfterWithdrawal` so shipless, eliminated, or otherwise out-of-contention seats are not co-winners when a sole remaining contender is knowable (Armadas prod case); early Homeworlds resign without eliminations unchanged.
 

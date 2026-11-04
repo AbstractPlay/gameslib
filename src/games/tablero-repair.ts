@@ -1,4 +1,5 @@
 import { reviver } from "../common/index.js";
+import type { APMoveResult } from "../schemas/moveresults.js";
 import { TableroGame, type IMoveState, type ITableroState, type playerid } from "./tablero.js";
 
 export type TableroStackRepairResult = {
@@ -13,8 +14,64 @@ export type TableroStackVerifyResult = {
     reason?: string;
 };
 
-function cloneBoard(board: Map<string, playerid[]>): Map<string, playerid[]> {
-    return new Map([...board].map(([k, v]) => [k, [...v]]));
+function cloneBoard(board: Map<string, playerid[]> | Record<string, playerid[]>): Map<string, playerid[]> {
+    if (board instanceof Map) {
+        return new Map([...board].map(([k, v]) => [k, [...v]]));
+    }
+    return new Map(Object.entries(board).map(([k, v]) => [k, [...v]]));
+}
+
+function rollOverrideForFrame(frame: IMoveState): [number, number] | [number] {
+    const fromResults = frame._results?.find(
+        (r): r is Extract<APMoveResult, {type: "roll"}> => r.type === "roll",
+    );
+    if (fromResults !== undefined) {
+        const v = fromResults.values;
+        if (v.length === 1) {
+            return [v[0]!];
+        }
+        return [v[0]!, v[1]!];
+    }
+    return [...frame.roll] as [number, number] | [number];
+}
+
+function isWithdrawalLastmove(lastmove: string): boolean {
+    const m = lastmove.toLowerCase().replace(/\s+/g, "");
+    return m === "resign" || m === "timeout" || m === "abandoned" || m === "draw";
+}
+
+function withdrawingPlayer(frame: IMoveState): playerid {
+    for (const r of frame._results ?? []) {
+        if (r.type === "resigned" || r.type === "timeout") {
+            return r.player as playerid;
+        }
+    }
+    return frame.currplayer;
+}
+
+function replayStackMove(g: TableroGame, frame: IMoveState, lastmove: string): void {
+    const normalized = lastmove.toLowerCase().replace(/\s+/g, "");
+    if (normalized === "pass") {
+        g.move("pass", {trusted: true});
+        return;
+    }
+    if (normalized === "resign") {
+        g.resign(withdrawingPlayer(frame));
+        return;
+    }
+    if (normalized === "timeout") {
+        g.timeout(withdrawingPlayer(frame));
+        return;
+    }
+    if (normalized === "abandoned") {
+        g.abandoned();
+        return;
+    }
+    if (normalized === "draw") {
+        g.draw();
+        return;
+    }
+    g.move(lastmove, {trusted: true, rollOverride: rollOverrideForFrame(frame)});
 }
 
 function cloneMoveState(entry: IMoveState): IMoveState {
@@ -142,11 +199,10 @@ function rebuildTableroStack(state: ITableroState): TableroGame {
         if (lastmove === undefined || lastmove.length === 0) {
             throw new Error(`missing lastmove at stack index ${i}`);
         }
-        if (lastmove === "pass") {
-            g.move("pass", {trusted: true});
-        } else {
-            g.move(lastmove, {trusted: true, rollOverride: [...frame.roll] as [number, number] | [number]});
+        if (g.gameover && !isWithdrawalLastmove(lastmove)) {
+            continue;
         }
+        replayStackMove(g, frame, lastmove);
     }
     g.gameover = state.gameover;
     g.winner = [...state.winner];

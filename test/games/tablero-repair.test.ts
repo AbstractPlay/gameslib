@@ -107,6 +107,19 @@ describe("Tablero stack repair", () => {
         expect(verifyTableroStackIntegrity(repaired).ok).to.be.true;
     });
 
+    it("verifyTableroStackIntegrity replays resign ending stacks", () => {
+        const g = new TableroGame(undefined, []);
+        g.stack[0]!.board = new Map([["b2", [1, 1]]]);
+        g.currplayer = 1;
+        g.roll = [2, 3];
+        g.pieces = [10, 11];
+        g.load(0);
+        g.move("+b2", {trusted: true});
+        g.resign(2);
+        const verify = verifyTableroStackIntegrity(g.state());
+        expect(verify.ok, verify.reason).to.be.true;
+    });
+
     it("repairTableroStackJson round-trips repaired state", () => {
         const openingC3: playerid[] = [2, 2];
         const shared: playerid[] = [2, 2];

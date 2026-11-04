@@ -18,7 +18,19 @@ function cloneBoard(board: unknown): Map<string, playerid[]> {
     return TableroGame.normalizeBoard(board);
 }
 
-/** Which tip fields differ after replay (empty when tips match). */
+const PLAYABLE_TIP_FIELDS = ["board", "pieces"] as const;
+
+function normalizeStackBoards(state: ITableroState): ITableroState {
+    return {
+        ...state,
+        stack: state.stack.map((frame) => ({
+            ...frame,
+            board: cloneBoard(frame.board),
+        })),
+    };
+}
+
+/** All tip fields that differ after replay (diagnostics). */
 export function tableroTipMismatchFields(original: ITableroState, rebuilt: ITableroState): string[] {
     const origTip = original.stack[original.stack.length - 1]!;
     const newTip = rebuilt.stack[rebuilt.stack.length - 1]!;
@@ -39,6 +51,13 @@ export function tableroTipMismatchFields(original: ITableroState, rebuilt: ITabl
         fields.push("currplayer");
     }
     return fields;
+}
+
+/** Tip fields that differ on board or piece counts (verify / audit contract). */
+export function tableroPlayableTipMismatchFields(original: ITableroState, rebuilt: ITableroState): string[] {
+    return tableroTipMismatchFields(original, rebuilt).filter((f) =>
+        (PLAYABLE_TIP_FIELDS as readonly string[]).includes(f),
+    );
 }
 
 function rollOverrideForFrame(frame: IMoveState): [number, number] | [number] {
@@ -149,7 +168,7 @@ function boardsEqual(a: Map<string, playerid[]>, b: Map<string, playerid[]>): bo
 
 function framePlayfieldsEqual(a: IMoveState, b: IMoveState): boolean {
     return (
-        boardsEqual(a.board, b.board)
+        boardsEqual(cloneBoard(a.board), cloneBoard(b.board))
         && a.currplayer === b.currplayer
         && a.pieces[0] === b.pieces[0]
         && a.pieces[1] === b.pieces[1]
@@ -183,7 +202,7 @@ function tipsCompatible(original: ITableroState, rebuilt: ITableroState): boolea
 }
 
 function tipMismatchReason(original: ITableroState, rebuilt: ITableroState): string {
-    const fields = tableroTipMismatchFields(original, rebuilt);
+    const fields = tableroPlayableTipMismatchFields(original, rebuilt);
     if (fields.length === 0) {
         return "tip playfields mismatch after replay";
     }
@@ -269,6 +288,7 @@ export function verifyTableroStackIntegrity(input: ITableroState | string): Tabl
     if (state.stack.length === 0) {
         return {ok: false, reason: "empty stack"};
     }
+    state = normalizeStackBoards(state);
     try {
         const engine = rebuildTableroStack(state);
         const rebuilt = engine.state();
@@ -295,6 +315,7 @@ export function repairTableroStack(input: ITableroState | string): TableroStackR
     if (state.game !== TableroGame.gameinfo.uid) {
         return {state, repaired: false, reason: "not tablero"};
     }
+    state = normalizeStackBoards(state);
     try {
         const engine = rebuildTableroStack(state);
         const rebuilt = engine.state();

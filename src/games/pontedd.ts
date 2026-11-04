@@ -823,6 +823,7 @@ export class PonteDDGame extends GameBase {
                     type: "line",
                     targets: [{row: ly, col: lx}, {row: ry, col: rx}],
                     arrow: false,
+                    anchors: false,
                     strokeWidth: 0.25,
                 });
             }

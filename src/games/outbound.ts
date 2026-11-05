@@ -23,6 +23,12 @@ export const gameApgamesEn = {
         BLOCKED: "The path from {{from}} to {{to}} is blocked.",
         NOT_GROWABLE: "{{where}} is not next to a Defender group that can still grow this turn.",
     },
+    displays: {
+        cross: {
+            name: "Render with vertex-cross",
+            description: "Render the board with diagonal connections as well as orthogonal.",
+        },
+    },
     status: {
         WHITE: "Hunter",
         BLACK: "Defender",
@@ -117,6 +123,7 @@ export class OutboundGame extends GameBase {
         ],
         categories: ["goal>breakthrough", "goal>immobilize", "mechanic>place", "mechanic>move", "mechanic>convert", "mechanic>asymmetry", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "custom-colours", "custom-buttons", "no-moves"],
+        displays: [{ uid: "cross" }],
         customizations: [
             {
                 num: 1,
@@ -750,7 +757,6 @@ export class OutboundGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        void opts;
         const legend: NonNullable<APRenderRep["legend"]> = {
             W: [{ name: "piece", paint: stonePaint(1) }],
             B: [{ name: "piece", paint: stonePaint(2) }],
@@ -772,7 +778,7 @@ export class OutboundGame extends GameBase {
 
         const rep: APRenderRep = {
             board: {
-                style: "vertex",
+                style: this.hasDisplay(opts, "cross") ? "vertex-cross" : "vertex",
                 width: this.boardSize,
                 height: this.boardSize,
             },

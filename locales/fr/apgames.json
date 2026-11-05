@@ -5330,6 +5330,12 @@
         "name": "Masquer les coups"
       }
     },
+    "outbound": {
+      "cross": {
+        "name": "Afficher avec croix aux sommets",
+        "description": "Afficher le plateau avec des connexions diagonales ainsi qu'orthogonales."
+      }
+    },
     "oware": {
       "pips": {
         "description": "Afficher les pierres sous forme de points plutôt que de chiffres.",

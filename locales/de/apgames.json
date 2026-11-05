@@ -5330,6 +5330,12 @@
         "name": "Züge ausblenden"
       }
     },
+    "outbound": {
+      "cross": {
+        "name": "Mit Eckenkreuz darstellen",
+        "description": "Das Spielbrett sowohl mit diagonalen als auch mit orthogonalen Verbindungen darstellen."
+      }
+    },
     "oware": {
       "pips": {
         "description": "Steine als Augen anstelle von Zahlen anzeigen.",

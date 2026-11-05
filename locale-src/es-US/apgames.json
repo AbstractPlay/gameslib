@@ -3103,6 +3103,14 @@
     "src": "Hide moves",
     "out": "Ocultar movimientos"
   },
+  "displays.outbound.cross.description": {
+    "src": "Render the board with diagonal connections as well as orthogonal.",
+    "out": "Renderiza el tablero con conexiones diagonales además de ortogonales."
+  },
+  "displays.outbound.cross.name": {
+    "src": "Render with vertex-cross",
+    "out": "Renderizar con cruz de vértices"
+  },
   "displays.oware.pips.description": {
     "src": "Display the stones as pips instead of as numerals.",
     "out": "Mostrar las piedras como puntos en lugar de números."

@@ -5330,6 +5330,12 @@
         "name": "Ocultar movimientos"
       }
     },
+    "outbound": {
+      "cross": {
+        "name": "Renderizar con cruz de vértices",
+        "description": "Renderiza el tablero con conexiones diagonales además de ortogonales."
+      }
+    },
     "oware": {
       "pips": {
         "description": "Mostrar las piedras como puntos en lugar de números.",

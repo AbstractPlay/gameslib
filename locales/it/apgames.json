@@ -5330,6 +5330,12 @@
         "name": "Nascondi mosse"
       }
     },
+    "outbound": {
+      "cross": {
+        "name": "Visualizza con croce sui vertici",
+        "description": "Visualizza il tavoliere sia con connessioni diagonali che ortogonali."
+      }
+    },
     "oware": {
       "pips": {
         "description": "Mostra le pietre come pallini invece che come cifre.",

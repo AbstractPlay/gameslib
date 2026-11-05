@@ -5330,6 +5330,12 @@
         "name": "Hide moves"
       }
     },
+    "outbound": {
+      "cross": {
+        "name": "Render with vertex-cross",
+        "description": "Render the board with diagonal connections as well as orthogonal."
+      }
+    },
     "oware": {
       "pips": {
         "description": "Display the stones as pips instead of as numerals.",

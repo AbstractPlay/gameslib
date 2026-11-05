@@ -23,6 +23,12 @@ export const gameApgamesEn = {
         BLOCKED: "The path from {{from}} to {{to}} is blocked.",
         NOT_GROWABLE: "{{where}} is not next to a Defender group that can still grow this turn.",
     },
+    displays: {
+        cross: {
+            name: "Render with vertex-cross",
+            description: "Render the board with diagonal connections as well as orthogonal.",
+        },
+    },
     status: {
         WHITE: "Hunter",
         BLACK: "Defender",
@@ -98,6 +104,10 @@ export class OutboundGame extends GameBase {
         dateAdded: "2026-11-04",
         description: "An asymmetric game on a Go board. The Defender grows groups of stones, one stone per group per turn, and wins by bringing the crowned group to the edge; the Hunter slides stones around the board and flips lone Defender stones to trap it.",
         notes: "The Defender starts with one stone in the centre, holding the crown. The king is the Defender group containing the crown. The Hunter starts with stones placed along the perimeter: players take turns adding Hunter stones until one of them, instead of placing, declares that they can stop the Defender and makes the first Hunter move.\n\nOn the Hunter's turn, one Hunter stone slides in a straight line, orthogonally or diagonally, over empty or Hunter spaces onto an empty space. If the moved stone and another Hunter stone flank a single Defender stone, orthogonally or diagonally, that stone changes sides. One move can flip several stones, but the stone carrying the crown is never flipped. The Hunter must pass if there is no legal move.\n\nOn the Defender's turn, each Defender group with liberties must grow once by a stone placed orthogonally next to it. A placement uses up the growth of every group it touches, so growing another group may merge groups that have already grown. At the end of the turn the crown moves to the most recently placed stone in the king.\n\nThe Defender wins if the king reaches the edge. The Hunter wins if the king has no liberties.",
+        urls: [
+            "https://boardgamegeek.com/boardgame/458917/outbound"
+        ],
+        bggid: "458917",
         people: [
             {
                 type: "designer",
@@ -108,12 +118,12 @@ export class OutboundGame extends GameBase {
             {
                 type: "coder",
                 name: "ManaT",
-                urls: [],
                 apid: "a82c4aa8-7d43-4661-b027-17afd1d1586f",
             }
         ],
         categories: ["goal>breakthrough", "goal>immobilize", "mechanic>place", "mechanic>move", "mechanic>convert", "mechanic>asymmetry", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
         flags: ["experimental", "custom-colours", "custom-buttons", "no-moves"],
+        displays: [{ uid: "cross" }],
         customizations: [
             {
                 num: 1,
@@ -747,7 +757,6 @@ export class OutboundGame extends GameBase {
     }
 
     public render(opts?: IRenderOpts): APRenderRep {
-        void opts;
         const legend: NonNullable<APRenderRep["legend"]> = {
             W: [{ name: "piece", paint: stonePaint(1) }],
             B: [{ name: "piece", paint: stonePaint(2) }],
@@ -769,7 +778,7 @@ export class OutboundGame extends GameBase {
 
         const rep: APRenderRep = {
             board: {
-                style: "vertex",
+                style: this.hasDisplay(opts, "cross") ? "vertex-cross" : "vertex",
                 width: this.boardSize,
                 height: this.boardSize,
             },
@@ -795,7 +804,7 @@ export class OutboundGame extends GameBase {
             annotations.push({ type: "enter", targets: [toRowCol(this.selected)] });
             const targets = this.slides(this.selected).map(toRowCol);
             if (targets.length > 0) {
-                annotations.push({ type: "dots", targets: targets as [RowCol, ...RowCol[]] });
+                annotations.push({ type: "dots", targets: targets as [RowCol, ...RowCol[]], colour: 1 });
             }
         }
         if (this.target !== undefined) {
@@ -810,7 +819,7 @@ export class OutboundGame extends GameBase {
             this.pending.forEach((c) => base.delete(c));
             const growable = this.growableCells(base, this.pending).map(toRowCol);
             if (growable.length > 0) {
-                annotations.push({ type: "dots", targets: growable as [RowCol, ...RowCol[]] });
+                annotations.push({ type: "dots", targets: growable as [RowCol, ...RowCol[]], colour: 2 });
             }
         }
         if (annotations.length > 0) {

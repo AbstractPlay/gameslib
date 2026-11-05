@@ -271,6 +271,14 @@ describe("Outbound", () => {
         });
     });
 
+    describe("displays", () => {
+        it("draws a plain vertex board by default and crossed points on request", () => {
+            const g = new OutboundGame();
+            expect((g.render().board as { style: string }).style).to.equal("vertex");
+            expect((g.render({ altDisplays: ["cross"] }).board as { style: string }).style).to.equal("vertex-cross");
+        });
+    });
+
     describe("end of game", () => {
         it("gives Black the win when the king reaches the edge", () => {
             const g = setup(["b10"], ["c1"], { turn: 2 });

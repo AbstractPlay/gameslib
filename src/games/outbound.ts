@@ -101,7 +101,7 @@ export class OutboundGame extends GameBase {
         uid: "outbound",
         playercounts: [2],
         version: "20261104",
-        dateAdded: "2026-11-04",
+        dateAdded: "2026-11-06",
         description: "An asymmetric game on a Go board. The Defender grows groups of stones, one stone per group per turn, and wins by bringing the crowned group to the edge; the Hunter slides stones around the board and flips lone Defender stones to trap it.",
         notes: "The Defender starts with one stone in the centre, holding the crown. The king is the Defender group containing the crown. The Hunter starts with stones placed along the perimeter: players take turns adding Hunter stones until one of them, instead of placing, declares that they can stop the Defender and makes the first Hunter move.\n\nOn the Hunter's turn, one Hunter stone slides in a straight line, orthogonally or diagonally, over empty or Hunter spaces onto an empty space. If the moved stone and another Hunter stone flank a single Defender stone, orthogonally or diagonally, that stone changes sides. One move can flip several stones, but the stone carrying the crown is never flipped. The Hunter must pass if there is no legal move.\n\nOn the Defender's turn, each Defender group with liberties must grow once by a stone placed orthogonally next to it. A placement uses up the growth of every group it touches, so growing another group may merge groups that have already grown. At the end of the turn the crown moves to the most recently placed stone in the king.\n\nThe Defender wins if the king reaches the edge. The Hunter wins if the king has no liberties.",
         urls: [
@@ -122,7 +122,7 @@ export class OutboundGame extends GameBase {
             }
         ],
         categories: ["goal>breakthrough", "goal>immobilize", "mechanic>place", "mechanic>move", "mechanic>convert", "mechanic>asymmetry", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "custom-colours", "custom-buttons", "no-moves"],
+        flags: ["custom-colours", "custom-buttons", "no-moves"],
         displays: [{ uid: "cross" }],
         customizations: [
             {

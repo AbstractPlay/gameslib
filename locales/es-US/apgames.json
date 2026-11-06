@@ -2713,7 +2713,11 @@
     },
     "neutron": {
       "INCOMPLETE": "Debes completar ambas partes del turno (o terminar el juego con un movimiento ganador del neutrón).",
-      "INITIAL_INSTRUCTIONS": "Selecciona a dónde deslizar el neutrón o, en el primer turno de las blancas en Neutron estándar, selecciona un peón para mover.",
+      "INITIAL_INSTRUCTIONS_openingPawnOnly": "Desliza uno de tus peones en línea recta lo más lejos que pueda ir (el neutrón no se mueve en este turno).",
+      "INITIAL_INSTRUCTIONS_standard": "Desliza el neutrón en línea recta lo más lejos que pueda ir, luego desliza uno de tus peones de la misma manera. Ganas si el neutrón se detiene en tu fila inicial.",
+      "INITIAL_INSTRUCTIONS_coneutron": "Desliza el neutrón en línea recta lo más lejos que pueda ir, luego desliza uno de tus peones de la misma manera. Ganas si el neutrón se detiene en la fila inicial de tu oponente.",
+      "PAWN_MOBILITY_REMINDER_restricted": "Los peones no pueden caer en la fila inicial del oponente.",
+      "PAWN_MOBILITY_REMINDER_doubleRestricted": "Los peones no pueden caer en la fila inicial del oponente. Un peón que haya salido de su fila inicial no puede volver a caer en su fila inicial; los peones que aún estén en su fila inicial pueden deslizarse a lo largo de ella.",
       "INVALID_NEUTRON": "El neutrón no se puede deslizar a esa casilla.",
       "NEUTRON_FIRST": "Desliza el neutrón primero, luego selecciona uno de tus peones.",
       "PAWN_DEST": "Selecciona a dónde deslizar ese peón.",
@@ -4893,7 +4897,7 @@
     "murus": "El reglamento predeterminado es \"Advanced Murus Gallicus\" (con catapultas). Por defecto, tu primer movimiento es redistribuir una de tus torres iniciales como muros en tu segunda fila. Además, la regla estándar del pastel (pie rule) también está disponible. Hay tres variantes que puedes combinar:\n\n* \"Basic\" revierte el juego al estado \"sin catapultas\".\n* \"Static\" deshabilita la redistribución inicial de la torre.\n* \"Escape\" elimina la condición de victoria por avance decisivo.",
     "mutternland": "Mutternland fue diseñado por Hartmut Witt en 1997. Esta implementación maneja las colocaciones iniciales de piezas de manera diferente. Mientras que en el juego original los jugadores colocaban, en la preparación inicial, una pieza _enemiga_ por turno, aquí los jugadores colocan una pieza propia y luego una pieza del oponente (incluidas algunas restricciones para evitar inicios desequilibrados debido a la generación aleatoria del campo de juego). Esto hace que la preparación inicial sea más rápida y proporciona cierto control sobre las piezas propias. Además, las piezas expulsadas, que vuelven a la reserva del jugador, son colocadas nuevamente por su propietario.",
     "narrows": "Narrows, diseñado por Mark Steere en 2026, es un juego de unificación inspirado en el antiguo juego hawaiano Kōnane. Fiel al espíritu de Kōnane, Ūnane comienza con un patrón de piedras en tablero de ajedrez y es extremadamente simple. En este caso, el objetivo de unificación incluye el uso de caminos ortogonales de casillas vacías para conectar diferentes grupos de piezas propias.",
-    "neutron": "Cada turno (excepto el primer turno de las blancas en Neutron estándar) consiste en deslizar el neutrón y luego deslizar uno de tus peones. Todas las piezas se deslizan en línea recta lo más lejos posible sin saltar. **CoNeutron** cambia la fila ganadora a la fila trasera de tu oponente y elimina la apertura solo de peón de las blancas.\n\nLas restricciones de **movilidad** se aplican solo a los movimientos de peones. Con movilidad **restringida**, los peones no pueden caer en la fila inicial del oponente. Con movilidad **doblemente restringida**, los peones tampoco pueden volver a entrar a su propia fila inicial después de salir de ella; los peones que aún estén en la fila inicial pueden deslizarse a lo largo de esa fila.\n\nLos movimientos se anotan `neutronDest,pawnFrom-pawnTo`, o `pawnFrom-pawnTo` en el primer turno de las blancas en Neutron estándar. Un deslizamiento del neutrón que dé la victoria solo se anota como la casilla de destino.",
+    "neutron": "Cada turno (excepto la apertura del primer jugador en Neutron estándar) consiste en deslizar el neutrón y luego deslizar uno de tus peones. Todas las piezas se deslizan en línea recta lo más lejos posible sin saltar. **CoNeutron** cambia la fila ganadora a la última fila de tu oponente y elimina la apertura de solo peón del primer jugador.\n\nLas restricciones de **movilidad** se aplican solo a los movimientos de los peones. Con movilidad **restringida**, los peones no pueden caer en la fila inicial del oponente. Con movilidad **doblemente restringida**, los peones tampoco pueden volver a entrar a su propia fila inicial después de haber salido de ella; los peones que aún estén en la fila inicial pueden deslizarse a lo largo de esa fila.\n\nLos movimientos se anotan `neutronDest,pawnFrom-pawnTo`, o `pawnFrom-pawnTo` en la apertura del primer jugador en Neutron estándar. Un deslizamiento ganador de solo el neutrón se anota simplemente como la casilla de destino.",
     "oonpia": "Utiliza la leyenda para seleccionar una pieza o haz clic en la misma ubicación varias veces para desplazarte por todas las piezas posibles. Las casillas bloqueadas están resaltadas: un punto traslúcido significa que solo se puede colocar allí una piedra con punto (es decir, bloqueada para piezas lisas), una pieza traslúcida significa que solo se puede colocar allí una pieza lisa (es decir, bloqueada para piezas con punto). Si ambos resaltados están presentes, entonces la casilla está bloqueada para todas las piezas.",
     "outbound": "El Defensor comienza con una piedra en el centro, la cual lleva la corona. El rey es el grupo del Defensor que contiene la corona. El Cazador comienza con piedras colocadas a lo largo del perímetro: los jugadores se turnan para añadir piedras del Cazador hasta que uno de ellos, en lugar de colocar una piedra, declara que puede detener al Defensor y realiza el primer movimiento del Cazador.\n\nEn el turno del Cazador, una piedra del Cazador se desliza en línea recta, ortogonal o diagonalmente, sobre casillas vacías o del Cazador hasta una casilla vacía. Si la piedra movida y otra piedra del Cazador flanquean a una sola piedra del Defensor, ortogonal o diagonalmente, esa piedra cambia de bando. Un movimiento puede voltear varias piedras, pero la piedra que lleva la corona nunca se voltea. El Cazador debe pasar si no hay ningún movimiento legal.\n\nEn el turno del Defensor, cada grupo del Defensor con libertades debe crecer una vez mediante una piedra colocada ortogonalmente junto a él. Una colocación agota el crecimiento de cada grupo que toca, por lo que hacer crecer otro grupo puede fusionar grupos que ya hayan crecido. Al final del turno, la corona se mueve a la piedra del rey colocada más recientemente.\n\nEl Defensor gana si el rey llega al borde. El Cazador gana si el rey no tiene libertades.",
     "oware": "Esta implementación sigue la regla común de torneo de que se permiten los movimientos de gran slam, pero no se capturan piezas. Representar los cambios de estado en los juegos de siembra es un desafío. El pozo inicial elegido está marcado, al igual que cualquier captura. Aparecen números pequeños para mostrar el cambio en la cantidad de piedras en cada pozo. Si crees que has encontrado un error, por favor avísanos en Discord.",
@@ -7755,7 +7759,7 @@
       },
       "coneutron": {
         "name": "CoNeutron",
-        "description": "Gana moviendo el neutrón a la fila trasera de tu oponente. Las blancas mueven el neutrón en el primer turno."
+        "description": "Gana moviendo el neutrón a la última fila de tu oponente. El primer jugador mueve el neutrón en el turno de apertura."
       },
       "#mobility": {
         "name": "Sin restricciones"
@@ -9480,11 +9484,11 @@
       "square-10": {
         "name": "Cuadrado de tamaño 10 (Xodd)"
       },
+      "square-11": {
+        "name": "Cuadrado de tamaño 11 (Xodd)"
+      },
       "square-13": {
         "name": "Cuadrado de tamaño 13 (Xodd)"
-      },
-      "square-14": {
-        "name": "Cuadrado de tamaño 14 (Xodd)"
       },
       "square-15": {
         "name": "Cuadrado de tamaño 15 (Xodd)"

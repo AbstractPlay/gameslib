@@ -4884,8 +4884,8 @@
     "out": "Narrows, entworfen von Mark Steere im Jahr 2026, ist ein Vereinigungsspiel, das vom alten hawaiianischen Spiel Kōnane inspiriert wurde. Ganz im Geiste von Kōnane beginnt Ūnane mit einem Schachbrettmuster aus Steinen und ist extrem einfach. In diesem Fall beinhaltet das Vereinigungsziel die Nutzung orthogonaler Pfade aus leeren Feldern, um verschiedene Gruppen eigener Steine zu verbinden."
   },
   "notes.neutron": {
-    "src": "Each turn (except White's first turn in standard Neutron) consists of sliding the neutron, then sliding one of your pawns. All pieces slide in straight lines as far as possible without jumping. **CoNeutron** swaps the winning row to your opponent's back rank and removes White's pawn-only opening.\n\n**Mobility** restrictions apply to pawn moves only. With **restricted** mobility, pawns may not land on the opponent's home row. With **double restricted** mobility, pawns also may not re-enter their own home row after leaving it; pawns still on the home row may slide along that row.\n\nMoves are notated `neutronDest,pawnFrom-pawnTo`, or `pawnFrom-pawnTo` on White's first turn in standard Neutron. A winning neutron slide alone is notated as just the destination cell.",
-    "out": "Jeder Zug (außer dem ersten Zug von Weiß beim Standard-Neutron) besteht darin, zuerst das Neutron und danach einen eigenen Bauern zu schieben. Alle Figuren gleiten ohne Überspringen geradlinig so weit wie möglich. **CoNeutron** verlegt die Siegreihe auf die Grundreihe des Gegners und entfernt die reine Bauern-Eröffnung für Weiß.\n\nEinschränkungen der **Beweglichkeit** gelten nur für Bauernzüge. Bei **eingeschränkter** Beweglichkeit dürfen Bauern nicht auf der gegnerischen Grundreihe landen. Bei **doppelt eingeschränkter** Beweglichkeit dürfen Bauern nach dem Verlassen ihrer eigenen Grundreihe diese auch nicht mehr betreten; Bauern, die sich noch auf ihrer eigenen Grundreihe befinden, dürfen entlang dieser Reihe gleiten.\n\nZüge werden als `neutronDest,pawnFrom-pawnTo` notiert, oder im ersten Zug von Weiß bei Standard-Neutron als `pawnFrom-pawnTo`. Ein einzelner gewinnender Neutronenzug wird nur als Zielfeld notiert."
+    "src": "Each turn (except the first player's opening in standard Neutron) consists of sliding the neutron, then sliding one of your pawns. All pieces slide in straight lines as far as possible without jumping. **CoNeutron** swaps the winning row to your opponent's back rank and removes the first player's pawn-only opening.\n\n**Mobility** restrictions apply to pawn moves only. With **restricted** mobility, pawns may not land on the opponent's home row. With **double restricted** mobility, pawns also may not re-enter their own home row after leaving it; pawns still on the home row may slide along that row.\n\nMoves are notated `neutronDest,pawnFrom-pawnTo`, or `pawnFrom-pawnTo` on the first player's opening in standard Neutron. A winning neutron slide alone is notated as just the destination cell.",
+    "out": "Jeder Zug (außer der Eröffnung des ersten Spielers im Standard-Neutron) besteht darin, den Neutron und anschließend einen der eigenen Bauern zu ziehen. Alle Steine gleiten in gerader Linie so weit wie möglich, ohne zu überspringen. **CoNeutron** wechselt die Siegreihe zur gegnerischen Grundreihe und entfernt die reine Bauern-Eröffnung des ersten Spielers.\n\nEinschränkungen der **Beweglichkeit** gelten nur für Bauernzüge. Bei **eingeschränkter** Beweglichkeit dürfen Bauern nicht auf der gegnerischen Grundreihe landen. Bei **doppelt eingeschränkter** Beweglichkeit dürfen Bauern nach dem Verlassen ihrer eigenen Grundreihe diese auch nicht mehr betreten; Bauern, die sich noch auf ihrer Grundreihe befinden, dürfen entlang dieser Reihe ziehen.\n\nZüge werden als `neutronDest,pawnFrom-pawnTo` notiert, oder als `pawnFrom-pawnTo` bei der Eröffnung des ersten Spielers im Standard-Neutron. Ein gewinnender Neutron-Zug allein wird nur als Zielfeld notiert."
   },
   "notes.oonpia": {
     "src": "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
@@ -11987,9 +11987,17 @@
     "src": "You must complete both parts of the turn (or end the game with a winning neutron move).",
     "out": "Du musst beide Teile des Zugs ausführen (oder das Spiel mit einem gewinnenden Neutronenzug beenden)."
   },
-  "validation.neutron.INITIAL_INSTRUCTIONS": {
-    "src": "Select where to slide the neutron, or on White's first turn in standard Neutron, select a pawn to move.",
-    "out": "Wähle aus, wohin das Neutron geschoben werden soll, oder wähle im ersten Zug von Weiß bei Standard-Neutron einen Bauern aus."
+  "validation.neutron.INITIAL_INSTRUCTIONS_coneutron": {
+    "src": "Slide the neutron in a straight line as far as it can go, then slide one of your pawns the same way. You win if the neutron stops on your opponent's home row.",
+    "out": "Bewege den Neutron in gerader Linie so weit wie möglich und ziehe dann einen deiner Bauern auf dieselbe Weise. Du gewinnst, wenn der Neutron auf der gegnerischen Grundreihe hält."
+  },
+  "validation.neutron.INITIAL_INSTRUCTIONS_openingPawnOnly": {
+    "src": "Slide one of your pawns in a straight line as far as it can go (the neutron does not move this turn).",
+    "out": "Ziehe einen deiner Bauern in gerader Linie so weit wie möglich (der Neutron wird in diesem Zug nicht bewegt)."
+  },
+  "validation.neutron.INITIAL_INSTRUCTIONS_standard": {
+    "src": "Slide the neutron in a straight line as far as it can go, then slide one of your pawns the same way. You win if the neutron stops on your home row.",
+    "out": "Bewege den Neutron in gerader Linie so weit wie möglich und ziehe dann einen deiner Bauern auf dieselbe Weise. Du gewinnst, wenn der Neutron auf deiner eigenen Grundreihe hält."
   },
   "validation.neutron.INVALID_NEUTRON": {
     "src": "The neutron cannot slide to that cell.",
@@ -12002,6 +12010,14 @@
   "validation.neutron.PAWN_DEST": {
     "src": "Select where to slide that pawn.",
     "out": "Wähle aus, wohin dieser Bauer geschoben werden soll."
+  },
+  "validation.neutron.PAWN_MOBILITY_REMINDER_doubleRestricted": {
+    "src": "Pawns may not land on the opponent's home row. A pawn that has left its home row may not land on its home row again; pawns still on their home row may slide along it.",
+    "out": "Bauern dürfen nicht auf der gegnerischen Grundreihe landen. Ein Bauer, der seine Grundreihe verlassen hat, darf nicht mehr auf seine Grundreihe zurückkehren; Bauern, die sich noch auf ihrer Grundreihe befinden, dürfen entlang dieser ziehen."
+  },
+  "validation.neutron.PAWN_MOBILITY_REMINDER_restricted": {
+    "src": "Pawns may not land on the opponent's home row.",
+    "out": "Bauern dürfen nicht auf der gegnerischen Grundreihe landen."
   },
   "validation.neutron.PAWN_SELECT": {
     "src": "Select one of your pawns to move.",
@@ -20204,8 +20220,8 @@
     "out": "7×7-Brett"
   },
   "variants.neutron.coneutron.description": {
-    "src": "Win by moving the neutron to your opponent's back row. White moves the neutron on the first turn.",
-    "out": "Gewinne, indem du das Neutron auf die Grundreihe des Gegners ziehst. Weiß zieht im ersten Zug das Neutron."
+    "src": "Win by moving the neutron to your opponent's back row. The first player moves the neutron on the opening turn.",
+    "out": "Gewinne, indem du den Neutron auf die gegnerische Grundreihe ziehst. Der erste Spieler bewegt den Neutron auch im Eröffnungszug."
   },
   "variants.neutron.coneutron.name": {
     "src": "CoNeutron",
@@ -22719,13 +22735,13 @@
     "src": "Size-10 square (Xodd)",
     "out": "Quadrat-Größe 10 (Xodd)"
   },
+  "variants.yodd.square-11.name": {
+    "src": "Size-11 square (Xodd)",
+    "out": "Größe-11-Quadrat (Xodd)"
+  },
   "variants.yodd.square-13.name": {
     "src": "Size-13 square (Xodd)",
     "out": "Quadrat-Größe 13 (Xodd)"
-  },
-  "variants.yodd.square-14.name": {
-    "src": "Size-14 square (Xodd)",
-    "out": "Quadrat-Größe 14 (Xodd)"
   },
   "variants.yodd.square-15.name": {
     "src": "Size-15 square (Xodd)",

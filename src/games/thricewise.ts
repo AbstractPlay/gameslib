@@ -221,7 +221,7 @@ export class ThricewiseGame extends GameBaseSequenced {
         uid: "thricewise",
         playercounts: [2, 3, 4, 5],
         version: "20260925",
-        dateAdded: "2026-09-25",
+        dateAdded: "2026-11-06",
         description: "A fast-paced Decktet tableau game: each turn everyone secretly chooses a card, then non-deferred plays go onto the grid in rank order. Score whenever your play completes a line of three (flush, set, or straight). Highest score when the grid fills or hands are empty wins.",
         notes: "With 2 or 4 players the opening grid is 2×2; with 3 or 5 players it is 2×3. Short labels appear beneath cards in your hand. \"Sel\" indicates the card chosen in the last selection phase (including an uncommitted partial select) and \"Def\" indicates cards deferred from an earlier tied selection. More information on the Decktet is on the [Decktet wiki](https://decktet.wikidot.com/).",
         urls: [
@@ -254,7 +254,7 @@ export class ThricewiseGame extends GameBaseSequenced {
             "components>decktet",
             "other>2+players",
         ],
-        flags: ["experimental", "scores", "simultaneous", "shared-pieces", "automove", "no-explore"],
+        flags: ["scores", "simultaneous", "shared-pieces", "automove", "no-explore"],
     };
 
     public numplayers = 2;

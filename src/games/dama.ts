@@ -86,6 +86,9 @@ export class DamaGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     private _points: [number, number][] = [];
+    /** Board during click-built partial moves (preview); undefined when not partial. */
+    private _partialBoard: Map<string, CellContents> | undefined;
+    private _partialResults: Array<APMoveResult> = [];
 
     public get boardsize(): number {
         return BOARD_SIZE;
@@ -207,6 +210,8 @@ export class DamaGame extends GameBase {
         this.crownsPending = [...state.crownsPending];
         this.lastmove = state.lastmove;
         this._points = [];
+        this._partialBoard = undefined;
+        this._partialResults = [];
         this.results = [];
         this.applyCrownsPendingForPlayer(this.currplayer);
         return this;
@@ -444,11 +449,13 @@ export class DamaGame extends GameBase {
                     result.message = i18next.t("apgames:validation._general.UNCONTROLLED");
                     return result;
                 }
-            } else if (this.board.has(cell) && cell !== cells[0]) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation._general.MOVE4CAPTURE", { where: cell });
-                return result;
             }
+        }
+        const badDest = this.validatePartialPathOccupancy(cells, this.currplayer);
+        if (badDest !== undefined) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation._general.MOVE4CAPTURE", { where: badDest });
+            return result;
         }
 
         const allMoves = this.moves();
@@ -471,6 +478,62 @@ export class DamaGame extends GameBase {
         result.canrender = true;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
         return result;
+    }
+
+    /** One orthogonal leg: remove jumped opponent then move `from` → `to`. Appends to `results` when provided. */
+    private applyLegToBoard(
+        board: Map<string, CellContents>,
+        currplayer: playerid,
+        from: string,
+        to: string,
+        results: APMoveResult[] | undefined,
+    ): void {
+        const [fx, fy] = this.algebraic2coords(from);
+        const [tx, ty] = this.algebraic2coords(to);
+        const between = RectGrid.between(fx, fy, tx, ty).map(pt => this.coords2algebraic(...pt));
+        for (const cell of between) {
+            if (board.has(cell) && board.get(cell)![0] !== currplayer) {
+                const [, capSize] = board.get(cell)!;
+                board.delete(cell);
+                results?.push({ type: "capture", where: cell, what: capSize === 1 ? "soldier" : "king" });
+                break;
+            }
+        }
+        const piece = board.get(from)!;
+        board.delete(from);
+        board.set(to, [...piece]);
+        results?.push({ type: "move", from, to });
+    }
+
+    private applyPathToBoard(
+        startBoard: Map<string, CellContents>,
+        cells: string[],
+        player: playerid,
+    ): { board: Map<string, CellContents>; results: APMoveResult[] } {
+        const board = new Map(startBoard);
+        const results: APMoveResult[] = [];
+        for (let i = 1; i < cells.length; i++) {
+            this.applyLegToBoard(board, player, cells[i - 1]!, cells[i]!, results);
+        }
+        return { board, results };
+    }
+
+    /**
+     * Simulates the path on a copy of the board: each landing (after the first) must be empty,
+     * accounting for earlier captures in the same sequence (e.g. landing on a square that held
+     * a piece removed earlier in the turn).
+     */
+    private validatePartialPathOccupancy(cells: string[], player: playerid): string | undefined {
+        const board = new Map(this.board);
+        for (let i = 1; i < cells.length; i++) {
+            const from = cells[i - 1]!;
+            const to = cells[i]!;
+            if (board.has(to) && to !== cells[0]) {
+                return to;
+            }
+            this.applyLegToBoard(board, player, from, to, undefined);
+        }
+        return undefined;
     }
 
     private static moveMatchesPrefix(mv: string, prefix: string): boolean {
@@ -497,6 +560,15 @@ export class DamaGame extends GameBase {
     private setPartialDots(partial: string): void {
         const pts = this.findPoints(partial);
         this._points = pts !== undefined ? pts.map(c => this.algebraic2coords(c)) : [];
+        const cells = partial.split("-");
+        if (cells.length >= 2) {
+            const { board, results } = this.applyPathToBoard(this.board, cells, this.currplayer);
+            this._partialBoard = board;
+            this._partialResults = results;
+        } else {
+            this._partialBoard = undefined;
+            this._partialResults = [];
+        }
     }
 
     public move(m: string, { trusted = false, partial = false } = {}): DamaGame {
@@ -521,28 +593,14 @@ export class DamaGame extends GameBase {
             return this;
         }
         this._points = [];
+        this._partialBoard = undefined;
+        this._partialResults = [];
 
         this.results = [];
         const cells = m.split("-");
+        const player = this.currplayer;
         for (let i = 1; i < cells.length; i++) {
-            const from = cells[i - 1];
-            const [fx, fy] = this.algebraic2coords(from);
-            const to = cells[i];
-            const [tx, ty] = this.algebraic2coords(to);
-            const piece = this.board.get(from)!;
-            this.board.set(to, [...piece]);
-            this.board.delete(from);
-            this.results.push({ type: "move", from, to });
-
-            const between = RectGrid.between(fx, fy, tx, ty).map(pt => this.coords2algebraic(...pt));
-            for (const cell of between) {
-                if (this.board.has(cell) && this.board.get(cell)![0] !== this.currplayer) {
-                    const [, capSize] = this.board.get(cell)!;
-                    this.board.delete(cell);
-                    this.results.push({ type: "capture", where: cell, what: capSize === 1 ? "soldier" : "king" });
-                    break;
-                }
-            }
+            this.applyLegToBoard(this.board, player, cells[i - 1]!, cells[i]!, this.results);
         }
 
         const last = cells[cells.length - 1];
@@ -637,6 +695,7 @@ export class DamaGame extends GameBase {
 
     public render(): APRenderRep {
         const labels = [["A", "B"], ["X", "Y"]];
+        const boardForRender = this._partialBoard ?? this.board;
         let pstr = "";
         for (let row = 0; row < BOARD_SIZE; row++) {
             if (pstr.length > 0) {
@@ -645,8 +704,8 @@ export class DamaGame extends GameBase {
             const pieces: string[] = [];
             for (let col = 0; col < BOARD_SIZE; col++) {
                 const cell = this.coords2algebraic(col, row);
-                if (this.board.has(cell)) {
-                    const [player, size] = this.board.get(cell)!;
+                if (boardForRender.has(cell)) {
+                    const [player, size] = boardForRender.get(cell)!;
                     pieces.push(labels[player - 1][size - 1]);
                 } else {
                     pieces.push("-");
@@ -671,7 +730,10 @@ export class DamaGame extends GameBase {
             pieces: pstr,
         };
 
-        if ((this.stack[this.stack.length - 1]._results.length > 0) || (this._points.length > 0)) {
+        const resultAnnotations =
+            this._partialResults.length > 0 ? this._partialResults : this.stack[this.stack.length - 1]._results;
+
+        if ((resultAnnotations.length > 0) || (this._points.length > 0)) {
             rep.annotations = [];
 
             if (this._points.length > 0) {
@@ -679,7 +741,7 @@ export class DamaGame extends GameBase {
                 rep.annotations.push({ type: "dots", targets: points as [{ row: number; col: number }, ...{ row: number; col: number }[]] });
             }
 
-            for (const r of this.stack[this.stack.length - 1]._results) {
+            for (const r of resultAnnotations) {
                 if (r.type === "move") {
                     const [fromX, fromY] = this.algebraic2coords(r.from);
                     const [toX, toY] = this.algebraic2coords(r.to);

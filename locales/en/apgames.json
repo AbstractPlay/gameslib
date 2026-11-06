@@ -543,6 +543,10 @@
       "tag": "O: 2+Players"
     }
   },
+  "inputModes": {
+    "section": "Input mode",
+    "description": "How the board interprets your clicks for this game."
+  },
   "status": {
     "_player": "{{player}}",
     "CARDSINHAND": "Cards in hand",
@@ -5328,6 +5332,12 @@
       "hide-moves": {
         "description": "Don't show possible moves.",
         "name": "Hide moves"
+      }
+    },
+    "outbound": {
+      "cross": {
+        "name": "Render with vertex-cross",
+        "description": "Render the board with diagonal connections as well as orthogonal."
       }
     },
     "oware": {

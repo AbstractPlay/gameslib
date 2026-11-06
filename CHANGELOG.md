@@ -15,10 +15,11 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Croda, Dama, Ice Palace, Neutron, Outbound, QBF, Squares, Thricewise.
 
-## [1.0.0-ci] - 2026-11-04
+## [1.0.0-ci] - 2026-11-06
 
 ### Added
 
+- **Input modes (catalogue + contract):** optional **`inputModes`** on game metadata (schema/registry), optional **`inputMode`** on **`IHandleClickUi`** for `handleClick`; shared **`apgames:inputModes`** copy for picker UI; **`sanitizeInputModeForGame`** and related helpers exported for clients; playground persists selected mode and passes **`ui.inputMode`** when a game declares modes.
 - **New games:** Clear Path, Kill-All Go, Selfo, Thue-Morse Go, Yodd, Yonkoma (Kill-All Go handicap opening variant remains unrated).
 - **Quax:** optional **Diamond board** display (`squares-diamonds` with connection flood fill; vertex board remains default).
 - **Locale tooling:** `npm run audit-locale` (dev-only catalog/shape/stale-MT audit with `locale-src/en/_locale-audit-allowlist.json`); `npm test` includes full-registry **missing catalog key** checks for runtime i18n.

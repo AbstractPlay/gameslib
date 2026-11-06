@@ -192,7 +192,7 @@ Optional `render()` arguments: `perspective`, `altDisplay` (legacy single uid), 
 
 `render()` may return a single `APRenderRep`, an array of reps (frame stack), or an `APRenderComposite` for multi-board SVGs. Composite games should use stable `panels[].id` values for routing.
 
-`handleClick(move, row, col, piece?, ui?)` — optional **`ui`** (`IHandleClickUi`: `panelId` for composite `boardClick`, `board` as **`IClickBoardContext`** with `boardStyle`, `width`, `height`) describes client context for the click. Pass **`ui.board`** from the drawn `APRenderRep` when alternative displays change `board.style`. Games that ignore layout may omit **`ui`**.
+`handleClick(move, row, col, piece?, ui?)` — optional **`ui`** (`IHandleClickUi`: `panelId` for composite `boardClick`, `board` as **`IClickBoardContext`** with `boardStyle`, `width`, `height`, optional **`inputMode`** as the player-selected uid from **`gameinfo.inputModes`**) describes client context for the click. Pass **`ui.board`** from the drawn `APRenderRep` when alternative displays change `board.style`. **Input mode** is separate from **alternative displays**: displays change render output; input mode (when declared) selects click semantics. Clients should pass **`ui.inputMode`** whenever the game lists input modes; engines with no `inputModes` omit it and may ignore it until they opt in. Games that ignore layout may omit **`ui`**.
 
 ### Render labels
 

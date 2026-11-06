@@ -3103,6 +3103,14 @@
     "src": "Hide moves",
     "out": "Züge ausblenden"
   },
+  "displays.outbound.cross.description": {
+    "src": "Render the board with diagonal connections as well as orthogonal.",
+    "out": "Das Spielbrett sowohl mit diagonalen als auch mit orthogonalen Verbindungen darstellen."
+  },
+  "displays.outbound.cross.name": {
+    "src": "Render with vertex-cross",
+    "out": "Mit Eckenkreuz darstellen"
+  },
   "displays.oware.pips.description": {
     "src": "Display the stones as pips instead of as numerals.",
     "out": "Steine als Augen anstelle von Zahlen anzeigen."
@@ -3446,6 +3454,14 @@
   "displays.zola.isometric-5.name": {
     "src": "Isometric: Subtle Elevation",
     "out": "Isometrisch: Dezente Erhöhung"
+  },
+  "inputModes.description": {
+    "src": "How the board interprets your clicks for this game.",
+    "out": "Wie das Spielbrett deine Klicks für dieses Spiel interpretiert."
+  },
+  "inputModes.section": {
+    "src": "Input mode",
+    "out": "Eingabemodus"
   },
   "names.abande": {
     "src": "Abande",

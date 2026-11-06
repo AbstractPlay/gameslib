@@ -543,6 +543,10 @@
       "tag": "S: 2+Spieler"
     }
   },
+  "inputModes": {
+    "section": "Eingabemodus",
+    "description": "Wie das Spielbrett deine Klicks für dieses Spiel interpretiert."
+  },
   "status": {
     "_player": "{{player}}",
     "CARDSINHAND": "Karten auf der Hand",
@@ -5328,6 +5332,12 @@
       "hide-moves": {
         "description": "Mögliche Züge nicht anzeigen.",
         "name": "Züge ausblenden"
+      }
+    },
+    "outbound": {
+      "cross": {
+        "name": "Mit Eckenkreuz darstellen",
+        "description": "Das Spielbrett sowohl mit diagonalen als auch mit orthogonalen Verbindungen darstellen."
       }
     },
     "oware": {

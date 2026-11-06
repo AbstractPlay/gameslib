@@ -110,7 +110,7 @@ export class BrickaGame extends GameBase {
         uid: "bricka",
         playercounts: [2],
         version: "20261021",
-        dateAdded: "2026-10-21",
+        dateAdded: "2026-11-06",
         description: "Connection game played on a special board. Placing adjacent to a cell where you own the majority of non-neutral intersections means your stone becomes neutral. Also, intersections surrounding cells adjacent to the last placement are blocked for the current turn.",
         urls: ["https://www.pergioco.net/1/bricka-en.html", "https://boardgamegeek.com/boardgame/403689/bricka"],
         bggid: "403689",
@@ -151,7 +151,7 @@ export class BrickaGame extends GameBase {
             }
         ],
         categories: ["goal>connect", "mechanic>place", "components>simple>3c", "board>other", "board>shape>other", "board>connect>other", "mechanic>block"],
-        flags: ["experimental", "autopass"]
+        flags: ["autopass"]
     };
 
     private regions: Region[] = this.getRegions();

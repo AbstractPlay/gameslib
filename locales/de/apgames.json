@@ -2711,7 +2711,11 @@
     },
     "neutron": {
       "INCOMPLETE": "Du musst beide Teile des Zugs ausführen (oder das Spiel mit einem gewinnenden Neutronenzug beenden).",
-      "INITIAL_INSTRUCTIONS": "Wähle aus, wohin das Neutron geschoben werden soll, oder wähle im ersten Zug von Weiß bei Standard-Neutron einen Bauern aus.",
+      "INITIAL_INSTRUCTIONS_openingPawnOnly": "Ziehe einen deiner Bauern in gerader Linie so weit wie möglich (der Neutron wird in diesem Zug nicht bewegt).",
+      "INITIAL_INSTRUCTIONS_standard": "Bewege den Neutron in gerader Linie so weit wie möglich und ziehe dann einen deiner Bauern auf dieselbe Weise. Du gewinnst, wenn der Neutron auf deiner eigenen Grundreihe hält.",
+      "INITIAL_INSTRUCTIONS_coneutron": "Bewege den Neutron in gerader Linie so weit wie möglich und ziehe dann einen deiner Bauern auf dieselbe Weise. Du gewinnst, wenn der Neutron auf der gegnerischen Grundreihe hält.",
+      "PAWN_MOBILITY_REMINDER_restricted": "Bauern dürfen nicht auf der gegnerischen Grundreihe landen.",
+      "PAWN_MOBILITY_REMINDER_doubleRestricted": "Bauern dürfen nicht auf der gegnerischen Grundreihe landen. Ein Bauer, der seine Grundreihe verlassen hat, darf nicht mehr auf seine Grundreihe zurückkehren; Bauern, die sich noch auf ihrer Grundreihe befinden, dürfen entlang dieser ziehen.",
       "INVALID_NEUTRON": "Das Neutron kann nicht auf dieses Feld geschoben werden.",
       "NEUTRON_FIRST": "Ziehe zuerst das Neutron und wähle dann einen deiner Spielsteine.",
       "PAWN_DEST": "Wähle aus, wohin dieser Bauer geschoben werden soll.",
@@ -4891,7 +4895,7 @@
     "murus": "Das Standard-Regelwerk ist \"Advanced Murus Gallicus\" (mit Katapulten). Standardmäßig besteht dein erster Zug darin, einen deiner Starttürme als Mauern in deiner zweiten Reihe neu zu verteilen. Zusätzlich ist auch die Standard-Tortenregel (Pie-Rule) verfügbar. Es gibt drei Varianten, die du kombinieren kannst:\n\n* \"Basic\" setzt das Spiel in den Zustand \"ohne Katapult\" zurück.\n* \"Static\" deaktiviert die anfängliche Turmverteilung.\n* \"Escape\" eliminiert die Durchbruchs-Siegbedingung.",
     "mutternland": "Mutternland wurde 1997 von Hartmut Witt entworfen. Diese Implementierung handhabt die anfängliche Steinplatzierung anders. Während im Originalspiel die Spieler beim Aufbau einen _gegnerischen_ Stein pro Zug platzierten, platzieren die Spieler hier einen eigenen Stein und dann einen gegnerischen Stein (einschließlich einiger Einschränkungen, um unbewältigte Starts durch die zufällige Generierung des Spielfelds zu verhindern). Dies macht den Aufbau schneller und bietet etwas Kontrolle über die eigenen Steine. Auch heruntergeschubste Steine, die in die Reserve des Spielers zurückkehren, werden vom Besitzer erneut platziert.",
     "narrows": "Narrows, entworfen von Mark Steere im Jahr 2026, ist ein Vereinigungsspiel, das vom alten hawaiianischen Spiel Kōnane inspiriert wurde. Ganz im Geiste von Kōnane beginnt Ūnane mit einem Schachbrettmuster aus Steinen und ist extrem einfach. In diesem Fall beinhaltet das Vereinigungsziel die Nutzung orthogonaler Pfade aus leeren Feldern, um verschiedene Gruppen eigener Steine zu verbinden.",
-    "neutron": "Jeder Zug (außer dem ersten Zug von Weiß beim Standard-Neutron) besteht darin, zuerst das Neutron und danach einen eigenen Bauern zu schieben. Alle Figuren gleiten ohne Überspringen geradlinig so weit wie möglich. **CoNeutron** verlegt die Siegreihe auf die Grundreihe des Gegners und entfernt die reine Bauern-Eröffnung für Weiß.\n\nEinschränkungen der **Beweglichkeit** gelten nur für Bauernzüge. Bei **eingeschränkter** Beweglichkeit dürfen Bauern nicht auf der gegnerischen Grundreihe landen. Bei **doppelt eingeschränkter** Beweglichkeit dürfen Bauern nach dem Verlassen ihrer eigenen Grundreihe diese auch nicht mehr betreten; Bauern, die sich noch auf ihrer eigenen Grundreihe befinden, dürfen entlang dieser Reihe gleiten.\n\nZüge werden als `neutronDest,pawnFrom-pawnTo` notiert, oder im ersten Zug von Weiß bei Standard-Neutron als `pawnFrom-pawnTo`. Ein einzelner gewinnender Neutronenzug wird nur als Zielfeld notiert.",
+    "neutron": "Jeder Zug (außer der Eröffnung des ersten Spielers im Standard-Neutron) besteht darin, den Neutron und anschließend einen der eigenen Bauern zu ziehen. Alle Steine gleiten in gerader Linie so weit wie möglich, ohne zu überspringen. **CoNeutron** wechselt die Siegreihe zur gegnerischen Grundreihe und entfernt die reine Bauern-Eröffnung des ersten Spielers.\n\nEinschränkungen der **Beweglichkeit** gelten nur für Bauernzüge. Bei **eingeschränkter** Beweglichkeit dürfen Bauern nicht auf der gegnerischen Grundreihe landen. Bei **doppelt eingeschränkter** Beweglichkeit dürfen Bauern nach dem Verlassen ihrer eigenen Grundreihe diese auch nicht mehr betreten; Bauern, die sich noch auf ihrer Grundreihe befinden, dürfen entlang dieser Reihe ziehen.\n\nZüge werden als `neutronDest,pawnFrom-pawnTo` notiert, oder als `pawnFrom-pawnTo` bei der Eröffnung des ersten Spielers im Standard-Neutron. Ein gewinnender Neutron-Zug allein wird nur als Zielfeld notiert.",
     "oonpia": "Verwende entweder die Legende, um einen Stein auszuwählen, oder klicke mehrmals auf dieselbe Stelle, um alle möglichen Steine durchzugehen. Blockierte Felder sind hervorgehoben: Ein halbtransparenter Punkt bedeutet, dass dort nur ein punktierter Stein platziert werden kann (d. h. für einfache Steine blockiert), ein halbtransparenter Stein bedeutet, dass dort nur ein einfacher Stein platziert werden kann (d. h. für punktierte Steine blockiert). Wenn beide Hervorhebungen vorhanden sind, ist das Feld für alle Steine blockiert.",
     "outbound": "Der Verteidiger beginnt mit einem Stein in der Mitte, der die Krone trägt. Der König ist die Verteidigergruppe, welche die Krone enthält. Der Jäger beginnt mit Steinen, die entlang des Randes platziert werden: Die Spieler setzen abwechselnd Jägersteine, bis einer von ihnen, anstatt zu setzen, erklärt, dass er den Verteidiger aufhalten kann, und den ersten Jägerzug macht.\n\nIn der Runde des Jägers gleitet ein Jägerstein in einer geraden Linie, orthogonal oder diagonal, über leere Felder oder Felder mit Jägersteinen auf ein leeres Feld. Wenn der bewegte Stein und ein anderer Jägerstein einen einzelnen Verteidigerstein orthogonal oder diagonal flankieren, wechselt dieser Stein die Seite. Ein Zug kann mehrere Steine umdrehen, aber der Stein, der die Krone trägt, wird niemals umgedreht. Der Jäger muss passen, wenn kein legaler Zug möglich ist.\n\nIn der Runde des Verteidigers muss jede Verteidigergruppe mit Freiheiten einmal wachsen, indem ein Stein orthogonal neben ihr platziert wird. Ein Platzieren verbraucht das Wachstum jeder Gruppe, die es berührt, sodass das Wachsenlassen einer weiteren Gruppe Gruppen zusammenführen kann, die bereits gewachsen sind. Am Ende des Zugs wandert die Krone auf den zuletzt platzierten Stein im König.\n\nDer Verteidiger gewinnt, wenn der König den Rand erreicht. Der Jäger gewinnt, wenn der König keine Freiheiten mehr hat.",
     "oware": "Diese Implementierung folgt der üblichen Turnierregel, dass Grand-Slam-Züge erlaubt sind, aber keine Steine geschlagen werden. Die Darstellung von Zustandsänderungen in Sähspielen ist eine Herausforderung. Die ursprünglich gewählte Mulde wird ebenso markiert wie jeder Schlagzug. Kleine Zahlen zeigen die Änderung der Anzahl der Steine in jeder Mulde an. Wenn du glaubst, auf einen Fehler gestoßen zu sein, teile uns dies bitte auf Discord mit.",
@@ -7753,7 +7757,7 @@
       },
       "coneutron": {
         "name": "CoNeutron",
-        "description": "Gewinne, indem du das Neutron auf die Grundreihe des Gegners ziehst. Weiß zieht im ersten Zug das Neutron."
+        "description": "Gewinne, indem du den Neutron auf die gegnerische Grundreihe ziehst. Der erste Spieler bewegt den Neutron auch im Eröffnungszug."
       },
       "#mobility": {
         "name": "Keine Einschränkungen"
@@ -9478,11 +9482,11 @@
       "square-10": {
         "name": "Quadrat-Größe 10 (Xodd)"
       },
+      "square-11": {
+        "name": "Größe-11-Quadrat (Xodd)"
+      },
       "square-13": {
         "name": "Quadrat-Größe 13 (Xodd)"
-      },
-      "square-14": {
-        "name": "Quadrat-Größe 14 (Xodd)"
       },
       "square-15": {
         "name": "Quadrat-Größe 15 (Xodd)"

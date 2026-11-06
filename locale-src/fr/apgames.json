@@ -4884,8 +4884,8 @@
     "out": "Narrows, conçu par Mark Steere en 2026, est un jeu d'unification inspiré de l'ancien jeu hawaïen Kōnane. Fidèle à l'esprit de Kōnane, Ūnane commence avec une disposition de pierres en damier et reste extrêmement simple. Dans ce cas, l'objectif d'unification inclut l'utilisation de chemins orthogonaux de cases vides pour connecter différents groupes de pièces alliées."
   },
   "notes.neutron": {
-    "src": "Each turn (except White's first turn in standard Neutron) consists of sliding the neutron, then sliding one of your pawns. All pieces slide in straight lines as far as possible without jumping. **CoNeutron** swaps the winning row to your opponent's back rank and removes White's pawn-only opening.\n\n**Mobility** restrictions apply to pawn moves only. With **restricted** mobility, pawns may not land on the opponent's home row. With **double restricted** mobility, pawns also may not re-enter their own home row after leaving it; pawns still on the home row may slide along that row.\n\nMoves are notated `neutronDest,pawnFrom-pawnTo`, or `pawnFrom-pawnTo` on White's first turn in standard Neutron. A winning neutron slide alone is notated as just the destination cell.",
-    "out": "Chaque tour (sauf le premier tour des Blancs dans le Neutron standard) consiste à faire glisser le neutron, puis à faire glisser l'un de vos pions. Toutes les pièces glissent en ligne droite aussi loin que possible sans sauter. **CoNeutron** inverse la ligne gagnante vers la ligne arrière de votre adversaire et supprime l'ouverture à pion seul des Blancs.\n\nLes restrictions de **mobilité** s'appliquent uniquement aux déplacements de pions. Avec une mobilité **restreinte**, les pions ne peuvent pas s'arrêter sur la ligne arrière de l'adversaire. Avec une mobilité **doublement restreinte**, les pions ne peuvent pas non plus revenir sur leur propre ligne arrière après l'avoir quittée ; les pions se trouvant toujours sur leur ligne arrière peuvent glisser le long de celle-ci.\n\nLes coups sont notés `neutronDest,pawnFrom-pawnTo`, ou `pawnFrom-pawnTo` au premier tour des Blancs dans le Neutron standard. Un déplacement gagnant du neutron seul est noté uniquement par sa case de destination."
+    "src": "Each turn (except the first player's opening in standard Neutron) consists of sliding the neutron, then sliding one of your pawns. All pieces slide in straight lines as far as possible without jumping. **CoNeutron** swaps the winning row to your opponent's back rank and removes the first player's pawn-only opening.\n\n**Mobility** restrictions apply to pawn moves only. With **restricted** mobility, pawns may not land on the opponent's home row. With **double restricted** mobility, pawns also may not re-enter their own home row after leaving it; pawns still on the home row may slide along that row.\n\nMoves are notated `neutronDest,pawnFrom-pawnTo`, or `pawnFrom-pawnTo` on the first player's opening in standard Neutron. A winning neutron slide alone is notated as just the destination cell.",
+    "out": "Chaque tour (sauf l'ouverture du premier joueur dans le Neutron standard) consiste à faire glisser le neutron, puis à faire glisser l'un de vos pions. Toutes les pièces glissent en ligne droite aussi loin que possible sans sauter. **CoNeutron** déplace la rangée victorieuse vers la rangée de fond de votre adversaire et supprime l'ouverture uniquement pion du premier joueur.\n\nLes restrictions de **mobilité** s'appliquent uniquement aux déplacements des pions. Avec une mobilité **restreinte**, les pions ne peuvent pas s'arrêter sur la rangée de départ de l'adversaire. Avec une mobilité **doublement restreinte**, les pions ne peuvent pas non plus revenir sur leur propre rangée de départ après l'avoir quittée ; les pions se trouvant toujours sur leur rangée de départ peuvent glisser le long de celle-ci.\n\nLes coups sont notés `neutronDest,pawnFrom-pawnTo`, ou `pawnFrom-pawnTo` lors de l'ouverture du premier joueur dans le Neutron standard. Un déplacement victorieux du neutron seul est noté uniquement par sa case de destination."
   },
   "notes.oonpia": {
     "src": "Either use the legend to select a piece, or click the same location multiple times to cycle through all possible pieces. Blocked cells are highlighted: a translucent dot means only a dotted stone can be placed there (i.e. blocked for plain pieces), a translucent piece means only a plain piece can be placed there (i.e. blocked for dotted pieces). If both highlights are present, then the cell is blocked for all pieces.",
@@ -11987,9 +11987,17 @@
     "src": "You must complete both parts of the turn (or end the game with a winning neutron move).",
     "out": "Vous devez effectuer les deux parties du tour (ou terminer la partie avec un coup gagnant du neutron)."
   },
-  "validation.neutron.INITIAL_INSTRUCTIONS": {
-    "src": "Select where to slide the neutron, or on White's first turn in standard Neutron, select a pawn to move.",
-    "out": "Sélectionnez où faire glisser le neutron, ou au premier tour des Blancs dans le Neutron standard, sélectionnez un pion à déplacer."
+  "validation.neutron.INITIAL_INSTRUCTIONS_coneutron": {
+    "src": "Slide the neutron in a straight line as far as it can go, then slide one of your pawns the same way. You win if the neutron stops on your opponent's home row.",
+    "out": "Faites glisser le neutron en ligne droite aussi loin que possible, puis faites glisser l'un de vos pions de la même manière. Vous gagnez si le neutron s'arrête sur la rangée de départ de votre adversaire."
+  },
+  "validation.neutron.INITIAL_INSTRUCTIONS_openingPawnOnly": {
+    "src": "Slide one of your pawns in a straight line as far as it can go (the neutron does not move this turn).",
+    "out": "Faites glisser l'un de vos pions en ligne droite aussi loin que possible (le neutron ne bouge pas ce tour-ci)."
+  },
+  "validation.neutron.INITIAL_INSTRUCTIONS_standard": {
+    "src": "Slide the neutron in a straight line as far as it can go, then slide one of your pawns the same way. You win if the neutron stops on your home row.",
+    "out": "Faites glisser le neutron en ligne droite aussi loin que possible, puis faites glisser l'un de vos pions de la même manière. Vous gagnez si le neutron s'arrête sur votre rangée de départ."
   },
   "validation.neutron.INVALID_NEUTRON": {
     "src": "The neutron cannot slide to that cell.",
@@ -12002,6 +12010,14 @@
   "validation.neutron.PAWN_DEST": {
     "src": "Select where to slide that pawn.",
     "out": "Sélectionnez où faire glisser ce pion."
+  },
+  "validation.neutron.PAWN_MOBILITY_REMINDER_doubleRestricted": {
+    "src": "Pawns may not land on the opponent's home row. A pawn that has left its home row may not land on its home row again; pawns still on their home row may slide along it.",
+    "out": "Les pions ne peuvent pas s'arrêter sur la rangée de départ de l'adversaire. Un pion qui a quitté sa rangée de départ ne peut plus y revenir ; les pions toujours sur leur rangée de départ peuvent glisser le long de celle-ci."
+  },
+  "validation.neutron.PAWN_MOBILITY_REMINDER_restricted": {
+    "src": "Pawns may not land on the opponent's home row.",
+    "out": "Les pions ne peuvent pas s'arrêter sur la ligne arrière de l'adversaire."
   },
   "validation.neutron.PAWN_SELECT": {
     "src": "Select one of your pawns to move.",
@@ -20204,8 +20220,8 @@
     "out": "Plateau 7×7"
   },
   "variants.neutron.coneutron.description": {
-    "src": "Win by moving the neutron to your opponent's back row. White moves the neutron on the first turn.",
-    "out": "Gagnez en déplaçant le neutron sur la ligne arrière de votre adversaire. Les Blancs déplacent le neutron au premier tour."
+    "src": "Win by moving the neutron to your opponent's back row. The first player moves the neutron on the opening turn.",
+    "out": "Gagnez en déplaçant le neutron sur la rangée de fond de votre adversaire. Le premier joueur déplace le neutron lors du tour d'ouverture."
   },
   "variants.neutron.coneutron.name": {
     "src": "CoNeutron",
@@ -22719,13 +22735,13 @@
     "src": "Size-10 square (Xodd)",
     "out": "Carré taille 10 (Xodd)"
   },
+  "variants.yodd.square-11.name": {
+    "src": "Size-11 square (Xodd)",
+    "out": "Carré de taille 11 (Xodd)"
+  },
   "variants.yodd.square-13.name": {
     "src": "Size-13 square (Xodd)",
     "out": "Carré taille 13 (Xodd)"
-  },
-  "variants.yodd.square-14.name": {
-    "src": "Size-14 square (Xodd)",
-    "out": "Carré taille 14 (Xodd)"
   },
   "variants.yodd.square-15.name": {
     "src": "Size-15 square (Xodd)",

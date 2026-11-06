@@ -2711,7 +2711,11 @@
     },
     "neutron": {
       "INCOMPLETE": "Devi completare entrambe le parti del turno (o terminare la partita con una mossa vincente del neutrone).",
-      "INITIAL_INSTRUCTIONS": "Seleziona dove far scivolare il neutrone oppure, al primo turno del Bianco nel Neutron standard, seleziona una pedina da muovere.",
+      "INITIAL_INSTRUCTIONS_openingPawnOnly": "Fai scivolare una delle tue pedine in linea retta il più lontano possibile (il neutrone non si muove in questo turno).",
+      "INITIAL_INSTRUCTIONS_standard": "Fai scivolare il neutrone in linea retta il più lontano possibile, quindi fai scivolare una delle tue pedine allo stesso modo. Vinci se il neutrone si ferma sulla tua riga di partenza.",
+      "INITIAL_INSTRUCTIONS_coneutron": "Fai scivolare il neutrone in linea retta il più lontano possibile, quindi fai scivolare una delle tue pedine allo stesso modo. Vinci se il neutrone si ferma sulla riga di partenza del tuo avversario.",
+      "PAWN_MOBILITY_REMINDER_restricted": "Le pedine non possono finire sulla traversa di base dell'avversario.",
+      "PAWN_MOBILITY_REMINDER_doubleRestricted": "Le pedine non possono finire sulla riga di partenza dell'avversario. Una pedina che ha lasciato la propria riga di partenza non può finire di nuovo su di essa; le pedine ancora sulla riga di partenza possono scivolare lungo la riga stessa.",
       "INVALID_NEUTRON": "Il neutrone non può scivolare in quella casella.",
       "NEUTRON_FIRST": "Fai scorrere prima il neutrone, poi seleziona una delle tue pedine.",
       "PAWN_DEST": "Seleziona dove far scivolare quella pedina.",
@@ -4891,7 +4895,7 @@
     "murus": "Il regolamento predefinito è \"Advanced Murus Gallicus\" (con catapulte). Per impostazione predefinita, la tua prima mossa consiste nel ridistribuire una delle tue torri iniziali come mura sulla tua seconda riga. Inoltre, è disponibile anche la regola della torta (pie rule) standard. Ci sono tre varianti che puoi combinare tra loro:\n\n* \"Base\" riporta il gioco allo stato \"senza catapulte\".\n* \"Estatico\" disabilita la ridistribuzione iniziale delle torri.\n* \"Fuga\" elimina la condizione di vittoria per sfondamento.",
     "mutternland": "Mutternland è stato progettato da Hartmut Witt nel 1997. Questa implementazione gestisce il posizionamento iniziale dei pezzi in modo diverso. Mentre nel gioco originale i giocatori, durante la preparazione, piazzavano un pezzo _nemico_ per turno, qui i giocatori piazzano un pezzo amico e poi un pezzo avversario (con alcune restrizioni per evitare avvii sbilanciati dovuti alla generazione casuale del campo di gioco). Ciò rende la preparazione più veloce e offre un certo controllo sui propri pezzi. Inoltre, i pezzi spinti fuori dal tabellone, che tornano nella riserva del giocatore, vengono piazzati di nuovo dal proprietario.",
     "narrows": "Narrows, progettato da Mark Steere nel 2026, è un gioco di unificazione ispirato all'antico gioco hawaiiano Kōnane. Fedele allo spirito di Kōnane, Ūnane inizia con uno schema di pedine a scacchiera ed è estremamente semplice. In questo caso, l'obiettivo di unificazione include l'uso di percorsi ortogonali di caselle vuote per collegare diversi gruppi di pezzi amici.",
-    "neutron": "Ogni turno (eccetto il primo turno del Bianco nel Neutron standard) consiste nel far scivolare il neutrone, per poi far scivolare una delle proprie pedine. Tutti i pezzi scivolano in linea retta il più lontano possibile senza saltare. **CoNeutron** scambia la traversa vincente con la traversa di base dell'avversario e rimuove l'apertura con sola pedina del Bianco.\n\nLe restrizioni di **mobilità** si applicano solo ai movimenti delle pedine. Con mobilità **limitata**, le pedine non possono finire sulla traversa di base dell'avversario. Con mobilità **doppiamente limitata**, le pedine non possono nemmeno rientrare nella propria traversa di base dopo averla lasciata; le pedine ancora sulla traversa di base possono scivolare lungo di essa.\n\nLe mosse sono annotate come `neutronDest,pawnFrom-pawnTo`, o `pawnFrom-pawnTo` al primo turno del Bianco nel Neutron standard. Una mossa vincente del solo neutrone è annotata semplicemente con la casella di destinazione.",
+    "neutron": "Ogni turno (tranne l'apertura del primo giocatore nel Neutron standard) consiste nel far scivolare il neutrone, quindi far scivolare una delle proprie pedine. Tutti i pezzi scivolano in linea retta il più lontano possibile senza saltare. **CoNeutron** scambia la riga di vittoria con la prima traversa dell'avversario e rimuove l'apertura di sola pedina del primo giocatore.\n\nLe restrizioni di **mobilità** si applicano solo ai movimenti delle pedine. Con mobilità **ristretta**, le pedine non possono finire sulla riga di partenza dell'avversario. Con mobilità **doppiamente ristretta**, le pedine non possono nemmeno rientrare nella propria riga di partenza dopo averla lasciata; le pedine ancora sulla riga di partenza possono scivolare lungo di essa.\n\nLe mosse sono annotate come `neutronDest,pawnFrom-pawnTo`, o `pawnFrom-pawnTo` nell'apertura del primo giocatore nel Neutron standard. Una mossa vincente di solo neutrone viene annotata semplicemente con la casa di destinazione.",
     "oonpia": "Usa la legenda per selezionare un pezzo, oppure fai clic sullo stesso punto più volte per scorrere tutti i pezzi possibili. Le caselle bloccate sono evidenziate: un punto traslucido significa che vi si può piazzare solo una pedina con punto (cioè bloccata per le pedine semplici), un pezzo traslucido significa che vi si può piazzare solo una pedina semplice (cioè bloccata per le pedine con punto). Se sono presenti entrambe le evidenziazioni, la casella è bloccata per tutti i pezzi.",
     "outbound": "Il Difensore inizia con una pedina al centro, che porta la corona. Il re è il gruppo del Difensore che contiene la corona. Il Cacciatore inizia con pedine posizionate lungo il perimetro: i giocatori, a turno, aggiungono pedine del Cacciatore finché uno di essi, invece di piazzare, dichiara di poter fermare il Difensore ed effettua la prima mossa del Cacciatore.\n\nNel turno del Cacciatore, una pedina del Cacciatore scivola in linea retta, ortogonalmente o diagonalmente, attraverso spazi vuoti o del Cacciatore fino a uno spazio vuoto. Se la pedina mossa e un'altra pedina del Cacciatore stringono a tenaglia una singola pedina del Difensore, ortogonalmente o diagonalmente, quella pedina cambia fazione. Una singola mossa può convertire diverse pedine, ma la pedina che porta la corona non viene mai convertita. Il Cacciatore deve passare se non ci sono mosse legali.\n\nNel turno del Difensore, ogni gruppo del Difensore dotato di libertà deve crescere una volta mediante una pedina piazzata ortogonalmente ad esso. Un piazzamento consuma la crescita di ogni gruppo che tocca, quindi far crescere un altro gruppo potrebbe unire gruppi che sono già cresciuti. Alla fine del turno, la corona si sposta sulla pedina piazzata più di recente nel re.\n\nIl Difensore vince se il re raggiunge il bordo. Il Cacciatore vince se il re non ha libertà.",
     "oware": "Questa implementazione segue la comune regola da torneo secondo cui le mosse grand slam sono consentite, ma non viene catturato alcun pezzo. Rappresentare i cambiamenti di stato nei giochi di semina è complesso. La fossetta iniziale scelta viene contrassegnata, così come qualsiasi cattura. Piccoli numeri mostrano la variazione del numero di pedine in ciascuna fossetta. Se ritieni di aver riscontrato un bug, faccelo sapere su Discord.",
@@ -7753,7 +7757,7 @@
       },
       "coneutron": {
         "name": "CoNeutron",
-        "description": "Vinci muovendo il neutrone sulla traversa di base dell'avversario. Il Bianco muove il neutrone al primo turno."
+        "description": "Vinci muovendo il neutrone sulla riga di partenza del tuo avversario. Il primo giocatore muove il neutrone nel turno di apertura."
       },
       "#mobility": {
         "name": "Nessuna restrizione"
@@ -9478,11 +9482,11 @@
       "square-10": {
         "name": "Quadrata dimensione 10 (Xodd)"
       },
+      "square-11": {
+        "name": "Quadrato dimensione 11 (Xodd)"
+      },
       "square-13": {
         "name": "Quadrata dimensione 13 (Xodd)"
-      },
-      "square-14": {
-        "name": "Quadrata dimensione 14 (Xodd)"
       },
       "square-15": {
         "name": "Quadrata dimensione 15 (Xodd)"

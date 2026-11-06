@@ -43,11 +43,11 @@ export const gameApgamesEn = {
         "square-10": {
             name: "Size-10 square (Xodd)",
         },
+        "square-11": {
+            name: "Size-11 square (Xodd)",
+        },
         "square-13": {
             name: "Size-13 square (Xodd)",
-        },
-        "square-14": {
-            name: "Size-14 square (Xodd)",
         },
         "square-15": {
             name: "Size-15 square (Xodd)",
@@ -119,8 +119,8 @@ export class YoddGame extends GameBase {
             { uid: "hex-10", group: "board" },
             { uid: "square-9", group: "board" },
             { uid: "square-10", group: "board" },
+            { uid: "square-11", group: "board" },
             { uid: "square-13", group: "board" },
-            { uid: "square-14", group: "board" },
             { uid: "square-15", group: "board" },
             { uid: "yopp" },
         ],

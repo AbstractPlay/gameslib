@@ -7,7 +7,15 @@ import i18next from "i18next";
 export const gameApgamesEn = {
     validation: {
         INCOMPLETE: "You must complete both parts of the turn (or end the game with a winning neutron move).",
-        INITIAL_INSTRUCTIONS: "Select where to slide the neutron, or on White's first turn in standard Neutron, select a pawn to move.",
+        INITIAL_INSTRUCTIONS_openingPawnOnly:
+            "Slide one of your pawns in a straight line as far as it can go (the neutron does not move this turn).",
+        INITIAL_INSTRUCTIONS_standard:
+            "Slide the neutron in a straight line as far as it can go, then slide one of your pawns the same way. You win if the neutron stops on your home row.",
+        INITIAL_INSTRUCTIONS_coneutron:
+            "Slide the neutron in a straight line as far as it can go, then slide one of your pawns the same way. You win if the neutron stops on your opponent's home row.",
+        PAWN_MOBILITY_REMINDER_restricted: "Pawns may not land on the opponent's home row.",
+        PAWN_MOBILITY_REMINDER_doubleRestricted:
+            "Pawns may not land on the opponent's home row. A pawn that has left its home row may not land on its home row again; pawns still on their home row may slide along it.",
         INVALID_NEUTRON: "The neutron cannot slide to that cell.",
         NEUTRON_FIRST: "Slide the neutron first, then select one of your pawns.",
         PAWN_DEST: "Select where to slide that pawn.",
@@ -29,7 +37,7 @@ export const gameApgamesEn = {
         },
         coneutron: {
             name: "CoNeutron",
-            description: "Win by moving the neutron to your opponent's back row. White moves the neutron on the first turn.",
+            description: "Win by moving the neutron to your opponent's back row. The first player moves the neutron on the opening turn.",
         },
         "#mobility": {
             name: "No restrictions",
@@ -65,10 +73,10 @@ export class NeutronGame extends GameBase {
         name: "Neutron",
         uid: "neutron",
         playercounts: [2],
-        version: "20260925",
-        dateAdded: "2026-09-25",
+        version: "20261106",
+        dateAdded: "2026-11-06",
         description: "Slide the neutral neutron and one of your pawns each turn. Pieces move in straight lines as far as they can. Win by bringing the neutron to the correct back row, or by leaving your opponent unable to complete a turn.",
-        notes: "Each turn (except White's first turn in standard Neutron) consists of sliding the neutron, then sliding one of your pawns. All pieces slide in straight lines as far as possible without jumping. **CoNeutron** swaps the winning row to your opponent's back rank and removes White's pawn-only opening.\n\n**Mobility** restrictions apply to pawn moves only. With **restricted** mobility, pawns may not land on the opponent's home row. With **double restricted** mobility, pawns also may not re-enter their own home row after leaving it; pawns still on the home row may slide along that row.\n\nMoves are notated `neutronDest,pawnFrom-pawnTo`, or `pawnFrom-pawnTo` on White's first turn in standard Neutron. A winning neutron slide alone is notated as just the destination cell.",
+        notes: "Each turn (except the first player's opening in standard Neutron) consists of sliding the neutron, then sliding one of your pawns. All pieces slide in straight lines as far as possible without jumping. **CoNeutron** swaps the winning row to your opponent's back rank and removes the first player's pawn-only opening.\n\n**Mobility** restrictions apply to pawn moves only. With **restricted** mobility, pawns may not land on the opponent's home row. With **double restricted** mobility, pawns also may not re-enter their own home row after leaving it; pawns still on the home row may slide along that row.\n\nMoves are notated `neutronDest,pawnFrom-pawnTo`, or `pawnFrom-pawnTo` on the first player's opening in standard Neutron. A winning neutron slide alone is notated as just the destination cell.",
         urls: [
             "http://www.gamerz.net/pbmserv/neutron.html",
             "http://www.gamerz.net/pbmserv/coneutron.html",
@@ -87,6 +95,25 @@ export class NeutronGame extends GameBase {
                 apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
             },
         ],
+        customizations: [
+            {
+                num: 1,
+                default: 1,
+                explanation: "Colour of player 1's pawns",
+                player: 1,
+            },
+            {
+                num: 2,
+                default: 2,
+                explanation: "Colour of player 2's pawns",
+                player: 2,
+            },
+            {
+                num: 3,
+                default: "#888888",
+                explanation: "Colour of the neutron (neutral piece)",
+            },
+        ],
         variants: [
             { uid: "coneutron" },
             { uid: "restricted", group: "mobility" },
@@ -103,7 +130,7 @@ export class NeutronGame extends GameBase {
             "board>connect>rect",
             "components>simple>1per",
         ],
-        flags: ["experimental", "perspective"],
+        flags: ["perspective"],
     };
 
     public numplayers = 2;
@@ -157,9 +184,39 @@ export class NeutronGame extends GameBase {
         return this.variants.includes("coneutron");
     }
 
-    /** Neutron rules: White's first turn is pawn-only (stack still at opening position). */
+    /** Neutron rules: first player's first turn is pawn-only (stack still at opening position). */
     public isOpeningPawnOnly(): boolean {
         return !this.isCoNeutron() && this.stack.length === 1 && this.currplayer === 1;
+    }
+
+    /** Mobility reminder for pawn landings only (append after "what to do" copy). */
+    private mobilityReminderSuffix(): string {
+        if (this.variants.includes("doubleRestricted")) {
+            return ` ${i18next.t("apgames:validation.neutron.PAWN_MOBILITY_REMINDER_doubleRestricted")}`;
+        }
+        if (this.variants.includes("restricted")) {
+            return ` ${i18next.t("apgames:validation.neutron.PAWN_MOBILITY_REMINDER_restricted")}`;
+        }
+        return "";
+    }
+
+    /** Message for selecting or completing a pawn slide; optional mobility restatement after the action line. */
+    private pawnStepMessage(i18nKey: string): string {
+        return i18next.t(i18nKey) + this.mobilityReminderSuffix();
+    }
+
+    /** Empty-move prompt: neutron vs opening; mobility rules only when the first step is a pawn slide. */
+    private initialInstructionsMessage(): string {
+        const baseKey = this.isOpeningPawnOnly()
+            ? "apgames:validation.neutron.INITIAL_INSTRUCTIONS_openingPawnOnly"
+            : this.isCoNeutron()
+              ? "apgames:validation.neutron.INITIAL_INSTRUCTIONS_coneutron"
+              : "apgames:validation.neutron.INITIAL_INSTRUCTIONS_standard";
+        let msg = i18next.t(baseKey);
+        if (this.isOpeningPawnOnly()) {
+            msg += this.mobilityReminderSuffix();
+        }
+        return msg;
     }
 
     public getNeutronCell(board: Map<string, PieceId> = this.board): string {
@@ -420,7 +477,7 @@ export class NeutronGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.neutron.INITIAL_INSTRUCTIONS");
+            result.message = this.initialInstructionsMessage();
             return result;
         }
 
@@ -432,7 +489,7 @@ export class NeutronGame extends GameBase {
                     result.valid = true;
                     result.complete = -1;
                     result.canrender = true;
-                    result.message = i18next.t("apgames:validation.neutron.PAWN_DEST");
+                    result.message = this.pawnStepMessage("apgames:validation.neutron.PAWN_DEST");
                     return result;
                 }
                 result.message = i18next.t("apgames:validation.neutron.SELECT_OWN_PAWN");
@@ -468,7 +525,7 @@ export class NeutronGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.neutron.PAWN_SELECT");
+            result.message = this.pawnStepMessage("apgames:validation.neutron.PAWN_SELECT");
             return result;
         }
 
@@ -490,7 +547,7 @@ export class NeutronGame extends GameBase {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.neutron.PAWN_DEST");
+            result.message = this.pawnStepMessage("apgames:validation.neutron.PAWN_DEST");
             return result;
         }
 

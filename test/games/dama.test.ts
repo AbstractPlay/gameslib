@@ -85,6 +85,23 @@ describe("Dama", () => {
         expect(result.complete).to.equal(-1);
     });
 
+    it("validateMove treats the path as cumulative (second leg can cross a square cleared in the first)", () => {
+        const g = damaFrom({
+            currplayer: 1,
+            board: [
+                ["e4", [1, 2]],
+                ["d4", [2, 1]],
+                ["b4", [2, 1]],
+            ],
+        });
+        const full = "e4-c4-a4";
+        expect(g.moves()).to.include(full);
+        expect(g.validateMove(full).valid).to.be.true;
+        const partial = "e4-c4";
+        expect(g.validateMove(partial).valid).to.be.true;
+        expect(g.validateMove(partial).complete).to.equal(-1);
+    });
+
     it("men do not move backward", () => {
         const g = new DamaGame();
         const moves = g.moves(1);
@@ -123,6 +140,22 @@ describe("Dama", () => {
         });
         const moves = g.moves();
         expect(moves).to.include("e4-c4-a4");
+    });
+
+    it("applies each capture before the move on that leg (board and results order)", () => {
+        const g = damaFrom({
+            currplayer: 1,
+            board: [
+                ["d5", [1, 2]],
+                ["d6", [2, 1]],
+                ["a8", [2, 1]],
+            ],
+        });
+        g.move("d5-d7");
+        expect(g.board.has("d6")).to.be.false;
+        expect(g.board.get("d7")).to.deep.equal([1, 2]);
+        const types = g.stack[g.stack.length - 1]._results.map(r => r.type);
+        expect(types.slice(0, 2)).to.deep.equal(["capture", "move"]);
     });
 
     it("defers promotion until the owner's next turn", () => {
@@ -172,7 +205,12 @@ describe("Dama", () => {
         g.move("e4-c4", { trusted: true, partial: true });
         expect(g.results.some(r => r.type === "promote")).to.be.false;
         expect(g.crownsPending).to.be.empty;
+        // Partial does not commit — stack board is unchanged; preview is in render only.
         expect(g.board.get("e4")).to.deep.equal([1, 1]);
+        expect(g.board.has("d4")).to.be.true;
+        const ann = g.render().annotations ?? [];
+        expect(ann.some(a => a.type === "move")).to.be.true;
+        expect(ann.some(a => a.type === "exit")).to.be.true;
     });
 
     it("forbids a 180-degree king turn between captures", () => {

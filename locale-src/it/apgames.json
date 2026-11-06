@@ -3455,6 +3455,14 @@
     "src": "Isometric: Subtle Elevation",
     "out": "Isometrica: Elevazione leggera"
   },
+  "inputModes.description": {
+    "src": "How the board interprets your clicks for this game.",
+    "out": "Come la plancia interpreta i tuoi clic per questa partita."
+  },
+  "inputModes.section": {
+    "src": "Input mode",
+    "out": "Modalità di input"
+  },
   "names.abande": {
     "src": "Abande",
     "out": "Abande"

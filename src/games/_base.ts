@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-prototype-builtins */
 
-import { APGamesInformation, AlternativeDisplay, Variant } from '../schemas/gameinfo.js';
+import { APGamesInformation, AlternativeDisplay, InputMode, Variant } from '../schemas/gameinfo.js';
 import { APRenderRep, Glyph, Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
 import type { APRenderGameOutput } from "../common/renderOutput.js";
 export type { APRenderGameOutput } from "../common/renderOutput.js";
@@ -20,6 +20,10 @@ import {
     resolveIncomingDisplays,
     type ResolveIncomingDisplaysMode,
 } from '../common/display-constraints.js';
+import {
+    resolveIncomingInputModes,
+    sanitizeInputModeForGame,
+} from "../common/input-mode-constraints.js";
 import _ from "lodash";
 import i18next from "i18next";
 import JSDstringify from 'json-stringify-deterministic';
@@ -232,6 +236,11 @@ export interface IHandleClickUi {
     panelId?: string;
     /** Drawn board slice used to interpret `(row, col)`. */
     board?: IClickBoardContext;
+    /**
+     * Player-selected input mode uid from gameinfo.inputModes (when declared).
+     * Games with no input modes omit this; engines may ignore it until they opt in.
+     */
+    inputMode?: string;
 }
 
 /**
@@ -475,6 +484,62 @@ export abstract class GameBase  {
             });
         }
         return displays;
+    }
+
+    /** Declarative input modes with apgames labels (parallel to {@link alternativeDisplays}). */
+    public inputModes(): InputMode[] | undefined {
+        const ctor = this.constructor as typeof GameBase;
+        const defs = ctor.gameinfo.inputModes;
+        if (defs === undefined || defs.length === 0) {
+            return undefined;
+        }
+        const modes: InputMode[] = defs.map((v) => ({
+            uid: v.uid,
+            name: i18next.t(`apgames:inputModes.${ctor.gameinfo.uid}.${v.uid}.name`),
+            description: i18next.t(`apgames:inputModes.${ctor.gameinfo.uid}.${v.uid}.description`),
+            group: v.group,
+            enabledWhen: v.enabledWhen,
+            conflictsWith: v.conflictsWith,
+            requires: v.requires,
+            implies: v.implies,
+            impliesLock: v.impliesLock,
+        }));
+        const groups = new Set<string>();
+        modes.forEach((v) => {
+            if (v.group !== undefined) {
+                groups.add(v.group);
+            }
+        });
+        [...groups].forEach((g) => {
+            const keyName = `apgames:inputModes.${ctor.gameinfo.uid}.#${g}.name`;
+            const keyDesc = `apgames:inputModes.${ctor.gameinfo.uid}.#${g}.description`;
+            if (modes.find((v) => v.uid === `#${g}`) === undefined) {
+                modes.unshift({
+                    uid: `#${g}`,
+                    name: i18next.exists(keyName) ? i18next.t(keyName) : undefined,
+                    description: i18next.exists(keyDesc) ? i18next.t(keyDesc) : undefined,
+                    group: g,
+                });
+            } else {
+                const idx = modes.findIndex((v) => v.uid === `#${g}`);
+                modes[idx]!.name = i18next.exists(keyName) ? i18next.t(keyName) : undefined;
+                modes[idx]!.description = i18next.exists(keyDesc) ? i18next.t(keyDesc) : undefined;
+                modes[idx]!.group = g;
+            }
+        });
+        return modes;
+    }
+
+    /** Sanitized active input mode uid for this game; undefined if the game has no input modes. */
+    public resolveActiveInputMode(storedUid: string | null | undefined): string | undefined {
+        const ctor = this.constructor as typeof GameBase;
+        return sanitizeInputModeForGame(ctor.gameinfo.inputModes, storedUid);
+    }
+
+    /** Resolve stored preference through the same constraint pipeline as the client (multi-select safe; pick first). */
+    public resolveStoredInputModes(stored: string[] | undefined): string[] {
+        const ctor = this.constructor as typeof GameBase;
+        return resolveIncomingInputModes(ctor.gameinfo.inputModes, stored);
     }
 
     /**

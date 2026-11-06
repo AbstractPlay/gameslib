@@ -81,7 +81,7 @@ export type {
 export type { APRenderRep, APRenderComposite } from "@abstractplay/renderer";
 export { isAPRenderComposite } from "./common/renderOutput.js";
 export type { APMoveResult, APGamesInformation };
-export type { Variant, AlternativeDisplay } from "./schemas/gameinfo.js";
+export type { Variant, AlternativeDisplay, InputMode } from "./schemas/gameinfo.js";
 export type { TurnModel, IGamePly, IGameRound, IGameRoundSlot } from "./games/_turn-model.js";
 export type { TrailingSameActorRun } from "./games/_teachingPlyWalk.js";
 export {
@@ -171,6 +171,25 @@ export {
     displayCycleSteps,
     nextDisplayCycleStep,
 } from "./common/display-cycle.js";
+export {
+    resolveInputModeGroups,
+    resolveInputModeSelection,
+    isInputModeSelectable,
+    evaluateInputModeAvailability,
+    validateInputModeSelection,
+    sanitizeInputModeSelection,
+    assertValidInputModeSelection,
+    resolveIncomingInputModes,
+    sanitizeInputModeForGame,
+} from "./common/input-mode-constraints.js";
+export type {
+    ResolveIncomingInputModesMode,
+    InputModeConstraintReason,
+    InputModeConstraintError,
+    InputModeAvailability,
+    InputModeSelectionState,
+    ValidateInputModeSelectionResult,
+} from "./common/input-mode-constraints.js";
 export {
     GameRng,
     generateChallengeSeed,

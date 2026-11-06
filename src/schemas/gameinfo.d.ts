@@ -60,6 +60,10 @@ export interface APGamesInformation {
    */
   displays?: AlternativeDisplay[];
   /**
+   * Optional board input modes (how handleClick interprets clicks). Clients pass the selected uid as IHandleClickUi.inputMode.
+   */
+  inputModes?: InputMode[];
+  /**
    * A list of the supported player counts
    */
   playercounts: number[];
@@ -219,6 +223,47 @@ export interface AlternativeDisplay {
   implies?: string[];
   /**
    * If true with `implies`, implied displays cannot be deselected while this display is active; sanitize re-adds them.
+   */
+  impliesLock?: boolean;
+  [k: string]: unknown;
+}
+export interface InputMode {
+  /**
+   * The name of the input mode. These are looked up from apgames.json by the inputModes() helper (apgames:inputModes.{gameuid}.{uid}.name).
+   */
+  name?: string;
+  /**
+   * A short, unique string representing this input mode. For modes in a group, a uid `#{group}` is presumed unless declared explicitly.
+   */
+  uid: string;
+  /**
+   * A description of the input mode. These are looked up from apgames.json by the inputModes() helper.
+   */
+  description?: string;
+  /**
+   * If present, modes in the same group are mutually exclusive (radio UI). Omit for independent toggles.
+   */
+  group?: string;
+  /**
+   * If present, this mode is only selectable when every listed radio group's current value is one of the allowed uids (include `#{group}` for the default choice).
+   */
+  enabledWhen?: {
+    [k: string]: string[];
+  };
+  /**
+   * If present, this mode cannot be selected while any listed mode uid is active. Evaluators treat conflicts as symmetric.
+   */
+  conflictsWith?: string[];
+  /**
+   * If present, this mode is only selectable when all listed mode uids are also active.
+   */
+  requires?: string[];
+  /**
+   * If present, selecting this mode causes the listed uids to be added during sanitize (UI auto-select).
+   */
+  implies?: string[];
+  /**
+   * If true with `implies`, implied modes cannot be deselected while this mode is active; sanitize re-adds them.
    */
   impliesLock?: boolean;
   [k: string]: unknown;

@@ -543,6 +543,10 @@
       "tag": "A: 2+ Giocatori"
     }
   },
+  "inputModes": {
+    "section": "Modalità di input",
+    "description": "Come la plancia interpreta i tuoi clic per questa partita."
+  },
   "status": {
     "_player": "{{player}}",
     "CARDSINHAND": "Carte in mano",

@@ -83,6 +83,25 @@ export {
     displayCycleSteps,
     nextDisplayCycleStep,
 } from "./display-cycle.js";
+export {
+    resolveInputModeGroups,
+    resolveInputModeSelection,
+    isInputModeSelectable,
+    evaluateInputModeAvailability,
+    validateInputModeSelection,
+    sanitizeInputModeSelection,
+    assertValidInputModeSelection,
+    resolveIncomingInputModes,
+    sanitizeInputModeForGame,
+} from "./input-mode-constraints.js";
+export type {
+    ResolveIncomingInputModesMode,
+    InputModeConstraintReason,
+    InputModeConstraintError,
+    InputModeAvailability,
+    InputModeSelectionState,
+    ValidateInputModeSelectionResult,
+} from "./input-mode-constraints.js";
 
 export { RectGrid, StackSet, reviver, replacer, sortingReplacer, shuffle, UserFacingError, HexTriGraph, SnubSquareGraph, SquareOrthGraph, SquareDiagGraph, SquareGraph, Square3DGraph, SquareDirectedGraph, SquareFanoronaGraph, BaoGraph, SowingNoEndsGraph, RectTriGraph, BentTriGraph, StarGraph, HexMoonGraph, FracturedFlatGraph, starFrequencyFromWidth, starOuterSides, starSidesForCell, starSidesAdjacent, isStarYTripleValid, starHasYWin, starTouchedSides, starPickWitnessTriple, starBuildConnPath, starBuildConnPathForWin, wng, projectPoint, ptDistance, smallestDegreeDiff, normDeg, deg2rad, rad2deg, toggleFacing, calcBearing, matrixRectRot90, matrixRectRotN90, transposeRect, circle2poly, midpoint, distFromCircle, dir2deg, deg2dir, rotateFacing };
 

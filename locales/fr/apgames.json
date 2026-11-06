@@ -543,6 +543,10 @@
       "tag": "A : 2+ Joueurs"
     }
   },
+  "inputModes": {
+    "section": "Mode de saisie",
+    "description": "Comment le plateau interprète vos clics pour cette partie."
+  },
   "status": {
     "_player": "{{player}}",
     "CARDSINHAND": "Cartes en main",

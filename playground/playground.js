@@ -66,12 +66,36 @@ function clickBoardContextFromDisplayRep(displayRep) {
     };
 }
 
-function buildHandleClickUi(board) {
-    if (board == null) {
+/**
+ * Board context for handleClick ui from a render rep (single frame, frame stack, or composite).
+ * @param {unknown} rep
+ */
+function displayRepForPlaygroundClickContext(rep) {
+    if (rep && typeof rep === "object" && rep.kind === "composite" && rep.panels?.length) {
+        return rep.panels[0]?.render ?? rep;
+    }
+    if (Array.isArray(rep) && rep.length > 0) {
+        return rep[rep.length - 1];
+    }
+    return rep;
+}
+
+function buildHandleClickUi(panelId, board, inputMode) {
+    const hasPanel = panelId != null && panelId !== "";
+    const hasInputMode =
+        inputMode !== undefined &&
+        inputMode !== null &&
+        String(inputMode) !== "";
+    if (!hasPanel && board == null && !hasInputMode) {
         return undefined;
     }
-    return { board };
+    return {
+        ...(hasPanel ? { panelId: String(panelId) } : {}),
+        ...(board != null ? { board } : {}),
+        ...(hasInputMode ? { inputMode: String(inputMode) } : {}),
+    };
 }
+
 let currentRenderFrames = null;
 let currentRenderFrameIndex = 0;
 let skipFrameRefresh = false;
@@ -569,10 +593,40 @@ function applyPlaygroundClickResult(game, gamename, result) {
     }
 }
 
-function boardClick(row, col, piece) {
+function boardClick(arg0, arg1, arg2, arg3) {
+    let row;
+    let col;
+    let piece;
+    let panelId;
+    if (arg3 !== undefined) {
+        panelId = arg0;
+        row = arg1;
+        col = arg2;
+        piece = arg3;
+    } else {
+        row = arg0;
+        col = arg1;
+        piece = arg2;
+    }
     console.log("Row: " + row + ", Col: " + col + ", Piece: " + piece);
     var state = getCommittedStateString();
     var gamename = window.localStorage.getItem("gamename");
+    let panelRep = displayRepForPlaygroundClickContext(currentRenderRep);
+    if (
+        panelId !== undefined &&
+        currentRenderRep &&
+        typeof currentRenderRep === "object" &&
+        currentRenderRep.kind === "composite" &&
+        Array.isArray(currentRenderRep.panels)
+    ) {
+        const hit = currentRenderRep.panels.find((p) => String(p.id) === String(panelId));
+        panelRep = hit?.render ?? panelRep;
+    }
+    lastHandleClickUi = buildHandleClickUi(
+        panelId,
+        clickBoardContextFromDisplayRep(panelRep),
+        effectivePlaygroundInputModeUid(gamename),
+    );
     var game = APGames.GameFactory(gamename, state);
     if (game.gameover) {
         return;
@@ -582,10 +636,40 @@ function boardClick(row, col, piece) {
     applyPlaygroundClickResult(game, gamename, result);
 }
 
-function boardClickSimultaneous(row, col, piece) {
+function boardClickSimultaneous(arg0, arg1, arg2, arg3) {
+    let row;
+    let col;
+    let piece;
+    let panelId;
+    if (arg3 !== undefined) {
+        panelId = arg0;
+        row = arg1;
+        col = arg2;
+        piece = arg3;
+    } else {
+        row = arg0;
+        col = arg1;
+        piece = arg2;
+    }
     console.log("Row: " + row + ", Col: " + col + ", Piece: " + piece);
     var state = getCommittedStateString();
     var gamename = window.localStorage.getItem("gamename");
+    let panelRep = displayRepForPlaygroundClickContext(currentRenderRep);
+    if (
+        panelId !== undefined &&
+        currentRenderRep &&
+        typeof currentRenderRep === "object" &&
+        currentRenderRep.kind === "composite" &&
+        Array.isArray(currentRenderRep.panels)
+    ) {
+        const hit = currentRenderRep.panels.find((p) => String(p.id) === String(panelId));
+        panelRep = hit?.render ?? panelRep;
+    }
+    lastHandleClickUi = buildHandleClickUi(
+        panelId,
+        clickBoardContextFromDisplayRep(panelRep),
+        effectivePlaygroundInputModeUid(gamename),
+    );
     var game = APGames.GameFactory(gamename, state);
     const activeSeat = getActiveSeat(game);
     if (isSeatMode() && isSeatEliminated(game, activeSeat)) {
@@ -2066,9 +2150,10 @@ function renderGame(...args) {
     options.width = "100%";
     options.preserveAspectRatio = "xMidYMid meet";
     var state = getCommittedStateString();
-    const displayOptionsContainer = document.getElementById("displayOptionsContainer");
-    const clickStatusBox = document.getElementById("clickstatus");
-    const playerInfoDisplay = document.getElementById("playerInfoDisplay");
+        const displayOptionsContainer = document.getElementById("displayOptionsContainer");
+        const inputModeOptionsContainer = document.getElementById("inputModeOptionsContainer");
+        const clickStatusBox = document.getElementById("clickstatus");
+        const playerInfoDisplay = document.getElementById("playerInfoDisplay");
 
     if (state !== null) {
         var gamename = window.localStorage.getItem("gamename");
@@ -2208,6 +2293,9 @@ function renderGame(...args) {
         if (displayOptionsContainer && displayOptionsContainer.children.length > 0) {
             displayOptionsContainer.style.display = 'block';
         }
+        if (inputModeOptionsContainer && inputModeOptionsContainer.children.length > 0) {
+            inputModeOptionsContainer.style.display = "block";
+        }
 
         let interim = null;
         try {
@@ -2243,7 +2331,11 @@ function renderGame(...args) {
         }
         currentRenderRep = data;
         data = prepareRenderRep(data, game, gamename);
-        lastHandleClickUi = buildHandleClickUi(clickBoardContextFromDisplayRep(data));
+        lastHandleClickUi = buildHandleClickUi(
+            undefined,
+            clickBoardContextFromDisplayRep(displayRepForPlaygroundClickContext(data)),
+            effectivePlaygroundInputModeUid(gamename),
+        );
         var canvas;
         try {
             canvas = APRender.render(data, options);
@@ -2333,6 +2425,9 @@ function renderGame(...args) {
         currentRenderRep = null;
         if (displayOptionsContainer) {
             displayOptionsContainer.style.display = 'none';
+        }
+        if (inputModeOptionsContainer) {
+            inputModeOptionsContainer.style.display = "none";
         }
         if (playerInfoDisplay) {
             playerInfoDisplay.innerHTML = '<p style="font-style: italic; color: #888;">No game loaded.</p>';
@@ -2892,6 +2987,261 @@ function updateDisplayOptions(gameEngine) {
             displayOptionsContainer.style.display = 'block';
         }
     }
+    updatePlaygroundInputModeOptions(gameEngine);
+}
+
+const playgroundInputModeStorageKey = "playgroundInputModes";
+
+function readStoredPlaygroundInputModeUids() {
+    try {
+        const raw = window.localStorage.getItem(playgroundInputModeStorageKey);
+        if (!raw) {
+            return [];
+        }
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch {
+        return [];
+    }
+}
+
+function writeStoredPlaygroundInputModeUids(uids) {
+    window.localStorage.setItem(playgroundInputModeStorageKey, JSON.stringify(uids));
+}
+
+function partitionInputModes(modes) {
+    const groups = new Map();
+    const ungrouped = [];
+    for (const m of modes) {
+        if (m.group !== undefined) {
+            const list = groups.get(m.group) ?? [];
+            list.push(m);
+            groups.set(m.group, list);
+        } else {
+            ungrouped.push(m);
+        }
+    }
+    for (const list of groups.values()) {
+        list.sort((a, b) => {
+            const aSent = a.uid.startsWith("#");
+            const bSent = b.uid.startsWith("#");
+            if (aSent && !bSent) {
+                return -1;
+            }
+            if (!aSent && bSent) {
+                return 1;
+            }
+            return a.uid.localeCompare(b.uid);
+        });
+    }
+    return { groups, ungrouped };
+}
+
+/** @returns {string[]} */
+function readPlaygroundInputModeSelection() {
+    const active = [];
+    document.querySelectorAll('input[data-input-mode-kind="group"]:checked').forEach((el) => {
+        if (el.value !== "default") {
+            active.push(el.value);
+        }
+    });
+    document.querySelectorAll('input[data-input-mode-kind="toggle"]:checked').forEach((el) => {
+        active.push(el.value);
+    });
+    return active;
+}
+
+function restorePlaygroundInputModeSelection(groups, ungrouped, defs) {
+    let saved = readStoredPlaygroundInputModeUids();
+    if (!Array.isArray(saved) || saved.length === 0) {
+        saved = APGames.sanitizeInputModeSelection(defs, []);
+    } else {
+        saved = APGames.sanitizeInputModeSelection(defs, saved);
+    }
+    let restoredRadio = false;
+    for (const el of document.querySelectorAll('input[data-input-mode-kind="group"]')) {
+        if (saved.includes(el.value)) {
+            el.checked = true;
+            restoredRadio = true;
+        }
+    }
+    if (!restoredRadio && groups.size > 0) {
+        const fallback = document.querySelector('input[data-input-mode-kind="group"][value="default"]')
+            ?? document.querySelector('input[data-input-mode-kind="group"]');
+        if (fallback) {
+            fallback.checked = true;
+        }
+    }
+    for (const radioName of new Set(
+        [...document.querySelectorAll('input[data-input-mode-kind="group"]')].map((el) => el.name),
+    )) {
+        const inGroup = document.querySelectorAll(`input[data-input-mode-kind="group"][name="${radioName}"]`);
+        if (inGroup.length > 0 && ![...inGroup].some((el) => el.checked)) {
+            const def = document.querySelector(`input[data-input-mode-kind="group"][name="${radioName}"][value="default"]`)
+                ?? inGroup[0];
+            if (def) {
+                def.checked = true;
+            }
+        }
+    }
+
+    document.querySelectorAll('input[data-input-mode-kind="toggle"]').forEach((el) => {
+        el.checked = saved.includes(el.value);
+    });
+}
+
+function appendInputModeOptionRow(fieldset, inputEl, copy) {
+    const row = document.createElement("div");
+    row.className = "display-option-row";
+    const control = document.createElement("div");
+    control.className = "display-option-control";
+    const label = document.createElement("label");
+    label.htmlFor = inputEl.id;
+    label.textContent = ` ${copy.name}`;
+    control.appendChild(inputEl);
+    control.appendChild(label);
+    row.appendChild(control);
+    if (copy.description) {
+        const help = document.createElement("div");
+        help.className = "display-option-help";
+        help.textContent = copy.description;
+        row.appendChild(help);
+    }
+    fieldset.appendChild(row);
+}
+
+function playgroundInputModeCopy(gameUid, mode) {
+    const nameKey = `inputModes.${gameUid}.${mode.uid}.name`;
+    const descKey = `inputModes.${gameUid}.${mode.uid}.description`;
+    let name = playgroundT(nameKey);
+    if (looksLikeUntranslatedI18nKey(name, nameKey)) {
+        name = mode.name;
+    }
+    if (looksLikeUntranslatedI18nKey(name, nameKey)) {
+        name = mode.uid;
+    }
+    let description = playgroundT(descKey);
+    if (looksLikeUntranslatedI18nKey(description, descKey)) {
+        description = mode.description;
+    }
+    if (looksLikeUntranslatedI18nKey(description, descKey)) {
+        description = undefined;
+    }
+    return { name, description };
+}
+
+function inputModeOptionRadioValue(mode) {
+    if (mode.uid.startsWith("#")) {
+        return "default";
+    }
+    return mode.uid;
+}
+
+function clearPlaygroundPartialOnInputModeChange(gamename) {
+    window.localStorage.removeItem("interim");
+    window.localStorage.removeItem(simStorage.interimPerspective);
+    var movebox = document.getElementById("moveEntry");
+    if (movebox) {
+        movebox.value = "";
+        movebox.classList.remove("move-incomplete", "move-ready");
+    }
+    var clickstatus = document.getElementById("clickstatus");
+    if (clickstatus && gamename) {
+        try {
+            const game = createEngineFromCommitted(gamename);
+            if (game) {
+                var result = validateMoveForPlayground(game, gamename, "");
+                var resultStr = '<p style="color: #888">' + formatValidationMessage(result.message) + '</p>';
+                clickstatus.innerHTML = resultStr;
+            }
+        } catch {
+            // ignore
+        }
+    }
+}
+
+function effectivePlaygroundInputModeUid(gamename) {
+    const defs = gamename ? APGames.gameinfo.get(gamename)?.inputModes : undefined;
+    if (!defs?.length) {
+        return undefined;
+    }
+    const container = document.getElementById("inputModeOptionsContainer");
+    let active = [];
+    if (container && container.style.display !== "none" && container.children.length > 0) {
+        active = readPlaygroundInputModeSelection();
+    } else {
+        active = readStoredPlaygroundInputModeUids();
+    }
+    const sanitized = APGames.sanitizeInputModeSelection(defs, active);
+    return APGames.sanitizeInputModeForGame(defs, sanitized[0]);
+}
+
+function updatePlaygroundInputModeOptions(gameEngine) {
+    const container = document.getElementById("inputModeOptionsContainer");
+    if (!container) {
+        return;
+    }
+    container.innerHTML = "";
+    container.style.display = "none";
+
+    const gameUid = gameEngine?.constructor?.gameinfo?.uid ?? "";
+    const defs = gameUid ? APGames.gameinfo.get(gameUid)?.inputModes : undefined;
+    if (!defs?.length) {
+        writeStoredPlaygroundInputModeUids([]);
+        return;
+    }
+    let rootModes = [];
+    try {
+        rootModes = typeof gameEngine.inputModes === "function" ? gameEngine.inputModes() : [];
+    } catch {
+        rootModes = [];
+    }
+    if (!rootModes?.length) {
+        writeStoredPlaygroundInputModeUids([]);
+        return;
+    }
+
+    const fieldset = document.createElement("fieldset");
+    const legend = document.createElement("legend");
+    legend.textContent = playgroundTranslate("apgames:inputModes.section");
+    fieldset.appendChild(legend);
+    const intro = document.createElement("p");
+    intro.className = "display-option-help";
+    intro.textContent = playgroundTranslate("apgames:inputModes.description");
+    fieldset.appendChild(intro);
+
+    const { groups, ungrouped } = partitionInputModes(rootModes);
+
+    const singleGroupOnly = groups.size === 1 && ungrouped.length === 0;
+    for (const [groupName, members] of groups) {
+        const radioName = singleGroupOnly ? "inputModeOption" : `inputModeOption_${groupName}`;
+        for (const mode of members) {
+            const value = inputModeOptionRadioValue(mode);
+            const radio = document.createElement("input");
+            radio.type = "radio";
+            radio.name = radioName;
+            radio.value = value;
+            radio.dataset.inputModeKind = "group";
+            radio.id = singleGroupOnly
+                ? `inputMode_${value}`
+                : `inputMode_${groupName}_${value}`;
+            appendInputModeOptionRow(fieldset, radio, playgroundInputModeCopy(gameUid, mode));
+        }
+    }
+
+    for (const mode of ungrouped) {
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = mode.uid;
+        checkbox.id = `inputMode_toggle_${mode.uid}`;
+        checkbox.dataset.inputModeKind = "toggle";
+        appendInputModeOptionRow(fieldset, checkbox, playgroundInputModeCopy(gameUid, mode));
+    }
+
+    container.appendChild(fieldset);
+    restorePlaygroundInputModeSelection(groups, ungrouped, defs);
+    writeStoredPlaygroundInputModeUids(readPlaygroundInputModeSelection());
+    container.style.display = "block";
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -3189,6 +3539,46 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 window.localStorage.removeItem("interim");
                 const active = readPlaygroundDisplaySelection();
                 window.localStorage.setItem("selectedDisplays", JSON.stringify(active));
+                renderGame();
+            }
+        });
+    }
+
+    const inputModeOptionsContainer = document.getElementById("inputModeOptionsContainer");
+    if (inputModeOptionsContainer) {
+        inputModeOptionsContainer.addEventListener("change", (event) => {
+            const target = event.target;
+            if (
+                target.dataset.inputModeKind === "group" &&
+                target.type === "radio"
+            ) {
+                const gamename = window.localStorage.getItem("gamename");
+                const defs = gamename ? APGames.gameinfo.get(gamename)?.inputModes : undefined;
+                if (!defs?.length) {
+                    return;
+                }
+                const prev = JSON.stringify(readStoredPlaygroundInputModeUids());
+                const active = readPlaygroundInputModeSelection();
+                writeStoredPlaygroundInputModeUids(active);
+                if (prev !== JSON.stringify(active)) {
+                    clearPlaygroundPartialOnInputModeChange(gamename);
+                }
+                renderGame();
+            } else if (
+                target.dataset.inputModeKind === "toggle" &&
+                target.type === "checkbox"
+            ) {
+                const gamename = window.localStorage.getItem("gamename");
+                const defs = gamename ? APGames.gameinfo.get(gamename)?.inputModes : undefined;
+                if (!defs?.length) {
+                    return;
+                }
+                const prev = JSON.stringify(readStoredPlaygroundInputModeUids());
+                const active = readPlaygroundInputModeSelection();
+                writeStoredPlaygroundInputModeUids(active);
+                if (prev !== JSON.stringify(active)) {
+                    clearPlaygroundPartialOnInputModeChange(gamename);
+                }
                 renderGame();
             }
         });

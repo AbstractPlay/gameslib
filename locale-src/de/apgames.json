@@ -3455,6 +3455,14 @@
     "src": "Isometric: Subtle Elevation",
     "out": "Isometrisch: Dezente Erhöhung"
   },
+  "inputModes.description": {
+    "src": "How the board interprets your clicks for this game.",
+    "out": "Wie das Spielbrett deine Klicks für dieses Spiel interpretiert."
+  },
+  "inputModes.section": {
+    "src": "Input mode",
+    "out": "Eingabemodus"
+  },
   "names.abande": {
     "src": "Abande",
     "out": "Abande"

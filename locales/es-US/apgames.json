@@ -543,6 +543,10 @@
       "tag": "O: 2+ jugadores"
     }
   },
+  "inputModes": {
+    "section": "Modo de entrada",
+    "description": "Cómo interpreta el tablero tus clics en este juego."
+  },
   "status": {
     "_player": "{{player}}",
     "CARDSINHAND": "Cartas en mano",

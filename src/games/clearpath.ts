@@ -249,7 +249,9 @@ export class ClearPathGame extends GameBase {
         urls: [
             "https://www.marksteeregames.com/Clear_Path_rules.pdf",
             "https://www.marksteeregames.com",
+            "https://boardgamegeek.com/boardgame/472450/clear-path",
         ],
+        bggid: "472450",
         people: [
             {
                 type: "designer",

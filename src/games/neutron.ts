@@ -312,6 +312,15 @@ export class NeutronGame extends GameBase {
         return board;
     }
 
+    /** Legal neutron destination for this turn (includes partial preview already on `neutronTo`). */
+    private neutronDestReachable(neutronTo: string): boolean {
+        const from = this.getNeutronCell();
+        if (from === neutronTo) {
+            return true;
+        }
+        return this.slideDestinations(from, this.board).includes(neutronTo);
+    }
+
     public moves(player?: playerid): string[] {
         if (this.gameover) {
             return [];
@@ -421,7 +430,7 @@ export class NeutronGame extends GameBase {
                     }
                 }
             } else if (move.length === 0) {
-                if (!this.board.has(cell) && this.slideDestinations(this.getNeutronCell(), this.board).includes(cell)) {
+                if (!this.board.has(cell) && this.neutronDestReachable(cell)) {
                     newmove = cell;
                 } else if (this.board.get(cell) === this.currplayer) {
                     return {
@@ -440,7 +449,8 @@ export class NeutronGame extends GameBase {
                 }
             } else if (move.includes(",") && !move.includes("-")) {
                 const [nTo, pawnFrom] = move.split(",", 2);
-                if (!this.board.has(cell) && this.slideDestinations(pawnFrom, this.boardAfterNeutron(nTo)).includes(cell)) {
+                const afterN = this.boardAfterNeutron(nTo);
+                if (!afterN.has(cell) && this.slideDestinations(pawnFrom, afterN).includes(cell)) {
                     if (this.isPawnLandingLegal(this.currplayer, pawnFrom, cell)) {
                         newmove = `${nTo},${pawnFrom}-${cell}`;
                     }
@@ -507,7 +517,7 @@ export class NeutronGame extends GameBase {
         }
 
         if (!m.includes(",") && !m.includes("-")) {
-            if (!this.slideDestinations(this.getNeutronCell(), this.board).includes(m)) {
+            if (!this.neutronDestReachable(m)) {
                 result.message = i18next.t("apgames:validation.neutron.INVALID_NEUTRON");
                 return result;
             }
@@ -531,7 +541,7 @@ export class NeutronGame extends GameBase {
 
         if (m.includes(",") && !m.includes("-")) {
             const [nTo, pawnFrom] = m.split(",", 2);
-            if (!this.slideDestinations(this.getNeutronCell(), this.board).includes(nTo)) {
+            if (!this.neutronDestReachable(nTo)) {
                 result.message = i18next.t("apgames:validation.neutron.INVALID_NEUTRON");
                 return result;
             }
@@ -662,11 +672,12 @@ export class NeutronGame extends GameBase {
             return this.slideDestinations(this.getNeutronCell(), this.board).map((c) => this.algebraic2coords(c));
         }
         if (partial.includes(",") && !partial.includes("-")) {
-            const [, pawnFrom] = partial.split(",", 2);
+            const [nTo, pawnFrom] = partial.split(",", 2);
             if (pawnFrom.length === 0) {
                 return [];
             }
-            return this.slideDestinations(pawnFrom, this.board)
+            const afterN = this.boardAfterNeutron(nTo);
+            return this.slideDestinations(pawnFrom, afterN)
                 .filter((to) => this.isPawnLandingLegal(this.currplayer, pawnFrom, to))
                 .map((c) => this.algebraic2coords(c));
         }

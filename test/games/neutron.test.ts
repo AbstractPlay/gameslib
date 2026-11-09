@@ -168,6 +168,61 @@ describe("Neutron", () => {
         });
     });
 
+    describe("handleClick", () => {
+        /** Neutron on c4, player 1 to play — pawn c1 may land on c4 after neutron c4→e2. */
+        const midgameBoard = new Map<string, PieceId>([
+            ["a5", 2],
+            ["b1", 1],
+            ["c1", 1],
+            ["e1", 2],
+            ["e5", 1],
+            ["a2", 2],
+            ["d5", 1],
+            ["d1", 2],
+            ["c5", 1],
+            ["c4", 3],
+            ["b2", 2],
+        ]);
+
+        function clickCell(g: NeutronGame, move: string, cell: string) {
+            const [x, y] = g.algebraic2coords(cell);
+            return g.handleClick(move, y, x);
+        }
+
+        it("completes a pawn slide onto the neutron's departure cell before partial board update", () => {
+            const g = gameFrom(midgameBoard, 1);
+            expect(g.moves()).to.include("e2,c1-c4");
+            let move = "";
+            const n = clickCell(g, move, "e2");
+            expect(n.valid).to.be.true;
+            move = n.move;
+            const p = clickCell(g, move, "c1");
+            expect(p.valid).to.be.true;
+            expect(p.move).to.equal("e2,c1");
+            move = p.move;
+            const d = clickCell(g, move, "c4");
+            expect(d.valid).to.be.true;
+            expect(d.complete).to.equal(1);
+            expect(d.move).to.equal("e2,c1-c4");
+        });
+
+        it("allows partial pawn preview after neutron is on its destination", () => {
+            const g = gameFrom(midgameBoard, 1);
+            g.move("e2", { partial: true });
+            const v = g.validateMove("e2,c1");
+            expect(v.valid).to.be.true;
+            expect(() => g.move("e2,c1", { partial: true })).to.not.throw();
+        });
+
+        it("shows pawn destinations from the board after the chosen neutron slide", () => {
+            const g = gameFrom(midgameBoard, 1);
+            g.move("e2,c1", { partial: true });
+            const dots = (g.render().annotations ?? []).find((a) => a.type === "dots");
+            const cells = (dots?.targets ?? []).map((t) => g.coords2algebraic(t.col, t.row));
+            expect(cells).to.include("c4");
+        });
+    });
+
     describe("partial preview", () => {
         it("shows only the neutron arrow after a neutron partial (no pawn dots or prior turn arrow)", () => {
             const g = new NeutronGame();

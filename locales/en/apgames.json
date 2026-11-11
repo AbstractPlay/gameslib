@@ -2602,6 +2602,7 @@
       "INVALID_DISTANCE": "Stacks must move the exact distance of the height of the *target* stack.",
       "INVALID_PASS": "You may not pass as long as other valid moves are available.",
       "INVALID_TILE_NUM": "If you specify a tile number, it must be no greater than the height of the stack. The top tile of a stack is tile number '1'.",
+      "INVALID_UNDO_OPPONENT": "You may not move in a way that effectively takes back the opponent's previous turn.",
       "MOVE_MUST_STACK": "Moving stacks must end their movement on top of another stack.",
       "PARTIAL_FULLSTACK": "Looks like you want to move an entire stack. Provide the destination.",
       "PARTIAL_SUBSTACK_one": "Looks like you want to move the top piece from the stack. Provide the destination.",

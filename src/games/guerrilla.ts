@@ -964,8 +964,7 @@ export class GuerrillaGame extends GameBase {
                 this.collectChatLogLine(lines, r, ctx);
             }
             if (state._results.find((res) => res.type === "deltaScore") !== undefined) {
-                const thisInfo = Object.getPrototypeOf(this).constructor.gameinfo as APGamesInformation;
-                if ("scores" in state && (thisInfo.flags === undefined || !thisInfo.flags.includes("simultaneous"))) {
+                if ("scores" in state && !this.getFlags().includes("simultaneous")) {
                     this.pushSeatChatLine(lines, defaultSeat, "apresults:_general.SCORE_REPORT.default", {
                         score: (state.scores as number[])[defaultSeat - 1],
                     });

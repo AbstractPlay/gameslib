@@ -35,6 +35,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Changed
 
+- **Flags:** exported **`sessionIsSimultaneous`**; simultaneous resign and default chat-log score lines use **`getFlags()`** instead of static `gameinfo.flags`. Documented that the **`simultaneous` flag** (via `getFlags()` / `resolveGameFlags`) is canonical for simultaneous submit routing in integrators — not `turnModel()`.
 - **Cubeo:** faster legal move listing on midgame boards (including d10/d12) via shared slide-topology pass caching; unchanged rules and move strings for clients using automove or full movelists.
 - **Locale merge / translate:** `locale-en merge --write` name seeding keeps managed `apgames.json` in **English key order**; `locale-prune` and `translate` **reshape on disk** when translations are up to date (no Gemini) so merge-only runs do not leave `descriptions`-first drift.
 - **Alien City:** faster placement legality (board-local road graph instead of full-state clones), cached road distances for scoring, **`hasLegalPlacement`** for pass validation, **`no-moves` removed** so legal move lists are available to clients again; reject endgame tower claims when no legal placements remain; structured move log includes **`nullifyClaim`** when a claim is voided at game end.

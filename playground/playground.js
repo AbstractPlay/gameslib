@@ -261,7 +261,7 @@ function updateSimultaneousControls(game, gamename) {
     if (!container) {
         return;
     }
-    const simultaneous = game && gamename && gameIsSimultaneous(game, gamename);
+    const simultaneous = Boolean(gamename && gameIsSimultaneous(game, gamename));
     container.style.display = simultaneous ? "block" : "none";
     if (!simultaneous || !game) {
         return;
@@ -1332,10 +1332,85 @@ function createCustomizeModal() {
 
 const PREDEFINED_LOG_NAMES = ["Alice", "Bob", "Charlie", "Dave", "Eve", "Frank", "Grace", "Heidi", "Ivan", "Judy"];
 
-/** Effective flags for an active engine, or static gameinfo when no instance. */
+/** Variant uids for flag resolution (engine state, UI selection, or serialized variants). */
+function playgroundVariantUids(game, gamename) {
+    if (game) {
+        if (typeof game.getVariants === "function") {
+            const fromEngine = game.getVariants();
+            if (Array.isArray(fromEngine) && fromEngine.length > 0) {
+                return [...fromEngine];
+            }
+        }
+        if (Array.isArray(game.variants) && game.variants.length > 0) {
+            return [...game.variants];
+        }
+        if (typeof game.state === "function") {
+            try {
+                const snapshot = game.state();
+                if (
+                    snapshot?.variants &&
+                    Array.isArray(snapshot.variants) &&
+                    snapshot.variants.length > 0
+                ) {
+                    return [...snapshot.variants];
+                }
+            } catch {
+                /* ignore */
+            }
+        }
+    }
+    const storedGamename = window.localStorage.getItem("gamename");
+    const uid = gamename || game?.uid;
+    if (uid && (uid === storedGamename || uid === currentGameInfo?.uid)) {
+        const fromUi = collectActiveVariantUids();
+        if (fromUi.length > 0) {
+            return fromUi;
+        }
+    }
+    return [];
+}
+
+/** Player count for `resolveGameFlags` before an engine exists. */
+function playgroundPlayerCount(game, gamename) {
+    if (game && typeof game.numplayers === "number") {
+        return game.numplayers;
+    }
+    const info = gamename ? APGames.gameinfo.get(gamename) : null;
+    if (info?.playercounts?.length === 1) {
+        return info.playercounts[0];
+    }
+    const pcSelect = document.getElementById("playerCountSelect");
+    if (pcSelect) {
+        const parsed = parseInt(pcSelect.value, 10);
+        if (Number.isFinite(parsed)) {
+            return parsed;
+        }
+    }
+    const saved = window.localStorage.getItem("playerCount");
+    if (saved) {
+        const parsed = parseInt(saved, 10);
+        if (Number.isFinite(parsed)) {
+            return parsed;
+        }
+    }
+    return 2;
+}
+
+function playgroundSessionContext(game, gamename) {
+    return {
+        variants: playgroundVariantUids(game, gamename),
+        numplayers: playgroundPlayerCount(game, gamename),
+    };
+}
+
+/** Effective flags for an active engine, or resolveGameFlags / static gameinfo. */
 function effectiveGameFlags(game, gamename) {
     if (game && typeof game.getFlags === "function") {
         return game.getFlags();
+    }
+    const uid = gamename || game?.uid;
+    if (uid && typeof APGames.resolveGameFlags === "function") {
+        return APGames.resolveGameFlags(uid, playgroundSessionContext(game, gamename));
     }
     const meta = gamename ? APGames.gameinfo.get(gamename) : null;
     return meta?.flags ?? [];
@@ -1380,12 +1455,20 @@ function prepareRenderRep(rep, game, gamename) {
 
 /** @typedef {"sequential" | "simultaneous" | "sequenced" | "skip-turn"} TurnModel */
 
+/** Simultaneous submit / partial-move routing (`getFlags` / `resolveGameFlags` only). */
 function gameIsSimultaneous(game, gamename) {
-    if (game && game.simultaneous) {
-        return true;
+    const uid = gamename || game?.uid;
+    if (!uid) {
+        return false;
     }
-    const meta = APGames.gameinfo.get(gamename || game?.uid);
-    return Boolean(meta?.flags?.includes("simultaneous"));
+    if (typeof APGames.sessionIsSimultaneous === "function") {
+        return APGames.sessionIsSimultaneous(
+            game ?? undefined,
+            uid,
+            playgroundSessionContext(game, gamename),
+        );
+    }
+    return gameFlagsInclude(game, gamename, "simultaneous");
 }
 
 function effectiveTurnModel({ game, engine, gameRec, gamename }) {
@@ -2552,6 +2635,13 @@ function syncVariantConstraints() {
         applySanitizedVariantSelection(sanitized);
     }
     refreshVariantAvailability();
+    const pick = document.getElementById("selectGame");
+    const pickedUid = pick?.value || currentGameInfo?.uid;
+    if (pickedUid) {
+        const state = getCommittedStateString();
+        const activeGame = state ? createEngineForView(pickedUid) : null;
+        updateSimultaneousControls(activeGame, pickedUid);
+    }
 }
 
 function playgroundT(key) {

@@ -10,6 +10,7 @@ export const gameApgamesEn = {
         INVALID_DISTANCE: "Stacks must move the exact distance of the height of the *target* stack.",
         INVALID_PASS: "You may not pass as long as other valid moves are available.",
         INVALID_TILE_NUM: "If you specify a tile number, it must be no greater than the height of the stack. The top tile of a stack is tile number '1'.",
+        INVALID_UNDO_OPPONENT: "You may not move in a way that effectively takes back the opponent's previous turn.",
         MOVE_MUST_STACK: "Moving stacks must end their movement on top of another stack.",
         PARTIAL_FULLSTACK: "Looks like you want to move an entire stack. Provide the destination.",
         PARTIAL_SUBSTACK_one: "Looks like you want to move the top piece from the stack. Provide the destination.",
@@ -148,6 +149,53 @@ export class MixtourGame extends GameBase {
         this.load();
     }
 
+    private static boardsEqual(a: Map<string, playerid[]>, b: Map<string, playerid[]>): boolean {
+        if (a.size !== b.size) {
+            return false;
+        }
+        for (const [cell, stack] of a) {
+            const other = b.get(cell);
+            if (other === undefined || other.length !== stack.length) {
+                return false;
+            }
+            for (let i = 0; i < stack.length; i++) {
+                if (stack[i] !== other[i]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private applyStackMoveOnBoard(board: Map<string, playerid[]>, m: string): void {
+        const [from, to] = m.split("-");
+        const [fcell, fnum] = from.split(":");
+        const fcontents = board.get(fcell)!;
+        let tileNum = fcontents.length;
+        if (fnum !== undefined) {
+            tileNum = parseInt(fnum, 10);
+        }
+        const moving = fcontents.slice(fcontents.length - tileNum);
+        const remaining = fcontents.slice(0, fcontents.length - tileNum);
+        const tcontents = board.get(to)!;
+        if (remaining.length === 0) {
+            board.delete(fcell);
+        } else {
+            board.set(fcell, [...remaining]);
+        }
+        board.set(to, [...tcontents, ...moving]);
+    }
+
+    private wouldUndoOpponentMove(m: string): boolean {
+        if (this.stack.length < 2 || !m.includes("-")) {
+            return false;
+        }
+        const beforeOpp = this.stack[this.stack.length - 2].board;
+        const trial = new Map(this.board);
+        this.applyStackMoveOnBoard(trial, m);
+        return MixtourGame.boardsEqual(trial, beforeOpp);
+    }
+
     public load(idx = -1): MixtourGame {
         if (idx < 0) {
             idx += this.stack.length;
@@ -213,7 +261,9 @@ export class MixtourGame extends GameBase {
         if (moves.length === 0) {
             moves.push("pass");
         }
-        return moves.sort((a,b) => a.localeCompare(b));
+        return moves
+            .filter(mv => !this.wouldUndoOpponentMove(mv))
+            .sort((a,b) => a.localeCompare(b));
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -376,6 +426,12 @@ export class MixtourGame extends GameBase {
                 result.message = i18next.t("apgames:validation._general.OBSTRUCTED", {from, to, obstruction: b});
                 return result;
             }
+        }
+
+        if (this.wouldUndoOpponentMove(m)) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.mixtour.INVALID_UNDO_OPPONENT");
+            return result;
         }
 
         // Looks good

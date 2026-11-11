@@ -91,6 +91,31 @@ export class ChameleonGame extends GameBase {
         return GameBase.algebraic2coords(cell, 5);
     }
 
+    /** Internal row y where `player` wins by infiltration (opponent's back rank; rank 5 is y=0, rank 1 is y=4). */
+    public static opposingHomeRowY(player: playerid): number {
+        return player === 1 ? 0 : 4;
+    }
+
+    private pieceCount(player: playerid): number {
+        const prefix = player === 1 ? "A" : "B";
+        return [...this.board.values()].filter((pc) => pc.startsWith(prefix)).length;
+    }
+
+    private hasPieceOnOpposingHome(player: playerid): boolean {
+        const prefix = player === 1 ? "A" : "B";
+        const homeY = ChameleonGame.opposingHomeRowY(player);
+        for (const [cell, pc] of this.board.entries()) {
+            if (!pc.startsWith(prefix)) {
+                continue;
+            }
+            const [, y] = ChameleonGame.algebraic2coords(cell);
+            if (y === homeY) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public numplayers = 2;
     public currplayer: playerid = 1;
     public board!: Map<string, Piece>;
@@ -343,43 +368,46 @@ export class ChameleonGame extends GameBase {
         return this;
     }
 
-    protected checkEOG(): ChameleonGame {
+    /** Expected terminal EOG from the loaded position (ignores {@link gameover} so {@link moves} stays usable). */
+    public expectedEogOutcome(): { winner: playerid[]; reason: string } | undefined {
+        const over = this.gameover;
+        this.gameover = false;
+        try {
+            return this.eogOutcome();
+        } finally {
+            this.gameover = over;
+        }
+    }
+
+    protected eogOutcome(): { winner: playerid[]; reason: string } | undefined {
         const prev: playerid = this.currplayer === 1 ? 2 : 1;
-        let reason: string|undefined;
 
-        // if current player has no moves, previous player wins
+        if (this.pieceCount(prev) === 1 && this.hasPieceOnOpposingHome(prev)) {
+            return { winner: [prev], reason: "last-minute infiltration" };
+        }
+
+        if (this.hasPieceOnOpposingHome(this.currplayer)) {
+            return { winner: [this.currplayer], reason: "full infiltration" };
+        }
+
+        if (this.pieceCount(this.currplayer) === 0) {
+            return { winner: [prev], reason: "annihilation" };
+        }
+
         if (this.moves().length === 0) {
+            return { winner: [prev], reason: "stalemate" };
+        }
+
+        return undefined;
+    }
+
+    protected checkEOG(): ChameleonGame {
+        const outcome = this.eogOutcome();
+        if (outcome !== undefined) {
             this.gameover = true;
-            this.winner = [prev];
-            reason = "annihilation";
-        }
-
-        // if current player has a piece on opposing home row, they win
-        if (!this.gameover) {
-            const onHome = [...this.board.entries()].filter(([,pc]) => pc.startsWith(this.currplayer === 1 ? "A" : "B")).map(([c,]) => ChameleonGame.algebraic2coords(c)).filter(([,y]) => y === (this.currplayer === 1 ? 0 : 4));
-            if (onHome.length > 0) {
-                this.gameover = true;
-                this.winner = [this.currplayer];
-                reason = "full infiltration";
-            }
-        }
-
-        // if previous player moved their last piece onto opposing home row, they win
-        if (!this.gameover) {
-            const mine = [...this.board.values()].filter(pc => pc.startsWith(prev === 1 ? "A" : "B"));
-            if (mine.length === 1) {
-                const onHome = [...this.board.entries()].filter(([,pc]) => pc.startsWith(prev === 1 ? "A" : "B")).map(([c,]) => ChameleonGame.algebraic2coords(c)).filter(([,y]) => y === (prev === 1 ? 0 : 4));
-                if (onHome.length > 0) {
-                    this.gameover = true;
-                    this.winner = [prev];
-                    reason = "last-minute infiltration";
-                }
-            }
-        }
-
-        if (this.gameover) {
+            this.winner = outcome.winner;
             this.results.push(
-                {type: "eog", reason},
+                {type: "eog", reason: outcome.reason},
                 {type: "winners", players: [...this.winner]}
             );
         }

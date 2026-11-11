@@ -2600,6 +2600,7 @@
       "INVALID_DISTANCE": "Las pilas deben moverse la distancia exacta de la altura de la pila *destino*.",
       "INVALID_PASS": "No puedes pasar mientras haya otros movimientos válidos disponibles.",
       "INVALID_TILE_NUM": "Si especificas un número de ficha, no debe ser mayor que la altura de la pila. La ficha superior de una pila es la ficha número '1'.",
+      "INVALID_UNDO_OPPONENT": "No puedes realizar un movimiento que efectivamente deshaga el turno anterior del oponente.",
       "MOVE_MUST_STACK": "Las pilas que se mueven deben terminar su movimiento encima de otra pila.",
       "PARTIAL_FULLSTACK": "Parece que quieres mover una pila entera. Indica el destino.",
       "PARTIAL_SUBSTACK_one": "Parece que quieres mover la pieza superior de la pila. Indica el destino.",

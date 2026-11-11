@@ -2600,6 +2600,7 @@
       "INVALID_DISTANCE": "Le pile devono muoversi della distanza esatta pari all'altezza della pila di *destinazione*.",
       "INVALID_PASS": "Non puoi passare finché sono disponibili altre mosse valide.",
       "INVALID_TILE_NUM": "Se specifichi il numero di una tessera, non deve essere superiore all'altezza della pila. La tessera in cima alla pila è la tessera numero '1'.",
+      "INVALID_UNDO_OPPONENT": "Non puoi effettuare una mossa che annulli di fatto il turno precedente dell'avversario.",
       "MOVE_MUST_STACK": "Le pile in movimento devono terminare il loro movimento sopra un'altra pila.",
       "PARTIAL_FULLSTACK": "Sembra che tu voglia muovere un'intera pila. Indica la destinazione.",
       "PARTIAL_SUBSTACK_one": "Sembra che tu voglia muovere il pezzo in cima dalla pila. Indica la destinazione.",

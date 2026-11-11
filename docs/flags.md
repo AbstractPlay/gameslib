@@ -8,7 +8,7 @@ There are three sources. Pick the one that matches your context:
 
 | Source | When to use |
 |--------|-------------|
-| `gameinfo.flags` | Browse/catalog UI, structural checks (`simultaneous`, `experimental`), or before you know variants and player count |
+| `gameinfo.flags` | Browse/catalog UI, **`experimental`** registry filtering, or before you know variants and player count |
 | `resolveGameFlags(uid, context)` | Challenge setup — variants and player count are chosen but no engine instance exists yet |
 | `game.getFlags()` | Active game session — resumed or in-progress state is loaded |
 
@@ -24,7 +24,13 @@ The categories below describe **typical** usage, not hard rules. Any flag may be
 - Games that vary flags should list them on `gameinfo.flags` when they apply in the **default** challenge configuration; use `resolveFlags()` to add or remove flags for other contexts.
 - Flags that are never true in the default config (for example Basalt `pie-even` without the `pie` variant) belong only in `resolveFlags()`, not on static `gameinfo.flags`.
 
-**Structural caveat:** `simultaneous` and `experimental` affect engine class selection, registry inclusion, or build filtering. Gameslib reads these from `ctor.gameinfo.flags` at factory/registry time. You may reflect them in `getFlags()` for display, but they cannot change which base class was instantiated.
+**`simultaneous` (session routing):** Front and back ends route partial-move / comma-submit behaviour when the effective **`simultaneous`** flag is present in `getFlags()` or `resolveGameFlags()`. Use `sessionIsSimultaneous(engine, uid, context)` in integrators. **Do not** use `turnModel()` for that routing — turn model describes move-table / record replay shape and may differ (for example Thricewise: flag on, `turnModel() === "sequenced"`). Session mode is **fixed at game start** from challenge variants; it does not change mid-game.
+
+**Default path:** list `simultaneous` on `gameinfo.flags` when the default config uses simultaneous play; default `resolveFlags()` copies static flags, so `getFlags()` includes it with no override.
+
+**Variant path:** override `resolveFlags()` to add or remove `simultaneous` per variant (like `pie-even`). Integrators must use resolvers, not static `gameinfo.flags`.
+
+**Structural caveat:** `experimental` affects registry inclusion and build filtering. Compile-time base class choice (`GameBaseSimultaneous` vs `GameBase`) is fixed at authoring time; dual-mode games may still toggle the **session flag** via `resolveFlags()` while implementing both wire formats in one class.
 
 **Deferred requests (no overrides yet):** `random-start`, `no-moves`, and `perspective` have been requested as variant- or context-dependent. Use `resolveFlags()` when implementing them — not ad-hoc helper methods.
 
@@ -42,12 +48,12 @@ public static resolveFlags(context: FlagContext = {}): readonly GameFlag[] {
 
 ## Flag classification
 
-### 1. Structural (typically static `gameinfo.flags`)
+### 1. Structural / registry (typically static `gameinfo.flags`)
 
 | Flag | Meaning |
 |------|---------|
-| `simultaneous` | Use `GameBaseSimultaneous`; affects resign and chat-log behaviour |
 | `experimental` | Omitted from production registry and `gameinfo` export |
+| `simultaneous` | Session uses simultaneous submit protocol when present in **`getFlags()`** / `resolveGameFlags`; often paired with `GameBaseSimultaneous`; may be variant-overridden |
 
 Variants marked `experimental: true` in `gameinfo.variants` are omitted from production `gameinfo` exports and from `challengeVariants()`, but remain in `allvariants()` for historical games. Incompatible variant **combinations** are declared separately — see [Variants](/gameslib/variants/).
 

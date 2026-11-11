@@ -8,6 +8,7 @@ import {
     GameBaseSimultaneous,
     GameBaseSkipTurn,
     resolveGameFlags,
+    sessionIsSimultaneous,
 } from "./games/index.js";
 import {
     filterGameinfoForProduction,
@@ -37,6 +38,7 @@ import type {
 export {
     GameFactory,
     resolveGameFlags,
+    sessionIsSimultaneous,
     GameBase,
     GameBaseSequenced,
     GameBaseSimultaneous,

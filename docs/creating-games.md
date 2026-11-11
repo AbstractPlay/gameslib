@@ -73,7 +73,7 @@ export class ComplicaGame extends GameBase {
 
 [Pigs](https://play.abstractplay.com/games/pigs): `lastmove` is `"moveP1,moveP2,moveP3,moveP4"` (comma-separated). One `saveState()` per round.
 
-- Set **`simultaneous`** in `gameinfo.flags` (see [Flags](/gameslib/flags/)).
+- Set **`simultaneous`** in `gameinfo.flags` when the default variant uses simultaneous rounds (see [Flags](/gameslib/flags/)). Integrators read it via **`getFlags()`**, not static metadata. For sequential vs simultaneous **by variant**, override `resolveFlags()` and implement both move wires in one class; keep `turnModel()` accurate for records only.
 - Extend **`GameBaseSimultaneous`**.
 - Eliminated seats export as **`null`** (or legacy `\u0091` in old records).
 

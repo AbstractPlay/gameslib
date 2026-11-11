@@ -11623,6 +11623,10 @@
     "src": "If you specify a tile number, it must be no greater than the height of the stack. The top tile of a stack is tile number '1'.",
     "out": "Wenn du eine Steinnummer angibst, darf diese nicht größer als die Höhe des Stapels sein. Der oberste Stein eines Stapels hat die Nummer '1'."
   },
+  "validation.mixtour.INVALID_UNDO_OPPONENT": {
+    "src": "You may not move in a way that effectively takes back the opponent's previous turn.",
+    "out": "Du darfst keinen Zug ausführen, der den vorherigen Zug des Gegners effektiv rückgängig macht."
+  },
   "validation.mixtour.MOVE_MUST_STACK": {
     "src": "Moving stacks must end their movement on top of another stack.",
     "out": "Sich bewegende Stapel müssen ihre Bewegung auf einem anderen Stapel beenden."

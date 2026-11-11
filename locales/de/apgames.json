@@ -2602,6 +2602,7 @@
       "INVALID_DISTANCE": "Stapel müssen sich genau um die Entfernung bewegen, die der Höhe des *Zielstapels* entspricht.",
       "INVALID_PASS": "Du darfst nicht passen, solange andere gültige Züge verfügbar sind.",
       "INVALID_TILE_NUM": "Wenn du eine Steinnummer angibst, darf diese nicht größer als die Höhe des Stapels sein. Der oberste Stein eines Stapels hat die Nummer '1'.",
+      "INVALID_UNDO_OPPONENT": "Du darfst keinen Zug ausführen, der den vorherigen Zug des Gegners effektiv rückgängig macht.",
       "MOVE_MUST_STACK": "Sich bewegende Stapel müssen ihre Bewegung auf einem anderen Stapel beenden.",
       "PARTIAL_FULLSTACK": "Sieht so aus, als möchtest du einen ganzen Stapel ziehen. Gib das Ziel an.",
       "PARTIAL_SUBSTACK_one": "Sieht so aus, als möchtest du den obersten Stein vom Stapel ziehen. Gib das Ziel an.",

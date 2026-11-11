@@ -11623,6 +11623,10 @@
     "src": "If you specify a tile number, it must be no greater than the height of the stack. The top tile of a stack is tile number '1'.",
     "out": "Se specifichi il numero di una tessera, non deve essere superiore all'altezza della pila. La tessera in cima alla pila è la tessera numero '1'."
   },
+  "validation.mixtour.INVALID_UNDO_OPPONENT": {
+    "src": "You may not move in a way that effectively takes back the opponent's previous turn.",
+    "out": "Non puoi effettuare una mossa che annulli di fatto il turno precedente dell'avversario."
+  },
   "validation.mixtour.MOVE_MUST_STACK": {
     "src": "Moving stacks must end their movement on top of another stack.",
     "out": "Le pile in movimento devono terminare il loro movimento sopra un'altra pila."

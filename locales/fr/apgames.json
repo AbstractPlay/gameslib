@@ -2602,6 +2602,7 @@
       "INVALID_DISTANCE": "Les piles doivent se déplacer d'une distance exacte égale à la hauteur de la pile *cible*.",
       "INVALID_PASS": "Vous ne pouvez pas passer tant que d'autres coups valides sont disponibles.",
       "INVALID_TILE_NUM": "Si vous spécifiez un numéro de tuile, il ne doit pas être supérieur à la hauteur de la pile. La tuile supérieure d'une pile est la tuile numéro '1'.",
+      "INVALID_UNDO_OPPONENT": "Vous ne pouvez pas jouer un coup qui revient à annuler le tour précédent de l'adversaire.",
       "MOVE_MUST_STACK": "Les piles en déplacement doivent terminer leur mouvement au sommet d'une autre pile.",
       "PARTIAL_FULLSTACK": "Il semble que vous souhaitiez déplacer une pile entière. Indiquez la destination.",
       "PARTIAL_SUBSTACK_one": "Il semble que vous souhaitiez déplacer la pièce supérieure de la pile. Indiquez la destination.",

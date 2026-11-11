@@ -56,6 +56,8 @@ The **standalone** gameslib playground is not part of the docs site:
 
 4. **Renderer** — `playground.html` loads `APRender.min.js` from the dev CDN by default. Only build or copy a local renderer bundle if you are working on renderer.
 
+5. **Simultaneous / variants** — seat mode and partial-round UI follow the effective `simultaneous` flag (`sessionIsSimultaneous` / `getFlags()` on the loaded engine, or `resolveGameFlags` from the variant picker and player count before launch). Test variant-gated simultaneous modes by toggling variants, then **Launch Game** — same contract as production front/back.
+
 ### Translations
 
 Game descriptions, variant names, and other strings are loaded at runtime from `./locales/{lang}/{ns}.json` beside `playground.html`. `npm run playground` copies these into `dist/locales/`.

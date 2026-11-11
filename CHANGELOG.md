@@ -15,7 +15,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Croda, Dama, Ice Palace, Neutron, Outbound, QBF, Squares, Thricewise.
 
-## [1.0.0-ci] - 2026-11-09
+## [1.0.0-ci] - 2026-11-11
 
 ### Added
 
@@ -30,6 +30,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **Neutron:** `handleClick` and pawn preview dots use the board after the chosen neutron slide (pawn may land on the neutron’s departure square; partial preview no longer invalidates the pawn step).
 - **Alien City:** reject tower claims on a placement after which neither player can legally build (rules last-placement claim); EOG claim nullification unchanged as a fallback.
 - **Armadas, Pacru, Pigs, Homeworlds, Knight Line, Stawvs, Yavalath:** resign and timeout use `winnersAfterWithdrawal` so shipless, eliminated, or otherwise out-of-contention seats are not co-winners when a sole remaining contender is knowable (Armadas prod case); early Homeworlds resign without eliminations unchanged.
+- **Bricka:** skip blocked-region flood markers when `lastmove` is a special move (`resign`, `timeout`, etc.) so render JSON validates after resignation.
 
 ### Changed
 

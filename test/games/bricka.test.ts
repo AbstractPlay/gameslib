@@ -140,5 +140,14 @@ describe("Bricka", () => {
         g.move('h6');
         expect(g.board.get('h6')).to.equal("neutral");
     });
+    it("render after resign omits blocked-region flood markers", () => {
+        const g = new BrickaGame();
+        g.move("f6");
+        g.resign(1);
+        expect(g.lastmove).to.equal("resign");
+        const board = g.render().board as { markers?: Array<{ type: string }> };
+        const floods = board.markers?.filter((m) => m.type === "flood") ?? [];
+        expect(floods).to.be.empty;
+    });
 });
 

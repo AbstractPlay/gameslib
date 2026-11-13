@@ -78,8 +78,8 @@ export class NeutronGame extends GameBase {
         description: "Slide the neutral neutron and one of your pawns each turn. Pieces move in straight lines as far as they can. Win by bringing the neutron to the correct back row, or by leaving your opponent unable to complete a turn.",
         notes: "Each turn (except the first player's opening in standard Neutron) consists of sliding the neutron, then sliding one of your pawns. All pieces slide in straight lines as far as possible without jumping. **CoNeutron** swaps the winning row to your opponent's back rank and removes the first player's pawn-only opening.\n\n**Mobility** restrictions apply to pawn moves only. With **restricted** mobility, pawns may not land on the opponent's home row. With **double restricted** mobility, pawns also may not re-enter their own home row after leaving it; pawns still on the home row may slide along that row.\n\nMoves are notated `neutronDest,pawnFrom-pawnTo`, or `pawnFrom-pawnTo` on the first player's opening in standard Neutron. A winning neutron slide alone is notated as just the destination cell.",
         urls: [
-            "http://www.gamerz.net/pbmserv/neutron.html",
-            "http://www.gamerz.net/pbmserv/coneutron.html",
+            "https://web.archive.org/web/20190223040256/http://www.gamerz.net/pbmserv/neutron.html",
+            "https://web.archive.org/web/20190310144417/http://www.gamerz.net/pbmserv/coneutron.html",
             "https://boardgamegeek.com/boardgame/6978/neutron",
         ],
         bggid: "6978",
@@ -284,6 +284,16 @@ export class NeutronGame extends GameBase {
         return y === this.neutronWinRowFor(player);
     }
 
+    /** Win row occupant: who wins if the neutron stops on this cell (not who slid it). */
+    public neutronWinnerAtCell(cell: string): playerid | undefined {
+        for (const p of [1, 2] as playerid[]) {
+            if (this.neutronOnWinningRow(cell, p)) {
+                return p;
+            }
+        }
+        return undefined;
+    }
+
     public pawnSlideMoves(player: playerid, board: Map<string, PieceId>): string[] {
         const moves: string[] = [];
         for (const [from, pc] of board.entries()) {
@@ -340,7 +350,7 @@ export class NeutronGame extends GameBase {
 
         const neutronFrom = this.getNeutronCell();
         for (const nTo of this.slideDestinations(neutronFrom, this.board)) {
-            if (this.neutronOnWinningRow(nTo, player)) {
+            if (this.neutronWinnerAtCell(nTo) !== undefined) {
                 moves.push(nTo);
                 continue;
             }
@@ -440,7 +450,7 @@ export class NeutronGame extends GameBase {
                     };
                 }
             } else if (move.length > 0 && !move.includes(",") && !move.includes("-")) {
-                if (this.neutronOnWinningRow(move, this.currplayer)) {
+                if (this.neutronWinnerAtCell(move) !== undefined) {
                     if (cell === move) {
                         newmove = move;
                     }
@@ -521,7 +531,7 @@ export class NeutronGame extends GameBase {
                 result.message = i18next.t("apgames:validation.neutron.INVALID_NEUTRON");
                 return result;
             }
-            if (this.neutronOnWinningRow(m, this.currplayer)) {
+            if (this.neutronWinnerAtCell(m) !== undefined) {
                 if (!allMoves.includes(m)) {
                     result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });
                     return result;
@@ -606,11 +616,13 @@ export class NeutronGame extends GameBase {
 
         this.lastmove = m;
 
-        const wonOnNeutron = !this.isOpeningPawnOnly() && this.neutronOnWinningRow(this.getNeutronCell(), player);
+        const neutronWinner = !this.isOpeningPawnOnly()
+            ? this.neutronWinnerAtCell(this.getNeutronCell())
+            : undefined;
 
-        if (wonOnNeutron) {
+        if (neutronWinner !== undefined) {
             this.gameover = true;
-            this.winner = [player];
+            this.winner = [neutronWinner];
             this.results.push({ type: "eog" }, { type: "winners", players: [...this.winner] });
             this.saveState();
             return this;

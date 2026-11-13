@@ -15,7 +15,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Croda, Dama, Ice Palace, Neutron, Outbound, QBF, Squares, Thricewise.
 
-## [1.0.0-ci] - 2026-11-11
+## [1.0.0-ci] - 2026-11-13
 
 ### Added
 
@@ -28,7 +28,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **Chameleon:** end-of-game reason distinguishes annihilation (no pieces left) from stalemate (no legal moves); infiltration wins use the correct opposing back rank for player 1; one-time ops backfill patches legacy terminal `eog` results on completed games (see node-backend).
 - **Tablero stack repair:** deep-copy board stacks; doubles **take** commits a take frame then a **`pass` stack frame** (move tree and event log show the forced pass; legacy merged take+pass `_results` still log the skipped seat); move log distinguishes **game-ending bump** (`BUMP`) from **forced pass after a take** (`PASS.afterTake`), including legacy stacks without `why` on `pass` results; exported `verifyTableroStackIntegrity`, `repairTableroStack`, `repairTableroStackJson`, `diagnoseTableroStackIntegrity`, `isLegacyDuplicatePassFrame`, `tableroTipMismatchFields`, and `tableroPlayableTipMismatchFields` to replay stacks (withdrawal plies, stored rolls, legacy board shapes) and merge duplicate `pass` frames when the playable tip still matches; verify/repair normalize saved stack boards before compare, report tip failures on board/piece counts only, and replace stacks from replay when the saved tip is corrupt but replay self-verifies.
-- **Neutron:** `handleClick` and pawn preview dots use the board after the chosen neutron slide (pawn may land on the neutron’s departure square; partial preview no longer invalidates the pawn step).
+- **Neutron:** `handleClick` and pawn preview dots use the board after the chosen neutron slide (pawn may land on the neutron’s departure square; partial preview no longer invalidates the pawn step); endgame credits the player whose winning row the neutron occupies, not only the mover (forced slides onto the opponent’s back rank).
 - **Alien City:** reject tower claims on a placement after which neither player can legally build (rules last-placement claim); EOG claim nullification unchanged as a fallback.
 - **Armadas, Pacru, Pigs, Homeworlds, Knight Line, Stawvs, Yavalath:** resign and timeout use `winnersAfterWithdrawal` so shipless, eliminated, or otherwise out-of-contention seats are not co-winners when a sole remaining contender is knowable (Armadas prod case); early Homeworlds resign without eliminations unchanged.
 - **Bricka:** skip blocked-region flood markers when `lastmove` is a special move (`resign`, `timeout`, etc.) so render JSON validates after resignation.

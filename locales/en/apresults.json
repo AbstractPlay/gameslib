@@ -574,6 +574,14 @@
       "path": "The game has ended because a player connected their dots."
     }
   },
+  "counterflow": {
+    "PASS": {
+      "skipped": "{{player}} had no available move, so the turn was skipped."
+    },
+    "EOG": {
+      "groups": "All of {{player}}'s groups have at least one checker in the far row."
+    }
+  },
   "court": {
     "PLACE": {
       "default": "{{player}} promoted {{where}} to a {{what}}."

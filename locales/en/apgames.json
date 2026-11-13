@@ -1632,6 +1632,17 @@
       "INSUFFICIENT_CONTROL": "You do not control {{cell}}.",
       "OPPONENT_CONTROL": "Your opponent controls {{cell}}."
     },
+    "counterflow": {
+      "INITIAL_INSTRUCTIONS": "Select one of your checkers. A green dot marks every checker that has a legal move. The squares the selected checker may move to are then marked in green.",
+      "PARTIAL": "Select the square to move the checker to, or select another of your checkers instead.",
+      "DIRECTION": "The checker on {{from}} cannot move to {{to}}. A checker moves like a non-capturing Chess queen, directly forward, diagonally forward, or sideways.",
+      "BLOCKED": "The checker on {{from}} cannot reach {{to}}. A checker moves over consecutive unoccupied squares only.",
+      "WALL": "The checker on {{from}} may not move to {{to}}, because the move would complete a wall. You must not complete a wall except when your move wins the game, the wall is in your far row, or there is another wall of your colour in the next row ahead of the wall.",
+      "SIDEWAYS": "The checker on {{from}} may not move sideways to {{to}}. A sideways move is legal only if the shortest distance after the move is shorter than the shortest distance before the move, or the move wins the game.",
+      "SIDEWAYS_ZERO": "The checker on {{from}} may not move sideways to {{to}}. The shortest distance is 0, so no sideways move is legal, except for a winning sideways move.",
+      "NO_PASS": "You may not pass while you have an available move.",
+      "MUST_PASS": "You have no available move. Your turn is skipped."
+    },
     "court": {
       "INITIAL_INSTRUCTIONS": "Select one of your pieces to move, or promote a Pawn (if officials are still available) by clicking on it multiple times. Pawns, Knights, Bishops and Rooks move as in Chess. (Pawns do not have an initial double move and don't need to reach the final rank to promote.)",
       "NOT_FRIENDLY_PIECE": "Select a friendly piece to move or promote.",
@@ -4313,6 +4324,7 @@
     "connections": "Draw lines between dots of your colour to connect the sides of the board, or surround your opponent's dots to win.",
     "conspirateurs": "A traditional French game where you try to get all your pieces to safety before your opponent can do the same.",
     "control": "Control is a finite, drawless territory game of elegant simplicity. Add pieces where your opponent doesn't have more influence or remove pieces from where you have more influence. Last to move wins.",
+    "counterflow": "A checker race game. Two armies of checkers flow through each other in opposite directions. Checkers move like non-capturing Chess queens, directly forward, diagonally forward, or sideways, with restrictions on completing walls and on sideways moves. You win if all of your groups have at least one checker in your far row. Cycles and deadlocks cannot occur.",
     "court": "A set of pawns that can be promoted anytime to a limited set of officials. However, without pawns one loses the game. A stalemated player also loses the game.",
     "courtesan": "Get your king to the other side of the board while safely \"hiding\" it among your other pieces.",
     "croda": "Croda on an 8×8 board: men step one square forward orthogonally or diagonally; they capture orthogonally in any direction. Kings slide and capture along ranks and files. Maximal capture is compulsory; you win by immobilizing the opponent.",
@@ -4616,6 +4628,7 @@
     "connections": "Connections",
     "conspirateurs": "Conspirateurs",
     "control": "Control",
+    "counterflow": "Counterflow",
     "court": "Court",
     "courtesan": "King & Courtesan",
     "croda": "Croda",
@@ -4864,6 +4877,7 @@
     "circleOfLife": "Species are numbered 0–11 counterclockwise on the ring, starting with the single-hex species at the top. Species 0 eats 11; each other species eats the one numbered directly below it. Predation only occurs when you place a stone that forms a species adjacent to prey. Groups may not exceed four stones. The first player to capture 20 opponent stones wins, or the player who cannot place on their turn wins (having filled the ecosystem).",
     "clearpath": "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe dots mark the points where the player to move may not place. Each dotted point is vital to the opponent (every possible connection of the opponent passes through it), not vital to the player to move, and not a winning placement. A point vital to both players is not dotted, since either player may take it, and neither is a point where the player to move completes a winning path. The dots are drawn in the opponent's colour. A player who no longer has any possible connection has no vital points.\n\nA placement that leaves the opponent without any possible connecting path ends the game at once, and the player who placed wins: the opponent can never connect and can never take the winner's vital points, so the winner's connection can no longer be stopped. The chain of stones that cuts the opponent off is drawn on the board, as is a completed winning path.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.",
     "conspirateurs": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
+    "counterflow": "Counterflow was designed by Mark Steere in November 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nCounterflow is played on an odd-sided, square board. At the start the middle row is empty. Blue checkers fill the area above the middle row, and red checkers fill the area below it. Red and Blue take turns moving checkers of their own colour, one checker per turn, starting with Red. If you have an available move, you must make one. If not, your turn is skipped. At least one player will always have an available move. A skipped turn is entered automatically and is recorded as a pass.\n\nA group is an orthogonally interconnected group of one or more same-coloured checkers. You win if all of your groups have at least one checker in your far row.\n\nCheckers move like non-capturing Chess queens, directly forward, diagonally forward, or sideways, over any number of consecutive unoccupied squares. Sideways moves are subject to a restriction described below.\n\nA wall is a row filled with same-coloured checkers. You must not complete a wall except when: 1) your move wins the game, 2) the wall is in your far row, or 3) there is another wall of your colour in the next row ahead of the wall.\n\nAn opening of a checker is an unoccupied square in the next row ahead of it, with one exception. A square is not an opening of a checker if all three of the following are true: 1) a checker of that colour on the square would complete a wall, 2) the wall would not be in that colour's far row, and 3) there would not be a wall of the wall's colour in the next row ahead of the wall. An opening doesn't have to be in front of a square that the checker can move to.\n\nThe distance of a checker is the number of columns from the checker's column to the column of its nearest opening. An opening straight ahead of the checker is at a distance of 0. A checker with no opening has no distance.\n\nThe shortest distance is the shortest distance of all checkers of both colours on the board. A sideways move is legal only if 1) the shortest distance after the move is shorter than the shortest distance before the move, or 2) the move wins the game. If the shortest distance is 0, no sideways move is legal, except for a winning sideways move.\n\nA green dot marks every checker that has a legal move. Select a checker and the squares it may move to are marked in green. The checker moved last carries a white ring, and a white dot marks the square it came from. When the game is over, a gold outline surrounds every group of the winner's checkers.",
     "deckfish": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
     "domineering": "Domineering, aka, Stop-Gate, is a partisan combinatorial game. The game was designed by Göran Andersson, c.1973, and was presented in the seminal CGT book *Winning Ways for Your Mathematical Plays*. There is an impartial version, called Cram, where players can both place horizontal or vertical dominoes. The variant \"Quelhas\" was proposed by Carlos P. Santos and Alfie Davies in 2025, being a misère version (the player without options wins the game) and using longer domino-like polyominoes.",
     "druid": "A lintel must be supported at both ends (not on bare ground) and rest on exactly two of your stones (which need not both be at the ends). Lintels must lie flat: both ends must rest on stacks of equal height. Lintels may cross one another, but you may not thread a new lintel through the gap beneath an existing lintel's centre. Only the topmost stone on each cell counts toward connections.\n\nWith the Druid's Walk variant on the rectangular board, your Druid appears the first time you place a stone on either of your edges (west or east for player 2, north or south for player 1). To win, the druid must be borne off the board on the opposite edge. Each turn you either place a stone or move your Druid — not both. Druids move onto orthogonally adjacent stones of their colour and always stand on the topmost stone; they cannot step into bare gaps under lintels. Stones cannot be placed on a Druid. The first player to bear their Druid off wins. Druid's Walk does not apply to Druid's Y or Druid's Hex boards.",
@@ -6506,6 +6520,20 @@
       },
       "size-9": {
         "name": "Large board (Size 9)"
+      }
+    },
+    "counterflow": {
+      "#board": {
+        "name": "7x7 board"
+      },
+      "size-5": {
+        "name": "5x5 board"
+      },
+      "size-9": {
+        "name": "9x9 board"
+      },
+      "size-11": {
+        "name": "11x11 board"
       }
     },
     "court": {

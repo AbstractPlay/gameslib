@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-06",
+  "generatedAt": "2026-11-13",
   "schemaVersion": 1,
   "entries": [
     {
@@ -2551,6 +2551,26 @@
       "newPath": "connections.EOG.path",
       "newFullKey": "apresults:connections.EOG.path",
       "english": "The game has ended because a player connected their dots."
+    },
+    {
+      "oldPath": "EOG.counterflow_groups",
+      "oldFullKey": "apresults:EOG.counterflow_groups",
+      "uid": "counterflow",
+      "resultType": "EOG",
+      "newLeaf": "groups",
+      "newPath": "counterflow.EOG.groups",
+      "newFullKey": "apresults:counterflow.EOG.groups",
+      "english": "All of {{player}}'s groups have at least one checker in the far row."
+    },
+    {
+      "oldPath": "PASS.counterflow_skipped",
+      "oldFullKey": "apresults:PASS.counterflow_skipped",
+      "uid": "counterflow",
+      "resultType": "PASS",
+      "newLeaf": "skipped",
+      "newPath": "counterflow.PASS.skipped",
+      "newFullKey": "apresults:counterflow.PASS.skipped",
+      "english": "{{player}} had no available move, so the turn was skipped."
     },
     {
       "oldPath": "PLACE.court",

@@ -5,22 +5,14 @@ import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
+import { dfsFromNode } from 'graphology-traversal';
 import { IGraph, SnubSquareGraph } from "../common/graphs/index.js";
 
 export const gameApgamesEn = {
     validation: {
-        DISCONNECTEDMOVE: "A move from {{from}} to {{to}} would disconnect the band.",
-        DISCONNECTEDPLACE: "Placing a piece at {{where}} would disconnect the band.",
-        INITIAL_INSTRUCTIONS: "Place a piece on an empty space connected to the other pieces.",
-        INVALIDPASS: "You cannot pass while you have pieces in hand.",
-        MOVE2CONTROLLED: "You cannot capture your own stacks.",
-        MOVE2EMPTY: "You cannot move to empty spaces.",
-        PARTIAL: "It's possible you're trying to move a stack. Provide the destination.",
-        TOOEARLY: "You cannot move until the first player has placed two pieces.",
-        TOOEARLY_libre: "You cannot move until four stones have been placed on the board.",
-        TOOFAR: "You can only move to an adjacent cell. {{to}} is not adjacent to {{from}}.",
-        TOOHIGH: "Moving from {{from}} to {{to}} would result in a stack taller than three pieces high.",
-        TRIPLESTACK: "You cannot move triple stacks.",
+        INITIAL_INSTRUCTIONS: "Place a piece on an empty space.",
+        DEADPOLYPOD: "Invalid placement: the resulting polypod would have more cores than feet.",
+        ENEMYCORE: "You may not place next to an opponent core.",
     },
     variants: {
         "size-6": {
@@ -151,7 +143,7 @@ export class PolypodsGame extends GameBase {
 
         ],
         categories: ["goal>score>eog", "mechanic>place", "board>shape>rect", "board>connect>snub"],
-        flags: ["scores", "experimental"]
+        flags: ["scores", "no-moves", "experimental"]
     };
 
     public numplayers = 2;
@@ -226,24 +218,103 @@ export class PolypodsGame extends GameBase {
     }
 
     private getGraph(): IGraph {
-        return new SnubSquareGraph(this.boardsize, this.boardsize, "T");
+        const graph = new SnubSquareGraph(this.boardsize, this.boardsize, "T");
+        graph.graph.dropNode(graph.coords2algebraic(0, 0));
+        if (this.boardsize % 2 === 0) {
+            graph.graph.dropNode(graph.coords2algebraic(this.boardsize-1, this.boardsize-1));
+        }
+        return graph;
     }
 
     private updatePolypods(board: board): board {
-        /* Update the */
-        return board;
+        /* Set the pieces to feet or core depending on friendly connectivity */
+        const newBoard = cloneState(board) as board;
+        newBoard.forEach((piece, cell) => {
+            const neighbours = this.graph.neighbours(cell).filter((cell) => (
+                newBoard.has(cell) && newBoard.get(cell)!.player === piece.player));
+            if (neighbours.length <= 1) {
+                piece.type = "foot";
+            } else if (neighbours.length === 2) {
+                // In this case have to check if it's a small triangle
+                if (this.graph.graph.hasEdge(neighbours[0], neighbours[1])) {
+                    piece.type = "foot";
+                } else {
+                    piece.type = "core";
+                }
+            } else {
+                piece.type = "core";
+            }
+        });
+        return newBoard;
     }
 
-    public moves(player?: playerid): string[] {
-        if (this.gameover) { return []; }
-        if (player === undefined) {
-            player = this.currplayer;
+    private polypodAt(board: board, startCell: string): Set<string> {
+        /* Return the polypod that includes the given cell */
+        const polypod = new Set<string>();
+        if (!board.has(startCell)) {
+            return polypod;
+        } else {
+            const thisPlayer = board.get(startCell)!.player;
+            dfsFromNode(this.graph.graph, startCell, (c) => {
+                if (board.has(c) && board.get(c)!.player === thisPlayer ) {
+                    polypod.add(c);
+                    return false;
+                } else {
+                    return true;
+                }
+            });
         }
+        return polypod;
+    }
 
-        const moves = (this.graph.listCells() as string[]).filter((c) => (!this.board.has(c)));
-        moves.push("pass");
+    private allPolypods(board: board): Set<string>[] {
+        /* Return an array of all polypods */
+        const polypods: Set<string>[] = [];
+        const tmpBoard = new Map(board);
+        while (tmpBoard.size >= 0) {
+            const anyCell = tmpBoard.keys().next().value;
+            if (anyCell === undefined) { break; }
+            const polypod = this.polypodAt(board, anyCell);
+            polypods.push(polypod);
+            polypod.forEach((c) => {tmpBoard.delete(c)});
+        }
+        return polypods;
+    }
 
-        return moves;
+    private polypodAlive(board: board, polypod: Set<string>): boolean {
+        /* Check if a polypod is alive i.e. has at least as many feet as cores */
+        const cores = [...polypod].filter((c) => (board.get(c)!.type === "core")).length;
+        const feet = [...polypod].filter((c) => (board.get(c)!.type === "foot")).length;
+        return feet >= cores;
+    }
+
+    private removeDeadPolypods(board: board): board {
+        /* Remove polypods that have more cores than feet */
+        const newBoard = cloneState(board) as board;
+        this.allPolypods(newBoard).forEach((polypod) => {
+            if (!this.polypodAlive(newBoard, polypod)) {
+                polypod.forEach((c) => {
+                    newBoard.delete(c);
+                });
+            }
+        });
+        return newBoard
+    }
+
+    private attackFeet(board: board): board {
+        /* Remove any feet which are next to enemy cores */
+        const newBoard = cloneState(board) as board;
+        board.forEach((footPiece, footCell) => {
+            if (footPiece.type === "foot") {
+                for (const nb of this.graph.neighbours(footCell)) {
+                    if (board.has(nb) && board.get(nb)!.type === "core"
+                            && board.get(nb)!.player !== footPiece.player){
+                        newBoard.delete(footCell);
+                    }
+                }
+            }
+        });
+        return newBoard;
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -277,7 +348,7 @@ export class PolypodsGame extends GameBase {
         if (m.length === 0) {
             result.valid = true;
             result.complete = -1;
-            result.message = i18next.t("apgames:validation.bricka.INITIAL_INSTRUCTIONS");
+            result.message = i18next.t("apgames:validation.polypods.INITIAL_INSTRUCTIONS");
             return result;
         }
 
@@ -302,6 +373,26 @@ export class PolypodsGame extends GameBase {
             return result;
         }
 
+        // Check placement is not next to enemy core
+        for( const c of this.graph.neighbours(cell)) {
+            const nb = this.board.get(c);
+            if (nb != undefined && nb.player === this.otherPlayer() && nb.type === "core") {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.polypods.ENEMYCORE", {where: cell});
+                return result;
+            }
+        }
+
+        // Check that the grown polypod is still alive
+        let boardAfter = cloneState(this.board) as board;
+        boardAfter.set(cell, {player: this.currplayer, type: "foot"});
+        boardAfter = this.updatePolypods(boardAfter);
+        if (!this.polypodAlive(boardAfter, this.polypodAt(boardAfter, cell))) {
+            result.valid = false;
+            result.message = i18next.t("apgames:validation.polypods.DEADPOLYPOD", {where: cell});
+            return result;
+        }
+
         result.valid = true;
         result.complete = 1;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
@@ -320,9 +411,6 @@ export class PolypodsGame extends GameBase {
             if (! result.valid) {
                 throw new UserFacingError("VALIDATION_GENERAL", result.message)
             }
-            if (! this.moves().includes(m)) {
-                throw new UserFacingError("VALIDATION_FAILSAFE", i18next.t("apgames:validation._general.FAILSAFE", {move: m}))
-            }
         }
 
         this.results = [];
@@ -331,10 +419,14 @@ export class PolypodsGame extends GameBase {
         } else {
             // placement
             this.board.set(m, {player: this.currplayer, type: "foot"});
+            this.board = this.updatePolypods(this.board); // First pass to update the attacking polypod
+            this.board = this.attackFeet(this.board);
+            this.board = this.updatePolypods(this.board); // Second pass to update any attacked polypods
+            this.board = this.removeDeadPolypods(this.board);
+
             this.results.push({type: "place", where: m});
         }
 
-        this.board = this.updatePolypods(this.board);
 
         // update currplayer
         this.lastmove = m;
@@ -433,19 +525,23 @@ export class PolypodsGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    colour: 1
+                    colour: 1,
+                    scale: 0.85
                 },
                 B: {
                     name: "piece-chariot",
-                    colour: 1
+                    colour: 1,
+                    scale: 1.2
                 },
                 C: {
                     name: "piece",
-                    colour: 2
+                    colour: 2,
+                    scale: 0.85
                 },
                 D: {
                     name: "piece-chariot",
-                    colour: 2
+                    colour: 2,
+                    scale: 1.2
                 }
             },
             pieces: pstr
@@ -464,7 +560,7 @@ export class PolypodsGame extends GameBase {
                 delete rep.annotations;
             }
         }
-
+        console.log("Score:", this.sidebarScores()[0].scores);
         return rep;
     }
 

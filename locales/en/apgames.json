@@ -2992,18 +2992,9 @@
       "PIECE_STRAIGHT_LINE": "A tower shoots a piece over a line of empty hexes!"
     },
     "polypods": {
-      "DISCONNECTEDMOVE": "A move from {{from}} to {{to}} would disconnect the band.",
-      "DISCONNECTEDPLACE": "Placing a piece at {{where}} would disconnect the band.",
-      "INITIAL_INSTRUCTIONS": "Place a piece on an empty space connected to the other pieces.",
-      "INVALIDPASS": "You cannot pass while you have pieces in hand.",
-      "MOVE2CONTROLLED": "You cannot capture your own stacks.",
-      "MOVE2EMPTY": "You cannot move to empty spaces.",
-      "PARTIAL": "It's possible you're trying to move a stack. Provide the destination.",
-      "TOOEARLY": "You cannot move until the first player has placed two pieces.",
-      "TOOEARLY_libre": "You cannot move until four stones have been placed on the board.",
-      "TOOFAR": "You can only move to an adjacent cell. {{to}} is not adjacent to {{from}}.",
-      "TOOHIGH": "Moving from {{from}} to {{to}} would result in a stack taller than three pieces high.",
-      "TRIPLESTACK": "You cannot move triple stacks."
+      "INITIAL_INSTRUCTIONS": "Place a piece on an empty space.",
+      "DEADPOLYPOD": "Invalid placement: the resulting polypod would have more cores than feet.",
+      "ENEMYCORE": "You may not place next to an opponent core."
     },
     "pontedd": {
       "BAD_BRIDGE_BLOCKED": "There may be no tiles under the bridge.",

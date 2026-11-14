@@ -1,5 +1,5 @@
 import { reviver } from "../common/index.js";
-import { TumbleweedGame, type FogMemoryPair, type IMoveState, type ITumbleweedState } from "./tumbleweed.js";
+import { TumbleweedGame, type FogMemoryPair, type IMoveState, type ITumbleweedState, type playerid } from "./tumbleweed.js";
 
 export interface TumbleweedFogStackRepairResult {
     state: ITumbleweedState;
@@ -91,6 +91,41 @@ function stackPlayfieldEqual(a: IMoveState, b: IMoveState): boolean {
     return true;
 }
 
+function isWithdrawalLastmove(lastmove: string): boolean {
+    const m = lastmove.toLowerCase().replace(/\s+/g, "");
+    return m === "resign" || m === "timeout" || m === "abandoned" || m === "draw";
+}
+
+function withdrawingPlayer(frame: IMoveState): playerid {
+    for (const r of frame._results ?? []) {
+        if (r.type === "resigned" || r.type === "timeout") {
+            return r.player as playerid;
+        }
+    }
+    return frame.currplayer;
+}
+
+function replayFogStackMove(g: TumbleweedGame, frame: IMoveState, lastmove: string): void {
+    const normalized = lastmove.toLowerCase().replace(/\s+/g, "");
+    if (normalized === "resign") {
+        g.resign(withdrawingPlayer(frame));
+        return;
+    }
+    if (normalized === "timeout") {
+        g.timeout(withdrawingPlayer(frame));
+        return;
+    }
+    if (normalized === "abandoned") {
+        g.abandoned();
+        return;
+    }
+    if (normalized === "draw") {
+        g.draw();
+        return;
+    }
+    g.move(lastmove, {trusted: true});
+}
+
 function collectFogByReplay(state: ITumbleweedState): FogMemoryPair[] {
     const g = new TumbleweedGame(replayPrefixState(state));
     const fogByIndex: FogMemoryPair[] = [cloneFogPair(g.stack[0]!.fogMemory)];
@@ -101,11 +136,12 @@ function collectFogByReplay(state: ITumbleweedState): FogMemoryPair[] {
             throw new Error(`missing lastmove at stack index ${i}`);
         }
         if (g.gameover) {
-            break;
+            fogByIndex.push(cloneFogPair(frame.fogMemory));
+            continue;
         }
-        g.move(lastmove, {trusted: true});
+        replayFogStackMove(g, frame, lastmove);
         const tip = g.stack[g.stack.length - 1]!;
-        if (!stackPlayfieldEqual(frame, tip)) {
+        if (!isWithdrawalLastmove(lastmove) && !stackPlayfieldEqual(frame, tip)) {
             throw new Error(`stack playfield mismatch at index ${i} after replay`);
         }
         fogByIndex.push(cloneFogPair(g.stack[i]!.fogMemory));

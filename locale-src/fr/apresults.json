@@ -3047,6 +3047,10 @@
     "src": "{{player}} reinforces a stack of size {{count}} at {{where}}.",
     "out": "{{player}} renforce une pile de taille {{count}} en {{where}}."
   },
+  "tumbleweed.FOG_STACK_LOST.default": {
+    "src": "Your stack of size {{count}} at {{where}} was captured.",
+    "out": "Votre pile de taille {{count}} en {{where}} a été capturée."
+  },
   "tumbleweed.PLACE.default": {
     "src": "{{player}} placed a stack of size {{count}} at {{where}}.",
     "out": "{{player}} a placé une pile de taille {{count}} en {{where}}."

@@ -1770,6 +1770,9 @@
       "default": "{{player}} ha catturato una pila di dimensione {{count}} in {{where}}.",
       "self": "{{player}} rinforza una pila di dimensione {{count}} in {{where}}."
     },
+    "FOG_STACK_LOST": {
+      "default": "La tua pila di dimensione {{count}} in {{where}} è stata catturata."
+    },
     "PLACE": {
       "default": "{{player}} ha posizionato una pila di dimensione {{count}} in {{where}}."
     }

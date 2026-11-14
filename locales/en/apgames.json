@@ -2991,6 +2991,20 @@
       "TOWER_STRAIGHT_LINE": "A tower moves over a line of empty hexes!",
       "PIECE_STRAIGHT_LINE": "A tower shoots a piece over a line of empty hexes!"
     },
+    "polypods": {
+      "DISCONNECTEDMOVE": "A move from {{from}} to {{to}} would disconnect the band.",
+      "DISCONNECTEDPLACE": "Placing a piece at {{where}} would disconnect the band.",
+      "INITIAL_INSTRUCTIONS": "Place a piece on an empty space connected to the other pieces.",
+      "INVALIDPASS": "You cannot pass while you have pieces in hand.",
+      "MOVE2CONTROLLED": "You cannot capture your own stacks.",
+      "MOVE2EMPTY": "You cannot move to empty spaces.",
+      "PARTIAL": "It's possible you're trying to move a stack. Provide the destination.",
+      "TOOEARLY": "You cannot move until the first player has placed two pieces.",
+      "TOOEARLY_libre": "You cannot move until four stones have been placed on the board.",
+      "TOOFAR": "You can only move to an adjacent cell. {{to}} is not adjacent to {{from}}.",
+      "TOOHIGH": "Moving from {{from}} to {{to}} would result in a stack taller than three pieces high.",
+      "TRIPLESTACK": "You cannot move triple stacks."
+    },
     "pontedd": {
       "BAD_BRIDGE_BLOCKED": "There may be no tiles under the bridge.",
       "BAD_BRIDGE_COLOUR": "Bridges must connect two tiles of the same colour.",
@@ -4439,6 +4453,7 @@
     "plurality": "Territorial game where players place trominos to enclosure areas. The player with more stones on a given area's perimeter owns that area.",
     "pods": "Natal Seas - Pods is a territorial game where the players take on the metaphorical role of competing whales vying for space to protect their young. Played on a hexagonal board, it uses an innovative mechanism of placements and movements.",
     "pollux": "A mix of Hex and Amazons: shoot to connect your edges or block the adversary.",
+    "polypods": "Polypods are creatures of the snub-square grid. They are composed of connected pieces of 2 types: core and feet. Feet are the extremities, i.e. the pieces with only one similarly-colored adjacent piece, or with exactly 2 that fill the other points of a small triangle of the grid. Core are the other pieces that connect all the feet together. Cores are toxic to the feet of adjacent opponent polypods. Polypods need to have at least as many feet as cores to stay alive. The game of Polypods is about growing and protecting polypods of your colour so that you have the most polypod cores when the game ends. Some removed pieces leave remains. Variants differ in when exactly remains are generated, and how they affect further play.",
     "pontedd": "Players build islands and attempt to connect as many of them as possible by bridge. Most points wins.",
     "posit": "Try to stalemate the adversary by building unscalable stacks.",
     "product": "Players score by multiplying their two largest groups. Largest score wins. If tied, the second player wins.",
@@ -4742,6 +4757,7 @@
     "plurality": "Plurality",
     "pods": "Natal Seas - Pods",
     "pollux": "Pollux",
+    "polypods": "Polypods",
     "pontedd": "Ponte del Diavolo",
     "posit": "Posit",
     "product": "Product",
@@ -8115,6 +8131,45 @@
       },
       "size-18": {
         "name": "18x18 board"
+      }
+    },
+    "polypods": {
+      "size-6": {
+        "name": "6x6 board"
+      },
+      "size-7": {
+        "name": "7x7 board"
+      },
+      "#size": {
+        "name": "8x8 board"
+      },
+      "size-9": {
+        "name": "9x9 board"
+      },
+      "size-10": {
+        "name": "10x10 board"
+      },
+      "size-11": {
+        "name": "11x11 board"
+      },
+      "size-12": {
+        "name": "12x12 board"
+      },
+      "#variant": {
+        "description": "Directly attacked feet leave permanent remains.",
+        "name": "Polypods Base Game"
+      },
+      "Stoney-footed": {
+        "description": "All removed feet leave permanent remains.",
+        "name": "Stoney-footed Polypods"
+      },
+      "Energized": {
+        "description": "Eating remains gives a double move.",
+        "name": "Energized Polypods"
+      },
+      "Scavenging": {
+        "description": "Every removed piece leaves remains. Placing next to (or on) a remains marker eats one, but a move that eats can't also attack.",
+        "name": "Scavenging Polypods"
       }
     },
     "pontedd": {

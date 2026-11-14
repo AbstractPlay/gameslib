@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-13",
+  "generatedAt": "2026-11-14",
   "schemaVersion": 1,
   "entries": [
     {
@@ -7621,6 +7621,16 @@
       "newPath": "tumbleweed.CAPTURE.self",
       "newFullKey": "apresults:tumbleweed.CAPTURE.self",
       "english": "{{player}} reinforces a stack of size {{count}} at {{where}}."
+    },
+    {
+      "oldPath": "FOG_STACK_LOST.tumbleweed",
+      "oldFullKey": "apresults:FOG_STACK_LOST.tumbleweed",
+      "uid": "tumbleweed",
+      "resultType": "FOG_STACK_LOST",
+      "newLeaf": "default",
+      "newPath": "tumbleweed.FOG_STACK_LOST.default",
+      "newFullKey": "apresults:tumbleweed.FOG_STACK_LOST.default",
+      "english": "Your stack of size {{count}} at {{where}} was captured."
     },
     {
       "oldPath": "PLACE.tumbleweed",

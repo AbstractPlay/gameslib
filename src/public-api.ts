@@ -242,6 +242,13 @@ export {
 export type { GuerrillaMatchStackRepairResult } from "./games/guerrilla-repair.js";
 
 export {
+    rebuildTumbleweedFogStack,
+    repairTumbleweedFogStack,
+    repairTumbleweedFogStackJson,
+} from "./games/tumbleweed-fog-repair.js";
+export type {TumbleweedFogStackRepairResult} from "./games/tumbleweed-fog-repair.js";
+
+export {
     repairTableroStack,
     repairTableroStackJson,
     verifyTableroStackIntegrity,

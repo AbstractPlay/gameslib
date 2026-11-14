@@ -350,6 +350,21 @@ describe("Tumbleweed", () => {
             expect(mem![1].size).to.be.greaterThan(0);
         });
 
+        it("fog stack repair replays resign and timeout endings", () => {
+            const ending = (kind: "resign" | "timeout", who: playerid) => {
+                const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
+                const g1 = g0.move(sampleOpeningWire(g0), {trusted: true});
+                return kind === "resign" ? g1.resign(who) : g1.timeout(who);
+            };
+            for (const who of [1, 2] as const) {
+                for (const kind of ["resign", "timeout"] as const) {
+                    const state = ending(kind, who).state() as ITumbleweedState;
+                    const result = repairTumbleweedFogStack(state);
+                    expect(result.reason, kind).to.not.equal(`The algebraic notation is invalid: ${kind}`);
+                }
+            }
+        });
+
         it("shows the opening centre neutral live before placement", () => {
             const g = new TumbleweedGame(undefined, ["fog"]);
             const rep = g.render({ perspective: 1 });

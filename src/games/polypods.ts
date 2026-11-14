@@ -447,7 +447,28 @@ export class PolypodsGame extends GameBase {
             } else if (score1 < score2) {
                 this.winner = [2];
             } else {
-                this.winner = [1, 2];
+                // Tiebreaker: player with most empty spots next to only their pieces
+                let tie1 = 0;
+                let tie2 = 0;
+                for (const cell of this.graph.graph.nodes()) {
+                    if (!this.board.has(cell)) {
+                        const nbPs: Set<playerid> = new Set(this.graph.neighbours(cell).filter((nb) => (
+                            this.board.has(nb))).map((nb) => (this.board.get(nb)!.player)));
+                        if (nbPs.has(1) && !nbPs.has(2)) {
+                            tie1++;
+                        } else if (nbPs.has(2) && !nbPs.has(1)) {
+                            tie2++;
+                        }
+                    }
+                }
+                console.log("Tiebreaker", tie1, tie2)
+                if (tie1 > tie2) {
+                    this.winner = [1];
+                } else if (tie1 < tie2) {
+                    this.winner = [2];
+                } else {
+                    this.winner = [1, 2];
+                }
             }
             this.results.push(
                 {type: "eog"},

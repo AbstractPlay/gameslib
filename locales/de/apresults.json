@@ -1770,6 +1770,9 @@
       "default": "{{player}} hat einen Stapel der Größe {{count}} auf {{where}} geschlagen.",
       "self": "{{player}} verstärkt einen Stapel der Größe {{count}} auf {{where}}."
     },
+    "FOG_STACK_LOST": {
+      "default": "Dein Stapel der Größe {{count}} auf {{where}} wurde geschlagen."
+    },
     "PLACE": {
       "default": "{{player}} hat einen Stapel der Größe {{count}} bei {{where}} platziert."
     }

@@ -15,7 +15,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Croda, Dama, Ice Palace, Neutron, Outbound, QBF, Squares, Thricewise.
 
-## [1.0.0-ci] - 2026-11-13
+## [1.0.0-ci] - 2026-11-14
 
 ### Added
 
@@ -26,6 +26,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Fixed
 
+- **Tumbleweed (fog):** off-line-of-sight captures tombstone the victim seat’s `fogMemory` at the captured cell so stripped client boards and LOS no longer keep a phantom stack; `repairTumbleweedFogStack` / `repairTumbleweedFogStackJson` replay stacks to refresh `fogMemory` on every ply (node-backend one-shot `backfill-tumbleweed-fog` script).
 - **Chameleon:** end-of-game reason distinguishes annihilation (no pieces left) from stalemate (no legal moves); infiltration wins use the correct opposing back rank for player 1; one-time ops backfill patches legacy terminal `eog` results on completed games (see node-backend).
 - **Tablero stack repair:** deep-copy board stacks; doubles **take** commits a take frame then a **`pass` stack frame** (move tree and event log show the forced pass; legacy merged take+pass `_results` still log the skipped seat); move log distinguishes **game-ending bump** (`BUMP`) from **forced pass after a take** (`PASS.afterTake`), including legacy stacks without `why` on `pass` results; exported `verifyTableroStackIntegrity`, `repairTableroStack`, `repairTableroStackJson`, `diagnoseTableroStackIntegrity`, `isLegacyDuplicatePassFrame`, `tableroTipMismatchFields`, and `tableroPlayableTipMismatchFields` to replay stacks (withdrawal plies, stored rolls, legacy board shapes) and merge duplicate `pass` frames when the playable tip still matches; verify/repair normalize saved stack boards before compare, report tip failures on board/piece counts only, and replace stacks from replay when the saved tip is corrupt but replay self-verifies.
 - **Neutron:** `handleClick` and pawn preview dots use the board after the chosen neutron slide (pawn may land on the neutron’s departure square; partial preview no longer invalidates the pawn step); endgame credits the player whose winning row the neutron occupies, not only the mover (forced slides onto the opponent’s back rank).
@@ -36,6 +37,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Changed
 
+- **Tumbleweed (fog):** stripped game state adds victim-only synthetic capture results and a move-log line when your stack is taken off line of sight (opponent plies stay redacted); full serialize and god/omniscient view unchanged.
 - **Flags:** exported **`sessionIsSimultaneous`**; simultaneous resign and default chat-log score lines use **`getFlags()`** instead of static `gameinfo.flags`. Documented that the **`simultaneous` flag** (via `getFlags()` / `resolveGameFlags`) is canonical for simultaneous submit routing in integrators — not `turnModel()`.
 - **Playground:** simultaneous seat mode, partial submit, and related UI use **`sessionIsSimultaneous`** with live **`getFlags()`** and challenge **`resolveGameFlags`** (selected variants and player count), including variant-gated simultaneous modes before launch.
 - **Cubeo:** faster legal move listing on midgame boards (including d10/d12) via shared slide-topology pass caching; unchanged rules and move strings for clients using automove or full movelists.

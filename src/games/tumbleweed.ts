@@ -74,10 +74,16 @@ export const gameApresultsEn = {
         default: "{{player}} captured a stack of size {{count}} at {{where}}.",
         self: "{{player}} reinforces a stack of size {{count}} at {{where}}.",
     },
+    FOG_STACK_LOST: {
+        default: "Your stack of size {{count}} at {{where}} was captured.",
+    },
     PLACE: {
         default: "{{player}} placed a stack of size {{count}} at {{where}}.",
     },
 };
+
+/** Synthetic capture results on stripped export use this `how` value (not a real board action). */
+export const TUMBLEWEED_FOG_OFF_LOS_CAPTURE = "fog-off-los";
 
 
 
@@ -559,10 +565,36 @@ export class TumbleweedGame extends GameBase {
         return this.stack[this.stack.length - 1].fogMemory === undefined;
     }
 
+    /** Victim-only: tombstone cells when their stack was captured off line of sight. */
+    private applyOffLosCaptureFogAwareness(): void {
+        if (!this.fogEnabled()) {
+            return;
+        }
+        for (const r of this.results) {
+            if (r.type !== "capture") {
+                continue;
+            }
+            const where = r.where;
+            const whose = (r as {whose?: number}).whose;
+            if (where === undefined || whose === undefined) {
+                continue;
+            }
+            if (whose !== 1 && whose !== 2) {
+                continue;
+            }
+            const victim = whose as playerid;
+            const memory = this.fogMemory[victim - 1];
+            if (memory.has(where)) {
+                memory.set(where, null);
+            }
+        }
+    }
+
     private refreshFogMemory(): void {
         if (!this.fogEnabled()) {
             return;
         }
+        this.applyOffLosCaptureFogAwareness();
         for (const p of [1 as playerid, 2 as playerid]) {
             const memory = this.fogMemory[p - 1];
             for (const cell of this.liveVisible(p)) {
@@ -808,6 +840,32 @@ export class TumbleweedGame extends GameBase {
         return stackIndex === 1;
     }
 
+    private fogVictimCaptureResultsForStrip(
+        results: APMoveResult[],
+        viewer: playerid,
+    ): APMoveResult[] {
+        const out: APMoveResult[] = [];
+        for (const r of results) {
+            if (r.type !== "capture") {
+                continue;
+            }
+            const whose = (r as {whose?: number}).whose;
+            const where = r.where;
+            const count = r.count;
+            if (whose !== viewer || where === undefined || count === undefined) {
+                continue;
+            }
+            out.push({
+                type: "capture",
+                where,
+                count,
+                whose,
+                how: TUMBLEWEED_FOG_OFF_LOS_CAPTURE,
+            });
+        }
+        return out;
+    }
+
     private redactFogLastmove(stackIndex: number, lastmove: string, viewer?: number): string {
         if (this.isPublicOpeningStackIndex(stackIndex)) {
             return lastmove;
@@ -845,8 +903,15 @@ export class TumbleweedGame extends GameBase {
         if (stackIndex !== undefined && entry.lastmove !== undefined) {
             const redacted = this.redactFogLastmove(stackIndex, entry.lastmove, player);
             exported.lastmove = redacted;
-            if (redacted !== entry.lastmove) {
-                exported._results = exported._results.filter(r => r.type === "pass");
+            if (redacted !== entry.lastmove && player !== undefined) {
+                const victimCaptures = this.fogVictimCaptureResultsForStrip(
+                    entry._results,
+                    player as playerid,
+                );
+                exported._results = [
+                    ...entry._results.filter(r => r.type === "pass"),
+                    ...victimCaptures,
+                ];
             }
         }
         return exported;
@@ -1605,7 +1670,18 @@ export class TumbleweedGame extends GameBase {
                 return true;
             }
             case "capture": {
-                const selfCapture = (r as { whose?: number }).whose === ctx.defaultSeat;
+                const how = (r as {how?: string}).how;
+                const whose = (r as {whose?: number}).whose;
+                if (how === TUMBLEWEED_FOG_OFF_LOS_CAPTURE && whose !== undefined) {
+                    this.pushSeatChatLine(
+                        lines,
+                        whose as playerid,
+                        "apresults:tumbleweed.FOG_STACK_LOST.default",
+                        {where: r.where!, count: r.count!},
+                    );
+                    return true;
+                }
+                const selfCapture = whose === ctx.defaultSeat;
                 this.pushSeatChatLine(
                     lines,
                     ctx.defaultSeat,

@@ -1770,6 +1770,9 @@
       "default": "{{player}} captured a stack of size {{count}} at {{where}}.",
       "self": "{{player}} reinforces a stack of size {{count}} at {{where}}."
     },
+    "FOG_STACK_LOST": {
+      "default": "Your stack of size {{count}} at {{where}} was captured."
+    },
     "PLACE": {
       "default": "{{player}} placed a stack of size {{count}} at {{where}}."
     }

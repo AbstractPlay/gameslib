@@ -1770,6 +1770,9 @@
       "default": "{{player}} capturó una pila de tamaño {{count}} en {{where}}.",
       "self": "{{player}} refuerza una pila de tamaño {{count}} en {{where}}."
     },
+    "FOG_STACK_LOST": {
+      "default": "Tu pila de tamaño {{count}} en {{where}} fue capturada."
+    },
     "PLACE": {
       "default": "{{player}} colocó una pila de tamaño {{count}} en {{where}}."
     }

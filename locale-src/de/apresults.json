@@ -3047,6 +3047,10 @@
     "src": "{{player}} reinforces a stack of size {{count}} at {{where}}.",
     "out": "{{player}} verstärkt einen Stapel der Größe {{count}} auf {{where}}."
   },
+  "tumbleweed.FOG_STACK_LOST.default": {
+    "src": "Your stack of size {{count}} at {{where}} was captured.",
+    "out": "Dein Stapel der Größe {{count}} auf {{where}} wurde geschlagen."
+  },
   "tumbleweed.PLACE.default": {
     "src": "{{player}} placed a stack of size {{count}} at {{where}}.",
     "out": "{{player}} hat einen Stapel der Größe {{count}} bei {{where}} platziert."

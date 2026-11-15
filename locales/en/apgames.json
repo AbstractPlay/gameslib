@@ -2994,7 +2994,10 @@
     "polypods": {
       "INITIAL_INSTRUCTIONS": "Place a piece on an empty space.",
       "DEADPOLYPOD": "Invalid placement: the resulting polypod would have more cores than feet.",
-      "ENEMYCORE": "You may not place next to an opponent core."
+      "ENEMYCORE": "You may not place next to an opponent core.",
+      "NOFOLLOWUP": "Energized Polypods: when eating a remains marker, a valid bonus move must be available next to the same polypod.",
+      "BONUS": "You must make an additional placement on an empty cell adjacent to the active polypod.",
+      "MUSTEAT": "The first placement of a multi-action turn must be on a remains marker."
     },
     "pontedd": {
       "BAD_BRIDGE_BLOCKED": "There may be no tiles under the bridge.",
@@ -8150,15 +8153,15 @@
         "description": "Directly attacked feet leave permanent remains.",
         "name": "Polypods Base Game"
       },
-      "Stoney-footed": {
+      "stoney-footed": {
         "description": "All removed feet leave permanent remains.",
         "name": "Stoney-footed Polypods"
       },
-      "Energized": {
+      "energized": {
         "description": "Eating remains gives a double move.",
         "name": "Energized Polypods"
       },
-      "Scavenging": {
+      "scavenging": {
         "description": "Every removed piece leaves remains. Placing next to (or on) a remains marker eats one, but a move that eats can't also attack.",
         "name": "Scavenging Polypods"
       }

@@ -40,15 +40,15 @@ export const gameApgamesEn = {
             description: "Directly attacked feet leave permanent remains.",
             name: "Polypods Base Game"
         },
-        "Stoney-footed": {
+        "stoney-footed": {
             description: "All removed feet leave permanent remains.",
             name: "Stoney-footed Polypods"
         },
-        "Energized": {
+        "energized": {
             description: "Eating remains gives a double move.",
             name: "Energized Polypods"
         },
-        "Scavenging": {
+        "scavenging": {
             description: "Every removed piece leaves remains. Placing next to (or on) a remains marker eats one, but a move that eats can't also attack.",
             name: "Scavenging Polypods"
         },
@@ -131,15 +131,15 @@ export class PolypodsGame extends GameBase {
             },
             { uid: "#variant" },
             {
-                uid: "Stoney-footed",
+                uid: "stoney-footed",
                 group: "variant",
             },
             {
-                uid: "Energized",
+                uid: "energized",
                 group: "variant",
             },
             {
-                uid: "Scavenging",
+                uid: "scavenging",
                 group: "variant",
             },
 
@@ -198,6 +198,7 @@ export class PolypodsGame extends GameBase {
             this.applyVariants(state.variants);
             this.stack = [...state.stack];
         }
+        console.log(this.variants);
         this.load();
     }
 
@@ -312,10 +313,11 @@ export class PolypodsGame extends GameBase {
         return [newBoard, captured]
     }
 
-    private attackFeet(board: board, remains: remains): [board, remains] {
+    private attackFeet(board: board, remains: remains): [board, remains, Set<string>] {
         /* Remove any feet which are next to enemy cores */
         const newBoard = cloneState(board) as board;
         const newRemains = cloneState(remains) as remains;
+        const attacked = new Set<string>;
         board.forEach((footPiece, footCell) => {
             if (footPiece.type === "foot") {
                 for (const nb of this.graph.neighbours(footCell)) {
@@ -323,11 +325,12 @@ export class PolypodsGame extends GameBase {
                             && board.get(nb)!.player !== footPiece.player){
                         newBoard.delete(footCell);
                         newRemains.add(footCell);
+                        attacked.add(footCell);
                     }
                 }
             }
         });
-        return [newBoard, newRemains];
+        return [newBoard, newRemains, attacked];
     }
 
     public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
@@ -431,16 +434,29 @@ export class PolypodsGame extends GameBase {
             this.results.push({type: "pass"});
         } else {
             // placement
+            const originalBoard = cloneState(this.board) as board;
             this.board.set(m, {player: this.currplayer, type: "foot"});
             this.board = this.updatePolypods(this.board); // First pass to update the attacking polypod
-            [this.board, this.remains] = this.attackFeet(this.board, this.remains);
+            let attacked: Set<string>;
+            [this.board, this.remains, attacked] = this.attackFeet(this.board, this.remains);
             this.board = this.updatePolypods(this.board); // Second pass to update any attacked polypods
             let captured: Set<string>;
             [this.board, captured] = this.removeDeadPolypods(this.board);
 
+            if (this.variants.includes("stoney-footed")) {
+                /* Stoney-footed: all original feet (before the attack) of a dead polypod get a marker */
+                for (const cell of captured) {
+                    const pc = originalBoard.get(cell)!;
+                    if (pc.type === "foot") {
+                        this.remains.add(cell);
+                    }
+                }
+            }
+
             this.results.push({type: "place", where: m});
-            if (captured.size > 0) {
-                this.results.push({type: "capture", where: [...captured].join()});
+            const allCaptured = [...attacked, ...captured];
+            if (allCaptured.length > 0) {
+                this.results.push({type: "capture", where: allCaptured.join()});
             }
         }
 
@@ -478,7 +494,6 @@ export class PolypodsGame extends GameBase {
                         }
                     }
                 }
-                console.log("Tiebreaker", tie1, tie2)
                 if (tie1 > tie2) {
                     this.winner = [1];
                 } else if (tie1 < tie2) {

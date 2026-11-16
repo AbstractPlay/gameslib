@@ -67,6 +67,10 @@ export function resultsForSimultaneousSeat(
         const actionable = stackResults.filter(
             (r) => r.type !== "eog" && r.type !== "winners",
         );
+        const forSeat = actionable.filter((r) => (r as { who?: number }).who === seat);
+        if (forSeat.length > 0) {
+            return [...forSeat];
+        }
         const idx = seat - 1;
         if (idx >= 0 && idx < actionable.length) {
             return [actionable[idx]];

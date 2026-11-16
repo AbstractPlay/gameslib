@@ -15,7 +15,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Croda, Dama, Ice Palace, Neutron, Outbound, QBF, Squares, Thricewise.
 
-## [1.0.0-ci] - 2026-11-14
+## [1.0.0-ci] - 2026-11-16
 
 ### Added
 
@@ -34,6 +34,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **Armadas, Pacru, Pigs, Homeworlds, Knight Line, Stawvs, Yavalath:** resign and timeout use `winnersAfterWithdrawal` so shipless, eliminated, or otherwise out-of-contention seats are not co-winners when a sole remaining contender is knowable (Armadas prod case); early Homeworlds resign without eliminations unchanged.
 - **Bricka:** skip blocked-region flood markers when `lastmove` is a special move (`resign`, `timeout`, etc.) so render JSON validates after resignation.
 - **Mixtour:** reject stack moves that restore the board to the position before the opponent's previous turn (rules no-takeback).
+- **Thricewise:** move log and ply export attribute compound placements (and related flat `_results`) using stored `who`, not `currplayer`, so the inactive seat’s elim token on simultaneous wire no longer credits the wrong player.
 
 ### Changed
 

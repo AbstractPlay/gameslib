@@ -1497,6 +1497,14 @@ export class ThricewiseGame extends GameBaseSequenced {
         }];
     }
 
+    public resolveChatSeat(r: APMoveResult, currplayer: number): number {
+        const who = (r as { who?: number }).who;
+        if (who !== undefined && who >= 1 && who <= this.numplayers) {
+            return who;
+        }
+        return super.resolveChatSeat(r, currplayer);
+    }
+
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {
         switch (r.type) {
             case "select":

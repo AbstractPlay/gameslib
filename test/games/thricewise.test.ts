@@ -313,6 +313,43 @@ describe("Thricewise", () => {
         expect(g.currplayer).to.equal(3);
     });
 
+    it("chatLogEntries attributes compound placement to who on results, not currplayer", () => {
+        const g = new ThricewiseGame(2);
+        g.stack.push({
+            currplayer: 1,
+            _timestamp: new Date("2026-01-01T00:00:00Z"),
+            _results: [
+                { type: "place", what: "NV", where: "-1,-4", who: 2 },
+                { type: "place", what: "NS", where: "4,0", who: 2 },
+            ],
+        });
+        const placeLines = g.chatLogEntries(["Alice", "Bob"])
+            .flatMap((e) => e.lines)
+            .filter((l) => l.textKey === "apresults:_general.PLACE.complete");
+        expect(placeLines).to.have.length(2);
+        expect(placeLines.map((l) => l.actor)).to.deep.equal([
+            { kind: "seat", seat: 2 },
+            { kind: "seat", seat: 2 },
+        ]);
+    });
+
+    it("getPlies attaches all who-tagged results to the acting seat", () => {
+        const g = new ThricewiseGame(2);
+        const elim = SIMULTANEOUS_ELIM_TOKEN;
+        g.stack.push({
+            lastmove: [`${elim}`, "NV@-1.-4;NS@4.0"],
+            _results: [
+                { type: "place", what: "NV", where: "-1,-4", who: 2 },
+                { type: "place", what: "NS", where: "4,0", who: 2 },
+                { type: "eog", gameover: true },
+            ],
+        });
+        const plies = g.getPlies();
+        const last = plies[plies.length - 1]!;
+        expect(last.actor).to.equal(2);
+        expect(last.results?.filter((r) => r.type === "place")).to.have.length(2);
+    });
+
     it("records select results and chat log lines", () => {
         addResource("en");
         const g = new ThricewiseGame(2);

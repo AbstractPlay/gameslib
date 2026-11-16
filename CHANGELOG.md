@@ -15,7 +15,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Croda, Dama, Ice Palace, Neutron, Outbound, QBF, Squares, Thricewise.
 
-## [1.0.0-ci] - 2026-11-16
+## [1.0.0-ci] - 2026-11-17
 
 ### Added
 
@@ -46,6 +46,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **Alien City:** faster placement legality (board-local road graph instead of full-state clones), cached road distances for scoring, **`hasLegalPlacement`** for pass validation, **`no-moves` removed** so legal move lists are available to clients again; reject endgame tower claims when no legal placements remain; structured move log includes **`nullifyClaim`** when a claim is voided at game end.
 - **`handleClick` API:** optional fifth argument **`IHandleClickUi`** (`panelId`, `board` as **`IClickBoardContext`**) for composite panels and draw-grid-aware board clicks; clients pass `ui.board` from the visible `APRenderRep.board` (Abstract Play front and playground ship this for Quax diamond-board).
 - **Render annotations:** connection paths, win lines, and other undirected polylines use `type: "line"` instead of `type: "move"` with `arrow: false` (dozens of games; piece-slide highlights unchanged in Tintas, Chase, and Swarm; Even at Odds unchanged; Fractured score-track shifts stay `move` with arrows; Sentinel lines-of-sight stay `move` without arrowheads).
+- **Clear Path:** after a cut-off win the stones that cut the loser off are ringed (`exit` circle annotation) instead of being joined by a line, so nothing on the board looks like a path through a crosscut; a completed winning path is still drawn as a line. Game description states the cut-off ending, and the move-log line says the ringed stones cut the loser off (`version` `20261117`).
 
 ### Fixed
 

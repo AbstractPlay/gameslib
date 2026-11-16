@@ -37,7 +37,7 @@ export const gameApgamesEn = {
 
 export const gameApresultsEn = {
     EOG: {
-        cutoff: "{{player}} no longer has any possible connecting path.",
+        cutoff: "{{player}} no longer has any possible connecting path. The ringed stones cut {{player}} off.",
     },
 };
 
@@ -242,10 +242,10 @@ export class ClearPathGame extends GameBase {
         name: "Clear Path",
         uid: "clearpath",
         playercounts: [2],
-        version: "20261014",
+        version: "20261117",
         dateAdded: "2026-11-01",
-        description: "An orthogonal connection game on the points of a square grid. Red connects the top and bottom edges, Blue the left and right edges, with a chain of orthogonally adjacent stones. Each turn you place one stone. A point is vital to a player if every possible connection of theirs passes through it. You may not place on a point vital to your opponent unless it is also vital to you, or your placement completes your connection. Crosscuts are allowed.",
-        notes: "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe dots mark the points where the player to move may not place. Each dotted point is vital to the opponent (every possible connection of the opponent passes through it), not vital to the player to move, and not a winning placement. A point vital to both players is not dotted, since either player may take it, and neither is a point where the player to move completes a winning path. The dots are drawn in the opponent's colour. A player who no longer has any possible connection has no vital points.\n\nA placement that leaves the opponent without any possible connecting path ends the game at once, and the player who placed wins: the opponent can never connect and can never take the winner's vital points, so the winner's connection can no longer be stopped. The chain of stones that cuts the opponent off is drawn on the board, as is a completed winning path.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.",
+        description: "An orthogonal connection game on the points of a square grid. Red connects the top and bottom edges, Blue the left and right edges, with a chain of orthogonally adjacent stones. Each turn you place one stone. A point is vital to a player if every possible connection of theirs passes through it. You may not place on a point vital to your opponent unless it is also vital to you, or your placement completes your connection. Crosscuts are allowed. A placement that leaves your opponent without any possible connection wins at once, since your opponent can never connect.",
+        notes: "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe dots mark the points where the player to move may not place. Each dotted point is vital to the opponent (every possible connection of the opponent passes through it), not vital to the player to move, and not a winning placement. A point vital to both players is not dotted, since either player may take it, and neither is a point where the player to move completes a winning path. The dots are drawn in the opponent's colour. A player who no longer has any possible connection has no vital points.\n\nA placement that leaves the opponent without any possible connecting path ends the game at once, and the player who placed wins: the opponent can never connect and can never take the winner's vital points, so the winner's connection can no longer be stopped. A completed winning path is drawn as a line through its stones. After a cut-off there is no winning path yet, and the stones that cut the opponent off (a chain from edge to edge in which diagonal steps are allowed) are ringed instead.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.",
         urls: [
             "https://www.marksteeregames.com/Clear_Path_rules.pdf",
             "https://www.marksteeregames.com",
@@ -681,26 +681,33 @@ export class ClearPathGame extends GameBase {
             }
         }
 
-        // When the game is over, draw the winner's decisive chain: the
-        // winning path, or, after a cut-off, the chain of stones (diagonal
-        // steps allowed) that leaves the loser without any possible
-        // connecting path.
+        // When the game is over, show why.  After a win by connection the
+        // winning path is drawn as a line through the stones.  After a
+        // cut-off there is no winning path yet: the stones that leave the
+        // loser without any possible connecting path (a chain from edge to
+        // edge in which diagonal steps are allowed) are ringed instead, so
+        // that nothing on the board looks like a path through a crosscut.
         if (this.gameover && this.winner.length === 1) {
             const cells = this.toCells();
             const winner = this.winner[0];
-            let chain = cpEdgeChain(cells, n, n, winner, false);
-            if (chain.length === 0) {
-                chain = cpEdgeChain(cells, n, n, winner, true);
-            }
-            if (chain.length > 1) {
-                const targets = chain.map(idx => {
-                    const x = idx % n;
-                    return {row: (idx - x) / n, col: x};
-                });
+            const toTargets = (chain: number[]): [RowCol, ...RowCol[]] => chain.map(idx => {
+                const x = idx % n;
+                return {row: (idx - x) / n, col: x};
+            }) as [RowCol, ...RowCol[]];
+            const path = cpEdgeChain(cells, n, n, winner, false);
+            if (path.length > 1) {
                 if (rep.annotations === undefined) {
                     rep.annotations = [];
                 }
-                rep.annotations.push({type: "line", targets: targets as [RowCol, ...RowCol[]], arrow: false});
+                rep.annotations.push({type: "line", targets: toTargets(path), arrow: false});
+            } else {
+                const seal = cpEdgeChain(cells, n, n, winner, true);
+                if (seal.length > 0) {
+                    if (rep.annotations === undefined) {
+                        rep.annotations = [];
+                    }
+                    rep.annotations.push({type: "exit", shape: "circle", style: "solid", targets: toTargets(seal)});
+                }
             }
         }
 

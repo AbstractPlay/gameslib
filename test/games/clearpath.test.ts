@@ -35,14 +35,26 @@ function dotsOf(g: ClearPathGame): Array<{colour: number | string | undefined; p
         .map(m => ({colour: m.colour, points: m.points!.map(p => g.coords2algebraic(p.col, p.row))}));
 }
 
-/** The chain drawn at the end of the game, in algebraic notation. */
-function chainOf(g: ClearPathGame): string[] {
+/** The winning path drawn as a line at the end of the game, in algebraic notation. */
+function lineOf(g: ClearPathGame): string[] {
     const annotations = (g.render().annotations ?? []) as Array<{type: string; targets?: Array<{row: number; col: number}>}>;
     const line = annotations.find(a => a.type === "line");
     if (line === undefined) {
         return [];
     }
     return line.targets!.map(p => g.coords2algebraic(p.col, p.row));
+}
+
+/** The stones ringed at the end of the game (the stones that cut the loser off), in algebraic notation. */
+function ringsOf(g: ClearPathGame): string[] {
+    const annotations = (g.render().annotations ?? []) as Array<{type: string; shape?: string; style?: string; targets?: Array<{row: number; col: number}>}>;
+    const rings = annotations.find(a => a.type === "exit");
+    if (rings === undefined) {
+        return [];
+    }
+    expect(rings.shape).to.equal("circle");
+    expect(rings.style).to.equal("solid");
+    return rings.targets!.map(p => g.coords2algebraic(p.col, p.row));
 }
 
 describe("Clear Path", () => {
@@ -123,9 +135,10 @@ describe("Clear Path", () => {
             expect(g.gameover).to.be.true;
             expect(g.winner).to.deep.equal([1]);
             expect(g.moves()).to.deep.equal([]);
-            // nothing is dotted once the game is over, and the winning path is drawn
+            // nothing is dotted once the game is over, the winning path is drawn and nothing is ringed
             expect(dotsOf(g)).to.deep.equal([]);
-            expect(chainOf(g)).to.deep.equal(["c5", "c4", "c3", "c2", "c1"]);
+            expect(lineOf(g)).to.deep.equal(["c5", "c4", "c3", "c2", "c1"]);
+            expect(ringsOf(g)).to.deep.equal([]);
             const results = g.stack[g.stack.length - 1]._results;
             expect(results).to.deep.equal([
                 {type: "place", where: "c3"},
@@ -238,13 +251,39 @@ describe("Clear Path", () => {
             ]);
         });
 
-        it("draws the chain of stones that cuts the opponent off", () => {
+        it("rings the stones that cut the opponent off and draws no line", () => {
             const g = play(7, [...before, "d3"]);
-            expect(chainOf(g)).to.deep.equal(["b7", "b6", "b5", "c4", "d3", "e2", "f1"]);
+            expect(ringsOf(g)).to.deep.equal(["b7", "b6", "b5", "c4", "d3", "e2", "f1"]);
+            expect(lineOf(g)).to.deep.equal([]);
             expect(dotsOf(g)).to.deep.equal([]);
-            // the chain is a chain of red stones, orthogonal or diagonal steps, edge to edge
+            // the ringed stones are a chain of red stones, orthogonal or diagonal steps, edge to edge
             const chain = cpEdgeChain(cellsOf(g), 7, 7, 1, true).map(idx => g.coords2algebraic(idx % 7, Math.floor(idx / 7)));
             expect(chain).to.deep.equal(["b7", "b6", "b5", "c4", "d3", "e2", "f1"]);
+        });
+
+        it("handles the position of the November 2026 bug report", () => {
+            // 7x7.  The player connecting left and right (player 2) sealed the
+            // other player off with g1.  Player 2 has no completed path (the
+            // sealing chain passes the crosscut d4, e3 / d3, e4), so the win
+            // is by cut-off, and the sealing stones are ringed, not joined.
+            const g = play(7, ["b7", "a7", "e7", "c7", "c6", "b6", "g6", "d6", "a5", "e6", "c5", "f6", "d5", "b5", "e5", "c4", "f5", "d4", "g5", "a3", "a4", "b3", "b4", "c3", "e4", "e3", "g4", "c2", "d3", "d2", "g3", "f2", "b2", "e1", "e2", "f1", "g2"]);
+            expect(g.gameover).to.be.false;
+            expect(g.currplayer).to.equal(2);
+            // g1 is vital to both players, so player 2 may take it
+            expect(g.moves()).to.include("g1");
+            g.move("g1");
+            expect(g.gameover).to.be.true;
+            expect(g.winner).to.deep.equal([2]);
+            const cells = cellsOf(g);
+            expect(cpHasWinningPath(cells, 7, 7, 2)).to.be.false;
+            expect(cpConnects(cells, 7, 7, 1, true)).to.be.false;
+            expect(g.stack[g.stack.length - 1]._results).to.deep.equal([
+                {type: "place", where: "g1"},
+                {type: "eog", reason: "cutoff"},
+                {type: "winners", players: [2]},
+            ]);
+            expect(ringsOf(g)).to.deep.equal(["a3", "b3", "c4", "d4", "e3", "f2", "g1"]);
+            expect(lineOf(g)).to.deep.equal([]);
         });
 
         it("explains the ending in the move log", () => {
@@ -260,6 +299,9 @@ describe("Clear Path", () => {
                 "apresults:_general.WINNERS",
             ]);
             expect(last.lines[1].textParams).to.deep.equal({player: "Blue player"});
+            const formatted = g.chatLog(names);
+            const lastFormatted = formatted[formatted.length - 1];
+            expect(lastFormatted).to.include("Blue player no longer has any possible connecting path. The ringed stones cut Blue player off.");
             assertChatLogParity(g, names);
         });
 
@@ -298,7 +340,14 @@ describe("Clear Path", () => {
                 }
                 // the loser never has a possible connection left, and the winner's chain is drawn
                 expect(cpConnects(cells, 7, 7, loser, true)).to.be.false;
-                expect(chainOf(g).length).to.be.greaterThan(1);
+                // a winning path is drawn as a line, the stones that cut the loser off are ringed, never both
+                if (byCutoff) {
+                    expect(ringsOf(g).length).to.be.greaterThan(1);
+                    expect(lineOf(g)).to.deep.equal([]);
+                } else {
+                    expect(lineOf(g).length).to.be.greaterThan(1);
+                    expect(ringsOf(g)).to.deep.equal([]);
+                }
                 expect(dotsOf(g)).to.deep.equal([]);
                 // serialisation round trip
                 const g2 = new ClearPathGame(g.serialize());

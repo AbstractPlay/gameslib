@@ -552,7 +552,7 @@
   },
   "clearpath": {
     "EOG": {
-      "cutoff": "{{player}} no longer has any possible connecting path."
+      "cutoff": "{{player}} no longer has any possible connecting path. The ringed stones cut {{player}} off."
     }
   },
   "conhex": {

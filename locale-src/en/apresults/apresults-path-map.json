@@ -2500,7 +2500,7 @@
       "newLeaf": "cutoff",
       "newPath": "clearpath.EOG.cutoff",
       "newFullKey": "apresults:clearpath.EOG.cutoff",
-      "english": "{{player}} no longer has any possible connecting path."
+      "english": "{{player}} no longer has any possible connecting path. The ringed stones cut {{player}} off."
     },
     {
       "oldPath": "CLAIM.conhex",

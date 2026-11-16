@@ -393,6 +393,28 @@ describe("Thricewise", () => {
         expect(placed?.y).to.equal(3);
     });
 
+    it("board click with one card left in obligation targets that card, not the prior segment", () => {
+        const g = new ThricewiseGame(2);
+        const twos = cardsOfRank(2);
+        const threes = cardsOfRank(3);
+        g.phase = "place";
+        g.currplayer = 1;
+        g.playQueue = [1];
+        g.deferred[0] = [twos[0]!];
+        g.trickCard[0] = threes[0];
+        g.hands[0] = [];
+        const e1 = g.legalEmpties()[0]!;
+        const t1 = `${twos[0]}@${e1[0]}.${e1[1]}`;
+        g.move(`${t1},${SIMULTANEOUS_ELIM_TOKEN}`, { partial: true });
+        const e2 = g.legalEmpties().find(([x, y]) =>
+            g.validateMove(`${t1};${threes[0]}@${x}.${y}`, 1).valid,
+        )!;
+        const rel = g.board.abs2rel(e2[0], e2[1])!;
+        const click = g.handleClickSimultaneous(t1, rel[1], rel[0], 1);
+        expect(click.valid).to.equal(true);
+        expect(click.move).to.equal(`${t1};${threes[0]}@${e2[0]}.${e2[1]}`);
+    });
+
     it("allows placement preview moves when hands are empty but the trick is still placing", () => {
         const g = new ThricewiseGame(2);
         g.phase = "place";

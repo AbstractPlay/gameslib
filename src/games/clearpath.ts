@@ -37,7 +37,7 @@ export const gameApgamesEn = {
 
 export const gameApresultsEn = {
     EOG: {
-        cutoff: "{{player}} no longer has any possible connecting path. The ringed stones cut {{player}} off.",
+        cutoff: "{{player}} no longer has any possible connection, so {{winner}} cannot be stopped. The dashed line shows one of the possible connections still open to {{winner}}.",
     },
 };
 
@@ -185,6 +185,67 @@ export function cpEdgeChain(cells: Uint8Array, width: number, height: number, pl
 }
 
 /**
+ * A possible connection of `player` with the fewest unoccupied points: a
+ * chain of orthogonally adjacent points from one of the player's edges to
+ * the other, each holding a stone of the player or unoccupied, chosen so
+ * that as few points as possible are unoccupied.  Returned as a list of
+ * point indices from edge to edge, or an empty list if the player has no
+ * possible connection.
+ */
+export function cpPossibleConnection(cells: Uint8Array, width: number, height: number, player: playerid): number[] {
+    const size = width * height;
+    const INF = 1 << 30;
+    const dist = new Int32Array(size).fill(INF);
+    const parent = new Int32Array(size).fill(-1);
+    // 0-1 breadth-first search: entering an unoccupied point costs 1, a stone of the player costs 0
+    const deque = new Int32Array(2 * size + 2);
+    let head = size + 1;
+    let tail = size + 1;
+    const costOf = (idx: number): number => cells[idx] === player ? 0 : 1;
+    const usable = (idx: number): boolean => cells[idx] === player || cells[idx] === 0;
+    if (player === 1) {
+        for (let x = 0; x < width; x++) {
+            if (usable(x)) { dist[x] = costOf(x); if (dist[x] === 0) { deque[--head] = x; } else { deque[tail++] = x; } }
+        }
+    } else {
+        for (let y = 0; y < height; y++) {
+            const idx = y * width;
+            if (usable(idx)) { dist[idx] = costOf(idx); if (dist[idx] === 0) { deque[--head] = idx; } else { deque[tail++] = idx; } }
+        }
+    }
+    const done = new Uint8Array(size);
+    while (head < tail) {
+        const idx = deque[head++];
+        if (done[idx] === 1) { continue; }
+        done[idx] = 1;
+        const x = idx % width;
+        const y = (idx - x) / width;
+        if ((player === 1 && y === height - 1) || (player === 2 && x === width - 1)) {
+            const chain: number[] = [];
+            for (let cur = idx; cur !== -1; cur = parent[cur]) {
+                chain.push(cur);
+            }
+            return chain.reverse();
+        }
+        const neighbours: number[] = [];
+        if (x > 0) { neighbours.push(idx - 1); }
+        if (x < width - 1) { neighbours.push(idx + 1); }
+        if (y > 0) { neighbours.push(idx - width); }
+        if (y < height - 1) { neighbours.push(idx + width); }
+        for (const nidx of neighbours) {
+            if (!usable(nidx) || done[nidx] === 1) { continue; }
+            const nd = dist[idx] + costOf(nidx);
+            if (nd < dist[nidx]) {
+                dist[nidx] = nd;
+                parent[nidx] = idx;
+                if (costOf(nidx) === 0) { deque[--head] = nidx; } else { deque[tail++] = nidx; }
+            }
+        }
+    }
+    return [];
+}
+
+/**
  * The vital points of `player`: a mask (1 = vital) over all points.
  * An empty point is vital to a player if every possible connecting path for
  * that player passes through it.  A player with no possible connecting path
@@ -245,7 +306,7 @@ export class ClearPathGame extends GameBase {
         version: "20261117",
         dateAdded: "2026-11-01",
         description: "An orthogonal connection game on the points of a square grid. Red connects the top and bottom edges, Blue the left and right edges, with a chain of orthogonally adjacent stones. Each turn you place one stone. A point is vital to a player if every possible connection of theirs passes through it. You may not place on a point vital to your opponent unless it is also vital to you, or your placement completes your connection. Crosscuts are allowed. A placement that leaves your opponent without any possible connection wins at once, since your opponent can never connect.",
-        notes: "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe dots mark the points where the player to move may not place. Each dotted point is vital to the opponent (every possible connection of the opponent passes through it), not vital to the player to move, and not a winning placement. A point vital to both players is not dotted, since either player may take it, and neither is a point where the player to move completes a winning path. The dots are drawn in the opponent's colour. A player who no longer has any possible connection has no vital points.\n\nA placement that leaves the opponent without any possible connecting path ends the game at once, and the player who placed wins: the opponent can never connect and can never take the winner's vital points, so the winner's connection can no longer be stopped. A completed winning path is drawn as a line through its stones. After a cut-off there is no winning path yet, and the stones that cut the opponent off (a chain from edge to edge in which diagonal steps are allowed) are ringed instead.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.",
+        notes: "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe dots mark the points where the player to move may not place. Each dotted point is vital to the opponent (every possible connection of the opponent passes through it), not vital to the player to move, and not a winning placement. A point vital to both players is not dotted, since either player may take it, and neither is a point where the player to move completes a winning path. The dots are drawn in the opponent's colour. A player who no longer has any possible connection has no vital points.\n\nA placement that leaves the opponent without any possible connecting path ends the game at once, and the player who placed wins: the opponent can never connect and can never take the winner's vital points, so the winner's connection can no longer be stopped. A completed winning path is drawn as a solid line through its stones. After a cut-off there is no winning path yet. A dashed line then shows one of the winner's remaining possible connections, the one needing the fewest further stones, with those stones drawn faintly.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.",
         urls: [
             "https://www.marksteeregames.com/Clear_Path_rules.pdf",
             "https://www.marksteeregames.com",
@@ -566,10 +627,11 @@ export class ClearPathGame extends GameBase {
     protected eogChatLineOverride(r: Extract<APMoveResult, { type: "eog" }>, ctx: ChatLogCollectContext): ChatLogLine | undefined {
         if (r.reason === "cutoff") {
             const loser = this.resolveChatPlayerName(ctx.currplayer, ctx.players);
+            const winner = this.resolveChatPlayerName(ctx.currplayer === 1 ? 2 : 1, ctx.players);
             return {
                 actor: { kind: "none" },
                 textKey: "apresults:clearpath.EOG.cutoff",
-                textParams: { player: loser },
+                textParams: { player: loser, winner },
             };
         }
         return undefined;
@@ -603,6 +665,22 @@ export class ClearPathGame extends GameBase {
 
     public render(): APRenderRep {
         const n = this.boardsize;
+        // When the game has ended by cut-off, the winner has no winning
+        // path yet.  Show one of the winner's remaining possible connections
+        // (the one needing the fewest further stones, orthogonal steps only,
+        // so it never passes a crosscut): a dashed line along it, with the
+        // stones still to be placed drawn faintly.
+        let route: number[] = [];
+        let routeWinner: playerid | undefined;
+        if (this.gameover && this.winner.length === 1) {
+            const cells = this.toCells();
+            if (cpEdgeChain(cells, n, n, this.winner[0], false).length === 0) {
+                routeWinner = this.winner[0];
+                route = cpPossibleConnection(cells, n, n, routeWinner);
+            }
+        }
+        const toPlace = new Set<number>(route.filter(idx => !this.board.has(this.idx2cell(idx))));
+
         // Build piece string
         const pstr: string[] = [];
         for (let row = 0; row < n; row++) {
@@ -614,6 +692,8 @@ export class ClearPathGame extends GameBase {
                     line += "A";
                 } else if (contents === 2) {
                     line += "B";
+                } else if (toPlace.has(row * n + col)) {
+                    line += routeWinner === 1 ? "C" : "D";
                 } else {
                     line += "-";
                 }
@@ -663,6 +743,9 @@ export class ClearPathGame extends GameBase {
             legend: {
                 A: { name: "piece", colour: 1 },
                 B: { name: "piece", colour: 2 },
+                // stones still to be placed on the shown possible connection
+                C: { name: "piece", colour: 1, opacity: 0.35 },
+                D: { name: "piece", colour: 2, opacity: 0.35 },
             },
             pieces: pstr.join("\n"),
         };
@@ -682,32 +765,25 @@ export class ClearPathGame extends GameBase {
         }
 
         // When the game is over, show why.  After a win by connection the
-        // winning path is drawn as a line through the stones.  After a
-        // cut-off there is no winning path yet: the stones that leave the
-        // loser without any possible connecting path (a chain from edge to
-        // edge in which diagonal steps are allowed) are ringed instead, so
-        // that nothing on the board looks like a path through a crosscut.
+        // winning path is drawn as a solid line through the stones.  After a
+        // cut-off the winner's possible connection chosen above is drawn as
+        // a dashed line (orthogonal steps only, so never through a crosscut).
         if (this.gameover && this.winner.length === 1) {
-            const cells = this.toCells();
-            const winner = this.winner[0];
             const toTargets = (chain: number[]): [RowCol, ...RowCol[]] => chain.map(idx => {
                 const x = idx % n;
                 return {row: (idx - x) / n, col: x};
             }) as [RowCol, ...RowCol[]];
-            const path = cpEdgeChain(cells, n, n, winner, false);
+            const path = cpEdgeChain(this.toCells(), n, n, this.winner[0], false);
             if (path.length > 1) {
                 if (rep.annotations === undefined) {
                     rep.annotations = [];
                 }
                 rep.annotations.push({type: "line", targets: toTargets(path), arrow: false});
-            } else {
-                const seal = cpEdgeChain(cells, n, n, winner, true);
-                if (seal.length > 0) {
-                    if (rep.annotations === undefined) {
-                        rep.annotations = [];
-                    }
-                    rep.annotations.push({type: "exit", shape: "circle", style: "solid", targets: toTargets(seal)});
+            } else if (route.length > 1) {
+                if (rep.annotations === undefined) {
+                    rep.annotations = [];
                 }
+                rep.annotations.push({type: "line", style: "dashed", targets: toTargets(route), arrow: false});
             }
         }
 

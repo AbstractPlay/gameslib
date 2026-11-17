@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import "mocha";
 import { expect } from "chai";
-import { ClearPathGame, cpConnects, cpEdgeChain, cpHasWinningPath, cpLegalPlacements, cpVitalPoints } from "../../src/games/clearpath";
+import { ClearPathGame, cpConnects, cpEdgeChain, cpHasWinningPath, cpLegalPlacements, cpPossibleConnection, cpVitalPoints } from "../../src/games/clearpath";
 import { assertChatLogParity } from "../fixtures/chat/helpers";
 import { addResource } from "../../src";
 
@@ -35,26 +35,39 @@ function dotsOf(g: ClearPathGame): Array<{colour: number | string | undefined; p
         .map(m => ({colour: m.colour, points: m.points!.map(p => g.coords2algebraic(p.col, p.row))}));
 }
 
-/** The winning path drawn as a line at the end of the game, in algebraic notation. */
+/** The winning path drawn as a solid line at the end of the game, in algebraic notation. */
 function lineOf(g: ClearPathGame): string[] {
-    const annotations = (g.render().annotations ?? []) as Array<{type: string; targets?: Array<{row: number; col: number}>}>;
-    const line = annotations.find(a => a.type === "line");
+    const annotations = (g.render().annotations ?? []) as Array<{type: string; style?: string; targets?: Array<{row: number; col: number}>}>;
+    const line = annotations.find(a => a.type === "line" && a.style !== "dashed");
     if (line === undefined) {
         return [];
     }
     return line.targets!.map(p => g.coords2algebraic(p.col, p.row));
 }
 
-/** The stones ringed at the end of the game (the stones that cut the loser off), in algebraic notation. */
-function ringsOf(g: ClearPathGame): string[] {
-    const annotations = (g.render().annotations ?? []) as Array<{type: string; shape?: string; style?: string; targets?: Array<{row: number; col: number}>}>;
-    const rings = annotations.find(a => a.type === "exit");
-    if (rings === undefined) {
+/** The possible connection drawn as a dashed line after a cut-off, in algebraic notation. */
+function dashedOf(g: ClearPathGame): string[] {
+    const annotations = (g.render().annotations ?? []) as Array<{type: string; style?: string; targets?: Array<{row: number; col: number}>}>;
+    const line = annotations.find(a => a.type === "line" && a.style === "dashed");
+    if (line === undefined) {
         return [];
     }
-    expect(rings.shape).to.equal("circle");
-    expect(rings.style).to.equal("solid");
-    return rings.targets!.map(p => g.coords2algebraic(p.col, p.row));
+    return line.targets!.map(p => g.coords2algebraic(p.col, p.row));
+}
+
+/** The points shown with a faint stone (still to be placed on the drawn possible connection), in algebraic notation. */
+function faintOf(g: ClearPathGame): string[] {
+    const rows = (g.render().pieces as string).split("\n");
+    const out: string[] = [];
+    for (let row = 0; row < rows.length; row++) {
+        if (rows[row] === "_") { continue; }
+        for (let col = 0; col < rows[row].length; col++) {
+            if (rows[row][col] === "C" || rows[row][col] === "D") {
+                out.push(g.coords2algebraic(col, row));
+            }
+        }
+    }
+    return out;
 }
 
 describe("Clear Path", () => {
@@ -135,10 +148,11 @@ describe("Clear Path", () => {
             expect(g.gameover).to.be.true;
             expect(g.winner).to.deep.equal([1]);
             expect(g.moves()).to.deep.equal([]);
-            // nothing is dotted once the game is over, the winning path is drawn and nothing is ringed
+            // nothing is dotted once the game is over, the winning path is drawn and nothing else
             expect(dotsOf(g)).to.deep.equal([]);
             expect(lineOf(g)).to.deep.equal(["c5", "c4", "c3", "c2", "c1"]);
-            expect(ringsOf(g)).to.deep.equal([]);
+            expect(dashedOf(g)).to.deep.equal([]);
+            expect(faintOf(g)).to.deep.equal([]);
             const results = g.stack[g.stack.length - 1]._results;
             expect(results).to.deep.equal([
                 {type: "place", where: "c3"},
@@ -251,13 +265,34 @@ describe("Clear Path", () => {
             ]);
         });
 
-        it("rings the stones that cut the opponent off and draws no line", () => {
+        it("shows a remaining possible connection of the winner as a dashed line", () => {
             const g = play(7, [...before, "d3"]);
-            expect(ringsOf(g)).to.deep.equal(["b7", "b6", "b5", "c4", "d3", "e2", "f1"]);
+            // Red's chain b7 b6 b5 c4 d3 e2 f1 steps diagonally, so it is not drawn.
+            // Red's possible connection needing the fewest further stones fills
+            // in the staircase: b7 b6 b5 c5 c4 d4 d3 e3 e2 f2 f1, four stones
+            // still to be placed (c5, d4, e3, f2).
             expect(lineOf(g)).to.deep.equal([]);
             expect(dotsOf(g)).to.deep.equal([]);
-            // the ringed stones are a chain of red stones, orthogonal or diagonal steps, edge to edge
-            const chain = cpEdgeChain(cellsOf(g), 7, 7, 1, true).map(idx => g.coords2algebraic(idx % 7, Math.floor(idx / 7)));
+            const dashed = dashedOf(g);
+            expect(dashed).to.deep.equal(["b7", "b6", "b5", "c5", "c4", "d4", "d3", "e3", "e2", "f2", "f1"]);
+            expect(faintOf(g)).to.deep.equal(["c5", "d4", "e3", "f2"]);
+            // orthogonal steps only, edge to edge, every point a red stone or unoccupied
+            const cells = cellsOf(g);
+            for (let i = 1; i < dashed.length; i++) {
+                const [x1, y1] = g.algebraic2coords(dashed[i - 1]);
+                const [x2, y2] = g.algebraic2coords(dashed[i]);
+                expect(Math.abs(x1 - x2) + Math.abs(y1 - y2)).to.equal(1);
+            }
+            expect(g.algebraic2coords(dashed[0])[1]).to.equal(0);
+            expect(g.algebraic2coords(dashed[dashed.length - 1])[1]).to.equal(6);
+            for (const c of dashed) {
+                const [x, y] = g.algebraic2coords(c);
+                expect(cells[y * 7 + x]).to.not.equal(2);
+            }
+            // the faint stones are exactly the unoccupied points of the drawn route
+            expect(faintOf(g)).to.deep.equal(dashed.filter(c => !g.board.has(c)));
+            // the chain that cuts Blue off still exists, diagonal steps allowed, but is not drawn
+            const chain = cpEdgeChain(cells, 7, 7, 1, true).map(idx => g.coords2algebraic(idx % 7, Math.floor(idx / 7)));
             expect(chain).to.deep.equal(["b7", "b6", "b5", "c4", "d3", "e2", "f1"]);
         });
 
@@ -282,8 +317,12 @@ describe("Clear Path", () => {
                 {type: "eog", reason: "cutoff"},
                 {type: "winners", players: [2]},
             ]);
-            expect(ringsOf(g)).to.deep.equal(["a3", "b3", "c4", "d4", "e3", "f2", "g1"]);
             expect(lineOf(g)).to.deep.equal([]);
+            // the drawn possible connection needs one more stone, at d1
+            expect(dashedOf(g)).to.deep.equal(["a3", "b3", "c3", "c2", "d2", "d1", "e1", "f1", "g1"]);
+            expect(faintOf(g)).to.deep.equal(["d1"]);
+            // the chain that cut player 1 off (diagonal steps allowed) is not drawn
+            expect(cpEdgeChain(cells, 7, 7, 2, true).map(idx => g.coords2algebraic(idx % 7, Math.floor(idx / 7)))).to.deep.equal(["a3", "b3", "c4", "d4", "e3", "f2", "g1"]);
         });
 
         it("explains the ending in the move log", () => {
@@ -298,10 +337,10 @@ describe("Clear Path", () => {
                 "apresults:clearpath.EOG.cutoff",
                 "apresults:_general.WINNERS",
             ]);
-            expect(last.lines[1].textParams).to.deep.equal({player: "Blue player"});
+            expect(last.lines[1].textParams).to.deep.equal({player: "Blue player", winner: "Red player"});
             const formatted = g.chatLog(names);
             const lastFormatted = formatted[formatted.length - 1];
-            expect(lastFormatted).to.include("Blue player no longer has any possible connecting path. The ringed stones cut Blue player off.");
+            expect(lastFormatted).to.include("Blue player no longer has any possible connection, so Red player cannot be stopped. The dashed line shows one of the possible connections still open to Red player.");
             assertChatLogParity(g, names);
         });
 
@@ -309,6 +348,21 @@ describe("Clear Path", () => {
             const g = play(5, ["c1", "a1", "c2", "a2", "c4", "e1", "c5", "e2", "c3"]);
             expect(g.winner).to.deep.equal([1]);
             expect(g.stack[g.stack.length - 1]._results.some(r => r.type === "eog" && r.reason === "cutoff")).to.be.false;
+        });
+    });
+
+    describe("Possible connections", () => {
+        it("finds the possible connection needing the fewest further stones", () => {
+            // 5x5, Red: stones a5 and a1 only.  Column a needs a4, a3, a2 (three stones);
+            // every other route needs at least four.
+            const g = play(5, ["a5", "e5", "a1", "e4"]);
+            const route = cpPossibleConnection(cellsOf(g), 5, 5, 1).map(idx => g.coords2algebraic(idx % 5, Math.floor(idx / 5)));
+            expect(route).to.deep.equal(["a5", "a4", "a3", "a2", "a1"]);
+            // a cut-off player has none
+            const h = play(5, ["a5", "a1", "b4", "b2", "d2", "d4", "e1", "e5", "c3"]);
+            expect(h.winner).to.deep.equal([1]);
+            expect(cpPossibleConnection(cellsOf(h), 5, 5, 2)).to.deep.equal([]);
+            expect(cpPossibleConnection(cellsOf(h), 5, 5, 1).length).to.be.greaterThan(1);
         });
     });
 
@@ -340,13 +394,19 @@ describe("Clear Path", () => {
                 }
                 // the loser never has a possible connection left, and the winner's chain is drawn
                 expect(cpConnects(cells, 7, 7, loser, true)).to.be.false;
-                // a winning path is drawn as a line, the stones that cut the loser off are ringed, never both
+                // a winning path is drawn as a solid line; after a cut-off a possible
+                // connection of the winner is drawn dashed, with faint stones on its
+                // unoccupied points; never both
                 if (byCutoff) {
-                    expect(ringsOf(g).length).to.be.greaterThan(1);
+                    const dashed = dashedOf(g);
+                    expect(dashed.length).to.be.greaterThan(1);
                     expect(lineOf(g)).to.deep.equal([]);
+                    expect(faintOf(g)).to.deep.equal(dashed.filter(c => !g.board.has(c)));
+                    expect(faintOf(g).length).to.be.greaterThan(0);
                 } else {
                     expect(lineOf(g).length).to.be.greaterThan(1);
-                    expect(ringsOf(g)).to.deep.equal([]);
+                    expect(dashedOf(g)).to.deep.equal([]);
+                    expect(faintOf(g)).to.deep.equal([]);
                 }
                 expect(dotsOf(g)).to.deep.equal([]);
                 // serialisation round trip

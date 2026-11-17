@@ -736,7 +736,6 @@ export class QBFGame extends GameBase {
             }
         }
         if (!this.gameover) {
-            // the white ring on the checker placed last
             for (const r of this.results) {
                 if (r.type === "place") {
                     annotations.push({type: "glyph", glyph: r.where === this.root ? "M" : "L", targets: [this.rowCol(r.where!)]});

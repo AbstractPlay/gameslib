@@ -361,7 +361,7 @@ describe("QBF", () => {
             const F = rep.legend!.F as Array<{name: string; paint: {fill: number | string | Colourfuncs}}>;
             expect(F.map(l => l.name)).to.deep.equal(["piece-marbled", "piece-marbled", "piece-borderless", "piece-borderless"]);
             expect(F[3].paint.fill).to.equal(2);
-            // the ring on the last placed checker
+            // the ring on the last placed checker (customizable via palette 6)
             const L = rep.legend!.L as {name: string; paint: {border: Colourfuncs}};
             expect(L.name).to.equal("ring-02");
             expect(L.paint.border).to.deep.equal({func: "custom", default: "#ffffff", palette: 6});

@@ -383,7 +383,7 @@ export class PolypodsGame extends GameBase {
             /* Special case: in the scavenging variant, if a remains marker must be selected
             and there is exactly 1 available, automatically select it */
             if (!newmove.includes(";") && this.variants.includes("scavenging") && result.complete === -1) {
-                let adjRemains: string[] = [];
+                const adjRemains: string[] = [];
                 for (const nb of this.graph.neighbours(cell)) {
                     if (this.remains.has(nb)) {
                         adjRemains.push(nb);
@@ -761,16 +761,61 @@ export class PolypodsGame extends GameBase {
         });
 
         for (const cell of nextToFriendlyPiece) {
-            if (!this.board.has(cell) && !nextToEnemyCore.has(cell) && !this.remains.has(cell) && this.polypodAliveAfter(this.board, cell)) {
+            if (!this.board.has(cell) && !nextToEnemyCore.has(cell) &&
+            !this.remains.has(cell) && this.polypodAliveAfter(this.board, cell)) {
                 validCells.add(cell);
             }
         }
         
         if (this.variants.includes("scavenging")) {
-            // 1. make sets of all validCells that generate a capture
-            // 2. if there are remains adjacent, add separate moves for each of them
+            // 1. make sets of all cells that generate a capture and that don't
+            // 2. for non-captures, if there are remains adjacent, add separate moves for each of them
             // 3. if not, add the move plainly
             // 4. for each existing remains check if it can be a non-attacking move and add it
+
+            const attacks = new Set<string>();
+            const nonAttacks = new Set<string>();
+            for (const cell of this.graph.graph.nodes()) {
+                if (!this.board.has(cell) && !nextToEnemyCore.has(cell) && !this.remains.has(cell) &&
+                this.polypodAliveAfter(this.board, cell)) {
+                    if (nextToFriendlyPiece.has(cell) && this.isAttackingMove(cell)) {
+                        attacks.add(cell);
+                    } else {
+                        nonAttacks.add(cell);
+                    }
+                }
+            }
+
+            moves.push(...attacks);
+
+            for (const cell of nonAttacks) {
+                const adjRemains: string[] = [];
+                for (const nb of this.graph.neighbours(cell)) {
+                    if (this.remains.has(nb)) {
+                        adjRemains.push(nb);
+                    }
+                }
+                if (adjRemains.length === 0) {
+                    moves.push(cell);
+                } else {
+                    for (const adjCell of adjRemains) {
+                        moves.push(cell + ";" + adjCell);
+                    }
+                }
+            }
+
+            for (const cell of this.remains) {
+                if (!nextToEnemyCore.has(cell) && this.polypodAliveAfter(this.board, cell)
+                && !this.isAttackingMove(cell)) {
+                    moves.push(cell);
+                }
+            }
+
+            for (const cell of validCells) {
+                if (!attacks.has(cell) && !nonAttacks.has(cell)) {
+                    moves.push(cell);
+                }
+            }
         } else {
             moves.push(...validCells);
         }

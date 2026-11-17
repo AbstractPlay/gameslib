@@ -290,7 +290,7 @@ describe("Clear Path", () => {
                 expect(cells[y * 7 + x]).to.not.equal(2);
             }
             // the faint stones are exactly the unoccupied points of the drawn route
-            expect(faintOf(g)).to.deep.equal(dashed.filter(c => !g.board.has(c)));
+            expect([...faintOf(g)].sort()).to.deep.equal(dashed.filter(c => !g.board.has(c)).sort());
             // the chain that cuts Blue off still exists, diagonal steps allowed, but is not drawn
             const chain = cpEdgeChain(cells, 7, 7, 1, true).map(idx => g.coords2algebraic(idx % 7, Math.floor(idx / 7)));
             expect(chain).to.deep.equal(["b7", "b6", "b5", "c4", "d3", "e2", "f1"]);
@@ -401,7 +401,8 @@ describe("Clear Path", () => {
                     const dashed = dashedOf(g);
                     expect(dashed.length).to.be.greaterThan(1);
                     expect(lineOf(g)).to.deep.equal([]);
-                    expect(faintOf(g)).to.deep.equal(dashed.filter(c => !g.board.has(c)));
+                    // (faint stones are listed row by row, the route edge to edge)
+                    expect([...faintOf(g)].sort()).to.deep.equal(dashed.filter(c => !g.board.has(c)).sort());
                     expect(faintOf(g).length).to.be.greaterThan(0);
                 } else {
                     expect(lineOf(g).length).to.be.greaterThan(1);

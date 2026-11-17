@@ -1643,6 +1643,10 @@
     "src": "Control is a finite, drawless territory game of elegant simplicity. Add pieces where your opponent doesn't have more influence or remove pieces from where you have more influence. Last to move wins.",
     "out": "Control è un gioco di territorio finito e privo di patte dall'elegante semplicità. Aggiungi pezzi dove il tuo avversario non ha più influenza o rimuovi pezzi da dove ne hai di più. Vince l'ultimo a muovere."
   },
+  "descriptions.counterflow": {
+    "src": "A checker race game. Two armies of checkers flow through each other in opposite directions. Checkers move like non-capturing Chess queens, directly forward, diagonally forward, or sideways, with restrictions on completing walls and on sideways moves. You win if all of your groups have at least one checker in your far row. Cycles and deadlocks cannot occur.",
+    "out": "Un gioco di corsa tra pedine. Due eserciti di pedine scorrono l'uno attraverso l'altro in direzioni opposte. Le pedine si muovono come regine degli scacchi senza cattura, direttamente in avanti, in diagonale in avanti o lateralmente, con restrizioni sul completamento dei muri e sulle mosse laterali. Vinci se tutti i tuoi gruppi hanno almeno una pedina nella tua riga di fondo. Non possono verificarsi cicli o stalli."
+  },
   "descriptions.court": {
     "src": "A set of pawns that can be promoted anytime to a limited set of officials. However, without pawns one loses the game. A stalemated player also loses the game.",
     "out": "Un insieme di pedoni che possono essere promossi in qualsiasi momento a un numero limitato di ufficiali. Tuttavia, senza pedoni si perde la partita. Anche un giocatore in stallo perde la partita."
@@ -4750,6 +4754,10 @@
   "notes.conspirateurs": {
     "src": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
     "out": "Nel gioco base, i pezzi possono attraversare i santuari come parte di un salto a più passaggi. Non vengono congelati finché non terminano la mossa in un santuario. Nella variante rigida, i pezzi vengono congelati non appena entrano in un santuario.\n\nNelle partite a quattro giocatori, i giocatori 1 e 2 giocano in squadra, così come i giocatori 3 e 4."
+  },
+  "notes.counterflow": {
+    "src": "Counterflow was designed by Mark Steere in November 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nCounterflow is played on an odd-sided, square board. At the start the middle row is empty. Blue checkers fill the area above the middle row, and red checkers fill the area below it. Red and Blue take turns moving checkers of their own colour, one checker per turn, starting with Red. If you have an available move, you must make one. If not, your turn is skipped. At least one player will always have an available move. A skipped turn is entered automatically and is recorded as a pass.\n\nA group is an orthogonally interconnected group of one or more same-coloured checkers. You win if all of your groups have at least one checker in your far row.\n\nCheckers move like non-capturing Chess queens, directly forward, diagonally forward, or sideways, over any number of consecutive unoccupied squares. Sideways moves are subject to a restriction described below.\n\nA wall is a row filled with same-coloured checkers. You must not complete a wall except when: 1) your move wins the game, 2) the wall is in your far row, or 3) there is another wall of your colour in the next row ahead of the wall.\n\nAn opening of a checker is an unoccupied square in the next row ahead of it, with one exception. A square is not an opening of a checker if all three of the following are true: 1) a checker of that colour on the square would complete a wall, 2) the wall would not be in that colour's far row, and 3) there would not be a wall of the wall's colour in the next row ahead of the wall. An opening doesn't have to be in front of a square that the checker can move to.\n\nThe distance of a checker is the number of columns from the checker's column to the column of its nearest opening. An opening straight ahead of the checker is at a distance of 0. A checker with no opening has no distance.\n\nThe shortest distance is the shortest distance of all checkers of both colours on the board. A sideways move is legal only if 1) the shortest distance after the move is shorter than the shortest distance before the move, or 2) the move wins the game. If the shortest distance is 0, no sideways move is legal, except for a winning sideways move.\n\nA green dot marks every checker that has a legal move. Select a checker and the squares it may move to are marked in green. The checker moved last carries a white ring, and a white dot marks the square it came from. When the game is over, a gold outline surrounds every group of the winner's checkers.",
+    "out": "Counterflow è stato progettato da Mark Steere nel novembre 2026, in collaborazione con Claude, un modello di IA realizzato da Anthropic.\n\nCounterflow si gioca su una scacchiera quadrata con un numero dispari di caselle per lato. All'inizio la riga centrale è vuota. Le pedine blu riempiono l'area sopra la riga centrale, mentre le pedine rosse riempiono l'area sottostante. Il Rosso e il Blu si alternano a muovere le pedine del proprio colore, una pedina per turno, iniziando dal Rosso. Se hai una mossa disponibile, devi effettuarla. In caso contrario, il tuo turno viene saltato. Almeno un giocatore avrà sempre una mossa disponibile. Un turno saltato viene inserito automaticamente e registrato come passo.\n\nUn gruppo è un insieme di una o più pedine dello stesso colore interconnesse ortogonalmente. Vinci se tutti i tuoi gruppi hanno almeno una pedina nella tua riga di fondo.\n\nLe pedine si muovono come regine degli scacchi senza cattura, direttamente in avanti, in diagonale in avanti o lateralmente, attraverso un qualsiasi numero di caselle vuote consecutive. Le mosse laterali sono soggette a una restrizione descritta di seguito.\n\nUn muro è una riga interamente occupata da pedine dello stesso colore. Non devi completare un muro eccetto quando: 1) la tua mossa vince la partita, 2) il muro si trova nella tua riga di fondo, o 3) c'è un altro muro del tuo colore nella riga immediatamente successiva al muro.\n\nUn'apertura di una pedina è una casella vuota nella riga immediatamente avanti ad essa, con un'unica eccezione. Una casella non è un'apertura di una pedina se tutte e tre le seguenti condizioni sono vere: 1) una pedina di quel colore su quella casella completerebbe un muro, 2) il muro non sarebbe nella riga di fondo di quel colore, e 3) non ci sarebbe un muro del colore del muro nella riga immediatamente successiva al muro. Un'apertura non deve necessariamente trovarsi davanti a una casella su cui la pedina può muoversi.\n\nLa distanza di una pedina è il numero di colonne dalla colonna della pedina alla colonna della sua apertura più vicina. Un'apertura direttamente davanti alla pedina è a distanza 0. Una pedina senza apertura non ha distanza.\n\nLa distanza minima è la distanza minima di tutte le pedine di entrambi i colori sulla scacchiera. Una mossa laterale è legale solo se 1) la distanza minima dopo la mossa è inferiore alla distanza minima prima della mossa, o 2) la mossa vince la partita. Se la distanza minima è 0, nessuna mossa laterale è legale, tranne una mossa laterale vincente.\n\nUn pallino verde contrassegna ogni pedina che ha una mossa legale. Seleziona una pedina e le caselle in cui può muoversi verranno contrassegnate in verde. L'ultima pedina mossa presenta un anello bianco, e un pallino bianco indica la casella da cui proviene. A fine partita, un contorno dorato circonda ogni gruppo di pedine del vincitore."
   },
   "notes.deckfish": {
     "src": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
@@ -8510,6 +8518,42 @@
   "validation.control.OPPONENT_CONTROL": {
     "src": "Your opponent controls {{cell}}.",
     "out": "Il tuo avversario controlla {{cell}}."
+  },
+  "validation.counterflow.BLOCKED": {
+    "src": "The checker on {{from}} cannot reach {{to}}. A checker moves over consecutive unoccupied squares only.",
+    "out": "La pedina in {{from}} non può raggiungere {{to}}. Una pedina si muove solo attraverso caselle vuote consecutive."
+  },
+  "validation.counterflow.DIRECTION": {
+    "src": "The checker on {{from}} cannot move to {{to}}. A checker moves like a non-capturing Chess queen, directly forward, diagonally forward, or sideways.",
+    "out": "La pedina in {{from}} non può muoversi in {{to}}. Una pedina si muove come una regina degli scacchi senza cattura, direttamente in avanti, in diagonale in avanti o lateralmente."
+  },
+  "validation.counterflow.INITIAL_INSTRUCTIONS": {
+    "src": "Select one of your checkers. A green dot marks every checker that has a legal move. The squares the selected checker may move to are then marked in green.",
+    "out": "Seleziona una delle tue pedine. Un pallino verde contrassegna ogni pedina che ha una mossa legale. Le caselle in cui la pedina selezionata può muoversi verranno quindi contrassegnate in verde."
+  },
+  "validation.counterflow.MUST_PASS": {
+    "src": "You have no available move. Your turn is skipped.",
+    "out": "Non hai mosse disponibili. Il tuo turno viene saltato."
+  },
+  "validation.counterflow.NO_PASS": {
+    "src": "You may not pass while you have an available move.",
+    "out": "Non puoi passare se hai una mossa disponibile."
+  },
+  "validation.counterflow.PARTIAL": {
+    "src": "Select the square to move the checker to, or select another of your checkers instead.",
+    "out": "Seleziona la casella in cui spostare la pedina, oppure seleziona un'altra delle tue pedine."
+  },
+  "validation.counterflow.SIDEWAYS": {
+    "src": "The checker on {{from}} may not move sideways to {{to}}. A sideways move is legal only if the shortest distance after the move is shorter than the shortest distance before the move, or the move wins the game.",
+    "out": "La pedina in {{from}} non può muoversi lateralmente in {{to}}. Una mossa laterale è legale solo se la distanza minima dopo la mossa è inferiore alla distanza minima prima della mossa, oppure se la mossa vince la partita."
+  },
+  "validation.counterflow.SIDEWAYS_ZERO": {
+    "src": "The checker on {{from}} may not move sideways to {{to}}. The shortest distance is 0, so no sideways move is legal, except for a winning sideways move.",
+    "out": "La pedina in {{from}} non può muoversi lateralmente in {{to}}. La distanza minima è 0, quindi nessuna mossa laterale è legale, tranne una mossa laterale vincente."
+  },
+  "validation.counterflow.WALL": {
+    "src": "The checker on {{from}} may not move to {{to}}, because the move would complete a wall. You must not complete a wall except when your move wins the game, the wall is in your far row, or there is another wall of your colour in the next row ahead of the wall.",
+    "out": "La pedina in {{from}} non può muoversi in {{to}}, poiché la mossa completerebbe un muro. Non devi completare un muro eccetto quando la tua mossa vince la partita, il muro si trova nella tua riga di fondo, o c'è un altro muro del tuo colore nella riga immediatamente successiva al muro."
   },
   "validation.court.INITIAL_INSTRUCTIONS": {
     "src": "Select one of your pieces to move, or promote a Pawn (if officials are still available) by clicking on it multiple times. Pawns, Knights, Bishops and Rooks move as in Chess. (Pawns do not have an initial double move and don't need to reach the final rank to promote.)",
@@ -18394,6 +18438,22 @@
   "variants.control.size-9.name": {
     "src": "Large board (Size 9)",
     "out": "Tabellone grande (dimensione 9)"
+  },
+  "variants.counterflow.#board.name": {
+    "src": "7x7 board",
+    "out": "Tavoliere 7x7"
+  },
+  "variants.counterflow.size-11.name": {
+    "src": "11x11 board",
+    "out": "Tavoliere 11x11"
+  },
+  "variants.counterflow.size-5.name": {
+    "src": "5x5 board",
+    "out": "Tavoliere 5x5"
+  },
+  "variants.counterflow.size-9.name": {
+    "src": "9x9 board",
+    "out": "Tavoliere 9x9"
   },
   "variants.court.#board.name": {
     "src": "8x8 board, 2 officials of each type",

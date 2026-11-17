@@ -1019,6 +1019,14 @@
     "src": "The game has ended because a player connected their dots.",
     "out": "La partie est terminée car un joueur a relié ses points."
   },
+  "counterflow.EOG.groups": {
+    "src": "All of {{player}}'s groups have at least one checker in the far row.",
+    "out": "Tous les groupes de {{player}} ont au moins un pion sur la dernière rangée."
+  },
+  "counterflow.PASS.skipped": {
+    "src": "{{player}} had no available move, so the turn was skipped.",
+    "out": "{{player}} n'avait aucun coup disponible, le tour a donc été passé."
+  },
   "court.PLACE.default": {
     "src": "{{player}} promoted {{where}} to a {{what}}.",
     "out": "{{player}} a promu {{where}} en {{what}}."

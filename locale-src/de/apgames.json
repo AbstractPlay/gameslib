@@ -1643,6 +1643,10 @@
     "src": "Control is a finite, drawless territory game of elegant simplicity. Add pieces where your opponent doesn't have more influence or remove pieces from where you have more influence. Last to move wins.",
     "out": "Control ist ein endliches, unentschiedenfreies Gebietsspiel von eleganter Einfachheit. Füge Steine hinzu, wo dein Gegner nicht mehr Einfluss hat, oder entferne Steine dort, wo du mehr Einfluss hast. Wer als Letztes zieht, gewinnt."
   },
+  "descriptions.counterflow": {
+    "src": "A checker race game. Two armies of checkers flow through each other in opposite directions. Checkers move like non-capturing Chess queens, directly forward, diagonally forward, or sideways, with restrictions on completing walls and on sideways moves. You win if all of your groups have at least one checker in your far row. Cycles and deadlocks cannot occur.",
+    "out": "Ein Spielstein-Rennspiel. Zwei Armeen von Spielsteinen fließen in entgegengesetzten Richtungen durcheinander. Steine ziehen wie nicht-schlagende Schachdamen direkt vorwärts, diagonal vorwärts oder seitwärts, mit Einschränkungen beim Vervollständigen von Wänden und bei Seitwärtszügen. Du gewinnst, wenn alle deine Gruppen mindestens einen Stein in deiner hintersten Reihe haben. Zyklische Verläufe und Patt-Situationen können nicht auftreten."
+  },
   "descriptions.court": {
     "src": "A set of pawns that can be promoted anytime to a limited set of officials. However, without pawns one loses the game. A stalemated player also loses the game.",
     "out": "Eine Gruppe von Bauern, die jederzeit zu einer begrenzten Auswahl an Offizieren befördert werden können. Ohne Bauern verliert man jedoch das Spiel. Ein pattgesetzter Spieler verliert ebenfalls das Spiel."
@@ -4750,6 +4754,10 @@
   "notes.conspirateurs": {
     "src": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
     "out": "Im Grundspiel dürfen sich Steine als Teil eines Mehrfachsprungs durch Zufluchtsorte bewegen. Sie sind erst eingefroren, wenn sie ihren Zug in einem Zufluchtsort beenden. In der strikten Variante werden Steine eingefroren, sobald sie einen Zufluchtsort betreten.\n\nIn Spielen mit vier Spielern bilden Spieler 1 und 2 ein Team, ebenso wie Spieler 3 und 4."
+  },
+  "notes.counterflow": {
+    "src": "Counterflow was designed by Mark Steere in November 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nCounterflow is played on an odd-sided, square board. At the start the middle row is empty. Blue checkers fill the area above the middle row, and red checkers fill the area below it. Red and Blue take turns moving checkers of their own colour, one checker per turn, starting with Red. If you have an available move, you must make one. If not, your turn is skipped. At least one player will always have an available move. A skipped turn is entered automatically and is recorded as a pass.\n\nA group is an orthogonally interconnected group of one or more same-coloured checkers. You win if all of your groups have at least one checker in your far row.\n\nCheckers move like non-capturing Chess queens, directly forward, diagonally forward, or sideways, over any number of consecutive unoccupied squares. Sideways moves are subject to a restriction described below.\n\nA wall is a row filled with same-coloured checkers. You must not complete a wall except when: 1) your move wins the game, 2) the wall is in your far row, or 3) there is another wall of your colour in the next row ahead of the wall.\n\nAn opening of a checker is an unoccupied square in the next row ahead of it, with one exception. A square is not an opening of a checker if all three of the following are true: 1) a checker of that colour on the square would complete a wall, 2) the wall would not be in that colour's far row, and 3) there would not be a wall of the wall's colour in the next row ahead of the wall. An opening doesn't have to be in front of a square that the checker can move to.\n\nThe distance of a checker is the number of columns from the checker's column to the column of its nearest opening. An opening straight ahead of the checker is at a distance of 0. A checker with no opening has no distance.\n\nThe shortest distance is the shortest distance of all checkers of both colours on the board. A sideways move is legal only if 1) the shortest distance after the move is shorter than the shortest distance before the move, or 2) the move wins the game. If the shortest distance is 0, no sideways move is legal, except for a winning sideways move.\n\nA green dot marks every checker that has a legal move. Select a checker and the squares it may move to are marked in green. The checker moved last carries a white ring, and a white dot marks the square it came from. When the game is over, a gold outline surrounds every group of the winner's checkers.",
+    "out": "Counterflow wurde von Mark Steere im November 2026 in Zusammenarbeit mit Claude, einem KI-Modell von Anthropic, entwickelt.\n\nCounterflow wird auf einem quadratischen Spielbrett mit ungerader Seitenlänge gespielt. Zu Beginn ist die mittlere Reihe leer. Blaue Steine füllen den Bereich oberhalb der mittleren Reihe, und rote Steine füllen den Bereich darunter. Rot und Blau ziehen abwechselnd Steine ihrer eigenen Farbe, einen Stein pro Zug, beginnend mit Rot. Wenn du einen möglichen Zug hast, musst du einen ausführen. Wenn nicht, wird dein Zug übersprungen. Mindestens ein Spieler hat immer einen möglichen Zug. Ein übersprungener Zug wird automatisch ausgeführt und als Passen gewertet.\n\nEine Gruppe ist eine orthogonal zusammenhängende Gruppe aus einem oder mehreren gleichfarbigen Steinen. Du gewinnst, wenn alle deine Gruppen mindestens einen Stein in deiner hintersten Reihe haben.\n\nSteine ziehen wie nicht-schlagende Schachdamen direkt vorwärts, diagonal vorwärts oder seitwärts über eine beliebige Anzahl zusammenhängender freier Felder. Seitwärtszüge unterliegen einer unten beschriebenen Einschränkung.\n\nEine Wand ist eine Reihe, die komplett mit gleichfarbigen Steinen gefüllt ist. Du darfst eine Wand nicht vervollständigen, außer wenn: 1) dein Zug das Spiel gewinnt, 2) sich die Wand in deiner hintersten Reihe befindet oder 3) sich in der nächsten Reihe vor der Wand eine weitere Wand deiner Farbe befindet.\n\nEine Öffnung eines Steins ist ein unbesetztes Feld in der nächsten Reihe vor ihm, mit einer Ausnahme. Ein Feld ist keine Öffnung eines Steins, wenn alle drei der folgenden Bedingungen zutreffen: 1) Ein Stein dieser Farbe auf dem Feld würde eine Wand vervollständigen, 2) die Wand würde sich nicht in der hintersten Reihe dieser Farbe befinden und 3) es gäbe keine Wand der Farbe dieser Wand in der nächsten Reihe vor der Wand. Eine Öffnung muss sich nicht vor einem Feld befinden, auf das der Stein ziehen kann.\n\nDie Distanz eines Steins ist die Anzahl der Spalten von der Spalte des Steins bis zur Spalte seiner nächstgelegenen Öffnung. Eine Öffnung direkt vor dem Stein hat die Distanz 0. Ein Stein ohne Öffnung hat keine Distanz.\n\nDie kürzeste Distanz ist die kürzeste Distanz aller Steine beider Farben auf dem Brett. Ein Seitwärtszug ist nur legal, wenn 1) die kürzeste Distanz nach dem Zug kürzer ist als die kürzeste Distanz vor dem Zug, oder 2) der Zug das Spiel gewinnt. Wenn die kürzeste Distanz 0 ist, ist kein Seitwärtszug legal, außer einem gewinnenden Seitwärtszug.\n\nEin grüner Punkt markiert jeden Stein, der einen legalen Zug hat. Wähle einen Stein aus, und die Felder, auf die er ziehen kann, werden grün markiert. Der zuletzt gezogene Stein trägt einen weißen Ring, und ein weißer Punkt markiert das Feld, von dem er kam. Wenn das Spiel vorbei ist, umgibt eine goldene Kontur jede Gruppe der Steine des Gewinners."
   },
   "notes.deckfish": {
     "src": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
@@ -8510,6 +8518,42 @@
   "validation.control.OPPONENT_CONTROL": {
     "src": "Your opponent controls {{cell}}.",
     "out": "Dein Gegner kontrolliert {{cell}}."
+  },
+  "validation.counterflow.BLOCKED": {
+    "src": "The checker on {{from}} cannot reach {{to}}. A checker moves over consecutive unoccupied squares only.",
+    "out": "Der Stein auf {{from}} kann {{to}} nicht erreichen. Ein Stein zieht nur über zusammenhängende unbesetzte Felder."
+  },
+  "validation.counterflow.DIRECTION": {
+    "src": "The checker on {{from}} cannot move to {{to}}. A checker moves like a non-capturing Chess queen, directly forward, diagonally forward, or sideways.",
+    "out": "Der Stein auf {{from}} kann nicht nach {{to}} ziehen. Ein Stein zieht wie eine nicht-schlagende Schachdame direkt vorwärts, diagonal vorwärts oder seitwärts."
+  },
+  "validation.counterflow.INITIAL_INSTRUCTIONS": {
+    "src": "Select one of your checkers. A green dot marks every checker that has a legal move. The squares the selected checker may move to are then marked in green.",
+    "out": "Wähle einen deiner Steine aus. Ein grüner Punkt markiert jeden Stein, der einen legalen Zug hat. Die Felder, auf die der ausgewählte Stein ziehen kann, werden dann grün markiert."
+  },
+  "validation.counterflow.MUST_PASS": {
+    "src": "You have no available move. Your turn is skipped.",
+    "out": "Du hast keinen möglichen Zug. Dein Zug wird übersprungen."
+  },
+  "validation.counterflow.NO_PASS": {
+    "src": "You may not pass while you have an available move.",
+    "out": "Du darfst nicht passen, solange du einen möglichen Zug hast."
+  },
+  "validation.counterflow.PARTIAL": {
+    "src": "Select the square to move the checker to, or select another of your checkers instead.",
+    "out": "Wähle das Feld aus, auf das der Stein gezogen werden soll, oder wähle stattdessen einen anderen deiner Steine."
+  },
+  "validation.counterflow.SIDEWAYS": {
+    "src": "The checker on {{from}} may not move sideways to {{to}}. A sideways move is legal only if the shortest distance after the move is shorter than the shortest distance before the move, or the move wins the game.",
+    "out": "Der Stein auf {{from}} darf nicht seitwärts nach {{to}} ziehen. Ein Seitwärtszug ist nur legal, wenn die kürzeste Distanz nach dem Zug kürzer ist als die kürzeste Distanz vor dem Zug, oder der Zug das Spiel gewinnt."
+  },
+  "validation.counterflow.SIDEWAYS_ZERO": {
+    "src": "The checker on {{from}} may not move sideways to {{to}}. The shortest distance is 0, so no sideways move is legal, except for a winning sideways move.",
+    "out": "Der Stein auf {{from}} darf nicht seitwärts nach {{to}} ziehen. Die kürzeste Distanz ist 0, daher ist kein Seitwärtszug legal, außer einem gewinnenden Seitwärtszug."
+  },
+  "validation.counterflow.WALL": {
+    "src": "The checker on {{from}} may not move to {{to}}, because the move would complete a wall. You must not complete a wall except when your move wins the game, the wall is in your far row, or there is another wall of your colour in the next row ahead of the wall.",
+    "out": "Der Stein auf {{from}} darf nicht nach {{to}} ziehen, da der Zug eine Wand vervollständigen würde. Du darfst eine Wand nicht vervollständigen, außer wenn dein Zug das Spiel gewinnt, sich die Wand in deiner hintersten Reihe befindet oder sich in der nächsten Reihe vor der Wand eine weitere Wand deiner Farbe befindet."
   },
   "validation.court.INITIAL_INSTRUCTIONS": {
     "src": "Select one of your pieces to move, or promote a Pawn (if officials are still available) by clicking on it multiple times. Pawns, Knights, Bishops and Rooks move as in Chess. (Pawns do not have an initial double move and don't need to reach the final rank to promote.)",
@@ -18394,6 +18438,22 @@
   "variants.control.size-9.name": {
     "src": "Large board (Size 9)",
     "out": "Großes Brett (Größe 9)"
+  },
+  "variants.counterflow.#board.name": {
+    "src": "7x7 board",
+    "out": "7x7-Brett"
+  },
+  "variants.counterflow.size-11.name": {
+    "src": "11x11 board",
+    "out": "11x11-Brett"
+  },
+  "variants.counterflow.size-5.name": {
+    "src": "5x5 board",
+    "out": "5x5-Brett"
+  },
+  "variants.counterflow.size-9.name": {
+    "src": "9x9 board",
+    "out": "9x9-Brett"
   },
   "variants.court.#board.name": {
     "src": "8x8 board, 2 officials of each type",

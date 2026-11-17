@@ -1643,6 +1643,10 @@
     "src": "Control is a finite, drawless territory game of elegant simplicity. Add pieces where your opponent doesn't have more influence or remove pieces from where you have more influence. Last to move wins.",
     "out": "Control est un jeu de territoire fini et sans égalité d'une élégante simplicité. Ajoutez des pièces là où votre adversaire n'a pas plus d'influence ou retirez des pièces là où vous en avez plus. Le dernier à jouer gagne."
   },
+  "descriptions.counterflow": {
+    "src": "A checker race game. Two armies of checkers flow through each other in opposite directions. Checkers move like non-capturing Chess queens, directly forward, diagonally forward, or sideways, with restrictions on completing walls and on sideways moves. You win if all of your groups have at least one checker in your far row. Cycles and deadlocks cannot occur.",
+    "out": "Un jeu de course de pions. Deux armées de pions se croisent dans des directions opposées. Les pions se déplacent comme des dames d'échecs sans capture : directement vers l'avant, en diagonale vers l'avant ou latéralement, avec des restrictions sur la formation de murs et sur les déplacements latéraux. Vous gagnez si tous vos groupes ont au moins un pion dans votre dernière rangée. Les cycles et les blocages complets sont impossibles."
+  },
   "descriptions.court": {
     "src": "A set of pawns that can be promoted anytime to a limited set of officials. However, without pawns one loses the game. A stalemated player also loses the game.",
     "out": "Un ensemble de pions pouvant être promus à tout moment en un nombre limité de dignitaires. Cependant, sans pions, vous perdez la partie. Un joueur pat perd également la partie."
@@ -4750,6 +4754,10 @@
   "notes.conspirateurs": {
     "src": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
     "out": "Dans le jeu de base, les pièces peuvent traverser les sanctuaires dans le cadre d'un saut en plusieurs étapes. Elles ne sont pas gelées tant qu'elles ne terminent pas leur déplacement dans un sanctuaire. Dans la variante stricte, les pièces sont gelées dès qu'elles entrent dans un sanctuaire.\n\nDans les parties à quatre joueurs, les joueurs 1 et 2 sont partenaires, tout comme les joueurs 3 et 4."
+  },
+  "notes.counterflow": {
+    "src": "Counterflow was designed by Mark Steere in November 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nCounterflow is played on an odd-sided, square board. At the start the middle row is empty. Blue checkers fill the area above the middle row, and red checkers fill the area below it. Red and Blue take turns moving checkers of their own colour, one checker per turn, starting with Red. If you have an available move, you must make one. If not, your turn is skipped. At least one player will always have an available move. A skipped turn is entered automatically and is recorded as a pass.\n\nA group is an orthogonally interconnected group of one or more same-coloured checkers. You win if all of your groups have at least one checker in your far row.\n\nCheckers move like non-capturing Chess queens, directly forward, diagonally forward, or sideways, over any number of consecutive unoccupied squares. Sideways moves are subject to a restriction described below.\n\nA wall is a row filled with same-coloured checkers. You must not complete a wall except when: 1) your move wins the game, 2) the wall is in your far row, or 3) there is another wall of your colour in the next row ahead of the wall.\n\nAn opening of a checker is an unoccupied square in the next row ahead of it, with one exception. A square is not an opening of a checker if all three of the following are true: 1) a checker of that colour on the square would complete a wall, 2) the wall would not be in that colour's far row, and 3) there would not be a wall of the wall's colour in the next row ahead of the wall. An opening doesn't have to be in front of a square that the checker can move to.\n\nThe distance of a checker is the number of columns from the checker's column to the column of its nearest opening. An opening straight ahead of the checker is at a distance of 0. A checker with no opening has no distance.\n\nThe shortest distance is the shortest distance of all checkers of both colours on the board. A sideways move is legal only if 1) the shortest distance after the move is shorter than the shortest distance before the move, or 2) the move wins the game. If the shortest distance is 0, no sideways move is legal, except for a winning sideways move.\n\nA green dot marks every checker that has a legal move. Select a checker and the squares it may move to are marked in green. The checker moved last carries a white ring, and a white dot marks the square it came from. When the game is over, a gold outline surrounds every group of the winner's checkers.",
+    "out": "Counterflow a été conçu par Mark Steere en novembre 2026, en collaboration avec Claude, un modèle d'IA créé par Anthropic.\n\nCounterflow se joue sur un plateau carré de taille impaire. Au début, la rangée centrale est vide. Les pions bleus remplissent la zone située au-dessus de la rangée centrale, et les pions rouges remplissent la zone située en dessous. Les Rouges et les Bleus jouent à tour de rôle en déplaçant un pion de leur propre couleur, un pion par tour, en commençant par les Rouges. Si vous avez un coup possible, vous devez en jouer un. Si ce n'est pas le cas, votre tour est passé. Au moins un joueur aura toujours un coup possible. Un tour passé est saisi automatiquement et enregistré comme une passe.\n\nUn groupe est un ensemble d'un ou plusieurs pions de même couleur interconnectés orthogonalement. Vous gagnez si tous vos groupes ont au moins un pion dans votre dernière rangée.\n\nLes pions se déplacent comme des dames d'échecs sans capture, directement vers l'avant, en diagonale vers l'avant ou latéralement, sur n'importe quel nombre de cases vides consécutives. Les déplacements latéraux sont soumis à une restriction décrite ci-dessous.\n\nUn mur est une rangée entièrement remplie de pions de la même couleur. Vous ne devez pas compléter un mur sauf si : 1) votre coup gagne la partie, 2) le mur est situé sur votre dernière rangée, ou 3) il y a un autre mur de votre couleur dans la rangée juste devant le mur.\n\nUne ouverture pour un pion est une case libre située dans la rangée juste devant lui, à une exception près. Une case n'est pas une ouverture pour un pion si les trois conditions suivantes sont réunies : 1) un pion de cette couleur sur cette case complèterait un mur, 2) le mur ne serait pas sur la dernière rangée de cette couleur, et 3) il n'y aurait pas de mur de la couleur du mur dans la rangée juste devant le mur. Une ouverture n'a pas besoin d'être devant une case sur laquelle le pion peut se déplacer.\n\nLa distance d'un pion est le nombre de colonnes entre la colonne du pion et la colonne de son ouverture la plus proche. Une ouverture située droit devant le pion est à une distance de 0. Un pion sans ouverture n'a pas de distance.\n\nLa plus courte distance est la plus petite distance parmi tous les pions des deux couleurs sur le plateau. Un déplacement latéral n'est autorisé que si 1) la plus courte distance après le coup est plus petite que la plus courte distance avant le coup, ou 2) le coup fait gagner la partie. Si la plus courte distance est de 0, aucun déplacement latéral n'est autorisé, sauf pour un coup latéral gagnant.\n\nUn point vert indique chaque pion disposant d'un coup autorisé. Sélectionnez un pion et les cases où il peut se déplacer s'affichent en vert. Le dernier pion déplacé porte un anneau blanc, et un point blanc indique la case dont il provient. Lorsque la partie est terminée, un contour doré entoure chaque groupe de pions du gagnant."
   },
   "notes.deckfish": {
     "src": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
@@ -8510,6 +8518,42 @@
   "validation.control.OPPONENT_CONTROL": {
     "src": "Your opponent controls {{cell}}.",
     "out": "Votre adversaire contrôle {{cell}}."
+  },
+  "validation.counterflow.BLOCKED": {
+    "src": "The checker on {{from}} cannot reach {{to}}. A checker moves over consecutive unoccupied squares only.",
+    "out": "Le pion en {{from}} ne peut pas atteindre {{to}}. Un pion ne se déplace que sur des cases vides consécutives."
+  },
+  "validation.counterflow.DIRECTION": {
+    "src": "The checker on {{from}} cannot move to {{to}}. A checker moves like a non-capturing Chess queen, directly forward, diagonally forward, or sideways.",
+    "out": "Le pion en {{from}} ne peut pas se déplacer vers {{to}}. Un pion se déplace comme une dame d'échecs sans capture : directement vers l'avant, en diagonale vers l'avant ou latéralement."
+  },
+  "validation.counterflow.INITIAL_INSTRUCTIONS": {
+    "src": "Select one of your checkers. A green dot marks every checker that has a legal move. The squares the selected checker may move to are then marked in green.",
+    "out": "Sélectionnez l'un de vos pions. Un point vert indique chaque pion qui a un coup autorisé. Les cases vers lesquelles le pion sélectionné peut se déplacer sont ensuite marquées en vert."
+  },
+  "validation.counterflow.MUST_PASS": {
+    "src": "You have no available move. Your turn is skipped.",
+    "out": "Vous n'avez aucun coup possible. Votre tour est passé."
+  },
+  "validation.counterflow.NO_PASS": {
+    "src": "You may not pass while you have an available move.",
+    "out": "Vous ne pouvez pas passer votre tour tant que vous avez un coup possible."
+  },
+  "validation.counterflow.PARTIAL": {
+    "src": "Select the square to move the checker to, or select another of your checkers instead.",
+    "out": "Sélectionnez la case vers laquelle déplacer le pion, ou sélectionnez un autre de vos pions."
+  },
+  "validation.counterflow.SIDEWAYS": {
+    "src": "The checker on {{from}} may not move sideways to {{to}}. A sideways move is legal only if the shortest distance after the move is shorter than the shortest distance before the move, or the move wins the game.",
+    "out": "Le pion en {{from}} ne peut pas se déplacer latéralement vers {{to}}. Un déplacement latéral n'est autorisé que si la plus courte distance après le coup est plus petite que la plus courte distance avant le coup, ou si le coup fait gagner la partie."
+  },
+  "validation.counterflow.SIDEWAYS_ZERO": {
+    "src": "The checker on {{from}} may not move sideways to {{to}}. The shortest distance is 0, so no sideways move is legal, except for a winning sideways move.",
+    "out": "Le pion en {{from}} ne peut pas se déplacer latéralement vers {{to}}. La plus courte distance est de 0, aucun déplacement latéral n'est donc autorisé, sauf s'il s'agit d'un coup latéral gagnant."
+  },
+  "validation.counterflow.WALL": {
+    "src": "The checker on {{from}} may not move to {{to}}, because the move would complete a wall. You must not complete a wall except when your move wins the game, the wall is in your far row, or there is another wall of your colour in the next row ahead of the wall.",
+    "out": "Le pion en {{from}} ne peut pas se déplacer vers {{to}}, car ce coup complèterait un mur. Vous ne devez pas compléter un mur sauf si votre coup gagne la partie, que le mur est sur votre dernière rangée, ou qu'il y a un autre mur de votre couleur dans la rangée juste devant le mur."
   },
   "validation.court.INITIAL_INSTRUCTIONS": {
     "src": "Select one of your pieces to move, or promote a Pawn (if officials are still available) by clicking on it multiple times. Pawns, Knights, Bishops and Rooks move as in Chess. (Pawns do not have an initial double move and don't need to reach the final rank to promote.)",
@@ -18394,6 +18438,22 @@
   "variants.control.size-9.name": {
     "src": "Large board (Size 9)",
     "out": "Grand plateau (Taille 9)"
+  },
+  "variants.counterflow.#board.name": {
+    "src": "7x7 board",
+    "out": "Plateau 7x7"
+  },
+  "variants.counterflow.size-11.name": {
+    "src": "11x11 board",
+    "out": "Plateau 11x11"
+  },
+  "variants.counterflow.size-5.name": {
+    "src": "5x5 board",
+    "out": "Plateau 5x5"
+  },
+  "variants.counterflow.size-9.name": {
+    "src": "9x9 board",
+    "out": "Plateau 9x9"
   },
   "variants.court.#board.name": {
     "src": "8x8 board, 2 officials of each type",

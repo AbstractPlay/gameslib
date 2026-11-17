@@ -574,6 +574,14 @@
       "path": "La partie est terminée car un joueur a relié ses points."
     }
   },
+  "counterflow": {
+    "PASS": {
+      "skipped": "{{player}} n'avait aucun coup disponible, le tour a donc été passé."
+    },
+    "EOG": {
+      "groups": "Tous les groupes de {{player}} ont au moins un pion sur la dernière rangée."
+    }
+  },
   "court": {
     "PLACE": {
       "default": "{{player}} a promu {{where}} en {{what}}."

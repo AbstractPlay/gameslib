@@ -574,6 +574,14 @@
       "path": "Das Spiel ist beendet, da ein Spieler seine Punkte verbunden hat."
     }
   },
+  "counterflow": {
+    "PASS": {
+      "skipped": "{{player}} hatte keinen möglichen Zug, daher wurde der Zug übersprungen."
+    },
+    "EOG": {
+      "groups": "Alle Gruppen von {{player}} haben mindestens einen Spielstein in der hintersten Reihe."
+    }
+  },
   "court": {
     "PLACE": {
       "default": "{{player}} hat {{where}} zu einem {{what}} befördert."

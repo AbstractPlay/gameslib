@@ -707,9 +707,7 @@ export class PolypodsGame extends GameBase {
             // Annotate feet upgraded to cores, and cores downgraded to feet.
             oldBoard.forEach((piece, cell) => {
                 if (oldBoard.has(cell) && this.board.has(cell)) {
-                    if (oldBoard.get(cell)!.type === "foot" && this.board.get(cell)!.type === "core") {
-                        this.results.push({type: "place", where: cell});
-                    } else if (oldBoard.get(cell)!.type === "core" && this.board.get(cell)!.type === "foot") {
+                    if (oldBoard.get(cell)!.type !== this.board.get(cell)!.type) {
                         this.results.push({type: "capture", where: cell});
                     }
                 }

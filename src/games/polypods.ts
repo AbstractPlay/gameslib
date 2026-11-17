@@ -14,8 +14,15 @@ export const gameApgamesEn = {
         DEADPOLYPOD: "Invalid placement: the resulting polypod would have more cores than feet.",
         ENEMYCORE: "You may not place next to an opponent core.",
         NOFOLLOWUP: "Energized Polypods: when eating a remains marker, a valid bonus move must be available next to the same polypod.",
-        BONUS: "You must make an additional placement on an empty cell adjacent to the active polypod.",
-        MUSTEAT: "The first placement of a multi-action turn must be on a remains marker."
+        BONUS: "Energized: you must make an additional placement on an empty cell adjacent to the active polypod.",
+        BONUS_INVALID: "Not a valid second action: ",
+        BONUSNOREMAINS: "The second placement of a multi-action turn may not be on a remains marker.",
+        BONUS_NOT_ADJACENT: "The second placement of must be adjacent to the active polypod.",
+        MUSTEAT: "The first placement of a multi-action turn must be on a remains marker.",
+        SCAVENGING_MARKER: "Scavenging: you may only place on a remains marker if no attack would occur.",
+        SELECTREMAINS: "Scavenging: after a non-attacking move, select an adjacent remains marker to remove (if available).",
+        SELECTREMAINSINVALID: "Scavenging: you must select one of the remains markers adjacent to the placed piece.",
+        SCAVENGEDOUBLE: "Scavenging: a double move can only happen when not attacking, and then eating an adjacent remains marker."
     },
     variants: {
         "size-6": {
@@ -299,7 +306,7 @@ export class PolypodsGame extends GameBase {
     private removeDeadPolypods(board: board, remains: remains, attacked: Set<string>): [board, remains, Set<string>] {
         /* Remove polypods that have more cores than feet */
         const newBoard = cloneState(board) as board;
-        const newRemains = cloneState(remains) as remains;
+        let newRemains = cloneState(remains) as remains;
         const captured = new Set<string>;
         const capturedFeet = new Set<string>;
         this.allPolypods(newBoard).forEach((polypod) => {
@@ -334,6 +341,11 @@ export class PolypodsGame extends GameBase {
                 }
             }
         }
+        if (this.variants.includes("scavenging")) {
+            /* In this variant all removed pieces are converted to remains */
+            newRemains = new Set([...newRemains, ...captured]);
+        }
+
 
         return [newBoard, newRemains, captured];
     }
@@ -367,7 +379,21 @@ export class PolypodsGame extends GameBase {
             } else {
                 newmove = move + ";" + cell;
             }
-            const result = this.validateMove(newmove) as IClickResult;
+            let result = this.validateMove(newmove) as IClickResult;
+            /* Special case: in the scavenging variant, if a remains marker must be selected
+            and there is exactly 1 available, automatically select it */
+            if (!newmove.includes(";") && this.variants.includes("scavenging") && result.complete === -1) {
+                let adjRemains: string[] = [];
+                for (const nb of this.graph.neighbours(cell)) {
+                    if (this.remains.has(nb)) {
+                        adjRemains.push(nb);
+                    }
+                }
+                if (adjRemains.length === 1) {
+                    newmove += ";" + adjRemains[0];
+                    result = this.validateMove(newmove) as IClickResult;
+                }
+            }
             if (! result.valid) {
                 result.move = move;
                 if (move !== "") {
@@ -398,7 +424,8 @@ export class PolypodsGame extends GameBase {
             if (board.has(cell)) {
                 return {valid: false, message: i18next.t("apgames:validation._general.OCCUPIED", {where: cell})};
             }
-        } else if (board.has(cell) || remains.has(cell)) {
+        } else if (board.has(cell) || (remains.has(cell) && !this.variants.includes("scavenging"))) {
+            // In scavenging a placement may be on a remains under some conditions, this will be checked separately
             return {valid: false, message: i18next.t("apgames:validation._general.OCCUPIED", {where: cell})};
         }
 
@@ -421,16 +448,17 @@ export class PolypodsGame extends GameBase {
         return {valid: true, message: i18next.t("apgames:validation._general.VALID_MOVE")};
     }
 
-    private isValidBonusMove(cell: string, board: board, remains: remains): boolean {
+    private isValidBonusMove(cell: string, board: board, remains: remains): IValidationResult {
         /* Note, does not check that the move is adjacent to the active polypod, this must be checked
         separately */
         if (!(board.has(cell) || remains.has(cell))) {
             const bonusResult = this.validPlacement(cell, board, remains);
-            if (bonusResult.valid) {
-                return true;
-            }
+            return bonusResult
+        } else if (remains.has(cell)) {
+            return {valid: false, message: i18next.t("apgames:validation.polypods.BONUSNOREMAINS")};
+        } else {
+            return {valid: false, message: i18next.t("apgames:validation._general.OCCUPIED", {where: cell})};
         }
-        return false;
     }
 
     public validateMove(m: string): IValidationResult {
@@ -473,17 +501,44 @@ export class PolypodsGame extends GameBase {
                     }
                 }
             }
-            if (this.isValidBonusMove(moves[1], boardAfter, remainsAfter) && adjacentCells.has(moves[1])) {
+            const bonusResult = this.isValidBonusMove(moves[1], boardAfter, remainsAfter);
+            if (bonusResult.valid && adjacentCells.has(moves[1])) {
+                result.valid = true;
+                result.complete = 1;
+                result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                return result;
+            } else if (!adjacentCells.has(moves[1])) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.polypods.BONUS_NOT_ADJACENT");
+                return result;
+            } else {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.polypods.BONUS_INVALID") + bonusResult.message;
+                return result;
+            }
+        } else if (moves.length === 2 && this.variants.includes("scavenging")) {
+            /* First move must be on an empty space and not attack */
+            const firstResult = this.validateMove(moves[0]);
+            if (firstResult.valid === false) {
+                return firstResult;
+            };
+            if (firstResult.complete !== -1) {
+                result.valid = false;
+                result.message = i18next.t("apgames:validation.polypods.SCAVENGEDOUBLE");
+                return result;
+            }
+            /* Second action must select an adjacent remains marker */
+            if (this.remains.has(moves[1]) && this.graph.graph.hasEdge(moves[0], moves[1])) {
                 result.valid = true;
                 result.complete = 1;
                 result.message = i18next.t("apgames:validation._general.VALID_MOVE");
                 return result;
             } else {
                 result.valid = false;
-                result.message = i18next.t("apgames:validation.polypods.BONUS");
+                result.message = i18next.t("apgames:validation.polypods.SELECTREMAINSINVALID");
                 return result;
             }
-        } else if (moves.length !== 1) {
+        }else if (moves.length !== 1) {
             result.valid = false;
             result.message = i18next.t("apgames:validation._general.INVALID_MOVE");
             return result;
@@ -525,6 +580,57 @@ export class PolypodsGame extends GameBase {
             }
         }
 
+        if (this.variants.includes("scavenging")) {
+            /* Four possibilities:
+            - Move that doesn't attack and doesn't consume a marker (since none are around)
+            - Move that doesn't attack and consumes an adjacent marker
+            - Move that doesn't attack and consumes a marker at its own location
+            - Move that does attack and does not consume a marker
+            */
+            const attack = this.isAttackingMove(cell);
+            const onRemains = this.remains.has(cell);
+            let remainsAround = false;
+            for (const nb of this.graph.neighbours(cell)) {
+                if (this.remains.has(nb)) {
+                    remainsAround = true;
+                    break;
+                }
+            }
+
+            if (attack) {
+                if (onRemains) {
+                    result.valid = false;
+                    result.message = i18next.t("apgames:validation.polypods.SCAVENGING_MARKER");
+                    return result;
+                } else {
+                    result.valid = true;
+                    result.complete = 1;
+                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                    return result;
+                }
+            } else {
+                if (onRemains) {
+                    result.valid = true;
+                    result.complete = 1;
+                    result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                    return result;
+                } else {
+                    if (remainsAround) {
+                        result.valid = true;
+                        result.complete = -1;
+                        result.canrender = true;
+                        result.message = i18next.t("apgames:validation.polypods.SELECTREMAINS");
+                        return result;
+                    } else {
+                        result.valid = true;
+                        result.complete = 1;
+                        result.message = i18next.t("apgames:validation._general.VALID_MOVE");
+                        return result;
+                    }
+                }
+            }
+        }
+
         result.valid = true;
         result.complete = 1;
         result.message = i18next.t("apgames:validation._general.VALID_MOVE");
@@ -541,7 +647,18 @@ export class PolypodsGame extends GameBase {
         newBoard = this.updatePolypods(newBoard);
         let captured: Set<string>;
         [newBoard, newRemains, captured] = this.removeDeadPolypods(newBoard, newRemains, attacked);
+        if (this.variants.includes("scavenging")) {
+            newRemains.delete(cell);
+        }
         return [newBoard, newRemains, attacked, captured];
+    }
+
+    private isAttackingMove(cell: string): boolean {
+        let newBoard = cloneState(this.board) as board;
+        newBoard.set(cell, {player: this.currplayer, type: "foot"});
+        newBoard = this.updatePolypods(newBoard);
+        const [_board, _remains, attacked] = this.attackFeet(newBoard, this.remains);
+        return (attacked.size > 0);
     }
 
     public move(m: string, {partial = false, trusted = false} = {}): PolypodsGame {
@@ -559,13 +676,14 @@ export class PolypodsGame extends GameBase {
         }
 
         this.results = [];
+        let oldBoard: board = cloneState(this.board) as board;
         if (m === "pass") {
             this.results.push({type: "pass"});
         } else {
             let attacked: Set<string>;
             let captured: Set<string>;
             const moves = m.split(";");
-            if (moves.length === 2) {
+            if (moves.length === 2 && this.variants.includes("energized")) {
                 // energized double-move
                 const [board1, remains1, attacked1, captured1] = this.applyMove(moves[0], this.board, this.remains);
                 remains1.delete(moves[0]);
@@ -574,6 +692,10 @@ export class PolypodsGame extends GameBase {
                 [this.board, this.remains, attacked2, captured2] = this.applyMove(moves[1], board1, remains1);
                 attacked = new Set([...attacked1, ...attacked2]);
                 captured = new Set([...captured1, ...captured2]);
+            } else if (moves.length === 2 && this.variants.includes("scavenging")) {
+                // Scavenging move that removes a marker
+                [this.board, this.remains, attacked, captured] = this.applyMove(moves[0], this.board, this.remains);
+                this.remains.delete(moves[1]);
             } else {
                 // single placement
                 [this.board, this.remains, attacked, captured] = this.applyMove(m, this.board, this.remains);
@@ -582,12 +704,21 @@ export class PolypodsGame extends GameBase {
             if (partial) { return this; }
 
             this.results.push({type: "place", where: m.replace(";", ",")});
+            // Annotate feet upgraded to cores, and cores downgraded to feet.
+            oldBoard.forEach((piece, cell) => {
+                if (oldBoard.has(cell) && this.board.has(cell)) {
+                    if (oldBoard.get(cell)!.type === "foot" && this.board.get(cell)!.type === "core") {
+                        this.results.push({type: "place", where: cell});
+                    } else if (oldBoard.get(cell)!.type === "core" && this.board.get(cell)!.type === "foot") {
+                        this.results.push({type: "capture", where: cell});
+                    }
+                }
+            });
             const allCaptured = [...attacked, ...captured];
-            if (allCaptured.length > 0) {
-                this.results.push({type: "capture", where: allCaptured.join()});
+            for (const cell of allCaptured) {
+                this.results.push({type: attacked.has(cell) ? "place" : "capture", where: cell});
             }
         }
-
 
         // update currplayer
         this.lastmove = m;
@@ -747,7 +878,7 @@ export class PolypodsGame extends GameBase {
                 if (move.type === "place") {
                     for (const movePart of move.where!.split(",")) {
                         const [x, y] = this.graph.algebraic2coords(movePart);
-                        rep.annotations.push({type: "enter", shape: "circle", opacity: 0.5, targets: [{row: y, col: x}]});
+                        rep.annotations.push({type: "enter", shape: "circle", opacity: 1.0, targets: [{row: y, col: x}]});
                     }
                 } else if (move.type === "capture") {
                     for (const cell of move.where!.split(",")) {

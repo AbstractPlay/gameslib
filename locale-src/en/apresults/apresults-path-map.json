@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-16",
+  "generatedAt": "2026-11-17",
   "schemaVersion": 1,
   "entries": [
     {
@@ -2500,7 +2500,7 @@
       "newLeaf": "cutoff",
       "newPath": "clearpath.EOG.cutoff",
       "newFullKey": "apresults:clearpath.EOG.cutoff",
-      "english": "{{player}} no longer has any possible connecting path."
+      "english": "{{player}} no longer has any possible connection, so {{winner}} cannot be stopped. The dashed line shows one of the possible connections still open to {{winner}}."
     },
     {
       "oldPath": "CLAIM.conhex",

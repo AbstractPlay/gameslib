@@ -552,7 +552,7 @@
   },
   "clearpath": {
     "EOG": {
-      "cutoff": "{{player}} ya no tiene ningún camino de conexión posible."
+      "cutoff": "{{player}} ya no tiene ninguna conexión posible, por lo que no se puede detener a {{winner}}. La línea punteada muestra una de las posibles conexiones que aún tiene abiertas {{winner}}."
     }
   },
   "conhex": {

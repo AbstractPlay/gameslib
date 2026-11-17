@@ -996,8 +996,8 @@
     "out": "{{player}} devoró la especie rival {{prey}} ({{count}} piedras) en {{where}}."
   },
   "clearpath.EOG.cutoff": {
-    "src": "{{player}} no longer has any possible connecting path.",
-    "out": "{{player}} ya no tiene ningún camino de conexión posible."
+    "src": "{{player}} no longer has any possible connection, so {{winner}} cannot be stopped. The dashed line shows one of the possible connections still open to {{winner}}.",
+    "out": "{{player}} ya no tiene ninguna conexión posible, por lo que no se puede detener a {{winner}}. La línea punteada muestra una de las posibles conexiones que aún tiene abiertas {{winner}}."
   },
   "conhex.CLAIM.default": {
     "src": "{{player}} claimed the space at ({{where}}).",

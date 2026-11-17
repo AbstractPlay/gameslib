@@ -155,7 +155,7 @@ export class PolypodsGame extends GameBase {
 
         ],
         categories: ["goal>score>eog", "mechanic>place", "board>shape>rect", "board>connect>snub"],
-        flags: ["scores", "no-moves", "experimental"]
+        flags: ["scores", "automove", "experimental"]
     };
 
     public numplayers = 2;
@@ -412,6 +412,14 @@ export class PolypodsGame extends GameBase {
         }
     }
 
+    private polypodAliveAfter(board: board, cell: string): boolean {
+        /* Check that the grown polypod is still alive */
+        let boardAfter = cloneState(board) as board;
+        boardAfter.set(cell, {player: this.currplayer, type: "foot"});
+        boardAfter = this.updatePolypods(boardAfter);
+        return this.polypodAlive(boardAfter, this.polypodAt(boardAfter, cell));
+    }
+
     private validPlacement(cell: string, board: board, remains: remains): IValidationResult {
         /* Check whether a single placement is valid. Does not check whether a valid followup move
         is available for energized polypods. */
@@ -437,11 +445,7 @@ export class PolypodsGame extends GameBase {
             }
         }
 
-        // Check that the grown polypod is still alive
-        let boardAfter = cloneState(board) as board;
-        boardAfter.set(cell, {player: this.currplayer, type: "foot"});
-        boardAfter = this.updatePolypods(boardAfter);
-        if (!this.polypodAlive(boardAfter, this.polypodAt(boardAfter, cell))) {
+        if (!this.polypodAliveAfter(board, cell)) {
             return {valid: false, message: i18next.t("apgames:validation.polypods.DEADPOLYPOD", {where: cell})};
         }
         
@@ -727,6 +731,77 @@ export class PolypodsGame extends GameBase {
         return this;
     }
 
+    public moves(player?: playerid): string[] {
+        if (player === undefined) {
+            player = this.currplayer;
+        }
+        if (this.gameover) { return []; }
+
+        const moves: string[] = [];
+
+        const validCells = new Set<string>(this.graph.graph.nodes().filter((c) => (
+            !this.board.has(c) && !this.remains.has(c))));
+        const nextToEnemyCore = new Set<string>; // These are always disallowed
+        const nextToFriendlyPiece = new Set<string>; // These must be checked separately for polypod deaths
+        this.graph.graph.nodes().forEach((cell) => {
+            if (this.board.has(cell)) {
+                const piece = this.board.get(cell)!;
+                if (piece.player === this.otherPlayer() && piece.type === "core") {
+                    for (const nb of this.graph.neighbours(cell)) {
+                        validCells.delete(nb);
+                        nextToEnemyCore.add(nb);
+                    }
+                } else if (piece.player === this.currplayer) {
+                    for (const nb of this.graph.neighbours(cell)) {
+                        validCells.delete(nb);
+                        nextToFriendlyPiece.add(nb);
+                    }
+                }
+            }
+        });
+
+        for (const cell of nextToFriendlyPiece) {
+            if (!this.board.has(cell) && !nextToEnemyCore.has(cell) && !this.remains.has(cell) && this.polypodAliveAfter(this.board, cell)) {
+                validCells.add(cell);
+            }
+        }
+        
+        if (this.variants.includes("scavenging")) {
+            // 1. make sets of all validCells that generate a capture
+            // 2. if there are remains adjacent, add separate moves for each of them
+            // 3. if not, add the move plainly
+            // 4. for each existing remains check if it can be a non-attacking move and add it
+        } else {
+            moves.push(...validCells);
+        }
+
+        if (this.variants.includes("energized")) {
+            for (const cell of this.remains) {
+                if (!nextToEnemyCore.has(cell) && this.polypodAliveAfter(this.board, cell)) {
+                    const [boardAfter, remainsAfter] = this.applyMove(cell, this.board, this.remains);
+                    const activePolypod = this.polypodAt(boardAfter, cell);
+                    const adjacentCells = new Set<string>;
+                    for (const cell of activePolypod) {
+                        for (const nb of this.graph.neighbours(cell)) {
+                            if (!activePolypod.has(nb)) {
+                                adjacentCells.add(nb);
+                            }
+                        }
+                    }
+                    for (const adjCell of adjacentCells) {
+                        const bonusResult = this.isValidBonusMove(adjCell, boardAfter, remainsAfter);
+                        if (bonusResult.valid === true) {
+                            moves.push(cell + ";" + adjCell);
+                        }
+                    }
+                }
+            }
+        }
+
+        moves.push("pass");
+        return moves;
+    }
+
     protected checkEOG(): PolypodsGame {
         if ( (this.lastmove === "pass") && (this.stack[this.stack.length - 1].lastmove === "pass") ) {
             this.gameover = true;
@@ -861,9 +936,9 @@ export class PolypodsGame extends GameBase {
                     scale: 1.2
                 },
                 E: {
-                    name: "piece",
+                    name: "piece-borderless",
                     colour: 3,
-                    scale: 0.5
+                    scale: 0.4
                 }
             },
             pieces: pstr

@@ -1,7 +1,7 @@
 
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep, Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, BoardBasic, Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
@@ -265,7 +265,7 @@ export class PolypodsGame extends GameBase {
         return graph;
     }
 
-    private updatePolypods(board: board): board {
+    public updatePolypods(board: board): board {
         /* Set the pieces to feet or core depending on friendly connectivity */
         const newBoard = cloneState(board) as board;
         newBoard.forEach((piece, cell) => {
@@ -974,13 +974,6 @@ export class PolypodsGame extends GameBase {
                 palette: 2
             }
         }
-        if (p === 3) {
-            return {
-                func: "custom",
-                default: "#777777",
-                palette: 3
-            }
-        }
         return p;
     }
 
@@ -988,7 +981,6 @@ export class PolypodsGame extends GameBase {
     
         const p1 = this.getPlayerColour(1);
         const p2 = this.getPlayerColour(2);
-        const p3 = this.getPlayerColour(3);
 
         // Build piece string
         let pstr = "";
@@ -1024,7 +1016,7 @@ export class PolypodsGame extends GameBase {
         }
 
         // Build rep
-        const board = {
+        const board: BoardBasic = {
             style: "snubsquare",
             snubStart: "T",
             width: this.boardsize,
@@ -1040,7 +1032,7 @@ export class PolypodsGame extends GameBase {
             }
         };
         if (this.boardsize % 2 === 0) {
-            board.blocked.push({row: this.boardsize-1, col: this.boardsize-1});
+            board.blocked!.push({row: this.boardsize-1, col: this.boardsize-1});
         }
         const rep: APRenderRep =  {
             renderer: "stacking-offset",
@@ -1068,7 +1060,11 @@ export class PolypodsGame extends GameBase {
                 },
                 E: {
                     name: "piece-borderless",
-                    colour: p3,
+                    colour: {
+                        func: "custom",
+                        default: "#777777",
+                        palette: 3
+                    },
                     scale: 0.4
                 }
             },
@@ -1095,7 +1091,6 @@ export class PolypodsGame extends GameBase {
                 delete rep.annotations;
             }
         }
-        console.log("Score:", this.sidebarScores()[0].scores);
         return rep;
     }
 

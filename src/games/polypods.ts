@@ -1,7 +1,7 @@
 
 import { GameBase, IAPGameState, IClickResult, IIndividualState, IScores, IValidationResult } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
@@ -45,9 +45,6 @@ export const gameApgamesEn = {
         },
         "size-12": {
             name: "12x12 board",
-        },
-        "size-19": {
-            name: "19x19 board",
         },
         "#variant": {
             description: "Directly attacked feet leave permanent remains.",
@@ -156,6 +153,30 @@ export class PolypodsGame extends GameBase {
                 group: "variant",
             },
 
+        ],
+        customizations: [
+            {
+                num: 1,
+                default: "#007f00",
+                explanation: "Player 1 colour",
+                player: 1
+            },
+            {
+                num: 2,
+                default: "#ffffff",
+                explanation: "Player 2 colour",
+                player: 2
+            },
+            {
+                num: 3,
+                default: "#777777",
+                explanation: "Colour of the remains markers"
+            },
+            {
+                name: "board",
+                default: "#cfc39e",
+                explanation: "Board colour"
+            }
         ],
         categories: ["goal>score>eog", "mechanic>place", "board>shape>rect", "board>connect>snub"],
         flags: ["scores", "automove", "experimental"]
@@ -938,7 +959,37 @@ export class PolypodsGame extends GameBase {
         };
     }
 
+    public getPlayerColour(p: playerid): number|Colourfuncs {
+        if (p === 1) {
+            return {
+                func: "custom",
+                default: "#007f00",
+                palette: 1
+            }
+        }
+        if (p === 2) {
+            return {
+                func: "custom",
+                default: "#ffffff",
+                palette: 2
+            }
+        }
+        if (p === 3) {
+            return {
+                func: "custom",
+                default: "#777777",
+                palette: 3
+            }
+        }
+        return p;
+    }
+
     public render(): APRenderRep {
+    
+        const p1 = this.getPlayerColour(1);
+        const p2 = this.getPlayerColour(2);
+        const p3 = this.getPlayerColour(3);
+
         // Build piece string
         let pstr = "";
         const cells = this.graph.listCells(true);
@@ -979,6 +1030,14 @@ export class PolypodsGame extends GameBase {
             width: this.boardsize,
             height: this.boardsize,
             blocked: [{row: 0, col: 0}],
+            backFill: {
+                type: "board",
+                colour: {
+                    func: "custom",
+                    default: "#cfc39e",
+                    palette: "_context_board"
+                }
+            }
         };
         if (this.boardsize % 2 === 0) {
             board.blocked.push({row: this.boardsize-1, col: this.boardsize-1});
@@ -989,27 +1048,27 @@ export class PolypodsGame extends GameBase {
             legend: {
                 A: {
                     name: "piece",
-                    colour: 1,
+                    colour: p1,
                     scale: 0.85
                 },
                 B: {
                     name: "piece-chariot",
-                    colour: 1,
+                    colour: p1,
                     scale: 1.2
                 },
                 C: {
                     name: "piece",
-                    colour: 2,
+                    colour: p2,
                     scale: 0.85
                 },
                 D: {
                     name: "piece-chariot",
-                    colour: 2,
+                    colour: p2,
                     scale: 1.2
                 },
                 E: {
                     name: "piece-borderless",
-                    colour: 3,
+                    colour: p3,
                     scale: 0.4
                 }
             },

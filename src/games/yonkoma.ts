@@ -3,6 +3,7 @@ import { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AnnotationBasic, Colourfuncs, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
+import { findEogResult } from "../common/chat-log.js";
 import i18next from "i18next";
 
 export const gameApgamesEn = {
@@ -579,7 +580,10 @@ export class YonkomaGame extends GameBase {
 
     protected eogChatLineOverride(r: Extract<APMoveResult, { type: "eog" }>, ctx: ChatLogCollectContext): ChatLogLine | undefined {
         if (r.reason === "crosscut") {
-            const loser = this.resolveChatPlayerName(ctx.defaultSeat, ctx.players);
+            const loserSeat = this.eogSubjectSeat();
+            const loser = loserSeat !== undefined
+                ? this.resolveChatPlayerName(loserSeat, ctx.players)
+                : this.resolveChatPlayerName(ctx.defaultSeat, ctx.players);
             return {
                 actor: { kind: "none" },
                 textKey: "apresults:yonkoma.EOG.crosscut",
@@ -587,6 +591,15 @@ export class YonkomaGame extends GameBase {
             };
         }
         return undefined;
+    }
+
+    public eogSubjectSeat(): number | undefined {
+        const eog = findEogResult(this.stack);
+        if (eog?.reason !== "crosscut" || this.winner.length !== 1) {
+            return undefined;
+        }
+        const winner = this.winner[0]!;
+        return winner === 1 ? 2 : 1;
     }
 
     public state(): IYonkomaState {

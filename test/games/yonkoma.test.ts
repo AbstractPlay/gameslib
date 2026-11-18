@@ -226,6 +226,11 @@ describe("Yonkoma", () => {
             const summary = g.formatEogSummary(names, (key, params) => i18next.t(key, params));
             expect(summary).to.equal(i18next.t("apresults:yonkoma.EOG.crosscut", { player: "Red player" }));
         });
+
+        it("reports the crosscut loser seat for completed-game metadata", () => {
+            const g = play(FULL_GAME);
+            expect(g.eogSubjectSeat()).to.equal(1);
+        });
     });
 
     describe("Rendering", () => {

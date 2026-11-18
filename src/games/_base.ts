@@ -1386,6 +1386,14 @@ export abstract class GameBase  {
     }
 
     /**
+     * 1-based seat for the primary `{{player}}` param on the terminal EOG catalog line,
+     * when that line is seat-specific (completed-game indexes, list “how ended”).
+     */
+    public eogSubjectSeat(): number | undefined {
+        return undefined;
+    }
+
+    /**
      * Emit structured chat for one result. Return true when handled.
      * Games override alongside or instead of legacy {@link chat}.
      */

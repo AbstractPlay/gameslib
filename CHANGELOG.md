@@ -13,9 +13,9 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
-- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Croda, Dama, Ice Palace, Neutron, Outbound, QBF, Squares, Thricewise.
+- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Counterflow, Croda, Dama, Ice Palace, Neutron, Outbound, QBF, Squares, Thricewise.
 
-## [1.0.0-ci] - 2026-11-17
+## [1.0.0-ci] - 2026-11-18
 
 ### Added
 
@@ -35,6 +35,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **Bricka:** skip blocked-region flood markers when `lastmove` is a special move (`resign`, `timeout`, etc.) so render JSON validates after resignation.
 - **Mixtour:** reject stack moves that restore the board to the position before the opponent's previous turn (rules no-takeback).
 - **Thricewise:** move log and ply export attribute compound placements (and related flat `_results`) using stored `who`, not `currplayer`, so the inactive seat’s elim token on simultaneous wire no longer credits the wrong player.
+- **Buku:** move log uses `TAKE.row` / `TAKE.col` and `CLAIM.singletons` / `CLAIM.repetition` i18n stems so take and claim lines translate instead of showing raw keys.
 
 ### Changed
 

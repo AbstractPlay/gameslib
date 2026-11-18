@@ -574,6 +574,14 @@
       "path": "El juego ha terminado porque un jugador conectó sus puntos."
     }
   },
+  "counterflow": {
+    "PASS": {
+      "skipped": "{{player}} no tenía movimientos disponibles, por lo que se saltó su turno."
+    },
+    "EOG": {
+      "groups": "Todos los grupos de {{player}} tienen al menos una ficha en la fila más lejana."
+    }
+  },
   "court": {
     "PLACE": {
       "default": "{{player}} promovió {{where}} a un {{what}}."

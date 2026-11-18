@@ -1019,6 +1019,14 @@
     "src": "The game has ended because a player connected their dots.",
     "out": "La partita è terminata perché un giocatore ha collegato i propri punti."
   },
+  "counterflow.EOG.groups": {
+    "src": "All of {{player}}'s groups have at least one checker in the far row.",
+    "out": "Tutti i gruppi di {{player}} hanno almeno una pedina nella riga più lontana."
+  },
+  "counterflow.PASS.skipped": {
+    "src": "{{player}} had no available move, so the turn was skipped.",
+    "out": "{{player}} non aveva alcuna mossa disponibile, quindi il turno è stato saltato."
+  },
   "court.PLACE.default": {
     "src": "{{player}} promoted {{where}} to a {{what}}.",
     "out": "{{player}} ha promosso {{where}} a {{what}}."

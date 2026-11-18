@@ -1643,6 +1643,10 @@
     "src": "Control is a finite, drawless territory game of elegant simplicity. Add pieces where your opponent doesn't have more influence or remove pieces from where you have more influence. Last to move wins.",
     "out": "Control es un juego territorial finito y sin empates de una sencillez elegante. Añade piezas donde tu oponente no tenga más influencia o quita piezas de donde tengas más influencia. Gana el último en mover."
   },
+  "descriptions.counterflow": {
+    "src": "A checker race game. Two armies of checkers flow through each other in opposite directions. Checkers move like non-capturing Chess queens, directly forward, diagonally forward, or sideways, with restrictions on completing walls and on sideways moves. You win if all of your groups have at least one checker in your far row. Cycles and deadlocks cannot occur.",
+    "out": "Un juego de carrera de fichas. Dos ejércitos de fichas fluyen el uno a través del otro en direcciones opuestas. Las fichas se mueven como damas de ajedrez sin captura: directamente hacia adelante, en diagonal hacia adelante o hacia los lados, con restricciones para completar muros y en los movimientos laterales. Ganas si todos tus grupos tienen al menos una ficha en tu fila más lejana. No pueden ocurrir ciclos ni bloqueos sin salida."
+  },
   "descriptions.court": {
     "src": "A set of pawns that can be promoted anytime to a limited set of officials. However, without pawns one loses the game. A stalemated player also loses the game.",
     "out": "Un conjunto de peones que se pueden promocionar en cualquier momento a un conjunto limitado de oficiales. Sin embargo, sin peones se pierde la partida. Un jugador ahogado también pierde la partida."
@@ -3763,6 +3767,10 @@
     "src": "Control",
     "out": "Control"
   },
+  "names.counterflow": {
+    "src": "Counterflow",
+    "out": "Counterflow"
+  },
   "names.court": {
     "src": "Court",
     "out": "Court"
@@ -4746,6 +4754,10 @@
   "notes.conspirateurs": {
     "src": "In the base game, pieces may move through sanctuaries as part of a multistep jump. They're not frozen until they end their move in a sanctuary. In the strict variant, pieces are frozen as soon as they enter a sanctuary.\n\nIn four-player games, players 1 and 2 are partnered, as are players 3 and 4.",
     "out": "En el juego base, las piezas pueden moverse a través de santuarios como parte de un salto de varios pasos. No se congelan hasta que terminan su movimiento en un santuario. En la variante estricta, las piezas se congelan tan pronto como entran en un santuario.\n\nEn partidas de cuatro jugadores, los jugadores 1 y 2 son compañeros, al igual que los jugadores 3 y 4."
+  },
+  "notes.counterflow": {
+    "src": "Counterflow was designed by Mark Steere in November 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nCounterflow is played on an odd-sided, square board. At the start the middle row is empty. Blue checkers fill the area above the middle row, and red checkers fill the area below it. Red and Blue take turns moving checkers of their own colour, one checker per turn, starting with Red. If you have an available move, you must make one. If not, your turn is skipped. At least one player will always have an available move. A skipped turn is entered automatically and is recorded as a pass.\n\nA group is an orthogonally interconnected group of one or more same-coloured checkers. You win if all of your groups have at least one checker in your far row.\n\nCheckers move like non-capturing Chess queens, directly forward, diagonally forward, or sideways, over any number of consecutive unoccupied squares. Sideways moves are subject to a restriction described below.\n\nA wall is a row filled with same-coloured checkers. You must not complete a wall except when: 1) your move wins the game, 2) the wall is in your far row, or 3) there is another wall of your colour in the next row ahead of the wall.\n\nAn opening of a checker is an unoccupied square in the next row ahead of it, with one exception. A square is not an opening of a checker if all three of the following are true: 1) a checker of that colour on the square would complete a wall, 2) the wall would not be in that colour's far row, and 3) there would not be a wall of the wall's colour in the next row ahead of the wall. An opening doesn't have to be in front of a square that the checker can move to.\n\nThe distance of a checker is the number of columns from the checker's column to the column of its nearest opening. An opening straight ahead of the checker is at a distance of 0. A checker with no opening has no distance.\n\nThe shortest distance is the shortest distance of all checkers of both colours on the board. A sideways move is legal only if 1) the shortest distance after the move is shorter than the shortest distance before the move, or 2) the move wins the game. If the shortest distance is 0, no sideways move is legal, except for a winning sideways move.\n\nA green dot marks every checker that has a legal move. Select a checker and the squares it may move to are marked in green. The checker moved last carries a white ring, and a white dot marks the square it came from. When the game is over, a gold outline surrounds every group of the winner's checkers.",
+    "out": "Counterflow fue diseñado por Mark Steere en noviembre de 2026, en colaboración con Claude, un modelo de IA creado por Anthropic.\n\nCounterflow se juega en un tablero cuadrado con un número impar de casillas por lado. Al comienzo, la fila central está vacía. Las fichas azules ocupan la zona por encima de la fila central y las fichas rojas ocupan la zona por debajo. Rojo y Azul se turnan para mover fichas de su propio color, una ficha por turno, comenzando con Rojo. Si tienes un movimiento disponible, debes realizarlo. Si no, se salta tu turno. Al menos un jugador siempre tendrá un movimiento disponible. El turno saltado se efectúa automáticamente y se registra como un pase.\n\nUn grupo es un conjunto conectado ortogonalmente de una o más fichas del mismo color. Ganas si todos tus grupos tienen al menos una ficha en tu fila más lejana.\n\nLas fichas se mueven como damas de ajedrez sin captura: directamente hacia adelante, en diagonal hacia adelante o hacia los lados, a través de cualquier número de casillas desocupadas consecutivas. Los movimientos laterales están sujetos a una restricción que se describe a continuación.\n\nUn muro es una fila llena de fichas del mismo color. No debes completar un muro excepto cuando: 1) tu movimiento gana la partida, 2) el muro está en tu fila más lejana, o 3) hay otro muro de tu color en la siguiente fila por delante del muro.\n\nUna apertura de una ficha es una casilla desocupada en la siguiente fila por delante de ella, con una excepción. Una casilla no es una apertura de una ficha si se cumplen las tres condiciones siguientes: 1) una ficha de ese color en la casilla completaría un muro, 2) el muro no estaría en la fila más lejana de ese color, y 3) no habría un muro del color del muro en la siguiente fila por delante del muro. Una apertura no tiene que estar frente a una casilla a la que la ficha pueda moverse.\n\nLa distancia de una ficha es el número de columnas desde la columna de la ficha hasta la columna de su apertura más cercana. Una apertura directamente frente a la ficha está a una distancia de 0. Una ficha sin apertura no tiene distancia.\n\nLa distancia más corta es la menor distancia entre todas las fichas de ambos colores en el tablero. Un movimiento lateral solo es legal si 1) la distancia más corta después del movimiento es menor que la distancia más corta antes del movimiento, o 2) el movimiento gana la partida. Si la distancia más corta es 0, ningún movimiento lateral es legal, excepto un movimiento lateral ganador.\n\nUn punto verde marca cada ficha que tiene un movimiento legal. Selecciona una ficha y las casillas a las que puede moverse se marcarán en verde. La última ficha movida lleva un anillo blanco, y un punto blanco marca la casilla de donde provino. Cuando la partida termina, un contorno dorado rodea cada grupo de fichas del ganador."
   },
   "notes.deckfish": {
     "src": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com).\n\nThe suit powers (token movement abilities) are:\n* Moons: Jump orthogonally over gaps. \n* Suns: Move one or two cards diagonally. \n* Waves: Move orthogonally until the last unobstructed card. \n* Leaves: Move orthogonally onto any card with no neighboring obstacles.\n* Wyrms: Move orthogonally onto the first occupied card, bumping that piece to the next card.\n* Knots: Make three orthogonal one-card moves, without backtracking.\n\nIn the rules, the \"first\" player is the player who places second in the placement phase but moves first in the movement phase, but here the first player is the one who places first but moves second. This is implemented using an automatic pass for the appropriate player.\n\nThe rule is enforced that, even when the last player is already winning, he must continue playing until he is out of moves.",
@@ -8506,6 +8518,42 @@
   "validation.control.OPPONENT_CONTROL": {
     "src": "Your opponent controls {{cell}}.",
     "out": "Tu oponente controla {{cell}}."
+  },
+  "validation.counterflow.BLOCKED": {
+    "src": "The checker on {{from}} cannot reach {{to}}. A checker moves over consecutive unoccupied squares only.",
+    "out": "La ficha en {{from}} no puede llegar a {{to}}. Una ficha solo se mueve a través de casillas desocupadas consecutivas."
+  },
+  "validation.counterflow.DIRECTION": {
+    "src": "The checker on {{from}} cannot move to {{to}}. A checker moves like a non-capturing Chess queen, directly forward, diagonally forward, or sideways.",
+    "out": "La ficha en {{from}} no puede moverse a {{to}}. Una ficha se mueve como una dama de ajedrez sin captura: directamente hacia adelante, en diagonal hacia adelante o hacia los lados."
+  },
+  "validation.counterflow.INITIAL_INSTRUCTIONS": {
+    "src": "Select one of your checkers. A green dot marks every checker that has a legal move. The squares the selected checker may move to are then marked in green.",
+    "out": "Selecciona una de tus fichas. Un punto verde marca cada ficha que tiene un movimiento legal. Las casillas a las que se puede mover la ficha seleccionada se marcarán en verde."
+  },
+  "validation.counterflow.MUST_PASS": {
+    "src": "You have no available move. Your turn is skipped.",
+    "out": "No tienes movimientos disponibles. Se salta tu turno."
+  },
+  "validation.counterflow.NO_PASS": {
+    "src": "You may not pass while you have an available move.",
+    "out": "No puedes pasar mientras tengas un movimiento disponible."
+  },
+  "validation.counterflow.PARTIAL": {
+    "src": "Select the square to move the checker to, or select another of your checkers instead.",
+    "out": "Selecciona la casilla a la que quieres mover la ficha o selecciona otra de tus fichas."
+  },
+  "validation.counterflow.SIDEWAYS": {
+    "src": "The checker on {{from}} may not move sideways to {{to}}. A sideways move is legal only if the shortest distance after the move is shorter than the shortest distance before the move, or the move wins the game.",
+    "out": "La ficha en {{from}} no puede moverse de lado a {{to}}. Un movimiento lateral solo es legal si la distancia más corta después del movimiento es menor que la distancia más corta antes del movimiento, o si el movimiento gana la partida."
+  },
+  "validation.counterflow.SIDEWAYS_ZERO": {
+    "src": "The checker on {{from}} may not move sideways to {{to}}. The shortest distance is 0, so no sideways move is legal, except for a winning sideways move.",
+    "out": "La ficha en {{from}} no puede moverse de lado a {{to}}. La distancia más corta es 0, por lo que ningún movimiento lateral es legal, excepto un movimiento lateral ganador."
+  },
+  "validation.counterflow.WALL": {
+    "src": "The checker on {{from}} may not move to {{to}}, because the move would complete a wall. You must not complete a wall except when your move wins the game, the wall is in your far row, or there is another wall of your colour in the next row ahead of the wall.",
+    "out": "La ficha en {{from}} no puede moverse a {{to}} porque el movimiento completaría un muro. No debes completar un muro excepto cuando tu movimiento gana la partida, el muro está en tu fila más lejana, o hay otro muro de tu color en la siguiente fila por delante del muro."
   },
   "validation.court.INITIAL_INSTRUCTIONS": {
     "src": "Select one of your pieces to move, or promote a Pawn (if officials are still available) by clicking on it multiple times. Pawns, Knights, Bishops and Rooks move as in Chess. (Pawns do not have an initial double move and don't need to reach the final rank to promote.)",
@@ -18390,6 +18438,22 @@
   "variants.control.size-9.name": {
     "src": "Large board (Size 9)",
     "out": "Tablero grande (tamaño 9)"
+  },
+  "variants.counterflow.#board.name": {
+    "src": "7x7 board",
+    "out": "Tablero de 7x7"
+  },
+  "variants.counterflow.size-11.name": {
+    "src": "11x11 board",
+    "out": "Tablero de 11x11"
+  },
+  "variants.counterflow.size-5.name": {
+    "src": "5x5 board",
+    "out": "Tablero de 5x5"
+  },
+  "variants.counterflow.size-9.name": {
+    "src": "9x9 board",
+    "out": "Tablero de 9x9"
   },
   "variants.court.#board.name": {
     "src": "8x8 board, 2 officials of each type",

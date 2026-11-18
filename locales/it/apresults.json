@@ -574,6 +574,14 @@
       "path": "La partita è terminata perché un giocatore ha collegato i propri punti."
     }
   },
+  "counterflow": {
+    "PASS": {
+      "skipped": "{{player}} non aveva alcuna mossa disponibile, quindi il turno è stato saltato."
+    },
+    "EOG": {
+      "groups": "Tutti i gruppi di {{player}} hanno almeno una pedina nella riga più lontana."
+    }
+  },
   "court": {
     "PLACE": {
       "default": "{{player}} ha promosso {{where}} a {{what}}."

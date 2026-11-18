@@ -8156,9 +8156,6 @@
       "size-12": {
         "name": "12x12 board"
       },
-      "size-19": {
-        "name": "19x19 board"
-      },
       "#variant": {
         "description": "Directly attacked feet leave permanent remains.",
         "name": "Polypods Base Game"

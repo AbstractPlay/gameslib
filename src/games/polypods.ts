@@ -46,6 +46,9 @@ export const gameApgamesEn = {
         "size-12": {
             name: "12x12 board",
         },
+        "size-19": {
+            name: "19x19 board",
+        },
         "#variant": {
             description: "Directly attacked feet leave permanent remains.",
             name: "Polypods Base Game"
@@ -380,7 +383,7 @@ export class PolypodsGame extends GameBase {
                 newmove = move + ";" + cell;
             }
             let result = this.validateMove(newmove) as IClickResult;
-            /* Special case: in the scavenging variant, if a remains marker must be selected
+            /* In the scavenging variant, if a remains marker must be selected
             and there is exactly 1 available, automatically select it */
             if (!newmove.includes(";") && this.variants.includes("scavenging") && result.complete === -1) {
                 const adjRemains: string[] = [];
@@ -394,6 +397,30 @@ export class PolypodsGame extends GameBase {
                     result = this.validateMove(newmove) as IClickResult;
                 }
             }
+            /* In the energized variant, if a bonus move must be selected
+            and there is exactly 1 available, automatically select it */
+            if (!newmove.includes(";") && this.variants.includes("energized") && result.complete === -1) {
+                const [boardAfter, remainsAfter] = this.applyMove(newmove, this.board, this.remains);
+                const activePolypod = this.polypodAt(boardAfter, newmove);
+                const adjacentCells = new Set<string>;
+                for (const cell of activePolypod) {
+                    for (const nb of this.graph.neighbours(cell)) {
+                        if (!activePolypod.has(nb)) {
+                            adjacentCells.add(nb);
+                        }
+                    }
+                }
+                const bonusMoves: string[] = [];
+                for (const adjCell of adjacentCells) {
+                    if (this.isValidBonusMove(adjCell, boardAfter, remainsAfter).valid) {
+                        bonusMoves.push(adjCell);
+                    }
+                }
+                if (bonusMoves.length === 1) {
+                    newmove += ";" + bonusMoves[0];
+                }
+            }
+
             if (! result.valid) {
                 result.move = move;
                 if (move !== "") {
@@ -563,7 +590,7 @@ export class PolypodsGame extends GameBase {
             let validBonusMove = false;
             for (const cell of polypod) {
                 for (const nb of this.graph.neighbours(cell)) {
-                    if (this.isValidBonusMove(nb, boardAfter, remainsAfter)) {
+                    if (this.isValidBonusMove(nb, boardAfter, remainsAfter).valid) {
                         validBonusMove = true;
                         break;
                     }

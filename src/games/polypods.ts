@@ -178,7 +178,7 @@ export class PolypodsGame extends GameBase {
                 explanation: "Board colour"
             }
         ],
-        categories: ["goal>score>eog", "mechanic>place", "board>shape>rect", "board>connect>snub"],
+        categories: ["goal>score>eog", "goal>majority", "mechanic>place", "board>shape>rect", "board>connect>snub"],
         flags: ["scores", "automove", "experimental"]
     };
 

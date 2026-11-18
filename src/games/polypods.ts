@@ -694,11 +694,13 @@ export class PolypodsGame extends GameBase {
         newBoard.set(cell, {player: this.currplayer, type: "foot"});
         newBoard = this.updatePolypods(newBoard);
         let newRemains: remains
-        let attacked: Set<string>;
-        [newBoard, newRemains, attacked] = this.attackFeet(newBoard, remains);
+        const attackResult = this.attackFeet(newBoard, remains);
+        [newBoard, newRemains] = attackResult;
+        const attacked = attackResult[2];
         newBoard = this.updatePolypods(newBoard);
-        let captured: Set<string>;
-        [newBoard, newRemains, captured] = this.removeDeadPolypods(newBoard, newRemains, attacked);
+        const removeResult = this.removeDeadPolypods(newBoard, newRemains, attacked);
+        [newBoard, newRemains] = removeResult;
+        const captured = removeResult[2];
         if (this.variants.includes("scavenging")) {
             newRemains.delete(cell);
         }
@@ -709,7 +711,7 @@ export class PolypodsGame extends GameBase {
         let newBoard = cloneState(this.board) as board;
         newBoard.set(cell, {player: this.currplayer, type: "foot"});
         newBoard = this.updatePolypods(newBoard);
-        const [_board, _remains, attacked] = this.attackFeet(newBoard, this.remains);
+        const attacked = this.attackFeet(newBoard, this.remains)[2];
         return (attacked.size > 0);
     }
 
@@ -728,7 +730,7 @@ export class PolypodsGame extends GameBase {
         }
 
         this.results = [];
-        let oldBoard: board = cloneState(this.board) as board;
+        const oldBoard: board = cloneState(this.board) as board;
         if (m === "pass") {
             this.results.push({type: "pass"});
         } else {
@@ -1101,7 +1103,7 @@ export class PolypodsGame extends GameBase {
     }
 
     public getPlayerScore(player: playerid): number {
-        let score = [...this.board.values()].filter((c) => (c.player === player && c.type === "core")).length;
+        const score = [...this.board.values()].filter((c) => (c.player === player && c.type === "core")).length;
         return score;
     }
 

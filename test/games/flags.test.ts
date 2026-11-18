@@ -6,12 +6,15 @@ import {
     BasaltGame,
     ConnectionsGame,
     CrossControlGame,
+    EntropyGame,
     LifelineGame,
     PletoreGame,
     StigmergyGame,
+    ThricewiseGame,
     YavalathGame,
     GameFactory,
     resolveGameFlags,
+    sessionIsSimultaneous,
 } from "../../src/games";
 
 const yavalath3pState = `{"game":"yavalath","numplayers":3,"variants":[],"gameover":false,"winner":[],"stack":[{"_version":"20250112","_results":[],"_timestamp":"2025-01-23T17:17:29.832Z","currplayer":1,"board":{"dataType":"Map","value":[]}},{"_version":"20250112","_results":[{"type":"place","where":"e5"}],"_timestamp":"2025-01-23T22:12:49.748Z","currplayer":2,"lastmove":"e5","board":{"dataType":"Map","value":[["e5",1]]}}]}`;
@@ -176,6 +179,32 @@ describe("resolveFlags / getFlags", () => {
             const g = new LifelineGame();
             expect(hasFlag(g.getFlags(), "pie")).to.be.true;
             expect(flagsEqual(resolveGameFlags("lifeline", {}), g.getFlags())).to.be.true;
+        });
+    });
+
+    describe("sessionIsSimultaneous", () => {
+        it("catalog simultaneous games include flag via getFlags", () => {
+            const entropy = new EntropyGame();
+            expect(hasFlag(entropy.getFlags(), "simultaneous")).to.be.true;
+            expect(sessionIsSimultaneous(entropy, "entropy")).to.be.true;
+        });
+
+        it("thricewise is simultaneous for routing but sequenced for turn model", () => {
+            const g = new ThricewiseGame(2);
+            expect(hasFlag(g.getFlags(), "simultaneous")).to.be.true;
+            expect(g.turnModel()).to.equal("sequenced");
+            expect(sessionIsSimultaneous(g, "thricewise")).to.be.true;
+        });
+
+        it("non-simultaneous game is false", () => {
+            const g = new ConnectionsGame();
+            expect(sessionIsSimultaneous(g, "connections")).to.be.false;
+            expect(sessionIsSimultaneous(undefined, "connections", {})).to.be.false;
+        });
+
+        it("resolveGameFlags without engine", () => {
+            expect(sessionIsSimultaneous(undefined, "entropy", { numplayers: 2 })).to.be.true;
+            expect(sessionIsSimultaneous(undefined, "basalt", { variants: ["pie"] })).to.be.false;
         });
     });
 });

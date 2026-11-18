@@ -8,6 +8,7 @@ import {
     GameBaseSimultaneous,
     GameBaseSkipTurn,
     resolveGameFlags,
+    sessionIsSimultaneous,
 } from "./games/index.js";
 import {
     filterGameinfoForProduction,
@@ -37,6 +38,7 @@ import type {
 export {
     GameFactory,
     resolveGameFlags,
+    sessionIsSimultaneous,
     GameBase,
     GameBaseSequenced,
     GameBaseSimultaneous,
@@ -238,6 +240,13 @@ export {
     guerrillaStateUsesMatchVariant,
 } from "./games/guerrilla-repair.js";
 export type { GuerrillaMatchStackRepairResult } from "./games/guerrilla-repair.js";
+
+export {
+    rebuildTumbleweedFogStack,
+    repairTumbleweedFogStack,
+    repairTumbleweedFogStackJson,
+} from "./games/tumbleweed-fog-repair.js";
+export type {TumbleweedFogStackRepairResult} from "./games/tumbleweed-fog-repair.js";
 
 export {
     repairTableroStack,

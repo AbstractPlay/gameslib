@@ -552,7 +552,7 @@
   },
   "clearpath": {
     "EOG": {
-      "cutoff": "{{player}} no longer has any possible connecting path."
+      "cutoff": "{{player}} no longer has any possible connection, so {{winner}} cannot be stopped. The dashed line shows one of the possible connections still open to {{winner}}."
     }
   },
   "conhex": {
@@ -572,6 +572,14 @@
     "EOG": {
       "loop": "The game has ended because a player completed a loop.",
       "path": "The game has ended because a player connected their dots."
+    }
+  },
+  "counterflow": {
+    "PASS": {
+      "skipped": "{{player}} had no available move, so the turn was skipped."
+    },
+    "EOG": {
+      "groups": "All of {{player}}'s groups have at least one checker in the far row."
     }
   },
   "court": {
@@ -1769,6 +1777,9 @@
     "CAPTURE": {
       "default": "{{player}} captured a stack of size {{count}} at {{where}}.",
       "self": "{{player}} reinforces a stack of size {{count}} at {{where}}."
+    },
+    "FOG_STACK_LOST": {
+      "default": "Your stack of size {{count}} at {{where}} was captured."
     },
     "PLACE": {
       "default": "{{player}} placed a stack of size {{count}} at {{where}}."

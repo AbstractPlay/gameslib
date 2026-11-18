@@ -844,21 +844,31 @@ export class ThricewiseGame extends GameBaseSequenced {
                         message: i18next.t("apgames:validation.thricewise.SELECT_HAND"),
                     };
                 }
+                const remaining =
+                    player === this.currplayer
+                        ? this.obligationFor(player).filter(
+                              uid => !this.placedThisActivation.includes(uid),
+                          )
+                        : [];
                 if (move === "" || !move.includes("@")) {
                     let cardPrefix = move;
-                    if (
-                        cardPrefix === "" &&
-                        player === this.currplayer &&
-                        this.phase === "place"
-                    ) {
-                        const remaining = this.obligationFor(player).filter(
-                            uid => !this.placedThisActivation.includes(uid),
-                        );
-                        if (remaining.length === 1) {
-                            cardPrefix = remaining[0]!;
-                        }
+                    if (this.phase === "place" && remaining.length === 1) {
+                        cardPrefix = remaining[0]!;
                     }
                     newmove = `${cardPrefix}@${absx}.${absy}`;
+                } else if (this.phase === "place" && remaining.length === 1) {
+                    const only = remaining[0]!.toUpperCase();
+                    const segs = move.split(";");
+                    const last = segs[segs.length - 1]!;
+                    const lastCard = (
+                        last.includes("@") ? last.split("@")[0]! : last
+                    ).toUpperCase();
+                    if (lastCard === only) {
+                        segs[segs.length - 1] = `${only}@${absx}.${absy}`;
+                        newmove = segs.join(";");
+                    } else {
+                        newmove = `${move};${only}@${absx}.${absy}`;
+                    }
                 } else {
                     const segs = move.split(";");
                     const last = segs[segs.length - 1]!;
@@ -1485,6 +1495,14 @@ export class ThricewiseGame extends GameBaseSequenced {
                 }),
             ],
         }];
+    }
+
+    public resolveChatSeat(r: APMoveResult, currplayer: number): number {
+        const who = (r as { who?: number }).who;
+        if (who !== undefined && who >= 1 && who <= this.numplayers) {
+            return who;
+        }
+        return super.resolveChatSeat(r, currplayer);
     }
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {

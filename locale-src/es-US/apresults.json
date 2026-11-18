@@ -996,8 +996,8 @@
     "out": "{{player}} devoró la especie rival {{prey}} ({{count}} piedras) en {{where}}."
   },
   "clearpath.EOG.cutoff": {
-    "src": "{{player}} no longer has any possible connecting path.",
-    "out": "{{player}} ya no tiene ningún camino de conexión posible."
+    "src": "{{player}} no longer has any possible connection, so {{winner}} cannot be stopped. The dashed line shows one of the possible connections still open to {{winner}}.",
+    "out": "{{player}} ya no tiene ninguna conexión posible, por lo que no se puede detener a {{winner}}. La línea punteada muestra una de las posibles conexiones que aún tiene abiertas {{winner}}."
   },
   "conhex.CLAIM.default": {
     "src": "{{player}} claimed the space at ({{where}}).",
@@ -1018,6 +1018,14 @@
   "connections.EOG.path": {
     "src": "The game has ended because a player connected their dots.",
     "out": "El juego ha terminado porque un jugador conectó sus puntos."
+  },
+  "counterflow.EOG.groups": {
+    "src": "All of {{player}}'s groups have at least one checker in the far row.",
+    "out": "Todos los grupos de {{player}} tienen al menos una ficha en la fila más lejana."
+  },
+  "counterflow.PASS.skipped": {
+    "src": "{{player}} had no available move, so the turn was skipped.",
+    "out": "{{player}} no tenía movimientos disponibles, por lo que se saltó su turno."
   },
   "court.PLACE.default": {
     "src": "{{player}} promoted {{where}} to a {{what}}.",
@@ -3046,6 +3054,10 @@
   "tumbleweed.CAPTURE.self": {
     "src": "{{player}} reinforces a stack of size {{count}} at {{where}}.",
     "out": "{{player}} refuerza una pila de tamaño {{count}} en {{where}}."
+  },
+  "tumbleweed.FOG_STACK_LOST.default": {
+    "src": "Your stack of size {{count}} at {{where}} was captured.",
+    "out": "Tu pila de tamaño {{count}} en {{where}} fue capturada."
   },
   "tumbleweed.PLACE.default": {
     "src": "{{player}} placed a stack of size {{count}} at {{where}}.",

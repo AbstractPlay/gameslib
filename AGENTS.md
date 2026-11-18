@@ -57,6 +57,15 @@ Human docs ship from the [docs](https://github.com/AbstractPlay/docs) site ([doc
 - **Renderer only:** `docs/samples/*.json` — sheet legend glyphs use **`paint`**, not `colour` / `colour2`; enforced by `npm test`.
 - Fix content in the **owning repo**, not copies under `docs/vendor/*` in the docs checkout.
 
+### DynamoDB (single-table ops)
+
+Default to the **narrowest read path**; full-table **`Scan` is forbidden** in maintained ops scripts and Lambdas unless there is genuinely no key (no partition, no GSI, no id) and a human has accepted the cost for a one-off audit.
+
+- Prefer **`GetItem`** when you have the full key; **`Query`** on `pk` (and `begins_with(sk, …)` when you can) for partition-local iteration.
+- A **`Scan` with `FilterExpression`** still walks **every item in the table** — it is not a scoped read. Do not use it as a substitute for `Query` on a known partition (e.g. `pk = 'GAME'`).
+- Avoid misleading logs (`Scanned N rows`) when the code uses `Query` or `GetItem`; say what the API actually did.
+- node-backend and crons: durable CLIs live under `scripts/`; follow this policy there first (most regressions come from backfill/reconcile tools).
+
 ### Secrets
 
 Never commit `.env`, API keys, tokens, or credentials. `bin/state.json` is scratch debug output only.

@@ -13,9 +13,9 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
-- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Croda, Dama, Ice Palace, Neutron, Outbound, QBF, Squares, Thricewise.
+- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Counterflow, Croda, Dama, Ice Palace, Neutron, Outbound, QBF, Squares, Thricewise.
 
-## [1.0.0-ci] - 2026-11-09
+## [1.0.0-ci] - 2026-11-18
 
 ### Added
 
@@ -26,18 +26,28 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Fixed
 
+- **Tumbleweed (fog):** off-line-of-sight captures tombstone the victim seat’s `fogMemory` at the captured cell so stripped client boards and LOS no longer keep a phantom stack; `repairTumbleweedFogStack` / `repairTumbleweedFogStackJson` replay stacks to refresh `fogMemory` on every ply (node-backend one-shot `backfill-tumbleweed-fog` script), including resign/timeout/draw/abandoned endings.
+- **Chameleon:** end-of-game reason distinguishes annihilation (no pieces left) from stalemate (no legal moves); infiltration wins use the correct opposing back rank for player 1; one-time ops backfill patches legacy terminal `eog` results on completed games (see node-backend).
 - **Tablero stack repair:** deep-copy board stacks; doubles **take** commits a take frame then a **`pass` stack frame** (move tree and event log show the forced pass; legacy merged take+pass `_results` still log the skipped seat); move log distinguishes **game-ending bump** (`BUMP`) from **forced pass after a take** (`PASS.afterTake`), including legacy stacks without `why` on `pass` results; exported `verifyTableroStackIntegrity`, `repairTableroStack`, `repairTableroStackJson`, `diagnoseTableroStackIntegrity`, `isLegacyDuplicatePassFrame`, `tableroTipMismatchFields`, and `tableroPlayableTipMismatchFields` to replay stacks (withdrawal plies, stored rolls, legacy board shapes) and merge duplicate `pass` frames when the playable tip still matches; verify/repair normalize saved stack boards before compare, report tip failures on board/piece counts only, and replace stacks from replay when the saved tip is corrupt but replay self-verifies.
-- **Neutron:** `handleClick` and pawn preview dots use the board after the chosen neutron slide (pawn may land on the neutron’s departure square; partial preview no longer invalidates the pawn step).
+- **Neutron:** `handleClick` and pawn preview dots use the board after the chosen neutron slide (pawn may land on the neutron’s departure square; partial preview no longer invalidates the pawn step); endgame credits the player whose winning row the neutron occupies, not only the mover (forced slides onto the opponent’s back rank).
 - **Alien City:** reject tower claims on a placement after which neither player can legally build (rules last-placement claim); EOG claim nullification unchanged as a fallback.
 - **Armadas, Pacru, Pigs, Homeworlds, Knight Line, Stawvs, Yavalath:** resign and timeout use `winnersAfterWithdrawal` so shipless, eliminated, or otherwise out-of-contention seats are not co-winners when a sole remaining contender is knowable (Armadas prod case); early Homeworlds resign without eliminations unchanged.
+- **Bricka:** skip blocked-region flood markers when `lastmove` is a special move (`resign`, `timeout`, etc.) so render JSON validates after resignation.
+- **Mixtour:** reject stack moves that restore the board to the position before the opponent's previous turn (rules no-takeback).
+- **Thricewise:** move log and ply export attribute compound placements (and related flat `_results`) using stored `who`, not `currplayer`, so the inactive seat’s elim token on simultaneous wire no longer credits the wrong player.
+- **Buku:** move log uses `TAKE.row` / `TAKE.col` and `CLAIM.singletons` / `CLAIM.repetition` i18n stems so take and claim lines translate instead of showing raw keys.
 
 ### Changed
 
+- **Tumbleweed (fog):** stripped game state adds victim-only synthetic capture results and a move-log line when your stack is taken off line of sight (opponent plies stay redacted); full serialize and god/omniscient view unchanged.
+- **Flags:** exported **`sessionIsSimultaneous`**; simultaneous resign and default chat-log score lines use **`getFlags()`** instead of static `gameinfo.flags`. Documented that the **`simultaneous` flag** (via `getFlags()` / `resolveGameFlags`) is canonical for simultaneous submit routing in integrators — not `turnModel()`.
+- **Playground:** simultaneous seat mode, partial submit, and related UI use **`sessionIsSimultaneous`** with live **`getFlags()`** and challenge **`resolveGameFlags`** (selected variants and player count), including variant-gated simultaneous modes before launch.
 - **Cubeo:** faster legal move listing on midgame boards (including d10/d12) via shared slide-topology pass caching; unchanged rules and move strings for clients using automove or full movelists.
 - **Locale merge / translate:** `locale-en merge --write` name seeding keeps managed `apgames.json` in **English key order**; `locale-prune` and `translate` **reshape on disk** when translations are up to date (no Gemini) so merge-only runs do not leave `descriptions`-first drift.
 - **Alien City:** faster placement legality (board-local road graph instead of full-state clones), cached road distances for scoring, **`hasLegalPlacement`** for pass validation, **`no-moves` removed** so legal move lists are available to clients again; reject endgame tower claims when no legal placements remain; structured move log includes **`nullifyClaim`** when a claim is voided at game end.
 - **`handleClick` API:** optional fifth argument **`IHandleClickUi`** (`panelId`, `board` as **`IClickBoardContext`**) for composite panels and draw-grid-aware board clicks; clients pass `ui.board` from the visible `APRenderRep.board` (Abstract Play front and playground ship this for Quax diamond-board).
 - **Render annotations:** connection paths, win lines, and other undirected polylines use `type: "line"` instead of `type: "move"` with `arrow: false` (dozens of games; piece-slide highlights unchanged in Tintas, Chase, and Swarm; Even at Odds unchanged; Fractured score-track shifts stay `move` with arrows; Sentinel lines-of-sight stay `move` without arrowheads).
+- **Clear Path:** after a cut-off win the board no longer draws the winner's sealing chain (which steps diagonally and could pass a crosscut); it draws one of the winner's remaining possible connections instead, the one needing the fewest further stones, as a dashed line with the stones still to be placed shown faintly. A completed winning path is still drawn as a solid line. Game description states the cut-off ending, and the move-log line names the winner and the dashed line (`version` `20261117`).
 
 ### Fixed
 

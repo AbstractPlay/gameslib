@@ -552,7 +552,7 @@
   },
   "clearpath": {
     "EOG": {
-      "cutoff": "{{player}} hat keinen möglichen Verbindungspfad mehr."
+      "cutoff": "{{player}} hat keine mögliche Verbindung mehr, daher kann {{winner}} nicht mehr aufgehalten werden. Die gestrichelte Linie zeigt eine der für {{winner}} noch offenen Verbindungen."
     }
   },
   "conhex": {
@@ -572,6 +572,14 @@
     "EOG": {
       "loop": "Das Spiel ist beendet, da ein Spieler eine Schleife vollendet hat.",
       "path": "Das Spiel ist beendet, da ein Spieler seine Punkte verbunden hat."
+    }
+  },
+  "counterflow": {
+    "PASS": {
+      "skipped": "{{player}} hatte keinen möglichen Zug, daher wurde der Zug übersprungen."
+    },
+    "EOG": {
+      "groups": "Alle Gruppen von {{player}} haben mindestens einen Spielstein in der hintersten Reihe."
     }
   },
   "court": {
@@ -1769,6 +1777,9 @@
     "CAPTURE": {
       "default": "{{player}} hat einen Stapel der Größe {{count}} auf {{where}} geschlagen.",
       "self": "{{player}} verstärkt einen Stapel der Größe {{count}} auf {{where}}."
+    },
+    "FOG_STACK_LOST": {
+      "default": "Dein Stapel der Größe {{count}} auf {{where}} wurde geschlagen."
     },
     "PLACE": {
       "default": "{{player}} hat einen Stapel der Größe {{count}} bei {{where}} platziert."

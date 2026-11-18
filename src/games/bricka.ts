@@ -247,7 +247,11 @@ export class BrickaGame extends GameBase {
     }
 
     private blockedCells(): Set<string> {
-        if(this.lastmove === undefined || this.lastmove === "pass") {
+        if (
+            this.lastmove === undefined
+            || this.lastmove === "pass"
+            || this.specialMove(this.lastmove)
+        ) {
             return new Set();
         } else {
             return new Set(this.adjacentRegions(this.lastmove).flatMap((r) => (r.cells)))
@@ -593,15 +597,22 @@ export class BrickaGame extends GameBase {
         }
 
         const blockedMarkers: MarkerFlood[] = [];
-        if (this.lastmove !== undefined && this.lastmove !== "pass") {
+        if (
+            this.lastmove !== undefined
+            && this.lastmove !== "pass"
+            && !this.specialMove(this.lastmove)
+        ) {
             const regions = this.adjacentRegions(this.lastmove).map((r) => (r.center));
-            blockedMarkers.push(
-                {
-                    type:"flood",
-                    points: regions.map(algebraic2coord).map(([x, y]) => ({row: y, col: x})) as [RowCol, ...RowCol[]],
-                    colour: this.otherPlayer()
-                }
-            )
+            const points = regions.map(algebraic2coord).map(([x, y]) => ({row: y, col: x}));
+            if (points.length > 0) {
+                blockedMarkers.push(
+                    {
+                        type: "flood",
+                        points: points as [RowCol, ...RowCol[]],
+                        colour: this.otherPlayer()
+                    }
+                );
+            }
         }
 
         const colHalo1: Colourfuncs = {

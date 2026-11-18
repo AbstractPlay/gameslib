@@ -908,11 +908,11 @@ export class BukuGame extends GameBase {
                         row: r.from!, count: r.count! - 1,
                     });
                 } else if (r.how === "row") {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:buku.TAKE", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:buku.TAKE.row", {
                         row: r.from!, count: r.count!,
                     });
                 } else {
-                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:buku.TAKE", {
+                    this.pushSeatChatLine(lines, ctx.defaultSeat, "apresults:buku.TAKE.col", {
                         col: r.from!, count: r.count!,
                     });
                 }
@@ -932,8 +932,8 @@ export class BukuGame extends GameBase {
                     ? ctx.defaultSeat
                     : opponentSeat;
                 const key = r.how === "singletons"
-                    ? "apresults:buku.CLAIM"
-                    : "apresults:buku.CLAIM";
+                    ? "apresults:buku.CLAIM.singletons"
+                    : "apresults:buku.CLAIM.repetition";
                 this.pushSeatChatLine(lines, creditedSeat, key, { count: r.count! });
                 return true;
             }

@@ -10,6 +10,7 @@ The root module (`src/index.ts`) exports the public API used by the front end an
 | `gameinfoSorted` | Same metadata, sorted by name |
 | `GameFactory(uid, ...args)` | Instantiate or resume a game |
 | `resolveGameFlags(uid, context?)` | Effective flags for a challenge context (variants, player count) |
+| `sessionIsSimultaneous(engine, uid, context?)` | Whether the session uses simultaneous submit routing (**flag only** — see [Flags](/gameslib/flags/)) |
 | `getFlags()` (on game instances) | Effective flags for the active session — see [Flags](/gameslib/flags/) |
 | `GameFlag`, `FlagContext` | Types for flag resolution |
 | `addResource(lang?)` | Merge i18n bundles into host or internal i18next |
@@ -53,6 +54,17 @@ const flags = resolveGameFlags("basalt", { variants: ["pie"], numplayers: 2 });
 Looks up the game class and calls `GameClass.resolveFlags(context)`. Returns `[]` for unknown uids. Use in challenge UI when variants or player count change and no engine instance exists yet.
 
 `FlagContext`: `{ variants?: string[]; numplayers?: number }`. `GameFlag` is the union of allowed flag strings from `gameinfo.json`.
+
+## `sessionIsSimultaneous`
+
+```ts
+import { sessionIsSimultaneous } from "@abstractplay/gameslib";
+
+sessionIsSimultaneous(engine, "entropy"); // in-progress game → engine.getFlags()
+sessionIsSimultaneous(undefined, "entropy", { numplayers: 2 }); // challenge setup
+```
+
+True when the effective session flags include `simultaneous`. Integrators use this for partial-move routing — not `turnModel()`. See [Flags](/gameslib/flags/).
 
 ## `GameFactory`
 

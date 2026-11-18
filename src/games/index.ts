@@ -54,3 +54,5 @@ export function resolveGameFlags(uid: string, context: FlagContext = {}): readon
     }
     return ctor.resolveFlags(context);
 }
+
+export { sessionIsSimultaneous } from "./sessionFlags.js";

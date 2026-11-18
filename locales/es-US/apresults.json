@@ -552,7 +552,7 @@
   },
   "clearpath": {
     "EOG": {
-      "cutoff": "{{player}} ya no tiene ningún camino de conexión posible."
+      "cutoff": "{{player}} ya no tiene ninguna conexión posible, por lo que no se puede detener a {{winner}}. La línea punteada muestra una de las posibles conexiones que aún tiene abiertas {{winner}}."
     }
   },
   "conhex": {
@@ -572,6 +572,14 @@
     "EOG": {
       "loop": "El juego ha terminado porque un jugador completó un bucle.",
       "path": "El juego ha terminado porque un jugador conectó sus puntos."
+    }
+  },
+  "counterflow": {
+    "PASS": {
+      "skipped": "{{player}} no tenía movimientos disponibles, por lo que se saltó su turno."
+    },
+    "EOG": {
+      "groups": "Todos los grupos de {{player}} tienen al menos una ficha en la fila más lejana."
     }
   },
   "court": {
@@ -1769,6 +1777,9 @@
     "CAPTURE": {
       "default": "{{player}} capturó una pila de tamaño {{count}} en {{where}}.",
       "self": "{{player}} refuerza una pila de tamaño {{count}} en {{where}}."
+    },
+    "FOG_STACK_LOST": {
+      "default": "Tu pila de tamaño {{count}} en {{where}} fue capturada."
     },
     "PLACE": {
       "default": "{{player}} colocó una pila de tamaño {{count}} en {{where}}."

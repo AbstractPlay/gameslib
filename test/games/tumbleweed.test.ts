@@ -1,12 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import "mocha";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { expect } from "chai";
+import { reviver } from "../../src/common/index.js";
 import {
+    TUMBLEWEED_FOG_OFF_LOS_CAPTURE,
     TumbleweedGame,
     type IMoveState,
     type ITumbleweedState,
     type playerid,
 } from "../../src/games/tumbleweed.js";
+import { repairTumbleweedFogStack } from "../../src/games/tumbleweed-fog-repair.js";
 import {
     expectMovesMatchReference,
     getLosCountReference,
@@ -344,6 +350,21 @@ describe("Tumbleweed", () => {
             expect(mem![1].size).to.be.greaterThan(0);
         });
 
+        it("fog stack repair replays resign and timeout endings", () => {
+            const ending = (kind: "resign" | "timeout", who: playerid) => {
+                const g0 = new TumbleweedGame(undefined, ["fog", "size-6"]);
+                const g1 = g0.move(sampleOpeningWire(g0), {trusted: true});
+                return kind === "resign" ? g1.resign(who) : g1.timeout(who);
+            };
+            for (const who of [1, 2] as const) {
+                for (const kind of ["resign", "timeout"] as const) {
+                    const state = ending(kind, who).state() as ITumbleweedState;
+                    const result = repairTumbleweedFogStack(state);
+                    expect(result.reason, kind).to.not.equal(`The algebraic notation is invalid: ${kind}`);
+                }
+            }
+        });
+
         it("shows the opening centre neutral live before placement", () => {
             const g = new TumbleweedGame(undefined, ["fog"]);
             const rep = g.render({ perspective: 1 });
@@ -599,6 +620,97 @@ describe("Tumbleweed", () => {
             expect(god.pieces).to.include("A1");
             expect(god.pieces).to.include("B1");
             expect(god.pieces).to.include("E2");
+        });
+
+        it("tombstones victim fog memory when their stack is captured off line of sight", () => {
+            const fixturePath = join(
+                dirname(fileURLToPath(import.meta.url)),
+                "../fixtures/tumbleweed/feedback-3a01b269-db.json",
+            );
+            const raw = JSON.parse(readFileSync(fixturePath, "utf8"), reviver) as ITumbleweedState;
+            const before: ITumbleweedState = {
+                game: raw.game,
+                numplayers: raw.numplayers,
+                variants: [...raw.variants],
+                gameover: false,
+                winner: [],
+                stack: raw.stack.slice(0, 23),
+            };
+            const prior = new TumbleweedGame(before);
+            const memBefore = prior.stack[prior.stack.length - 1]!.fogMemory![1];
+            expect(memBefore.has("d10"), "P2 had seen d10").to.be.true;
+            expect(memBefore.get("d10")).to.not.equal(null);
+            const after = prior.move("d10x", {trusted: true});
+            const memAfter = after.stack[after.stack.length - 1]!.fogMemory![1];
+            expect(memAfter.get("d10")).to.equal(null);
+            const strip = new TumbleweedGame(after.state({strip: true, player: 2}));
+            const stripBoard = strip.board;
+            expect(stripBoard.has("d10")).to.be.false;
+        });
+
+        it("feedback fixture repair aligns strip and full validation for h10x at tip", () => {
+            const fixturePath = join(
+                dirname(fileURLToPath(import.meta.url)),
+                "../fixtures/tumbleweed/feedback-3a01b269-db.json",
+            );
+            const raw = JSON.parse(readFileSync(fixturePath, "utf8"), reviver) as ITumbleweedState;
+            const {state, repaired} = repairTumbleweedFogStack(raw);
+            expect(repaired).to.be.true;
+            const full = new TumbleweedGame(state);
+            expect(full.currplayer).to.equal(2);
+            const strip = new TumbleweedGame(full.state({strip: true, player: 2}));
+            const vf = full.validateMove("h10x").valid;
+            const vs = strip.validateMove("h10x").valid;
+            expect(vf).to.be.false;
+            expect(vs).to.equal(vf);
+        });
+
+        it("stripped export adds victim-only synthetic captures and chat lines for off-LOS losses", () => {
+            const fixturePath = join(
+                dirname(fileURLToPath(import.meta.url)),
+                "../fixtures/tumbleweed/feedback-3a01b269-db.json",
+            );
+            const raw = JSON.parse(readFileSync(fixturePath, "utf8"), reviver) as ITumbleweedState;
+            const {state} = repairTumbleweedFogStack(raw);
+            const full = new TumbleweedGame(state);
+            const stripped = full.state({strip: true, player: 2}) as ITumbleweedState;
+            const syntheticOnRedacted = stripped.stack.flatMap((entry) => {
+                if (entry.lastmove !== TumbleweedGame.REDACTED_FOG_LASTMOVE) {
+                    return [];
+                }
+                return entry._results.filter(
+                    (r) =>
+                        r.type === "capture" &&
+                        (r as {how?: string}).how === TUMBLEWEED_FOG_OFF_LOS_CAPTURE,
+                );
+            });
+            expect(syntheticOnRedacted).to.not.be.empty;
+            expect(
+                syntheticOnRedacted.some(
+                    (r) => (r as {whose?: number}).whose === 2 && r.where === "d10",
+                ),
+            ).to.be.true;
+
+            const fullUnstripped = full.state() as ITumbleweedState;
+            const fogHowOnFull = fullUnstripped.stack.flatMap((entry) =>
+                entry._results.filter(
+                    (r) =>
+                        r.type === "capture" &&
+                        (r as {how?: string}).how === TUMBLEWEED_FOG_OFF_LOS_CAPTURE,
+                ),
+            );
+            expect(fogHowOnFull).to.be.empty;
+
+            const stripGame = new TumbleweedGame(stripped);
+            const lostLines = stripGame
+                .chatLogEntries(["Alice", "Bob"])
+                .flatMap((e) => e.lines)
+                .filter((line) => line.textKey === "apresults:tumbleweed.FOG_STACK_LOST.default");
+            expect(lostLines.length).to.be.greaterThan(0);
+            expect(lostLines.some((line) => line.textParams?.where === "d10")).to.be.true;
+            expect(
+                lostLines.some((line) => line.actor?.kind === "seat" && line.actor.seat === 2),
+            ).to.be.true;
         });
     });
 

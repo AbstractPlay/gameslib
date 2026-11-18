@@ -102,6 +102,21 @@ describe("Neutron", () => {
             expect(g.gameover).to.be.true;
             expect(g.winner).to.deep.equal([1]);
         });
+
+        it("awards the back-row owner the win when the opponent slid the neutron there", () => {
+            const board = new Map<string, PieceId>([
+                ["c2", 3],
+                ["a5", 1],
+                ["e5", 1],
+                ["a1", 2],
+                ["e1", 2],
+            ]);
+            const g = gameFrom(board, 2);
+            expect(g.moves()).to.include("c1");
+            g.move("c1", { trusted: true });
+            expect(g.gameover).to.be.true;
+            expect(g.winner).to.deep.equal([1]);
+        });
     });
 
     describe("stalemate", () => {

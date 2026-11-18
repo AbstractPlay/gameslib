@@ -552,7 +552,7 @@
   },
   "clearpath": {
     "EOG": {
-      "cutoff": "{{player}} n'a plus aucun chemin de connexion possible."
+      "cutoff": "{{player}} n'a plus aucune connexion possible, donc {{winner}} ne peut plus être arrêté. La ligne en pointillés montre l'une des connexions encore ouvertes pour {{winner}}."
     }
   },
   "conhex": {
@@ -572,6 +572,14 @@
     "EOG": {
       "loop": "La partie est terminée car un joueur a formé une boucle.",
       "path": "La partie est terminée car un joueur a relié ses points."
+    }
+  },
+  "counterflow": {
+    "PASS": {
+      "skipped": "{{player}} n'avait aucun coup disponible, le tour a donc été passé."
+    },
+    "EOG": {
+      "groups": "Tous les groupes de {{player}} ont au moins un pion sur la dernière rangée."
     }
   },
   "court": {
@@ -1769,6 +1777,9 @@
     "CAPTURE": {
       "default": "{{player}} a capturé une pile de taille {{count}} en {{where}}.",
       "self": "{{player}} renforce une pile de taille {{count}} en {{where}}."
+    },
+    "FOG_STACK_LOST": {
+      "default": "Votre pile de taille {{count}} en {{where}} a été capturée."
     },
     "PLACE": {
       "default": "{{player}} a placé une pile de taille {{count}} en {{where}}."

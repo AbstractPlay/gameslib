@@ -313,6 +313,43 @@ describe("Thricewise", () => {
         expect(g.currplayer).to.equal(3);
     });
 
+    it("chatLogEntries attributes compound placement to who on results, not currplayer", () => {
+        const g = new ThricewiseGame(2);
+        g.stack.push({
+            currplayer: 1,
+            _timestamp: new Date("2026-01-01T00:00:00Z"),
+            _results: [
+                { type: "place", what: "NV", where: "-1,-4", who: 2 },
+                { type: "place", what: "NS", where: "4,0", who: 2 },
+            ],
+        });
+        const placeLines = g.chatLogEntries(["Alice", "Bob"])
+            .flatMap((e) => e.lines)
+            .filter((l) => l.textKey === "apresults:_general.PLACE.complete");
+        expect(placeLines).to.have.length(2);
+        expect(placeLines.map((l) => l.actor)).to.deep.equal([
+            { kind: "seat", seat: 2 },
+            { kind: "seat", seat: 2 },
+        ]);
+    });
+
+    it("getPlies attaches all who-tagged results to the acting seat", () => {
+        const g = new ThricewiseGame(2);
+        const elim = SIMULTANEOUS_ELIM_TOKEN;
+        g.stack.push({
+            lastmove: [`${elim}`, "NV@-1.-4;NS@4.0"],
+            _results: [
+                { type: "place", what: "NV", where: "-1,-4", who: 2 },
+                { type: "place", what: "NS", where: "4,0", who: 2 },
+                { type: "eog", gameover: true },
+            ],
+        });
+        const plies = g.getPlies();
+        const last = plies[plies.length - 1]!;
+        expect(last.actor).to.equal(2);
+        expect(last.results?.filter((r) => r.type === "place")).to.have.length(2);
+    });
+
     it("records select results and chat log lines", () => {
         addResource("en");
         const g = new ThricewiseGame(2);
@@ -391,6 +428,28 @@ describe("Thricewise", () => {
         const placed = g.board.cards.find(c => c.card.uid === "2VL");
         expect(placed?.x).to.equal(3);
         expect(placed?.y).to.equal(3);
+    });
+
+    it("board click with one card left in obligation targets that card, not the prior segment", () => {
+        const g = new ThricewiseGame(2);
+        const twos = cardsOfRank(2);
+        const threes = cardsOfRank(3);
+        g.phase = "place";
+        g.currplayer = 1;
+        g.playQueue = [1];
+        g.deferred[0] = [twos[0]!];
+        g.trickCard[0] = threes[0];
+        g.hands[0] = [];
+        const e1 = g.legalEmpties()[0]!;
+        const t1 = `${twos[0]}@${e1[0]}.${e1[1]}`;
+        g.move(`${t1},${SIMULTANEOUS_ELIM_TOKEN}`, { partial: true });
+        const e2 = g.legalEmpties().find(([x, y]) =>
+            g.validateMove(`${t1};${threes[0]}@${x}.${y}`, 1).valid,
+        )!;
+        const rel = g.board.abs2rel(e2[0], e2[1])!;
+        const click = g.handleClickSimultaneous(t1, rel[1], rel[0], 1);
+        expect(click.valid).to.equal(true);
+        expect(click.move).to.equal(`${t1};${threes[0]}@${e2[0]}.${e2[1]}`);
     });
 
     it("allows placement preview moves when hands are empty but the trick is still placing", () => {

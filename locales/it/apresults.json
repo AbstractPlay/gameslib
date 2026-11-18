@@ -552,7 +552,7 @@
   },
   "clearpath": {
     "EOG": {
-      "cutoff": "{{player}} non ha più alcun percorso di collegamento possibile."
+      "cutoff": "{{player}} non ha più alcuna connessione possibile, quindi {{winner}} non può essere fermato. La linea tratteggiata mostra una delle possibili connessioni ancora aperte per {{winner}}."
     }
   },
   "conhex": {
@@ -572,6 +572,14 @@
     "EOG": {
       "loop": "La partita è terminata perché un giocatore ha completato un anello.",
       "path": "La partita è terminata perché un giocatore ha collegato i propri punti."
+    }
+  },
+  "counterflow": {
+    "PASS": {
+      "skipped": "{{player}} non aveva alcuna mossa disponibile, quindi il turno è stato saltato."
+    },
+    "EOG": {
+      "groups": "Tutti i gruppi di {{player}} hanno almeno una pedina nella riga più lontana."
     }
   },
   "court": {
@@ -1769,6 +1777,9 @@
     "CAPTURE": {
       "default": "{{player}} ha catturato una pila di dimensione {{count}} in {{where}}.",
       "self": "{{player}} rinforza una pila di dimensione {{count}} in {{where}}."
+    },
+    "FOG_STACK_LOST": {
+      "default": "La tua pila di dimensione {{count}} in {{where}} è stata catturata."
     },
     "PLACE": {
       "default": "{{player}} ha posizionato una pila di dimensione {{count}} in {{where}}."

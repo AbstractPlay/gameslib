@@ -31,7 +31,7 @@ neutral stone, other player wins with equally long loop but fewer neutrals
 neutral stone, two loops of equal size and #neutrals, p2 wins
 */
 
-describe.only("Polypods", () => {
+describe("Polypods", () => {
     it("set feet and cores based on connectivity", () => {
         const moves = ["b6", "f4", "c6", "f5", "b5", "g4", "c4", "g5", "a5", "f6", "b7"]
         const g = new PolypodsGame()

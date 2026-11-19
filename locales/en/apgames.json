@@ -3011,7 +3011,7 @@
       "BONUS": "Energized: you must make an additional placement on an empty cell adjacent to the active polypod.",
       "BONUS_INVALID": "Not a valid second action: ",
       "BONUSNOREMAINS": "The second placement of a multi-action turn may not be on a remains marker.",
-      "BONUS_NOT_ADJACENT": "The second placement of must be adjacent to the active polypod.",
+      "BONUS_NOT_ADJACENT": "The second placement must be adjacent to the active polypod.",
       "MUSTEAT": "The first placement of a multi-action turn must be on a remains marker.",
       "SCAVENGING_MARKER": "Scavenging: you may only place on a remains marker if no attack would occur.",
       "SELECTREMAINS": "Scavenging: after a non-attacking move, select an adjacent remains marker to remove (if available).",

@@ -13,7 +13,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
-- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Counterflow, Croda, Dama, Ice Palace, Neutron, Outbound, QBF, Squares, Thricewise.
+- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Counterflow, Croda, Dama, Ice Palace, Neutron, Outbound, Polypods, QBF, Squares, Thricewise.
 
 ## [1.0.0-ci] - 2026-11-18
 
@@ -36,6 +36,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **Mixtour:** reject stack moves that restore the board to the position before the opponent's previous turn (rules no-takeback).
 - **Thricewise:** move log and ply export attribute compound placements (and related flat `_results`) using stored `who`, not `currplayer`, so the inactive seat’s elim token on simultaneous wire no longer credits the wrong player.
 - **Buku:** move log uses `TAKE.row` / `TAKE.col` and `CLAIM.singletons` / `CLAIM.repetition` i18n stems so take and claim lines translate instead of showing raw keys.
+- **Yonkoma:** `eogSubjectSeat()` reports the crosscut loser for completed-game indexes; completed-game lists interpolate `{{player}}` when `gameEndPlayer` is present (with front/backend support).
 
 ### Changed
 

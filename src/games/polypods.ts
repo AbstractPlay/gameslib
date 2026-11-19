@@ -8,6 +8,14 @@ import i18next from "i18next";
 import { dfsFromNode } from 'graphology-traversal';
 import { IGraph, SnubSquareGraph } from "../common/graphs/index.js";
 
+const POLYPODS_P1 = "#007f00";
+const POLYPODS_P2 = "#ffffff";
+const POLYPODS_REMAINS = "#777777";
+const POLYPODS_BOARD = "#cfc39e";
+
+const remainsColour: Colourfuncs = { func: "custom", default: POLYPODS_REMAINS, palette: 3 };
+const boardColour: Colourfuncs = { func: "custom", default: POLYPODS_BOARD, palette: "_context_board" };
+
 export const gameApgamesEn = {
     validation: {
         INITIAL_INSTRUCTIONS: "Place a piece on an empty space.",
@@ -17,7 +25,7 @@ export const gameApgamesEn = {
         BONUS: "Energized: you must make an additional placement on an empty cell adjacent to the active polypod.",
         BONUS_INVALID: "Not a valid second action: ",
         BONUSNOREMAINS: "The second placement of a multi-action turn may not be on a remains marker.",
-        BONUS_NOT_ADJACENT: "The second placement of must be adjacent to the active polypod.",
+        BONUS_NOT_ADJACENT: "The second placement must be adjacent to the active polypod.",
         MUSTEAT: "The first placement of a multi-action turn must be on a remains marker.",
         SCAVENGING_MARKER: "Scavenging: you may only place on a remains marker if no attack would occur.",
         SELECTREMAINS: "Scavenging: after a non-attacking move, select an adjacent remains marker to remove (if available).",
@@ -157,24 +165,24 @@ export class PolypodsGame extends GameBase {
         customizations: [
             {
                 num: 1,
-                default: "#007f00",
+                default: POLYPODS_P1,
                 explanation: "Player 1 colour",
                 player: 1
             },
             {
                 num: 2,
-                default: "#ffffff",
+                default: POLYPODS_P2,
                 explanation: "Player 2 colour",
                 player: 2
             },
             {
                 num: 3,
-                default: "#777777",
+                default: POLYPODS_REMAINS,
                 explanation: "Colour of the remains markers"
             },
             {
                 name: "board",
-                default: "#cfc39e",
+                default: POLYPODS_BOARD,
                 explanation: "Board colour"
             }
         ],
@@ -963,18 +971,10 @@ export class PolypodsGame extends GameBase {
 
     public getPlayerColour(p: playerid): number|Colourfuncs {
         if (p === 1) {
-            return {
-                func: "custom",
-                default: "#007f00",
-                palette: 1
-            }
+            return { func: "custom", default: POLYPODS_P1, palette: 1 };
         }
         if (p === 2) {
-            return {
-                func: "custom",
-                default: "#ffffff",
-                palette: 2
-            }
+            return { func: "custom", default: POLYPODS_P2, palette: 2 };
         }
         return p;
     }
@@ -1026,11 +1026,7 @@ export class PolypodsGame extends GameBase {
             blocked: [{row: 0, col: 0}],
             backFill: {
                 type: "board",
-                colour: {
-                    func: "custom",
-                    default: "#cfc39e",
-                    palette: "_context_board"
-                }
+                colour: boardColour,
             }
         };
         if (this.boardsize % 2 === 0) {
@@ -1062,11 +1058,7 @@ export class PolypodsGame extends GameBase {
                 },
                 E: {
                     name: "piece-borderless",
-                    colour: {
-                        func: "custom",
-                        default: "#777777",
-                        palette: 3
-                    },
+                    colour: remainsColour,
                     scale: 0.4
                 }
             },

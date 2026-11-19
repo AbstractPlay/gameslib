@@ -3003,6 +3003,21 @@
       "TOWER_STRAIGHT_LINE": "Ein Turm bewegt sich über eine Linie leerer Hexfelder!",
       "PIECE_STRAIGHT_LINE": "Ein Turm schießt einen Stein über eine Linie leerer Hexfelder!"
     },
+    "polypods": {
+      "INITIAL_INSTRUCTIONS": "Platziere einen Stein auf ein leeres Feld.",
+      "DEADPOLYPOD": "Ungültige Platzierung: Der resultierende Polypod hätte mehr Kerne als Füße.",
+      "ENEMYCORE": "Du darfst nicht neben einem gegnerischen Kern platzieren.",
+      "NOFOLLOWUP": "Energetisierte Polypoden: Wenn ein Überreste-Marker gefressen wird, muss ein gültiger Bonuszug neben demselben Polypoden verfügbar sein.",
+      "BONUS": "Energetisiert: Du musst eine zusätzliche Platzierung auf einem leeren Feld vornehmen, das an den aktiven Polypoden angrenzt.",
+      "BONUS_INVALID": "Keine gültige zweite Aktion: ",
+      "BONUSNOREMAINS": "Die zweite Platzierung eines Zuges mit mehreren Aktionen darf nicht auf einem Überreste-Marker erfolgen.",
+      "BONUS_NOT_ADJACENT": "Die zweite Platzierung muss an den aktiven Polypoden angrenzen.",
+      "MUSTEAT": "Die erste Platzierung eines Zuges mit mehreren Aktionen muss auf einem Überreste-Marker erfolgen.",
+      "SCAVENGING_MARKER": "Aasfressen: Du darfst nur dann auf einen Überreste-Marker platzieren, wenn kein Angriff erfolgen würde.",
+      "SELECTREMAINS": "Aasfressen: Wähle nach einem Nicht-Angriffs-Zug einen angrenzenden Überreste-Marker zum Entfernen aus (falls vorhanden).",
+      "SELECTREMAINSINVALID": "Aasfressen: Du musst einen der Überreste-Marker auswählen, der an den platzierten Stein angrenzt.",
+      "SCAVENGEDOUBLE": "Aasfressen: Ein Doppelzug kann nur stattfinden, wenn nicht angegriffen wird und anschließend ein angrenzender Überreste-Marker gefressen wird."
+    },
     "pontedd": {
       "BAD_BRIDGE_BLOCKED": "Unter der Brücke dürfen sich keine Plättchen befinden.",
       "BAD_BRIDGE_COLOUR": "Brücken müssen zwei Plättchen derselben Farbe verbinden.",
@@ -4452,6 +4467,7 @@
     "plurality": "Territorialspiel, bei dem Spieler Trominos platzieren, um Gebiete einzuschließen. Der Spieler mit mehr Steinen auf dem Umfang eines bestimmten Gebiets besitzt dieses Gebiet.",
     "pods": "Natal Seas - Pods ist ein Territorialspiel, bei dem die Spieler metaphorisch in die Rolle konkurrierender Wale schlüpfen, die um Platz zum Schutz ihres Nachwuchses wetteifern. Auf einem sechseckigen Brett gespielt, nutzt es einen innovativen Mechanismus von Platzierungen und Bewegungen.",
     "pollux": "Eine Mischung aus Hex und Amazonen: Schießen Sie, um Ihre Ränder zu verbinden oder den Gegner zu blockieren.",
+    "polypods": "Polypoden sind Geschöpfe des Snub-Square-Gitters. Sie bestehen aus verbundenen Steinen von 2 Typen: Kern und Füße. Füße sind die Extremitäten, d. h. die Steine mit nur einem gleichfarbigen angrenzenden Stein oder mit genau 2, die die anderen Punkte eines kleinen Dreiecks des Gitters belegen. Kerne sind die übrigen Steine, die alle Füße miteinander verbinden. Kerne sind giftig für die Füße angrenzender gegnerischer Polypoden. Polypoden müssen mindestens so viele Füße wie Kerne haben, um zu überleben. Bei Polypods geht es darum, Polypoden der eigenen Farbe wachsen zu lassen und zu schützen, um bei Spielende die meisten Polypodenkerne zu besitzen. Einige entfernte Steine hinterlassen Überreste. Die Varianten unterscheiden sich darin, wann genau Überreste entstehen und wie sie das weitere Spiel beeinflussen.",
     "pontedd": "Spieler bauen Inseln und versuchen, so viele wie möglich durch Brücken zu verbinden. Die meisten Punkte gewinnen.",
     "posit": "Versuchen Sie, den Gegner zugunfähig zu machen, indem Sie unersteigbare Stapel bauen.",
     "product": "Spieler erzielen Punkte, indem sie ihre zwei größten Gruppen multiplizieren. Die höchste Punktzahl gewinnt. Bei Gleichstand gewinnt der zweite Spieler.",
@@ -8145,6 +8161,45 @@
       },
       "size-18": {
         "name": "18x18-Brett"
+      }
+    },
+    "polypods": {
+      "size-6": {
+        "name": "6x6-Brett"
+      },
+      "size-7": {
+        "name": "7x7-Brett"
+      },
+      "#size": {
+        "name": "8x8-Brett"
+      },
+      "size-9": {
+        "name": "9x9-Brett"
+      },
+      "size-10": {
+        "name": "10x10-Brett"
+      },
+      "size-11": {
+        "name": "11x11-Brett"
+      },
+      "size-12": {
+        "name": "12x12-Brett"
+      },
+      "#variant": {
+        "description": "Direkt angegriffene Füße hinterlassen dauerhafte Überreste.",
+        "name": "Polypods-Basisspiel"
+      },
+      "stoney-footed": {
+        "description": "Alle entfernten Füße hinterlassen dauerhafte Überreste.",
+        "name": "Steinfüßige Polypoden"
+      },
+      "energized": {
+        "description": "Das Fressen von Überresten gewährt einen Doppelzug.",
+        "name": "Energetisierte Polypoden"
+      },
+      "scavenging": {
+        "description": "Jeder entfernte Stein hinterlässt Überreste. Das Platzieren neben (oder auf) einem Überreste-Marker frisst diesen, aber ein Zug, der frisst, kann nicht gleichzeitig angreifen.",
+        "name": "Aasfressende Polypoden"
       }
     },
     "pontedd": {

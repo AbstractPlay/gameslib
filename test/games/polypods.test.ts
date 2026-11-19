@@ -31,7 +31,7 @@ neutral stone, other player wins with equally long loop but fewer neutrals
 neutral stone, two loops of equal size and #neutrals, p2 wins
 */
 
-describe.only("Polypods", () => {
+describe("Polypods", () => {
     it("set feet and cores based on connectivity", () => {
         const moves = ["b6", "f4", "c6", "f5", "b5", "g4", "c4", "g5", "a5", "f6", "b7"]
         const g = new PolypodsGame()
@@ -238,5 +238,59 @@ describe.only("Polypods", () => {
         const result = g.validateMove('e5');
         expect(result.valid).to.be.false
     })
+
+    it("p1 win", () => {
+        const g = state(
+            ['d4', 'd5', 'd6'],
+            ['e4'],
+            ['e5']
+        );
+        g.move('pass');
+        g.move('pass');
+
+        expect(g.gameover).to.be.true;
+        expect(g.winner).to.deep.equal([1]);
+    });
+
+    it("p2 win", () => {
+        const g = state(
+            ['d4', 'd5'],
+            ['e4', 'e5', 'e6'],
+            []
+        );
+        g.move('pass');
+        g.move('pass');
+
+        expect(g.gameover).to.be.true;
+        expect(g.winner).to.deep.equal([2]);
+    });
+
+    it("p1 win by tie-breaker", () => {
+        const g = state(
+            ['d4', 'd5', 'd6', 'd7'],
+            ['a4', 'a5', 'a6', 'a7'],
+            ['e5']
+        );
+        g.move('pass');
+        g.move('pass');
+
+        expect(g.gameover).to.be.true;
+        expect(g.getPlayerScore(1)).to.equal(g.getPlayerScore(2))
+        expect(g.winner).to.deep.equal([1]);
+    });
+
+    it("p2 win by tie-breaker", () => {
+        const g = state(
+            ['a4', 'a5', 'a6', 'a7'],
+            ['d4', 'd5', 'd6', 'd7'],
+            ['e5']
+        );
+        g.move('pass');
+        g.move('pass');
+
+        expect(g.gameover).to.be.true;
+        expect(g.getPlayerScore(1)).to.equal(g.getPlayerScore(2))
+        expect(g.winner).to.deep.equal([2]);
+    });
 });
 

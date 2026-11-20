@@ -44,7 +44,7 @@ export class DamaGame extends GameBase {
         uid: "dama",
         playercounts: [2],
         version: "20260927",
-        dateAdded: "2026-09-27",
+        dateAdded: "2026-11-20",
         description: "Turkish draughts on an 8×8 board: men move and capture orthogonally forward or sideways; kings fly and capture along ranks and files. Maximal capture is compulsory.",
         urls: [
             "https://en.wikipedia.org/wiki/Turkish_draughts",
@@ -61,7 +61,7 @@ export class DamaGame extends GameBase {
         ],
         variants: [],
         categories: ["goal>immobilize", "mechanic>capture", "mechanic>differentiate", "mechanic>move", "other>traditional", "board>shape>rect", "board>connect>rect", "components>simple>1per", "family>draughts"],
-        flags: ["perspective", "automove", "experimental"],
+        flags: ["perspective", "automove"],
     };
 
     public static clone(obj: DamaGame): DamaGame {

@@ -43,7 +43,7 @@ export class CrodaGame extends GameBase {
         uid: "croda",
         playercounts: [2],
         version: "20260927",
-        dateAdded: "2026-09-27",
+        dateAdded: "2026-11-20",
         description: "Croda on an 8×8 board: men step one square forward orthogonally or diagonally; they capture orthogonally in any direction. Kings slide and capture along ranks and files. Maximal capture is compulsory; you win by immobilizing the opponent.",
         urls: [
             "https://mindsports.nl/index.php/the-pit/524-croda",
@@ -65,7 +65,7 @@ export class CrodaGame extends GameBase {
         ],
         variants: [],
         categories: ["goal>immobilize", "mechanic>capture", "mechanic>differentiate", "mechanic>move", "other>traditional", "board>shape>rect", "board>connect>rect", "components>simple>1per", "family>draughts"],
-        flags: ["perspective", "automove", "experimental"],
+        flags: ["perspective", "automove"],
     };
 
     public static clone(obj: CrodaGame): CrodaGame {

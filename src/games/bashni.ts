@@ -51,7 +51,7 @@ export class BashniGame extends GameBase {
         uid: "bashni",
         playercounts: [2],
         version: "20260925",
-        dateAdded: "2026-09-25",
+        dateAdded: "2026-11-20",
         description: "A traditional Russian column draughts game on an 8×8 board. Captured pieces are placed under the jumper instead of leaving the board.",
         notes: "Maneuverability is a measure of how close your stacks are to crowning. Your maximum maneuverability is the board size times the number of stacks you control.\n\nMaterial is calculated by giving you a point for every friendly piece in a stack you control, plus an extra point if you have a king on top of that stack.",
         urls: [
@@ -70,7 +70,7 @@ export class BashniGame extends GameBase {
         variants: [
         ],
         categories: ["goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>stack", "other>traditional", "board>shape>rect", "board>connect>rect", "components>simple>1per", "family>draughts"],
-        flags: ["experimental", "perspective", "automove", ]
+        flags: ["perspective", "automove", ]
     };
 
     public static clone(obj: BashniGame): BashniGame {

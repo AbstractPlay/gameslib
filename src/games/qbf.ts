@@ -285,7 +285,7 @@ export class QBFGame extends GameBase {
         uid: "qbf",
         playercounts: [2],
         version: "20261103",
-        dateAdded: "2026-11-03",
+        dateAdded: "2026-11-20",
         description: "Red and Blue grow a tree of checkers from Red's first checker, the root. Every checker must be placed orthogonally adjacent to exactly one checker. When no such square is left, the checkers are claimed from the leaves inward: a checker belongs to its own colour if all of its children belong to its own colour, and otherwise to the other colour. Whoever claims the root wins.",
         notes: "QBF, which stands for Quantified Boolean Formula, was designed by Mark Steere in November 2026, in collaboration with Claude, an AI model made by Anthropic.\n\nRed begins by placing the root, a stack of two red checkers, on any square. QBF uses the pie rule: Blue, for his first turn, can choose to switch colours with Red instead of placing a checker. If he does, the root remains red, but the player who placed the root is now Blue, and places a blue checker. Thereafter, players take turns placing one checker per turn.\n\nAfter the root, every checker must be placed on an unoccupied square orthogonally adjacent to exactly one checker, of either colour. Diagonal adjacencies are irrelevant. The checker it is placed next to is its parent, and the placed checker is a child of that parent. The squares a checker may be placed on are marked in green. The game ends when no such square is left.\n\nWhen the game ends, the players claim the checkers on the board. A player can claim ownership of checkers of either or both colours. Start with the checkers that have no children and work inward toward the root: a checker belongs to its own colour if all of its children belong to its own colour. Otherwise it belongs to the other colour. Childless checkers belong to their own colour. You win if you claim the root.\n\nThe owner of every checker is shown throughout the game by the mark on the checker: a black ring holding a disc of the owner's colour (the ring is silver on a checker too dark for black to show). The marks on the board show who would own each checker if the game ended at once. The checker placed last carries a white ring. The game ends as soon as no placement could change the owner of the root any more, which can be before the open squares run out.",
         urls: [
@@ -310,7 +310,7 @@ export class QBFGame extends GameBase {
             { uid: "size-13", group: "board" },
         ],
         categories: ["goal>royal-capture", "mechanic>place", "mechanic>convert", "mechanic>network", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["experimental", "pie"],
+        flags: ["pie"],
         customizations: [
             {
                 num: 1,

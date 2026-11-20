@@ -2155,6 +2155,10 @@
     "src": "A mix of Hex and Amazons: shoot to connect your edges or block the adversary.",
     "out": "Una mezcla de Hex y Amazonas: dispara para conectar tus bordes o bloquear al adversario."
   },
+  "descriptions.polypods": {
+    "src": "Polypods are creatures of the snub-square grid. They are composed of connected pieces of 2 types: core and feet. Feet are the extremities, i.e. the pieces with only one similarly-colored adjacent piece, or with exactly 2 that fill the other points of a small triangle of the grid. Core are the other pieces that connect all the feet together. Cores are toxic to the feet of adjacent opponent polypods. Polypods need to have at least as many feet as cores to stay alive. The game of Polypods is about growing and protecting polypods of your colour so that you have the most polypod cores when the game ends. Some removed pieces leave remains. Variants differ in when exactly remains are generated, and how they affect further play.",
+    "out": "Los Polypods son criaturas de la cuadrícula de cuadrados romos. Están compuestos por piezas conectadas de 2 tipos: núcleo y patas. Las patas son las extremidades, es decir, las piezas con solo una pieza adyacente del mismo color, o con exactamente 2 que llenan los otros puntos de un triángulo pequeño de la cuadrícula. Los núcleos son las otras piezas que conectan todas las patas entre sí. Los núcleos son tóxicos para las patas de los Polypods oponentes adyacentes. Los Polypods necesitan tener al menos tantas patas como núcleos para mantenerse con vida. El juego de Polypods consiste en hacer crecer y proteger los Polypods de tu color para tener la mayor cantidad de núcleos de Polypods cuando termine la partida. Algunas piezas retiradas dejan restos. Las variantes se diferencian en cuándo exactamente se generan los restos y cómo afectan el juego posterior."
+  },
   "descriptions.pontedd": {
     "src": "Players build islands and attempt to connect as many of them as possible by bridge. Most points wins.",
     "out": "Los jugadores construyen islas e intentan conectar la mayor cantidad posible de ellas mediante puentes. Quien obtenga más puntos gana."
@@ -4278,6 +4282,10 @@
   "names.pollux": {
     "src": "Pollux",
     "out": "Pollux"
+  },
+  "names.polypods": {
+    "src": "Polypods",
+    "out": "Polypods"
   },
   "names.pontedd": {
     "src": "Ponte del Diavolo",
@@ -12931,6 +12939,58 @@
     "src": "A tower moves over a line of empty hexes!",
     "out": "¡Una torre se mueve sobre una línea de hexágonos vacíos!"
   },
+  "validation.polypods.BONUS": {
+    "src": "Energized: you must make an additional placement on an empty cell adjacent to the active polypod.",
+    "out": "Energizados: debes realizar una colocación adicional en una casilla vacía adyacente al Polypod activo."
+  },
+  "validation.polypods.BONUSNOREMAINS": {
+    "src": "The second placement of a multi-action turn may not be on a remains marker.",
+    "out": "La segunda colocación de un turno de múltiples acciones no puede ser sobre un marcador de restos."
+  },
+  "validation.polypods.BONUS_INVALID": {
+    "src": "Not a valid second action: ",
+    "out": "No es una segunda acción válida: "
+  },
+  "validation.polypods.BONUS_NOT_ADJACENT": {
+    "src": "The second placement must be adjacent to the active polypod.",
+    "out": "La segunda colocación debe ser adyacente al Polypod activo."
+  },
+  "validation.polypods.DEADPOLYPOD": {
+    "src": "Invalid placement: the resulting polypod would have more cores than feet.",
+    "out": "Colocación no válida: el Polypod resultante tendría más núcleos que patas."
+  },
+  "validation.polypods.ENEMYCORE": {
+    "src": "You may not place next to an opponent core.",
+    "out": "No puedes colocar junto a un núcleo oponente."
+  },
+  "validation.polypods.INITIAL_INSTRUCTIONS": {
+    "src": "Place a piece on an empty space.",
+    "out": "Coloca una pieza en un espacio vacío."
+  },
+  "validation.polypods.MUSTEAT": {
+    "src": "The first placement of a multi-action turn must be on a remains marker.",
+    "out": "La primera colocación de un turno de múltiples acciones debe ser sobre un marcador de restos."
+  },
+  "validation.polypods.NOFOLLOWUP": {
+    "src": "Energized Polypods: when eating a remains marker, a valid bonus move must be available next to the same polypod.",
+    "out": "Polypods energizados: al comer un marcador de restos, debe haber un movimiento de bonificación válido disponible junto al mismo Polypod."
+  },
+  "validation.polypods.SCAVENGEDOUBLE": {
+    "src": "Scavenging: a double move can only happen when not attacking, and then eating an adjacent remains marker.",
+    "out": "Carroña: un movimiento doble solo puede ocurrir cuando no se ataca y luego se come un marcador de restos adyacente."
+  },
+  "validation.polypods.SCAVENGING_MARKER": {
+    "src": "Scavenging: you may only place on a remains marker if no attack would occur.",
+    "out": "Carroña: solo puedes colocar sobre un marcador de restos si no se produce ningún ataque."
+  },
+  "validation.polypods.SELECTREMAINS": {
+    "src": "Scavenging: after a non-attacking move, select an adjacent remains marker to remove (if available).",
+    "out": "Carroña: después de un movimiento sin ataque, selecciona un marcador de restos adyacente para eliminarlo (si está disponible)."
+  },
+  "validation.polypods.SELECTREMAINSINVALID": {
+    "src": "Scavenging: you must select one of the remains markers adjacent to the placed piece.",
+    "out": "Carroña: debes seleccionar uno de los marcadores de restos adyacentes a la pieza colocada."
+  },
   "validation.pontedd.BAD_BRIDGE_BLOCKED": {
     "src": "There may be no tiles under the bridge.",
     "out": "No puede haber fichas debajo del puente."
@@ -20806,6 +20866,66 @@
   "variants.pollux.size-18.name": {
     "src": "18x18 board",
     "out": "Tablero de 18x18"
+  },
+  "variants.polypods.#size.name": {
+    "src": "8x8 board",
+    "out": "Tablero de 8x8"
+  },
+  "variants.polypods.#variant.description": {
+    "src": "Directly attacked feet leave permanent remains.",
+    "out": "Las patas atacadas directamente dejan restos permanentes."
+  },
+  "variants.polypods.#variant.name": {
+    "src": "Polypods Base Game",
+    "out": "Polypods: Juego base"
+  },
+  "variants.polypods.energized.description": {
+    "src": "Eating remains gives a double move.",
+    "out": "Comer restos otorga un movimiento doble."
+  },
+  "variants.polypods.energized.name": {
+    "src": "Energized Polypods",
+    "out": "Polypods energizados"
+  },
+  "variants.polypods.scavenging.description": {
+    "src": "Every removed piece leaves remains. Placing next to (or on) a remains marker eats one, but a move that eats can't also attack.",
+    "out": "Cada pieza retirada deja restos. Colocar junto a (o sobre) un marcador de restos consume uno, pero un movimiento que consume no puede atacar al mismo tiempo."
+  },
+  "variants.polypods.scavenging.name": {
+    "src": "Scavenging Polypods",
+    "out": "Polypods carroñeros"
+  },
+  "variants.polypods.size-10.name": {
+    "src": "10x10 board",
+    "out": "Tablero de 10x10"
+  },
+  "variants.polypods.size-11.name": {
+    "src": "11x11 board",
+    "out": "Tablero de 11x11"
+  },
+  "variants.polypods.size-12.name": {
+    "src": "12x12 board",
+    "out": "Tablero de 12x12"
+  },
+  "variants.polypods.size-6.name": {
+    "src": "6x6 board",
+    "out": "Tablero de 6x6"
+  },
+  "variants.polypods.size-7.name": {
+    "src": "7x7 board",
+    "out": "Tablero de 7x7"
+  },
+  "variants.polypods.size-9.name": {
+    "src": "9x9 board",
+    "out": "Tablero de 9x9"
+  },
+  "variants.polypods.stoney-footed.description": {
+    "src": "All removed feet leave permanent remains.",
+    "out": "Todas las patas retiradas dejan restos permanentes."
+  },
+  "variants.polypods.stoney-footed.name": {
+    "src": "Stoney-footed Polypods",
+    "out": "Polypods de patas de piedra"
   },
   "variants.pontedd.#board.name": {
     "src": "10x10 board",

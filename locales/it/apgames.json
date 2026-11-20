@@ -3003,6 +3003,21 @@
       "TOWER_STRAIGHT_LINE": "Una torre si muove lungo una linea di esagoni vuoti!",
       "PIECE_STRAIGHT_LINE": "Una torre spara un pezzo lungo una linea di esagoni vuoti!"
     },
+    "polypods": {
+      "INITIAL_INSTRUCTIONS": "Posiziona un pezzo su uno spazio vuoto.",
+      "DEADPOLYPOD": "Posizionamento non valido: il polipodo risultante avrebbe più nuclei che piedi.",
+      "ENEMYCORE": "Non puoi posizionare un pezzo accanto a un nucleo avversario.",
+      "NOFOLLOWUP": "Polipodi Energizzati: quando si mangia un segnalino resti, deve essere disponibile una mossa bonus valida accanto allo stesso polipodo.",
+      "BONUS": "Energizzato: devi effettuare un posizionamento aggiuntivo su una casella vuota adiacente al polipodo attivo.",
+      "BONUS_INVALID": "Seconda azione non valida: ",
+      "BONUSNOREMAINS": "Il secondo posizionamento di un turno multi-azione non può essere effettuato su un segnalino resti.",
+      "BONUS_NOT_ADJACENT": "Il secondo posizionamento deve essere adiacente al polipodo attivo.",
+      "MUSTEAT": "Il primo posizionamento di un turno multi-azione deve essere effettuato su un segnalino resti.",
+      "SCAVENGING_MARKER": "Sciacallaggio: puoi posizionare su un segnalino resti solo se non si verifica alcun attacco.",
+      "SELECTREMAINS": "Sciacallaggio: dopo una mossa senza attacco, seleziona un segnalino resti adiacente da rimuovere (se disponibile).",
+      "SELECTREMAINSINVALID": "Sciacallaggio: devi selezionare uno dei segnalini resti adiacenti al pezzo posizionato.",
+      "SCAVENGEDOUBLE": "Sciacallaggio: una mossa doppia può avvenire solo quando non si attacca, e mangiando un segnalino resti adiacente."
+    },
     "pontedd": {
       "BAD_BRIDGE_BLOCKED": "Non ci possono essere tessere sotto il ponte.",
       "BAD_BRIDGE_COLOUR": "I ponti devono collegare due tessere dello stesso colore.",
@@ -4452,6 +4467,7 @@
     "plurality": "Gioco territoriale in cui i giocatori posizionano tromini per racchiudere aree. Il giocatore con più pietre sul perimetro di una data area possiede quell'area.",
     "pods": "Natal Seas - Pods è un gioco territoriale in cui i giocatori assumono il ruolo metaforico di balene in competizione che gareggiano per lo spazio per proteggere i loro piccoli. Giocato su un tabellone esagonale, utilizza un meccanismo innovativo di posizionamenti e movimenti.",
     "pollux": "Una miscela di Hex e Amazons: spara per collegare i tuoi bordi o bloccare l'avversario.",
+    "polypods": "I Polipodi sono creature della griglia snub-square. Sono composti da pezzi collegati di 2 tipi: nuclei e piedi. I piedi sono le estremità, ovvero i pezzi con un solo pezzo adiacente dello stesso colore, o con esattamente 2 che riempiono gli altri punti di un piccolo triangolo della griglia. I nuclei sono gli altri pezzi che collegano tutti i piedi tra loro. I nuclei sono tossici per i piedi dei polipodi avversari adiacenti. I polipodi devono avere almeno tanti piedi quanti nuclei per rimanere in vita. Il gioco dei Polipodi consiste nel far crescere e proteggere i polipodi del tuo colore in modo da avere il maggior numero di nuclei di polipodo alla fine della partita. Alcuni pezzi rimossi lasciano dei resti. Le varianti differiscono su quando esattamente i resti vengono generati e su come influenzano il prosieguo del gioco.",
     "pontedd": "I giocatori costruiscono isole e cercano di collegarne il maggior numero possibile tramite ponti. Il maggior numero di punti vince.",
     "posit": "Cerca di mandare in stallo l'avversario costruendo pile inaccessibili.",
     "product": "I giocatori segnano punti moltiplicando i loro due gruppi più grandi. Il punteggio più alto vince. In caso di parità, vince il secondo giocatore.",
@@ -4756,6 +4772,7 @@
     "plurality": "Plurality",
     "pods": "Natal Seas - Pods",
     "pollux": "Pollux",
+    "polypods": "Polypods",
     "pontedd": "Ponte del Diavolo",
     "posit": "Posit",
     "product": "Product",
@@ -8144,6 +8161,45 @@
       },
       "size-18": {
         "name": "Tabellone 18x18"
+      }
+    },
+    "polypods": {
+      "size-6": {
+        "name": "Tabellone 6x6"
+      },
+      "size-7": {
+        "name": "Tavoliere 7x7"
+      },
+      "#size": {
+        "name": "Tavoliere 8x8"
+      },
+      "size-9": {
+        "name": "Tavoliere 9x9"
+      },
+      "size-10": {
+        "name": "Tavoliere 10x10"
+      },
+      "size-11": {
+        "name": "Tavoliere 11x11"
+      },
+      "size-12": {
+        "name": "Tabellone 12x12"
+      },
+      "#variant": {
+        "description": "I piedi attaccati direttamente lasciano resti permanenti.",
+        "name": "Polipodi - Gioco Base"
+      },
+      "stoney-footed": {
+        "description": "Tutti i piedi rimossi lasciano resti permanenti.",
+        "name": "Polipodi dai Piedi di Pietra"
+      },
+      "energized": {
+        "description": "Mangiare resti fornisce una mossa doppia.",
+        "name": "Polipodi Energizzati"
+      },
+      "scavenging": {
+        "description": "Ogni pezzo rimosso lascia resti. Posizionare accanto a (o sopra) un segnalino resti ne mangia uno, ma una mossa che mangia non può anche attaccare.",
+        "name": "Polipodi Sciacalli"
       }
     },
     "pontedd": {

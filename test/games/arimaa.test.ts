@@ -1405,7 +1405,6 @@ describe("Arimaa Dicey Moves", () => {
         const variants = g.allvariants()!;
         expect(variants.find(v => v.uid === "eee")!.fans).to.equal(true);
         expect(variants.find(v => v.uid === "dicey")!.fans).to.not.equal(true);
-        expect(ArimaaGame.gameinfo.variants!.find(v => v.uid === "dicey")!.experimental).to.equal(true);
         expect(ArimaaGame.gameinfo.variants!.find(v => v.uid === "eee")!.people![0].name).to.equal("clyring");
     });
 });

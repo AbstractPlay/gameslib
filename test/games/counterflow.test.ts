@@ -306,8 +306,7 @@ describe("Counterflow", () => {
             expect(rowsOf(new CounterflowGame(undefined, ["size-5"]))).to.equal(FIGURE_1);
         });
 
-        it("is experimental and submits skipped turns automatically", () => {
-            expect(CounterflowGame.gameinfo.flags).to.include("experimental");
+        it("submits skipped turns automatically", () => {
             expect(CounterflowGame.gameinfo.flags).to.include("autopass");
             expect(CounterflowGame.gameinfo.flags).to.not.include("pie");
         });

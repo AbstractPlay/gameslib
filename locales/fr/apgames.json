@@ -3003,6 +3003,21 @@
       "TOWER_STRAIGHT_LINE": "Une tour se déplace sur une ligne d'hexagones vides !",
       "PIECE_STRAIGHT_LINE": "Une tour tire une pièce sur une ligne d'hexagones vides !"
     },
+    "polypods": {
+      "INITIAL_INSTRUCTIONS": "Placez une pièce sur un emplacement vide.",
+      "DEADPOLYPOD": "Placement non valide : le polypode résultant aurait plus de noyaux que de pieds.",
+      "ENEMYCORE": "Vous ne pouvez pas placer une pièce à côté d'un noyau adverse.",
+      "NOFOLLOWUP": "Polypodes énergisés : en dévorant un marqueur de restes, un coup bonus valide doit être disponible à côté du même polypode.",
+      "BONUS": "Énergisé : vous devez effectuer un placement supplémentaire sur une case vide adjacente au polypode actif.",
+      "BONUS_INVALID": "Seconde action non valide : ",
+      "BONUSNOREMAINS": "Le second placement d'un tour multi-action ne peut pas se faire sur un marqueur de restes.",
+      "BONUS_NOT_ADJACENT": "Le second placement doit être adjacent au polypode actif.",
+      "MUSTEAT": "Le premier placement d'un tour multi-action doit être sur un marqueur de restes.",
+      "SCAVENGING_MARKER": "Nécrophagie : vous ne pouvez placer une pièce sur un marqueur de restes que si aucune attaque ne se produit.",
+      "SELECTREMAINS": "Nécrophagie : après un coup sans attaque, sélectionnez un marqueur de restes adjacent à retirer (si disponible).",
+      "SELECTREMAINSINVALID": "Nécrophagie : vous devez sélectionner l'un des marqueurs de restes adjacents à la pièce placée.",
+      "SCAVENGEDOUBLE": "Nécrophagie : un coup double ne peut se produire que sans attaquer, puis en dévorant un marqueur de restes adjacent."
+    },
     "pontedd": {
       "BAD_BRIDGE_BLOCKED": "Il ne peut y avoir aucune tuile sous le pont.",
       "BAD_BRIDGE_COLOUR": "Les ponts doivent relier deux tuiles de la même couleur.",
@@ -4452,6 +4467,7 @@
     "plurality": "Jeu territorial où les joueurs placent des trominos pour encercler des zones. Le joueur ayant le plus de pierres sur le périmètre d'une zone donnée possède cette zone.",
     "pods": "Natal Seas - Pods est un jeu territorial dans lequel les joueurs incarnent des baleines rivales se disputant l'espace pour protéger leurs petits. Joué sur un plateau hexagonal, il utilise un mécanisme innovant de placements et de déplacements.",
     "pollux": "Un mélange de Hex et d'Amazones : tirez pour connecter vos bords ou bloquer l'adversaire.",
+    "polypods": "Les polypodes sont des créatures de la grille carrée adoucie. Ils sont composés de pièces connectées de 2 types : noyaux et pieds. Les pieds sont les extrémités, c'est-à-dire les pièces avec une seule pièce adjacente de même couleur, ou exactement 2 qui remplissent les autres sommets d'un petit triangle de la grille. Les noyaux sont les autres pièces qui relient tous les pieds entre eux. Les noyaux sont toxiques pour les pieds des polypodes adverses adjacents. Les polypodes doivent avoir au moins autant de pieds que de noyaux pour rester en vie. Le jeu des Polypodes consiste à faire grandir et à protéger les polypodes de votre couleur afin d'avoir le plus de noyaux de polypode à la fin de la partie. Certaines pièces retirées laissent des restes. Les variantes diffèrent sur le moment exact où les restes sont générés et sur la façon dont ils affectent la suite du jeu.",
     "pontedd": "Les joueurs construisent des îles et tentent d'en connecter autant que possible par des ponts. Le plus de points gagne.",
     "posit": "Essayez d'immobiliser l'adversaire en construisant des piles infranchissables.",
     "product": "Les joueurs marquent des points en multipliant leurs deux plus grands groupes. Le plus grand score gagne. En cas d'égalité, le second joueur gagne.",
@@ -4756,6 +4772,7 @@
     "plurality": "Plurality",
     "pods": "Natal Seas - Pods",
     "pollux": "Pollux",
+    "polypods": "Polypods",
     "pontedd": "Ponte del Diavolo",
     "posit": "Posit",
     "product": "Product",
@@ -8144,6 +8161,45 @@
       },
       "size-18": {
         "name": "Plateau 18x18"
+      }
+    },
+    "polypods": {
+      "size-6": {
+        "name": "Plateau 6x6"
+      },
+      "size-7": {
+        "name": "Plateau 7x7"
+      },
+      "#size": {
+        "name": "Plateau 8x8"
+      },
+      "size-9": {
+        "name": "Plateau 9x9"
+      },
+      "size-10": {
+        "name": "Plateau 10x10"
+      },
+      "size-11": {
+        "name": "Plateau 11x11"
+      },
+      "size-12": {
+        "name": "Plateau 12x12"
+      },
+      "#variant": {
+        "description": "Les pieds directement attaqués laissent des restes permanents.",
+        "name": "Jeu de base Polypodes"
+      },
+      "stoney-footed": {
+        "description": "Tous les pieds retirés laissent des restes permanents.",
+        "name": "Polypodes aux pieds de pierre"
+      },
+      "energized": {
+        "description": "Dévorer des restes permet d'effectuer un coup double.",
+        "name": "Polypodes énergisés"
+      },
+      "scavenging": {
+        "description": "Chaque pièce retirée laisse des restes. Placer une pièce à côté d'un (ou sur un) marqueur de restes en dévore un, mais un coup qui dévore ne peut pas aussi attaquer.",
+        "name": "Polypodes nécrophages"
       }
     },
     "pontedd": {

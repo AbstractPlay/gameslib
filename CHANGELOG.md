@@ -13,12 +13,14 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
-- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Bashni, Bricka, Counterflow, Croda, Dama, Ice Palace, Neutron, Outbound, QBF, Squares, Thricewise.
+- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Ice Palace, Polypods, Squares.
 
-## [1.0.0-ci] - 2026-11-18
+## [1.0.0-ci] - 2026-11-20
 
 ### Added
 
+- **New games:** Bashni, Counterflow, Croda, Dama, QBF
+- **New games:** Bricka, Neutron, Outbound, Thricewise
 - **Input modes (catalogue + contract):** optional **`inputModes`** on game metadata (schema/registry), optional **`inputMode`** on **`IHandleClickUi`** for `handleClick`; shared **`apgames:inputModes`** copy for picker UI; **`sanitizeInputModeForGame`** and related helpers exported for clients; playground persists selected mode and passes **`ui.inputMode`** when a game declares modes.
 - **New games:** Clear Path, Kill-All Go, Selfo, Thue-Morse Go, Yodd, Yonkoma (Kill-All Go handicap opening variant remains unrated).
 - **Quax:** optional **Diamond board** display (`squares-diamonds` with connection flood fill; vertex board remains default).
@@ -53,6 +55,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 ### Fixed
 
 - **Quax diamond-board:** square placement clicks map on the squares-diamonds grid when draw context is supplied (vertex fallback when omitted).
+- **Scribe:** glyph scoring now tries every in-bounds translation of each rotated/reflected pattern (not only `dc, dr ≥ 0`), so Pipe and other small glyphs match when shifted toward board edges (e.g. the bottom-left mini after **a3**).
 - **`GameBase.sameMove`:** treat empty or missing `move2` as not a match instead of throwing when comparing exploration or premove branches.
 - **apresults path map:** keep shared `EOG.breakthrough` under `_general` when the Breakthrough game uid is in the registry (fixes `test:scripts` round-trip after catalogue collision).
 

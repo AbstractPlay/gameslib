@@ -2155,6 +2155,10 @@
     "src": "A mix of Hex and Amazons: shoot to connect your edges or block the adversary.",
     "out": "Eine Mischung aus Hex und Amazonen: Schießen Sie, um Ihre Ränder zu verbinden oder den Gegner zu blockieren."
   },
+  "descriptions.polypods": {
+    "src": "Polypods are creatures of the snub-square grid. They are composed of connected pieces of 2 types: core and feet. Feet are the extremities, i.e. the pieces with only one similarly-colored adjacent piece, or with exactly 2 that fill the other points of a small triangle of the grid. Core are the other pieces that connect all the feet together. Cores are toxic to the feet of adjacent opponent polypods. Polypods need to have at least as many feet as cores to stay alive. The game of Polypods is about growing and protecting polypods of your colour so that you have the most polypod cores when the game ends. Some removed pieces leave remains. Variants differ in when exactly remains are generated, and how they affect further play.",
+    "out": "Polypoden sind Geschöpfe des Snub-Square-Gitters. Sie bestehen aus verbundenen Steinen von 2 Typen: Kern und Füße. Füße sind die Extremitäten, d. h. die Steine mit nur einem gleichfarbigen angrenzenden Stein oder mit genau 2, die die anderen Punkte eines kleinen Dreiecks des Gitters belegen. Kerne sind die übrigen Steine, die alle Füße miteinander verbinden. Kerne sind giftig für die Füße angrenzender gegnerischer Polypoden. Polypoden müssen mindestens so viele Füße wie Kerne haben, um zu überleben. Bei Polypods geht es darum, Polypoden der eigenen Farbe wachsen zu lassen und zu schützen, um bei Spielende die meisten Polypodenkerne zu besitzen. Einige entfernte Steine hinterlassen Überreste. Die Varianten unterscheiden sich darin, wann genau Überreste entstehen und wie sie das weitere Spiel beeinflussen."
+  },
   "descriptions.pontedd": {
     "src": "Players build islands and attempt to connect as many of them as possible by bridge. Most points wins.",
     "out": "Spieler bauen Inseln und versuchen, so viele wie möglich durch Brücken zu verbinden. Die meisten Punkte gewinnen."
@@ -4278,6 +4282,10 @@
   "names.pollux": {
     "src": "Pollux",
     "out": "Pollux"
+  },
+  "names.polypods": {
+    "src": "Polypods",
+    "out": "Polypods"
   },
   "names.pontedd": {
     "src": "Ponte del Diavolo",
@@ -12931,6 +12939,58 @@
     "src": "A tower moves over a line of empty hexes!",
     "out": "Ein Turm bewegt sich über eine Linie leerer Hexfelder!"
   },
+  "validation.polypods.BONUS": {
+    "src": "Energized: you must make an additional placement on an empty cell adjacent to the active polypod.",
+    "out": "Energetisiert: Du musst eine zusätzliche Platzierung auf einem leeren Feld vornehmen, das an den aktiven Polypoden angrenzt."
+  },
+  "validation.polypods.BONUSNOREMAINS": {
+    "src": "The second placement of a multi-action turn may not be on a remains marker.",
+    "out": "Die zweite Platzierung eines Zuges mit mehreren Aktionen darf nicht auf einem Überreste-Marker erfolgen."
+  },
+  "validation.polypods.BONUS_INVALID": {
+    "src": "Not a valid second action: ",
+    "out": "Keine gültige zweite Aktion: "
+  },
+  "validation.polypods.BONUS_NOT_ADJACENT": {
+    "src": "The second placement must be adjacent to the active polypod.",
+    "out": "Die zweite Platzierung muss an den aktiven Polypoden angrenzen."
+  },
+  "validation.polypods.DEADPOLYPOD": {
+    "src": "Invalid placement: the resulting polypod would have more cores than feet.",
+    "out": "Ungültige Platzierung: Der resultierende Polypod hätte mehr Kerne als Füße."
+  },
+  "validation.polypods.ENEMYCORE": {
+    "src": "You may not place next to an opponent core.",
+    "out": "Du darfst nicht neben einem gegnerischen Kern platzieren."
+  },
+  "validation.polypods.INITIAL_INSTRUCTIONS": {
+    "src": "Place a piece on an empty space.",
+    "out": "Platziere einen Stein auf ein leeres Feld."
+  },
+  "validation.polypods.MUSTEAT": {
+    "src": "The first placement of a multi-action turn must be on a remains marker.",
+    "out": "Die erste Platzierung eines Zuges mit mehreren Aktionen muss auf einem Überreste-Marker erfolgen."
+  },
+  "validation.polypods.NOFOLLOWUP": {
+    "src": "Energized Polypods: when eating a remains marker, a valid bonus move must be available next to the same polypod.",
+    "out": "Energetisierte Polypoden: Wenn ein Überreste-Marker gefressen wird, muss ein gültiger Bonuszug neben demselben Polypoden verfügbar sein."
+  },
+  "validation.polypods.SCAVENGEDOUBLE": {
+    "src": "Scavenging: a double move can only happen when not attacking, and then eating an adjacent remains marker.",
+    "out": "Aasfressen: Ein Doppelzug kann nur stattfinden, wenn nicht angegriffen wird und anschließend ein angrenzender Überreste-Marker gefressen wird."
+  },
+  "validation.polypods.SCAVENGING_MARKER": {
+    "src": "Scavenging: you may only place on a remains marker if no attack would occur.",
+    "out": "Aasfressen: Du darfst nur dann auf einen Überreste-Marker platzieren, wenn kein Angriff erfolgen würde."
+  },
+  "validation.polypods.SELECTREMAINS": {
+    "src": "Scavenging: after a non-attacking move, select an adjacent remains marker to remove (if available).",
+    "out": "Aasfressen: Wähle nach einem Nicht-Angriffs-Zug einen angrenzenden Überreste-Marker zum Entfernen aus (falls vorhanden)."
+  },
+  "validation.polypods.SELECTREMAINSINVALID": {
+    "src": "Scavenging: you must select one of the remains markers adjacent to the placed piece.",
+    "out": "Aasfressen: Du musst einen der Überreste-Marker auswählen, der an den platzierten Stein angrenzt."
+  },
   "validation.pontedd.BAD_BRIDGE_BLOCKED": {
     "src": "There may be no tiles under the bridge.",
     "out": "Unter der Brücke dürfen sich keine Plättchen befinden."
@@ -20806,6 +20866,66 @@
   "variants.pollux.size-18.name": {
     "src": "18x18 board",
     "out": "18x18-Brett"
+  },
+  "variants.polypods.#size.name": {
+    "src": "8x8 board",
+    "out": "8x8-Brett"
+  },
+  "variants.polypods.#variant.description": {
+    "src": "Directly attacked feet leave permanent remains.",
+    "out": "Direkt angegriffene Füße hinterlassen dauerhafte Überreste."
+  },
+  "variants.polypods.#variant.name": {
+    "src": "Polypods Base Game",
+    "out": "Polypods-Basisspiel"
+  },
+  "variants.polypods.energized.description": {
+    "src": "Eating remains gives a double move.",
+    "out": "Das Fressen von Überresten gewährt einen Doppelzug."
+  },
+  "variants.polypods.energized.name": {
+    "src": "Energized Polypods",
+    "out": "Energetisierte Polypoden"
+  },
+  "variants.polypods.scavenging.description": {
+    "src": "Every removed piece leaves remains. Placing next to (or on) a remains marker eats one, but a move that eats can't also attack.",
+    "out": "Jeder entfernte Stein hinterlässt Überreste. Das Platzieren neben (oder auf) einem Überreste-Marker frisst diesen, aber ein Zug, der frisst, kann nicht gleichzeitig angreifen."
+  },
+  "variants.polypods.scavenging.name": {
+    "src": "Scavenging Polypods",
+    "out": "Aasfressende Polypoden"
+  },
+  "variants.polypods.size-10.name": {
+    "src": "10x10 board",
+    "out": "10x10-Brett"
+  },
+  "variants.polypods.size-11.name": {
+    "src": "11x11 board",
+    "out": "11x11-Brett"
+  },
+  "variants.polypods.size-12.name": {
+    "src": "12x12 board",
+    "out": "12x12-Brett"
+  },
+  "variants.polypods.size-6.name": {
+    "src": "6x6 board",
+    "out": "6x6-Brett"
+  },
+  "variants.polypods.size-7.name": {
+    "src": "7x7 board",
+    "out": "7x7-Brett"
+  },
+  "variants.polypods.size-9.name": {
+    "src": "9x9 board",
+    "out": "9x9-Brett"
+  },
+  "variants.polypods.stoney-footed.description": {
+    "src": "All removed feet leave permanent remains.",
+    "out": "Alle entfernten Füße hinterlassen dauerhafte Überreste."
+  },
+  "variants.polypods.stoney-footed.name": {
+    "src": "Stoney-footed Polypods",
+    "out": "Steinfüßige Polypoden"
   },
   "variants.pontedd.#board.name": {
     "src": "10x10 board",

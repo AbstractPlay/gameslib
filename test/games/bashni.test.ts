@@ -144,8 +144,4 @@ describe("Bashni", () => {
         g.currplayer = 2;
         expect(g.moves(2)).to.include("c6xa4xc2xe4");
     });
-
-    it("is experimental", () => {
-        expect(BashniGame.gameinfo.flags ?? []).to.include("experimental");
-    });
 });

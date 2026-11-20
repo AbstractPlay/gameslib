@@ -171,8 +171,7 @@ describe("QBF", () => {
             expect(new QBFGame(undefined, ["size-13"]).moves().length).to.equal(169);
         });
 
-        it("is experimental, uses the pie rule and documents the felt-board palette slots", () => {
-            expect(QBFGame.gameinfo.flags).to.include("experimental");
+        it("uses the pie rule and documents the felt-board palette slots", () => {
             expect(QBFGame.gameinfo.flags).to.include("pie");
             expect(QBFGame.gameinfo.flags).to.not.include("custom-colours");
             expect(QBFGame.gameinfo.customizations!.map(c => c.num)).to.deep.equal([1, 2, 3, 4, 5, 6]);

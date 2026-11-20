@@ -220,7 +220,6 @@ describe("Crosshairs", () => {
             const setup = CrosshairsGame.gameinfo.variants!.filter(v => v.group === "setup");
 
             expect(setup.map(v => v.uid)).to.deep.equal(["random-start", "asymmetric-random-start", "clumping-start"]);
-            expect(setup.filter(v => v.experimental)).to.be.empty;
         });
 
         it("should tag only Clumping random clouds as a community variant", () => {

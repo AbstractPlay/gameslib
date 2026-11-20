@@ -163,12 +163,32 @@ function uniqueTransforms(cells: LocalCoord[]): LocalCoord[][] {
     return out;
 }
 
-function translateCells(cells: LocalCoord[], dc: number, dr: number): LocalCoord[]|undefined {
+function translateCells(cells: LocalCoord[], dc: number, dr: number, gridSize = MINI_SIZE): LocalCoord[]|undefined {
     const shifted = cells.map(([c, r]) => [c + dc, r + dr] as LocalCoord);
-    if (shifted.some(([c, r]) => c < 0 || r < 0 || c >= MINI_SIZE || r >= MINI_SIZE)) {
+    if (shifted.some(([c, r]) => c < 0 || r < 0 || c >= gridSize || r >= gridSize)) {
         return undefined;
     }
     return shifted;
+}
+
+function translationOffsets(cells: LocalCoord[], gridSize: number): Array<[number, number]> {
+    let minC = gridSize;
+    let maxC = 0;
+    let minR = gridSize;
+    let maxR = 0;
+    for (const [c, r] of cells) {
+        minC = Math.min(minC, c);
+        maxC = Math.max(maxC, c);
+        minR = Math.min(minR, r);
+        maxR = Math.max(maxR, r);
+    }
+    const out: Array<[number, number]> = [];
+    for (let dc = -minC; dc <= gridSize - 1 - maxC; dc++) {
+        for (let dr = -minR; dr <= gridSize - 1 - maxR; dr++) {
+            out.push([dc, dr]);
+        }
+    }
+    return out;
 }
 
 function matchKey(cells: LocalCoord[]): string {
@@ -182,16 +202,14 @@ export function findGlyphMatches(playerCells: Set<string>, gridSize = MINI_SIZE)
 
     for (const glyph of SCRIBE_GLYPHS) {
         for (const transformed of uniqueTransforms(glyph.cells)) {
-            for (let dc = 0; dc < gridSize; dc++) {
-                for (let dr = 0; dr < gridSize; dr++) {
-                    const placed = translateCells(transformed, dc, dr);
-                    if (placed === undefined) { continue; }
-                    if (! placed.every(c => occupied.has(localKey(c)))) { continue; }
-                    const key = matchKey(placed);
-                    if (seen.has(key)) { continue; }
-                    seen.add(key);
-                    matches.push({ glyph, cells: placed });
-                }
+            for (const [dc, dr] of translationOffsets(transformed, gridSize)) {
+                const placed = translateCells(transformed, dc, dr, gridSize);
+                if (placed === undefined) { continue; }
+                if (! placed.every(c => occupied.has(localKey(c)))) { continue; }
+                const key = matchKey(placed);
+                if (seen.has(key)) { continue; }
+                seen.add(key);
+                matches.push({ glyph, cells: placed });
             }
         }
     }
@@ -205,15 +223,13 @@ function exactGlyphInComponent(component: Set<string>, gridSize = MINI_SIZE): Gl
     for (const glyph of SCRIBE_GLYPHS) {
         if (glyph.cells.length !== component.size) { continue; }
         for (const transformed of uniqueTransforms(glyph.cells)) {
-            for (let dc = 0; dc < gridSize; dc++) {
-                for (let dr = 0; dr < gridSize; dr++) {
-                    const placed = translateCells(transformed, dc, dr);
-                    if (placed === undefined) { continue; }
-                    if (!setsEqual(component, new Set(placed.map(localKey)))) { continue; }
-                    const match: GlyphMatch = {glyph, cells: placed};
-                    if (found === undefined || glyph.name.localeCompare(found.glyph.name) < 0) {
-                        found = match;
-                    }
+            for (const [dc, dr] of translationOffsets(transformed, gridSize)) {
+                const placed = translateCells(transformed, dc, dr, gridSize);
+                if (placed === undefined) { continue; }
+                if (!setsEqual(component, new Set(placed.map(localKey)))) { continue; }
+                const match: GlyphMatch = {glyph, cells: placed};
+                if (found === undefined || glyph.name.localeCompare(found.glyph.name) < 0) {
+                    found = match;
                 }
             }
         }

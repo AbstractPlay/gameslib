@@ -5,12 +5,19 @@ import {
     ScribeGame,
     IScribeState,
     IMoveState,
+    SCRIBE_GLYPHS,
     glyphScore,
     findGlyphMatches,
     scoringGlyphMatches,
     formationWhat,
     playerid,
 } from "../../src/games/scribe";
+
+const SCRIBE_SMALL_GLYPHS = ["Single", "Double", "Line", "Pipe", "Squat-T"] as const;
+
+function localCellsFromKeys(keys: string[]): Set<string> {
+    return new Set(keys);
+}
 
 type BoardCell = [string, playerid];
 
@@ -122,6 +129,103 @@ describe("Scribe", () => {
         expect(scoringGlyphMatches(pipe).some(m => m.glyph.name === "Double")).to.be.false;
     });
 
+    it("recognizes pipe after reflection and translation toward the left column", () => {
+        const pipe = new Set(["0,0", "0,1", "0,2", "1,2"]);
+        expect(glyphScore(pipe)).to.equal(4);
+        expect(formationWhat(scoringGlyphMatches(pipe))).to.equal("Pipe");
+    });
+
+    it("recognizes pipe on the opposite side of the mini grid", () => {
+        const pipe = new Set(["1,2", "2,0", "2,1", "2,2"]);
+        expect(formationWhat(scoringGlyphMatches(pipe))).to.equal("Pipe");
+    });
+
+    it("recognizes line along the b-file (off-centre vertical)", () => {
+        const line = localCellsFromKeys(["1,0", "1,1", "1,2"]);
+        expect(formationWhat(scoringGlyphMatches(line))).to.equal("Line");
+        expect(glyphScore(line)).to.equal(3);
+    });
+
+    it("recognizes squat-T with the bar on the middle row", () => {
+        const squat = localCellsFromKeys(["0,1", "1,1", "2,1", "1,2"]);
+        expect(formationWhat(scoringGlyphMatches(squat))).to.equal("Squat-T");
+        expect(glyphScore(squat)).to.equal(4);
+    });
+
+    it("recognizes double on the middle row toward the right", () => {
+        const dbl = localCellsFromKeys(["1,1", "2,1"]);
+        expect(formationWhat(scoringGlyphMatches(dbl))).to.equal("Double");
+        expect(glyphScore(dbl)).to.equal(2);
+    });
+
+    it("recognizes single on the centre cell", () => {
+        const single = localCellsFromKeys(["1,1"]);
+        expect(formationWhat(scoringGlyphMatches(single))).to.equal("Single");
+        expect(glyphScore(single)).to.equal(1);
+    });
+
+    it("scores every distinct in-bounds placement of Single, Double, Line, Pipe, and Squat-T", () => {
+        const full = new Set<string>();
+        for (let r = 0; r < 3; r++) {
+            for (let c = 0; c < 3; c++) {
+                full.add(`${c},${r}`);
+            }
+        }
+        const values = new Map(SCRIBE_SMALL_GLYPHS.map((name) => {
+            const def = SCRIBE_GLYPHS.find(g => g.name === name);
+            return [name, def!.value] as const;
+        }));
+        const placementCount = new Map<string, number>();
+        const seen = new Set<string>();
+
+        for (const m of findGlyphMatches(full)) {
+            if (!(SCRIBE_SMALL_GLYPHS as readonly string[]).includes(m.glyph.name)) { continue; }
+            const cellSet = new Set(m.cells.map(([c, r]) => `${c},${r}`));
+            const placementKey = `${m.glyph.name}|${[...cellSet].sort().join("|")}`;
+            if (seen.has(placementKey)) { continue; }
+            seen.add(placementKey);
+            placementCount.set(m.glyph.name, (placementCount.get(m.glyph.name) ?? 0) + 1);
+
+            expect(formationWhat(scoringGlyphMatches(cellSet)), placementKey)
+                .to.equal(m.glyph.name);
+            expect(glyphScore(cellSet), placementKey).to.equal(values.get(m.glyph.name));
+        }
+
+        for (const name of SCRIBE_SMALL_GLYPHS) {
+            expect(placementCount.get(name), `${name} placement count`).to.be.greaterThan(0);
+        }
+        // Pipe had 12 placements with only non-negative dc/dr; negative translation adds more.
+        expect(placementCount.get("Pipe"), "Pipe placements").to.be.greaterThan(12);
+        expect(seen.has("Pipe|0,0|0,1|0,2|1,2"), "left-column pipe").to.be.true;
+    });
+
+    it("awards bottom-left mini to P2 when a3 completes the pipe and double", () => {
+        const board: BoardCell[] = [
+            ["e5", 1], ["h5", 2], ["d5", 1], ["f5", 2], ["b4", 1], ["h4", 2], ["f2", 1], ["d2", 2], ["h6", 1],
+            ["b5", 2], ["e8", 1], ["f6", 2], ["e6", 1], ["h8", 2], ["f8", 1], ["e4", 2], ["g5", 1], ["e2", 2],
+            ["a5", 1], ["d6", 2], ["b6", 1], ["b8", 2], ["e7", 1], ["f4", 2], ["f1", 1], ["g2", 2], ["i2", 1],
+            ["c5", 2], ["i5", 1], ["g4", 2], ["i6", 1], ["c2", 2], ["h7", 1], ["i4", 2], ["f3", 1], ["g1", 2],
+            ["g7", 1], ["a2", 2], ["b3", 1], ["c6", 2], ["e9", 1], ["g8", 2], ["d8", 1], ["c4", 2], ["a6", 1],
+            ["g3", 2], ["a7", 1], ["b7", 2], ["b2", 1], ["d1", 2], ["d4", 1], ["b1", 2], ["c1", 1], ["d3", 2],
+            ["h2", 1], ["c8", 2], ["i7", 1], ["g6", 2], ["i3", 1], ["b9", 2], ["i8", 1], ["f7", 2], ["i9", 1],
+            ["h3", 2], ["h9", 1], ["d9", 2], ["f9", 1], ["a8", 2], ["g9", 1], ["a4", 2], ["c9", 1], ["a1", 2],
+            ["e1", 1], ["c3", 2], ["e3", 1], ["d7", 2], ["i1", 1],
+        ];
+        const g = scribeFrom({
+            board,
+            last: ["i1", "d7"],
+            currplayer: 2,
+            miniwinners: [
+                ["1,1", 2], ["2,1", 2], ["2,0", 1], ["0,1", 2], ["1,2", 2], ["1,0", 2],
+            ],
+        });
+        g.move("a3", {trusted: true});
+        expect(g.miniwinners.get("0,2")).to.equal(2);
+        const claim = g.stack[g.stack.length - 1]!._results.find(r => r.type === "claim");
+        expect(claim?.who).to.equal(2);
+        expect(claim?.what).to.equal("Pipe|Double");
+    });
+
     it("awards a completed mini grid to the higher glyph score", () => {
         const topLeft: string[] = [];
         for (let ly = 0; ly < 3; ly++) {
@@ -144,7 +248,7 @@ describe("Scribe", () => {
                 p1Cells.add(`${lx},${ly}`);
             }
         }
-        expect(glyphScore(p1Cells)).to.equal(1);
+        expect(glyphScore(p1Cells)).to.equal(5);
         expect(claim?.what).to.equal(formationWhat(scoringGlyphMatches(p1Cells)));
     });
 

@@ -346,7 +346,7 @@ export class PolypodsGame extends GameBase {
                 polypod.forEach((c) => {
                     newBoard.delete(c);
                     captured.add(c);
-                    if (this.board.get(c)!.type === "foot") {
+                    if (board.get(c)!.type === "foot") {
                         capturedFeet.add(c);
                     }
                 });

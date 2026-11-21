@@ -292,6 +292,11 @@
       "full": "Familia > Damas",
       "tag": "F: Damas"
     },
+    "family>gipf": {
+      "description": "Serie de juegos abstractos del Proyecto GIPF de Kris Burm",
+      "full": "Familia > GIPF",
+      "tag": "F: GIPF"
+    },
     "family>gomoku": {
       "description": "Juegos de colocación para formar líneas en el linaje de Gomoku / Renju / Connect6 y parientes cercanos de alineación",
       "full": "Familia > Gomoku",
@@ -761,6 +766,9 @@
       "COLOUR": "colores",
       "GOALS": "Objetivos",
       "HEIGHT": "alturas"
+    },
+    "yinsh": {
+      "SCORE": "Anotar"
     }
   },
   "validation": {
@@ -4240,6 +4248,19 @@
       "INITIAL_INSTRUCTIONS": "Haz clic en una casilla vacía para colocar una pieza.",
       "MUST_BLOCK": "En una partida de tres jugadores, debes bloquear la victoria del siguiente oponente si es posible."
     },
+    "yinsh": {
+      "INITIAL_INSTRUCTIONS_SETUP": "Haz clic en una intersección vacía para colocar un anillo de tu reserva.",
+      "INITIAL_INSTRUCTIONS": "Haz clic en uno de tus anillos y luego en un destino a lo largo de una línea.",
+      "INITIAL_INSTRUCTIONS_ROW": "Retira los cinco marcadores de la fila y luego retira uno de tus anillos.",
+      "INITIAL_INSTRUCTIONS_SEGMENT": "Haz clic en los marcadores para descartar los que estén fuera de los cinco que vas a retirar. Confirma cuando queden resaltados exactamente cinco en fila.",
+      "INITIAL_INSTRUCTIONS_CHOOSE_ROW": "Haz clic en una fila resaltada para elegir qué cinco marcadores retirar.",
+      "INITIAL_INSTRUCTIONS_REMOVE_RING": "Haz clic en uno de tus anillos para anotarlo.",
+      "BLOCKED": "Esa intersección no está en el tablero.",
+      "OCCUPIED": "Ya hay un anillo en esa intersección.",
+      "MUST_RESOLVE_ROW": "Debes completar la eliminación de la fila antes de continuar.",
+      "NO_MARKERS": "No quedan marcadores en la reserva.",
+      "NOT_YOUR_RING": "Ese no es tu anillo."
+    },
     "yodd": {
       "INITIAL_INSTRUCTIONS": "Haz clic en un punto vacío para colocar una piedra de tu color. Haz clic de nuevo para cambiar al otro color, y otra vez para quitar la piedra. Usa Completar movimiento cuando estés listo (solo una piedra en el primer turno).",
       "INITIAL_INSTRUCTIONS_yopp": "Haz clic en un punto vacío para colocar tu piedra. Haz clic de nuevo para quitarla. Usa Completar movimiento cuando estés listo (solo una piedra en el primer turno).",
@@ -4577,6 +4598,7 @@
     "xana": "Un juego de apilamiento donde los jugadores tienen un número limitado de piezas y un número ilimitado de muros para conquistar territorio.",
     "y": "El clásico juego de conexión. Conecta los tres lados para ganar.",
     "yavalath": "Forma una línea de cuatro o más piezas de tu color *sin* formar primero una línea de tres piezas.",
+    "yinsh": "Coloca anillos y luego, en cada turno, coloca un marcador en un anillo y deslízalo a lo largo de una línea, volteando los marcadores saltados. Forma filas de cinco marcadores de tu color para retirarlos y anotar un anillo.",
     "yodd": "Pasa o coloca una o dos piedras de cualquier color. Después de tu turno debe haber un número impar de grupos en el tablero. Cuando ambos jugadores pasen de forma consecutiva, gana el jugador que tenga menos grupos de su color.",
     "yonkoma": "Dos fichas rojas y dos azules en un tablero ajedrezado. Una ficha se mueve a lo largo de una diagonal como un alfil, y cada movimiento debe acercar la ficha movida a las dos fichas enemigas, o bien mantener esa distancia y alejarla de su pareja. Quien complete una intersección cruzada, un bloque de 2x2 que contenga las cuatro fichas, pierde.",
     "yonmoque": "Intenta formar cuatro en línea en un juego donde no todos los espacios son iguales y las piezas enemigas se pueden convertir.",
@@ -4883,6 +4905,7 @@
     "xana": "Xana",
     "y": "Y",
     "yavalath": "Yavalath",
+    "yinsh": "YINSH",
     "yodd": "Yodd",
     "yonkoma": "Yonkoma",
     "yonmoque": "Yonmoque",
@@ -9578,6 +9601,12 @@
       },
       "progressive": {
         "name": "Progresivo con restricción de grupo"
+      }
+    },
+    "yinsh": {
+      "blitz": {
+        "name": "Blitz",
+        "description": "Gana anotando un anillo (formando una fila de cinco marcadores)."
       }
     },
     "yodd": {

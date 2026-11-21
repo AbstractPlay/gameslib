@@ -1882,6 +1882,20 @@
       "default": "{{player}} ha cambiato posto, scegliendo di giocare per primo."
     }
   },
+  "yinsh": {
+    "MOVE": {
+      "ring": "{{player}} ha mosso un anello da {{from}} a {{to}}."
+    },
+    "ROW": {
+      "markers": "{{player}} ha rimosso una fila di marcatori: {{cells}}.",
+      "ring": "{{player}} ha totalizzato un anello da {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} vince con {{count}} anelli totalizzati.",
+      "pool": "La riserva di marcatori è vuota; {{player}} vince con più anelli totalizzati.",
+      "draw": "La riserva di marcatori è vuota e il numero di anelli totalizzati è pari; la partita termina in pareggio."
+    }
+  },
   "yonkoma": {
     "EOG": {
       "crosscut": "{{player}} ha completato un taglio incrociato e perde la partita."

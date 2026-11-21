@@ -292,6 +292,11 @@
       "full": "Famiglia > Dama",
       "tag": "F: Dama"
     },
+    "family>gipf": {
+      "description": "La serie di giochi astratti Project GIPF di Kris Burm",
+      "full": "Famiglia > GIPF",
+      "tag": "F: GIPF"
+    },
     "family>gomoku": {
       "description": "Giochi di posizionamento e formazione di linee del lignaggio Gomoku / Renju / Connect6 e affini",
       "full": "Famiglia > Gomoku",
@@ -761,6 +766,9 @@
       "COLOUR": "colori",
       "GOALS": "Obiettivi",
       "HEIGHT": "altezze"
+    },
+    "yinsh": {
+      "SCORE": "Punteggio"
     }
   },
   "validation": {
@@ -4240,6 +4248,19 @@
       "INITIAL_INSTRUCTIONS": "Clicca su una casella vuota per posizionare un pezzo.",
       "MUST_BLOCK": "In una partita a tre giocatori, devi bloccare la vittoria dell'avversario successivo, se possibile."
     },
+    "yinsh": {
+      "INITIAL_INSTRUCTIONS_SETUP": "Fai clic su un'intersezione vuota per posizionare un anello dalla tua riserva.",
+      "INITIAL_INSTRUCTIONS": "Fai clic su uno dei tuoi anelli, poi fai clic su una destinazione lungo una linea.",
+      "INITIAL_INSTRUCTIONS_ROW": "Rimuovi i cinque marcatori nella riga, poi rimuovi uno dei tuoi anelli.",
+      "INITIAL_INSTRUCTIONS_SEGMENT": "Fai clic sui marcatori per deselezionare quelli al di fuori dei cinque da rimuovere. Conferma quando rimangono evidenziati esattamente cinque marcatori in fila.",
+      "INITIAL_INSTRUCTIONS_CHOOSE_ROW": "Fai clic su una riga evidenziata per scegliere quali cinque marcatori rimuovere.",
+      "INITIAL_INSTRUCTIONS_REMOVE_RING": "Fai clic su uno dei tuoi anelli per segnarlo.",
+      "BLOCKED": "Quella intersezione non è sulla plancia.",
+      "OCCUPIED": "C'è già un anello su quell'intersezione.",
+      "MUST_RESOLVE_ROW": "Devi completare la rimozione della riga prima di continuare.",
+      "NO_MARKERS": "Non ci sono più marcatori nella riserva.",
+      "NOT_YOUR_RING": "Quello non è un tuo anello."
+    },
     "yodd": {
       "INITIAL_INSTRUCTIONS": "Fai clic su un punto vuoto per posizionare una pietra del tuo colore. Fai di nuovo clic per passare all'altro colore, e ancora per rimuovere la pietra. Usa Completa mossa quando sei pronto (solo una pietra al primo turno).",
       "INITIAL_INSTRUCTIONS_yopp": "Fai clic su un punto vuoto per posizionare la tua pietra. Fai di nuovo clic su di esso per rimuoverla. Usa Completa mossa quando sei pronto (una sola pietra al primo turno).",
@@ -4577,6 +4598,7 @@
     "xana": "Un gioco di impilamento in cui i giocatori hanno un numero limitato di pezzi e un numero illimitato di muri per conquistare territorio.",
     "y": "Il classico gioco di connessione. Connetti tutti e tre i lati per vincere.",
     "yavalath": "Forma una linea di quattro o più pezzi del tuo colore *senza* prima formare una linea di tre pezzi.",
+    "yinsh": "Posiziona gli anelli, poi a ogni turno inserisci un marcatore in un anello e fai scorrere l'anello lungo una linea, capovolgendo i marcatori scavalcati. Forma file di cinque marcatori del tuo colore per rimuoverli e segnare un anello.",
     "yodd": "Passa o posiziona una o due pietre di qualsiasi colore. Dopo il tuo turno ci deve essere un numero dispari di gruppi sul tabellone. Quando entrambi i giocatori passano di seguito, vince il giocatore con meno gruppi del proprio colore.",
     "yonkoma": "Due pedine rosse e due blu su una scacchiera. Una pedina si muove lungo una diagonale come un alfiere, e ogni mossa deve avvicinare la pedina mossa alle due pedine avversarie, oppure mantenere tale distanza e allontanarla dalla propria compagna. Chiunque completi un crosscut, un blocco 2x2 contenente tutte e quattro le pedine, perde.",
     "yonmoque": "Cerca di formare un quattro in linea in un gioco in cui non tutti gli spazi sono uguali e i pezzi avversari possono essere convertiti.",
@@ -4883,6 +4905,7 @@
     "xana": "Xana",
     "y": "Y",
     "yavalath": "Yavalath",
+    "yinsh": "YINSH",
     "yodd": "Yodd",
     "yonkoma": "Yonkoma",
     "yonmoque": "Yonmoque",
@@ -9578,6 +9601,12 @@
       },
       "progressive": {
         "name": "Progressiva con restrizione di gruppo"
+      }
+    },
+    "yinsh": {
+      "blitz": {
+        "name": "Blitz",
+        "description": "Vinci segnando un anello (formando una riga di cinque marcatori)."
       }
     },
     "yodd": {

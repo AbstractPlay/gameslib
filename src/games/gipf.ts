@@ -186,6 +186,7 @@ export class GipfGame extends GameBaseSequenced {
             "board>shape>hex",
             "board>connect>hex",
             "components>simple>1per",
+            "family>gipf",
         ],
         flags: ["custom-colours", "automove", "experimental"],
     };

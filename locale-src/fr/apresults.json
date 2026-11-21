@@ -3211,6 +3211,30 @@
     "src": "{{player}} swapped seats, choosing to play first.",
     "out": "{{player}} a changé de place, choisissant de jouer en premier."
   },
+  "yinsh.EOG.draw": {
+    "src": "The marker pool is empty with equal scored rings; the game is a draw.",
+    "out": "La réserve de marqueurs est vide et le nombre d'anneaux marqués est égal ; la partie se termine par une égalité."
+  },
+  "yinsh.EOG.pool": {
+    "src": "The marker pool is empty; {{player}} wins with more scored rings.",
+    "out": "La réserve de marqueurs est vide ; {{player}} gagne avec plus d'anneaux marqués."
+  },
+  "yinsh.EOG.score": {
+    "src": "{{player}} wins with {{count}} scored rings.",
+    "out": "{{player}} gagne avec {{count}} anneaux marqués."
+  },
+  "yinsh.MOVE.ring": {
+    "src": "{{player}} moved a ring from {{from}} to {{to}}.",
+    "out": "{{player}} a déplacé un anneau de {{from}} à {{to}}."
+  },
+  "yinsh.ROW.markers": {
+    "src": "{{player}} removed a row of markers: {{cells}}.",
+    "out": "{{player}} a retiré un alignement de marqueurs : {{cells}}."
+  },
+  "yinsh.ROW.ring": {
+    "src": "{{player}} scored a ring from {{where}}.",
+    "out": "{{player}} a retiré un anneau depuis {{where}}."
+  },
   "yonkoma.EOG.crosscut": {
     "src": "{{player}} completed a crosscut and loses the game.",
     "out": "{{player}} a réalisé une coupe croisée et perd la partie."

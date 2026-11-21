@@ -743,6 +743,18 @@
     "src": "F: Draughts",
     "out": "F : Dames"
   },
+  "categories.family>gipf.description": {
+    "src": "Kris Burm's Project GIPF series of abstract games",
+    "out": "La série de jeux abstraits du Projet GIPF de Kris Burm"
+  },
+  "categories.family>gipf.full": {
+    "src": "Family > GIPF",
+    "out": "Famille > GIPF"
+  },
+  "categories.family>gipf.tag": {
+    "src": "F: GIPF",
+    "out": "F : GIPF"
+  },
   "categories.family>gomoku.description": {
     "src": "Line-forming placement games in the Gomoku / Renju / Connect6 lineage and close in-a-row relatives",
     "out": "Jeux de placement et d'alignement de la lignée du Gomoku / Renju / Connect6 et jeux d'alignement apparentés"
@@ -2542,6 +2554,10 @@
   "descriptions.yavalath": {
     "src": "Form a line of four or more pieces of your colour *without* forming a line of three pieces first.",
     "out": "Formez une ligne de quatre pièces ou plus de votre couleur *sans* former une ligne de trois pièces au préalable."
+  },
+  "descriptions.yinsh": {
+    "src": "Place rings, then each turn drop a marker into a ring and slide the ring along a line, flipping jumped markers. Form rows of five of your colour to remove markers and score a ring.",
+    "out": "Placez des anneaux, puis à chaque tour, déposez un marqueur dans un anneau et faites glisser l'anneau le long d'une ligne en retournant les marqueurs sautés. Formez des rangées de cinq marqueurs de votre couleur pour les retirer et marquer un anneau."
   },
   "descriptions.yodd": {
     "src": "Pass or place one or two stones of either colour. After your turn there must be an odd number of groups on the board. When both players pass in succession, the player with fewer groups of their colour wins.",
@@ -4675,6 +4691,10 @@
     "src": "Yavalath",
     "out": "Yavalath"
   },
+  "names.yinsh": {
+    "src": "YINSH",
+    "out": "YINSH"
+  },
   "names.yodd": {
     "src": "Yodd",
     "out": "Yodd"
@@ -5686,6 +5706,10 @@
   "status.waldmeister.HEIGHT": {
     "src": "heights",
     "out": "hauteurs"
+  },
+  "status.yinsh.SCORE": {
+    "src": "Score",
+    "out": "Score"
   },
   "validation._general.CAPTURE4MOVE": {
     "src": "You signalled a capture, but there's no piece at {{where}}.",
@@ -17111,6 +17135,50 @@
     "src": "In a three-player game, you must block a next-opponent win if possible.",
     "out": "Dans une partie à trois joueurs, vous devez bloquer une victoire du joueur suivant si possible."
   },
+  "validation.yinsh.BLOCKED": {
+    "src": "That intersection is not on the board.",
+    "out": "Cette intersection ne se trouve pas sur le plateau."
+  },
+  "validation.yinsh.INITIAL_INSTRUCTIONS": {
+    "src": "Click one of your rings, then click a destination along a line.",
+    "out": "Cliquez sur l'un de vos anneaux, puis cliquez sur une destination le long d'une ligne."
+  },
+  "validation.yinsh.INITIAL_INSTRUCTIONS_CHOOSE_ROW": {
+    "src": "Click a highlighted row to choose which five markers to remove.",
+    "out": "Cliquez sur une rangée en surbrillance pour choisir les cinq marqueurs à retirer."
+  },
+  "validation.yinsh.INITIAL_INSTRUCTIONS_REMOVE_RING": {
+    "src": "Click one of your rings to score it.",
+    "out": "Cliquez sur l'un de vos anneaux pour le marquer."
+  },
+  "validation.yinsh.INITIAL_INSTRUCTIONS_ROW": {
+    "src": "Remove the five markers in the row, then remove one of your rings.",
+    "out": "Retirez les cinq marqueurs de la rangée, puis retirez l'un de vos anneaux."
+  },
+  "validation.yinsh.INITIAL_INSTRUCTIONS_SEGMENT": {
+    "src": "Click markers to drop any outside the five you remove. Submit when exactly five in a row remain highlighted.",
+    "out": "Cliquez sur des marqueurs pour désélectionner ceux en dehors des cinq à retirer. Validez lorsque exactement cinq marqueurs alignés restent en surbrillance."
+  },
+  "validation.yinsh.INITIAL_INSTRUCTIONS_SETUP": {
+    "src": "Click an empty intersection to place a ring from your reserve.",
+    "out": "Cliquez sur une intersection vide pour y placer un anneau de votre réserve."
+  },
+  "validation.yinsh.MUST_RESOLVE_ROW": {
+    "src": "You must complete row removal before continuing.",
+    "out": "Vous devez terminer le retrait de la rangée avant de continuer."
+  },
+  "validation.yinsh.NOT_YOUR_RING": {
+    "src": "That is not your ring.",
+    "out": "Cet anneau ne vous appartient pas."
+  },
+  "validation.yinsh.NO_MARKERS": {
+    "src": "There are no markers left in the pool.",
+    "out": "Il ne reste aucun marqueur dans la réserve."
+  },
+  "validation.yinsh.OCCUPIED": {
+    "src": "There is already a ring on that intersection.",
+    "out": "Il y a déjà un anneau sur cette intersection."
+  },
   "validation.yodd.INITIAL_INSTRUCTIONS": {
     "src": "Click an empty point to place a stone in your colour. Click it again to switch to the other colour, and again to remove the stone. Use Complete Move when you are ready (one stone only on the first turn).",
     "out": "Cliquez sur une case vide pour placer une pierre de votre couleur. Cliquez à nouveau dessus pour passer à l'autre couleur, et encore une fois pour retirer la pierre. Utilisez Terminer le coup quand vous êtes prêt (une seule pierre au premier tour)."
@@ -22982,6 +23050,14 @@
   "variants.y.star.name": {
     "src": "Star board",
     "out": "Plateau en étoile"
+  },
+  "variants.yinsh.blitz.description": {
+    "src": "Win by scoring one ring (forming one row of five markers).",
+    "out": "Gagnez en marquant un anneau (en formant une rangée de cinq marqueurs)."
+  },
+  "variants.yinsh.blitz.name": {
+    "src": "Blitz",
+    "out": "Blitz"
   },
   "variants.yodd.#board.name": {
     "src": "Size-8 hex",

@@ -292,6 +292,11 @@
       "full": "Familie > Dame",
       "tag": "F: Dame"
     },
+    "family>gipf": {
+      "description": "Kris Burms Project GIPF-Reihe abstrakter Spiele",
+      "full": "Familie > GIPF",
+      "tag": "F: GIPF"
+    },
     "family>gomoku": {
       "description": "Linienbildende Setzspiele der Gomoku- / Renju- / Connect6-Abstammung und verwandte Reihenspiele",
       "full": "Familie > Gomoku",
@@ -761,6 +766,9 @@
       "COLOUR": "Farben",
       "GOALS": "Ziele",
       "HEIGHT": "Höhen"
+    },
+    "yinsh": {
+      "SCORE": "Punktestand"
     }
   },
   "validation": {
@@ -4240,6 +4248,19 @@
       "INITIAL_INSTRUCTIONS": "Klicke auf ein leeres Feld, um einen Stein zu platzieren.",
       "MUST_BLOCK": "In einem Spiel mit drei Spielern musst du den Sieg des nächsten Gegners wenn möglich blockieren."
     },
+    "yinsh": {
+      "INITIAL_INSTRUCTIONS_SETUP": "Klicke auf einen freien Schnittpunkt, um einen Ring aus deinem Vorrat zu platzieren.",
+      "INITIAL_INSTRUCTIONS": "Klicke auf einen deiner Ringe und dann auf ein Ziel entlang einer Linie.",
+      "INITIAL_INSTRUCTIONS_ROW": "Entferne die fünf Marker in der Reihe und entferne dann einen deiner Ringe.",
+      "INITIAL_INSTRUCTIONS_SEGMENT": "Klicke auf Marker, um diejenigen abzuwählen, die außerhalb der fünf zu entfernenden liegen. Bestätige, wenn genau fünf in einer Reihe hervorgehoben bleiben.",
+      "INITIAL_INSTRUCTIONS_CHOOSE_ROW": "Klicke auf eine hervorgehobene Reihe, um auszuwählen, welche fünf Marker entfernt werden sollen.",
+      "INITIAL_INSTRUCTIONS_REMOVE_RING": "Klicke auf einen deiner Ringe, um ihn zu werten.",
+      "BLOCKED": "Dieser Schnittpunkt befindet sich nicht auf dem Spielbrett.",
+      "OCCUPIED": "Auf diesem Schnittpunkt befindet sich bereits ein Ring.",
+      "MUST_RESOLVE_ROW": "Du musst das Entfernen der Reihe abschließen, bevor du fortfährst.",
+      "NO_MARKERS": "Es sind keine Marker mehr im Vorrat.",
+      "NOT_YOUR_RING": "Das ist nicht dein Ring."
+    },
     "yodd": {
       "INITIAL_INSTRUCTIONS": "Klicke auf einen leeren Punkt, um einen Stein deiner Farbe zu platzieren. Klicke erneut darauf, um zur anderen Farbe zu wechseln, und ein weiteres Mal, um den Stein zu entfernen. Nutze \"Zug beenden\", wenn du bereit bist (im ersten Zug nur ein Stein).",
       "INITIAL_INSTRUCTIONS_yopp": "Klicke auf einen leeren Punkt, um deinen Stein zu platzieren. Klicke erneut darauf, um den Stein zu entfernen. Verwende 'Zug beenden', wenn du fertig bist (nur ein Stein im ersten Zug).",
@@ -4577,6 +4598,7 @@
     "xana": "Ein Stapelspiel, bei dem die Spieler eine begrenzte Anzahl von Steinen und eine unbegrenzte Anzahl von Wänden haben, um Gebiet zu erobern.",
     "y": "Das klassische Verbindungsspiel. Verbinden Sie alle drei Seiten, um zu gewinnen.",
     "yavalath": "Bilden Sie eine Reihe von vier oder mehr Steinen Ihrer Farbe, *ohne* zuerst eine Reihe von drei Steinen zu bilden.",
+    "yinsh": "Setze Ringe, platziere dann in jedem Zug einen Marker in einen Ring und schiebe den Ring entlang einer Linie, wobei übersprungene Marker umgedreht werden. Bilde Fünferreihen deiner Farbe, um Marker zu entfernen und einen Ring zu werten.",
     "yodd": "Passe oder platziere einen oder zwei Steine einer beliebigen Farbe. Nach deinem Zug muss sich eine ungerade Anzahl von Gruppen auf dem Brett befinden. Wenn beide Spieler nacheinander passen, gewinnt der Spieler mit weniger Gruppen seiner Farbe.",
     "yonkoma": "Zwei rote und zwei blaue Spielsteine auf einem Schachbrett. Ein Spielstein bewegt sich wie ein Läufer entlang einer Diagonalen, und jeder Zug muss den bewegten Spielstein den beiden gegnerischen Spielsteinen näher bringen oder bei gleicher Distanz ihn weiter von seinem Partner entfernen. Wer einen Crosscut vervollständigt – einen 2x2-Block, der alle vier Spielsteine enthält –, verliert.",
     "yonmoque": "Versuchen Sie, eine Viererreihe zu bilden, in einem Spiel, in dem nicht alle Felder gleich sind und gegnerische Steine umgewandelt werden können.",
@@ -4883,6 +4905,7 @@
     "xana": "Xana",
     "y": "Y",
     "yavalath": "Yavalath",
+    "yinsh": "YINSH",
     "yodd": "Yodd",
     "yonkoma": "Yonkoma",
     "yonmoque": "Yonmoque",
@@ -9578,6 +9601,12 @@
       },
       "progressive": {
         "name": "Progressiv mit Gruppeneinschränkung"
+      }
+    },
+    "yinsh": {
+      "blitz": {
+        "name": "Blitz",
+        "description": "Gewinne, indem du einen Ring wertest (eine Reihe aus fünf Markern bildest)."
       }
     },
     "yodd": {

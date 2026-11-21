@@ -1882,6 +1882,20 @@
       "default": "{{player}} cambió de asiento, eligiendo jugar primero."
     }
   },
+  "yinsh": {
+    "MOVE": {
+      "ring": "{{player}} movió un anillo de {{from}} a {{to}}."
+    },
+    "ROW": {
+      "markers": "{{player}} retiró una fila de marcadores: {{cells}}.",
+      "ring": "{{player}} anotó un anillo desde {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} gana con {{count}} anillos anotados.",
+      "pool": "La reserva de marcadores está vacía; {{player}} gana con más anillos anotados.",
+      "draw": "La reserva de marcadores está vacía con igual número de anillos anotados; la partida termina en empate."
+    }
+  },
   "yonkoma": {
     "EOG": {
       "crosscut": "{{player}} completó un corte cruzado y pierde la partida."

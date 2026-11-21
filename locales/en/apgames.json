@@ -292,6 +292,11 @@
       "full": "Family > Draughts",
       "tag": "F: Draughts"
     },
+    "family>gipf": {
+      "description": "Kris Burm's Project GIPF series of abstract games",
+      "full": "Family > GIPF",
+      "tag": "F: GIPF"
+    },
     "family>gomoku": {
       "description": "Line-forming placement games in the Gomoku / Renju / Connect6 lineage and close in-a-row relatives",
       "full": "Family > Gomoku",
@@ -761,6 +766,9 @@
       "COLOUR": "colours",
       "GOALS": "Goals",
       "HEIGHT": "heights"
+    },
+    "yinsh": {
+      "SCORE": "Score"
     }
   },
   "validation": {
@@ -4240,6 +4248,19 @@
       "INITIAL_INSTRUCTIONS": "Click an empty cell to place a piece.",
       "MUST_BLOCK": "In a three-player game, you must block a next-opponent win if possible."
     },
+    "yinsh": {
+      "INITIAL_INSTRUCTIONS_SETUP": "Click an empty intersection to place a ring from your reserve.",
+      "INITIAL_INSTRUCTIONS": "Click one of your rings, then click a destination along a line.",
+      "INITIAL_INSTRUCTIONS_ROW": "Remove the five markers in the row, then remove one of your rings.",
+      "INITIAL_INSTRUCTIONS_SEGMENT": "Click markers to drop any outside the five you remove. Submit when exactly five in a row remain highlighted.",
+      "INITIAL_INSTRUCTIONS_CHOOSE_ROW": "Click a highlighted row to choose which five markers to remove.",
+      "INITIAL_INSTRUCTIONS_REMOVE_RING": "Click one of your rings to score it.",
+      "BLOCKED": "That intersection is not on the board.",
+      "OCCUPIED": "There is already a ring on that intersection.",
+      "MUST_RESOLVE_ROW": "You must complete row removal before continuing.",
+      "NO_MARKERS": "There are no markers left in the pool.",
+      "NOT_YOUR_RING": "That is not your ring."
+    },
     "yodd": {
       "INITIAL_INSTRUCTIONS": "Click an empty point to place a stone in your colour. Click it again to switch to the other colour, and again to remove the stone. Use Complete Move when you are ready (one stone only on the first turn).",
       "INITIAL_INSTRUCTIONS_yopp": "Click an empty point to place your stone. Click it again to remove the stone. Use Complete Move when you are ready (one stone only on the first turn).",
@@ -4577,6 +4598,7 @@
     "xana": "A stacking game where players have a limited number of pieces, and an unlimited number of walls, to conquer territory.",
     "y": "The classic connnection game. Connect all three sides to win.",
     "yavalath": "Form a line of four or more pieces of your colour *without* forming a line of three pieces first.",
+    "yinsh": "Place rings, then each turn drop a marker into a ring and slide the ring along a line, flipping jumped markers. Form rows of five of your colour to remove markers and score a ring.",
     "yodd": "Pass or place one or two stones of either colour. After your turn there must be an odd number of groups on the board. When both players pass in succession, the player with fewer groups of their colour wins.",
     "yonkoma": "Two red and two blue checkers on a checkerboard. A checker moves along a diagonal like a bishop, and every move must bring the moved checker closer to the two enemy checkers, or else keep that distance and take it farther from its partner. Whoever completes a crosscut, a 2x2 block holding all four checkers, loses.",
     "yonmoque": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
@@ -4883,6 +4905,7 @@
     "xana": "Xana",
     "y": "Y",
     "yavalath": "Yavalath",
+    "yinsh": "YINSH",
     "yodd": "Yodd",
     "yonkoma": "Yonkoma",
     "yonmoque": "Yonmoque",
@@ -9578,6 +9601,12 @@
       },
       "progressive": {
         "name": "Progressive with group restriction"
+      }
+    },
+    "yinsh": {
+      "blitz": {
+        "name": "Blitz",
+        "description": "Win by scoring one ring (forming one row of five markers)."
       }
     },
     "yodd": {

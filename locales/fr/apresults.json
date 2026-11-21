@@ -1882,6 +1882,20 @@
       "default": "{{player}} a changé de place, choisissant de jouer en premier."
     }
   },
+  "yinsh": {
+    "MOVE": {
+      "ring": "{{player}} a déplacé un anneau de {{from}} à {{to}}."
+    },
+    "ROW": {
+      "markers": "{{player}} a retiré un alignement de marqueurs : {{cells}}.",
+      "ring": "{{player}} a retiré un anneau depuis {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} gagne avec {{count}} anneaux marqués.",
+      "pool": "La réserve de marqueurs est vide ; {{player}} gagne avec plus d'anneaux marqués.",
+      "draw": "La réserve de marqueurs est vide et le nombre d'anneaux marqués est égal ; la partie se termine par une égalité."
+    }
+  },
   "yonkoma": {
     "EOG": {
       "crosscut": "{{player}} a réalisé une coupe croisée et perd la partie."

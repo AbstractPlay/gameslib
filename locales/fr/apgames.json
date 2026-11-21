@@ -292,6 +292,11 @@
       "full": "Famille > Dames",
       "tag": "F : Dames"
     },
+    "family>gipf": {
+      "description": "La série de jeux abstraits du Projet GIPF de Kris Burm",
+      "full": "Famille > GIPF",
+      "tag": "F : GIPF"
+    },
     "family>gomoku": {
       "description": "Jeux de placement et d'alignement de la lignée du Gomoku / Renju / Connect6 et jeux d'alignement apparentés",
       "full": "Famille > Gomoku",
@@ -761,6 +766,9 @@
       "COLOUR": "couleurs",
       "GOALS": "Objectifs",
       "HEIGHT": "hauteurs"
+    },
+    "yinsh": {
+      "SCORE": "Score"
     }
   },
   "validation": {
@@ -4240,6 +4248,19 @@
       "INITIAL_INSTRUCTIONS": "Cliquez sur une case vide pour placer une pièce.",
       "MUST_BLOCK": "Dans une partie à trois joueurs, vous devez bloquer une victoire du joueur suivant si possible."
     },
+    "yinsh": {
+      "INITIAL_INSTRUCTIONS_SETUP": "Cliquez sur une intersection vide pour y placer un anneau de votre réserve.",
+      "INITIAL_INSTRUCTIONS": "Cliquez sur l'un de vos anneaux, puis cliquez sur une destination le long d'une ligne.",
+      "INITIAL_INSTRUCTIONS_ROW": "Retirez les cinq marqueurs de la rangée, puis retirez l'un de vos anneaux.",
+      "INITIAL_INSTRUCTIONS_SEGMENT": "Cliquez sur des marqueurs pour désélectionner ceux en dehors des cinq à retirer. Validez lorsque exactement cinq marqueurs alignés restent en surbrillance.",
+      "INITIAL_INSTRUCTIONS_CHOOSE_ROW": "Cliquez sur une rangée en surbrillance pour choisir les cinq marqueurs à retirer.",
+      "INITIAL_INSTRUCTIONS_REMOVE_RING": "Cliquez sur l'un de vos anneaux pour le marquer.",
+      "BLOCKED": "Cette intersection ne se trouve pas sur le plateau.",
+      "OCCUPIED": "Il y a déjà un anneau sur cette intersection.",
+      "MUST_RESOLVE_ROW": "Vous devez terminer le retrait de la rangée avant de continuer.",
+      "NO_MARKERS": "Il ne reste aucun marqueur dans la réserve.",
+      "NOT_YOUR_RING": "Cet anneau ne vous appartient pas."
+    },
     "yodd": {
       "INITIAL_INSTRUCTIONS": "Cliquez sur une case vide pour placer une pierre de votre couleur. Cliquez à nouveau dessus pour passer à l'autre couleur, et encore une fois pour retirer la pierre. Utilisez Terminer le coup quand vous êtes prêt (une seule pierre au premier tour).",
       "INITIAL_INSTRUCTIONS_yopp": "Cliquez sur un point vide pour placer votre pierre. Cliquez dessus à nouveau pour la retirer. Utilisez Terminer le coup lorsque vous êtes prêt (une seule pierre au premier tour).",
@@ -4577,6 +4598,7 @@
     "xana": "Un jeu d'empilement où les joueurs disposent d'un nombre limité de pièces et d'un nombre illimité de murs pour conquérir du territoire.",
     "y": "Le jeu de connexion classique. Connectez les trois côtés pour gagner.",
     "yavalath": "Formez une ligne de quatre pièces ou plus de votre couleur *sans* former une ligne de trois pièces au préalable.",
+    "yinsh": "Placez des anneaux, puis à chaque tour, déposez un marqueur dans un anneau et faites glisser l'anneau le long d'une ligne en retournant les marqueurs sautés. Formez des rangées de cinq marqueurs de votre couleur pour les retirer et marquer un anneau.",
     "yodd": "Passez ou placez une ou deux pierres de n'importe quelle couleur. Après votre tour, il doit y avoir un nombre impair de groupes sur le plateau. Lorsque les deux joueurs passent consécutivement, le joueur ayant le moins de groupes de sa couleur gagne.",
     "yonkoma": "Deux pions rouges et deux pions bleus sur un damier. Un pion se déplace en diagonale comme un fou, et chaque coup doit rapprocher le pion déplacé des deux pions adverses, ou conserver cette distance tout en l'éloignant de son propre partenaire. Le joueur qui complète un « crosscut », un bloc de 2x2 contenant les quatre pions, perd la partie.",
     "yonmoque": "Essayez de former un alignement de quatre pièces dans un jeu où toutes les cases ne se valent pas et où les pièces adverses peuvent être converties.",
@@ -4883,6 +4905,7 @@
     "xana": "Xana",
     "y": "Y",
     "yavalath": "Yavalath",
+    "yinsh": "YINSH",
     "yodd": "Yodd",
     "yonkoma": "Yonkoma",
     "yonmoque": "Yonmoque",
@@ -9578,6 +9601,12 @@
       },
       "progressive": {
         "name": "Progressif avec restriction de groupe"
+      }
+    },
+    "yinsh": {
+      "blitz": {
+        "name": "Blitz",
+        "description": "Gagnez en marquant un anneau (en formant une rangée de cinq marqueurs)."
       }
     },
     "yodd": {

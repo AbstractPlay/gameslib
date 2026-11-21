@@ -1882,6 +1882,20 @@
       "default": "{{player}} swapped seats, choosing to play first."
     }
   },
+  "yinsh": {
+    "MOVE": {
+      "ring": "{{player}} moved a ring from {{from}} to {{to}}."
+    },
+    "ROW": {
+      "markers": "{{player}} removed a row of markers: {{cells}}.",
+      "ring": "{{player}} scored a ring from {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} wins with {{count}} scored rings.",
+      "pool": "The marker pool is empty; {{player}} wins with more scored rings.",
+      "draw": "The marker pool is empty with equal scored rings; the game is a draw."
+    }
+  },
   "yonkoma": {
     "EOG": {
       "crosscut": "{{player}} completed a crosscut and loses the game."

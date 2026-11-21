@@ -8033,6 +8033,66 @@
       "english": "{{player}} swapped seats, choosing to play first."
     },
     {
+      "oldPath": "EOG.yinsh_draw",
+      "oldFullKey": "apresults:EOG.yinsh_draw",
+      "uid": "yinsh",
+      "resultType": "EOG",
+      "newLeaf": "draw",
+      "newPath": "yinsh.EOG.draw",
+      "newFullKey": "apresults:yinsh.EOG.draw",
+      "english": "The marker pool is empty with equal scored rings; the game is a draw."
+    },
+    {
+      "oldPath": "EOG.yinsh_pool",
+      "oldFullKey": "apresults:EOG.yinsh_pool",
+      "uid": "yinsh",
+      "resultType": "EOG",
+      "newLeaf": "pool",
+      "newPath": "yinsh.EOG.pool",
+      "newFullKey": "apresults:yinsh.EOG.pool",
+      "english": "The marker pool is empty; {{player}} wins with more scored rings."
+    },
+    {
+      "oldPath": "EOG.yinsh_score",
+      "oldFullKey": "apresults:EOG.yinsh_score",
+      "uid": "yinsh",
+      "resultType": "EOG",
+      "newLeaf": "score",
+      "newPath": "yinsh.EOG.score",
+      "newFullKey": "apresults:yinsh.EOG.score",
+      "english": "{{player}} wins with {{count}} scored rings."
+    },
+    {
+      "oldPath": "MOVE.yinsh_ring",
+      "oldFullKey": "apresults:MOVE.yinsh_ring",
+      "uid": "yinsh",
+      "resultType": "MOVE",
+      "newLeaf": "ring",
+      "newPath": "yinsh.MOVE.ring",
+      "newFullKey": "apresults:yinsh.MOVE.ring",
+      "english": "{{player}} moved a ring from {{from}} to {{to}}."
+    },
+    {
+      "oldPath": "ROW.yinsh_markers",
+      "oldFullKey": "apresults:ROW.yinsh_markers",
+      "uid": "yinsh",
+      "resultType": "ROW",
+      "newLeaf": "markers",
+      "newPath": "yinsh.ROW.markers",
+      "newFullKey": "apresults:yinsh.ROW.markers",
+      "english": "{{player}} removed a row of markers: {{cells}}."
+    },
+    {
+      "oldPath": "ROW.yinsh_ring",
+      "oldFullKey": "apresults:ROW.yinsh_ring",
+      "uid": "yinsh",
+      "resultType": "ROW",
+      "newLeaf": "ring",
+      "newPath": "yinsh.ROW.ring",
+      "newFullKey": "apresults:yinsh.ROW.ring",
+      "english": "{{player}} scored a ring from {{where}}."
+    },
+    {
       "oldPath": "EOG.yonkoma_crosscut",
       "oldFullKey": "apresults:EOG.yonkoma_crosscut",
       "uid": "yonkoma",

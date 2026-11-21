@@ -1882,6 +1882,20 @@
       "default": "{{player}} hat die Plätze getauscht und gewählt, als Erster zu spielen."
     }
   },
+  "yinsh": {
+    "MOVE": {
+      "ring": "{{player}} hat einen Ring von {{from}} nach {{to}} bewegt."
+    },
+    "ROW": {
+      "markers": "{{player}} hat eine Reihe von Markern entfernt: {{cells}}.",
+      "ring": "{{player}} hat einen Ring von {{where}} gewertet."
+    },
+    "EOG": {
+      "score": "{{player}} gewinnt mit {{count}} gewerteten Ringen.",
+      "pool": "Der Markervorrat ist leer; {{player}} gewinnt mit mehr gewerteten Ringen.",
+      "draw": "Der Markervorrat ist leer bei gleicher Anzahl gewerteter Ringe; das Spiel endet unentschieden."
+    }
+  },
   "yonkoma": {
     "EOG": {
       "crosscut": "{{player}} hat einen Kreuzschnitt ausgeführt und verliert das Spiel."

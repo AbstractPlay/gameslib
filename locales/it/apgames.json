@@ -5715,6 +5715,10 @@
         "description": "Le piramidi si muovono e si scambiano solo in caselle adiacenti.",
         "name": "Mossa a passo"
       },
+      "slide-move": {
+        "description": "Le piramidi scivolano per l'intero loro valore in pip lungo un percorso cardinale libero; le caselle occupate tra origine e destinazione bloccano mosse e scambi.",
+        "name": "Mossa a scivolamento"
+      },
       "black-trio-swap": {
         "description": "Gli scambi di obiettivi rimangono legali finché non sono state pescate una piramide nera piccola, una media e una grande.",
         "name": "Scambio del trio nero"

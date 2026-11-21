@@ -17383,6 +17383,14 @@
     "src": "Objective Initiative",
     "out": "Iniciativa de objetivos"
   },
+  "variants.agofmars.slide-move.description": {
+    "src": "Pyramids slide their full pip count along a clear cardinal path; occupied cells between origin and destination block moves and swaps.",
+    "out": "Las pirámides se deslizan su cantidad total de pips a lo largo de un camino cardinal despejado; las casillas ocupadas entre el origen y el destino bloquean movimientos e intercambios."
+  },
+  "variants.agofmars.slide-move.name": {
+    "src": "Slide move",
+    "out": "Movimiento de deslizamiento"
+  },
   "variants.agofmars.step-move.description": {
     "src": "Pyramids move and swap only to adjacent cells.",
     "out": "Las pirámides solo se mueven e intercambian a casillas adyacentes."

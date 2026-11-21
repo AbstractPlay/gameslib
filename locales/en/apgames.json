@@ -5715,6 +5715,10 @@
         "description": "Pyramids move and swap only to adjacent cells.",
         "name": "Step move"
       },
+      "slide-move": {
+        "description": "Pyramids slide their full pip count along a clear cardinal path; occupied cells between origin and destination block moves and swaps.",
+        "name": "Slide move"
+      },
       "black-trio-swap": {
         "description": "Objective swaps remain legal until a small, medium, and large black pyramid have been drawn.",
         "name": "Black trio swap"

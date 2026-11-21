@@ -5715,6 +5715,10 @@
         "description": "Pyramiden bewegen und tauschen sich nur auf benachbarte Felder.",
         "name": "Schrittweise Bewegung"
       },
+      "slide-move": {
+        "description": "Pyramiden gleiten ihre volle Pip-Anzahl entlang eines freien orthogonalen Pfades; besetzte Felder zwischen Start und Ziel blockieren Züge und Tausche.",
+        "name": "Gleitzug"
+      },
       "black-trio-swap": {
         "description": "Zieltauschaktionen bleiben legal, bis eine kleine, mittlere und große schwarze Pyramide gezogen wurden.",
         "name": "Schwarzer Trio-Tausch"

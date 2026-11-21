@@ -100,6 +100,10 @@ export const gameApgamesEn = {
             description: "Pyramids move and swap only to adjacent cells.",
             name: "Step move",
         },
+        "slide-move": {
+            description: "Pyramids slide their full pip count along a clear cardinal path; occupied cells between origin and destination block moves and swaps.",
+            name: "Slide move",
+        },
         "black-trio-swap": {
             description: "Objective swaps remain legal until a small, medium, and large black pyramid have been drawn.",
             name: "Black trio swap",
@@ -249,6 +253,7 @@ export class AgofmarsGame extends GameBaseSequenced {
             { uid: "objective-initiative", conflictsWith: ["blind-agents"] },
             { uid: "blind-agents", conflictsWith: ["objective-initiative"] },
             { uid: "step-move" },
+            { uid: "slide-move" },
             { uid: "black-trio-swap", conflictsWith: ["five-colour-plus3", "five-colour-minus2"] },
             { uid: "biggest-group" },
             { uid: "group-size-scoring" },
@@ -551,7 +556,7 @@ export class AgofmarsGame extends GameBaseSequenced {
     }
 
     /**
-     * Swap reach: full pip-count jump in one cardinal direction (intervening pyramids allowed),
+     * Swap reach: full pip-count jump or slide in one cardinal direction,
      * destination may be occupied (unlike ordinary moves).
      */
     private swapReachable(from: string, to: string): boolean {
@@ -578,9 +583,27 @@ export class AgofmarsGame extends GameBaseSequenced {
         if (dist !== steps) {
             return false;
         }
-        const destX = fx + (dx === 0 ? 0 : (dx / Math.abs(dx)) * steps);
-        const destY = fy + (dy === 0 ? 0 : (dy / Math.abs(dy)) * steps);
-        return g.coords2algebraic(destX, destY) === to;
+        if (!this.usesSlideMovement()) {
+            const destX = fx + (dx === 0 ? 0 : (dx / Math.abs(dx)) * steps);
+            const destY = fy + (dy === 0 ? 0 : (dy / Math.abs(dy)) * steps);
+            return g.coords2algebraic(destX, destY) === to;
+        }
+        const stepX = dx === 0 ? 0 : dx / Math.abs(dx);
+        const stepY = dy === 0 ? 0 : dy / Math.abs(dy);
+        let cx = fx;
+        let cy = fy;
+        for (let s = 1; s <= steps; s++) {
+            cx += stepX;
+            cy += stepY;
+            const cell = g.coords2algebraic(cx, cy);
+            if (s < steps && this.board.has(cell)) {
+                return false;
+            }
+            if (s === steps) {
+                return cell === to;
+            }
+        }
+        return false;
     }
 
     private canSwapCells(a: string, b: string): boolean {
@@ -1254,9 +1277,14 @@ export class AgofmarsGame extends GameBaseSequenced {
         return piece[1];
     }
 
+    /** When false, moves and swaps use jump reach (intervening pyramids allowed). */
+    private usesSlideMovement(): boolean {
+        return this.variants.includes("slide-move");
+    }
+
     /**
-     * Empty cells exactly `steps` away in a straight cardinal line; intervening
-     * pyramids may be jumped (face-value distance, not a sliding path).
+     * Empty cells exactly `steps` away in a straight cardinal line (jump), or
+     * reachable by sliding when slide-move is on (every intermediate empty).
      */
     private cardinalDestinations(from: string, steps: number): Set<string> {
         const out = new Set<string>();
@@ -1273,6 +1301,32 @@ export class AgofmarsGame extends GameBaseSequenced {
         ] as const;
         const w = this.boardWidth();
         const h = this.boardHeight();
+        if (this.usesSlideMovement()) {
+            for (const [dx, dy] of directions) {
+                let cx = fx;
+                let cy = fy;
+                let blocked = false;
+                for (let step = 0; step < steps; step++) {
+                    const nx = cx + dx;
+                    const ny = cy + dy;
+                    if (nx < 0 || nx >= w || ny < 0 || ny >= h) {
+                        blocked = true;
+                        break;
+                    }
+                    const cell = g.coords2algebraic(nx, ny);
+                    if (this.board.has(cell)) {
+                        blocked = true;
+                        break;
+                    }
+                    cx = nx;
+                    cy = ny;
+                }
+                if (!blocked) {
+                    out.add(g.coords2algebraic(cx, cy));
+                }
+            }
+            return out;
+        }
         for (const [dx, dy] of directions) {
             const nx = fx + dx * steps;
             const ny = fy + dy * steps;

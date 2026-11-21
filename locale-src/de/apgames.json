@@ -17383,6 +17383,14 @@
     "src": "Objective Initiative",
     "out": "Objective Initiative"
   },
+  "variants.agofmars.slide-move.description": {
+    "src": "Pyramids slide their full pip count along a clear cardinal path; occupied cells between origin and destination block moves and swaps.",
+    "out": "Pyramiden gleiten ihre volle Pip-Anzahl entlang eines freien orthogonalen Pfades; besetzte Felder zwischen Start und Ziel blockieren Züge und Tausche."
+  },
+  "variants.agofmars.slide-move.name": {
+    "src": "Slide move",
+    "out": "Gleitzug"
+  },
   "variants.agofmars.step-move.description": {
     "src": "Pyramids move and swap only to adjacent cells.",
     "out": "Pyramiden bewegen und tauschen sich nur auf benachbarte Felder."

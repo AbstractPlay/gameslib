@@ -5715,6 +5715,10 @@
         "description": "Las pirámides solo se mueven e intercambian a casillas adyacentes.",
         "name": "Movimiento de un paso"
       },
+      "slide-move": {
+        "description": "Las pirámides se deslizan su cantidad total de pips a lo largo de un camino cardinal despejado; las casillas ocupadas entre el origen y el destino bloquean movimientos e intercambios.",
+        "name": "Movimiento de deslizamiento"
+      },
       "black-trio-swap": {
         "description": "Los intercambios de objetivos siguen siendo legales hasta que se hayan sacado una pirámide negra pequeña, una mediana y una grande.",
         "name": "Intercambio por trío negro"

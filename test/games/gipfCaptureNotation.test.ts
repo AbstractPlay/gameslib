@@ -29,4 +29,16 @@ describe("Gipf capture notation", () => {
         const takeLeaveGipf = new Set(["e8", "e7", "e6", "e5"]);
         expect(formatCaptureNotation(row, takeLeaveGipf)).to.equal("xe8-e5");
     });
+
+    it("joins disjoint capture runs with commas", () => {
+        const row = {
+            id: "1:f2,e3,d3,c3",
+            lineKey: "a3|b3|c3|d3|e3|f2|g1",
+            owner: 1,
+            cells: ["f2", "e3", "d3", "c3"],
+            core: ["f2", "e3", "d3", "c3"],
+        };
+        const take = new Set(["f2", "d3", "c3"]);
+        expect(formatCaptureNotation(row, take)).to.equal("xd3-c3,xf2-f2");
+    });
 });

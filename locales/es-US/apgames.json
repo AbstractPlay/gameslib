@@ -2090,6 +2090,19 @@
       "POTENTIAL_MOVE": "Hasta ahora todo bien. Indica el espacio al que quieres mover la pieza de 3x3.",
       "TOO_MANY_MOVES": "Ya has seleccionado una pieza para mover."
     },
+    "gipf": {
+      "INITIAL_INSTRUCTIONS": "Haz clic en un punto vacío para colocar una pieza de tu reserva, luego haz clic en la primera casilla a lo largo de una línea para empujarla al juego.",
+      "INITIAL_INSTRUCTIONS_TOURNAMENT": "En un punto: primero se coloca una pieza GIPF; haz clic en el punto de nuevo para cambiar a una pieza individual o despejarlo. Luego empuja a lo largo de una línea. Las entradas de GIPF terminan con G (p. ej. e1-e2G).",
+      "INITIAL_INSTRUCTIONS_PUSH": "Haz clic en la primera casilla a lo largo de una línea para completar tu movimiento.",
+      "INITIAL_INSTRUCTIONS_CAPTURE": "Las piezas marcadas deben ser retiradas. Haz clic en cualquier pieza obligatoria resaltada para llenar la línea de captura en el cuadro de movimiento, luego envíala.",
+      "INITIAL_INSTRUCTIONS_CAPTURE_OPTIONAL": "Haz clic en una pieza obligatoria resaltada para completar la línea de captura, o haz clic en una pieza GIPF opcional para dejarla en el tablero. Envía la anotación de captura cuando termines.",
+      "INITIAL_INSTRUCTIONS_CHOOSE_ROW": "Haz clic en una fila resaltada para retirarla primero.",
+      "BLOCKED_LINE": "Esa línea está bloqueada; no puedes empujar una pieza fuera del tablero.",
+      "DOT_OCCUPIED": "Ese punto ya tiene una pieza.",
+      "NOT_DOT": "{{where}} no es un punto.",
+      "MUST_CAPTURE": "Debes retirar piezas del tablero antes de continuar.",
+      "MUST_ENTER_GIPF": "Debes poner en juego una pieza GIPF antes de jugar piezas individuales."
+    },
     "gliss": {
       "BAD_BASE": "No puedes colocar una base en {{where}}. Las bases no pueden estar ortogonalmente adyacentes a ninguna pieza aliada.",
       "BAD_DEST": "El planeador en {{from}} no puede llegar a {{to}}.",
@@ -4382,6 +4395,7 @@
     "furl": "Enrolla una fila de tus discos o desenrolla una pila. Si tienes un disco en tu fila final al comienzo de tu turno, ganas.",
     "garden": "Dos magos comparten una parcela de jardín e intentas cosechar reactivos valiosos. Ambos comparten la misma reserva de semillas. Plantar una semilla cambia las plantas a su alrededor. ¡Forma cuatro en fila para cosechar. Quien consiga más cosechas gana!",
     "gess": "En Gess, las 'piezas' son patrones de piedras de 3x3. Un jugador puede usar cualquier sección de 3×3 del tablero que contenga al menos una de sus piedras y ninguna piedra de su oponente. Si una pieza de 3x3 se mueve de forma que se superpone a una o más piedras (de cualquier jugador), se capturan todas las piedras sobre las que se mueva la pieza. Cada jugador debe mantener en todo momento al menos una pieza que consiste en un anillo de ocho piedras alrededor de una casilla vacía. Si por alguna razón un jugador queda en una posición en la que ya no tiene dicho anillo en ningún lugar del tablero, pierde.",
+    "gipf": "Los jugadores empujan piezas desde los puntos hacia un tablero de líneas hexagonales, formando filas de cuatro para capturar. Gana vaciando la reserva del oponente o eliminando su última pieza GIPF.",
     "gliss": "Establece bases y despliega planeadores para capturar los planeadores del rival y controlar torres. Elimina todas las bases enemigas o establece un número crítico de torres de control para ganar.",
     "go": "El tradicional juego de Go",
     "gomoku": "Un juego clásico en el que intentas formar una línea exacta de cinco fichas. Seis en fila no cuenta como victoria. El juego termina en empate si ningún jugador logra cinco en fila o tras dos pases consecutivos.",
@@ -4687,6 +4701,7 @@
     "furl": "Furl",
     "garden": "Wizard's Garden",
     "gess": "Gess",
+    "gipf": "GIPF",
     "gliss": "Gliss",
     "go": "Go",
     "gomoku": "Gomoku",
@@ -5699,6 +5714,10 @@
       "step-move": {
         "description": "Las pirámides solo se mueven e intercambian a casillas adyacentes.",
         "name": "Movimiento de un paso"
+      },
+      "slide-move": {
+        "description": "Las pirámides se deslizan su cantidad total de pips a lo largo de un camino cardinal despejado; las casillas ocupadas entre el origen y el destino bloquean movimientos e intercambios.",
+        "name": "Movimiento de deslizamiento"
       },
       "black-trio-swap": {
         "description": "Los intercambios de objetivos siguen siendo legales hasta que se hayan sacado una pirámide negra pequeña, una mediana y una grande.",
@@ -7023,6 +7042,20 @@
       "refills": {
         "description": "El pozo de robo se puede rellenar durante el turno de un jugador, dividiendo sus acciones en dos turnos parciales.",
         "name": "Rellenos"
+      }
+    },
+    "gipf": {
+      "#rules": {
+        "description": "Piezas GIPF, eliminación opcional de GIPF en filas y derrota si tu última pieza GIPF sale del tablero.",
+        "name": "Estándar"
+      },
+      "basic": {
+        "description": "Solo piezas básicas; gana cuando la reserva del oponente esté vacía.",
+        "name": "Básico"
+      },
+      "tournament": {
+        "description": "Inicio vacío; los jugadores pueden introducir múltiples piezas GIPF antes de bloquear el juego a piezas individuales.",
+        "name": "Torneo"
       }
     },
     "gliss": {

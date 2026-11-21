@@ -2090,6 +2090,19 @@
       "POTENTIAL_MOVE": "Jusqu'ici tout va bien. Indiquez la case vers laquelle vous souhaitez déplacer la pièce 3x3.",
       "TOO_MANY_MOVES": "Vous avez déjà sélectionné une pièce à déplacer."
     },
+    "gipf": {
+      "INITIAL_INSTRUCTIONS": "Cliquez sur un point vide pour placer une pièce de votre réserve, puis cliquez sur la première case d'une ligne pour la pousser sur le plateau.",
+      "INITIAL_INSTRUCTIONS_TOURNAMENT": "Sur un point : une pièce GIPF est d'abord placée ; cliquez à nouveau sur le point pour passer à une pièce simple ou l'effacer. Poussez ensuite le long d'une ligne. Les entrées de GIPF se terminent par G (ex. e1-e2G).",
+      "INITIAL_INSTRUCTIONS_PUSH": "Cliquez sur la première case le long d'une ligne pour terminer votre coup.",
+      "INITIAL_INSTRUCTIONS_CAPTURE": "Les pièces marquées doivent être retirées. Cliquez sur n'importe quelle pièce obligatoire en surbrillance pour remplir la ligne de capture dans la zone de coup, puis validez.",
+      "INITIAL_INSTRUCTIONS_CAPTURE_OPTIONAL": "Cliquez sur une pièce obligatoire en surbrillance pour capturer toute la ligne, ou cliquez sur une pièce GIPF optionnelle pour la laisser sur le plateau. Validez la notation de capture une fois terminé.",
+      "INITIAL_INSTRUCTIONS_CHOOSE_ROW": "Cliquez sur une rangée en surbrillance pour la retirer en premier.",
+      "BLOCKED_LINE": "Cette ligne est bloquée ; vous ne pouvez pas pousser une pièce hors du plateau.",
+      "DOT_OCCUPIED": "Ce point contient déjà une pièce.",
+      "NOT_DOT": "{{where}} n'est pas un point.",
+      "MUST_CAPTURE": "Vous devez retirer des pièces du plateau avant de continuer.",
+      "MUST_ENTER_GIPF": "Vous devez introduire une pièce GIPF en jeu avant de jouer des pièces simples."
+    },
     "gliss": {
       "BAD_BASE": "Vous ne pouvez pas placer de base en {{where}}. Les bases ne peuvent pas être orthogonalement adjacentes à des pièces alliées.",
       "BAD_DEST": "Le planeur en {{from}} ne peut pas atteindre {{to}}.",
@@ -4382,6 +4395,7 @@
     "furl": "Enroulez une rangée de vos disques ou déroulez une pile. Si vous avez un disque sur votre rangée finale au début de votre tour, vous gagnez.",
     "garden": "Deux magiciens partagent une parcelle de jardin et tentent de récolter de précieux réactifs. Tous deux partagent la même réserve de graines. Planter une graine transforme les plantes environnantes. Alignez-en quatre pour récolter. Le plus de récoltes l'emporte !",
     "gess": "Dans Gess, les « pièces » sont des motifs de pierres de 3x3. Un joueur peut utiliser n'importe quelle section 3x3 du plateau contenant au moins une de ses pierres et aucune pierre adverse. Si une pièce 3x3 se déplace de façon à chevaucher une ou plusieurs pierres (de l'un ou l'autre joueur), toutes les pierres sur lesquelles la pièce se déplace sont capturées. Chaque joueur doit maintenir en permanence au moins une pièce formant un anneau de huit pierres autour d'une case vide. Si un joueur ne possède plus un tel anneau nulle part sur le plateau, quelle qu'en soit la raison, il perd.",
+    "gipf": "Les joueurs poussent des pièces depuis les points d'entrée sur un plateau hexagonal, formant des alignements de quatre pièces à capturer. Gagnez en vidant la réserve de l'adversaire ou en retirant sa dernière pièce GIPF.",
     "gliss": "Établissez des bases et déployez des planeurs pour capturer les planeurs adverses et contrôler des tours. Éliminez toutes les bases adverses ou établissez un nombre critique de tours de contrôle pour l'emporter.",
     "go": "Le jeu traditionnel de Go",
     "gomoku": "Un jeu classique où vous essayez d'aligner exactement cinq pierres. Une ligne de six ne compte pas comme une victoire. La partie se termine par une égalité si aucun joueur n'obtient un alignement de cinq pierres ou après deux passes consécutives.",
@@ -4687,6 +4701,7 @@
     "furl": "Furl",
     "garden": "Wizard's Garden",
     "gess": "Gess",
+    "gipf": "GIPF",
     "gliss": "Gliss",
     "go": "Go",
     "gomoku": "Gomoku",
@@ -5699,6 +5714,10 @@
       "step-move": {
         "description": "Les pyramides ne se déplacent et ne s'échangent que vers des cases adjacentes.",
         "name": "Déplacement pas-à-pas"
+      },
+      "slide-move": {
+        "description": "Les pyramides glissent de la totalité de leurs pips le long d'un chemin cardinal dégagé ; les cases occupées entre l'origine et la destination bloquent les déplacements et les échanges.",
+        "name": "Déplacement par glissement"
       },
       "black-trio-swap": {
         "description": "Les échanges d'objectifs restent autorisés jusqu'à ce qu'une petite, une moyenne et une grande pyramide noire aient été piochées.",
@@ -7023,6 +7042,20 @@
       "refills": {
         "description": "La réserve de pioche peut être remplie pendant le tour d'un joueur, en divisant ses actions sur deux demi-tours.",
         "name": "Réapprovisionnements"
+      }
+    },
+    "gipf": {
+      "#rules": {
+        "description": "Pièces GIPF, retrait optionnel des pièces GIPF sur les alignements, et défaite si votre dernière pièce GIPF quitte le plateau.",
+        "name": "Standard"
+      },
+      "basic": {
+        "description": "Pièces simples uniquement ; gagnez lorsque la réserve de l'adversaire est vide.",
+        "name": "De base"
+      },
+      "tournament": {
+        "description": "Départ plateau vide ; les joueurs peuvent introduire plusieurs pièces GIPF avant de verrouiller le jeu sur les pièces simples.",
+        "name": "Tournoi"
       }
     },
     "gliss": {

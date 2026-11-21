@@ -13,9 +13,9 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
-- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Ice Palace, Polypods, Squares.
+- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, GIPF, Ice Palace, Polypods, Squares.
 
-## [1.0.0-ci] - 2026-11-20
+## [1.0.0-ci] - 2026-11-21
 
 ### Added
 
@@ -28,6 +28,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Fixed
 
+- **Agents of MARS:** pyramid moves and board swaps may jump over intervening pyramids when landing exactly face-value steps away in a cardinal direction; optional **Slide move** variant restores clear-path sliding.
 - **Tumbleweed (fog):** off-line-of-sight captures tombstone the victim seat’s `fogMemory` at the captured cell so stripped client boards and LOS no longer keep a phantom stack; `repairTumbleweedFogStack` / `repairTumbleweedFogStackJson` replay stacks to refresh `fogMemory` on every ply (node-backend one-shot `backfill-tumbleweed-fog` script), including resign/timeout/draw/abandoned endings.
 - **Chameleon:** end-of-game reason distinguishes annihilation (no pieces left) from stalemate (no legal moves); infiltration wins use the correct opposing back rank for player 1; one-time ops backfill patches legacy terminal `eog` results on completed games (see node-backend).
 - **Tablero stack repair:** deep-copy board stacks; doubles **take** commits a take frame then a **`pass` stack frame** (move tree and event log show the forced pass; legacy merged take+pass `_results` still log the skipped seat); move log distinguishes **game-ending bump** (`BUMP`) from **forced pass after a take** (`PASS.afterTake`), including legacy stacks without `why` on `pass` results; exported `verifyTableroStackIntegrity`, `repairTableroStack`, `repairTableroStackJson`, `diagnoseTableroStackIntegrity`, `isLegacyDuplicatePassFrame`, `tableroTipMismatchFields`, and `tableroPlayableTipMismatchFields` to replay stacks (withdrawal plies, stored rolls, legacy board shapes) and merge duplicate `pass` frames when the playable tip still matches; verify/repair normalize saved stack boards before compare, report tip failures on board/piece counts only, and replace stacks from replay when the saved tip is corrupt but replay self-verifies.

@@ -652,6 +652,39 @@ describe("Agents of M.A.R.S.", () => {
             expect(g.validateMove("c1-c4").valid).to.be.true;
             expect(g.validateMove("c1-c3").valid).to.be.false;
         });
+
+        it("may jump over intervening pyramids when moving or swapping", () => {
+            let g = gameFrom(freshPlayState());
+            g.board.set("a1", ["RD", 3]);
+            g.board.set("a2", ["BU", 1]);
+            g.board.set("a3", ["GN", 2]);
+            g = g.move("noObjSwap");
+            expect(g.validateMove("a1-a4").valid).to.be.true;
+
+            g.board.set("d1", ["YE", 3]);
+            g.board.set("d2", ["BU", 1]);
+            g.board.set("d4", ["GN", 1]);
+            expect(g.validateMove("d1|d4").valid).to.be.true;
+            expect(g.validateMove("d4|d1").valid).to.be.true;
+        });
+
+        it("slide-move requires a clear path for moves and swaps", () => {
+            const raw = freshPlayState();
+            raw.variants = ["slide-move"];
+            let g = gameFrom(raw);
+            g.board.set("a1", ["RD", 3]);
+            g.board.set("a2", ["BU", 1]);
+            g.board.set("a3", ["GN", 2]);
+            g = g.move("noObjSwap");
+            expect(g.validateMove("a1-a4").valid).to.be.false;
+
+            g.board.set("d1", ["YE", 3]);
+            g.board.set("d2", ["BU", 1]);
+            g.board.set("d4", ["GN", 1]);
+            expect(g.validateMove("d1|d4").valid).to.be.false;
+            g.board.delete("d2");
+            expect(g.validateMove("d1|d4").valid).to.be.true;
+        });
     });
 
     describe("ko", () => {

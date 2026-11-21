@@ -244,6 +244,13 @@ export function roundSlotToMoveText(slot: string | IGameRoundSlot | null | undef
     return String(slot.move ?? "");
 }
 
+const GIPF_CAPTURE_SPAN = /^x[a-z]\d+-[a-z]\d+$/i;
+
+/** Comma-joined capture spans (`xd3-c3,xf2-f2`) are one sequenced ply, not an N-seat wire. */
+function isCommaSeparatedGipfCapture(parts: string[]): boolean {
+    return parts.length > 1 && parts.every((p) => GIPF_CAPTURE_SPAN.test(p.trim()));
+}
+
 /** Split N-part simultaneous wire move text for one seat; null if not wire-shaped. */
 export function wireMoveTokenForSeat(
     move: unknown,
@@ -258,6 +265,9 @@ export function wireMoveTokenForSeat(
     }
     const parts = move.split(/\s*,\s*/);
     if (parts.length !== numPlayers) {
+        return null;
+    }
+    if (isCommaSeparatedGipfCapture(parts)) {
         return null;
     }
     const token = parts[seatIdx] ?? "";

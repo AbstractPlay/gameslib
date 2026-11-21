@@ -355,7 +355,7 @@ export class ScribeGame extends GameBase {
             },
         ],
         categories: ["goal>area", "goal>arrange", "mechanic>place", "board>shape>rect", "board>connect>rect", "components>simple>1per"],
-        flags: ["scores"],
+        flags: ["scores", "automove"],
     };
 
     public static coords2algebraic(x: number, y: number): string {

@@ -2090,6 +2090,19 @@
       "POTENTIAL_MOVE": "Soweit so gut. Gib das Feld an, auf das du die 3x3-Figur bewegen möchtest.",
       "TOO_MANY_MOVES": "Du hast bereits eine Figur zum Bewegen ausgewählt."
     },
+    "gipf": {
+      "INITIAL_INSTRUCTIONS": "Klicken Sie auf einen leeren Punkt, um einen Stein aus Ihrem Vorrat zu platzieren, und klicken Sie dann auf das erste Feld entlang einer Linie, um ihn ins Spiel zu schieben.",
+      "INITIAL_INSTRUCTIONS_TOURNAMENT": "Auf einem Punkt: Zuerst wird ein GIPF-Stein platziert; klicken Sie erneut auf den Punkt, um zu einem einfachen Stein zu wechseln oder ihn zu leeren. Schieben Sie ihn dann entlang einer Linie. GIPF-Eingaben enden mit G (z. B. e1-e2G).",
+      "INITIAL_INSTRUCTIONS_PUSH": "Klicken Sie auf das erste Feld entlang einer Linie, um Ihren Zug zu beenden.",
+      "INITIAL_INSTRUCTIONS_CAPTURE": "Markierte Steine müssen entfernt werden. Klicken Sie auf einen hervorgehobenen Pflichtstein, um die Schlagreihe im Zugfeld auszufüllen, und senden Sie den Zug ab.",
+      "INITIAL_INSTRUCTIONS_CAPTURE_OPTIONAL": "Klicken Sie auf einen hervorgehobenen Pflichtstein für die vollständige Schlagreihe oder klicken Sie auf einen optionalen GIPF-Stein, um ihn auf dem Spielfeld zu lassen. Senden Sie die Schlagnotation ab, wenn Sie fertig sind.",
+      "INITIAL_INSTRUCTIONS_CHOOSE_ROW": "Klicken Sie auf eine hervorgehobene Reihe, um sie zuerst zu entfernen.",
+      "BLOCKED_LINE": "Diese Linie ist blockiert; Sie können keinen Stein vom Spielfeld schieben.",
+      "DOT_OCCUPIED": "Auf diesem Punkt liegt bereits ein Stein.",
+      "NOT_DOT": "{{where}} ist kein Punkt.",
+      "MUST_CAPTURE": "Sie müssen Steine vom Spielfeld entfernen, bevor Sie fortfahren können.",
+      "MUST_ENTER_GIPF": "Sie müssen einen GIPF-Stein ins Spiel bringen, bevor Sie einfache Steine spielen."
+    },
     "gliss": {
       "BAD_BASE": "Du darfst keine Basis auf {{where}} platzieren. Basen dürfen an keine eigenen Figuren orthogonal angrenzen.",
       "BAD_DEST": "Der Glider auf {{from}} kann {{to}} nicht erreichen.",
@@ -4382,6 +4395,7 @@
     "furl": "Rolle entweder eine Reihe deiner Scheiben auf oder rolle einen Stapel aus. Wenn du zu Beginn deines Zugs eine Scheibe in deiner Endreihe hast, gewinnst du.",
     "garden": "Zwei Zauberer teilen sich ein Gartenbeet und versuchen, wertvolle Reagenzien zu ernten. Beide teilen sich denselben Samenvorrat. Das Pflanzen eines Samens verändert die Pflanzen um ihn herum. Bilde vier in einer Reihe zum Ernten. Die meisten Ernten gewinnen!",
     "gess": "In Gess sind die \"Steine\" 3x3-Muster aus Steinen. Ein Spieler kann jeden 3x3-Teil des Bretts verwenden, der mindestens einen seiner Steine und keinen Stein seines Gegners enthält. Wenn sich ein 3x3-Stein so bewegt, dass er einen oder mehrere Steine (eines beliebigen Spielers) überlappt, werden alle Steine, auf die sich der Stein bewegt, geschlagen. Jeder Spieler muss jederzeit einen Stein aufrechterhalten, der ein Ring aus acht Steinen um ein leeres Feld ist. Wenn ein Spieler aus irgendeinem Grund keinen solchen Ring mehr irgendwo auf dem Brett hat, verliert er.",
+    "gipf": "Spieler schieben Steine von Punkten auf ein Hex-Linien-Spielfeld, um Viererreihen zum Entfernen zu bilden. Sie gewinnen, indem sie den Vorrat des Gegners leeren oder dessen letzten GIPF-Stein vom Feld nehmen.",
     "gliss": "Errichte Basen und setze Gleiter ein, um gegnerische Gleiter zu schlagen und Kontrolltürme zu besetzen. Eliminiere alle gegnerischen Basen oder errichte eine kritische Anzahl von Kontrolltürmen, um zu gewinnen.",
     "go": "Das traditionelle Go-Spiel",
     "gomoku": "Ein klassisches Spiel, bei dem versucht wird, genau fünf Steine in eine Reihe zu bringen. Sechs in einer Reihe gelten nicht als Sieg. Das Spiel endet unentschieden, wenn kein Spieler eine Fünferreihe bildet oder nach zwei aufeinanderfolgenden Passzügen.",
@@ -4687,6 +4701,7 @@
     "furl": "Furl",
     "garden": "Wizard's Garden",
     "gess": "Gess",
+    "gipf": "GIPF",
     "gliss": "Gliss",
     "go": "Go",
     "gomoku": "Gomoku",
@@ -5699,6 +5714,10 @@
       "step-move": {
         "description": "Pyramiden bewegen und tauschen sich nur auf benachbarte Felder.",
         "name": "Schrittweise Bewegung"
+      },
+      "slide-move": {
+        "description": "Pyramiden gleiten ihre volle Pip-Anzahl entlang eines freien orthogonalen Pfades; besetzte Felder zwischen Start und Ziel blockieren Züge und Tausche.",
+        "name": "Gleitzug"
       },
       "black-trio-swap": {
         "description": "Zieltauschaktionen bleiben legal, bis eine kleine, mittlere und große schwarze Pyramide gezogen wurden.",
@@ -7023,6 +7042,20 @@
       "refills": {
         "description": "Der Nachziehstapel kann während des Zugs eines Spielers nachgefüllt werden, indem seine Aktionen auf zwei Teilzüge aufgeteilt werden.",
         "name": "Nachfüllen"
+      }
+    },
+    "gipf": {
+      "#rules": {
+        "description": "GIPF-Steine, optionales Entfernen von GIPF-Steinen in Reihen und Niederlage, wenn Ihr letzter GIPF-Stein das Spielfeld verlässt.",
+        "name": "Standard"
+      },
+      "basic": {
+        "description": "Nur einfache Steine; Sieg, wenn der Vorrat des Gegners leer ist.",
+        "name": "Basis"
+      },
+      "tournament": {
+        "description": "Leeres Spielfeld zu Beginn; Spieler können mehrere GIPF-Steine ins Spiel bringen, bevor nur noch einfache Steine gespielt werden dürfen.",
+        "name": "Turnier"
       }
     },
     "gliss": {

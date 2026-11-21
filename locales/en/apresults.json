@@ -865,6 +865,18 @@
     "MOVE_one": "{{player}} moved a 3x3 piece containing {{count}} stone from {{from}} to {{to}}.",
     "MOVE_other": "{{player}} moved a 3x3 piece containing {{count}} stones from {{from}} to {{to}}."
   },
+  "gipf": {
+    "MOVE": {
+      "push": "{{player}} pushed from {{from}} to {{to}}."
+    },
+    "CAPTURE": {
+      "rowSummary": "{{player}} captured pieces from the following cells: {{cells}}. This included {{ownCount}} of their own pieces and {{enemyCount}} enemy pieces."
+    },
+    "EOG": {
+      "reserve": "{{player}} wins because the opponent has no reserve.",
+      "gipf": "{{player}} wins because the opponent has no GIPF piece on the board."
+    }
+  },
   "gliss": {
     "REMOVE": {
       "default": "{{player}} moved their glider at {{where}} off the edge of the board."

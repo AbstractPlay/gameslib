@@ -387,6 +387,7 @@ export class CounterflowGame extends GameBase {
             "https://www.marksteeregames.com/Counterflow_rules.pdf",
             "https://www.marksteeregames.com",
         ],
+        bggid: "483859",
         people: [
             {
                 type: "designer",

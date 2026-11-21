@@ -14,14 +14,16 @@ export class HexTriGraph implements IGraph {
     public readonly perimeter: number;
     public graph: UndirectedGraph
     private _reverseLetters = false;
+    private _reverseNumbers = false;
 
-    constructor(minwidth: number, maxwidth: number, alternating = false) {
+    constructor(minwidth: number, maxwidth: number, alternating = false, reverseNumbers = false) {
         if (minwidth >= maxwidth) {
             throw new Error("The minimum width must be strictly less than the maximum width.");
         }
         this.alternating = alternating;
         this.minwidth = minwidth;
         this.maxwidth = maxwidth;
+        this._reverseNumbers = reverseNumbers;
         if (!alternating) {
             this.height = ((maxwidth - minwidth) * 2) + 1;
             this.midrow = Math.floor(this.height / 2);
@@ -48,12 +50,28 @@ export class HexTriGraph implements IGraph {
         return this._reverseLetters;
     }
 
+    public set reverseNumbers(val: boolean) {
+        this._reverseNumbers = val;
+    }
+
+    public get reverseNumbers(): boolean {
+        return this._reverseNumbers;
+    }
+
+    /** In-row cell count for grid row `y` (zero-based). */
+    public rowWidthAt(y: number): number {
+        const delta = this.maxwidth - this.minwidth;
+        return this.minwidth + (this.midrow - Math.abs(delta - y));
+    }
+
     public coords2algebraic(x: number, y: number): string {
         let idx = this.height - y - 1;
         if (this.reverseLetters) {
             idx = (this.height - 1) - idx;
         }
-        return indexToColumnLabel(idx) + (x + 1).toString();
+        const rowWidth = this.rowWidthAt(y);
+        const num = this._reverseNumbers ? rowWidth - x : x + 1;
+        return indexToColumnLabel(idx) + num.toString();
     }
 
     public algebraic2coords(cell: string): [number, number] {
@@ -62,8 +80,8 @@ export class HexTriGraph implements IGraph {
             throw new Error(`The algebraic notation is invalid: ${cell}`);
         }
         const num = match[2];
-        const x = Number(num);
-        if ( (x === undefined) || (isNaN(x)) || num === "" ) {
+        const xNum = Number(num);
+        if ( (xNum === undefined) || (isNaN(xNum)) || num === "" ) {
             throw new Error(`The column label is invalid: ${num}`);
         }
         const y = columnLabelToIndex(match[1]);
@@ -72,13 +90,13 @@ export class HexTriGraph implements IGraph {
         if (this.reverseLetters) {
             realY = (this.height - 1) - realY;
         }
-        const delta = Math.abs(realY - this.midrow);
-        const rowWidth = this.maxwidth - delta;
-        if ( (x < 0) || (x > rowWidth) ) {
+        const rowWidth = this.rowWidthAt(realY);
+        const col = this._reverseNumbers ? rowWidth - xNum : xNum - 1;
+        if (col < 0 || col >= rowWidth) {
             throw new Error(`The column label is invalid: ${num}`);
         }
 
-        return [x - 1, realY];
+        return [col, realY];
     }
 
     private buildGraph(): UndirectedGraph {

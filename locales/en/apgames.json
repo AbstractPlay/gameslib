@@ -2090,6 +2090,19 @@
       "POTENTIAL_MOVE": "So far so good. Provide the space you want to move the 3x3 piece to.",
       "TOO_MANY_MOVES": "You have already selected a piece to move."
     },
+    "gipf": {
+      "INITIAL_INSTRUCTIONS": "Click an empty dot to place a piece from your reserve, then click the first spot along a line to push it into play.",
+      "INITIAL_INSTRUCTIONS_TOURNAMENT": "On a dot: a GIPF-piece is placed first; click the dot again to switch to a single or clear it. Then push along a line. GIPF entries end with G (e.g. e1-e2G).",
+      "INITIAL_INSTRUCTIONS_PUSH": "Click the first spot along a line to complete your move.",
+      "INITIAL_INSTRUCTIONS_CAPTURE": "Marked pieces must be removed. Click any highlighted mandatory piece to fill the capture line in the move box, then submit it.",
+      "INITIAL_INSTRUCTIONS_CAPTURE_OPTIONAL": "Click a highlighted mandatory piece for the full capture line, or click an optional GIPF-piece to leave it on the board. Submit the capture notation when finished.",
+      "INITIAL_INSTRUCTIONS_CHOOSE_ROW": "Click a highlighted row to remove it first.",
+      "BLOCKED_LINE": "That line is blocked; you cannot push a piece off the board.",
+      "DOT_OCCUPIED": "That dot already has a piece.",
+      "NOT_DOT": "{{where}} is not a dot.",
+      "MUST_CAPTURE": "You must remove pieces from the board before continuing.",
+      "MUST_ENTER_GIPF": "You must bring a GIPF piece into play before playing single pieces."
+    },
     "gliss": {
       "BAD_BASE": "You may not place a base at {{where}}. Bases may not be orthogonally adjacent to any friendly pieces.",
       "BAD_DEST": "The glider at {{from}} cannot reach {{to}}.",
@@ -4382,6 +4395,7 @@
     "furl": "Either furl up a row of your discs, or unfurl a stack. If you have a disc in your end row at the start of your turn, you win.",
     "garden": "Two wizards share a garden plot and try to harvest valuable reagents. Both are sharing the same pool of seeds. Planting a seed changes the plants around it. Form four in a row to harvest. Most harvests wins!",
     "gess": "In Gess, the 'pieces' are 3x3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
+    "gipf": "Players push pieces from dots onto a hex line board, forming rows of four to capture. Win by emptying the opponent's reserve or removing their last GIPF piece.",
     "gliss": "Establish bases and deploy gliders to capture opposing gliders and control towers. Eliminate all opposing bases or establish a critical number of control towers to win.",
     "go": "The traditional game of Go",
     "gomoku": "A classic game where you try to get exactly five stones in a row. Six in a row does not count as a win. The game ends in a draw if no player gets a five-in-a-row or on two consecutive passes.",
@@ -4687,6 +4701,7 @@
     "furl": "Furl",
     "garden": "Wizard's Garden",
     "gess": "Gess",
+    "gipf": "GIPF",
     "gliss": "Gliss",
     "go": "Go",
     "gomoku": "Gomoku",
@@ -7023,6 +7038,20 @@
       "refills": {
         "description": "The draw pool may be refilled during a player's turn, by splitting their actions over two partial turns.",
         "name": "Refills"
+      }
+    },
+    "gipf": {
+      "#rules": {
+        "description": "GIPF-pieces, optional GIPF removal on rows, and loss if your last GIPF leaves the board.",
+        "name": "Standard"
+      },
+      "basic": {
+        "description": "Basic pieces only; win when the opponent's reserve is empty.",
+        "name": "Basic"
+      },
+      "tournament": {
+        "description": "Empty start; players may bring multiple GIPF pieces before locking single-piece play.",
+        "name": "Tournament"
       }
     },
     "gliss": {

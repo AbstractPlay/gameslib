@@ -865,6 +865,18 @@
     "MOVE_one": "{{player}} hat ein 3x3-Teil mit {{count}} Stein von {{from}} nach {{to}} gezogen.",
     "MOVE_other": "{{player}} hat ein 3x3-Teil mit {{count}} Steinen von {{from}} nach {{to}} gezogen."
   },
+  "gipf": {
+    "MOVE": {
+      "push": "{{player}} hat von {{from}} nach {{to}} geschoben."
+    },
+    "CAPTURE": {
+      "rowSummary": "{{player}} hat Steine von den folgenden Feldern geschlagen: {{cells}}. Dies beinhaltete {{ownCount}} eigene Steine und {{enemyCount}} gegnerische Steine."
+    },
+    "EOG": {
+      "reserve": "{{player}} gewinnt, da der Gegner keine Reserve mehr hat.",
+      "gipf": "{{player}} gewinnt, da der Gegner keinen GIPF-Stein mehr auf dem Brett hat."
+    }
+  },
   "gliss": {
     "REMOVE": {
       "default": "{{player}} hat seinen Gleiter bei {{where}} über den Brettrand hinaus bewegt."

@@ -1487,6 +1487,22 @@
     "src": "{{player}} moved a 3x3 piece containing {{count}} stones from {{from}} to {{to}}.",
     "out": "{{player}} movió una pieza de 3x3 que contiene {{count}} piedras de {{from}} a {{to}}."
   },
+  "gipf.CAPTURE.rowSummary": {
+    "src": "{{player}} captured pieces from the following cells: {{cells}}. This included {{ownCount}} of their own pieces and {{enemyCount}} enemy pieces.",
+    "out": "{{player}} capturó piezas de las siguientes casillas: {{cells}}. Esto incluyó {{ownCount}} de sus propias piezas y {{enemyCount}} piezas enemigas."
+  },
+  "gipf.EOG.gipf": {
+    "src": "{{player}} wins because the opponent has no GIPF piece on the board.",
+    "out": "{{player}} gana porque el oponente no tiene ninguna pieza GIPF en el tablero."
+  },
+  "gipf.EOG.reserve": {
+    "src": "{{player}} wins because the opponent has no reserve.",
+    "out": "{{player}} gana porque el oponente no tiene reserva."
+  },
+  "gipf.MOVE.push": {
+    "src": "{{player}} pushed from {{from}} to {{to}}.",
+    "out": "{{player}} empujó de {{from}} a {{to}}."
+  },
   "gliss.REMOVE.default": {
     "src": "{{player}} moved their glider at {{where}} off the edge of the board.",
     "out": "{{player}} movió su planeador en {{where}} fuera del borde del tablero."

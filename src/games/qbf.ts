@@ -292,6 +292,7 @@ export class QBFGame extends GameBase {
             "https://www.marksteeregames.com/QBF_rules.pdf",
             "https://www.marksteeregames.com",
         ],
+        bggid: "483149",
         people: [
             {
                 type: "designer",

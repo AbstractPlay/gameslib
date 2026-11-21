@@ -865,6 +865,18 @@
     "MOVE_one": "{{player}} a déplacé une pièce 3x3 contenant {{count}} pierre de {{from}} vers {{to}}.",
     "MOVE_other": "{{player}} a déplacé une pièce 3x3 contenant {{count}} pierres de {{from}} vers {{to}}."
   },
+  "gipf": {
+    "MOVE": {
+      "push": "{{player}} a poussé de {{from}} vers {{to}}."
+    },
+    "CAPTURE": {
+      "rowSummary": "{{player}} a capturé des pièces sur les cases suivantes : {{cells}}. Cela incluait {{ownCount}} de ses propres pièces et {{enemyCount}} pièces adverses."
+    },
+    "EOG": {
+      "reserve": "{{player}} gagne car l'adversaire n'a plus de réserve.",
+      "gipf": "{{player}} gagne car l'adversaire n'a aucune pièce GIPF sur le plateau."
+    }
+  },
   "gliss": {
     "REMOVE": {
       "default": "{{player}} a déplacé son planeur en {{where}} hors du plateau."

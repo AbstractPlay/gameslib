@@ -172,12 +172,25 @@ function clearInterimRenderCache() {
     window.localStorage.removeItem(simStorage.interimPerspective);
 }
 
-function applyInterimPartialRender(gamename, maskedPartial, renderOpts) {
+function applyInterimPartialRender(gamename, maskedPartial, renderOpts, preludePartials) {
     const preview = createEngineForView(gamename, renderOpts.perspective);
     if (!preview) {
         return;
     }
-    preview.move(maskedPartial, { partial: true });
+    const steps = [];
+    if (Array.isArray(preludePartials)) {
+        for (const step of preludePartials) {
+            if (step && String(step).trim().length > 0) {
+                steps.push(step);
+            }
+        }
+    }
+    if (maskedPartial && String(maskedPartial).trim().length > 0) {
+        steps.push(maskedPartial);
+    }
+    for (const step of steps) {
+        preview.move(step, { partial: true, trusted: true });
+    }
     // Partial moves mutate live board/hands but do not push stack; re-loading from
     // serialize() would drop in-progress placement (e.g. Thricewise compound @coords).
     const render = preview.render(renderOpts);
@@ -559,6 +572,7 @@ function shiftRenderFrame(delta) {
 
 function applyPlaygroundClickResult(game, gamename, result) {
     var movebox = document.getElementById("moveEntry");
+    const priorMove = movebox.value;
     movebox.value = result.move;
     var colour = "#f00";
     if (result.valid) {
@@ -582,7 +596,14 @@ function applyPlaygroundClickResult(game, gamename, result) {
     if ( ( (result.hasOwnProperty("canrender")) && (result.canrender === true) ) || (result.complete >= 0) ) {
         let renderOpts = playgroundRenderOpts(game, gamename);
         applyPlaygroundDisplayRenderOpts(renderOpts);
-        applyInterimPartialRender(gamename, result.move, renderOpts);
+        const dotClearPartial =
+            result.valid &&
+            result.move === "" &&
+            typeof result.autocomplete === "string" &&
+            result.autocomplete.startsWith("!");
+        const partialForRender = dotClearPartial ? result.autocomplete : result.move;
+        const preludeForRender = dotClearPartial ? [priorMove] : undefined;
+        applyInterimPartialRender(gamename, partialForRender, renderOpts, preludeForRender);
     } else {
         clearInterimRenderCache();
     }

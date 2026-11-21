@@ -1815,6 +1815,10 @@
     "src": "In Gess, the 'pieces' are 3x3 patterns stones. A player can use any 3×3 portion of the board that contains at least one of their stones and none of their opponent's stones. If a 3x3 piece moves in such a way that it overlaps one or more stones (of either player), all stones that the piece moves onto are captured. Each player must maintain one piece that is a ring of eight stones around an empty square at all times. If one player is in a position where they no longer have such a ring anywhere on the board for any reason, they lose.",
     "out": "En Gess, las 'piezas' son patrones de piedras de 3x3. Un jugador puede usar cualquier sección de 3×3 del tablero que contenga al menos una de sus piedras y ninguna piedra de su oponente. Si una pieza de 3x3 se mueve de forma que se superpone a una o más piedras (de cualquier jugador), se capturan todas las piedras sobre las que se mueva la pieza. Cada jugador debe mantener en todo momento al menos una pieza que consiste en un anillo de ocho piedras alrededor de una casilla vacía. Si por alguna razón un jugador queda en una posición en la que ya no tiene dicho anillo en ningún lugar del tablero, pierde."
   },
+  "descriptions.gipf": {
+    "src": "Players push pieces from dots onto a hex line board, forming rows of four to capture. Win by emptying the opponent's reserve or removing their last GIPF piece.",
+    "out": "Los jugadores empujan piezas desde los puntos hacia un tablero de líneas hexagonales, formando filas de cuatro para capturar. Gana vaciando la reserva del oponente o eliminando su última pieza GIPF."
+  },
   "descriptions.gliss": {
     "src": "Establish bases and deploy gliders to capture opposing gliders and control towers. Eliminate all opposing bases or establish a critical number of control towers to win.",
     "out": "Establece bases y despliega planeadores para capturar los planeadores del rival y controlar torres. Elimina todas las bases enemigas o establece un número crítico de torres de control para ganar."
@@ -3942,6 +3946,10 @@
   "names.gess": {
     "src": "Gess",
     "out": "Gess"
+  },
+  "names.gipf": {
+    "src": "GIPF",
+    "out": "GIPF"
   },
   "names.gliss": {
     "src": "Gliss",
@@ -10014,6 +10022,50 @@
   "validation.gess.TOO_MANY_MOVES": {
     "src": "You have already selected a piece to move.",
     "out": "Ya has seleccionado una pieza para mover."
+  },
+  "validation.gipf.BLOCKED_LINE": {
+    "src": "That line is blocked; you cannot push a piece off the board.",
+    "out": "Esa línea está bloqueada; no puedes empujar una pieza fuera del tablero."
+  },
+  "validation.gipf.DOT_OCCUPIED": {
+    "src": "That dot already has a piece.",
+    "out": "Ese punto ya tiene una pieza."
+  },
+  "validation.gipf.INITIAL_INSTRUCTIONS": {
+    "src": "Click an empty dot to place a piece from your reserve, then click the first spot along a line to push it into play.",
+    "out": "Haz clic en un punto vacío para colocar una pieza de tu reserva, luego haz clic en la primera casilla a lo largo de una línea para empujarla al juego."
+  },
+  "validation.gipf.INITIAL_INSTRUCTIONS_CAPTURE": {
+    "src": "Marked pieces must be removed. Click any highlighted mandatory piece to fill the capture line in the move box, then submit it.",
+    "out": "Las piezas marcadas deben ser retiradas. Haz clic en cualquier pieza obligatoria resaltada para llenar la línea de captura en el cuadro de movimiento, luego envíala."
+  },
+  "validation.gipf.INITIAL_INSTRUCTIONS_CAPTURE_OPTIONAL": {
+    "src": "Click a highlighted mandatory piece for the full capture line, or click an optional GIPF-piece to leave it on the board. Submit the capture notation when finished.",
+    "out": "Haz clic en una pieza obligatoria resaltada para completar la línea de captura, o haz clic en una pieza GIPF opcional para dejarla en el tablero. Envía la anotación de captura cuando termines."
+  },
+  "validation.gipf.INITIAL_INSTRUCTIONS_CHOOSE_ROW": {
+    "src": "Click a highlighted row to remove it first.",
+    "out": "Haz clic en una fila resaltada para retirarla primero."
+  },
+  "validation.gipf.INITIAL_INSTRUCTIONS_PUSH": {
+    "src": "Click the first spot along a line to complete your move.",
+    "out": "Haz clic en la primera casilla a lo largo de una línea para completar tu movimiento."
+  },
+  "validation.gipf.INITIAL_INSTRUCTIONS_TOURNAMENT": {
+    "src": "On a dot: a GIPF-piece is placed first; click the dot again to switch to a single or clear it. Then push along a line. GIPF entries end with G (e.g. e1-e2G).",
+    "out": "En un punto: primero se coloca una pieza GIPF; haz clic en el punto de nuevo para cambiar a una pieza individual o despejarlo. Luego empuja a lo largo de una línea. Las entradas de GIPF terminan con G (p. ej. e1-e2G)."
+  },
+  "validation.gipf.MUST_CAPTURE": {
+    "src": "You must remove pieces from the board before continuing.",
+    "out": "Debes retirar piezas del tablero antes de continuar."
+  },
+  "validation.gipf.MUST_ENTER_GIPF": {
+    "src": "You must bring a GIPF piece into play before playing single pieces.",
+    "out": "Debes poner en juego una pieza GIPF antes de jugar piezas individuales."
+  },
+  "validation.gipf.NOT_DOT": {
+    "src": "{{where}} is not a dot.",
+    "out": "{{where}} no es un punto."
   },
   "validation.gliss.BAD_BASE": {
     "src": "You may not place a base at {{where}}. Bases may not be orthogonally adjacent to any friendly pieces.",
@@ -19218,6 +19270,30 @@
   "variants.frogger.refills.name": {
     "src": "Refills",
     "out": "Rellenos"
+  },
+  "variants.gipf.#rules.description": {
+    "src": "GIPF-pieces, optional GIPF removal on rows, and loss if your last GIPF leaves the board.",
+    "out": "Piezas GIPF, eliminación opcional de GIPF en filas y derrota si tu última pieza GIPF sale del tablero."
+  },
+  "variants.gipf.#rules.name": {
+    "src": "Standard",
+    "out": "Estándar"
+  },
+  "variants.gipf.basic.description": {
+    "src": "Basic pieces only; win when the opponent's reserve is empty.",
+    "out": "Solo piezas básicas; gana cuando la reserva del oponente esté vacía."
+  },
+  "variants.gipf.basic.name": {
+    "src": "Basic",
+    "out": "Básico"
+  },
+  "variants.gipf.tournament.description": {
+    "src": "Empty start; players may bring multiple GIPF pieces before locking single-piece play.",
+    "out": "Inicio vacío; los jugadores pueden introducir múltiples piezas GIPF antes de bloquear el juego a piezas individuales."
+  },
+  "variants.gipf.tournament.name": {
+    "src": "Tournament",
+    "out": "Torneo"
   },
   "variants.gliss.#board.name": {
     "src": "16x16 board",

@@ -865,6 +865,18 @@
     "MOVE_one": "{{player}} ha mosso un pezzo 3x3 contenente {{count}} pietra da {{from}} a {{to}}.",
     "MOVE_other": "{{player}} ha mosso un pezzo 3x3 contenente {{count}} pietre da {{from}} a {{to}}."
   },
+  "gipf": {
+    "MOVE": {
+      "push": "{{player}} ha spinto da {{from}} a {{to}}."
+    },
+    "CAPTURE": {
+      "rowSummary": "{{player}} ha catturato pezzi dalle seguenti caselle: {{cells}}. Ciò include {{ownCount}} dei propri pezzi e {{enemyCount}} pezzi avversari."
+    },
+    "EOG": {
+      "reserve": "{{player}} vince perché l'avversario non ha pezzi in riserva.",
+      "gipf": "{{player}} vince perché l'avversario non ha pezzi GIPF sulla plancia."
+    }
+  },
   "gliss": {
     "REMOVE": {
       "default": "{{player}} ha mosso il proprio aliante in {{where}} fuori dal bordo della plancia."

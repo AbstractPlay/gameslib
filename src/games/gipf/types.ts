@@ -45,6 +45,9 @@ export interface CapturePending {
 export const GIPF_P1 = "#ffffff";
 export const GIPF_P2 = "#000000";
 
+/** Default outline on basic (single) pieces for both players. */
+export const GIPF_PIECE_BORDER = "#000000";
+
 /** Default chariot outer ring for both players. */
 export const GIPF_CHARIOT_BORDER = "#000000";
 /** Default chariot inner rings on player 1 GIPF-pieces. */

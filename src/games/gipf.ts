@@ -187,7 +187,7 @@ export class GipfGame extends GameBaseSequenced {
             "board>connect>hex",
             "components>simple>1per",
         ],
-        flags: ["custom-colours", "check", "automove", "experimental"],
+        flags: ["custom-colours", "automove", "experimental"],
     };
 
     public readonly graph = new GipfGraph();

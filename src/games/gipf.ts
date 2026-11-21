@@ -9,7 +9,7 @@ import {
 } from "./_base.js";
 import { GameBaseSequenced } from "./_turn-sequenced.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep, type Colourfuncs, type Glyph } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, type Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import { chatPlayerToken } from "../common/chat-log.js";
@@ -50,37 +50,12 @@ import {
     takeSetForCaptureMask,
 } from "./gipf/rows.js";
 
-const GIPF_PIECE_OVERLAY_SCALE = 0.9;
-
-type GipfPaintPalette = 3 | 4 | 5 | 6 | 7 | 8;
-
-/** Palette override; when unset, black or white is chosen for contrast against `fill`. */
-function gipfContrastCustom(fill: Colourfuncs, palette: GipfPaintPalette): Colourfuncs {
-    return {
-        func: "custom",
-        default: { func: "bestContrast", bg: fill, fg: ["#000000", "#ffffff"] },
-        palette,
-    };
-}
-
-function gipfPieceLegend(
-    fill: Colourfuncs,
-    topName: "piece" | "piece-chariot",
-    borderPalette: GipfPaintPalette,
-    innerPalette?: GipfPaintPalette,
-): [Glyph, Glyph] {
-    const paint: { fill: Colourfuncs; border: Colourfuncs; inner?: Colourfuncs } = {
-        fill,
-        border: gipfContrastCustom(fill, borderPalette),
-    };
-    if (innerPalette !== undefined) {
-        paint.inner = gipfContrastCustom(fill, innerPalette);
-    }
-    return [
-        { name: "piece-borderless", paint: { fill } },
-        { name: topName, scale: GIPF_PIECE_OVERLAY_SCALE, paint },
-    ];
-}
+const GIPF_P1_BORDER: Colourfuncs = { func: "custom", default: GIPF_PIECE_BORDER, palette: 3 };
+const GIPF_P2_BORDER: Colourfuncs = { func: "custom", default: GIPF_PIECE_BORDER, palette: 4 };
+const GIPF_P1_CHARIOT_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 5 };
+const GIPF_P1_CHARIOT_INNER_COLOUR: Colourfuncs = { func: "custom", default: GIPF_P1_CHARIOT_INNER, palette: 6 };
+const GIPF_P2_CHARIOT_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 7 };
+const GIPF_P2_CHARIOT_INNER_COLOUR: Colourfuncs = { func: "custom", default: GIPF_P2_CHARIOT_INNER, palette: 8 };
 
 export const gameApgamesEn = {
     validation: {
@@ -181,40 +156,30 @@ export class GipfGame extends GameBaseSequenced {
         customizations: [
             { num: 1, default: GIPF_P1, explanation: "Player 1 basic piece fill", player: 1 },
             { num: 2, default: GIPF_P2, explanation: "Player 2 basic piece fill", player: 2 },
-            {
-                num: 3,
-                default: GIPF_PIECE_BORDER,
-                explanation: "Player 1 basic piece border (overrides automatic contrast when set)",
-                player: 1,
-            },
-            {
-                num: 4,
-                default: GIPF_PIECE_BORDER,
-                explanation: "Player 2 basic piece border (overrides automatic contrast when set)",
-                player: 2,
-            },
+            { num: 3, default: GIPF_PIECE_BORDER, explanation: "Player 1 basic piece border", player: 1 },
+            { num: 4, default: GIPF_PIECE_BORDER, explanation: "Player 2 basic piece border", player: 2 },
             {
                 num: 5,
                 default: GIPF_CHARIOT_BORDER,
-                explanation: "Player 1 GIPF-piece outer ring (overrides automatic contrast when set)",
+                explanation: "Player 1 GIPF-piece border (chariot outer ring)",
                 player: 1,
             },
             {
                 num: 6,
                 default: GIPF_P1_CHARIOT_INNER,
-                explanation: "Player 1 GIPF-piece inner rings (overrides automatic contrast when set)",
+                explanation: "Player 1 GIPF-piece inner rings",
                 player: 1,
             },
             {
                 num: 7,
                 default: GIPF_CHARIOT_BORDER,
-                explanation: "Player 2 GIPF-piece outer ring (overrides automatic contrast when set)",
+                explanation: "Player 2 GIPF-piece border (chariot outer ring)",
                 player: 2,
             },
             {
                 num: 8,
                 default: GIPF_P2_CHARIOT_INNER,
-                explanation: "Player 2 GIPF-piece inner rings (overrides automatic contrast when set)",
+                explanation: "Player 2 GIPF-piece inner rings",
                 player: 2,
             },
         ],
@@ -1709,10 +1674,24 @@ export class GipfGame extends GameBaseSequenced {
                 rotate: 90,
             },
             legend: {
-                A: gipfPieceLegend(p1, "piece", 3),
-                B: gipfPieceLegend(p1, "piece-chariot", 5, 6),
-                C: gipfPieceLegend(p2, "piece", 4),
-                D: gipfPieceLegend(p2, "piece-chariot", 7, 8),
+                A: { name: "piece", paint: { fill: p1, border: GIPF_P1_BORDER } },
+                B: {
+                    name: "piece-chariot",
+                    paint: {
+                        fill: p1,
+                        border: GIPF_P1_CHARIOT_BORDER,
+                        inner: GIPF_P1_CHARIOT_INNER_COLOUR,
+                    },
+                },
+                C: { name: "piece", paint: { fill: p2, border: GIPF_P2_BORDER } },
+                D: {
+                    name: "piece-chariot",
+                    paint: {
+                        fill: p2,
+                        border: GIPF_P2_CHARIOT_BORDER,
+                        inner: GIPF_P2_CHARIOT_INNER_COLOUR,
+                    },
+                },
             },
             pieces: pstr,
         };

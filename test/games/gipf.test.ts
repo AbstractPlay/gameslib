@@ -21,40 +21,17 @@ describe("GipfGame", () => {
         expect(GipfGame.gameinfo.flags).to.include("automove");
     });
 
-    it("legend stacks borderless fill under scaled piece glyphs with contrast borders", () => {
+    it("legend paints basic and GIPF-piece borders via custom palettes", () => {
         const rep = new GipfGame().render();
-        const p1Fill = { func: "custom", default: "#ffffff", palette: 1 };
-        const p2Fill = { func: "custom", default: "#000000", palette: 2 };
-        const contrastBorder = (fill: typeof p1Fill, palette: number) => ({
-            func: "custom",
-            default: { func: "bestContrast", bg: fill, fg: ["#000000", "#ffffff"] },
-            palette,
-        });
-        const expectComposite = (
-            key: "A" | "B" | "C" | "D",
-            fill: typeof p1Fill,
-            topName: string,
-            borderPalette: number,
-            innerPalette?: number,
-        ) => {
-            expect(rep.legend![key]).to.be.an("array");
-            const layers = rep.legend![key] as [
-                { name: string; paint?: { fill: unknown }; scale?: number },
-                { name: string; scale?: number; paint?: { border: unknown; inner?: unknown } },
-            ];
-            expect(layers[0]!.name).to.equal("piece-borderless");
-            expect(layers[0]!.paint!.fill).to.deep.equal(fill);
-            expect(layers[1]!.name).to.equal(topName);
-            expect(layers[1]!.scale).to.equal(0.9);
-            expect(layers[1]!.paint!.border).to.deep.equal(contrastBorder(fill, borderPalette));
-            if (innerPalette !== undefined) {
-                expect(layers[1]!.paint!.inner).to.deep.equal(contrastBorder(fill, innerPalette));
-            }
-        };
-        expectComposite("A", p1Fill, "piece", 3);
-        expectComposite("B", p1Fill, "piece-chariot", 5, 6);
-        expectComposite("C", p2Fill, "piece", 4);
-        expectComposite("D", p2Fill, "piece-chariot", 7, 8);
+        expect(rep.legend!.A!.paint!.border).to.deep.equal({ func: "custom", default: "#000000", palette: 3 });
+        expect(rep.legend!.C!.paint!.border).to.deep.equal({ func: "custom", default: "#000000", palette: 4 });
+        const b = rep.legend!.B!;
+        const d = rep.legend!.D!;
+        expect(b.name).to.equal("piece-chariot");
+        expect(b.paint!.border).to.deep.equal({ func: "custom", default: "#000000", palette: 5 });
+        expect(b.paint!.inner).to.deep.equal({ func: "custom", default: "#000000", palette: 6 });
+        expect(d.paint!.border).to.deep.equal({ func: "custom", default: "#000000", palette: 7 });
+        expect(d.paint!.inner).to.deep.equal({ func: "custom", default: "#ffffff", palette: 8 });
         expect(GipfGame.gameinfo.customizations).to.have.length(8);
     });
     it("Standard setup: reserve 12 each with three gipf on board", () => {

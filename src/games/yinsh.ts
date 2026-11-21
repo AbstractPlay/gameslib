@@ -47,8 +47,13 @@ import {
     takeSetForMarkerMove,
 } from "./yinsh/row-notation.js";
 
-const P1_BORDER: Colourfuncs = { func: "custom", default: YINSH_BORDER, palette: 3 };
-const P2_BORDER: Colourfuncs = { func: "custom", default: YINSH_BORDER, palette: 4 };
+function yinshContrastBorder(fill: Colourfuncs, palette: 3 | 4): Colourfuncs {
+    return {
+        func: "custom",
+        default: { func: "bestContrast", bg: fill, fg: ["#000000", "#ffffff"] },
+        palette,
+    };
+}
 
 export const gameApgamesEn = {
     validation: {
@@ -124,8 +129,18 @@ export class YinshGame extends GameBaseSequenced {
         customizations: [
             { num: 1, default: YINSH_P1, explanation: "Player 1 marker fill", player: 1 },
             { num: 2, default: YINSH_P2, explanation: "Player 2 marker fill", player: 2 },
-            { num: 3, default: YINSH_BORDER, explanation: "Player 1 ring and marker border", player: 1 },
-            { num: 4, default: YINSH_BORDER, explanation: "Player 2 ring and marker border", player: 2 },
+            {
+                num: 3,
+                default: YINSH_BORDER,
+                explanation: "Player 1 ring and marker border (overrides automatic contrast when set)",
+                player: 1,
+            },
+            {
+                num: 4,
+                default: YINSH_BORDER,
+                explanation: "Player 2 ring and marker border (overrides automatic contrast when set)",
+                player: 2,
+            },
         ],
         categories: [
             "goal>score",
@@ -1032,6 +1047,8 @@ export class YinshGame extends GameBaseSequenced {
     public render(): APRenderRep {
         const p1 = this.getPlayerColour(1);
         const p2 = this.getPlayerColour(2);
+        const p1Border = yinshContrastBorder(p1, 3);
+        const p2Border = yinshContrastBorder(p2, 4);
         const cells = this.graph.listCells(true) as string[][];
         const rows: string[] = [];
         for (const line of cells) {
@@ -1054,27 +1071,27 @@ export class YinshGame extends GameBaseSequenced {
             legend: {
                 A: {
                     name: "ring-02",
-                    paint: { fill: p1, border: P1_BORDER },
+                    paint: { fill: p1, border: p1Border },
                 },
                 B: {
                     name: "ring-23",
-                    paint: { fill: p1, border: P1_BORDER },
+                    paint: { fill: p1, border: p1Border },
                 },
                 C: [
-                    { name: "ring-02", paint: { fill: p1, border: P1_BORDER } },
-                    { name: "ring-23", paint: { fill: p1, border: P1_BORDER } },
+                    { name: "ring-02", paint: { fill: p1, border: p1Border } },
+                    { name: "ring-23", paint: { fill: p1, border: p1Border } },
                 ],
                 D: {
                     name: "ring-02",
-                    paint: { fill: p2, border: P2_BORDER },
+                    paint: { fill: p2, border: p2Border },
                 },
                 E: {
                     name: "ring-23",
-                    paint: { fill: p2, border: P2_BORDER },
+                    paint: { fill: p2, border: p2Border },
                 },
                 F: [
-                    { name: "ring-02", paint: { fill: p2, border: P2_BORDER } },
-                    { name: "ring-23", paint: { fill: p2, border: P2_BORDER } },
+                    { name: "ring-02", paint: { fill: p2, border: p2Border } },
+                    { name: "ring-23", paint: { fill: p2, border: p2Border } },
                 ],
             },
             pieces: rows.join("\n"),

@@ -78,7 +78,12 @@ describe("YinshGame", () => {
         expect(rep.legend!.E!.name).to.equal("ring-23");
         expect(rep.legend!.F).to.be.an("array");
         expect((rep.legend!.F as Array<{ name: string }>)[1]!.name).to.equal("ring-23");
-        expect(rep.legend!.A!.paint!.border).to.deep.equal({ func: "custom", default: "#000000", palette: 3 });
+        const fill = rep.legend!.A!.paint!.fill;
+        expect(rep.legend!.A!.paint!.border).to.deep.equal({
+            func: "custom",
+            default: { func: "bestContrast", bg: fill, fg: ["#000000", "#ffffff"] },
+            palette: 3,
+        });
         expect(YinshGame.gameinfo.customizations).to.have.length(4);
     });
 

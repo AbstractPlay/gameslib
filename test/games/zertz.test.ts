@@ -318,6 +318,20 @@ describe("ZertzGame", () => {
             expect(g.pool.W).to.equal(6);
         });
 
+        it("allows exploration-style partial apply without trusted", () => {
+            const g = new ZertzGame();
+            expect(() =>
+                g.move("w", { partial: true, emulation: true }),
+            ).to.not.throw();
+            expect(g.pool.W).to.equal(6);
+            const vacant = [...g.rings].find((c) => !g.marbles.has(c))!;
+            const partial = `w${vacant}`;
+            expect(() =>
+                g.move(partial, { partial: true, emulation: true }),
+            ).to.not.throw();
+            expect(g.marbles.get(vacant)).to.equal("W");
+        });
+
         it("treats lowercase input as complete when it matches a legal placement", () => {
             const g = new ZertzGame();
             const legal = g.moves()[0]!;

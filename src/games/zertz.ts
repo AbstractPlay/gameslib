@@ -790,8 +790,13 @@ export class ZertzGame extends GameBase {
         }
 
         const validation = this.validateMove(m);
-        if (!trusted && (!validation.valid || validation.complete !== 1)) {
-            throw new UserFacingError("VALIDATION_GENERAL", validation.message);
+        if (!trusted) {
+            if (!validation.valid) {
+                throw new UserFacingError("VALIDATION_GENERAL", validation.message);
+            }
+            if (!partial && validation.complete !== 1) {
+                throw new UserFacingError("VALIDATION_GENERAL", validation.message);
+            }
         }
         const actor = this.currplayer;
         this.results = [];

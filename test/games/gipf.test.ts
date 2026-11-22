@@ -23,8 +23,29 @@ describe("GipfGame", () => {
 
     it("legend paints basic and GIPF-piece borders via custom palettes", () => {
         const rep = new GipfGame().render();
-        expect(rep.legend!.A!.paint!.border).to.deep.equal({ func: "custom", default: "#000000", palette: 3 });
-        expect(rep.legend!.C!.paint!.border).to.deep.equal({ func: "custom", default: "#000000", palette: 4 });
+        const p1Fill = { func: "custom", default: "#ffffff", palette: 1 };
+        const p2Fill = { func: "custom", default: "#000000", palette: 2 };
+        const overlayBorder = (fill: typeof p1Fill, palette: number) => ({
+            func: "custom",
+            default: { func: "bestContrast", bg: fill, fg: ["#000000", "#ffffff"] },
+            palette,
+        });
+        const expectBasicStack = (key: "A" | "C", fill: typeof p1Fill, borderPalette: number) => {
+            expect(rep.legend![key]).to.be.an("array");
+            const layers = rep.legend![key] as [
+                { name: string; paint?: { fill: unknown; border: unknown } },
+                { name: string; scale?: number; paint?: { fill: unknown; border: unknown } },
+            ];
+            expect(layers[0]!.name).to.equal("piece");
+            expect(layers[0]!.paint!.fill).to.deep.equal(fill);
+            expect(layers[0]!.paint!.border).to.equal("#000000");
+            expect(layers[1]!.name).to.equal("piece");
+            expect(layers[1]!.scale).to.equal(0.85);
+            expect(layers[1]!.paint!.fill).to.deep.equal(fill);
+            expect(layers[1]!.paint!.border).to.deep.equal(overlayBorder(fill, borderPalette));
+        };
+        expectBasicStack("A", p1Fill, 3);
+        expectBasicStack("C", p2Fill, 4);
         const b = rep.legend!.B!;
         const d = rep.legend!.D!;
         expect(b.name).to.equal("piece-chariot");

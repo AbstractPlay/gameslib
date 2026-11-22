@@ -1906,5 +1906,24 @@
       "four": "El juego ha terminado porque un jugador hizo cuatro en línea.",
       "five": "El juego ha terminado porque un jugador hizo cinco en línea."
     }
+  },
+  "zertz": {
+    "MOVE": {
+      "place": "{{player}} colocó {{colour}} en {{where}}.",
+      "remove": "{{player}} retiró el anillo en {{where}}.",
+      "jump": "{{player}} saltó de {{from}} a {{to}}."
+    },
+    "CAPTURE": {
+      "jump": "{{player}} capturó una canica {{colour}} en {{where}}.",
+      "isolation": "{{player}} aisló y capturó {{colour}} en {{where}}."
+    },
+    "EOG": {
+      "each": "{{player}} gana al capturar {{count}} de cada color.",
+      "white": "{{player}} gana al capturar {{count}} canicas blancas.",
+      "grey": "{{player}} gana al capturar {{count}} canicas grises.",
+      "black": "{{player}} gana al capturar {{count}} canicas negras.",
+      "full": "{{player}} gana — el tablero está lleno.",
+      "repetition": "La partida termina en empate por repetición."
+    }
   }
 }

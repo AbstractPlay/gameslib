@@ -1906,5 +1906,24 @@
       "four": "Das Spiel ist beendet, da ein Spieler vier in einer Reihe gebildet hat.",
       "five": "Das Spiel ist beendet, da ein Spieler fünf in einer Reihe gebildet hat."
     }
+  },
+  "zertz": {
+    "MOVE": {
+      "place": "{{player}} platzierte {{colour}} auf {{where}}.",
+      "remove": "{{player}} entfernte den Ring auf {{where}}.",
+      "jump": "{{player}} sprang von {{from}} nach {{to}}."
+    },
+    "CAPTURE": {
+      "jump": "{{player}} schlug eine {{colour}} Murmel auf {{where}}.",
+      "isolation": "{{player}} isolierte und schlug {{colour}} auf {{where}}."
+    },
+    "EOG": {
+      "each": "{{player}} gewinnt durch das Schlagen von jeweils {{count}} Murmeln jeder Farbe.",
+      "white": "{{player}} gewinnt durch das Schlagen von {{count}} weißen Murmeln.",
+      "grey": "{{player}} gewinnt durch das Schlagen von {{count}} grauen Murmeln.",
+      "black": "{{player}} gewinnt durch das Schlagen von {{count}} schwarzen Murmeln.",
+      "full": "{{player}} gewinnt — das Spielbrett ist voll.",
+      "repetition": "Das Spiel endet unentschieden durch Stellungswiederholung."
+    }
   }
 }

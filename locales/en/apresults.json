@@ -1906,5 +1906,24 @@
       "four": "The game has ended because a player made four in a row.",
       "five": "The game has ended because a player made five in a row."
     }
+  },
+  "zertz": {
+    "MOVE": {
+      "place": "{{player}} placed {{colour}} at {{where}}.",
+      "remove": "{{player}} removed the ring at {{where}}.",
+      "jump": "{{player}} jumped from {{from}} to {{to}}."
+    },
+    "CAPTURE": {
+      "jump": "{{player}} captured a {{colour}} marble at {{where}}.",
+      "isolation": "{{player}} isolated and captured {{colour}} at {{where}}."
+    },
+    "EOG": {
+      "each": "{{player}} wins by capturing {{count}} of each colour.",
+      "white": "{{player}} wins by capturing {{count}} white marbles.",
+      "grey": "{{player}} wins by capturing {{count}} grey marbles.",
+      "black": "{{player}} wins by capturing {{count}} black marbles.",
+      "full": "{{player}} wins — the board is full.",
+      "repetition": "The game is drawn by repetition."
+    }
   }
 }

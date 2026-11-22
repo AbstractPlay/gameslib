@@ -1906,5 +1906,24 @@
       "four": "La partie est terminée car un joueur a aligné quatre pièces.",
       "five": "La partie est terminée car un joueur a aligné cinq pièces."
     }
+  },
+  "zertz": {
+    "MOVE": {
+      "place": "{{player}} a placé {{colour}} en {{where}}.",
+      "remove": "{{player}} a retiré l'anneau en {{where}}.",
+      "jump": "{{player}} a sauté de {{from}} à {{to}}."
+    },
+    "CAPTURE": {
+      "jump": "{{player}} a capturé une bille {{colour}} en {{where}}.",
+      "isolation": "{{player}} a isolé et capturé {{colour}} en {{where}}."
+    },
+    "EOG": {
+      "each": "{{player}} gagne en capturant {{count}} billes de chaque couleur.",
+      "white": "{{player}} gagne en capturant {{count}} billes blanches.",
+      "grey": "{{player}} gagne en capturant {{count}} billes grises.",
+      "black": "{{player}} gagne en capturant {{count}} billes noires.",
+      "full": "{{player}} gagne — le plateau est plein.",
+      "repetition": "Partie nulle par répétition."
+    }
   }
 }

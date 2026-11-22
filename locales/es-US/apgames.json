@@ -4288,6 +4288,23 @@
       "INITIAL_INSTRUCTIONS": "Selecciona una casilla vacía para colocar una pieza o una pieza existente para iniciar un movimiento.",
       "PARTIAL": "Selecciona un destino."
     },
+    "zertz": {
+      "INITIAL_INSTRUCTIONS_POOL": "Elige una canica de la reserva.",
+      "INITIAL_INSTRUCTIONS_CAPTURED": "Elige una canica de tu área de capturadas.",
+      "INITIAL_INSTRUCTIONS_CAPTURE": "Haz una captura.",
+      "MUST_JUMP": "Haz una captura.",
+      "BAD_JUMP": "Esa secuencia de saltos no es legal.",
+      "BAD_PLACE": "No hay ningún anillo libre en {{where}}.",
+      "NO_MARBLE": "No tienes una canica de color {{colour}} disponible para jugar.",
+      "REMOVE_SAME_AS_PLACE": "No puedes retirar el anillo sobre el que acabas de colocar una canica.",
+      "REMOVE_OCCUPIED": "El anillo en {{where}} no está libre.",
+      "RING_NOT_FREE": "El anillo en {{where}} no se puede retirar sin mover otros anillos.",
+      "MUST_CHOOSE_REMOVE": "Debes retirar un anillo libre después de colocar la canica.",
+      "PARTIAL_PLACE": "Selecciona un anillo libre para la canica.",
+      "PARTIAL_REMOVE": "Selecciona un anillo para retirar.",
+      "POOL_LABEL": "Reserva",
+      "CAPTURED_LABEL": "Canicas capturadas de {{player}}"
+    },
     "zola": {
       "DISTANCE_CAPTURES": "Los movimientos de captura no deben aumentar tu distancia respecto al centro.",
       "DISTANCE_NONCAPTURES": "Los movimientos sin captura deben aumentar tu distancia respecto al centro.",
@@ -4602,6 +4619,7 @@
     "yodd": "Pasa o coloca una o dos piedras de cualquier color. Después de tu turno debe haber un número impar de grupos en el tablero. Cuando ambos jugadores pasen de forma consecutiva, gana el jugador que tenga menos grupos de su color.",
     "yonkoma": "Dos fichas rojas y dos azules en un tablero ajedrezado. Una ficha se mueve a lo largo de una diagonal como un alfil, y cada movimiento debe acercar la ficha movida a las dos fichas enemigas, o bien mantener esa distancia y alejarla de su pareja. Quien complete una intersección cruzada, un bloque de 2x2 que contenga las cuatro fichas, pierde.",
     "yonmoque": "Intenta formar cuatro en línea en un juego donde no todos los espacios son iguales y las piezas enemigas se pueden convertir.",
+    "zertz": "Los jugadores comparten una reserva de canicas en un tablero hexagonal que se reduce. Captura conjuntos saltando o aislando grupos, o reuniendo suficientes canicas de un mismo color.",
     "zola": "Un juego donde tu movimiento está limitado por tu distancia desde el centro del tablero. Los movimientos de captura no deben aumentar esa distancia. Los movimientos que no son de captura deben aumentar esa distancia. La primera persona que capture todas las piezas enemigas gana."
   },
   "names": {
@@ -4909,6 +4927,7 @@
     "yodd": "Yodd",
     "yonkoma": "Yonkoma",
     "yonmoque": "Yonmoque",
+    "zertz": "ZERTZ",
     "zola": "Zola"
   },
   "notes": {
@@ -9651,6 +9670,23 @@
       },
       "size-12": {
         "name": "Tablero de 12x12"
+      }
+    },
+    "zertz": {
+      "#board": {
+        "name": "Tablero Hexhex 4 (37 anillos)"
+      },
+      "tournament": {
+        "name": "Tablero de torneo",
+        "description": "Tablero hex-de-tri alternado más grande (48 anillos)"
+      },
+      "oversize": {
+        "name": "Tablero gigante",
+        "description": "Tablero Hexhex 5 (61 anillos)"
+      },
+      "blitz": {
+        "name": "Blitz",
+        "description": "Menos canicas y objetivos de captura más bajos; solo tablero predeterminado."
       }
     },
     "zola": {

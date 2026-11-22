@@ -4288,6 +4288,23 @@
       "INITIAL_INSTRUCTIONS": "Select an empty cell to place a piece or an existing piece to start a move.",
       "PARTIAL": "Select a destination."
     },
+    "zertz": {
+      "INITIAL_INSTRUCTIONS_POOL": "Choose a marble from the pool.",
+      "INITIAL_INSTRUCTIONS_CAPTURED": "Choose a marble from your captured area.",
+      "INITIAL_INSTRUCTIONS_CAPTURE": "Make a capture.",
+      "MUST_JUMP": "Make a capture.",
+      "BAD_JUMP": "That jump sequence is not legal.",
+      "BAD_PLACE": "There is no vacant ring at {{where}}.",
+      "NO_MARBLE": "You do not have a {{colour}} marble available to play.",
+      "REMOVE_SAME_AS_PLACE": "You cannot remove the ring you just placed on.",
+      "REMOVE_OCCUPIED": "The ring at {{where}} is not vacant.",
+      "RING_NOT_FREE": "The ring at {{where}} cannot be removed without disturbing other rings.",
+      "MUST_CHOOSE_REMOVE": "You must remove a free ring after placing the marble.",
+      "PARTIAL_PLACE": "Select a vacant ring for the marble.",
+      "PARTIAL_REMOVE": "Select a ring to remove.",
+      "POOL_LABEL": "Pool",
+      "CAPTURED_LABEL": "{{player}}'s captured marbles"
+    },
     "zola": {
       "DISTANCE_CAPTURES": "Capture moves must not increase your distance from the centre.",
       "DISTANCE_NONCAPTURES": "Non-capture moves must increase your distance from the centre.",
@@ -4602,6 +4619,7 @@
     "yodd": "Pass or place one or two stones of either colour. After your turn there must be an odd number of groups on the board. When both players pass in succession, the player with fewer groups of their colour wins.",
     "yonkoma": "Two red and two blue checkers on a checkerboard. A checker moves along a diagonal like a bishop, and every move must bring the moved checker closer to the two enemy checkers, or else keep that distance and take it farther from its partner. Whoever completes a crosscut, a 2x2 block holding all four checkers, loses.",
     "yonmoque": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
+    "zertz": "Players share a pool of marbles on a shrinking hex board. Capture sets by jumping or isolating groups, or by collecting enough marbles of one colour.",
     "zola": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins."
   },
   "names": {
@@ -4909,6 +4927,7 @@
     "yodd": "Yodd",
     "yonkoma": "Yonkoma",
     "yonmoque": "Yonmoque",
+    "zertz": "ZERTZ",
     "zola": "Zola"
   },
   "notes": {
@@ -9651,6 +9670,23 @@
       },
       "size-12": {
         "name": "12x12 board"
+      }
+    },
+    "zertz": {
+      "#board": {
+        "name": "Hexhex 4 board (37 rings)"
+      },
+      "tournament": {
+        "name": "Tournament board",
+        "description": "Larger alternating hex-of-tri board (48 rings)"
+      },
+      "oversize": {
+        "name": "Oversize board",
+        "description": "Hexhex 5 board (61 rings)"
+      },
+      "blitz": {
+        "name": "Blitz",
+        "description": "Fewer marbles and lower capture targets; default board only."
       }
     },
     "zola": {

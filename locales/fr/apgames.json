@@ -4288,6 +4288,23 @@
       "INITIAL_INSTRUCTIONS": "Sélectionnez une case vide pour placer une pièce ou une pièce existante pour commencer un déplacement.",
       "PARTIAL": "Sélectionnez une destination."
     },
+    "zertz": {
+      "INITIAL_INSTRUCTIONS_POOL": "Choisissez une bille dans la réserve.",
+      "INITIAL_INSTRUCTIONS_CAPTURED": "Choisissez une bille dans votre zone de capture.",
+      "INITIAL_INSTRUCTIONS_CAPTURE": "Effectuez une capture.",
+      "MUST_JUMP": "Effectuez une capture.",
+      "BAD_JUMP": "Cette séquence de saut n'est pas valide.",
+      "BAD_PLACE": "Il n'y a pas d'anneau libre à l'emplacement {{where}}.",
+      "NO_MARBLE": "Vous n'avez pas de bille {{colour}} disponible à jouer.",
+      "REMOVE_SAME_AS_PLACE": "Vous ne pouvez pas retirer l'anneau sur lequel vous venez de poser une bille.",
+      "REMOVE_OCCUPIED": "L'anneau à l'emplacement {{where}} n'est pas libre.",
+      "RING_NOT_FREE": "L'anneau à l'emplacement {{where}} ne peut pas être retiré sans déplacer d'autres anneaux.",
+      "MUST_CHOOSE_REMOVE": "Vous devez retirer un anneau libre après avoir placé la bille.",
+      "PARTIAL_PLACE": "Sélectionnez un anneau libre pour la bille.",
+      "PARTIAL_REMOVE": "Sélectionnez un anneau à retirer.",
+      "POOL_LABEL": "Réserve",
+      "CAPTURED_LABEL": "Billes capturées par {{player}}"
+    },
     "zola": {
       "DISTANCE_CAPTURES": "Les coups de capture ne doivent pas augmenter votre distance par rapport au centre.",
       "DISTANCE_NONCAPTURES": "Les coups sans capture doivent augmenter votre distance par rapport au centre.",
@@ -4602,6 +4619,7 @@
     "yodd": "Passez ou placez une ou deux pierres de n'importe quelle couleur. Après votre tour, il doit y avoir un nombre impair de groupes sur le plateau. Lorsque les deux joueurs passent consécutivement, le joueur ayant le moins de groupes de sa couleur gagne.",
     "yonkoma": "Deux pions rouges et deux pions bleus sur un damier. Un pion se déplace en diagonale comme un fou, et chaque coup doit rapprocher le pion déplacé des deux pions adverses, ou conserver cette distance tout en l'éloignant de son propre partenaire. Le joueur qui complète un « crosscut », un bloc de 2x2 contenant les quatre pions, perd la partie.",
     "yonmoque": "Essayez de former un alignement de quatre pièces dans un jeu où toutes les cases ne se valent pas et où les pièces adverses peuvent être converties.",
+    "zertz": "Les joueurs partagent une réserve de billes sur un plateau hexagonal qui rétrécit. Capturez des ensembles en sautant ou en isolant des groupes, ou en réunissant suffisamment de billes d'une même couleur.",
     "zola": "Un jeu où vos déplacements sont contraints par votre distance par rapport au centre du plateau. Les coups de capture ne doivent pas augmenter cette distance. Les coups sans capture doivent augmenter cette distance. La première personne à capturer toutes les pièces adverses gagne."
   },
   "names": {
@@ -4909,6 +4927,7 @@
     "yodd": "Yodd",
     "yonkoma": "Yonkoma",
     "yonmoque": "Yonmoque",
+    "zertz": "ZERTZ",
     "zola": "Zola"
   },
   "notes": {
@@ -9651,6 +9670,23 @@
       },
       "size-12": {
         "name": "Plateau 12x12"
+      }
+    },
+    "zertz": {
+      "#board": {
+        "name": "Plateau Hexhex 4 (37 anneaux)"
+      },
+      "tournament": {
+        "name": "Plateau de tournoi",
+        "description": "Grand plateau hexagonal alternatif (48 anneaux)"
+      },
+      "oversize": {
+        "name": "Grand plateau",
+        "description": "Plateau Hexhex 5 (61 anneaux)"
+      },
+      "blitz": {
+        "name": "Blitz",
+        "description": "Moins de billes et objectifs de capture réduits ; plateau par défaut uniquement."
       }
     },
     "zola": {

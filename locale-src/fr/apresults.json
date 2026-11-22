@@ -3246,5 +3246,49 @@
   "yonmoque.EOG.four": {
     "src": "The game has ended because a player made four in a row.",
     "out": "La partie est terminée car un joueur a aligné quatre pièces."
+  },
+  "zertz.CAPTURE.isolation": {
+    "src": "{{player}} isolated and captured {{colour}} at {{where}}.",
+    "out": "{{player}} a isolé et capturé {{colour}} en {{where}}."
+  },
+  "zertz.CAPTURE.jump": {
+    "src": "{{player}} captured a {{colour}} marble at {{where}}.",
+    "out": "{{player}} a capturé une bille {{colour}} en {{where}}."
+  },
+  "zertz.EOG.black": {
+    "src": "{{player}} wins by capturing {{count}} black marbles.",
+    "out": "{{player}} gagne en capturant {{count}} billes noires."
+  },
+  "zertz.EOG.each": {
+    "src": "{{player}} wins by capturing {{count}} of each colour.",
+    "out": "{{player}} gagne en capturant {{count}} billes de chaque couleur."
+  },
+  "zertz.EOG.full": {
+    "src": "{{player}} wins — the board is full.",
+    "out": "{{player}} gagne — le plateau est plein."
+  },
+  "zertz.EOG.grey": {
+    "src": "{{player}} wins by capturing {{count}} grey marbles.",
+    "out": "{{player}} gagne en capturant {{count}} billes grises."
+  },
+  "zertz.EOG.repetition": {
+    "src": "The game is drawn by repetition.",
+    "out": "Partie nulle par répétition."
+  },
+  "zertz.EOG.white": {
+    "src": "{{player}} wins by capturing {{count}} white marbles.",
+    "out": "{{player}} gagne en capturant {{count}} billes blanches."
+  },
+  "zertz.MOVE.jump": {
+    "src": "{{player}} jumped from {{from}} to {{to}}.",
+    "out": "{{player}} a sauté de {{from}} à {{to}}."
+  },
+  "zertz.MOVE.place": {
+    "src": "{{player}} placed {{colour}} at {{where}}.",
+    "out": "{{player}} a placé {{colour}} en {{where}}."
+  },
+  "zertz.MOVE.remove": {
+    "src": "{{player}} removed the ring at {{where}}.",
+    "out": "{{player}} a retiré l'anneau en {{where}}."
   }
 }

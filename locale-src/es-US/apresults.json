@@ -3246,5 +3246,49 @@
   "yonmoque.EOG.four": {
     "src": "The game has ended because a player made four in a row.",
     "out": "El juego ha terminado porque un jugador hizo cuatro en línea."
+  },
+  "zertz.CAPTURE.isolation": {
+    "src": "{{player}} isolated and captured {{colour}} at {{where}}.",
+    "out": "{{player}} aisló y capturó {{colour}} en {{where}}."
+  },
+  "zertz.CAPTURE.jump": {
+    "src": "{{player}} captured a {{colour}} marble at {{where}}.",
+    "out": "{{player}} capturó una canica {{colour}} en {{where}}."
+  },
+  "zertz.EOG.black": {
+    "src": "{{player}} wins by capturing {{count}} black marbles.",
+    "out": "{{player}} gana al capturar {{count}} canicas negras."
+  },
+  "zertz.EOG.each": {
+    "src": "{{player}} wins by capturing {{count}} of each colour.",
+    "out": "{{player}} gana al capturar {{count}} de cada color."
+  },
+  "zertz.EOG.full": {
+    "src": "{{player}} wins — the board is full.",
+    "out": "{{player}} gana — el tablero está lleno."
+  },
+  "zertz.EOG.grey": {
+    "src": "{{player}} wins by capturing {{count}} grey marbles.",
+    "out": "{{player}} gana al capturar {{count}} canicas grises."
+  },
+  "zertz.EOG.repetition": {
+    "src": "The game is drawn by repetition.",
+    "out": "La partida termina en empate por repetición."
+  },
+  "zertz.EOG.white": {
+    "src": "{{player}} wins by capturing {{count}} white marbles.",
+    "out": "{{player}} gana al capturar {{count}} canicas blancas."
+  },
+  "zertz.MOVE.jump": {
+    "src": "{{player}} jumped from {{from}} to {{to}}.",
+    "out": "{{player}} saltó de {{from}} a {{to}}."
+  },
+  "zertz.MOVE.place": {
+    "src": "{{player}} placed {{colour}} at {{where}}.",
+    "out": "{{player}} colocó {{colour}} en {{where}}."
+  },
+  "zertz.MOVE.remove": {
+    "src": "{{player}} removed the ring at {{where}}.",
+    "out": "{{player}} retiró el anillo en {{where}}."
   }
 }

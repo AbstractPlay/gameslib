@@ -1906,5 +1906,24 @@
       "four": "La partita è terminata perché un giocatore ha fatto quattro in fila.",
       "five": "La partita è terminata perché un giocatore ha fatto cinque in fila."
     }
+  },
+  "zertz": {
+    "MOVE": {
+      "place": "{{player}} ha piazzato {{colour}} in {{where}}.",
+      "remove": "{{player}} ha rimosso l'anello in {{where}}.",
+      "jump": "{{player}} ha saltato da {{from}} a {{to}}."
+    },
+    "CAPTURE": {
+      "jump": "{{player}} ha catturato una biglia {{colour}} in {{where}}.",
+      "isolation": "{{player}} ha isolato e catturato {{colour}} in {{where}}."
+    },
+    "EOG": {
+      "each": "{{player}} vince catturando {{count}} biglie di ogni colore.",
+      "white": "{{player}} vince catturando {{count}} biglie bianche.",
+      "grey": "{{player}} vince catturando {{count}} biglie grigie.",
+      "black": "{{player}} vince catturando {{count}} biglie nere.",
+      "full": "{{player}} vince — la plancia è piena.",
+      "repetition": "La partita è patta per ripetizione."
+    }
   }
 }

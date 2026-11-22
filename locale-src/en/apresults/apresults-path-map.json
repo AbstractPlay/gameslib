@@ -8121,6 +8121,116 @@
       "newPath": "yonmoque.EOG.four",
       "newFullKey": "apresults:yonmoque.EOG.four",
       "english": "The game has ended because a player made four in a row."
+    },
+    {
+      "oldPath": "CAPTURE.zertz_isolation",
+      "oldFullKey": "apresults:CAPTURE.zertz_isolation",
+      "uid": "zertz",
+      "resultType": "CAPTURE",
+      "newLeaf": "isolation",
+      "newPath": "zertz.CAPTURE.isolation",
+      "newFullKey": "apresults:zertz.CAPTURE.isolation",
+      "english": "{{player}} isolated and captured {{colour}} at {{where}}."
+    },
+    {
+      "oldPath": "CAPTURE.zertz_jump",
+      "oldFullKey": "apresults:CAPTURE.zertz_jump",
+      "uid": "zertz",
+      "resultType": "CAPTURE",
+      "newLeaf": "jump",
+      "newPath": "zertz.CAPTURE.jump",
+      "newFullKey": "apresults:zertz.CAPTURE.jump",
+      "english": "{{player}} captured a {{colour}} marble at {{where}}."
+    },
+    {
+      "oldPath": "EOG.zertz_black",
+      "oldFullKey": "apresults:EOG.zertz_black",
+      "uid": "zertz",
+      "resultType": "EOG",
+      "newLeaf": "black",
+      "newPath": "zertz.EOG.black",
+      "newFullKey": "apresults:zertz.EOG.black",
+      "english": "{{player}} wins by capturing {{count}} black marbles."
+    },
+    {
+      "oldPath": "EOG.zertz_each",
+      "oldFullKey": "apresults:EOG.zertz_each",
+      "uid": "zertz",
+      "resultType": "EOG",
+      "newLeaf": "each",
+      "newPath": "zertz.EOG.each",
+      "newFullKey": "apresults:zertz.EOG.each",
+      "english": "{{player}} wins by capturing {{count}} of each colour."
+    },
+    {
+      "oldPath": "EOG.zertz_full",
+      "oldFullKey": "apresults:EOG.zertz_full",
+      "uid": "zertz",
+      "resultType": "EOG",
+      "newLeaf": "full",
+      "newPath": "zertz.EOG.full",
+      "newFullKey": "apresults:zertz.EOG.full",
+      "english": "{{player}} wins — the board is full."
+    },
+    {
+      "oldPath": "EOG.zertz_grey",
+      "oldFullKey": "apresults:EOG.zertz_grey",
+      "uid": "zertz",
+      "resultType": "EOG",
+      "newLeaf": "grey",
+      "newPath": "zertz.EOG.grey",
+      "newFullKey": "apresults:zertz.EOG.grey",
+      "english": "{{player}} wins by capturing {{count}} grey marbles."
+    },
+    {
+      "oldPath": "EOG.zertz_repetition",
+      "oldFullKey": "apresults:EOG.zertz_repetition",
+      "uid": "zertz",
+      "resultType": "EOG",
+      "newLeaf": "repetition",
+      "newPath": "zertz.EOG.repetition",
+      "newFullKey": "apresults:zertz.EOG.repetition",
+      "english": "The game is drawn by repetition."
+    },
+    {
+      "oldPath": "EOG.zertz_white",
+      "oldFullKey": "apresults:EOG.zertz_white",
+      "uid": "zertz",
+      "resultType": "EOG",
+      "newLeaf": "white",
+      "newPath": "zertz.EOG.white",
+      "newFullKey": "apresults:zertz.EOG.white",
+      "english": "{{player}} wins by capturing {{count}} white marbles."
+    },
+    {
+      "oldPath": "MOVE.zertz_jump",
+      "oldFullKey": "apresults:MOVE.zertz_jump",
+      "uid": "zertz",
+      "resultType": "MOVE",
+      "newLeaf": "jump",
+      "newPath": "zertz.MOVE.jump",
+      "newFullKey": "apresults:zertz.MOVE.jump",
+      "english": "{{player}} jumped from {{from}} to {{to}}."
+    },
+    {
+      "oldPath": "MOVE.zertz_place",
+      "oldFullKey": "apresults:MOVE.zertz_place",
+      "uid": "zertz",
+      "resultType": "MOVE",
+      "newLeaf": "place",
+      "newPath": "zertz.MOVE.place",
+      "newFullKey": "apresults:zertz.MOVE.place",
+      "english": "{{player}} placed {{colour}} at {{where}}."
+    },
+    {
+      "oldPath": "MOVE.zertz_remove",
+      "oldFullKey": "apresults:MOVE.zertz_remove",
+      "uid": "zertz",
+      "resultType": "MOVE",
+      "newLeaf": "remove",
+      "newPath": "zertz.MOVE.remove",
+      "newFullKey": "apresults:zertz.MOVE.remove",
+      "english": "{{player}} removed the ring at {{where}}."
     }
   ]
 }

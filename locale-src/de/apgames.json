@@ -2571,6 +2571,10 @@
     "src": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
     "out": "Versuchen Sie, eine Viererreihe zu bilden, in einem Spiel, in dem nicht alle Felder gleich sind und gegnerische Steine umgewandelt werden können."
   },
+  "descriptions.zertz": {
+    "src": "Players share a pool of marbles on a shrinking hex board. Capture sets by jumping or isolating groups, or by collecting enough marbles of one colour.",
+    "out": "Die Spieler teilen sich einen Vorrat an Murmeln auf einem schrumpfenden Hex-Spielbrett. Gewinnen Sie durch Schlagen von Murmeln über Sprünge oder das Isolieren von Gruppen, oder indem Sie genügend Murmeln einer Farbe sammeln."
+  },
   "descriptions.zola": {
     "src": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins.",
     "out": "Ein Spiel, bei dem Ihre Bewegung durch den Abstand zum Mittelpunkt des Bretts eingeschränkt ist. Schlagzüge dürfen diesen Abstand nicht vergrößern. Nicht-Schlagzüge müssen diesen Abstand vergrößern. Gewinner ist, wer als Erster alle gegnerischen Steine schlägt."
@@ -4706,6 +4710,10 @@
   "names.yonmoque": {
     "src": "Yonmoque",
     "out": "Yonmoque"
+  },
+  "names.zertz": {
+    "src": "ZERTZ",
+    "out": "ZERTZ"
   },
   "names.zola": {
     "src": "Zola",
@@ -17263,6 +17271,66 @@
     "src": "Select a destination.",
     "out": "Wähle ein Ziel."
   },
+  "validation.zertz.BAD_JUMP": {
+    "src": "That jump sequence is not legal.",
+    "out": "Diese Sprungfolge ist nicht regelkonform."
+  },
+  "validation.zertz.BAD_PLACE": {
+    "src": "There is no vacant ring at {{where}}.",
+    "out": "An der Position {{where}} befindet sich kein freier Ring."
+  },
+  "validation.zertz.CAPTURED_LABEL": {
+    "src": "{{player}}'s captured marbles",
+    "out": "Gewonnene Murmeln von {{player}}"
+  },
+  "validation.zertz.INITIAL_INSTRUCTIONS_CAPTURE": {
+    "src": "Make a capture.",
+    "out": "Führen Sie einen Schlagzug aus."
+  },
+  "validation.zertz.INITIAL_INSTRUCTIONS_CAPTURED": {
+    "src": "Choose a marble from your captured area.",
+    "out": "Wählen Sie eine Murmel aus Ihren gewonnenen Murmeln."
+  },
+  "validation.zertz.INITIAL_INSTRUCTIONS_POOL": {
+    "src": "Choose a marble from the pool.",
+    "out": "Wählen Sie eine Murmel aus dem Vorrat."
+  },
+  "validation.zertz.MUST_CHOOSE_REMOVE": {
+    "src": "You must remove a free ring after placing the marble.",
+    "out": "Sie müssen nach dem Platzieren der Murmel einen freien Ring entfernen."
+  },
+  "validation.zertz.MUST_JUMP": {
+    "src": "Make a capture.",
+    "out": "Führen Sie einen Schlagzug aus."
+  },
+  "validation.zertz.NO_MARBLE": {
+    "src": "You do not have a {{colour}} marble available to play.",
+    "out": "Sie haben keine Murmel der Farbe {{colour}} zum Spielen zur Verfügung."
+  },
+  "validation.zertz.PARTIAL_PLACE": {
+    "src": "Select a vacant ring for the marble.",
+    "out": "Wählen Sie einen freien Ring für die Murmel aus."
+  },
+  "validation.zertz.PARTIAL_REMOVE": {
+    "src": "Select a ring to remove.",
+    "out": "Wählen Sie einen Ring zum Entfernen aus."
+  },
+  "validation.zertz.POOL_LABEL": {
+    "src": "Pool",
+    "out": "Vorrat"
+  },
+  "validation.zertz.REMOVE_OCCUPIED": {
+    "src": "The ring at {{where}} is not vacant.",
+    "out": "Der Ring bei {{where}} ist nicht frei."
+  },
+  "validation.zertz.REMOVE_SAME_AS_PLACE": {
+    "src": "You cannot remove the ring you just placed on.",
+    "out": "Sie können nicht den Ring entfernen, auf den Sie gerade platziert haben."
+  },
+  "validation.zertz.RING_NOT_FREE": {
+    "src": "The ring at {{where}} cannot be removed without disturbing other rings.",
+    "out": "Der Ring bei {{where}} kann nicht entfernt werden, ohne andere Ringe zu bewegen."
+  },
   "validation.zola.DISTANCE_CAPTURES": {
     "src": "Capture moves must not increase your distance from the centre.",
     "out": "Schlagzüge dürfen deine Entfernung zum Zentrum nicht vergrößern."
@@ -23114,6 +23182,34 @@
   "variants.yonkoma.size-12.name": {
     "src": "12x12 board",
     "out": "12x12-Brett"
+  },
+  "variants.zertz.#board.name": {
+    "src": "Hexhex 4 board (37 rings)",
+    "out": "Hexhex-4-Spielbrett (37 Ringe)"
+  },
+  "variants.zertz.blitz.description": {
+    "src": "Fewer marbles and lower capture targets; default board only.",
+    "out": "Weniger Murmeln und niedrigere Schlagziele; nur auf dem Standardbrett."
+  },
+  "variants.zertz.blitz.name": {
+    "src": "Blitz",
+    "out": "Blitz"
+  },
+  "variants.zertz.oversize.description": {
+    "src": "Hexhex 5 board (61 rings)",
+    "out": "Hexhex-5-Spielbrett (61 Ringe)"
+  },
+  "variants.zertz.oversize.name": {
+    "src": "Oversize board",
+    "out": "Großes Spielbrett"
+  },
+  "variants.zertz.tournament.description": {
+    "src": "Larger alternating hex-of-tri board (48 rings)",
+    "out": "Größeres abwechselndes Hex-aus-Tri-Brett (48 Ringe)"
+  },
+  "variants.zertz.tournament.name": {
+    "src": "Tournament board",
+    "out": "Turnierbrett"
   },
   "variants.zola.#board.name": {
     "src": "6x6 board",

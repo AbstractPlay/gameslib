@@ -4288,6 +4288,23 @@
       "INITIAL_INSTRUCTIONS": "Seleziona una casella vuota per posizionare un pezzo o un pezzo esistente per iniziare una mossa.",
       "PARTIAL": "Seleziona una destinazione."
     },
+    "zertz": {
+      "INITIAL_INSTRUCTIONS_POOL": "Scegli una biglia dalla riserva.",
+      "INITIAL_INSTRUCTIONS_CAPTURED": "Scegli una biglia dalla tua area di cattura.",
+      "INITIAL_INSTRUCTIONS_CAPTURE": "Esegui una cattura.",
+      "MUST_JUMP": "Esegui una cattura.",
+      "BAD_JUMP": "Questa sequenza di salti non è legale.",
+      "BAD_PLACE": "Non c'è alcun anello vuoto in {{where}}.",
+      "NO_MARBLE": "Non hai una biglia {{colour}} disponibile da giocare.",
+      "REMOVE_SAME_AS_PLACE": "Non puoi rimuovere l'anello su cui hai appena posizionato una biglia.",
+      "REMOVE_OCCUPIED": "L'anello in {{where}} non è vuoto.",
+      "RING_NOT_FREE": "L'anello in {{where}} non può essere rimosso senza spostare altri anelli.",
+      "MUST_CHOOSE_REMOVE": "Devi rimuovere un anello libero dopo aver posizionato la biglia.",
+      "PARTIAL_PLACE": "Seleziona un anello vuoto per la biglia.",
+      "PARTIAL_REMOVE": "Seleziona un anello da rimuovere.",
+      "POOL_LABEL": "Riserva",
+      "CAPTURED_LABEL": "Biglie catturate da {{player}}"
+    },
     "zola": {
       "DISTANCE_CAPTURES": "Le mosse di cattura non devono aumentare la tua distanza dal centro.",
       "DISTANCE_NONCAPTURES": "Le mosse di non-cattura devono aumentare la tua distanza dal centro.",
@@ -4602,6 +4619,7 @@
     "yodd": "Passa o posiziona una o due pietre di qualsiasi colore. Dopo il tuo turno ci deve essere un numero dispari di gruppi sul tabellone. Quando entrambi i giocatori passano di seguito, vince il giocatore con meno gruppi del proprio colore.",
     "yonkoma": "Due pedine rosse e due blu su una scacchiera. Una pedina si muove lungo una diagonale come un alfiere, e ogni mossa deve avvicinare la pedina mossa alle due pedine avversarie, oppure mantenere tale distanza e allontanarla dalla propria compagna. Chiunque completi un crosscut, un blocco 2x2 contenente tutte e quattro le pedine, perde.",
     "yonmoque": "Cerca di formare un quattro in linea in un gioco in cui non tutti gli spazi sono uguali e i pezzi avversari possono essere convertiti.",
+    "zertz": "I giocatori condividono una riserva di biglie su una plancia esagonale che si restringe. Cattura serie saltando o isolando gruppi, oppure raccogliendo abbastanza biglie di un singolo colore.",
     "zola": "Un gioco in cui il tuo movimento è vincolato dalla tua distanza dal centro del tabellone. Le mosse di cattura non devono aumentare tale distanza. Le mosse non di cattura devono aumentare tale distanza. La prima persona che cattura tutti i pezzi avversari vince."
   },
   "names": {
@@ -4909,6 +4927,7 @@
     "yodd": "Yodd",
     "yonkoma": "Yonkoma",
     "yonmoque": "Yonmoque",
+    "zertz": "ZERTZ",
     "zola": "Zola"
   },
   "notes": {
@@ -9651,6 +9670,23 @@
       },
       "size-12": {
         "name": "Tabellone 12x12"
+      }
+    },
+    "zertz": {
+      "#board": {
+        "name": "Plancia Hexhex 4 (37 anelli)"
+      },
+      "tournament": {
+        "name": "Plancia da torneo",
+        "description": "Plancia più grande a esagono di triangoli alternati (48 anelli)"
+      },
+      "oversize": {
+        "name": "Plancia oversize",
+        "description": "Plancia Hexhex 5 (61 anelli)"
+      },
+      "blitz": {
+        "name": "Blitz",
+        "description": "Meno biglie e obiettivi di cattura inferiori; solo plancia predefinita."
       }
     },
     "zola": {

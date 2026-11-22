@@ -2571,6 +2571,10 @@
     "src": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
     "out": "Cerca di formare un quattro in linea in un gioco in cui non tutti gli spazi sono uguali e i pezzi avversari possono essere convertiti."
   },
+  "descriptions.zertz": {
+    "src": "Players share a pool of marbles on a shrinking hex board. Capture sets by jumping or isolating groups, or by collecting enough marbles of one colour.",
+    "out": "I giocatori condividono una riserva di biglie su una plancia esagonale che si restringe. Cattura serie saltando o isolando gruppi, oppure raccogliendo abbastanza biglie di un singolo colore."
+  },
   "descriptions.zola": {
     "src": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins.",
     "out": "Un gioco in cui il tuo movimento è vincolato dalla tua distanza dal centro del tabellone. Le mosse di cattura non devono aumentare tale distanza. Le mosse non di cattura devono aumentare tale distanza. La prima persona che cattura tutti i pezzi avversari vince."
@@ -4706,6 +4710,10 @@
   "names.yonmoque": {
     "src": "Yonmoque",
     "out": "Yonmoque"
+  },
+  "names.zertz": {
+    "src": "ZERTZ",
+    "out": "ZERTZ"
   },
   "names.zola": {
     "src": "Zola",
@@ -17263,6 +17271,66 @@
     "src": "Select a destination.",
     "out": "Seleziona una destinazione."
   },
+  "validation.zertz.BAD_JUMP": {
+    "src": "That jump sequence is not legal.",
+    "out": "Questa sequenza di salti non è legale."
+  },
+  "validation.zertz.BAD_PLACE": {
+    "src": "There is no vacant ring at {{where}}.",
+    "out": "Non c'è alcun anello vuoto in {{where}}."
+  },
+  "validation.zertz.CAPTURED_LABEL": {
+    "src": "{{player}}'s captured marbles",
+    "out": "Biglie catturate da {{player}}"
+  },
+  "validation.zertz.INITIAL_INSTRUCTIONS_CAPTURE": {
+    "src": "Make a capture.",
+    "out": "Esegui una cattura."
+  },
+  "validation.zertz.INITIAL_INSTRUCTIONS_CAPTURED": {
+    "src": "Choose a marble from your captured area.",
+    "out": "Scegli una biglia dalla tua area di cattura."
+  },
+  "validation.zertz.INITIAL_INSTRUCTIONS_POOL": {
+    "src": "Choose a marble from the pool.",
+    "out": "Scegli una biglia dalla riserva."
+  },
+  "validation.zertz.MUST_CHOOSE_REMOVE": {
+    "src": "You must remove a free ring after placing the marble.",
+    "out": "Devi rimuovere un anello libero dopo aver posizionato la biglia."
+  },
+  "validation.zertz.MUST_JUMP": {
+    "src": "Make a capture.",
+    "out": "Esegui una cattura."
+  },
+  "validation.zertz.NO_MARBLE": {
+    "src": "You do not have a {{colour}} marble available to play.",
+    "out": "Non hai una biglia {{colour}} disponibile da giocare."
+  },
+  "validation.zertz.PARTIAL_PLACE": {
+    "src": "Select a vacant ring for the marble.",
+    "out": "Seleziona un anello vuoto per la biglia."
+  },
+  "validation.zertz.PARTIAL_REMOVE": {
+    "src": "Select a ring to remove.",
+    "out": "Seleziona un anello da rimuovere."
+  },
+  "validation.zertz.POOL_LABEL": {
+    "src": "Pool",
+    "out": "Riserva"
+  },
+  "validation.zertz.REMOVE_OCCUPIED": {
+    "src": "The ring at {{where}} is not vacant.",
+    "out": "L'anello in {{where}} non è vuoto."
+  },
+  "validation.zertz.REMOVE_SAME_AS_PLACE": {
+    "src": "You cannot remove the ring you just placed on.",
+    "out": "Non puoi rimuovere l'anello su cui hai appena posizionato una biglia."
+  },
+  "validation.zertz.RING_NOT_FREE": {
+    "src": "The ring at {{where}} cannot be removed without disturbing other rings.",
+    "out": "L'anello in {{where}} non può essere rimosso senza spostare altri anelli."
+  },
   "validation.zola.DISTANCE_CAPTURES": {
     "src": "Capture moves must not increase your distance from the centre.",
     "out": "Le mosse di cattura non devono aumentare la tua distanza dal centro."
@@ -23114,6 +23182,34 @@
   "variants.yonkoma.size-12.name": {
     "src": "12x12 board",
     "out": "Tabellone 12x12"
+  },
+  "variants.zertz.#board.name": {
+    "src": "Hexhex 4 board (37 rings)",
+    "out": "Plancia Hexhex 4 (37 anelli)"
+  },
+  "variants.zertz.blitz.description": {
+    "src": "Fewer marbles and lower capture targets; default board only.",
+    "out": "Meno biglie e obiettivi di cattura inferiori; solo plancia predefinita."
+  },
+  "variants.zertz.blitz.name": {
+    "src": "Blitz",
+    "out": "Blitz"
+  },
+  "variants.zertz.oversize.description": {
+    "src": "Hexhex 5 board (61 rings)",
+    "out": "Plancia Hexhex 5 (61 anelli)"
+  },
+  "variants.zertz.oversize.name": {
+    "src": "Oversize board",
+    "out": "Plancia oversize"
+  },
+  "variants.zertz.tournament.description": {
+    "src": "Larger alternating hex-of-tri board (48 rings)",
+    "out": "Plancia più grande a esagono di triangoli alternati (48 anelli)"
+  },
+  "variants.zertz.tournament.name": {
+    "src": "Tournament board",
+    "out": "Plancia da torneo"
   },
   "variants.zola.#board.name": {
     "src": "6x6 board",

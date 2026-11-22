@@ -67,7 +67,7 @@ import {
     type Reserves,
     type SlideMode,
 } from "./tzaar/types.js";
-import { lacksTrinity, type WinReason } from "./tzaar/win.js";
+import { lacksTrinity, visiblePieceCounts, type WinReason } from "./tzaar/win.js";
 
 const BASIC_OVERLAY_SCALE = 0.85;
 
@@ -130,23 +130,52 @@ function pieceGlyph(owner: playerid, kind: PieceKind): string {
     return kind === "tott" ? "X" : kind === "tzarra" ? "Y" : "Z";
 }
 
+const SETUP_KIND_ORDER: readonly PieceKind[] = ["tott", "tzarra", "tzaar"];
+
+function firstSetupKindWithReserve(reserves: Reserves, player: playerid): PieceKind | undefined {
+    const seat = reserves[player - 1]!;
+    for (const kind of SETUP_KIND_ORDER) {
+        if (seat[kind] > 0) {
+            return kind;
+        }
+    }
+    return undefined;
+}
+
 /** Next tournament-setup notation when clicking the same empty cell again (move box is the source of truth). */
-function advanceTournamentSetupClick(move: string, cell: string): string | undefined {
+function advanceTournamentSetupClick(
+    move: string,
+    cell: string,
+    reserves: Reserves,
+    player: playerid,
+): string | undefined {
+    const seat = reserves[player - 1]!;
+    const first = (): string | undefined => {
+        const kind = firstSetupKindWithReserve(reserves, player);
+        return kind === undefined ? undefined : formatSetupPlace(cell, kind);
+    };
     if (move.length === 0) {
-        return formatSetupPlace(cell, "tott");
+        return first();
     }
     const place = parseSetupPlace(move);
     if (place === undefined || place.cell !== cell) {
-        return formatSetupPlace(cell, "tott");
+        return first();
     }
     if (move.startsWith("!")) {
-        return formatSetupPlace(cell, "tott");
+        return first();
     }
-    const next = nextSetupKind(place.kind);
-    if (next === undefined) {
-        return `!${cell}`;
+    let current = place.kind;
+    for (let step = 0; step < SETUP_KIND_ORDER.length; step++) {
+        const next = nextSetupKind(current);
+        if (next === undefined) {
+            return `!${cell}`;
+        }
+        if (seat[next] > 0) {
+            return formatSetupPlace(cell, next);
+        }
+        current = next;
     }
-    return formatSetupPlace(cell, next);
+    return `!${cell}`;
 }
 
 /** Buried discs use plain Tott glyphs so stack height reads cleanly. */
@@ -830,7 +859,14 @@ export class TzaarGame extends GameBase {
                 this.pendingSetup = { cell: place.cell };
                 return this;
             }
-            const kind = place.kind ?? "tott";
+            const kind = place.kind;
+            if (kind === undefined) {
+                return this;
+            }
+            const reserves = this.reserves;
+            if (reserves !== undefined && reserves[this.currplayer - 1]![kind] <= 0) {
+                return this;
+            }
             this.pendingSetup = { cell: place.cell, kind };
             if (!this.board.has(place.cell)) {
                 this.board.set(place.cell, { owner: this.currplayer, pieces: [kind] });
@@ -1006,10 +1042,19 @@ export class TzaarGame extends GameBase {
             let newmove = move.toLowerCase().replace(/\s+/g, "");
 
             if (this.phase === "setup" && this.isTournament() && !this.board.has(cell)) {
-                const advanced = advanceTournamentSetupClick(newmove, cell);
-                if (advanced !== undefined) {
-                    newmove = advanced;
+                const reserves = this.reserves;
+                if (reserves === undefined) {
+                    return { move, valid: false, message: i18next.t("apgames:validation._general.INVALID_MOVE", { move }) };
                 }
+                const advanced = advanceTournamentSetupClick(newmove, cell, reserves, this.currplayer);
+                if (advanced === undefined) {
+                    return {
+                        move,
+                        valid: false,
+                        message: i18next.t("apgames:validation.tzaar.NO_RESERVE"),
+                    };
+                }
+                newmove = advanced;
             } else if (this.phase === "play") {
                 const p = this.currplayer;
                 let pendingFrom: string | undefined;
@@ -1102,8 +1147,12 @@ export class TzaarGame extends GameBase {
     }
 
     public sidebarScores(): IScores[] {
-        const line = (p: playerid) =>
-            formatPieceCountLine(availablePieceCounts(this.board, this.reserves, p));
+        const line = (p: playerid) => {
+            if (this.phase === "setup" && this.isTournament()) {
+                return formatPieceCountLine(visiblePieceCounts(this.board, p));
+            }
+            return formatPieceCountLine(availablePieceCounts(this.board, this.reserves, p));
+        };
         return [
             {
                 name: this.neutralAreaLabel("apgames:status.tzaar.PIECES"),

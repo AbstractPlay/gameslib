@@ -278,6 +278,29 @@ describe("TzaarGame", () => {
         expect(g.reserves![1].tzaar).to.equal(6);
     });
 
+    it("tournament setup sidebar counts placed pieces only", () => {
+        const g = new TzaarGame(undefined, ["tournament"]);
+        expect(g.sidebarScores()[0]!.scores).to.deep.equal(["0/0/0", "0/0/0"]);
+        g.move("a1T", { trusted: true });
+        expect(g.sidebarScores()[0]!.scores).to.deep.equal(["1/0/0", "0/0/0"]);
+    });
+
+    it("validateMove rejects setup place when that reserve type is exhausted", () => {
+        const g = new TzaarGame(undefined, ["tournament"]);
+        g.reserves![0].tott = 0;
+        expect(g.validateMove("a1T").valid).to.equal(false);
+        expect(g.moves().every((m) => !/^a1T$/i.test(m))).to.equal(true);
+    });
+
+    it("tournament setup click skips kinds with no reserve left", () => {
+        const g = new TzaarGame(undefined, ["tournament"]);
+        g.reserves![0].tott = 0;
+        const [x, y] = g.graph.algebraic2coords("d4");
+        const r = g.handleClick("", y, x) as { valid: boolean; move?: string };
+        expect(r.valid).to.equal(true);
+        expect(r.move).to.equal("d4R");
+    });
+
     it("after tournament setup white has a single-capture opening only", () => {
         const g = new TzaarGame(undefined, ["tournament"]);
         let guard = 0;

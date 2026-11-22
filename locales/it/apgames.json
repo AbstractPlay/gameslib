@@ -762,6 +762,9 @@
       "MAJORITIES": "Maggioranze vinte",
       "MONOCHROME": "Potenziale monocromatico"
     },
+    "tzaar": {
+      "PIECES": "Pezzi (Tott/Tzarra/Tzaar)"
+    },
     "waldmeister": {
       "COLOUR": "colori",
       "GOALS": "Obiettivi",
@@ -4048,6 +4051,20 @@
       "PARTIAL_OPPONENT": "Non puoi riorganizzare i collegamenti del tuo avversario.",
       "TOO_MANY_PEGS": "Puoi piazzare solo un piolo per turno."
     },
+    "tzaar": {
+      "INITIAL_INSTRUCTIONS": "Cattura un pezzo avversario facendo scorrere una delle tue pile su di esso.",
+      "INITIAL_INSTRUCTIONS_SECOND": "Effettua una seconda cattura, rinforza una pila o premi Passa.",
+      "INITIAL_INSTRUCTIONS_OPENING": "Mossa d'apertura del Bianco: effettua una cattura.",
+      "INITIAL_INSTRUCTIONS_SETUP": "Fai clic su un'intersezione vuota per scegliere un tipo di pezzo, poi fai di nuovo clic per posizionarlo.",
+      "BLOCKED": "Quella intersezione non è sulla plancia.",
+      "OCCUPIED": "Quell'intersezione è già occupata.",
+      "MUST_CAPTURE_FIRST": "La prima azione del tuo turno deve essere una cattura.",
+      "MUST_CAPTURE_OPENING": "La mossa d'apertura deve essere una cattura.",
+      "INVALID_LEG": "Questo scorrimento non è valido.",
+      "NO_RESERVE": "Non hai più quel tipo di pezzo nella tua riserva.",
+      "NO_CAPTURES_FROM": "Non ci sono catture valide per la pila in {{where}}.",
+      "NO_SECOND_ACTION_FROM": "Non ci sono catture o mosse di rinforzo valide per la pila in {{where}}."
+    },
     "unane": {
       "INITIAL_INSTRUCTIONS": "Seleziona una pedina amica.",
       "INSTRUCTIONS": "Fai clic su una pedina avversaria ortogonalmente adiacente per catturarla per sostituzione. Se non è possibile alcuna cattura, fai nuovamente clic sulla pedina amica per rimuoverla.",
@@ -4597,6 +4614,7 @@
     "tumbleweed": "Tumbleweed è un gioco di linea di vista. Si costruiscono torri e le caselle sono controllate dal giocatore con il maggior numero di torri che riescono a vedere quella casella. Competere per controllare la maggioranza del tabellone esagonale.",
     "twinflames": "I giocatori ottengono punti moltiplicando la dimensione dei loro due gruppi più grandi. Il punteggio più alto vince. In caso di parità, vince il secondo giocatore. Il gioco utilizza una configurazione iniziale casuale per posizionare un numero fisso di muri.",
     "twixt": "Twixt è un gioco di connessione in cui i giocatori si alternano collocando pioli e ponti su una griglia con l'obiettivo di collegare i propri lati opposti.",
+    "tzaar": "Impila e cattura su un tabellone esagonale. Mantieni in cima almeno un Tzaar, una Tzarra e un Tott, oppure blocca l'avversario lasciandolo senza catture legali.",
     "unane": "Un gioco di unificazione ispirato a Konane.",
     "unlur": "Un gioco di connessione asimmetrico in cui un giocatore cerca di formare una Y e l'altro cerca di collegare lati opposti. Raggiungere l'obiettivo dell'avversario senza raggiungere il proprio comporta la sconfitta. La partita inizia con una fase di asta/contratto in cui entrambi i giocatori piazzano pezzi del colore del giocatore Y finché qualcuno non passa; a quel punto l'avversario diventa il giocatore Linea.",
     "unstack": "Semina le tue pile per catturare i pezzi avversari ed essere colui che possiede più pezzi alla fine.",
@@ -9420,6 +9438,19 @@
       },
       "size-30": {
         "name": "Plancia più grande (30x30)"
+      }
+    },
+    "tzaar": {
+      "#setup": {
+        "name": "Setup fisso"
+      },
+      "random": {
+        "name": "Configurazione casuale",
+        "description": "Tutti i pezzi vengono posizionati sul tabellone in modo casuale."
+      },
+      "tournament": {
+        "name": "Setup da torneo",
+        "description": "I giocatori si alternano nel posizionare i pezzi dalla propria riserva prima di giocare."
       }
     },
     "unane": {

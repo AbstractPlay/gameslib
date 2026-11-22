@@ -1808,6 +1808,20 @@
       "default": "{{player}} retiró un enlace en {{where}}."
     }
   },
+  "tzaar": {
+    "PLACE": {
+      "default": "{{player}} colocó una {{piece}} en {{where}}."
+    },
+    "MOVE": {
+      "capture": "{{player}} movió de {{from}} a {{to}}, capturando una {{piece}}.",
+      "strengthen": "{{player}} reforzó de {{from}} a {{to}}.",
+      "pass": "{{player}} pasó la segunda acción."
+    },
+    "EOG": {
+      "types": "{{player}} gana — el oponente ya no tiene los tres tipos de piezas en el tablero.",
+      "immobilize": "{{player}} gana — el oponente no puede hacer una captura obligatoria."
+    }
+  },
   "unane": {
     "PLACE": {
       "default": "{{player}} se autocapturó en {{where}}."

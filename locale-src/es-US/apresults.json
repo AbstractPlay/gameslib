@@ -3091,6 +3091,30 @@
     "src": "{{player}} removed a link at {{where}}.",
     "out": "{{player}} retiró un enlace en {{where}}."
   },
+  "tzaar.EOG.immobilize": {
+    "src": "{{player}} wins — the opponent cannot make a forced capture.",
+    "out": "{{player}} gana — el oponente no puede hacer una captura obligatoria."
+  },
+  "tzaar.EOG.types": {
+    "src": "{{player}} wins — the opponent no longer has all three piece types on the board.",
+    "out": "{{player}} gana — el oponente ya no tiene los tres tipos de piezas en el tablero."
+  },
+  "tzaar.MOVE.capture": {
+    "src": "{{player}} moved from {{from}} to {{to}}, capturing a {{piece}}.",
+    "out": "{{player}} movió de {{from}} a {{to}}, capturando una {{piece}}."
+  },
+  "tzaar.MOVE.pass": {
+    "src": "{{player}} passed the second action.",
+    "out": "{{player}} pasó la segunda acción."
+  },
+  "tzaar.MOVE.strengthen": {
+    "src": "{{player}} strengthened from {{from}} to {{to}}.",
+    "out": "{{player}} reforzó de {{from}} a {{to}}."
+  },
+  "tzaar.PLACE.default": {
+    "src": "{{player}} placed a {{piece}} at {{where}}.",
+    "out": "{{player}} colocó una {{piece}} en {{where}}."
+  },
   "unane.PLACE.default": {
     "src": "{{player}} self-captured {{where}}.",
     "out": "{{player}} se autocapturó en {{where}}."

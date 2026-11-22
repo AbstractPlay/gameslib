@@ -1808,6 +1808,20 @@
       "default": "{{player}} hat eine Verbindung bei {{where}} entfernt."
     }
   },
+  "tzaar": {
+    "PLACE": {
+      "default": "{{player}} platzierte einen {{piece}} auf {{where}}."
+    },
+    "MOVE": {
+      "capture": "{{player}} zog von {{from}} nach {{to}} und schlug einen {{piece}}.",
+      "strengthen": "{{player}} verstärkte von {{from}} nach {{to}}.",
+      "pass": "{{player}} passte die zweite Aktion."
+    },
+    "EOG": {
+      "types": "{{player}} gewinnt — der Gegner hat nicht mehr alle drei Steinarten auf dem Brett.",
+      "immobilize": "{{player}} gewinnt — der Gegner kann keinen Pflichtschlag ausführen."
+    }
+  },
   "unane": {
     "PLACE": {
       "default": "{{player}} hat sich bei {{where}} selbst geschlagen."

@@ -762,6 +762,9 @@
       "MAJORITIES": "Gewonnene Mehrheiten",
       "MONOCHROME": "Monochromes Potenzial"
     },
+    "tzaar": {
+      "PIECES": "Steine (Tott/Tzarra/Tzaar)"
+    },
     "waldmeister": {
       "COLOUR": "Farben",
       "GOALS": "Ziele",
@@ -4048,6 +4051,20 @@
       "PARTIAL_OPPONENT": "Sie dürfen die Verbindungen Ihres Gegners nicht neu anordnen.",
       "TOO_MANY_PEGS": "Sie dürfen nur einen Stift pro Zug platzieren."
     },
+    "tzaar": {
+      "INITIAL_INSTRUCTIONS": "Schlage einen gegnerischen Stein, indem du einen deiner Stapel darauf ziehst.",
+      "INITIAL_INSTRUCTIONS_SECOND": "Führe einen zweiten Schlagzug aus, verstärke einen Stapel oder drücke auf Passen.",
+      "INITIAL_INSTRUCTIONS_OPENING": "Eröffnungszug von Weiß: Führe einen Schlagzug aus.",
+      "INITIAL_INSTRUCTIONS_SETUP": "Klicke auf einen freien Schnittpunkt, um einen Steintyp auszuwählen, und klicke erneut, um ihn zu platzieren.",
+      "BLOCKED": "Dieser Schnittpunkt befindet sich nicht auf dem Spielbrett.",
+      "OCCUPIED": "Dieser Schnittpunkt ist bereits besetzt.",
+      "MUST_CAPTURE_FIRST": "Die erste Aktion deines Zugs muss ein Schlagzug sein.",
+      "MUST_CAPTURE_OPENING": "Der Eröffnungszug muss ein Schlagzug sein.",
+      "INVALID_LEG": "Dieser Zug ist nicht zulässig.",
+      "NO_RESERVE": "Du hast diesen Steintyp nicht mehr in deiner Reserve.",
+      "NO_CAPTURES_FROM": "Es gibt keine gültigen Schlagzüge für den Stapel auf {{where}}.",
+      "NO_SECOND_ACTION_FROM": "Es gibt keine gültigen Schlag- oder Verstärkungszüge für den Stapel auf {{where}}."
+    },
     "unane": {
       "INITIAL_INSTRUCTIONS": "Wählen Sie einen eigenen Stein aus.",
       "INSTRUCTIONS": "Klicken Sie auf einen orthogonal angrenzenden gegnerischen Stein, um ihn durch Ersetzen zu schlagen. Wenn kein Schlagzug möglich ist, klicken Sie erneut auf den eigenen Stein, um ihn zu entfernen.",
@@ -4597,6 +4614,7 @@
     "tumbleweed": "Tumbleweed ist ein Spiel der Sichtlinien. Türme werden gebaut, und Felder werden von dem Spieler kontrolliert, der die meisten Türme hat, die dieses Feld sehen können. Kämpfen Sie darum, die Mehrheit des Sechseckbretts zu kontrollieren.",
     "twinflames": "Die Spieler punkten, indem sie ihre zwei größten Gruppen miteinander multiplizieren. Die höchste Punktzahl gewinnt. Bei Gleichstand gewinnt der zweite Spieler. Das Spiel nutzt einen zufälligen Aufbau, um eine feste Anzahl von Wänden zu platzieren.",
     "twixt": "Twixt ist ein Verbindungsspiel, bei dem die Spieler abwechselnd Stifte und Brücken auf einem Steckbrett platzieren, um ihre gegenüberliegenden Seiten zu verbinden.",
+    "tzaar": "Stapeln und schlagen auf einem Sechseckbrett. Halte mindestens einen Tzaar, eine Tzarra und einen Tott ganz oben, oder bringe den Gegner in eine Lage ohne gültigen Schlagzug.",
     "unane": "Ein von Konane inspiriertes Spiel der Vereinigung.",
     "unlur": "Ein asymmetrisches Verbindungsspiel, bei dem ein Spieler versucht, ein Y zu bilden, und der andere gegenüberliegende Seiten verbinden muss. Das Ziel des Gegners zu erreichen, ohne das eigene zu erreichen, führt zur Niederlage. Das Spiel beginnt mit einer Bietphase, in der beide Spieler Steine in der Farbe des Y-Spielers platzieren, bis jemand passt – danach wird der Gegner zum Linien-Spieler.",
     "unstack": "Säen Sie Ihre Stapel aus, um gegnerische Steine zu schlagen und am Ende die meisten Steine zu besitzen.",
@@ -9420,6 +9438,19 @@
       },
       "size-30": {
         "name": "Größeres Spielfeld (30x30)"
+      }
+    },
+    "tzaar": {
+      "#setup": {
+        "name": "Feste Aufstellung"
+      },
+      "random": {
+        "name": "Zufälliger Aufbau",
+        "description": "Alle Steine werden zufällig auf dem Brett platziert."
+      },
+      "tournament": {
+        "name": "Turnier-Aufstellung",
+        "description": "Die Spieler platzieren vor Spielbeginn abwechselnd Steine aus ihrer Reserve."
       }
     },
     "unane": {

@@ -3091,6 +3091,30 @@
     "src": "{{player}} removed a link at {{where}}.",
     "out": "{{player}} hat eine Verbindung bei {{where}} entfernt."
   },
+  "tzaar.EOG.immobilize": {
+    "src": "{{player}} wins — the opponent cannot make a forced capture.",
+    "out": "{{player}} gewinnt — der Gegner kann keinen Pflichtschlag ausführen."
+  },
+  "tzaar.EOG.types": {
+    "src": "{{player}} wins — the opponent no longer has all three piece types on the board.",
+    "out": "{{player}} gewinnt — der Gegner hat nicht mehr alle drei Steinarten auf dem Brett."
+  },
+  "tzaar.MOVE.capture": {
+    "src": "{{player}} moved from {{from}} to {{to}}, capturing a {{piece}}.",
+    "out": "{{player}} zog von {{from}} nach {{to}} und schlug einen {{piece}}."
+  },
+  "tzaar.MOVE.pass": {
+    "src": "{{player}} passed the second action.",
+    "out": "{{player}} passte die zweite Aktion."
+  },
+  "tzaar.MOVE.strengthen": {
+    "src": "{{player}} strengthened from {{from}} to {{to}}.",
+    "out": "{{player}} verstärkte von {{from}} nach {{to}}."
+  },
+  "tzaar.PLACE.default": {
+    "src": "{{player}} placed a {{piece}} at {{where}}.",
+    "out": "{{player}} platzierte einen {{piece}} auf {{where}}."
+  },
   "unane.PLACE.default": {
     "src": "{{player}} self-captured {{where}}.",
     "out": "{{player}} hat sich bei {{where}} selbst geschlagen."

@@ -2483,6 +2483,10 @@
     "src": "Twixt is a connection game where players alternate turns placing pegs and links on a pegboard in an attempt to link their opposite sides.",
     "out": "Twixt ist ein Verbindungsspiel, bei dem die Spieler abwechselnd Stifte und Brücken auf einem Steckbrett platzieren, um ihre gegenüberliegenden Seiten zu verbinden."
   },
+  "descriptions.tzaar": {
+    "src": "Stack and capture on a hex board. Keep at least one Tzaar, Tzarra, and Tott on top, or trap the opponent with no legal capture.",
+    "out": "Stapeln und schlagen auf einem Sechseckbrett. Halte mindestens einen Tzaar, eine Tzarra und einen Tott ganz oben, oder bringe den Gegner in eine Lage ohne gültigen Schlagzug."
+  },
   "descriptions.unane": {
     "src": "A Konane-inspired game of unification.",
     "out": "Ein von Konane inspiriertes Spiel der Vereinigung."
@@ -5706,6 +5710,10 @@
   "status.tintas.MONOCHROME": {
     "src": "Monochrome potential",
     "out": "Monochromes Potenzial"
+  },
+  "status.tzaar.PIECES": {
+    "src": "Pieces (Tott/Tzarra/Tzaar)",
+    "out": "Steine (Tott/Tzarra/Tzaar)"
   },
   "status.waldmeister.COLOUR": {
     "src": "colours",
@@ -16499,6 +16507,54 @@
     "src": "You may only place one peg per turn.",
     "out": "Sie dürfen nur einen Stift pro Zug platzieren."
   },
+  "validation.tzaar.BLOCKED": {
+    "src": "That intersection is not on the board.",
+    "out": "Dieser Schnittpunkt befindet sich nicht auf dem Spielbrett."
+  },
+  "validation.tzaar.INITIAL_INSTRUCTIONS": {
+    "src": "Capture an opponent's piece by sliding one of your stacks onto it.",
+    "out": "Schlage einen gegnerischen Stein, indem du einen deiner Stapel darauf ziehst."
+  },
+  "validation.tzaar.INITIAL_INSTRUCTIONS_OPENING": {
+    "src": "White's opening move: make one capture.",
+    "out": "Eröffnungszug von Weiß: Führe einen Schlagzug aus."
+  },
+  "validation.tzaar.INITIAL_INSTRUCTIONS_SECOND": {
+    "src": "Make a second capture, strengthen a stack, or press Pass.",
+    "out": "Führe einen zweiten Schlagzug aus, verstärke einen Stapel oder drücke auf Passen."
+  },
+  "validation.tzaar.INITIAL_INSTRUCTIONS_SETUP": {
+    "src": "Click an empty intersection to choose a piece type, then click again to place it.",
+    "out": "Klicke auf einen freien Schnittpunkt, um einen Steintyp auszuwählen, und klicke erneut, um ihn zu platzieren."
+  },
+  "validation.tzaar.INVALID_LEG": {
+    "src": "That slide is not legal.",
+    "out": "Dieser Zug ist nicht zulässig."
+  },
+  "validation.tzaar.MUST_CAPTURE_FIRST": {
+    "src": "The first action of your turn must be a capture.",
+    "out": "Die erste Aktion deines Zugs muss ein Schlagzug sein."
+  },
+  "validation.tzaar.MUST_CAPTURE_OPENING": {
+    "src": "The opening move must be a capture.",
+    "out": "Der Eröffnungszug muss ein Schlagzug sein."
+  },
+  "validation.tzaar.NO_CAPTURES_FROM": {
+    "src": "There are no valid captures for the stack at {{where}}.",
+    "out": "Es gibt keine gültigen Schlagzüge für den Stapel auf {{where}}."
+  },
+  "validation.tzaar.NO_RESERVE": {
+    "src": "You do not have that piece type left in your reserve.",
+    "out": "Du hast diesen Steintyp nicht mehr in deiner Reserve."
+  },
+  "validation.tzaar.NO_SECOND_ACTION_FROM": {
+    "src": "There are no valid captures or strengthen moves for the stack at {{where}}.",
+    "out": "Es gibt keine gültigen Schlag- oder Verstärkungszüge für den Stapel auf {{where}}."
+  },
+  "validation.tzaar.OCCUPIED": {
+    "src": "That intersection is already occupied.",
+    "out": "Dieser Schnittpunkt ist bereits besetzt."
+  },
   "validation.unane.INITIAL_INSTRUCTIONS": {
     "src": "Select a friendly piece.",
     "out": "Wählen Sie einen eigenen Stein aus."
@@ -22854,6 +22910,26 @@
   "variants.twixt.size-30.name": {
     "src": "Larger board (30x30)",
     "out": "Größeres Spielfeld (30x30)"
+  },
+  "variants.tzaar.#setup.name": {
+    "src": "Fixed setup",
+    "out": "Feste Aufstellung"
+  },
+  "variants.tzaar.random.description": {
+    "src": "All pieces are placed on the board at random.",
+    "out": "Alle Steine werden zufällig auf dem Brett platziert."
+  },
+  "variants.tzaar.random.name": {
+    "src": "Random setup",
+    "out": "Zufälliger Aufbau"
+  },
+  "variants.tzaar.tournament.description": {
+    "src": "Players alternate placing pieces from their reserve before play.",
+    "out": "Die Spieler platzieren vor Spielbeginn abwechselnd Steine aus ihrer Reserve."
+  },
+  "variants.tzaar.tournament.name": {
+    "src": "Tournament setup",
+    "out": "Turnier-Aufstellung"
   },
   "variants.unane.#board.name": {
     "src": "7x8 board",

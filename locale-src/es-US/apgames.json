@@ -2483,6 +2483,10 @@
     "src": "Twixt is a connection game where players alternate turns placing pegs and links on a pegboard in an attempt to link their opposite sides.",
     "out": "Twixt es un juego de conexión donde los jugadores alternan turnos colocando clavijas y puentes en un tablero perforado para intentar conectar sus lados opuestos."
   },
+  "descriptions.tzaar": {
+    "src": "Stack and capture on a hex board. Keep at least one Tzaar, Tzarra, and Tott on top, or trap the opponent with no legal capture.",
+    "out": "Apila y captura en un tablero hexagonal. Mantén al menos un Tzaar, una Tzarra y un Tott en la parte superior, o atrapa al oponente dejándolo sin capturas válidas."
+  },
   "descriptions.unane": {
     "src": "A Konane-inspired game of unification.",
     "out": "Un juego de unificación inspirado en Konane."
@@ -5706,6 +5710,10 @@
   "status.tintas.MONOCHROME": {
     "src": "Monochrome potential",
     "out": "Potencial monocromático"
+  },
+  "status.tzaar.PIECES": {
+    "src": "Pieces (Tott/Tzarra/Tzaar)",
+    "out": "Piezas (Tott/Tzarra/Tzaar)"
   },
   "status.waldmeister.COLOUR": {
     "src": "colours",
@@ -16499,6 +16507,54 @@
     "src": "You may only place one peg per turn.",
     "out": "Solo puedes colocar un pivote por turno."
   },
+  "validation.tzaar.BLOCKED": {
+    "src": "That intersection is not on the board.",
+    "out": "Esa intersección no está en el tablero."
+  },
+  "validation.tzaar.INITIAL_INSTRUCTIONS": {
+    "src": "Capture an opponent's piece by sliding one of your stacks onto it.",
+    "out": "Captura una pieza del oponente deslizando una de tus pilas sobre ella."
+  },
+  "validation.tzaar.INITIAL_INSTRUCTIONS_OPENING": {
+    "src": "White's opening move: make one capture.",
+    "out": "Jugada inicial de las blancas: realiza una captura."
+  },
+  "validation.tzaar.INITIAL_INSTRUCTIONS_SECOND": {
+    "src": "Make a second capture, strengthen a stack, or press Pass.",
+    "out": "Realiza una segunda captura, refuerza una pila o presiona Pasar."
+  },
+  "validation.tzaar.INITIAL_INSTRUCTIONS_SETUP": {
+    "src": "Click an empty intersection to choose a piece type, then click again to place it.",
+    "out": "Haz clic en una intersección vacía para elegir un tipo de pieza y luego haz clic de nuevo para colocarla."
+  },
+  "validation.tzaar.INVALID_LEG": {
+    "src": "That slide is not legal.",
+    "out": "Ese deslizamiento no es válido."
+  },
+  "validation.tzaar.MUST_CAPTURE_FIRST": {
+    "src": "The first action of your turn must be a capture.",
+    "out": "La primera acción de tu turno debe ser una captura."
+  },
+  "validation.tzaar.MUST_CAPTURE_OPENING": {
+    "src": "The opening move must be a capture.",
+    "out": "La jugada inicial debe ser una captura."
+  },
+  "validation.tzaar.NO_CAPTURES_FROM": {
+    "src": "There are no valid captures for the stack at {{where}}.",
+    "out": "No hay capturas válidas para la pila en {{where}}."
+  },
+  "validation.tzaar.NO_RESERVE": {
+    "src": "You do not have that piece type left in your reserve.",
+    "out": "No te quedan piezas de ese tipo en tu reserva."
+  },
+  "validation.tzaar.NO_SECOND_ACTION_FROM": {
+    "src": "There are no valid captures or strengthen moves for the stack at {{where}}.",
+    "out": "No hay capturas ni movimientos de refuerzo válidos para la pila en {{where}}."
+  },
+  "validation.tzaar.OCCUPIED": {
+    "src": "That intersection is already occupied.",
+    "out": "Esa intersección ya está ocupada."
+  },
   "validation.unane.INITIAL_INSTRUCTIONS": {
     "src": "Select a friendly piece.",
     "out": "Selecciona una pieza aliada."
@@ -22854,6 +22910,26 @@
   "variants.twixt.size-30.name": {
     "src": "Larger board (30x30)",
     "out": "Tablero más grande (30x30)"
+  },
+  "variants.tzaar.#setup.name": {
+    "src": "Fixed setup",
+    "out": "Configuración fija"
+  },
+  "variants.tzaar.random.description": {
+    "src": "All pieces are placed on the board at random.",
+    "out": "Todas las piezas se colocan en el tablero al azar."
+  },
+  "variants.tzaar.random.name": {
+    "src": "Random setup",
+    "out": "Disposición aleatoria"
+  },
+  "variants.tzaar.tournament.description": {
+    "src": "Players alternate placing pieces from their reserve before play.",
+    "out": "Los jugadores alternan la colocación de piezas desde su reserva antes de comenzar la partida."
+  },
+  "variants.tzaar.tournament.name": {
+    "src": "Tournament setup",
+    "out": "Configuración de torneo"
   },
   "variants.unane.#board.name": {
     "src": "7x8 board",

@@ -1808,6 +1808,20 @@
       "default": "{{player}} ha rimosso un collegamento in {{where}}."
     }
   },
+  "tzaar": {
+    "PLACE": {
+      "default": "{{player}} ha piazzato un {{piece}} in {{where}}."
+    },
+    "MOVE": {
+      "capture": "{{player}} ha mosso da {{from}} a {{to}}, catturando un {{piece}}.",
+      "strengthen": "{{player}} ha rinforzato da {{from}} a {{to}}.",
+      "pass": "{{player}} ha passato la seconda azione."
+    },
+    "EOG": {
+      "types": "{{player}} vince — l'avversario non ha più tutti e tre i tipi di pedine sulla plancia.",
+      "immobilize": "{{player}} vince — l'avversario non può effettuare una cattura obbligatoria."
+    }
+  },
   "unane": {
     "PLACE": {
       "default": "{{player}} ha effettuato un'autocattura in {{where}}."

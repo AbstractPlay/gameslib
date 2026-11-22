@@ -120,6 +120,32 @@ export function formatMove(move: ParsedMove): string {
     return formatPlacementMove(move);
 }
 
+/** Recorded `lastmove`: uppercase marble colours, lowercase cells. */
+export function formatLastmove(m: string): string {
+    const parsed = parseMove(m);
+    if (parsed === undefined) {
+        return m;
+    }
+    if (parsed.kind === "jump") {
+        let out = `x${parsed.steps[0]!.from.toLowerCase()}`;
+        for (const s of parsed.steps) {
+            out += `${s.overColour}${s.to.toLowerCase()}`;
+        }
+        return out;
+    }
+    let out = `${parsed.colour}${parsed.cell.toLowerCase()}`;
+    if (parsed.remove !== undefined) {
+        out += `,${parsed.remove.toLowerCase()}`;
+    }
+    if (parsed.isolation !== undefined && parsed.isolation.length > 0) {
+        out += "x";
+        for (const iso of parsed.isolation) {
+            out += `${iso.colour}${iso.cell.toLowerCase()}`;
+        }
+    }
+    return out;
+}
+
 /** Attach over-cell info to parsed jump steps using board state. */
 export function resolveJumpOvers(
     steps: JumpStep[],

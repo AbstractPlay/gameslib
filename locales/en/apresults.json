@@ -1808,6 +1808,20 @@
       "default": "{{player}} removed a link at {{where}}."
     }
   },
+  "tzaar": {
+    "PLACE": {
+      "default": "{{player}} placed a {{piece}} at {{where}}."
+    },
+    "MOVE": {
+      "capture": "{{player}} moved from {{from}} to {{to}}, capturing a {{piece}}.",
+      "strengthen": "{{player}} strengthened from {{from}} to {{to}}.",
+      "pass": "{{player}} passed the second action."
+    },
+    "EOG": {
+      "types": "{{player}} wins — the opponent no longer has all three piece types on the board.",
+      "immobilize": "{{player}} wins — the opponent cannot make a forced capture."
+    }
+  },
   "unane": {
     "PLACE": {
       "default": "{{player}} self-captured {{where}}."

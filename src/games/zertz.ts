@@ -37,6 +37,7 @@ import { anyJumpExists, enumerateJumpChains, cellBetween, type JumpStep } from "
 import { isolationCaptures, isRingSlidable, removableRingsAfterPlacement } from "./zertz/rings.js";
 import {
     formatJumpMove,
+    formatLastmove,
     formatPlacementMove,
     parseMove,
     resolveJumpOvers,
@@ -883,7 +884,7 @@ export class ZertzGame extends GameBase {
             return this;
         }
 
-        this.lastmove = m;
+        this.lastmove = formatLastmove(m);
         this.currplayer = this.currplayer === 1 ? 2 : 1;
         this.checkEOG();
         this.saveState();

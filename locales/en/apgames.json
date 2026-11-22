@@ -762,6 +762,9 @@
       "MAJORITIES": "Majorities won",
       "MONOCHROME": "Monochrome potential"
     },
+    "tzaar": {
+      "PIECES": "Pieces (Tott/Tzarra/Tzaar)"
+    },
     "waldmeister": {
       "COLOUR": "colours",
       "GOALS": "Goals",
@@ -4048,6 +4051,20 @@
       "PARTIAL_OPPONENT": "You may not rearrange your opponent's links.",
       "TOO_MANY_PEGS": "You may only place one peg per turn."
     },
+    "tzaar": {
+      "INITIAL_INSTRUCTIONS": "Capture an opponent's piece by sliding one of your stacks onto it.",
+      "INITIAL_INSTRUCTIONS_SECOND": "Make a second capture, strengthen a stack, or press Pass.",
+      "INITIAL_INSTRUCTIONS_OPENING": "White's opening move: make one capture.",
+      "INITIAL_INSTRUCTIONS_SETUP": "Click an empty intersection to choose a piece type, then click again to place it.",
+      "BLOCKED": "That intersection is not on the board.",
+      "OCCUPIED": "That intersection is already occupied.",
+      "MUST_CAPTURE_FIRST": "The first action of your turn must be a capture.",
+      "MUST_CAPTURE_OPENING": "The opening move must be a capture.",
+      "INVALID_LEG": "That slide is not legal.",
+      "NO_RESERVE": "You do not have that piece type left in your reserve.",
+      "NO_CAPTURES_FROM": "There are no valid captures for the stack at {{where}}.",
+      "NO_SECOND_ACTION_FROM": "There are no valid captures or strengthen moves for the stack at {{where}}."
+    },
     "unane": {
       "INITIAL_INSTRUCTIONS": "Select a friendly piece.",
       "INSTRUCTIONS": "Click on an orthogonally adjacent opposing piece to capture by replacement. If no capture is possible, click the friendly piece again to be removed.",
@@ -4597,6 +4614,7 @@
     "tumbleweed": "Tumbleweed is a game of line of sight. Towers are built, and cells are controlled by the player with the most towers that can see that cell. Compete to control the majority of the hexagonal board.",
     "twinflames": "Players score by multiplying their two largest groups. Largest score wins. If tied, the second player wins. The game uses a random setup to place a fixed number of walls.",
     "twixt": "Twixt is a connection game where players alternate turns placing pegs and links on a pegboard in an attempt to link their opposite sides.",
+    "tzaar": "Stack and capture on a hex board. Keep at least one Tzaar, Tzarra, and Tott on top, or trap the opponent with no legal capture.",
     "unane": "A Konane-inspired game of unification.",
     "unlur": "An asymmetric connection game where one player tries to form a Y and the other tries to connect opposite sides. Achieving the opponent's goal without achieving your own is a loss. The game starts with a contract phase where both players place the colour of the Y player until someone passes, and then the opponent becomes the Line player.",
     "unstack": "Sow your stacks to capture the adversary pieces and be the one with more pieces at the end.",
@@ -4905,6 +4923,7 @@
     "tumbleweed": "Tumbleweed",
     "twinflames": "Twin Flames",
     "twixt": "Twixt",
+    "tzaar": "TZAAR",
     "unane": "Unane",
     "unlur": "Unlur",
     "unstack": "Unstack",
@@ -9419,6 +9438,19 @@
       },
       "size-30": {
         "name": "Larger board (30x30)"
+      }
+    },
+    "tzaar": {
+      "#setup": {
+        "name": "Fixed setup"
+      },
+      "random": {
+        "name": "Random setup",
+        "description": "All pieces are placed on the board at random."
+      },
+      "tournament": {
+        "name": "Tournament setup",
+        "description": "Players alternate placing pieces from their reserve before play."
       }
     },
     "unane": {

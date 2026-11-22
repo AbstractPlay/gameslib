@@ -7733,6 +7733,66 @@
       "english": "{{player}} removed a link at {{where}}."
     },
     {
+      "oldPath": "EOG.tzaar_immobilize",
+      "oldFullKey": "apresults:EOG.tzaar_immobilize",
+      "uid": "tzaar",
+      "resultType": "EOG",
+      "newLeaf": "immobilize",
+      "newPath": "tzaar.EOG.immobilize",
+      "newFullKey": "apresults:tzaar.EOG.immobilize",
+      "english": "{{player}} wins — the opponent cannot make a forced capture."
+    },
+    {
+      "oldPath": "EOG.tzaar_types",
+      "oldFullKey": "apresults:EOG.tzaar_types",
+      "uid": "tzaar",
+      "resultType": "EOG",
+      "newLeaf": "types",
+      "newPath": "tzaar.EOG.types",
+      "newFullKey": "apresults:tzaar.EOG.types",
+      "english": "{{player}} wins — the opponent no longer has all three piece types on the board."
+    },
+    {
+      "oldPath": "MOVE.tzaar_capture",
+      "oldFullKey": "apresults:MOVE.tzaar_capture",
+      "uid": "tzaar",
+      "resultType": "MOVE",
+      "newLeaf": "capture",
+      "newPath": "tzaar.MOVE.capture",
+      "newFullKey": "apresults:tzaar.MOVE.capture",
+      "english": "{{player}} moved from {{from}} to {{to}}, capturing a {{piece}}."
+    },
+    {
+      "oldPath": "MOVE.tzaar_pass",
+      "oldFullKey": "apresults:MOVE.tzaar_pass",
+      "uid": "tzaar",
+      "resultType": "MOVE",
+      "newLeaf": "pass",
+      "newPath": "tzaar.MOVE.pass",
+      "newFullKey": "apresults:tzaar.MOVE.pass",
+      "english": "{{player}} passed the second action."
+    },
+    {
+      "oldPath": "MOVE.tzaar_strengthen",
+      "oldFullKey": "apresults:MOVE.tzaar_strengthen",
+      "uid": "tzaar",
+      "resultType": "MOVE",
+      "newLeaf": "strengthen",
+      "newPath": "tzaar.MOVE.strengthen",
+      "newFullKey": "apresults:tzaar.MOVE.strengthen",
+      "english": "{{player}} strengthened from {{from}} to {{to}}."
+    },
+    {
+      "oldPath": "PLACE.tzaar",
+      "oldFullKey": "apresults:PLACE.tzaar",
+      "uid": "tzaar",
+      "resultType": "PLACE",
+      "newLeaf": "default",
+      "newPath": "tzaar.PLACE.default",
+      "newFullKey": "apresults:tzaar.PLACE.default",
+      "english": "{{player}} placed a {{piece}} at {{where}}."
+    },
+    {
       "oldPath": "PLACE.unane",
       "oldFullKey": "apresults:PLACE.unane",
       "uid": "unane",

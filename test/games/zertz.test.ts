@@ -6,7 +6,7 @@ import { addResource } from "../../src";
 import { ZertzGame } from "../../src/games/zertz.js";
 import { layoutFor } from "../../src/games/zertz/graph.js";
 import { anyJumpExists, enumerateJumpChains } from "../../src/games/zertz/jumps.js";
-import { parseMove, formatPlacementMove } from "../../src/games/zertz/notation.js";
+import { formatLastmove, parseMove, formatPlacementMove } from "../../src/games/zertz/notation.js";
 import { captureWinReason, playerWins, thresholds } from "../../src/games/zertz/win.js";
 import {
     isolationCaptures,
@@ -116,6 +116,18 @@ describe("ZertzGame", () => {
                 const parsed = parseMove(m);
                 expect(parsed).to.not.equal(undefined);
             }
+        });
+
+        it("formatLastmove uppercases colours and lowercases cells", () => {
+            expect(formatLastmove("wd4,d1")).to.equal("Wd4,d1");
+            expect(formatLastmove("xd1gd3wd5")).to.equal("xd1Gd3Wd5");
+        });
+
+        it("stores caps-normalized lastmove on commit", () => {
+            const g = new ZertzGame();
+            const mv = g.moves()[0]!.toLowerCase();
+            g.move(mv, { trusted: true });
+            expect(g.lastmove).to.equal(formatLastmove(mv));
         });
     });
 

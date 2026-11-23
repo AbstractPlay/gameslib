@@ -5715,11 +5715,12 @@
     },
     "tzaar": {
       "#projection": {
-        "name": "Vue empilée"
-      },
-      "flat": {
         "name": "Vue plate",
-        "description": "Seule la pièce supérieure de chaque pile est affichée, avec la hauteur indiquée par un chiffre."
+        "description": "Uniquement la pièce supérieure sur chaque pile, avec la hauteur indiquée par un chiffre si elle est supérieure à un."
+      },
+      "stacked": {
+        "name": "Vue empilée",
+        "description": "Piles décalées montrant chaque disque de la pile."
       }
     },
     "upperhand": {

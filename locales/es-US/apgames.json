@@ -5715,11 +5715,12 @@
     },
     "tzaar": {
       "#projection": {
-        "name": "Vista apilada"
-      },
-      "flat": {
         "name": "Vista plana",
-        "description": "Solo la ficha superior de cada pila, con la altura mostrada como un número."
+        "description": "Solo la pieza superior de cada pila, con la altura mostrada con un número cuando es mayor que uno."
+      },
+      "stacked": {
+        "name": "Vista apilada",
+        "description": "Pilas escalonadas que muestran cada disco de la pila."
       }
     },
     "upperhand": {

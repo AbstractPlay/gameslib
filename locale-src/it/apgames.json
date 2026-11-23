@@ -3479,17 +3479,21 @@
     "src": "Hide diagonals",
     "out": "Nascondi diagonali"
   },
+  "displays.tzaar.#projection.description": {
+    "src": "Top piece only on each stack, with height shown as a numeral when greater than one.",
+    "out": "Solo il pezzo superiore di ogni pila, con l'altezza mostrata da un numero quando è maggiore di uno."
+  },
   "displays.tzaar.#projection.name": {
-    "src": "Stacked view",
-    "out": "Vista impilata"
-  },
-  "displays.tzaar.flat.description": {
-    "src": "Top piece only on each stack, with height shown as a numeral.",
-    "out": "Solo la pedina in cima a ogni pila, con l'altezza indicata da un numero."
-  },
-  "displays.tzaar.flat.name": {
     "src": "Flat view",
     "out": "Vista dall'alto"
+  },
+  "displays.tzaar.stacked.description": {
+    "src": "Offset stacks showing every disc in the pile.",
+    "out": "Pile sfalsate che mostrano ogni disco della pila."
+  },
+  "displays.tzaar.stacked.name": {
+    "src": "Stacked view",
+    "out": "Vista impilata"
   },
   "displays.upperhand.orb-3d.description": {
     "src": "Use plain 3D orb textures.",

@@ -238,11 +238,12 @@ export const gameApgamesEn = {
     },
     displays: {
         "#projection": {
-            name: "Stacked view",
-        },
-        flat: {
             name: "Flat view",
-            description: "Top piece only on each stack, with height shown as a numeral.",
+            description: "Top piece only on each stack, with height shown as a numeral when greater than one.",
+        },
+        stacked: {
+            name: "Stacked view",
+            description: "Offset stacks showing every disc in the pile.",
         },
     },
     variants: {
@@ -338,7 +339,7 @@ export class TzaarGame extends GameBase {
             { uid: "random", group: "setup" },
             { uid: "tournament", group: "setup" },
         ],
-        displays: [{ uid: "flat", group: "projection" }],
+        displays: [{ uid: "stacked", group: "projection" }],
         customizations: [
             { num: 1, default: GIPF_P1, explanation: "Player 1 piece fill", player: 1 },
             { num: 2, default: GIPF_P2, explanation: "Player 2 piece fill", player: 2 },
@@ -1373,10 +1374,10 @@ export class TzaarGame extends GameBase {
     public render(opts: IRenderOpts = {}): APRenderRep {
         const p1 = this.getPlayerColour(1);
         const p2 = this.getPlayerColour(2);
-        if (this.hasDisplay(opts, "flat")) {
-            return this.renderFlat(p1, p2);
+        if (this.hasDisplay(opts, "stacked")) {
+            return this.renderStacked(p1, p2);
         }
-        return this.renderStacked(p1, p2);
+        return this.renderFlat(p1, p2);
     }
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {

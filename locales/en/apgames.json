@@ -5715,11 +5715,12 @@
     },
     "tzaar": {
       "#projection": {
-        "name": "Stacked view"
-      },
-      "flat": {
         "name": "Flat view",
-        "description": "Top piece only on each stack, with height shown as a numeral."
+        "description": "Top piece only on each stack, with height shown as a numeral when greater than one."
+      },
+      "stacked": {
+        "name": "Stacked view",
+        "description": "Offset stacks showing every disc in the pile."
       }
     },
     "upperhand": {

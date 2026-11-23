@@ -3479,17 +3479,21 @@
     "src": "Hide diagonals",
     "out": "Masquer les diagonales"
   },
+  "displays.tzaar.#projection.description": {
+    "src": "Top piece only on each stack, with height shown as a numeral when greater than one.",
+    "out": "Uniquement la pièce supérieure sur chaque pile, avec la hauteur indiquée par un chiffre si elle est supérieure à un."
+  },
   "displays.tzaar.#projection.name": {
-    "src": "Stacked view",
-    "out": "Vue empilée"
-  },
-  "displays.tzaar.flat.description": {
-    "src": "Top piece only on each stack, with height shown as a numeral.",
-    "out": "Seule la pièce supérieure de chaque pile est affichée, avec la hauteur indiquée par un chiffre."
-  },
-  "displays.tzaar.flat.name": {
     "src": "Flat view",
     "out": "Vue plate"
+  },
+  "displays.tzaar.stacked.description": {
+    "src": "Offset stacks showing every disc in the pile.",
+    "out": "Piles décalées montrant chaque disque de la pile."
+  },
+  "displays.tzaar.stacked.name": {
+    "src": "Stacked view",
+    "out": "Vue empilée"
   },
   "displays.upperhand.orb-3d.description": {
     "src": "Use plain 3D orb textures.",

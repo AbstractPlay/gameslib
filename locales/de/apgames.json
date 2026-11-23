@@ -5715,11 +5715,12 @@
     },
     "tzaar": {
       "#projection": {
-        "name": "Gestapelte Ansicht"
-      },
-      "flat": {
         "name": "Flache Ansicht",
-        "description": "Nur der oberste Stein auf jedem Stapel, wobei die Höhe als Zahl angezeigt wird."
+        "description": "Nur der oberste Stein auf jedem Stapel, wobei die Höhe als Zahl angezeigt wird, wenn sie größer als eins ist."
+      },
+      "stacked": {
+        "name": "Stapelansicht",
+        "description": "Versetzte Stapel, die jeden Stein im Stapel anzeigen."
       }
     },
     "upperhand": {

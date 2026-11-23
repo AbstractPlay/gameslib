@@ -3479,17 +3479,21 @@
     "src": "Hide diagonals",
     "out": "Diagonalen ausblenden"
   },
+  "displays.tzaar.#projection.description": {
+    "src": "Top piece only on each stack, with height shown as a numeral when greater than one.",
+    "out": "Nur der oberste Stein auf jedem Stapel, wobei die Höhe als Zahl angezeigt wird, wenn sie größer als eins ist."
+  },
   "displays.tzaar.#projection.name": {
-    "src": "Stacked view",
-    "out": "Gestapelte Ansicht"
-  },
-  "displays.tzaar.flat.description": {
-    "src": "Top piece only on each stack, with height shown as a numeral.",
-    "out": "Nur der oberste Stein auf jedem Stapel, wobei die Höhe als Zahl angezeigt wird."
-  },
-  "displays.tzaar.flat.name": {
     "src": "Flat view",
     "out": "Flache Ansicht"
+  },
+  "displays.tzaar.stacked.description": {
+    "src": "Offset stacks showing every disc in the pile.",
+    "out": "Versetzte Stapel, die jeden Stein im Stapel anzeigen."
+  },
+  "displays.tzaar.stacked.name": {
+    "src": "Stacked view",
+    "out": "Stapelansicht"
   },
   "displays.upperhand.orb-3d.description": {
     "src": "Use plain 3D orb textures.",

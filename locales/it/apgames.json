@@ -5715,11 +5715,12 @@
     },
     "tzaar": {
       "#projection": {
-        "name": "Vista impilata"
-      },
-      "flat": {
         "name": "Vista dall'alto",
-        "description": "Solo la pedina in cima a ogni pila, con l'altezza indicata da un numero."
+        "description": "Solo il pezzo superiore di ogni pila, con l'altezza mostrata da un numero quando è maggiore di uno."
+      },
+      "stacked": {
+        "name": "Vista impilata",
+        "description": "Pile sfalsate che mostrano ogni disco della pila."
       }
     },
     "upperhand": {

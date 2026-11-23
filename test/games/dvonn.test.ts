@@ -248,15 +248,29 @@ describe("DvonnGame", () => {
     expect(clone.getStartingPosition()).to.equal(pos);
   });
 
-  it("render in play omits setup place circles from persisted results", () => {
+  it("render in play omits setup place circles from loaded results", () => {
     const g = new DvonnGame();
     finishSetup(g);
     const last = g.stack[g.stack.length - 1]!;
     expect(last._results.some((r) => r.type === "place")).to.equal(true);
+    expect(last.phase).to.equal("play");
     g.load();
+    expect(g.results.some((r) => r.type === "place")).to.equal(false);
     const rep = g.render() as { annotations?: Array<{ type: string }> };
     const enters = rep.annotations?.filter((a) => a.type === "enter") ?? [];
     expect(enters).to.deep.equal([]);
+  });
+
+  it("render during setup still shows place from loaded results", () => {
+    const g = new DvonnGame();
+    g.move("d5", { trusted: true });
+    const frame = g.stack[g.stack.length - 1]!;
+    const replay = new DvonnGame(g.state());
+    replay.load(g.stack.length - 1);
+    expect(replay.results).to.deep.equal(frame._results);
+    const rep = replay.render() as { annotations?: Array<{ type: string }> };
+    const enters = rep.annotations?.filter((a) => a.type === "enter") ?? [];
+    expect(enters).to.have.length(1);
   });
 
   it("validateMove on partial source sets canrender and destination highlights", () => {

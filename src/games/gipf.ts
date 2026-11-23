@@ -1718,8 +1718,7 @@ export class GipfGame extends GameBaseSequenced {
 
         rep.annotations = [];
         const graph = this.graph;
-        const r = this.stack[this.stack.length - 1]._results;
-        for (const res of r) {
+        for (const res of this.results) {
             if (res.type === "move" && res.from && res.to) {
                 const [fx, fy] = graph.algebraic2coords(res.from);
                 const [tx, ty] = graph.algebraic2coords(res.to);
@@ -1785,14 +1784,14 @@ export class GipfGame extends GameBaseSequenced {
                 }
             }
         } else {
-            for (const res of r) {
+            for (const res of this.results) {
                 if (res.type !== "capture" || res.how !== "gipf-row" || res.where === undefined) {
                     continue;
                 }
                 const cells = res.where
                     .split(",")
-                    .map((c) => c.trim().toLowerCase())
-                    .filter((c) => c.length > 0);
+                    .map((c: string) => c.trim().toLowerCase())
+                    .filter((c: string) => c.length > 0);
                 exitOnCells(cells);
             }
         }

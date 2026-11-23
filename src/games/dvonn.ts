@@ -280,6 +280,14 @@ export class DvonnGame extends GameBaseSequenced {
     return this;
   }
 
+  /** Render/validate UI: play omits setup-only place echoes; chat uses stack `_results`. */
+  private resultsForDisplay(stored: APMoveResult[], phase: Phase): APMoveResult[] {
+    if (phase === "play") {
+      return stored.filter((r) => r.type !== "place");
+    }
+    return [...stored];
+  }
+
   private rowCol(cell: string): RowCol {
     const [col, row] = this.graph.algebraic2coords(cell);
     return { row, col };
@@ -500,6 +508,9 @@ export class DvonnGame extends GameBaseSequenced {
         this.currplayer = player === 1 ? 2 : 1;
       }
       this.saveState();
+      if (this.phase === "play") {
+        this.results = this.resultsForDisplay(this.results, "play");
+      }
       return this;
     }
 
@@ -643,7 +654,7 @@ export class DvonnGame extends GameBaseSequenced {
       });
     }
     for (const r of this.results) {
-      if (r.type === "place" && r.where && this.phase === "setup") {
+      if (r.type === "place" && r.where) {
         const [x, y] = this.graph.algebraic2coords(r.where);
         rep.annotations!.push({
           type: "enter",

@@ -5713,6 +5713,15 @@
         "name": "Nascondi diagonali"
       }
     },
+    "tzaar": {
+      "#projection": {
+        "name": "Vista impilata"
+      },
+      "flat": {
+        "name": "Vista dall'alto",
+        "description": "Solo la pedina in cima a ogni pila, con l'altezza indicata da un numero."
+      }
+    },
     "upperhand": {
       "orb-3d": {
         "description": "Usa texture di sfere 3D semplici.",

@@ -5713,6 +5713,15 @@
         "name": "Masquer les diagonales"
       }
     },
+    "tzaar": {
+      "#projection": {
+        "name": "Vue empilée"
+      },
+      "flat": {
+        "name": "Vue plate",
+        "description": "Seule la pièce supérieure de chaque pile est affichée, avec la hauteur indiquée par un chiffre."
+      }
+    },
     "upperhand": {
       "orb-3d": {
         "description": "Utiliser des textures de sphères 3D simples.",

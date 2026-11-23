@@ -5713,6 +5713,15 @@
         "name": "Ocultar diagonales"
       }
     },
+    "tzaar": {
+      "#projection": {
+        "name": "Vista apilada"
+      },
+      "flat": {
+        "name": "Vista plana",
+        "description": "Solo la ficha superior de cada pila, con la altura mostrada como un número."
+      }
+    },
     "upperhand": {
       "orb-3d": {
         "description": "Usar texturas simples de orbes en 3D.",

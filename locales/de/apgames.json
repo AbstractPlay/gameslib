@@ -5713,6 +5713,15 @@
         "name": "Diagonalen ausblenden"
       }
     },
+    "tzaar": {
+      "#projection": {
+        "name": "Gestapelte Ansicht"
+      },
+      "flat": {
+        "name": "Flache Ansicht",
+        "description": "Nur der oberste Stein auf jedem Stapel, wobei die Höhe als Zahl angezeigt wird."
+      }
+    },
     "upperhand": {
       "orb-3d": {
         "description": "Schlichte 3D-Kugeltexturen verwenden.",

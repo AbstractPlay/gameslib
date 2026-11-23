@@ -3479,6 +3479,18 @@
     "src": "Hide diagonals",
     "out": "Masquer les diagonales"
   },
+  "displays.tzaar.#projection.name": {
+    "src": "Stacked view",
+    "out": "Vue empilée"
+  },
+  "displays.tzaar.flat.description": {
+    "src": "Top piece only on each stack, with height shown as a numeral.",
+    "out": "Seule la pièce supérieure de chaque pile est affichée, avec la hauteur indiquée par un chiffre."
+  },
+  "displays.tzaar.flat.name": {
+    "src": "Flat view",
+    "out": "Vue plate"
+  },
   "displays.upperhand.orb-3d.description": {
     "src": "Use plain 3D orb textures.",
     "out": "Utiliser des textures de sphères 3D simples."

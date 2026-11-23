@@ -275,7 +275,7 @@ export class DvonnGame extends GameBaseSequenced {
     this.board = cloneBoard(s.board);
     this.reserves = cloneReserves(s.reserves);
     this.lastmove = s.lastmove;
-    this.results = [...s._results];
+    this.results = this.resultsForDisplay(s._results, s.phase);
     this.moveHighlights = [];
     return this;
   }

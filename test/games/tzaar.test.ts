@@ -416,15 +416,25 @@ describe("TzaarGame", () => {
         expect(TzaarGame.gameinfo.displays?.some((d) => d.uid === "stacked")).to.equal(true);
     });
 
-    it("tzarra legend stacking overlay wires border/inner slots 5–8", () => {
+    it("stacked legend uses single glyphs for Tott and Tzarra", () => {
         const rep = new TzaarGame().render({ altDisplays: ["stacked"] });
-        const entry = rep.legend!["B"];
-        expect(entry).to.be.an("array").with.length(2);
-        const [base, overlay] = entry as [{ paint?: { border?: { palette?: number }; inner?: { palette?: number } } }, { paint?: { border?: { palette?: number }; inner?: { palette?: number } } }];
-        expect(base.paint?.border?.palette).to.equal(5);
-        expect(base.paint?.inner?.palette).to.equal(6);
-        expect(overlay.paint?.border?.palette).to.equal(base.paint?.border?.palette);
-        expect(overlay.paint?.inner?.palette).to.equal(base.paint?.inner?.palette);
+        const a = rep.legend!["A"] as { name?: string };
+        const b = rep.legend!["B"] as { name?: string; paint?: { border?: { palette?: number }; inner?: { palette?: number } } };
+        expect(a).to.not.be.an("array");
+        expect(a.name).to.equal("piece");
+        expect(b).to.not.be.an("array");
+        expect(b.name).to.equal("piece-horse");
+        expect(b.paint?.border?.palette).to.equal(5);
+        expect(b.paint?.inner?.palette).to.equal(6);
+    });
+
+    it("stacked player borders use black and P2 fill is medium grey", () => {
+        const rep = new TzaarGame().render({ altDisplays: ["stacked"] }).legend!;
+        const x = rep["X"] as { paint?: { border?: { default?: string }; fill?: { default?: string } } };
+        const a = rep["A"] as { paint?: { border?: { default?: string }; fill?: { default?: string } } };
+        expect(x.paint?.border?.default).to.equal("#000000");
+        expect(a.paint?.border?.default).to.equal("#000000");
+        expect(x.paint?.fill?.default).to.equal("#666666");
     });
 
     it("tzaar legend wires chariot border/inner slots 9–12", () => {

@@ -39,7 +39,7 @@ import {
 import {
   DVONN_FILL,
   GIPF_P1,
-  GIPF_P2,
+  GIPF_P2_STACKED_FILL,
   GIPF_PIECE_BORDER,
   type CellStack,
   type Phase,
@@ -52,9 +52,12 @@ import { bothImmobilized, controlledPieceCount, resolveWinner } from "./dvonn/wi
 
 type PieceBorderPalette = 3 | 4 | 6;
 
+function pieceBorder(palette: PieceBorderPalette): Colourfuncs {
+  return { func: "custom", default: GIPF_PIECE_BORDER, palette };
+}
+
 function plainPieceGlyph(fill: Colourfuncs, borderPalette: PieceBorderPalette): Glyph {
-  const border: Colourfuncs = { func: "custom", default: GIPF_PIECE_BORDER, palette: borderPalette };
-  return { name: "piece", paint: { fill, border } };
+  return { name: "piece", paint: { fill, border: pieceBorder(borderPalette) } };
 }
 
 function discGlyph(disc: StackDisc): string {
@@ -151,7 +154,7 @@ export class DvonnGame extends GameBaseSequenced {
     variants: [{ uid: "quickstart" }],
     customizations: [
       { num: 1, default: GIPF_P1, explanation: "Player 1 basic piece fill", player: 1 },
-      { num: 2, default: GIPF_P2, explanation: "Player 2 basic piece fill", player: 2 },
+      { num: 2, default: GIPF_P2_STACKED_FILL, explanation: "Player 2 basic piece fill", player: 2 },
       { num: 3, default: GIPF_PIECE_BORDER, explanation: "Player 1 basic piece border", player: 1 },
       { num: 4, default: GIPF_PIECE_BORDER, explanation: "Player 2 basic piece border", player: 2 },
       { num: 5, default: DVONN_FILL, explanation: "DVONN piece fill" },
@@ -561,7 +564,7 @@ export class DvonnGame extends GameBaseSequenced {
     if (p === 1) {
       return { func: "custom", default: GIPF_P1, palette: 1 };
     }
-    return { func: "custom", default: GIPF_P2, palette: 2 };
+    return { func: "custom", default: GIPF_P2_STACKED_FILL, palette: 2 };
   }
 
   public dvonnColour(): Colourfuncs {

@@ -44,6 +44,8 @@ export interface CapturePending {
 
 export const GIPF_P1 = "#ffffff";
 export const GIPF_P2 = "#000000";
+/** Dark grey fill for player 2 in stacked GIPF projections (DVONN, TZAAR stacked). */
+export const GIPF_P2_STACKED_FILL = "#666666";
 
 /** Default outline on basic (single) pieces for both players. */
 export const GIPF_PIECE_BORDER = "#000000";

@@ -376,7 +376,7 @@ describe("TzaarGame", () => {
         expect(rep.options).to.include("reverse-numbers");
     });
 
-    it("flat display shows top piece with stack height numeral", () => {
+    it("flat display shows stack height numeral only when height exceeds one", () => {
         const g = new TzaarGame();
         g.board.set("d4", { owner: 1, pieces: ["tott", "tott", "tzarra"] });
         const rep = g.render({ altDisplays: ["flat"] });
@@ -384,6 +384,13 @@ describe("TzaarGame", () => {
         expect(typeof rep.pieces).to.equal("string");
         expect(rep.pieces).to.include("Bh3");
         expect(rep.legend!["Bh3"]).to.be.an("array");
+        expect(rep.pieces).to.not.include("Bh1");
+        expect(rep.pieces).to.not.match(/[A-Z]h1/);
+        const singleton = new TzaarGame();
+        singleton.board.set("a1", { owner: 1, pieces: ["tott"] });
+        const soloRep = singleton.render({ altDisplays: ["flat"] });
+        expect(soloRep.pieces).to.include("A");
+        expect(soloRep.pieces).to.not.include("Ah1");
     });
 
     it("flat display uses plain discs with type-coloured borders", () => {

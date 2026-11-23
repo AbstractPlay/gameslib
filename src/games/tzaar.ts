@@ -1217,6 +1217,9 @@ export class TzaarGame extends GameBase {
 
     private flatStackLegendKey(legend: FlatLegend, owner: playerid, kind: PieceKind, height: number): string {
         const base = pieceGlyph(owner, kind);
+        if (height === 1) {
+            return base;
+        }
         const key = `${base}h${height}`;
         if (legend[key] !== undefined) {
             return key;

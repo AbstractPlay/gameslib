@@ -634,6 +634,9 @@
       "PLANES": "Planes",
       "TOTAL_ALTITUDE": "Total altitude"
     },
+    "dvonn": {
+      "CONTROLLED": "Controlled pieces"
+    },
     "elOso": {
       "SKY": "Sky",
       "CAVE": "Cave",
@@ -1803,6 +1806,17 @@
       "SELECT_DRUID_DEST": "Select where your Druid should move.",
       "SELECT_LINTEL_END": "Select the other end of the lintel.",
       "SELECT_MOVE": "Place a sarsen, lay a lintel, move your Druid, or pass."
+    },
+    "dvonn": {
+      "INITIAL_INSTRUCTIONS_SETUP": "Click an empty intersection to place the next piece from the setup queue.",
+      "INITIAL_INSTRUCTIONS": "Click one of your stacks, then click a legal destination.",
+      "NO_PASS": "You must make a move when one is available.",
+      "MUST_PASS": "You have no legal move; your turn will pass automatically.",
+      "OCCUPIED": "That intersection is already occupied.",
+      "EMPTY": "There is no stack at {{where}}.",
+      "NOT_YOUR_STACK": "You may only move a stack you control.",
+      "INVALID_MOVE": "That slide is not legal.",
+      "WRONG_SETUP_PIECE": "That is not the next piece due in the setup sequence."
     },
     "elOso": {
       "INITIAL_INSTRUCTIONS": "Select one of your stacks to move. Click a stack twice to pass.",
@@ -4424,6 +4438,7 @@
     "domineering": "Players place dominoes, one vertically, another horizontally, until one cannot play, thus losing the game.",
     "dragoneyes": "A variant of checkers with incomplete information, enchanted dragon eye spaces, and played on a hexagonal board.",
     "druid": "Place sarsens and lintels to connect your edges of the board. On the standard rectangular board, player 1 connects north and south; player 2 connects east and west. On Druid's Y, connect all three sides (corners count for both adjacent edges). On Druid's Hex, connect any three alternating (non-adjacent) sides. Only the topmost stone on each cell counts toward a connection.",
+    "dvonn": "Stack pieces on a hex grid and stay linked to the red DVONN pieces. Isolate enemy stacks, control the most discs when neither player can move, and win.",
     "elOso": "A solitaire game from the world of Carrisor. Move your stacks off the top of the board into the Sky while the Bear rolls dice and advances from above. Score ten or more pieces in the Sky to win.",
     "emergo": "A Draughts variant where captured pieces remain on the board and can be freed later. Capture all opposing pieces to win. Derived from Lasca but with two game phases and compulsory maximal captures.",
     "emu": "Each bird on your ranch is represented by a stack of cards. At the end of the hand, the value of a bird is determined by the sum of the number cards in the stack. The object, naturally enough, is to raise profitable birds. Highest score after a number of \"years\" wins.",
@@ -4733,6 +4748,7 @@
     "domineering": "Domineering",
     "dragoneyes": "Dragon Eyes",
     "druid": "Druid",
+    "dvonn": "DVONN",
     "elOso": "El Oso",
     "emergo": "Emergo",
     "emu": "Emu Ranchers",

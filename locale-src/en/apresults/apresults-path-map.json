@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-22",
+  "generatedAt": "2026-11-23",
   "schemaVersion": 1,
   "entries": [
     {
@@ -2941,6 +2941,56 @@
       "newPath": "druid.PLACE.sarsen",
       "newFullKey": "apresults:druid.PLACE.sarsen",
       "english": "{{player}} placed a sarsen at {{where}}."
+    },
+    {
+      "oldPath": "EOG.dvonn_score",
+      "oldFullKey": "apresults:EOG.dvonn_score",
+      "uid": "dvonn",
+      "resultType": "EOG",
+      "newLeaf": "score",
+      "newPath": "dvonn.EOG.score",
+      "newFullKey": "apresults:dvonn.EOG.score",
+      "english": "{{player}} wins with {{count}} controlled pieces."
+    },
+    {
+      "oldPath": "EOG.dvonn_tie",
+      "oldFullKey": "apresults:EOG.dvonn_tie",
+      "uid": "dvonn",
+      "resultType": "EOG",
+      "newLeaf": "tie",
+      "newPath": "dvonn.EOG.tie",
+      "newFullKey": "apresults:dvonn.EOG.tie",
+      "english": "The game is a draw with {{count}} controlled pieces each."
+    },
+    {
+      "oldPath": "PASS.dvonn_skipped",
+      "oldFullKey": "apresults:PASS.dvonn_skipped",
+      "uid": "dvonn",
+      "resultType": "PASS",
+      "newLeaf": "skipped",
+      "newPath": "dvonn.PASS.skipped",
+      "newFullKey": "apresults:dvonn.PASS.skipped",
+      "english": "{{player}} had no legal move and passed."
+    },
+    {
+      "oldPath": "REMOVE.dvonn_isolated_one",
+      "oldFullKey": "apresults:REMOVE.dvonn_isolated_one",
+      "uid": "dvonn",
+      "resultType": "REMOVE",
+      "newLeaf": "isolated_one",
+      "newPath": "dvonn.REMOVE.isolated_one",
+      "newFullKey": "apresults:dvonn.REMOVE.isolated_one",
+      "english": "1 stack was removed for losing contact with DVONN."
+    },
+    {
+      "oldPath": "REMOVE.dvonn_isolated_other",
+      "oldFullKey": "apresults:REMOVE.dvonn_isolated_other",
+      "uid": "dvonn",
+      "resultType": "REMOVE",
+      "newLeaf": "isolated_other",
+      "newPath": "dvonn.REMOVE.isolated_other",
+      "newFullKey": "apresults:dvonn.REMOVE.isolated_other",
+      "english": "{{count}} stacks were removed for losing contact with DVONN."
     },
     {
       "oldPath": "ACTOR.elOso.bear",

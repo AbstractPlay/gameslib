@@ -685,6 +685,19 @@
       "sarsen": "{{player}} placed a sarsen at {{where}}."
     }
   },
+  "dvonn": {
+    "REMOVE": {
+      "isolated_one": "1 stack was removed for losing contact with DVONN.",
+      "isolated_other": "{{count}} stacks were removed for losing contact with DVONN."
+    },
+    "PASS": {
+      "skipped": "{{player}} had no legal move and passed."
+    },
+    "EOG": {
+      "score": "{{player}} wins with {{count}} controlled pieces.",
+      "tie": "The game is a draw with {{count}} controlled pieces each."
+    }
+  },
   "elOso": {
     "ACTOR": {
       "bear": "The Bear"

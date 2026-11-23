@@ -6133,6 +6133,16 @@
       "english": "{{player}} placed \"{{what}}\" next to {{where}}."
     },
     {
+      "oldPath": "EOG.skisma_surround",
+      "oldFullKey": "apresults:EOG.skisma_surround",
+      "uid": "skisma",
+      "resultType": "EOG",
+      "newLeaf": "surround",
+      "newPath": "skisma.EOG.surround",
+      "newFullKey": "apresults:skisma.EOG.surround",
+      "english": "The game has ended because an enemy stone was surrounded."
+    },
+    {
       "oldPath": "MOVE.slyde",
       "oldFullKey": "apresults:MOVE.slyde",
       "uid": "slyde",

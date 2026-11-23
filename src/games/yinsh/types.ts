@@ -49,9 +49,12 @@ export interface RowPending {
     chooseRowPeers?: string[];
 }
 
+import { GIPF_P2_STACKED_FILL, GIPF_PIECE_BORDER } from "../gipf/types.js";
+
 export const YINSH_P1 = "#ffffff";
-export const YINSH_P2 = "#000000";
-export const YINSH_BORDER = "#000000";
+/** Rings and markers for player 2 (matches stacked GIPF dark-grey fill). */
+export const YINSH_P2 = GIPF_P2_STACKED_FILL;
+export const YINSH_BORDER = GIPF_PIECE_BORDER;
 
 export const MARKERS_PER_PLAYER = 51;
 export const RINGS_PER_PLAYER = 5;

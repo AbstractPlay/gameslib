@@ -1048,7 +1048,7 @@ export class YinshGame extends GameBaseSequenced {
         const p1 = this.getPlayerColour(1);
         const p2 = this.getPlayerColour(2);
         const p1Border = yinshContrastBorder(p1, 3);
-        const p2Border = yinshContrastBorder(p2, 4);
+        const p2Border: Colourfuncs = { func: "custom", default: YINSH_BORDER, palette: 4 };
         const cells = this.graph.listCells(true) as string[][];
         const rows: string[] = [];
         for (const line of cells) {

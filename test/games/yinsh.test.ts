@@ -83,6 +83,13 @@ describe("YinshGame", () => {
             default: { func: "bestContrast", bg: fill, fg: ["#000000", "#ffffff"] },
             palette: 3,
         });
+        const p2 = rep.legend!.D!.paint!;
+        expect(p2.fill?.default).to.equal("#666666");
+        expect(p2.border).to.deep.equal({
+            func: "custom",
+            default: "#000000",
+            palette: 4,
+        });
         expect(YinshGame.gameinfo.customizations).to.have.length(4);
     });
 

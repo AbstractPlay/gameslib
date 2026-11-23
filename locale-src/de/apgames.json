@@ -2287,6 +2287,10 @@
     "src": "Place cards, representing armies, to exert pressure on segments of the wall around the city of Jacynth. Exert the most pressure on the most segments to win.",
     "out": "Platzieren Sie Karten, die Armeen darstellen, um Druck auf Abschnitte der Mauer um die Stadt Jacynth auszuüben. Üben Sie den größten Druck auf die meisten Abschnitte aus, um zu gewinnen."
   },
+  "descriptions.skisma": {
+    "src": "Surround one enemy stone with a single group to win: cut it off from half of the board's edge.",
+    "out": "Umringe einen gegnerischen Stein mit einer einzigen Gruppe, um zu gewinnen: Schneide ihn von der Hälfte des Brettrands ab."
+  },
   "descriptions.slimetrail": {
     "src": "Push the ball piece to an adjacent empty cell and bring it to your goal, or stalemate the adversary.",
     "out": "Schieben Sie den Ballstein auf ein benachbartes freies Feld und bringen Sie ihn in Ihr Ziel, oder machen Sie den Gegner zugunfähig."
@@ -3242,6 +3246,14 @@
   "displays.rootbound.hide-highlights.name": {
     "src": "Hide highlights",
     "out": "Hervorhebungen ausblenden"
+  },
+  "displays.skisma.hide-enclosed.description": {
+    "src": "Don't shade the zones enclosed by each player's groups, where the other player may only play a winning move.",
+    "out": "Die von den Gruppen der Spieler eingeschlossenen Zonen nicht schattieren, in denen der andere Spieler nur einen Gewinnzug ausführen darf."
+  },
+  "displays.skisma.hide-enclosed.name": {
+    "src": "Hide enclosed zones",
+    "out": "Eingeschlossene Zonen ausblenden"
   },
   "displays.spire.orb-3d.description": {
     "src": "Use plain 3D orb textures.",
@@ -5046,6 +5058,10 @@
   "notes.siegeofj": {
     "src": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed.",
     "out": "Weitere Informationen zum Decktet-System finden Sie auf der [offiziellen Decktet-Website](https://www.decktet.com). Karten auf den Händen der Spieler sind vor Beobachtern verborgen, und sie sind vor Gegnern verborgen, bis das Deck leer ist. Ab diesem Zeitpunkt haben die Spieler perfekte Informationen, sodass die Hände aufgedeckt werden."
+  },
+  "notes.skisma": {
+    "src": "A stone is surrounded when, because of a single enemy group, it can reach fewer than half of the edge cells. Paths may go through any cell except that group's stones. You may not place a stone where it would be surrounded, unless that placement wins. A player with no legal move loses, also when the board is full: whoever fills the last cell wins, and there are no draws. On square boards, stones connect into groups diagonally as well as orthogonally, but paths only go orthogonally, so a diagonal chain is a wall.",
+    "out": "Ein Stein ist umringt, wenn er aufgrund einer einzelnen gegnerischen Gruppe weniger als die Hälfte der Randfelder erreichen kann. Pfade können über jedes Feld verlaufen, außer über die Steine dieser Gruppe. Du darfst keinen Stein dort platzieren, wo er umringt wäre, es sei denn, dieser Zug gewinnt das Spiel. Ein Spieler ohne legalen Zug verliert, auch wenn das Brett voll ist: Wer das letzte Feld besetzt, gewinnt, und es gibt keine Unentschieden. Auf quadratischen Brettern verbinden sich Steine sowohl diagonal als auch orthogonal zu Gruppen, aber Pfade verlaufen nur orthogonal, sodass eine diagonale Kette eine Wand darstellt."
   },
   "notes.slimetrail": {
     "src": "Slimetrail was designed by Bill Taylor in 1992. Initially the game was played on the Hex board and a stalemate was a draw. The game evolved to be played on a 8x8 board, where a stalemated player loses the match. This version was used in the Portuguese Tournament of Board Games for several years. There are some 1970s precursors of this theme, like Knight Chase, Blokeo, ZigZag, and Tesoro (cf. WAG's page in the links).",
@@ -14311,6 +14327,14 @@
     "src": "That placement is valid. It's also possible to span two cards. Click \"Complete Move\" to keep the single parent, or click the adjacent card to span them both.",
     "out": "Diese Platzierung ist gültig. Es ist auch möglich, zwei Karten zu überbrücken. Klicke auf \"Zug abschließen\", um die einzelne Elternkarte beizubehalten, oder klicke auf die angrenzende Karte, um beide zu überbrücken."
   },
+  "validation.skisma.INSTRUCTIONS": {
+    "src": "Select an empty cell to place a stone.",
+    "out": "Wähle ein leeres Feld, um einen Stein zu platzieren."
+  },
+  "validation.skisma.SUICIDE": {
+    "src": "You may not place a stone at {{where}}: it would be surrounded.",
+    "out": "Du darfst keinen Stein auf {{where}} platzieren: Er wäre umringt."
+  },
   "validation.slimetrail.INITIAL_INSTRUCTIONS": {
     "src": "Move the ball to an adjacent empty cell.",
     "out": "Bewege den Ball auf ein angrenzendes leeres Feld."
@@ -21830,6 +21854,38 @@
   "variants.siegeofj.open.name": {
     "src": "Open hands",
     "out": "Offene Handkarten"
+  },
+  "variants.skisma.#board.name": {
+    "src": "Hexhex 6",
+    "out": "Hexhex 6"
+  },
+  "variants.skisma.size-7.name": {
+    "src": "Hexhex 7",
+    "out": "Hexhex 7"
+  },
+  "variants.skisma.size-8.name": {
+    "src": "Hexhex 8",
+    "out": "Hexhex 8"
+  },
+  "variants.skisma.size-9.name": {
+    "src": "Hexhex 9",
+    "out": "Hexhex 9"
+  },
+  "variants.skisma.square-11.name": {
+    "src": "Square 11x11",
+    "out": "Quadrat 11x11"
+  },
+  "variants.skisma.square-13.name": {
+    "src": "Square 13x13",
+    "out": "Quadrat 13x13"
+  },
+  "variants.skisma.square-15.name": {
+    "src": "Square 15x15",
+    "out": "Quadrat 15x15"
+  },
+  "variants.skisma.square-9.name": {
+    "src": "Square 9x9",
+    "out": "Quadrat 9x9"
   },
   "variants.slimetrail.#board.description": {
     "src": "8x8 board game",

@@ -3403,6 +3403,10 @@
       "LABEL_STASH": "Mano di {{player}}",
       "VALID_BUT": "Piazzamento valido. È anche possibile sovrapporsi a due carte. Clicca su \"Completa Mossa\" per mantenere la carta genitore singola, oppure clicca sulla carta adiacente per sovrapporle entrambe."
     },
+    "skisma": {
+      "INSTRUCTIONS": "Seleziona una casella vuota per posizionare una pietra.",
+      "SUICIDE": "Non puoi piazzare una pedina su {{where}}: verrebbe circondata."
+    },
     "slimetrail": {
       "INITIAL_INSTRUCTIONS": "Muovi la pallina in una casella adiacente vuota.",
       "INVALID_MOVE": "La casella scelta deve essere vuota e adiacente alla pallina."
@@ -4580,6 +4584,7 @@
     "shapechess": "Shape Chess è un gioco in cui i giocatori usano i propri pezzi per creare forme a simmetria lineare. Utilizzando tre tipi di azioni (posizionamenti, salti, spinte), i giocatori mirano a creare gruppi simmetrici di sei o più pezzi, ottenendo più punti per i gruppi più grandi.",
     "shifty": "Un gioco di connessione in cui posizioni un pezzo ortogonalmente adiacente a un pezzo alleato, oppure muovi uno dei tuoi pezzi ortogonalmente adiacente a un pezzo alleato, con la mossa della donna degli scacchi, in una posizione non adiacente ortogonalmente a nessun altro pezzo alleato. I crosscut sono illegali. Il giocatore che forma un percorso ortogonale o diagonale che collega i suoi due lati vince.",
     "siegeofj": "Posiziona carte, che rappresentano eserciti, per esercitare pressione sui segmenti delle mura attorno alla città di Jacynth. Esercita la pressione maggiore sul maggior numero di segmenti per vincere.",
+    "skisma": "Circonda una pedina avversaria con un singolo gruppo per vincere: isolala da metà del bordo del tabellone.",
     "slimetrail": "Spingi la palla in una casella vuota adiacente e portala al tuo obiettivo, oppure manda l'avversario in stallo.",
     "slither": "Gioco di connessione su tabellone quadrato con regole aggiornate del 2018. Facoltativamente muovi un pezzo e poi posiziona un pezzo, in modo tale che nessun paio di pezzi dello stesso colore siano adiacenti in diagonale a meno che non siano collegati ortogonalmente da una pietra dello stesso colore. In Advanced Slither, un pezzo può muoversi solo se fa parte di un gruppo ortogonale contiguo composto da pezzi di entrambi i colori.",
     "slyde": "In Slyde, l'obiettivo è formare il gruppo ortogonale più grande del tuo colore. I pezzi possono essere fissi o mobili. Il gioco inizia in una posizione a scacchiera e tutti i pezzi iniziano mobili. Nel tuo turno, puoi scambiare un pezzo mobile con un pezzo mobile adiacente dell'avversario, e il tuo pezzo diventa fisso. La partita termina quando un giocatore rimane senza mosse. Se il tabellone si trova in una posizione simmetrica a specchio dopo il primo turno, puoi cambiare lo stato di un pezzo invece di eseguire lo scambio standard.",
@@ -5045,6 +5050,7 @@
     "sentinel": "I giochi di sorveglianza (Vigil Games) sono una classe di giochi di strategia in cui i giocatori devono mantenere una linea di vista ininterrotta tra i propri pezzi e un punto di riferimento o una regione designata del tabellone. Il primo gioco di questo genere di cui si ha notizia è Kastellet del 1892.\n\nSentinel è un gioco di sorveglianza in cui i giocatori devono sempre avere almeno una linea di vista verso il centro del tabellone. Sentinel è il secondo gioco astratto di questo genere (dopo oltre 130 anni!), che unisce i ludemi tipici di movimento e cattura con il controllo permanente in linea di vista della casella centrale.\n\nIl gioco unisce il movimento in avanti con la semina di pile, che è l'unico modo per gli eserciti di aumentare le proprie dimensioni.",
     "shapechess": "Shape Chess, 形棋 (forma - gioco da tavolo), è stato progettato c.2010 da 日出 (Richu) di Guangzhou, Cina. Il gioco si è evoluto nella sua forma attuale attraverso anni di perfezionamento all'interno della comunità cinese di game design (citato da Kanare_Abstract). Non è un gioco di tipo scacchistico, ma sfrutta un concetto molto originale facendo costruire ai giocatori forme a simmetria speculare. Questa implementazione include diverse dimensioni del tabellone e anche diversi punteggi di vittoria, per i giocatori che preferiscono partite più brevi o più lunghe.",
     "siegeofj": "Maggiori informazioni sul sistema Decktet sono disponibili sul [sito ufficiale del Decktet](https://www.decktet.com). Le carte nella mano dei giocatori sono nascoste agli osservatori e sono nascoste agli avversari finché il mazzo non è vuoto, momento in cui i giocatori dispongono di informazione perfetta e le mani vengono rivelate.",
+    "skisma": "Una pedina è circondata quando, a causa di un singolo gruppo avversario, può raggiungere meno della metà delle caselle di bordo. I percorsi possono passare attraverso qualsiasi casella tranne le pedine di quel gruppo. Non puoi piazzare una pedina dove verrebbe circondata, a meno che tale piazzamento non porti alla vittoria. Un giocatore senza mosse legali perde, anche quando il tabellone è pieno: chi riempie l'ultima casella vince e non ci sono patte. Sui tabelloni quadrati, le pedine si collegano in gruppi sia in diagonale che in ortogonale, ma i percorsi vanno solo in ortogonale, quindi una catena diagonale costituisce un muro.",
     "slimetrail": "Slimetrail è stato progettato da Bill Taylor nel 1992. Inizialmente il gioco veniva giocato su un tabellone esagonale (Hex) e lo stallo era una patta. Il gioco si è poi evoluto per essere giocato su un tabellone 8x8, in cui il giocatore in stallo perde la partita. Questa versione è stata utilizzata nel Torneo Portoghese di Giochi da Tavolo per diversi anni. Esistono alcuni precursori degli anni '70 con questo tema, come Knight Chase, Blokeo, ZigZag e Tesoro (cfr. la pagina di WAG nei link).",
     "soccolot": "Soccolot è un gioco del 1972 di David Wilson. Il gioco originale veniva giocato su un tabellone 8x8 con sei pedine per squadra. I giocatori possono muovere o interagire con la palla sia calciandola (kick) sia muovendola insieme a una pedina della squadra (dribble). C'è una lotta costante per conquistare il controllo del tabellone e trovare un varco per muovere o calciare la palla nella riga di base dell'avversario. La variante principale è più veloce, giocata su un tabellone 7x7 per una migliore interazione tra i pezzi. Robert A. Kraus ha implementato entrambe le varianti per [Zillions](https://www.zillions-of-games.com/cgi-bin/zilligames/submissions.cgi?do=show;id=802).",
     "spire": "In questa implementazione, se selezioni uno solo spazio, si presuppone che tu abbia posizionato la sfera del tuo colore; se selezioni due spazi, il primo spazio è per la sfera neutrale e il secondo spazio è per la sfera del tuo colore. Se il primo clic viene effettuato su uno spazio in cui è valida solo la sfera neutrale o la sfera del tuo colore, quella sfera verrà confermata automaticamente.",
@@ -5535,6 +5541,12 @@
       "hide-highlights": {
         "description": "Non evidenziare le Regioni Rivendicate.",
         "name": "Nascondi evidenziazioni"
+      }
+    },
+    "skisma": {
+      "hide-enclosed": {
+        "name": "Nascondi zone racchiuse",
+        "description": "Non ombreggiare le zone racchiuse dai gruppi di ciascun giocatore, dove l'altro giocatore può giocare solo una mossa vincente."
       }
     },
     "spire": {
@@ -8696,6 +8708,32 @@
       "full": {
         "name": "Distribuzione completa",
         "description": "Distribuisce tutte le 24 carte ai giocatori all'inizio della partita. Tutte le mani sono visibili."
+      }
+    },
+    "skisma": {
+      "#board": {
+        "name": "Hexhex 6"
+      },
+      "size-7": {
+        "name": "Hexhex 7"
+      },
+      "size-8": {
+        "name": "Hexhex 8"
+      },
+      "size-9": {
+        "name": "Hexhex 9"
+      },
+      "square-9": {
+        "name": "Quadrato 9x9"
+      },
+      "square-11": {
+        "name": "Quadrato 11x11"
+      },
+      "square-13": {
+        "name": "Quadrato 13x13"
+      },
+      "square-15": {
+        "name": "Quadrato 15x15"
       }
     },
     "slimetrail": {

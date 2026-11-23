@@ -3403,6 +3403,10 @@
       "LABEL_STASH": "{{player}}s Hand",
       "VALID_BUT": "Diese Platzierung ist gültig. Es ist auch möglich, zwei Karten zu überbrücken. Klicke auf \"Zug abschließen\", um die einzelne Elternkarte beizubehalten, oder klicke auf die angrenzende Karte, um beide zu überbrücken."
     },
+    "skisma": {
+      "INSTRUCTIONS": "Wähle ein leeres Feld, um einen Stein zu platzieren.",
+      "SUICIDE": "Du darfst keinen Stein auf {{where}} platzieren: Er wäre umringt."
+    },
     "slimetrail": {
       "INITIAL_INSTRUCTIONS": "Bewege den Ball auf ein angrenzendes leeres Feld.",
       "INVALID_MOVE": "Das gewählte Feld muss leer sein und an den Ball angrenzen."
@@ -4580,6 +4584,7 @@
     "shapechess": "Shape Chess ist ein Spiel, bei dem die Spieler ihre Figuren verwenden, um achsensymmetrische Formen zu bilden. Unter Verwendung von drei Aktionsarten (Platzierungen, Sprünge, Schiebeaktionen) zielen die Spieler darauf ab, symmetrische Gruppen aus sechs oder mehr Figuren zu bilden, wobei größere Gruppen mehr Punkte bringen.",
     "shifty": "Ein Verbindungsspiel, bei dem Sie entweder einen Stein orthogonal angrenzend an einen eigenen Stein platzieren oder einen Ihrer Steine mit einem Schachdamenzug orthogonal angrenzend an einen eigenen Stein bewegen, und zwar an einen Ort, der an keinen anderen eigenen Stein orthogonal angrenzt. Kreuzschnitte sind unzulässig. Der Spieler, der einen orthogonalen oder diagonalen Pfad bildet, der seine zwei Seiten verbindet, gewinnt.",
     "siegeofj": "Platzieren Sie Karten, die Armeen darstellen, um Druck auf Abschnitte der Mauer um die Stadt Jacynth auszuüben. Üben Sie den größten Druck auf die meisten Abschnitte aus, um zu gewinnen.",
+    "skisma": "Umringe einen gegnerischen Stein mit einer einzigen Gruppe, um zu gewinnen: Schneide ihn von der Hälfte des Brettrands ab.",
     "slimetrail": "Schieben Sie den Ballstein auf ein benachbartes freies Feld und bringen Sie ihn in Ihr Ziel, oder machen Sie den Gegner zugunfähig.",
     "slither": "Quadratbrett-Verbindungsspiel mit aktualisierten Regeln aus dem Jahr 2018. Sie können optional einen Stein bewegen und dann einen Stein platzieren, so dass keine zwei Steine einer Farbe diagonal zueinander benachbart sind, es sei denn, sie sind durch einen gleichfarbigen Stein orthogonal verbunden. In Advanced Slither darf sich ein Stein nur bewegen, wenn er Teil einer zusammenhängenden orthogonalen Gruppe ist, die aus Steinen beider Farben besteht.",
     "slyde": "In Slyde ist es das Ziel, die größte orthogonale Gruppe Ihrer Farbe zu bilden. Steine können fixiert oder beweglich sein. Das Spiel beginnt in einer Schachbrett-Aufstellung und alle Steine sind zu Beginn beweglich. In Ihrem Zug können Sie einen beweglichen Stein mit einem benachbarten beweglichen Stein Ihres Gegners tauschen, woraufhin Ihr Stein fixiert wird. Das Spiel endet, wenn einem Spieler die Züge ausgehen. Wenn sich das Brett nach dem ersten Zug in einer spiegelsymmetrischen Position befindet, können Sie den Zustand eines Steins ändern, anstatt den Standardtausch durchzuführen.",
@@ -5045,6 +5050,7 @@
     "sentinel": "Vigil-Spiele sind eine Klasse von Strategiespielen, bei denen die Spieler eine ununterbrochene Sichtlinie zwischen ihren Steinen und einem bestimmten Referenzpunkt oder einer Region des Spielbretts aufrechterhalten müssen. Das erste dokumentierte Vigil-Spiel ist Kastellet aus dem Jahr 1892.\n\nSentinel ist ein Vigil-Spiel, bei dem die Spieler immer mindestens eine Sichtlinie zum Zentrum des Spielbretts haben müssen. Sentinel ist das zweite abstrakte Spiel dieses Genres (nach mehr als 130 Jahren!), das typische Bewegungs- und Schlagludeme mit permanenter Sichtlinienkontrolle des zentralen Feldes kombiniert.\n\nDas Spiel kombiniert Vorwärtsbewegung mit dem Säen von Stapeln, was die einzige Möglichkeit für Armeen ist, ihre Größe zu vergrößern.",
     "shapechess": "Shape Chess, 形棋 (Form-Brettspiel), wurde um 2010 von 日出 (Richu) aus Guangzhou, China, entworfen. Das Spiel hat sich durch jahrelange Verfeinerung innerhalb der chinesischen Spieledesign-Community zu seiner heutigen Form entwickelt (zitiert nach Kanare_Abstract). Dies ist kein schachähnliches Spiel, sondern eines, das ein sehr originelles Konzept verwendet, indem es die Spieler achsensymmetrische Formen bauen lässt. Diese Implementierung enthält mehrere Brettgrößen und auch verschiedene Siegpunktzahlen für Spieler, die kürzere oder längere Partien bevorzugen.",
     "siegeofj": "Weitere Informationen zum Decktet-System finden Sie auf der [offiziellen Decktet-Website](https://www.decktet.com). Karten auf den Händen der Spieler sind vor Beobachtern verborgen, und sie sind vor Gegnern verborgen, bis das Deck leer ist. Ab diesem Zeitpunkt haben die Spieler perfekte Informationen, sodass die Hände aufgedeckt werden.",
+    "skisma": "Ein Stein ist umringt, wenn er aufgrund einer einzelnen gegnerischen Gruppe weniger als die Hälfte der Randfelder erreichen kann. Pfade können über jedes Feld verlaufen, außer über die Steine dieser Gruppe. Du darfst keinen Stein dort platzieren, wo er umringt wäre, es sei denn, dieser Zug gewinnt das Spiel. Ein Spieler ohne legalen Zug verliert, auch wenn das Brett voll ist: Wer das letzte Feld besetzt, gewinnt, und es gibt keine Unentschieden. Auf quadratischen Brettern verbinden sich Steine sowohl diagonal als auch orthogonal zu Gruppen, aber Pfade verlaufen nur orthogonal, sodass eine diagonale Kette eine Wand darstellt.",
     "slimetrail": "Slimetrail wurde 1992 von Bill Taylor entworfen. Ursprünglich wurde das Spiel auf dem Hex-Brett gespielt und ein Patt war ein Unentschieden. Das Spiel entwickelte sich weiter und wird nun auf einem 8x8-Brett gespielt, wo ein pattgesetzter Spieler die Partie verliert. Diese Version wurde mehrere Jahre lang im portugiesischen Brettspielturnier verwendet. Es gibt einige Vorläufer dieses Themas aus den 1970er Jahren wie Knight Chase, Blokeo, ZigZag und Tesoro (vgl. WAGs Seite in den Links).",
     "soccolot": "Soccolot ist ein Spiel aus dem Jahr 1972 von David Wilson. Das ursprüngliche Spiel wurde auf einem 8x8-Brett mit sechs Figuren pro Team gespielt. Die Spieler können sich bewegen oder mit dem Ball interagieren, indem sie ihn schießen (Kick) oder ihn zusammen mit einer Figur bewegen (Dribbeln). Es gibt einen ständigen Kampf um die Kontrolle des Bretts und um eine Lücke zu finden, um den Ball in die Grundlinie des Gegners zu bewegen oder zu schießen. Die Hauptvariante ist schneller und wird auf einem 7x7-Brett für eine bessere Interaktion der Figuren gespielt. Robert A. Kraus hat beide Varianten für [Zillions](https://www.zillions-of-games.com/cgi-bin/zilligames/submissions.cgi?do=show;id=802) implementiert.",
     "spire": "Wenn du in dieser Implementierung nur ein Feld auswählst, wird davon ausgegangen, dass du die Kugel deiner Farbe platziert hast. Wenn du zwei Felder auswählst, ist das erste Feld für die neutrale Kugel und das zweite Feld für die Kugel deiner Farbe. Wenn der erste Klick auf ein Feld erfolgt, auf dem nur die neutrale Kugel oder die Kugel deiner Farbe gültig ist, wird diese Kugel automatisch gesetzt.",
@@ -5535,6 +5541,12 @@
       "hide-highlights": {
         "description": "Beanspruchte Regionen nicht hervorheben.",
         "name": "Hervorhebungen ausblenden"
+      }
+    },
+    "skisma": {
+      "hide-enclosed": {
+        "name": "Eingeschlossene Zonen ausblenden",
+        "description": "Die von den Gruppen der Spieler eingeschlossenen Zonen nicht schattieren, in denen der andere Spieler nur einen Gewinnzug ausführen darf."
       }
     },
     "spire": {
@@ -8696,6 +8708,32 @@
       "full": {
         "name": "Vollständiges Geben",
         "description": "Teilt allen Spielern zu Beginn des Spiels alle 24 Karten aus. Alle Handkarten sind sichtbar."
+      }
+    },
+    "skisma": {
+      "#board": {
+        "name": "Hexhex 6"
+      },
+      "size-7": {
+        "name": "Hexhex 7"
+      },
+      "size-8": {
+        "name": "Hexhex 8"
+      },
+      "size-9": {
+        "name": "Hexhex 9"
+      },
+      "square-9": {
+        "name": "Quadrat 9x9"
+      },
+      "square-11": {
+        "name": "Quadrat 11x11"
+      },
+      "square-13": {
+        "name": "Quadrat 13x13"
+      },
+      "square-15": {
+        "name": "Quadrat 15x15"
       }
     },
     "slimetrail": {

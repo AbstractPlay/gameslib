@@ -2451,6 +2451,10 @@
     "src": "{{player}} placed \"{{what}}\" next to {{where}}.",
     "out": "{{player}} colocó \"{{what}}\" junto a {{where}}."
   },
+  "skisma.EOG.surround": {
+    "src": "The game has ended because an enemy stone was surrounded.",
+    "out": "La partida ha terminado porque una piedra enemiga fue rodeada."
+  },
   "slyde.MOVE.default": {
     "src": "{{player}} slid a piece from {{from}} to {{to}}.",
     "out": "{{player}} deslizó una pieza de {{from}} a {{to}}."

@@ -3403,6 +3403,10 @@
       "LABEL_STASH": "Main de {{player}}",
       "VALID_BUT": "Ce placement est valide. Il est également possible d'enchaîner sur deux cartes. Cliquez sur \"Valider le coup\" pour conserver le parent unique, ou cliquez sur la carte adjacente pour s'étendre sur les deux."
     },
+    "skisma": {
+      "INSTRUCTIONS": "Sélectionnez une case vide pour placer une pierre.",
+      "SUICIDE": "Vous ne pouvez pas placer une pierre en {{where}} : elle serait encerclée."
+    },
     "slimetrail": {
       "INITIAL_INSTRUCTIONS": "Déplacez la bille vers une case vide adjacente.",
       "INVALID_MOVE": "La case choisie doit être vide et adjacente à la bille."
@@ -4580,6 +4584,7 @@
     "shapechess": "Shape Chess est un jeu dans lequel les joueurs utilisent leurs pièces pour créer des formes à symétrie axiale. À l'aide de trois types d'actions (placements, sauts, poussées), les joueurs visent à créer des groupes symétriques d'au moins six pièces, marquant plus de points pour les groupes plus grands.",
     "shifty": "Un jeu de connexion où vous placez soit une pièce de manière orthogonale adjacente à une pièce amie, soit vous déplacez l'une de vos pièces de manière orthogonale adjacente à une pièce amie, par un déplacement de reine d'échecs, vers un emplacement qui n'est pas orthogonalement adjacent à d'autres pièces amies. Les coupes croisées sont interdites. Le joueur qui forme un chemin orthogonal ou diagonal reliant ses deux côtés gagne.",
     "siegeofj": "Placez des cartes, représentant des armées, pour exercer une pression sur des segments du mur autour de la cité de Jacynth. Exercez le plus de pression sur le plus de segments pour gagner.",
+    "skisma": "Encerclez une pierre adverse avec un seul groupe pour gagner : isolez-la d'au moins la moitié du bord du plateau.",
     "slimetrail": "Poussez le ballon vers une case vide adjacente et amenez-le vers votre but, ou pattez l'adversaire.",
     "slither": "Jeu de connexion sur plateau carré avec les règles mises à jour de 2018. Déplacez éventuellement une pièce puis placez une pièce, de sorte que deux pièces d'une couleur ne soient pas adjacentes en diagonale à moins d'être connectées orthogonalement par une pierre de même couleur. Dans Advanced Slither, une pièce ne peut se déplacer que si elle fait partie d'un groupe orthogonal contigu composé de pièces des deux couleurs.",
     "slyde": "Dans Slyde, le but est de former le plus grand groupe orthogonal de votre couleur. Les pièces peuvent être fixes ou mobiles. Le jeu commence dans une position en damier et toutes les pièces commencent mobiles. À votre tour, vous pouvez échanger une pièce mobile avec une pièce mobile adjacente de votre adversaire, et votre pièce devient fixe. La partie se termine lorsqu'un joueur n'a plus de coups possibles. Si le plateau est dans une position à symétrie miroir après le premier tour, vous pouvez changer l'état d'une pièce au lieu d'effectuer l'échange standard.",
@@ -5045,6 +5050,7 @@
     "sentinel": "Les jeux de vigilance (Vigil Games) sont une catégorie de jeux de stratégie dans lesquels les joueurs doivent maintenir une ligne de vue ininterrompue entre leurs pièces et un point ou une région de référence désigné sur le plateau. Le premier jeu de vigilance répertorié est Kastellet en 1892.\n\nSentinel est un jeu de vigilance où les joueurs doivent toujours conserver au moins une ligne de vue vers le centre du plateau. Sentinel est le deuxième jeu abstrait de ce genre (après plus de 130 ans !), combinant des ludèmes classiques de déplacement et de capture avec un contrôle permanent par ligne de vue de la case centrale.\n\nLe jeu mêle déplacement vers l'avant et égrenage de piles, ce qui constitue le seul moyen pour les armées d'augmenter leur taille.",
     "shapechess": "Shape Chess, 形棋 (jeu de plateau de formes), a été conçu vers 2010 par 日出 (Richu) de Guangzhou, en Chine. Le jeu a évolué vers sa forme actuelle après des années de perfectionnement au sein de la communauté chinoise de création de jeux (citation de Kanare_Abstract). Il ne s'agit pas d'un jeu de type Échecs, mais d'un jeu utilisant un concept très original en obligeant les joueurs à construire des formes présentant une symétrie axiale. Cette implémentation comprend plusieurs tailles de plateau, ainsi que différents scores de victoire pour les joueurs qui préfèrent des parties plus courtes ou plus longues.",
     "siegeofj": "Plus d'informations sur le système Decktet sont disponibles sur le [site officiel de Decktet](https://www.decktet.com). Les cartes dans la main des joueurs sont cachées aux spectateurs, et elles sont cachées aux adversaires jusqu'à ce que la pioche soit vide, moment auquel les joueurs disposent d'une information parfaite et où les mains sont révélées.",
+    "skisma": "Une pierre est encerclée lorsque, à cause d'un seul groupe adverse, elle peut atteindre moins de la moitié des cases du bord. Les chemins peuvent passer par n'importe quelle case sauf les pierres de ce groupe. Vous ne pouvez pas placer une pierre là où elle serait encerclée, sauf si ce coup vous fait gagner. Un joueur sans coup légal perd, y compris lorsque le plateau est plein : quiconque remplit la dernière case gagne, et il n'y a pas de partie nulle. Sur les plateaux carrés, les pierres se connectent en groupes aussi bien en diagonale qu'en orthogonale, mais les chemins ne vont qu'en orthogonale, une chaîne diagonale forme donc un mur.",
     "slimetrail": "Slimetrail a été conçu par Bill Taylor en 1992. Initialement, le jeu se jouait sur un plateau hexagonal (Hex) et un pat était une partie nulle. Le jeu a évolué pour se jouer sur un plateau 8x8, où un joueur bloqué (au pat) perd la partie. Cette version a été utilisée au Tournoi Portugais de Jeux de Société pendant plusieurs années. Il existe des précurseurs de ce thème datant des années 1970, comme Knight Chase, Blokeo, ZigZag et Tesoro (cf. la page WAG dans les liens).",
     "soccolot": "Soccolot est un jeu de 1972 créé par David Wilson. Le jeu original se jouait sur un plateau 8x8 avec six pièces par équipe. Les joueurs peuvent se déplacer ou interagir avec le ballon soit en le tirant (coup de pied), soit en le déplaçant en même temps qu'une pièce de l'équipe (dribble). Il y a une lutte constante pour prendre le contrôle du plateau et trouver une ouverture afin de déplacer ou tirer le ballon vers la rangée de départ de l'adversaire. La variante principale est plus rapide, jouée sur un plateau 7x7 pour une meilleure interaction entre les pièces. Robert A. Kraus a implémenté les deux variantes pour [Zillions](https://www.zillions-of-games.com/cgi-bin/zilligames/submissions.cgi?do=show;id=802).",
     "spire": "Dans cette implémentation, si vous sélectionnez un seul espace, le système suppose que vous avez placé la bille de votre couleur ; si vous sélectionnez deux espaces, le premier espace est pour la bille neutre et le second pour la bille de votre couleur. Si le premier clic se fait sur un espace où seule la bille neutre ou la bille de votre couleur est valide, le système validera automatiquement cette bille.",
@@ -5535,6 +5541,12 @@
       "hide-highlights": {
         "description": "Ne pas mettre en surbrillance les régions revendiquées.",
         "name": "Masquer les surbrillances"
+      }
+    },
+    "skisma": {
+      "hide-enclosed": {
+        "name": "Masquer les zones encerclées",
+        "description": "Ne pas griser les zones encerclées par les groupes de chaque joueur, dans lesquelles l'autre joueur ne peut jouer qu'un coup gagnant."
       }
     },
     "spire": {
@@ -8696,6 +8708,32 @@
       "full": {
         "name": "Distribution complète",
         "description": "Distribue l'ensemble des 24 cartes aux joueurs au début de la partie. Toutes les mains sont visibles."
+      }
+    },
+    "skisma": {
+      "#board": {
+        "name": "Hexhex 6"
+      },
+      "size-7": {
+        "name": "Hexhex 7"
+      },
+      "size-8": {
+        "name": "Hexhex 8"
+      },
+      "size-9": {
+        "name": "Hexhex 9"
+      },
+      "square-9": {
+        "name": "Carré 9x9"
+      },
+      "square-11": {
+        "name": "Carré 11x11"
+      },
+      "square-13": {
+        "name": "Carré 13x13"
+      },
+      "square-15": {
+        "name": "Carré 15x15"
       }
     },
     "slimetrail": {

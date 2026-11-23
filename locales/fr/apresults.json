@@ -1480,6 +1480,11 @@
       "default": "{{player}} a placé \"{{what}}\" à côté de {{where}}."
     }
   },
+  "skisma": {
+    "EOG": {
+      "surround": "La partie est terminée car une pierre adverse a été encerclée."
+    }
+  },
   "slyde": {
     "MOVE": {
       "default": "{{player}} a fait glisser une pièce de {{from}} vers {{to}}."

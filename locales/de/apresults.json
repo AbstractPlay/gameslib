@@ -1480,6 +1480,11 @@
       "default": "{{player}} hat \"{{what}}\" neben {{where}} platziert."
     }
   },
+  "skisma": {
+    "EOG": {
+      "surround": "Das Spiel ist beendet, da ein gegnerischer Stein umzingelt wurde."
+    }
+  },
   "slyde": {
     "MOVE": {
       "default": "{{player}} hat einen Stein von {{from}} nach {{to}} geschoben."

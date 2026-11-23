@@ -1480,6 +1480,11 @@
       "default": "{{player}} colocó \"{{what}}\" junto a {{where}}."
     }
   },
+  "skisma": {
+    "EOG": {
+      "surround": "La partida ha terminado porque una piedra enemiga fue rodeada."
+    }
+  },
   "slyde": {
     "MOVE": {
       "default": "{{player}} deslizó una pieza de {{from}} a {{to}}."

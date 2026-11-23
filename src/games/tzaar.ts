@@ -4,6 +4,7 @@ import {
     IClickResult,
     ICustomButton,
     IIndividualState,
+    IRenderOpts,
     IValidationResult,
     chatPlayerToken,
     type ChatLogCollectContext,
@@ -14,6 +15,8 @@ import {
 } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import type { APRenderRep, Colourfuncs, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
+
+type FlatLegend = NonNullable<APRenderRep["legend"]>;
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { cloneState, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
@@ -70,6 +73,11 @@ import {
 import { lacksTrinity, visiblePieceCounts, type WinReason } from "./tzaar/win.js";
 
 const BASIC_OVERLAY_SCALE = 0.85;
+const FLAT_HEIGHT_TEXT_SCALE = 0.75;
+
+const TOTT_BORDER_DEFAULT = "#33a02c";
+const TZARRA_BORDER_DEFAULT = "#1f78b4";
+const TZAAR_BORDER_DEFAULT = "#e31a1c";
 
 const P1_TZARRA_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 5 };
 const P1_TZARRA_INNER: Colourfuncs = { func: "custom", default: GIPF_P1_CHARIOT_INNER, palette: 6 };
@@ -115,6 +123,36 @@ function p1TzarraLegend(fill: Colourfuncs): [Glyph, Glyph] {
 
 function p2TzarraLegend(fill: Colourfuncs): [Glyph, Glyph] {
     return tzarraPieceLegend(fill, P2_TZARRA_BORDER, P2_TZARRA_INNER);
+}
+
+function flatTypeBorder(owner: playerid, kind: PieceKind): Colourfuncs {
+    const defaultByKind: Record<PieceKind, string> = {
+        tott: TOTT_BORDER_DEFAULT,
+        tzarra: TZARRA_BORDER_DEFAULT,
+        tzaar: TZAAR_BORDER_DEFAULT,
+    };
+    const paletteByKind: Record<PieceKind, Record<playerid, 3 | 4 | 5 | 7 | 9 | 11>> = {
+        tott: { 1: 3, 2: 4 },
+        tzarra: { 1: 5, 2: 7 },
+        tzaar: { 1: 9, 2: 11 },
+    };
+    return { func: "custom", default: defaultByKind[kind], palette: paletteByKind[kind][owner] };
+}
+
+/** Flat display: plain discs; rim colour encodes piece type (palette slots unchanged for customize). */
+function buildFlatBaseLegend(p1: Colourfuncs, p2: Colourfuncs): FlatLegend {
+    const flatPiece = (fill: Colourfuncs, owner: playerid, kind: PieceKind): Glyph => ({
+        name: "piece",
+        paint: { fill, border: flatTypeBorder(owner, kind) },
+    });
+    return {
+        A: flatPiece(p1, 1, "tott"),
+        B: flatPiece(p1, 1, "tzarra"),
+        C: flatPiece(p1, 1, "tzaar"),
+        X: flatPiece(p2, 2, "tott"),
+        Y: flatPiece(p2, 2, "tzarra"),
+        Z: flatPiece(p2, 2, "tzaar"),
+    };
 }
 
 function pieceGlyph(owner: playerid, kind: PieceKind): string {
@@ -197,6 +235,15 @@ export const gameApgamesEn = {
         NO_CAPTURES_FROM: "There are no valid captures for the stack at {{where}}.",
         NO_SECOND_ACTION_FROM:
             "There are no valid captures or strengthen moves for the stack at {{where}}.",
+    },
+    displays: {
+        "#projection": {
+            name: "Stacked view",
+        },
+        flat: {
+            name: "Flat view",
+            description: "Top piece only on each stack, with height shown as a numeral.",
+        },
     },
     variants: {
         "#setup": {
@@ -291,18 +338,19 @@ export class TzaarGame extends GameBase {
             { uid: "random", group: "setup" },
             { uid: "tournament", group: "setup" },
         ],
+        displays: [{ uid: "flat", group: "projection" }],
         customizations: [
             { num: 1, default: GIPF_P1, explanation: "Player 1 piece fill", player: 1 },
             { num: 2, default: GIPF_P2, explanation: "Player 2 piece fill", player: 2 },
-            { num: 3, default: GIPF_PIECE_BORDER, explanation: "Player 1 Tott border", player: 1 },
-            { num: 4, default: GIPF_PIECE_BORDER, explanation: "Player 2 Tott border", player: 2 },
-            { num: 5, default: GIPF_CHARIOT_BORDER, explanation: "Player 1 Tzarra border", player: 1 },
+            { num: 3, default: TOTT_BORDER_DEFAULT, explanation: "Player 1 Tott border", player: 1 },
+            { num: 4, default: TOTT_BORDER_DEFAULT, explanation: "Player 2 Tott border", player: 2 },
+            { num: 5, default: TZARRA_BORDER_DEFAULT, explanation: "Player 1 Tzarra border", player: 1 },
             { num: 6, default: GIPF_P1_CHARIOT_INNER, explanation: "Player 1 Tzarra inner", player: 1 },
-            { num: 7, default: GIPF_CHARIOT_BORDER, explanation: "Player 2 Tzarra border", player: 2 },
+            { num: 7, default: TZARRA_BORDER_DEFAULT, explanation: "Player 2 Tzarra border", player: 2 },
             { num: 8, default: GIPF_P2_CHARIOT_INNER, explanation: "Player 2 Tzarra inner", player: 2 },
-            { num: 9, default: GIPF_CHARIOT_BORDER, explanation: "Player 1 Tzaar border", player: 1 },
+            { num: 9, default: TZAAR_BORDER_DEFAULT, explanation: "Player 1 Tzaar border", player: 1 },
             { num: 10, default: GIPF_P1_CHARIOT_INNER, explanation: "Player 1 Tzaar inner", player: 1 },
-            { num: 11, default: GIPF_CHARIOT_BORDER, explanation: "Player 2 Tzaar border", player: 2 },
+            { num: 11, default: TZAAR_BORDER_DEFAULT, explanation: "Player 2 Tzaar border", player: 2 },
             { num: 12, default: GIPF_P2_CHARIOT_INNER, explanation: "Player 2 Tzaar inner", player: 2 },
         ],
         categories: [
@@ -1167,51 +1215,30 @@ export class TzaarGame extends GameBase {
         return stackGlyphs(stack.owner, stack.pieces).join("");
     }
 
-    public render(): APRenderRep {
-        const p1 = this.getPlayerColour(1);
-        const p2 = this.getPlayerColour(2);
-        const cells = this.graph.listCells(true) as string[][];
-        const pstr: string[][][] = [];
-        for (const row of cells) {
-            const line: string[][] = [];
-            for (const cell of row) {
-                const stack = this.board.get(cell);
-                if (stack === undefined) {
-                    line.push([]);
-                } else {
-                    line.push(stackGlyphs(stack.owner, stack.pieces));
-                }
-            }
-            pstr.push(line);
+    private flatStackLegendKey(legend: FlatLegend, owner: playerid, kind: PieceKind, height: number): string {
+        const base = pieceGlyph(owner, kind);
+        const key = `${base}h${height}`;
+        if (legend[key] !== undefined) {
+            return key;
         }
+        const piece = legend[base] as Glyph;
+        legend[key] = [piece, { text: height.toString(), scale: FLAT_HEIGHT_TEXT_SCALE }];
+        return key;
+    }
 
-        const rep: APRenderRep = {
-            options: ["reverse-numbers"],
-            renderer: "stacking-offset",
-            board: {
-                style: "hex-of-tri",
-                minWidth: 5,
-                maxWidth: 9,
-                rotate: 90,
-                blocked: TZAAR_BLOCKED_RENDER as [RowCol, ...RowCol[]],
-            },
-            legend: {
-                A: basicPieceLegend(p1, 3),
-                B: p1TzarraLegend(p1),
-                C: {
-                    name: "piece-chariot",
-                    paint: { fill: p1, border: P1_TZAAR_BORDER, inner: P1_TZAAR_INNER },
-                },
-                X: basicPieceLegend(p2, 4),
-                Y: p2TzarraLegend(p2),
-                Z: {
-                    name: "piece-chariot",
-                    paint: { fill: p2, border: P2_TZAAR_BORDER, inner: P2_TZAAR_INNER },
-                },
-            },
-            pieces: pstr as [string[][], ...string[][][]],
-        };
+    private flatCellKey(cell: string, legend: FlatLegend): string {
+        const stack = this.board.get(cell);
+        if (stack === undefined) {
+            return "-";
+        }
+        const top = stack.pieces[stack.pieces.length - 1];
+        if (top === undefined) {
+            return "-";
+        }
+        return this.flatStackLegendKey(legend, stack.owner, top, stack.pieces.length);
+    }
 
+    private appendTzaarAnnotations(rep: APRenderRep): void {
         rep.annotations = [];
         const addMoveArrow = (from: string, to: string) => {
             const [fx, fy] = this.graph.algebraic2coords(from);
@@ -1256,7 +1283,97 @@ export class TzaarGame extends GameBase {
         if (rep.annotations.length === 0) {
             delete rep.annotations;
         }
+    }
+
+    private renderFlat(p1: Colourfuncs, p2: Colourfuncs): APRenderRep {
+        const legend = buildFlatBaseLegend(p1, p2);
+        const cells = this.graph.listCells(true) as string[][];
+        let pieces = "";
+        for (let row = 0; row < cells.length; row++) {
+            if (row > 0) {
+                pieces += "\n";
+            }
+            const rowCells = cells[row]!;
+            const keys: string[] = [];
+            for (let col = 0; col < rowCells.length; col++) {
+                const cell = rowCells[col];
+                if (cell === undefined) {
+                    keys.push("-");
+                } else {
+                    keys.push(this.flatCellKey(cell, legend));
+                }
+            }
+            pieces += keys.join(",");
+        }
+        const rep: APRenderRep = {
+            options: ["reverse-numbers"],
+            board: {
+                style: "hex-of-tri",
+                minWidth: 5,
+                maxWidth: 9,
+                rotate: 90,
+                blocked: TZAAR_BLOCKED_RENDER as [RowCol, ...RowCol[]],
+            },
+            legend,
+            pieces,
+        };
+        this.appendTzaarAnnotations(rep);
         return rep;
+    }
+
+    private renderStacked(p1: Colourfuncs, p2: Colourfuncs): APRenderRep {
+        const cells = this.graph.listCells(true) as string[][];
+        const pstr: string[][][] = [];
+        for (const row of cells) {
+            const line: string[][] = [];
+            for (const cell of row) {
+                const stack = this.board.get(cell);
+                if (stack === undefined) {
+                    line.push([]);
+                } else {
+                    line.push(stackGlyphs(stack.owner, stack.pieces));
+                }
+            }
+            pstr.push(line);
+        }
+
+        const rep: APRenderRep = {
+            options: ["reverse-numbers"],
+            renderer: "stacking-offset",
+            board: {
+                style: "hex-of-tri",
+                minWidth: 5,
+                maxWidth: 9,
+                rotate: 90,
+                blocked: TZAAR_BLOCKED_RENDER as [RowCol, ...RowCol[]],
+            },
+            legend: {
+                A: basicPieceLegend(p1, 3),
+                B: p1TzarraLegend(p1),
+                C: {
+                    name: "piece-chariot",
+                    paint: { fill: p1, border: P1_TZAAR_BORDER, inner: P1_TZAAR_INNER },
+                },
+                X: basicPieceLegend(p2, 4),
+                Y: p2TzarraLegend(p2),
+                Z: {
+                    name: "piece-chariot",
+                    paint: { fill: p2, border: P2_TZAAR_BORDER, inner: P2_TZAAR_INNER },
+                },
+            },
+            pieces: pstr as [string[][], ...string[][][]],
+        };
+        this.appendTzaarAnnotations(rep);
+        return rep;
+    }
+
+    public render(opts: IRenderOpts = {}): APRenderRep {
+        const p1 = this.getPlayerColour(1);
+        const p2 = this.getPlayerColour(2);
+        if (this.hasDisplay(opts, "flat")) {
+            return this.renderFlat(p1, p2);
+        }
+        return this.renderStacked(p1, p2);
     }
 
     public collectChatLogLine(lines: ChatLogLine[], r: APMoveResult, ctx: ChatLogCollectContext): boolean {

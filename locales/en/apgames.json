@@ -5713,6 +5713,15 @@
         "name": "Hide diagonals"
       }
     },
+    "tzaar": {
+      "#projection": {
+        "name": "Stacked view"
+      },
+      "flat": {
+        "name": "Flat view",
+        "description": "Top piece only on each stack, with height shown as a numeral."
+      }
+    },
     "upperhand": {
       "orb-3d": {
         "description": "Use plain 3D orb textures.",

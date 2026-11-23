@@ -370,14 +370,40 @@ describe("TzaarGame", () => {
 
     it("render uses stacking-offset on hex-of-tri", () => {
         const g = new TzaarGame();
-        const rep = g.render();
+        const rep = g.render({});
         expect(rep.renderer).to.equal("stacking-offset");
         expect(rep.board?.style).to.equal("hex-of-tri");
         expect(rep.options).to.include("reverse-numbers");
     });
 
+    it("flat display shows top piece with stack height numeral", () => {
+        const g = new TzaarGame();
+        g.board.set("d4", { owner: 1, pieces: ["tott", "tott", "tzarra"] });
+        const rep = g.render({ altDisplays: ["flat"] });
+        expect(rep.renderer).to.equal(undefined);
+        expect(typeof rep.pieces).to.equal("string");
+        expect(rep.pieces).to.include("Bh3");
+        expect(rep.legend!["Bh3"]).to.be.an("array");
+    });
+
+    it("flat display uses plain discs with type-coloured borders", () => {
+        const rep = new TzaarGame().render({ altDisplays: ["flat"] });
+        const b = rep.legend!["B"] as { name?: string; paint?: { border?: { palette?: number; default?: string } } };
+        const c = rep.legend!["C"] as { name?: string; paint?: { border?: { palette?: number; default?: string } } };
+        expect(b.name).to.equal("piece");
+        expect(c.name).to.equal("piece");
+        expect(b.paint?.border?.palette).to.equal(5);
+        expect(b.paint?.border?.default).to.equal("#1f78b4");
+        expect(c.paint?.border?.palette).to.equal(9);
+        expect(c.paint?.border?.default).to.equal("#e31a1c");
+    });
+
+    it("exposes flat alternative display", () => {
+        expect(TzaarGame.gameinfo.displays?.some((d) => d.uid === "flat")).to.equal(true);
+    });
+
     it("tzarra legend stacking overlay wires border/inner slots 5–8", () => {
-        const rep = new TzaarGame().render();
+        const rep = new TzaarGame().render({});
         const entry = rep.legend!["B"];
         expect(entry).to.be.an("array").with.length(2);
         const [base, overlay] = entry as [{ paint?: { border?: { palette?: number }; inner?: { palette?: number } } }, { paint?: { border?: { palette?: number }; inner?: { palette?: number } } }];
@@ -388,7 +414,7 @@ describe("TzaarGame", () => {
     });
 
     it("tzaar legend wires chariot border/inner slots 9–12", () => {
-        const rep = new TzaarGame().render();
+        const rep = new TzaarGame().render({});
         const c = rep.legend!["C"] as { paint?: { border?: { palette?: number }; inner?: { palette?: number } } };
         const z = rep.legend!["Z"] as { paint?: { border?: { palette?: number }; inner?: { palette?: number } } };
         expect(c.paint?.border?.palette).to.equal(9);

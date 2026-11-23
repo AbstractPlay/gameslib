@@ -481,9 +481,11 @@ export class LyngkGame extends GameBase {
             return this;
         }
         this.gameover = true;
-        this.winner = resolveWinner(this.board, this.captured);
+        this.winner = resolveWinner(this.board, this.claims, this.captured);
         if (this.winner.length === 2) {
             this.results.push({ type: "eog", reason: "draw" });
+        } else if (this.captured[0] === this.captured[1]) {
+            this.results.push({ type: "eog", reason: "tiebreak" });
         } else {
             this.results.push({ type: "eog", reason: "score" });
         }
@@ -774,6 +776,13 @@ export class LyngkGame extends GameBase {
             winResult?.type === "winners" && winResult.players.length === 1
                 ? (winResult.players[0]! as playerid)
                 : ((this.winner[0] ?? ctx.defaultSeat) as playerid);
+        if (r.reason === "tiebreak") {
+            return {
+                actor: this.getChatActorRef(winnerSeat),
+                textKey: "apresults:lyngk.EOG.tiebreak",
+                textParams: { player: chatPlayerToken(winnerSeat) },
+            };
+        }
         return {
             actor: this.getChatActorRef(winnerSeat),
             textKey: "apresults:lyngk.EOG.score",

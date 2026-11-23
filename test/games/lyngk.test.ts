@@ -21,7 +21,7 @@ import {
 } from "../../src/games/lyngk/setup.js";
 import { canMergeStacks, canLandStacks, shouldCaptureStack } from "../../src/games/lyngk/stack.js";
 import type { ActiveColour, Board, PieceColour, playerid } from "../../src/games/lyngk/types.js";
-import { resolveWinner, tiebreakCompare } from "../../src/games/lyngk/win.js";
+import { resolveWinner } from "../../src/games/lyngk/win.js";
 
 function gameFromBoard(
     board: Board,
@@ -204,13 +204,35 @@ describe("Lyngk capture", () => {
 
 describe("Lyngk EOG", () => {
     it("uses capture count then stack-height tiebreak", () => {
+        const claims = initialClaims();
+        const claimed = initialClaimed();
+        applyClaim(claims, claimed, 1, 1);
+        applyClaim(claims, claimed, 1, 5);
+        applyClaim(claims, claimed, 2, 2);
+        applyClaim(claims, claimed, 2, 4);
         const board = new Map<string, PieceColour[]>([
             ["b3", [1, 2, 3, 4]],
             ["c4", [1, 2]],
         ]);
-        expect(resolveWinner(board, [2, 1])).to.deep.equal([1]);
-        expect(resolveWinner(board, [1, 1])).to.deep.equal(tiebreakCompare(board, 1, 2));
-        expect(resolveWinner(new Map([["b3", [1]]]), [0, 0])).to.deep.equal([1, 2]);
+        expect(resolveWinner(board, claims, [2, 1])).to.deep.equal([1]);
+        expect(resolveWinner(board, claims, [1, 1])).to.deep.equal([2]);
+        expect(resolveWinner(new Map([["b3", [3]]]), claims, [0, 0])).to.deep.equal([1, 2]);
+    });
+
+    it("tiebreak counts stacks per seat at each height (top-disc ownership)", () => {
+        const claims = initialClaims();
+        const claimed = initialClaimed();
+        applyClaim(claims, claimed, 1, 1);
+        applyClaim(claims, claimed, 1, 5);
+        applyClaim(claims, claimed, 2, 2);
+        applyClaim(claims, claimed, 2, 4);
+        const board = new Map<string, PieceColour[]>([
+            ["a3", [3, 4, 1]],
+            ["c5", [2, 1]],
+            ["c6", [5, 1, 3, 4]],
+            ["f3", [4, 6, 2, 5]],
+        ]);
+        expect(resolveWinner(board, claims, [3, 3])).to.deep.equal([1]);
     });
 });
 

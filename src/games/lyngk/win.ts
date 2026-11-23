@@ -1,28 +1,40 @@
-import type { Board, playerid } from "./types.js";
+import { stackController } from "./colours.js";
+import type { Board, ClaimState, playerid } from "./types.js";
 
 export function countCaptures(captured: [number, number], player: playerid): number {
     return captured[player - 1];
 }
 
-/** Stacks on board grouped by height (for tiebreak). */
-export function stacksByHeight(board: Board): Map<number, number> {
+/** Stacks a player controls on the board, grouped by height (top-disc ownership). */
+export function stacksByHeightForPlayer(
+    board: Board,
+    claims: ClaimState,
+    player: playerid,
+): Map<number, number> {
     const counts = new Map<number, number>();
     for (const stack of board.values()) {
+        if (stackController(claims, stack) !== player) {
+            continue;
+        }
         const h = stack.length;
         counts.set(h, (counts.get(h) ?? 0) + 1);
     }
     return counts;
 }
 
-export function tiebreakCompare(board: Board, p1: playerid, p2: playerid): playerid[] {
+export function tiebreakCompare(
+    board: Board,
+    claims: ClaimState,
+    p1: playerid,
+    p2: playerid,
+): playerid[] {
     for (const h of [4, 3, 2, 1]) {
-        const counts = stacksByHeight(board);
-        const s1 = counts.get(h) ?? 0;
-        const s2 = counts.get(h) ?? 0;
-        if (s1 > s2) {
+        const c1 = stacksByHeightForPlayer(board, claims, p1).get(h) ?? 0;
+        const c2 = stacksByHeightForPlayer(board, claims, p2).get(h) ?? 0;
+        if (c1 > c2) {
             return [p1];
         }
-        if (s2 > s1) {
+        if (c2 > c1) {
             return [p2];
         }
     }
@@ -31,6 +43,7 @@ export function tiebreakCompare(board: Board, p1: playerid, p2: playerid): playe
 
 export function resolveWinner(
     board: Board,
+    claims: ClaimState,
     captured: [number, number],
 ): playerid[] {
     const c1 = captured[0];
@@ -41,5 +54,5 @@ export function resolveWinner(
     if (c2 > c1) {
         return [2];
     }
-    return tiebreakCompare(board, 1, 2);
+    return tiebreakCompare(board, claims, 1, 2);
 }

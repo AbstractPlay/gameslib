@@ -634,6 +634,9 @@
       "PLANES": "Avions",
       "TOTAL_ALTITUDE": "Altitude totale"
     },
+    "dvonn": {
+      "CONTROLLED": "Pièces contrôlées"
+    },
     "elOso": {
       "SKY": "Ciel",
       "CAVE": "Grotte",
@@ -1803,6 +1806,17 @@
       "SELECT_DRUID_DEST": "Sélectionnez l'endroit où votre Druide doit se déplacer.",
       "SELECT_LINTEL_END": "Sélectionnez l'autre extrémité du linteau.",
       "SELECT_MOVE": "Placez un sarsen, posez un linteau, déplacez votre Druide ou passez."
+    },
+    "dvonn": {
+      "INITIAL_INSTRUCTIONS_SETUP": "Cliquez sur une intersection vide pour placer la pièce suivante de la réserve de mise en place.",
+      "INITIAL_INSTRUCTIONS": "Cliquez sur l'une de vos piles, puis cliquez sur une destination valide.",
+      "NO_PASS": "Vous devez jouer un coup lorsqu'un coup est disponible.",
+      "MUST_PASS": "Vous n'avez aucun coup valide ; votre tour sera passé automatiquement.",
+      "OCCUPIED": "Cette intersection est déjà occupée.",
+      "EMPTY": "Il n'y a pas de pile en {{where}}.",
+      "NOT_YOUR_STACK": "Vous ne pouvez déplacer qu'une pile que vous contrôlez.",
+      "INVALID_MOVE": "Ce déplacement n'est pas légal.",
+      "WRONG_SETUP_PIECE": "Ce n'est pas la pièce suivante attendue dans la séquence de mise en place."
     },
     "elOso": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez l'une de vos piles à déplacer. Cliquez deux fois sur une pile pour passer.",
@@ -4424,6 +4438,7 @@
     "domineering": "Les joueurs placent des dominos, l'un verticalement, l'autre horizontalement, jusqu'à ce que l'un d'eux ne puisse plus jouer et perde ainsi la partie.",
     "dragoneyes": "Une variante du jeu de dames à information incomplète, avec des cases enchantées « œil de dragon », jouée sur un plateau hexagonal.",
     "druid": "Placez des sarsens et des linteaux pour relier vos bords du plateau. Sur le plateau rectangulaire standard, le joueur 1 relie l'est et l'ouest ; le joueur 2 relie le nord et le sud. Sur Druid's Y, reliez les trois côtés (les coins comptent pour les deux bords adjacents). Sur Druid's Hex, reliez trois côtés alternés (non adjacents). Seule la pierre supérieure de chaque case compte pour la connexion.",
+    "dvonn": "Empilez des pièces sur une grille hexagonale et restez connecté aux pièces DVONN rouges. Isolez les piles adverses, contrôlez le plus grand nombre de disques quand plus aucun joueur ne peut bouger, et l'emportez.",
     "elOso": "Un jeu en solitaire issu du monde de Carrisor. Déplacez vos piles hors du haut du plateau vers le Ciel pendant que l'Ours lance les dés et avance depuis le haut. Marquez dix pièces ou plus dans le Ciel pour gagner.",
     "emergo": "Une variante du jeu de dames où les pièces capturées restent sur le plateau et peuvent être libérées plus tard. Capturez toutes les pièces adverses pour l'emporter. Dérivé du Lasca mais avec deux phases de jeu et capture maximale obligatoire.",
     "emu": "Chaque oiseau de votre ranch est représenté par une pile de cartes. À la fin de la main, la valeur d'un oiseau est déterminée par la somme des cartes numérotées dans la pile. Le but est naturellement de faire prospérer des oiseaux rentables. Le score le plus élevé après un certain nombre d'« années » l'emporte.",

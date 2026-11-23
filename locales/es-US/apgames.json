@@ -634,6 +634,9 @@
       "PLANES": "Aviones",
       "TOTAL_ALTITUDE": "Altitud total"
     },
+    "dvonn": {
+      "CONTROLLED": "Fichas controladas"
+    },
     "elOso": {
       "SKY": "Cielo",
       "CAVE": "Cueva",
@@ -1803,6 +1806,17 @@
       "SELECT_DRUID_DEST": "Selecciona adónde debe moverse tu Druida.",
       "SELECT_LINTEL_END": "Selecciona el otro extremo del dintel.",
       "SELECT_MOVE": "Coloca un sarsen, tiende un dintel, mueve tu Druida o pasa."
+    },
+    "dvonn": {
+      "INITIAL_INSTRUCTIONS_SETUP": "Haz clic en una intersección vacía para colocar la siguiente ficha de la cola de preparación.",
+      "INITIAL_INSTRUCTIONS": "Haz clic en una de tus pilas y luego en un destino válido.",
+      "NO_PASS": "Debes hacer un movimiento cuando haya uno disponible.",
+      "MUST_PASS": "No tienes movimientos válidos; tu turno pasará automáticamente.",
+      "OCCUPIED": "Esa intersección ya está ocupada.",
+      "EMPTY": "No hay ninguna pila en {{where}}.",
+      "NOT_YOUR_STACK": "Solo puedes mover una pila que controles.",
+      "INVALID_MOVE": "Ese deslizamiento no es válido.",
+      "WRONG_SETUP_PIECE": "Esa no es la siguiente ficha en la secuencia de preparación."
     },
     "elOso": {
       "INITIAL_INSTRUCTIONS": "Selecciona una de tus pilas para moverla. Haz clic en una pila dos veces para pasar.",
@@ -4424,6 +4438,7 @@
     "domineering": "Los jugadores colocan fichas de dominó, uno verticalmente y el otro horizontalmente, hasta que alguno no pueda jugar, perdiendo así la partida.",
     "dragoneyes": "Una variante de damas con información incompleta, casillas encantadas de ojos de dragón y jugada en un tablero hexagonal.",
     "druid": "Coloca sarsenes y dinteles para conectar tus bordes del tablero. En el tablero rectangular estándar, el jugador 1 conecta este y oeste; el jugador 2 conecta norte y sur. En Druid's Y, conecta los tres lados (las esquinas cuentan para ambos bordes adyacentes). En Druid's Hex, conecta tres lados alternos (no adyacentes) cualesquiera. Solo la piedra superior de cada casilla cuenta para la conexión.",
+    "dvonn": "Apila fichas en un tablero hexagonal y mantente conectado a las fichas rojas DVONN. Aísla las pilas enemigas, controla la mayor cantidad de discos cuando ninguno de los dos jugadores pueda mover y gana.",
     "elOso": "Un juego de solitario del mundo de Carrisor. Mueve tus pilas fuera de la parte superior del tablero hacia el Cielo mientras el Oso tira los dados y avanza desde arriba. Logra diez o más piezas en el Cielo para ganar.",
     "emergo": "Una variante de damas en la que las piezas capturadas permanecen en el tablero y pueden liberarse más adelante. Captura todas las piezas enemigas para ganar. Derivado de Lasca pero con dos fases de juego y capturas máximas obligatorias.",
     "emu": "Cada ave de tu rancho está representada por una pila de cartas. Al final de la mano, el valor de un ave se determina por la suma de las cartas numéricas de la pila. El objetivo, por supuesto, es criar aves rentables. Gana la puntuación más alta después de un número de \"años\".",

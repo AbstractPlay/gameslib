@@ -634,6 +634,9 @@
       "PLANES": "Aerei",
       "TOTAL_ALTITUDE": "Altitudine totale"
     },
+    "dvonn": {
+      "CONTROLLED": "Pezzi controllati"
+    },
     "elOso": {
       "SKY": "Cielo",
       "CAVE": "Caverna",
@@ -1803,6 +1806,17 @@
       "SELECT_DRUID_DEST": "Seleziona dove deve muoversi il tuo Druido.",
       "SELECT_LINTEL_END": "Seleziona l'altra estremità dell'architrave.",
       "SELECT_MOVE": "Posiziona un sarsen, posa un architrave, muovi il tuo Druido o passa."
+    },
+    "dvonn": {
+      "INITIAL_INSTRUCTIONS_SETUP": "Fai clic su un'intersezione vuota per piazzare il pezzo successivo dalla coda di preparazione.",
+      "INITIAL_INSTRUCTIONS": "Fai clic su una delle tue pile, poi fai clic su una destinazione valida.",
+      "NO_PASS": "Devi effettuare una mossa quando ce n'è una disponibile.",
+      "MUST_PASS": "Non hai mosse valide; il tuo turno passerà automaticamente.",
+      "OCCUPIED": "Quell'intersezione è già occupata.",
+      "EMPTY": "Non c'è alcuna pila in {{where}}.",
+      "NOT_YOUR_STACK": "Puoi muovere solo una pila che controlli.",
+      "INVALID_MOVE": "Questo scorrimento non è valido.",
+      "WRONG_SETUP_PIECE": "Questo non è il pezzo successivo previsto nella sequenza di posizionamento."
     },
     "elOso": {
       "INITIAL_INSTRUCTIONS": "Seleziona una delle tue pile da muovere. Fai clic due volte su una pila per passare.",
@@ -4424,6 +4438,7 @@
     "domineering": "I giocatori posizionano tessere del domino, una in verticale e un'altra in orizzontale, finché uno dei due non può più giocare, perdendo così la partita.",
     "dragoneyes": "Una variante della dama con informazione incompleta, caselle magiche \"occhio di drago\", e giocata su un tavoliere esagonale.",
     "druid": "Posiziona sarsen e architravi per connettere i tuoi bordi del tavoliere. Sul tavoliere rettangolare standard, il Giocatore 1 connette est e ovest; il Giocatore 2 connette nord e sud. Su Druid's Y, connetti tutti e tre i lati (gli angoli contano per entrambi i bordi adiacenti). Su Druid's Hex, connetti tre lati alternati qualsiasi (non adiacenti). Solo la pietra più in alto su ciascuna cella conta ai fini della connessione.",
+    "dvonn": "Impila i pezzi su una griglia esagonale e mantieni il collegamento con i pezzi rossi DVONN. Isola le pile nemiche, controlla il maggior numero di dischi quando nessun giocatore può più muovere e vinci.",
     "elOso": "Un solitario ambientato nel mondo di Carrisor. Muovi le tue pile fuori dalla parte superiore della plancia verso il Cielo mentre l'Orso lancia i dadi e avanza dall'alto. Porta dieci o più pezzi nel Cielo per vincere.",
     "emergo": "Una variante della Dama in cui i pezzi catturati rimangono sul tavoliere e possono essere liberati in seguito. Cattura tutti i pezzi avversari per vincere. Derivato da Lasca ma con due fasi di gioco e catture massime obbligatorie.",
     "emu": "Ogni uccello nel tuo allevamento è rappresentato da una pila di carte. Alla fine della mano, il valore di un uccello è determinato dalla somma delle carte numeriche nella pila. Lo scopo, ovviamente, è allevare uccelli redditizi. Vince il punteggio più alto dopo un determinato numero di \"anni\".",

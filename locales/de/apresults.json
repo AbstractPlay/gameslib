@@ -685,6 +685,19 @@
       "sarsen": "{{player}} hat einen Sarsenstein bei {{where}} platziert."
     }
   },
+  "dvonn": {
+    "REMOVE": {
+      "isolated_one": "1 Stapel wurde entfernt, da der Kontakt zu DVONN verloren ging.",
+      "isolated_other": "{{count}} Stapel wurden entfernt, da der Kontakt zu DVONN verloren ging."
+    },
+    "PASS": {
+      "skipped": "{{player}} hatte keinen gültigen Zug und passte."
+    },
+    "EOG": {
+      "score": "{{player}} gewinnt mit {{count}} kontrollierten Steinen.",
+      "tie": "Das Spiel endet unentschieden mit jeweils {{count}} kontrollierten Steinen."
+    }
+  },
   "elOso": {
     "ACTOR": {
       "bear": "Der Bär"

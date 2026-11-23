@@ -1723,6 +1723,10 @@
     "src": "Place sarsens and lintels to connect your edges of the board. On the standard rectangular board, player 1 connects north and south; player 2 connects east and west. On Druid's Y, connect all three sides (corners count for both adjacent edges). On Druid's Hex, connect any three alternating (non-adjacent) sides. Only the topmost stone on each cell counts toward a connection.",
     "out": "Posiziona sarsen e architravi per connettere i tuoi bordi del tavoliere. Sul tavoliere rettangolare standard, il Giocatore 1 connette est e ovest; il Giocatore 2 connette nord e sud. Su Druid's Y, connetti tutti e tre i lati (gli angoli contano per entrambi i bordi adiacenti). Su Druid's Hex, connetti tre lati alternati qualsiasi (non adiacenti). Solo la pietra più in alto su ciascuna cella conta ai fini della connessione."
   },
+  "descriptions.dvonn": {
+    "src": "Stack pieces on a hex grid and stay linked to the red DVONN pieces. Isolate enemy stacks, control the most discs when neither player can move, and win.",
+    "out": "Impila i pezzi su una griglia esagonale e mantieni il collegamento con i pezzi rossi DVONN. Isola le pile nemiche, controlla il maggior numero di dischi quando nessun giocatore può più muovere e vinci."
+  },
   "descriptions.elOso": {
     "src": "A solitaire game from the world of Carrisor. Move your stacks off the top of the board into the Sky while the Bear rolls dice and advances from above. Score ten or more pieces in the Sky to win.",
     "out": "Un solitario ambientato nel mondo di Carrisor. Muovi le tue pile fuori dalla parte superiore della plancia verso il Cielo mentre l'Orso lancia i dadi e avanza dall'alto. Porta dieci o più pezzi nel Cielo per vincere."
@@ -5370,6 +5374,10 @@
   "status.crosshairs.TOTAL_ALTITUDE": {
     "src": "Total altitude",
     "out": "Altitudine totale"
+  },
+  "status.dvonn.CONTROLLED": {
+    "src": "Controlled pieces",
+    "out": "Pezzi controllati"
   },
   "status.elOso.CAVE": {
     "src": "Cave",
@@ -9090,6 +9098,42 @@
   "validation.druid.SELECT_MOVE": {
     "src": "Place a sarsen, lay a lintel, move your Druid, or pass.",
     "out": "Posiziona un sarsen, posa un architrave, muovi il tuo Druido o passa."
+  },
+  "validation.dvonn.EMPTY": {
+    "src": "There is no stack at {{where}}.",
+    "out": "Non c'è alcuna pila in {{where}}."
+  },
+  "validation.dvonn.INITIAL_INSTRUCTIONS": {
+    "src": "Click one of your stacks, then click a legal destination.",
+    "out": "Fai clic su una delle tue pile, poi fai clic su una destinazione valida."
+  },
+  "validation.dvonn.INITIAL_INSTRUCTIONS_SETUP": {
+    "src": "Click an empty intersection to place the next piece from the setup queue.",
+    "out": "Fai clic su un'intersezione vuota per piazzare il pezzo successivo dalla coda di preparazione."
+  },
+  "validation.dvonn.INVALID_MOVE": {
+    "src": "That slide is not legal.",
+    "out": "Questo scorrimento non è valido."
+  },
+  "validation.dvonn.MUST_PASS": {
+    "src": "You have no legal move; your turn will pass automatically.",
+    "out": "Non hai mosse valide; il tuo turno passerà automaticamente."
+  },
+  "validation.dvonn.NOT_YOUR_STACK": {
+    "src": "You may only move a stack you control.",
+    "out": "Puoi muovere solo una pila che controlli."
+  },
+  "validation.dvonn.NO_PASS": {
+    "src": "You must make a move when one is available.",
+    "out": "Devi effettuare una mossa quando ce n'è una disponibile."
+  },
+  "validation.dvonn.OCCUPIED": {
+    "src": "That intersection is already occupied.",
+    "out": "Quell'intersezione è già occupata."
+  },
+  "validation.dvonn.WRONG_SETUP_PIECE": {
+    "src": "That is not the next piece due in the setup sequence.",
+    "out": "Questo non è il pezzo successivo previsto nella sequenza di posizionamento."
   },
   "validation.elOso.INITIAL_INSTRUCTIONS": {
     "src": "Select one of your stacks to move. Click a stack twice to pass.",

@@ -685,6 +685,19 @@
       "sarsen": "{{player}} a placé un sarsen en {{where}}."
     }
   },
+  "dvonn": {
+    "REMOVE": {
+      "isolated_one": "1 pile a été retirée pour avoir perdu le contact avec DVONN.",
+      "isolated_other": "{{count}} piles ont été retirées pour avoir perdu le contact avec DVONN."
+    },
+    "PASS": {
+      "skipped": "{{player}} n'avait aucun coup légal et a passé son tour."
+    },
+    "EOG": {
+      "score": "{{player}} gagne avec {{count}} pièces contrôlées.",
+      "tie": "Égalité avec {{count}} pièces contrôlées chacun."
+    }
+  },
   "elOso": {
     "ACTOR": {
       "bear": "L'Ours"

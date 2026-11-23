@@ -685,6 +685,19 @@
       "sarsen": "{{player}} ha posizionato un sarsen in {{where}}."
     }
   },
+  "dvonn": {
+    "REMOVE": {
+      "isolated_one": "1 pila è stata rimossa per aver perso il contatto con DVONN.",
+      "isolated_other": "{{count}} pile sono state rimosse per aver perso il contatto con DVONN."
+    },
+    "PASS": {
+      "skipped": "{{player}} non aveva mosse legali e ha passato."
+    },
+    "EOG": {
+      "score": "{{player}} vince con {{count}} pezzi controllati.",
+      "tie": "La partita finisce in parità con {{count}} pezzi controllati ciascuno."
+    }
+  },
   "elOso": {
     "ACTOR": {
       "bear": "L'Orso"

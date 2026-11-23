@@ -634,6 +634,9 @@
       "PLANES": "Ebenen",
       "TOTAL_ALTITUDE": "Gesamthöhe"
     },
+    "dvonn": {
+      "CONTROLLED": "Kontrollierte Steine"
+    },
     "elOso": {
       "SKY": "Himmel",
       "CAVE": "Höhle",
@@ -1803,6 +1806,17 @@
       "SELECT_DRUID_DEST": "Wähle, wohin sich dein Druide bewegen soll.",
       "SELECT_LINTEL_END": "Wähle das andere Ende des Decksteins.",
       "SELECT_MOVE": "Platziere einen Sarsen-Stein, lege einen Deckstein, bewege deinen Druiden oder passe."
+    },
+    "dvonn": {
+      "INITIAL_INSTRUCTIONS_SETUP": "Klicke auf einen freien Schnittpunkt, um den nächsten Stein aus der Aufstellungsreihe zu platzieren.",
+      "INITIAL_INSTRUCTIONS": "Klicke auf einen deiner Stapel und anschließend auf ein gültiges Ziel.",
+      "NO_PASS": "Du musst einen Zug machen, solange einer verfügbar ist.",
+      "MUST_PASS": "Du hast keinen gültigen Zug; du passt automatisch.",
+      "OCCUPIED": "Dieser Schnittpunkt ist bereits besetzt.",
+      "EMPTY": "Auf {{where}} befindet sich kein Stapel.",
+      "NOT_YOUR_STACK": "Du darfst nur Stapel bewegen, die du kontrollierst.",
+      "INVALID_MOVE": "Dieser Zug ist nicht zulässig.",
+      "WRONG_SETUP_PIECE": "Das ist nicht der nächste Stein in der Aufstellungsreihenfolge."
     },
     "elOso": {
       "INITIAL_INSTRUCTIONS": "Wähle einen deiner Stapel zum Bewegen aus. Klicke zweimal auf einen Stapel, um zu passen.",
@@ -4424,6 +4438,7 @@
     "domineering": "Die Spieler platzieren Dominosteine, einer vertikal, der andere horizontal, bis einer nicht mehr spielen kann und somit das Spiel verliert.",
     "dragoneyes": "Eine Variante von Dame mit unvollständiger Information, verzauberten Drachenaugen-Feldern und gespielt auf einem Sechseck-Brett.",
     "druid": "Platziere Sarsen-Steine und Decksteine (Lintels), um deine Ränder des Bretts zu verbinden. Auf dem rechteckigen Standardbrett verbindet Spieler 1 Ost und West; Spieler 2 verbindet Nord und Süd. Auf Druid's Y verbindest du alle drei Seiten (Ecken zählen für beide angrenzenden Ränder). Auf Druid's Hex verbindest du drei beliebige abwechselnde (nicht angrenzende) Seiten. Nur der oberste Stein auf jedem Feld zählt für eine Verbindung.",
+    "dvonn": "Staple Spielsteine auf einem Sechseckraster und halte die Verbindung zu den roten DVONN-Steinen. Isoliere gegnerische Stapel, kontrolliere die meisten Steine, wenn niemand mehr ziehen kann, und gewinne.",
     "elOso": "Ein Solitärspiel aus der Welt von Carrisor. Bewege deine Stapel vom oberen Rand des Spielbretts in den Himmel, während der Bär würfelt und von oben vorrückt. Bringe zehn oder mehr Steine in den Himmel, um zu gewinnen.",
     "emergo": "Eine Dame-Variante, bei der geschlagene Steine auf dem Brett verbleiben und später befreit werden können. Schlage alle gegnerischen Steine, um zu gewinnen. Abgeleitet von Lasca, aber mit zwei Spielphasen und verflichtenden maximalen Schlagzügen.",
     "emu": "Jeder Vogel auf deiner Ranch wird durch einen Kartenstapel dargestellt. Am Ende der Hand wird der Wert eines Vogels durch die Summe der Zahlenkarten im Stapel bestimmt. Das Ziel ist natürlich, gewinnbringende Vögel zu züchten. Die höchste Punktzahl nach einer Reihe von \"Jahren\" gewinnt.",

@@ -1175,6 +1175,26 @@
     "src": "{{player}} placed a sarsen at {{where}}.",
     "out": "{{player}} a placé un sarsen en {{where}}."
   },
+  "dvonn.EOG.score": {
+    "src": "{{player}} wins with {{count}} controlled pieces.",
+    "out": "{{player}} gagne avec {{count}} pièces contrôlées."
+  },
+  "dvonn.EOG.tie": {
+    "src": "The game is a draw with {{count}} controlled pieces each.",
+    "out": "Égalité avec {{count}} pièces contrôlées chacun."
+  },
+  "dvonn.PASS.skipped": {
+    "src": "{{player}} had no legal move and passed.",
+    "out": "{{player}} n'avait aucun coup légal et a passé son tour."
+  },
+  "dvonn.REMOVE.isolated_one": {
+    "src": "1 stack was removed for losing contact with DVONN.",
+    "out": "1 pile a été retirée pour avoir perdu le contact avec DVONN."
+  },
+  "dvonn.REMOVE.isolated_other": {
+    "src": "{{count}} stacks were removed for losing contact with DVONN.",
+    "out": "{{count}} piles ont été retirées pour avoir perdu le contact avec DVONN."
+  },
   "elOso.ACTOR.bear": {
     "src": "The Bear",
     "out": "L'Ours"

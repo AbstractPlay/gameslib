@@ -1175,6 +1175,26 @@
     "src": "{{player}} placed a sarsen at {{where}}.",
     "out": "{{player}} hat einen Sarsenstein bei {{where}} platziert."
   },
+  "dvonn.EOG.score": {
+    "src": "{{player}} wins with {{count}} controlled pieces.",
+    "out": "{{player}} gewinnt mit {{count}} kontrollierten Steinen."
+  },
+  "dvonn.EOG.tie": {
+    "src": "The game is a draw with {{count}} controlled pieces each.",
+    "out": "Das Spiel endet unentschieden mit jeweils {{count}} kontrollierten Steinen."
+  },
+  "dvonn.PASS.skipped": {
+    "src": "{{player}} had no legal move and passed.",
+    "out": "{{player}} hatte keinen gültigen Zug und passte."
+  },
+  "dvonn.REMOVE.isolated_one": {
+    "src": "1 stack was removed for losing contact with DVONN.",
+    "out": "1 Stapel wurde entfernt, da der Kontakt zu DVONN verloren ging."
+  },
+  "dvonn.REMOVE.isolated_other": {
+    "src": "{{count}} stacks were removed for losing contact with DVONN.",
+    "out": "{{count}} Stapel wurden entfernt, da der Kontakt zu DVONN verloren ging."
+  },
   "elOso.ACTOR.bear": {
     "src": "The Bear",
     "out": "Der Bär"

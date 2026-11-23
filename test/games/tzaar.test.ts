@@ -376,6 +376,27 @@ describe("TzaarGame", () => {
         expect(rep.options).to.include("reverse-numbers");
     });
 
+    it("tzarra legend stacking overlay wires border/inner slots 5–8", () => {
+        const rep = new TzaarGame().render();
+        const entry = rep.legend!["B"];
+        expect(entry).to.be.an("array").with.length(2);
+        const [base, overlay] = entry as [{ paint?: { border?: { palette?: number }; inner?: { palette?: number } } }, { paint?: { border?: { palette?: number }; inner?: { palette?: number } } }];
+        expect(base.paint?.border?.palette).to.equal(5);
+        expect(base.paint?.inner?.palette).to.equal(6);
+        expect(overlay.paint?.border?.palette).to.equal(base.paint?.border?.palette);
+        expect(overlay.paint?.inner?.palette).to.equal(base.paint?.inner?.palette);
+    });
+
+    it("tzaar legend wires chariot border/inner slots 9–12", () => {
+        const rep = new TzaarGame().render();
+        const c = rep.legend!["C"] as { paint?: { border?: { palette?: number }; inner?: { palette?: number } } };
+        const z = rep.legend!["Z"] as { paint?: { border?: { palette?: number }; inner?: { palette?: number } } };
+        expect(c.paint?.border?.palette).to.equal(9);
+        expect(c.paint?.inner?.palette).to.equal(10);
+        expect(z.paint?.border?.palette).to.equal(11);
+        expect(z.paint?.inner?.palette).to.equal(12);
+    });
+
     it("getButtons offers pass after the forced capture is chosen", () => {
         const g = new TzaarGame();
         g.move(g.moves()[0]!, { trusted: true });

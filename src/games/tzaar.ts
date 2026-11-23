@@ -100,31 +100,21 @@ function basicPieceLegend(fill: Colourfuncs, borderPalette: 3 | 4): [Glyph, Glyp
     ];
 }
 
-function horsePieceLegend(
-    fill: Colourfuncs,
-    border: Colourfuncs,
-    inner: Colourfuncs,
-    borderPalette: 3 | 4,
-): [Glyph, Glyph] {
+/** Stacking-offset overlay reuses Tzarra border/inner — not Tott palette 3/4 (that painted a green rim on horses). */
+function tzarraPieceLegend(fill: Colourfuncs, border: Colourfuncs, inner: Colourfuncs): [Glyph, Glyph] {
+    const paint = { fill, border, inner };
     return [
-        {
-            name: "piece-horse",
-            paint: { fill, border, inner },
-        },
-        {
-            name: "piece-horse",
-            scale: BASIC_OVERLAY_SCALE,
-            paint: { fill, border: contrastBorder(fill, borderPalette), inner },
-        },
+        { name: "piece-horse", paint },
+        { name: "piece-horse", scale: BASIC_OVERLAY_SCALE, paint },
     ];
 }
 
 function p1TzarraLegend(fill: Colourfuncs): [Glyph, Glyph] {
-    return horsePieceLegend(fill, P1_TZARRA_BORDER, P1_TZARRA_INNER, 3);
+    return tzarraPieceLegend(fill, P1_TZARRA_BORDER, P1_TZARRA_INNER);
 }
 
 function p2TzarraLegend(fill: Colourfuncs): [Glyph, Glyph] {
-    return horsePieceLegend(fill, P2_TZARRA_BORDER, P2_TZARRA_INNER, 4);
+    return tzarraPieceLegend(fill, P2_TZARRA_BORDER, P2_TZARRA_INNER);
 }
 
 function pieceGlyph(owner: playerid, kind: PieceKind): string {

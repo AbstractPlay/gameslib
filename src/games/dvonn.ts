@@ -50,43 +50,11 @@ import {
 } from "./dvonn/types.js";
 import { bothImmobilized, controlledPieceCount, resolveWinner } from "./dvonn/win.js";
 
-const BASIC_OVERLAY_SCALE = 0.85;
+type PieceBorderPalette = 3 | 4 | 6;
 
-function contrastBorder(fill: Colourfuncs, palette: 3 | 4): Colourfuncs {
-  return {
-    func: "custom",
-    default: { func: "bestContrast", bg: fill, fg: ["#000000", "#ffffff"] },
-    palette,
-  };
-}
-
-function basicPieceLegend(fill: Colourfuncs, borderPalette: 3 | 4): [Glyph, Glyph] {
+function plainPieceGlyph(fill: Colourfuncs, borderPalette: PieceBorderPalette): Glyph {
   const border: Colourfuncs = { func: "custom", default: GIPF_PIECE_BORDER, palette: borderPalette };
-  return [
-    { name: "piece", paint: { fill, border } },
-    {
-      name: "piece",
-      scale: BASIC_OVERLAY_SCALE,
-      paint: { fill, border: contrastBorder(fill, borderPalette) },
-    },
-  ];
-}
-
-function dvonnPieceLegend(fill: Colourfuncs): [Glyph, Glyph] {
-  const border: Colourfuncs = { func: "custom", default: GIPF_PIECE_BORDER, palette: 5 };
-  const innerBorder: Colourfuncs = {
-    func: "custom",
-    default: { func: "bestContrast", bg: fill, fg: ["#000000", "#ffffff"] },
-    palette: 5,
-  };
-  return [
-    { name: "piece", paint: { fill, border } },
-    {
-      name: "piece",
-      scale: BASIC_OVERLAY_SCALE,
-      paint: { fill, border: innerBorder },
-    },
-  ];
+  return { name: "piece", paint: { fill, border } };
 }
 
 function discGlyph(disc: StackDisc): string {
@@ -187,6 +155,7 @@ export class DvonnGame extends GameBaseSequenced {
       { num: 3, default: GIPF_PIECE_BORDER, explanation: "Player 1 basic piece border", player: 1 },
       { num: 4, default: GIPF_PIECE_BORDER, explanation: "Player 2 basic piece border", player: 2 },
       { num: 5, default: DVONN_FILL, explanation: "DVONN piece fill" },
+      { num: 6, default: GIPF_PIECE_BORDER, explanation: "DVONN piece border" },
     ],
     categories: [
       "goal>score>eog",
@@ -638,9 +607,9 @@ export class DvonnGame extends GameBaseSequenced {
         maxWidth: 11,
       },
       legend: {
-        W: basicPieceLegend(p1, 3),
-        X: basicPieceLegend(p2, 4),
-        D: dvonnPieceLegend(dv),
+        W: plainPieceGlyph(p1, 3),
+        X: plainPieceGlyph(p2, 4),
+        D: plainPieceGlyph(dv, 6),
       },
       pieces: pstr as [string[][], ...string[][][]],
     };

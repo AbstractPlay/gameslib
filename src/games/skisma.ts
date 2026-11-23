@@ -82,6 +82,14 @@ export class SkismaGame extends GameBase {
             {
                 type: "designer",
                 name: "Noé Falzon",
+                urls: ["https://boardgamegeek.com/boardgamedesigner/164706/noe-falzon"],
+                apid: "89144a32-7a68-41b4-a443-f98ed3c6df01",
+            },
+            {
+                type: "coder",
+                name: "Castux",
+                urls: [],
+                apid: "89144a32-7a68-41b4-a443-f98ed3c6df01",
             },
         ],
         variants: [

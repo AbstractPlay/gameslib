@@ -71,10 +71,14 @@ import { lacksTrinity, visiblePieceCounts, type WinReason } from "./tzaar/win.js
 
 const BASIC_OVERLAY_SCALE = 0.85;
 
-const P1_CHARIOT_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 5 };
-const P1_CHARIOT_INNER: Colourfuncs = { func: "custom", default: GIPF_P1_CHARIOT_INNER, palette: 6 };
-const P2_CHARIOT_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 7 };
-const P2_CHARIOT_INNER: Colourfuncs = { func: "custom", default: GIPF_P2_CHARIOT_INNER, palette: 8 };
+const P1_TZARRA_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 5 };
+const P1_TZARRA_INNER: Colourfuncs = { func: "custom", default: GIPF_P1_CHARIOT_INNER, palette: 6 };
+const P2_TZARRA_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 7 };
+const P2_TZARRA_INNER: Colourfuncs = { func: "custom", default: GIPF_P2_CHARIOT_INNER, palette: 8 };
+const P1_TZAAR_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 9 };
+const P1_TZAAR_INNER: Colourfuncs = { func: "custom", default: GIPF_P1_CHARIOT_INNER, palette: 10 };
+const P2_TZAAR_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 11 };
+const P2_TZAAR_INNER: Colourfuncs = { func: "custom", default: GIPF_P2_CHARIOT_INNER, palette: 12 };
 
 function contrastBorder(fill: Colourfuncs, palette: 3 | 4): Colourfuncs {
     return {
@@ -115,12 +119,12 @@ function horsePieceLegend(
     ];
 }
 
-function p1HorseLegend(fill: Colourfuncs): [Glyph, Glyph] {
-    return horsePieceLegend(fill, P1_CHARIOT_BORDER, P1_CHARIOT_INNER, 3);
+function p1TzarraLegend(fill: Colourfuncs): [Glyph, Glyph] {
+    return horsePieceLegend(fill, P1_TZARRA_BORDER, P1_TZARRA_INNER, 3);
 }
 
-function p2HorseLegend(fill: Colourfuncs): [Glyph, Glyph] {
-    return horsePieceLegend(fill, P2_CHARIOT_BORDER, P2_CHARIOT_INNER, 4);
+function p2TzarraLegend(fill: Colourfuncs): [Glyph, Glyph] {
+    return horsePieceLegend(fill, P2_TZARRA_BORDER, P2_TZARRA_INNER, 4);
 }
 
 function pieceGlyph(owner: playerid, kind: PieceKind): string {
@@ -300,12 +304,16 @@ export class TzaarGame extends GameBase {
         customizations: [
             { num: 1, default: GIPF_P1, explanation: "Player 1 piece fill", player: 1 },
             { num: 2, default: GIPF_P2, explanation: "Player 2 piece fill", player: 2 },
-            { num: 3, default: GIPF_PIECE_BORDER, explanation: "Player 1 basic piece border", player: 1 },
-            { num: 4, default: GIPF_PIECE_BORDER, explanation: "Player 2 basic piece border", player: 2 },
-            { num: 5, default: GIPF_CHARIOT_BORDER, explanation: "Player 1 chariot border", player: 1 },
-            { num: 6, default: GIPF_P1_CHARIOT_INNER, explanation: "Player 1 chariot inner", player: 1 },
-            { num: 7, default: GIPF_CHARIOT_BORDER, explanation: "Player 2 chariot border", player: 2 },
-            { num: 8, default: GIPF_P2_CHARIOT_INNER, explanation: "Player 2 chariot inner", player: 2 },
+            { num: 3, default: GIPF_PIECE_BORDER, explanation: "Player 1 Tott border", player: 1 },
+            { num: 4, default: GIPF_PIECE_BORDER, explanation: "Player 2 Tott border", player: 2 },
+            { num: 5, default: GIPF_CHARIOT_BORDER, explanation: "Player 1 Tzarra border", player: 1 },
+            { num: 6, default: GIPF_P1_CHARIOT_INNER, explanation: "Player 1 Tzarra inner", player: 1 },
+            { num: 7, default: GIPF_CHARIOT_BORDER, explanation: "Player 2 Tzarra border", player: 2 },
+            { num: 8, default: GIPF_P2_CHARIOT_INNER, explanation: "Player 2 Tzarra inner", player: 2 },
+            { num: 9, default: GIPF_CHARIOT_BORDER, explanation: "Player 1 Tzaar border", player: 1 },
+            { num: 10, default: GIPF_P1_CHARIOT_INNER, explanation: "Player 1 Tzaar inner", player: 1 },
+            { num: 11, default: GIPF_CHARIOT_BORDER, explanation: "Player 2 Tzaar border", player: 2 },
+            { num: 12, default: GIPF_P2_CHARIOT_INNER, explanation: "Player 2 Tzaar inner", player: 2 },
         ],
         categories: [
             "goal>eliminate",
@@ -1199,16 +1207,16 @@ export class TzaarGame extends GameBase {
             },
             legend: {
                 A: basicPieceLegend(p1, 3),
-                B: p1HorseLegend(p1),
+                B: p1TzarraLegend(p1),
                 C: {
                     name: "piece-chariot",
-                    paint: { fill: p1, border: P1_CHARIOT_BORDER, inner: P1_CHARIOT_INNER },
+                    paint: { fill: p1, border: P1_TZAAR_BORDER, inner: P1_TZAAR_INNER },
                 },
                 X: basicPieceLegend(p2, 4),
-                Y: p2HorseLegend(p2),
+                Y: p2TzarraLegend(p2),
                 Z: {
                     name: "piece-chariot",
-                    paint: { fill: p2, border: P2_CHARIOT_BORDER, inner: P2_CHARIOT_INNER },
+                    paint: { fill: p2, border: P2_TZAAR_BORDER, inner: P2_TZAAR_INNER },
                 },
             },
             pieces: pstr as [string[][], ...string[][][]],

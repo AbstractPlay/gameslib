@@ -1480,6 +1480,11 @@
       "default": "{{player}} placed \"{{what}}\" next to {{where}}."
     }
   },
+  "skisma": {
+    "EOG": {
+      "surround": "The game has ended because an enemy stone was surrounded."
+    }
+  },
   "slyde": {
     "MOVE": {
       "default": "{{player}} slid a piece from {{from}} to {{to}}."

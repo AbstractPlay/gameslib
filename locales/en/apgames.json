@@ -3403,6 +3403,10 @@
       "LABEL_STASH": "{{player}}'s hand",
       "VALID_BUT": "That placement is valid. It's also possible to span two cards. Click \"Complete Move\" to keep the single parent, or click the adjacent card to span them both."
     },
+    "skisma": {
+      "INSTRUCTIONS": "Select an empty cell to place a stone.",
+      "SUICIDE": "You may not place a stone at {{where}}: it would be surrounded."
+    },
     "slimetrail": {
       "INITIAL_INSTRUCTIONS": "Move the ball to an adjacent empty cell.",
       "INVALID_MOVE": "The chosen cell must be empty and adjacent to the ball."
@@ -4580,6 +4584,7 @@
     "shapechess": "Shape Chess is a game in which players use their pieces to create line-symmetric shapes. Using three types of actions (placements, jumps, pushes), players aim to create symmetrical groups of six or more pieces, scoring more points for larger groups.",
     "shifty": "A connection game where you either place a piece orthogonally adjacent to a friendly piece, or move one of your pieces orthogonally adjacent to a friendly piece, by a chess queen's move, to a location not orthogonally adjacent to any other friendly pieces. Crosscuts are illegal. The player that forms an orthogonal or diagonal path connecting their two sides wins.",
     "siegeofj": "Place cards, representing armies, to exert pressure on segments of the wall around the city of Jacynth. Exert the most pressure on the most segments to win.",
+    "skisma": "Surround one enemy stone with a single group to win: cut it off from half of the board's edge.",
     "slimetrail": "Push the ball piece to an adjacent empty cell and bring it to your goal, or stalemate the adversary.",
     "slither": "Square-board connection game with updated rules from 2018. Optionally move a piece and then place a piece, such that no two pieces of a colour are diagonally adjacent to each other unless they are orthogonally connected by a like-coloured stone. In Advanced Slither, a piece may only move if it is part of a contiguous orthogonal group consisting of pieces of both colours.",
     "slyde": "In Slyde, the goal is to form the largest orthogonal group of your colour. Pieces can be fixed or mobile. The game starts in a checkerboard position and all pieces start mobile. On your turn, you may swap a mobile piece with an adjacent mobile piece of your opponent, and your piece becomes fixed. The game ends when one player runs out of moves. If the board is in a mirror-symmetric position after the first turn, you may change the state of a piece instead of performing the standard swap.",
@@ -4890,6 +4895,7 @@
     "shapechess": "Shape Chess",
     "shifty": "Shifty",
     "siegeofj": "Siege of Jacynth",
+    "skisma": "Skisma",
     "slimetrail": "Slimetrail",
     "slither": "Advanced Slither",
     "slyde": "Slyde",
@@ -5044,6 +5050,7 @@
     "sentinel": "Vigil Games are a class of strategy games in which players must maintain an uninterrupted line of sight between their pieces and a designated reference point or region of the board. The first vigil game on record is 1892's Kastellet.\n\nSentinel is a vigil game where players always need to have at least one line-of-sight to the board's center. Sentinel is the second abstract game of this genre (after more than 130 years!), mixing typical movement and capture ludemes with permanent line-of-sight control of the central square.\n\nThe game mixes forward movement with sowing stacks which are the only way for armies to increase their size.",
     "shapechess": "Shape Chess, 形棋 (shape - board game), was designed c.2010 by 日出 (Richu) from Guangzhou, China. The game has evolved into its current form through years of refinement within the Chinese game design community (quoted from Kanare_Abstract). This is not a Chess-like game, but one that uses a very original concept by making players build reflectional symmetric shapes. This implementation includes several board sizes, and also different winning scores, for players who prefer shorter or longer matches.",
     "siegeofj": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed.",
+    "skisma": "A stone is surrounded when, because of a single enemy group, it can reach fewer than half of the edge cells. Paths may go through any cell except that group's stones. You may not place a stone where it would be surrounded, unless that placement wins. A player with no legal move loses, also when the board is full: whoever fills the last cell wins, and there are no draws. On square boards, stones connect into groups diagonally as well as orthogonally, but paths only go orthogonally, so a diagonal chain is a wall.",
     "slimetrail": "Slimetrail was designed by Bill Taylor in 1992. Initially the game was played on the Hex board and a stalemate was a draw. The game evolved to be played on a 8x8 board, where a stalemated player loses the match. This version was used in the Portuguese Tournament of Board Games for several years. There are some 1970s precursors of this theme, like Knight Chase, Blokeo, ZigZag, and Tesoro (cf. WAG's page in the links).",
     "soccolot": "Soccolot is a 1972 game by David Wilson. The original game was played on a 8x8 board with six men per team. Players can move or can interact with the ball either by shooting it (kick) or by moving it together with one team men (dribble). There is a constant struggle to gain control of the board and to find an opening to move or shoot the ball to the opponent's home row. The main variant is faster, played on a 7x7 board for better piece interaction. Robert A. Kraus implemented both variants for [Zillions](https://www.zillions-of-games.com/cgi-bin/zilligames/submissions.cgi?do=show;id=802).",
     "spire": "In this implementation, if you select only one space, it assumes that you placed the ball of your colour, and if you select two spaces, the first space is for the neutral ball and the second space is for the ball of your colour. If the first click is on a space where only one of the neutral ball or the ball of your colour is valid, it will automatically commit that ball.",
@@ -5534,6 +5541,12 @@
       "hide-highlights": {
         "description": "Don't highlight the Claimed Regions.",
         "name": "Hide highlights"
+      }
+    },
+    "skisma": {
+      "hide-enclosed": {
+        "name": "Hide enclosed zones",
+        "description": "Don't shade the zones enclosed by each player's groups, where the other player may only play a winning move."
       }
     },
     "spire": {
@@ -8695,6 +8708,32 @@
       "full": {
         "name": "Full deal",
         "description": "Deals all 24 cards to the players at the beginning of the game. All hands are visible."
+      }
+    },
+    "skisma": {
+      "#board": {
+        "name": "Hexhex 6"
+      },
+      "size-7": {
+        "name": "Hexhex 7"
+      },
+      "size-8": {
+        "name": "Hexhex 8"
+      },
+      "size-9": {
+        "name": "Hexhex 9"
+      },
+      "square-9": {
+        "name": "Square 9x9"
+      },
+      "square-11": {
+        "name": "Square 11x11"
+      },
+      "square-13": {
+        "name": "Square 13x13"
+      },
+      "square-15": {
+        "name": "Square 15x15"
       }
     },
     "slimetrail": {

@@ -3,7 +3,7 @@ import "mocha";
 import i18next from "i18next";
 import { addResource } from "../../src";
 import { TzaarGame, playStartStackIndex } from "../../src/games/tzaar.js";
-import { TzaarGraph, TZAAR_BLOCKED_RENDER } from "../../src/common/graphs/tzaar.js";
+import { TzaarGraph, TZAAR_BLOCKED_RENDER } from "../../src/games/tzaar/graph.js";
 import { availablePieceCounts, buildFixedBoard, buildRandomBoard } from "../../src/games/tzaar/setup.js";
 import {
     allCaptureMoves,
@@ -113,8 +113,7 @@ describe("TzaarGame", () => {
         expect(availablePieceCounts(board, undefined, 2)).to.deep.equal({ tott: 1, tzarra: 0, tzaar: 0 });
     });
 
-    it("exposes experimental automove flags", () => {
-        expect(TzaarGame.gameinfo.flags).to.include("experimental");
+    it("exposes automove and custom-buttons flags", () => {
         expect(TzaarGame.gameinfo.flags).to.include("automove");
         expect(TzaarGame.gameinfo.flags).to.include("custom-buttons");
     });

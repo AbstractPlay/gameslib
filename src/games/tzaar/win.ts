@@ -1,4 +1,4 @@
-import type { TzaarGraph } from "../../common/graphs/tzaar.js";
+import type { TzaarGraph } from "./graph.js";
 import type { CellStack, PieceCounts, PieceKind, playerid } from "./types.js";
 import { hasForcedCapture } from "./move.js";
 

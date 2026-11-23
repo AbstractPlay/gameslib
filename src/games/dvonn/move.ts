@@ -1,4 +1,4 @@
-import type { DvonnGraph } from "../../common/graphs/dvonn.js";
+import type { DvonnGraph } from "./graph.js";
 import type { HexDir } from "../../common/graphs/hextri.js";
 import type { CellStack, playerid, StackDisc } from "./types.js";
 import { DVONN_DISC, isDvonnDisc, playerFromDisc } from "./types.js";

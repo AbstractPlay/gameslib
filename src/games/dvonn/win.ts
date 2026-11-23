@@ -1,4 +1,4 @@
-import type { DvonnGraph } from "../../common/graphs/dvonn.js";
+import type { DvonnGraph } from "./graph.js";
 import { allLegalMoves } from "./move.js";
 import type { CellStack, playerid } from "./types.js";
 

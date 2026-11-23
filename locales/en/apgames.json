@@ -695,6 +695,10 @@
     "lielow": {
       "MOVESUNTILSUICIDE": "Moves until suicide"
     },
+    "lyngk": {
+      "CLAIMED": "Claimed colours",
+      "CAPTURED": "Captured stacks"
+    },
     "meg": {
       "OFFENSE": "Offensive player",
       "COUNTDOWN": "Plies remaining"
@@ -2509,6 +2513,16 @@
       "INSUFFICIENT_LOS": "{{count}} directions with line of sight is required to capture the cell on {{cell}}.",
       "CAPTURE4PLACE": "You suffixed the cell with 'x' to indicate capture, but this is not a capture move. Try '{{cell}}'.",
       "OPPONENT_CONTROLLED": "The cell at {{where}} is controlled by your opponent."
+    },
+    "lyngk": {
+      "INITIAL_INSTRUCTIONS": "Click a stack you control, then click destinations along a line. Optionally claim a colour from the reserve first.",
+      "NO_PASS": "You must make a board move when one is available.",
+      "MUST_PASS": "You have no legal move; your turn will pass automatically.",
+      "INVALID_MOVE": "That move is not legal.",
+      "INVALID_CLAIM": "You cannot claim that colour.",
+      "CLAIM_WITHOUT_MOVE": "Claiming a colour requires a board move on the same turn.",
+      "CLAIM_WITH_PASS": "You cannot claim a colour when passing.",
+      "RESERVE_LABEL": "Unclaimed colours"
     },
     "magnate": {
       "BUTTON_INSTRUCTIONS": "Click a button to select your next action.",
@@ -4506,6 +4520,7 @@
     "loa": "A classic game where you try to gather all your pieces into a single connected group. Pieces can only move the exact number of spaces as the number of pieces that lie along the line of movement. The \"Scrambled Eggs\" initial layout variant is supported.",
     "logger": "A Looney pyramids game where the players vie to grow and harvest more trees than their opponents.",
     "lox": "Hex connection game with captures inspired by Tumbleweed. A cell is controlled by a player if it has more lines of sight to the player's pieces than half of the number neighbours that it has. If an opponent's piece is on your controlled cell, you may capture it by replacing it with your own piece on your turn. The player with a solid connection between their two sides at the start of their turn wins.",
+    "lyngk": "Claim two of five colours, stack and slide pieces on a hex board, chain through your colour with the LYNGK rule, and score by capturing completed stacks of five.",
     "magnate": "An economic game for the Decktet in which players vie for control of five districts by developing sequences of cards.  Higher ranked cards cost more, but contribute more towards your income (even while only partly developed) and your score. The (taxable) currency of the land is suit tokens, collected by selling unwanted cards, or earned from partly or fully developed cards on a roll of the dice, as in Catan.",
     "majorities": "A game of majorities. A majority of pieces in a line wins that line. A majority of parallel lines in a direction wins that direction. A majority of directions wins the game. The first player places one piece, and thereafter, each player places two pieces per turn.",
     "manalath": "Manalath is a game on a hexagonal grid where you can place pieces of either colour. You win if at the end of your turn there's a group of five pieces of your colour, but you *lose* if there's a group of four stones of your colour. How are you going to do that?!",
@@ -4817,6 +4832,7 @@
     "loa": "Lines of Action",
     "logger": "Logger",
     "lox": "Lox",
+    "lyngk": "LYNGK",
     "magnate": "Magnate",
     "majorities": "Majorities",
     "manalath": "Manalath",
@@ -5423,6 +5439,12 @@
       "hide-controlled": {
         "description": "Don't highlight controlled cells or threatened pieces for each player.",
         "name": "Hide all controlled indicators"
+      }
+    },
+    "lyngk": {
+      "hide-stack-owner": {
+        "name": "Hide stack owner",
+        "description": "Do not mark the top disc of stacks you control."
       }
     },
     "margo": {

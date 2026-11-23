@@ -1,5 +1,5 @@
-import type { HexDir } from "./hextri.js";
-import { HexTriGraph } from "./hextri.js";
+import type { HexDir } from "../../common/graphs/hextri.js";
+import { HexTriGraph } from "../../common/graphs/hextri.js";
 
 export const DVONN_MIN_WIDTH = 9;
 export const DVONN_MAX_WIDTH = 11;

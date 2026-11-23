@@ -20,6 +20,7 @@ Tests should verify outcomes and public contracts. They should survive tuning of
 - Pin **tunable implementation constants** (`FLAT_HEIGHT_DARKEN_DL`, scale factors, visual padding) in expected values.
 - Assert exact **internal legend keys** or private suffix formats when a pattern-based check suffices.
 - Leave **dev-time assertions** that only confirmed implementation details — delete or refactor them once behaviour is verified.
+- Assert presence of the **`experimental` gameinfo flag** — it is removed when a game ships; assert stable flags (`automove`, `shared-pieces`, etc.) instead.
 
 ```typescript
 // ❌ BAD — breaks when FLAT_HEIGHT_DARKEN_DL is tuned

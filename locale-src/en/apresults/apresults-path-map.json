@@ -4413,6 +4413,66 @@
       "english": "A new sapling sprouted at {{where}}."
     },
     {
+      "oldPath": "CAPTURE.lyngk",
+      "oldFullKey": "apresults:CAPTURE.lyngk",
+      "uid": "lyngk",
+      "resultType": "CAPTURE",
+      "newLeaf": "default",
+      "newPath": "lyngk.CAPTURE.default",
+      "newFullKey": "apresults:lyngk.CAPTURE.default",
+      "english": "{{player}} captured a stack at {{where}}."
+    },
+    {
+      "oldPath": "CLAIM.lyngk",
+      "oldFullKey": "apresults:CLAIM.lyngk",
+      "uid": "lyngk",
+      "resultType": "CLAIM",
+      "newLeaf": "default",
+      "newPath": "lyngk.CLAIM.default",
+      "newFullKey": "apresults:lyngk.CLAIM.default",
+      "english": "{{player}} claimed colour {{colour}}."
+    },
+    {
+      "oldPath": "EOG.lyngk_draw",
+      "oldFullKey": "apresults:EOG.lyngk_draw",
+      "uid": "lyngk",
+      "resultType": "EOG",
+      "newLeaf": "draw",
+      "newPath": "lyngk.EOG.draw",
+      "newFullKey": "apresults:lyngk.EOG.draw",
+      "english": "The game is a draw."
+    },
+    {
+      "oldPath": "EOG.lyngk_score",
+      "oldFullKey": "apresults:EOG.lyngk_score",
+      "uid": "lyngk",
+      "resultType": "EOG",
+      "newLeaf": "score",
+      "newPath": "lyngk.EOG.score",
+      "newFullKey": "apresults:lyngk.EOG.score",
+      "english": "{{player}} wins with {{count}} captured stacks."
+    },
+    {
+      "oldPath": "EOG.lyngk_tiebreak",
+      "oldFullKey": "apresults:EOG.lyngk_tiebreak",
+      "uid": "lyngk",
+      "resultType": "EOG",
+      "newLeaf": "tiebreak",
+      "newPath": "lyngk.EOG.tiebreak",
+      "newFullKey": "apresults:lyngk.EOG.tiebreak",
+      "english": "{{player}} wins on tiebreak."
+    },
+    {
+      "oldPath": "MOVE.lyngk",
+      "oldFullKey": "apresults:MOVE.lyngk",
+      "uid": "lyngk",
+      "resultType": "MOVE",
+      "newLeaf": "default",
+      "newPath": "lyngk.MOVE.default",
+      "newFullKey": "apresults:lyngk.MOVE.default",
+      "english": "{{player}} moved {{cells}}."
+    },
+    {
       "oldPath": "ADD.magnate_one",
       "oldFullKey": "apresults:ADD.magnate_one",
       "uid": "magnate",

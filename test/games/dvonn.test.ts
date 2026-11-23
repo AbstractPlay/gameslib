@@ -3,7 +3,7 @@ import "mocha";
 import i18next from "i18next";
 import { addResource } from "../../src";
 import { DvonnGame, playStartStackIndex } from "../../src/games/dvonn.js";
-import { DvonnGraph, DVONN_INTERSECTIONS } from "../../src/common/graphs/dvonn.js";
+import { DvonnGraph, DVONN_INTERSECTIONS } from "../../src/games/dvonn/graph.js";
 import {
   applyStackMove,
   isBareDvonn,

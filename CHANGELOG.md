@@ -13,12 +13,13 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
-- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, DVONN, GIPF, Ice Palace, Polypods, Skisma, Squares, TZAAR, YINSH, ZERTZ.
+- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, DVONN, GIPF, Ice Palace, LYNGK, Polypods, Skisma, Squares, TZAAR, YINSH, ZERTZ.
 
-## [1.0.0-ci] - 2026-11-21
+## [1.0.0-ci] - 2026-11-23
 
 ### Added
 
+- **New games (experimental):** LYNGK — GIPF Project #7 on the 43-intersection hex-of-tri board with colour claiming, LYNGK chains, stack capture scoring, and capture/tiebreak endgame.
 - **New games:** Bashni, Counterflow, Croda, Dama, QBF
 - **New games:** Bricka, Neutron, Outbound, Thricewise
 - **Input modes (catalogue + contract):** optional **`inputModes`** on game metadata (schema/registry), optional **`inputMode`** on **`IHandleClickUi`** for `handleClick`; shared **`apgames:inputModes`** copy for picker UI; **`sanitizeInputModeForGame`** and related helpers exported for clients; playground persists selected mode and passes **`ui.inputMode`** when a game declares modes.

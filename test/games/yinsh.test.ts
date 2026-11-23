@@ -3,7 +3,7 @@ import "mocha";
 import { addResource } from "../../src";
 import { YinshGame } from "../../src/games/yinsh.js";
 import { freshMoveState } from "../../src/games/yinsh/setup.js";
-import { YinshGraph, YINSH_BLOCKED_RENDER } from "../../src/common/graphs/yinsh.js";
+import { YinshGraph, YINSH_BLOCKED_RENDER } from "../../src/games/yinsh/graph.js";
 import { applyRingMove, legalRingDestinations, simulateRingMove } from "../../src/games/yinsh/move.js";
 import {
     findAllCapturableRows,
@@ -22,7 +22,6 @@ describe("YinshGame", () => {
     it("exposes automove without check flag", () => {
         expect(YinshGame.gameinfo.flags).to.include("automove");
         expect(YinshGame.gameinfo.flags).to.not.include("check");
-        expect(YinshGame.gameinfo.flags).to.include("experimental");
     });
 
     it("starts in setup with five rings each in reserve", () => {

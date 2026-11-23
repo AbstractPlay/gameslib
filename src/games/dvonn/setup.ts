@@ -1,6 +1,6 @@
 import { shuffle } from "../../common/shuffle.js";
 import type { GameRng } from "../../common/rng.js";
-import type { DvonnGraph } from "../../common/graphs/dvonn.js";
+import type { DvonnGraph } from "./graph.js";
 import type { CellStack, playerid, Reserves, SeatReserves, StackDisc } from "./types.js";
 import { DVONN_DISC, isDvonnDisc, PIECES_PER_PLAYER, SETUP_PLIES } from "./types.js";
 import type { Phase } from "./types.js";

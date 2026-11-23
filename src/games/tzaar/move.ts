@@ -1,4 +1,4 @@
-import type { TzaarGraph } from "../../common/graphs/tzaar.js";
+import type { TzaarGraph } from "./graph.js";
 import type { HexDir } from "../../common/graphs/hextri.js";
 import type { CellStack, playerid, SlideMode } from "./types.js";
 

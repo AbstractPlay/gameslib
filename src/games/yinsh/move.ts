@@ -1,4 +1,4 @@
-import type { YinshGraph } from "../../common/graphs/yinsh.js";
+import type { YinshGraph } from "./graph.js";
 import type { HexDir } from "../../common/graphs/hextri.js";
 import type { playerid } from "./types.js";
 

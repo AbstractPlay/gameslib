@@ -4,7 +4,7 @@ import "mocha";
 import { addResource } from "../../src";
 import { GipfGame } from "../../src/games/gipf.js";
 import type { CellPiece } from "../../src/games/gipf/types.js";
-import { GipfGraph } from "../../src/common/graphs/gipf.js";
+import { GipfGraph } from "../../src/games/gipf/graph.js";
 import { formatCaptureMove, listCaptureConfirmMoves } from "../../src/games/gipf/capture-notation.js";
 import { findAllCapturableRows } from "../../src/games/gipf/rows.js";
 import { legalPushDestinations, pushEntrySpot, simulatePush } from "../../src/games/gipf/push.js";

@@ -12,7 +12,7 @@ import { APRenderRep, type Colourfuncs, type RowCol } from "@abstractplay/render
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import { chatPlayerToken } from "../common/chat-log.js";
-import { YinshGraph, YINSH_BLOCKED_RENDER } from "../common/graphs/yinsh.js";
+import { YinshGraph, YINSH_BLOCKED_RENDER } from "./yinsh/graph.js";
 import i18next from "i18next";
 import type { IGamePly } from "./_turn-model.js";
 import {

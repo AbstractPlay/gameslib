@@ -1,4 +1,4 @@
-import { HexTriGraph, type HexDir } from "./hextri.js";
+import { HexTriGraph, type HexDir } from "../../common/graphs/hextri.js";
 
 /**
  * GIPF board connectivity: same 5×9 hex-of-tri grid as {@link HexTriGraph}, but edges

@@ -17,7 +17,7 @@ import type { APRenderRep, Colourfuncs, Glyph, RowCol } from "@abstractplay/rend
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { cloneState, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
-import { TzaarGraph, TZAAR_BLOCKED_RENDER } from "../common/graphs/tzaar.js";
+import { TzaarGraph, TZAAR_BLOCKED_RENDER } from "./tzaar/graph.js";
 import {
     GIPF_CHARIOT_BORDER,
     GIPF_P1,

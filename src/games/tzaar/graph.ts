@@ -1,5 +1,5 @@
-import type { HexDir } from "./hextri.js";
-import { HexTriGraph } from "./hextri.js";
+import type { HexDir } from "../../common/graphs/hextri.js";
+import { HexTriGraph } from "../../common/graphs/hextri.js";
 
 export const TZAAR_MIN_WIDTH = 5;
 export const TZAAR_MAX_WIDTH = 9;

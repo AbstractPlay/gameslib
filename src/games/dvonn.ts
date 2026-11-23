@@ -14,7 +14,7 @@ import { type FlagContext, type GameFlag } from "./_base.js";
 import type { APRenderRep, Colourfuncs, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
-import { DvonnGraph } from "../common/graphs/dvonn.js";
+import { DvonnGraph } from "./dvonn/graph.js";
 import i18next from "i18next";
 import {
   allLegalMoves,

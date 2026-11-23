@@ -13,7 +13,7 @@ import { APRenderRep, type Colourfuncs, type Glyph } from "@abstractplay/rendere
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import { chatPlayerToken } from "../common/chat-log.js";
-import { GipfGraph } from "../common/graphs/gipf.js";
+import { GipfGraph } from "./gipf/graph.js";
 import i18next from "i18next";
 import type { IGamePly } from "./_turn-model.js";
 import { sequencedShouldCloseRound } from "./_turn-sequenced.js";

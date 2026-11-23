@@ -7,10 +7,6 @@ import { SquareFanoronaGraph } from "./square-fanorona.js";
 import { SnubSquareGraph } from "./snubsquare.js";
 import { OnyxGraph } from "./onyx.js";
 import { HexTriGraph } from "./hextri.js";
-import { GipfGraph } from "./gipf.js";
-import { YinshGraph } from "./yinsh.js";
-import { TzaarGraph } from "./tzaar.js";
-import { DvonnGraph } from "./dvonn.js";
 import { HexMoonGraph } from "./hexMoon.js";
 import { HexSlantedGraph } from "./hex-slanted.js";
 import { HexConeGraph } from "./hex-cone.js";
@@ -46,7 +42,7 @@ export { FracturedFlatGraph, type FracturedFlatNodeData } from "./fractured-flat
 export type { IGraph, IGraph3D };
 export { Square3DGraph, SquareGraph, SquareDirectedGraph,
         SquareOrth3DGraph, SquareOrthGraph, SquareOrthDirectedGraph, SquareDiag3DGraph,
-        SquareDiagGraph, SquareFanoronaGraph, SnubSquareGraph, OnyxGraph, HexTriGraph, GipfGraph, YinshGraph, TzaarGraph, DvonnGraph,
+        SquareDiagGraph, SquareFanoronaGraph, SnubSquareGraph, OnyxGraph, HexTriGraph,
         HexMoonGraph, HexSlantedGraph, HexConeGraph, HexFieldGraph, BaoGraph,
         SowingNoEndsGraph, SquareDiamondsDirectedGraph, PentaHexGraph };
 

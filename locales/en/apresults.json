@@ -1072,6 +1072,22 @@
       "spawn": "A new sapling sprouted at {{where}}."
     }
   },
+  "lyngk": {
+    "CLAIM": {
+      "default": "{{player}} claimed colour {{colour}}."
+    },
+    "MOVE": {
+      "default": "{{player}} moved {{cells}}."
+    },
+    "CAPTURE": {
+      "default": "{{player}} captured a stack at {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} wins with {{count}} captured stacks.",
+      "tiebreak": "{{player}} wins on tiebreak.",
+      "draw": "The game is a draw."
+    }
+  },
   "magnate": {
     "ADD_one": "{{player}} added one token to their deeded card {{where}}.",
     "ADD_other": "{{player}} added {{count}} tokens to their deeded card {{where}}.",

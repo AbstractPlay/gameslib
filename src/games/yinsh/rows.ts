@@ -1,4 +1,4 @@
-import type { YinshGraph } from "../../common/graphs/yinsh.js";
+import type { YinshGraph } from "./graph.js";
 import type { CapturableRow, playerid } from "./types.js";
 
 function rowId(owner: playerid, cells: string[]): string {

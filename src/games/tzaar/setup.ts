@@ -1,6 +1,6 @@
 import { shuffle } from "../../common/shuffle.js";
 import type { GameRng } from "../../common/rng.js";
-import type { TzaarGraph } from "../../common/graphs/tzaar.js";
+import type { TzaarGraph } from "./graph.js";
 import type { CellStack, PieceCounts, PieceKind, playerid, Reserves } from "./types.js";
 import { PIECE_COUNTS_PER_PLAYER, PLAYABLE_INTERSECTIONS } from "./types.js";
 import { visiblePieceCounts } from "./win.js";

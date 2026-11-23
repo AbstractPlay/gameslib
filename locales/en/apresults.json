@@ -1073,8 +1073,15 @@
     }
   },
   "lyngk": {
+    "COLOUR": {
+      "1": "red",
+      "2": "blue",
+      "3": "green",
+      "4": "yellow",
+      "5": "purple"
+    },
     "CLAIM": {
-      "default": "{{player}} claimed colour {{colour}}."
+      "default": "{{player}} claimed the {{colourName}} colour."
     },
     "MOVE": {
       "default": "{{player}} moved {{cells}}."

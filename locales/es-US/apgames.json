@@ -695,6 +695,10 @@
     "lielow": {
       "MOVESUNTILSUICIDE": "Movimientos hasta el suicidio"
     },
+    "lyngk": {
+      "CLAIMED": "Colores reclamados",
+      "CAPTURED": "Pilas capturadas"
+    },
     "meg": {
       "OFFENSE": "Jugador atacante",
       "COUNTDOWN": "Plies restantes"
@@ -2509,6 +2513,16 @@
       "INSUFFICIENT_LOS": "Se requieren {{count}} direcciones con línea de visión para capturar la casilla en {{cell}}.",
       "CAPTURE4PLACE": "Agregaste el sufijo 'x' a la casilla para indicar una captura, pero este no es un movimiento de captura. Intenta '{{cell}}'.",
       "OPPONENT_CONTROLLED": "La casilla en {{where}} está controlada por tu oponente."
+    },
+    "lyngk": {
+      "INITIAL_INSTRUCTIONS": "Haz clic en una pila que controlas y luego en los destinos a lo largo de una línea. Opcionalmente, reclama primero un color de la reserva.",
+      "NO_PASS": "Debes realizar un movimiento en el tablero cuando haya uno disponible.",
+      "MUST_PASS": "No tienes movimientos válidos; tu turno pasará automáticamente.",
+      "INVALID_MOVE": "Ese movimiento no es legal.",
+      "INVALID_CLAIM": "No puedes reclamar ese color.",
+      "CLAIM_WITHOUT_MOVE": "Reclamar un color requiere hacer un movimiento en el tablero en el mismo turno.",
+      "CLAIM_WITH_PASS": "No puedes reclamar un color al pasar.",
+      "RESERVE_LABEL": "Colores no reclamados"
     },
     "magnate": {
       "BUTTON_INSTRUCTIONS": "Haz clic en un botón para seleccionar tu siguiente acción.",
@@ -4506,6 +4520,7 @@
     "loa": "Un juego clásico en el que intentas reunir todas tus piezas en un solo grupo conectado. Las piezas solo pueden moverse el número exacto de casillas igual al número de piezas que haya en la línea de movimiento. Se admite la variante de disposición inicial \"Scrambled Eggs\".",
     "logger": "Un juego con pirámides Looney donde los jugadores compiten por cultivar y cosechar más árboles que sus oponentes.",
     "lox": "Juego de conexión hexagonal con capturas inspirado en Tumbleweed. Un jugador controla una casilla si tiene más líneas de visión hacia sus propias piezas que la mitad del número de casillas vecinas que posee. Si una pieza enemiga está en tu casilla controlada, puedes capturarla reemplazándola con tu propia pieza en tu turno. El jugador que tenga una conexión sólida entre sus dos lados al inicio de su turno gana.",
+    "lyngk": "Reclama dos de cinco colores, apila y desliza piezas en un tablero hexagonal, crea cadenas a través de tu color con la regla LYNGK y suma puntos capturando pilas completas de cinco.",
     "magnate": "Un juego económico para Decktet en el que los jugadores compiten por el control de cinco distritos desarrollando secuencias de cartas. Las cartas de mayor rango cuestan más, pero contribuyen más a tus ingresos (incluso si solo están parcialmente desarrolladas) y a tu puntuación. La moneda (imponible) de la región son las fichas de palo, que se obtienen vendiendo cartas no deseadas o a través de cartas parcialmente o totalmente desarrolladas tras un lanzamiento de dados, como en Catan.",
     "majorities": "Un juego de mayorías. Una mayoría de piezas en una línea gana esa línea. Una mayoría de líneas paralelas en una dirección gana esa dirección. Una mayoría de direcciones gana el juego. El primer jugador coloca una pieza y, a partir de ahí, cada jugador coloca dos piezas por turno.",
     "manalath": "Manalath es un juego en una cuadrícula hexagonal donde puedes colocar piezas de cualquiera de los dos colores. Ganas si al final de tu turno hay un grupo de cinco piezas de tu color, pero *pierdes* si hay un grupo de cuatro fichas de tu color. ¡¿Cómo vas a lograrlo?!",
@@ -5023,6 +5038,7 @@
     "lielow": "\"Movimientos hasta el suicidio\" calcula para cada jugador cuántos movimientos podría realizar aún cada una de sus pilas —creciendo en uno con cada movimiento y eligiendo siempre la dirección que sobreviva más tiempo— antes de verse obligada a retirar piezas. Ignora todas las demás pilas del tablero, ya sean propias o enemigas, por lo que es una medida aproximada de qué tan expuestas están las piezas de un jugador, y no un conteo de los movimientos legales restantes.",
     "linage": "Linage es un juego de 2016 diseñado por Luis Bolaños Mures. El juego se basa en las siguientes definiciones: Una **región** es un conjunto máximo de puntos vacíos contiguos ortogonalmente. Una **línea** es un conjunto de N puntos vacíos contiguos ortogonalmente en la misma fila o columna (por defecto N=3); y una región es **propiedad** de Vertical si no contiene líneas horizontales, y de Horizontal si no contiene líneas verticales. Una región es libre si no pertenece a ningún jugador. Las regiones siempre deben tener al menos una línea.\n\nEn su turno, el jugador pasa o coloca una piedra en una región libre. El juego termina cuando ambos jugadores pasan sucesivamente, y gana quien tenga la puntuación más alta (es decir, el número de puntos en las regiones que posee el jugador, más el komi).",
     "loa": "En el centro del tablero de 9x9 hay un \"agujero negro\". Caer en el agujero negro significa que la pieza se elimina del juego. Las conexiones simultáneas se puntúan como un empate.",
+    "lyngk": "Reclamar usa los números de paleta 1–5 en el registro de movimientos y en el chat (prefijo de reclamación opcional, luego una coma y después la cadena de casillas; p. ej., `4,e7-d8`). Por defecto, 1 es rojo, 2 es azul, 3 es verde, 4 es amarillo y 5 es morado. Los comodines son la paleta 6 (patrón de puntos por defecto) y no se reclaman. Un color activo permanece neutral durante toda la partida.",
     "magnate": "La terminología de algunas acciones de Magnate se ha modificado para mayor claridad y brevedad. Desarrollar por completo una nueva propiedad se llama la acción \"Comprar\"; adquirir una escritura para una nueva propiedad se llama \"Escriturar\", desarrollar escrituras (es decir, agregar fichas a una propiedad escriturada, resulte o no en que la escritura se desarrolle por completo) se llama \"Agregar\". (Vender una carta y cambiar fichas de palo 3 por 1 permanecen sin cambios).\n\nCon el fin de acelerar el proceso de lanzar por recursos, hay dos acciones adicionales:\n* \"Preferir\" es para establecer tu preferencia sobre qué ficha de palo tomar cuando una escritura paga en el lanzamiento de tu oponente. Si no defines una preferencia explícita, el código elegirá la ficha más rara según tus palos sin corona y tu reserva actual de fichas. La ficha preferida actualmente está rodeada con un círculo en la UI, pero tu preferencia personal nunca es visible para el otro jugador.\n* \"Elegir\" es una primera acción obligatoria para recolectar fichas de palo cuando una escritura paga en tu propio lanzamiento. (En todos los casos en los que necesites elegir una ficha de palo que aún no esté entre tus fichas, sigues haciendo clic en la pila de fichas correspondiente).\n\nDado que puedes realizar varias acciones durante un turno en cualquier orden, también hay una acción de \"Deshacer\" para revertir tu acción más reciente, independientemente de si se completó o no.\n\nTen en cuenta que solo se muestra el resultado final del dado de recursos, pero la distribución de los resultados esperados sigue siendo la de lanzar 2d10 y tomar el valor más alto. La tributación ocurre cuando el menor de los 2d10 resulta en 1; se lanza un dado de palo (o dos, en la variante de doble tributación), y los palos se mostrarán debajo del resultado de recursos. El lanzamiento se registra al final del turno de un jugador y se atribuye al siguiente jugador (quien habría lanzado en el juego físico). Salvo por un \"Elegir\", no se requiere ninguna acción del usuario; los recursos son añadidos o removidos automáticamente por el servidor entre turnos.\n\nCuando un jugador va a la cabeza en un distrito, el Peón o la Excusa para ese distrito se delinea con el color de ese jugador. La primera puntuación de desempate (valor total de la propiedad) se muestra entre paréntesis después de la puntuación del distrito. El segundo desempate es el número total de fichas restantes.",
     "mchess": "Si ha habido siete turnos consecutivos sin una captura, alguien puede \"pedir el reloj\" agregando un asterisco (*) al final de su movimiento. Esto solo se puede hacer seleccionando el movimiento de la lista desplegable. Después de otros siete turnos sin captura, la partida terminará y se puntuará.",
     "mirador": "Declarar consume todo tu turno. Completa primero tu conexión inexpugnable y luego declara en tu siguiente turno; no puedes colocar un mirador y declarar en el mismo turno.",
@@ -5424,6 +5440,12 @@
       "hide-controlled": {
         "description": "No resaltar celdas controladas ni piezas amenazadas para cada jugador.",
         "name": "Ocultar todos los indicadores de control"
+      }
+    },
+    "lyngk": {
+      "hide-stack-owner": {
+        "name": "Ocultar propietario de la pila",
+        "description": "No marcar el disco superior de las pilas que controlas."
       }
     },
     "margo": {

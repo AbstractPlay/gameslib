@@ -1763,6 +1763,50 @@
     "src": "A new sapling sprouted at {{where}}.",
     "out": "Ein neuer Setzling ist bei {{where}} gesprosst."
   },
+  "lyngk.CAPTURE.default": {
+    "src": "{{player}} captured a stack at {{where}}.",
+    "out": "{{player}} hat einen Stapel auf {{where}} geschlagen."
+  },
+  "lyngk.CLAIM.default": {
+    "src": "{{player}} claimed the {{colourName}} colour.",
+    "out": "{{player}} hat die Farbe {{colourName}} beansprucht."
+  },
+  "lyngk.COLOUR.1": {
+    "src": "red",
+    "out": "rot"
+  },
+  "lyngk.COLOUR.2": {
+    "src": "blue",
+    "out": "blau"
+  },
+  "lyngk.COLOUR.3": {
+    "src": "green",
+    "out": "grün"
+  },
+  "lyngk.COLOUR.4": {
+    "src": "yellow",
+    "out": "gelb"
+  },
+  "lyngk.COLOUR.5": {
+    "src": "purple",
+    "out": "violett"
+  },
+  "lyngk.EOG.draw": {
+    "src": "The game is a draw.",
+    "out": "Das Spiel endet unentschieden."
+  },
+  "lyngk.EOG.score": {
+    "src": "{{player}} wins with {{count}} captured stacks.",
+    "out": "{{player}} gewinnt mit {{count}} geschlagenen Stapeln."
+  },
+  "lyngk.EOG.tiebreak": {
+    "src": "{{player}} wins on tiebreak.",
+    "out": "{{player}} gewinnt durch Feinwertung."
+  },
+  "lyngk.MOVE.default": {
+    "src": "{{player}} moved {{cells}}.",
+    "out": "{{player}} hat {{cells}} gezogen."
+  },
   "magnate.ADD_one": {
     "src": "{{player}} added one token to their deeded card {{where}}.",
     "out": "{{player}} hat einen Marker auf der Urkundenkarte {{where}} hinzugefügt."

@@ -1072,6 +1072,29 @@
       "spawn": "Brotó un nuevo retoño en {{where}}."
     }
   },
+  "lyngk": {
+    "COLOUR": {
+      "1": "rojo",
+      "2": "azul",
+      "3": "verde",
+      "4": "amarillo",
+      "5": "morado"
+    },
+    "CLAIM": {
+      "default": "{{player}} reclamó el color {{colourName}}."
+    },
+    "MOVE": {
+      "default": "{{player}} movió {{cells}}."
+    },
+    "CAPTURE": {
+      "default": "{{player}} capturó una pila en {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} gana con {{count}} pilas capturadas.",
+      "tiebreak": "{{player}} gana por desempate.",
+      "draw": "La partida terminó en empate."
+    }
+  },
   "magnate": {
     "ADD_one": "{{player}} agregó una ficha a su carta de propiedad {{where}}.",
     "ADD_other": "{{player}} agregó {{count}} fichas a su carta de propiedad {{where}}.",

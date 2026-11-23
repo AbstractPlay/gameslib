@@ -695,6 +695,10 @@
     "lielow": {
       "MOVESUNTILSUICIDE": "Züge bis zum Selbstmord"
     },
+    "lyngk": {
+      "CLAIMED": "Beanspruchte Farben",
+      "CAPTURED": "Geschlagene Stapel"
+    },
     "meg": {
       "OFFENSE": "Angreifender Spieler",
       "COUNTDOWN": "Verbleibende Halbzüge"
@@ -2509,6 +2513,16 @@
       "INSUFFICIENT_LOS": "Es sind {{count}} Richtungen mit Sichtlinie erforderlich, um das Feld auf {{cell}} zu schlagen.",
       "CAPTURE4PLACE": "Du hast dem Feld ein 'x' angehängt, um ein Schlagen anzuzeigen, aber dies ist kein Schlagzug. Versuche '{{cell}}'.",
       "OPPONENT_CONTROLLED": "Das Feld bei {{where}} wird von deinem Gegner kontrolliert."
+    },
+    "lyngk": {
+      "INITIAL_INSTRUCTIONS": "Klicke auf einen von dir kontrollierten Stapel und anschließend auf Zielfelder entlang einer Linie. Optional kannst du zuerst eine Farbe aus dem Vorrat beanspruchen.",
+      "NO_PASS": "Du musst einen Zug auf dem Spielbrett machen, wenn ein Zug möglich ist.",
+      "MUST_PASS": "Du hast keinen gültigen Zug; du passt automatisch.",
+      "INVALID_MOVE": "Dieser Zug ist nicht erlaubt.",
+      "INVALID_CLAIM": "Du kannst diese Farbe nicht beanspruchen.",
+      "CLAIM_WITHOUT_MOVE": "Das Beanspruchen einer Farbe erfordert im selben Spielzug einen Zug auf dem Spielbrett.",
+      "CLAIM_WITH_PASS": "Du kannst keine Farbe beanspruchen, wenn du passt.",
+      "RESERVE_LABEL": "Unbeanspruchte Farben"
     },
     "magnate": {
       "BUTTON_INSTRUCTIONS": "Klicke auf einen Button, um deine nächste Aktion auszuwählen.",
@@ -4506,6 +4520,7 @@
     "loa": "Ein Klassiker, bei dem Sie versuchen, all Ihre Steine in einer einzigen zusammenhängenden Gruppe zu vereinen. Steine können sich nur genau so viele Felder weit bewegen, wie Steine entlang der Bewegungslinie liegen. Die Startaufstellungsvariante \"Scrambled Eggs\" wird unterstützt.",
     "logger": "Ein Looney-Pyramids-Spiel, bei dem die Spieler versuchen, mehr Bäume als ihre Gegner zu züchten und zu ernten.",
     "lox": "Hex-Verbindungsspiel mit Schlagmechanik, inspiriert von Tumbleweed. Ein Feld wird von einem Spieler kontrolliert, wenn es mehr Sichtlinien zu den Steinen des Spielers hat als die Hälfte seiner Nachbarfelder. Wenn sich ein gegnerischer Stein auf einem von Ihnen kontrollierten Feld befindet, können Sie ihn in Ihrem Zug schlagen, indem Sie ihn durch Ihren eigenen Stein ersetzen. Der Spieler, der zu Beginn seines Zugs eine feste Verbindung zwischen seinen zwei Seiten hat, gewinnt.",
+    "lyngk": "Beanspruche zwei von fünf Farben, stapel und verschiebe Spielsteine auf einem Sechseck-Spielbrett, verbinde Züge über deine Farbe mit der LYNGK-Regel und erziele Punkte durch das Schlagen vollständiger Fünferstapel.",
     "magnate": "Ein Wirtschaftsspiel für das Decktet, bei dem die Spieler durch das Entwickeln von Kartenreihen um die Kontrolle von fünf Bezirken wetteifern. Höherwertige Karten kosten mehr, tragen aber mehr zu Ihrem Einkommen (selbst wenn sie nur teilweise entwickelt sind) und Ihrer Punktzahl bei. Die (steuerbare) Währung des Landes sind Farbmarker, die durch den Verkauf unerwünschter Karten gesammelt oder durch Würfeln bei teilweise oder vollständig entwickelten Karten verdient werden, ähnlich wie in Catan.",
     "majorities": "Ein Spiel der Mehrheiten. Eine Mehrheit an Steinen in einer Linie gewinnt diese Linie. Eine Mehrheit paralleler Linien in einer Richtung gewinnt diese Richtung. Eine Mehrheit der Richtungen gewinnt das Spiel. Der erste Spieler platziert einen Stein, danach platziert jeder Spieler zwei Steine pro Zug.",
     "manalath": "Manalath ist ein Spiel auf einem Sechseckgitter, bei dem Sie Steine beider Farben platzieren können. Sie gewinnen, wenn am Ende Ihres Zugs eine Gruppe von fünf Steinen Ihrer Farbe existiert, aber Sie *verlieren*, wenn eine Gruppe von vier Steinen Ihrer Farbe entsteht. Wie werden Sie das anstellen?!",
@@ -5023,6 +5038,7 @@
     "lielow": "\"Züge bis zum Selbstmord\" summiert für jeden Spieler auf, wie viele Züge jeder seiner Stapel noch machen könnte — wobei er mit jedem Zug um eins wächst und immer die Richtung wählt, die am längsten überlebt — bevor er gezwungen ist, abgetragen zu werden. Es ignoriert jeden anderen Stapel auf dem Brett, ob eigene oder gegnerische, daher ist es ein grobes Maß dafür, wie exponiert die Steine eines Spielers sind, und keine Zählung der tatsächlich verbleibenden legalen Züge.",
     "linage": "Linage ist ein Spiel aus dem Jahr 2016 von Luis Bolaños Mures. Das Spiel basiert auf folgenden Definitionen: Eine **Region** ist eine maximale Menge orthogonal zusammenhängender leerer Punkte. Eine **Linie** ist eine Menge von N orthogonal zusammenhängenden leeren Punkten in derselben Reihe oder Spalte (Standard ist N=3); eine Region gehört **Vertikal**, wenn sie keine horizontalen Linien enthält, und **Horizontal**, wenn sie keine vertikalen Linien enthält. Eine Region ist frei, wenn sie keinem der beiden Spieler gehört. Regionen müssen immer mindestens eine Linie enthalten.\n\nIn seinem Zug passt der Spieler oder platziert einen Stein in einer freien Region. Das Spiel endet, wenn beide Spieler nacheinander passen, und es gewinnt derjenige mit der höchsten Punktzahl (d. h. die Anzahl der Punkte in den Regionen, die dem Spieler gehören, plus Komi).",
     "loa": "In der Mitte des 9x9-Spielfelds befindet sich ein \"schwarzes Loch\". Die Landung auf dem schwarzen Loch bedeutet, dass der Stein aus dem Spiel entfernt wird. Gleichzeitige Verbindungen werden als Unentschieden gewertet.",
+    "lyngk": "Für das Beanspruchen werden im Zugprotokoll und Chat die Palettennummern 1–5 verwendet (optionales Präfix für das Beanspruchen, dann ein Komma, gefolgt von der Feldkette, z. B. `4,e7-d8`). Standardmäßig ist 1 Rot, 2 Blau, 3 Grün, 4 Gelb und 5 Violett. Joker entsprechen Palette 6 (standardmäßig ein Punktmuster) und werden nicht beansprucht. Eine aktive Farbe bleibt das gesamte Spiel über neutral.",
     "magnate": "Die Terminologie einiger Magnate-Aktionen wurde zur Klarheit und Kürze geändert. Das vollständige Bebauen eines neuen Grundstücks wird als Aktion \"Kaufen\" bezeichnet; der Kauf einer Urkunde für ein neues Grundstück wird als \"Urkunde\" bezeichnet, das Bebauen von Urkunden (also das Hinzufügen von Spielsteinen zu einem Grundstück mit Urkunde, unabhängig davon, ob die Urkunde dadurch vollständig bebaut ist oder nicht) wird als \"Hinzufügen\" bezeichnet. (Das Verkaufen einer Karte und das Tauschen von Farbsymbolen 3 gegen 1 sind unverändert.)\n\nUm den Prozess des Würfelns nach Ressourcen zu beschleunigen, gibt es zwei zusätzliche Aktionen:\n* \"Bevorzugen\" dient zum Festlegen deiner Prämisse, welches Farbsymbol du nehmen möchtest, wenn eine Urkunde beim Wurf deines Gegners auszahlt. Wenn du keine explizite Präferenz festlegst, wählt der Code das seltenere Symbol für dich aus, basierend auf deinen Nicht-Kronen-Farben und deinem aktuellen Symbolvorrat. Das derzeit bevorzugte Symbol ist in der Benutzeroberfläche eingekreist, aber deine persönliche Präferenz ist für den anderen Spieler nie sichtbar.\n* \"Wählen\" ist eine obligatorische erste Aktion zum Sammeln von Farbsymbolen, wenn eine Urkunde bei deinem eigenen Wurf auszahlt. (In allen Fällen, in denen du ein Farbsymbol wählen musst, das sich noch nicht unter deinen Symbolen befindet, klickst du weiterhin auf den entsprechenden Symbolstapel.)\n\nDa du während eines Halbzugs mehrere Aktionen in beliebiger Reihenfolge ausführen kannst, gibt es auch eine Aktion \"Rückgängig\", um deine letzte Aktion zurückzunehmen, unabhängig davon, ob sie abgeschlossen war oder nicht.\n\nBeachte, dass nur das Endergebnis des Ressourcenwürfels angezeigt wird, die Verteilung der erwarteten Ergebnisse jedoch weiterhin der des Würfelns von 2d10 und dem Nehmen des höheren Werts entspricht. Besteuern findet statt, wenn der niedrigere von 2d10 eine 1 ist; ein Farbwürfel wird gewürfelt (oder zwei in der Doppelbesteuerungs-Variante), und die Farben werden unter dem Ressourcenergebnis angezeigt. Der Wurf wird am Ende des Zugs eines Spielers protokolliert und dem nächsten Spieler zugeschrieben (der im physischen Spiel gewürfelt hätte). Außer einem \"Wählen\" ist keine Benutzeraktion erforderlich; Ressourcen werden vom Server zwischen den Zügen automatisch hinzugefügt oder entfernt.\n\nWenn ein Spieler in einem Distrikt führt, ist die Figur oder die Ausrede (Excuse) für diesen Distrikt in der Farbe dieses Spielers umrandet. Die erste Gleichstandspunktzahl (Gesamtwert der Grundstücke) wird in Klammern nach der Distriktpunktzahl angezeigt. Der zweite Gleichstandsentscheid ist die Gesamtzahl der verbleibenden Spielsteine.",
     "mchess": "Wenn sieben aufeinanderfolgende Züge lang kein Stein geschlagen wurde, kann jemand \"die Uhr aufrufen\", indem er am Ende seines Zugs ein Sternchen (*) hinzufügt. Dies kann nur durch Auswahl des Zugs aus der Dropdown-Liste erfolgen. Nach weiteren sieben Zügen ohne Schlagzug endet das Spiel und wird gewertet.",
     "mirador": "Das Deklarieren verbraucht deinen gesamten Zug. Stelle zuerst deine unangreifbare Verbindung fertig und deklariere erst in deinem nächsten Zug; du kannst nicht im selben Zug einen Mirador setzen und deklarieren.",
@@ -5424,6 +5440,12 @@
       "hide-controlled": {
         "description": "Kontrollierte Felder oder bedrohte Figuren für die Spieler nicht hervorheben.",
         "name": "Alle Kontrollindikatoren ausblenden"
+      }
+    },
+    "lyngk": {
+      "hide-stack-owner": {
+        "name": "Stapelbesitzer verbergen",
+        "description": "Die oberste Scheibe von Stapeln, die du kontrollierst, nicht markieren."
       }
     },
     "margo": {

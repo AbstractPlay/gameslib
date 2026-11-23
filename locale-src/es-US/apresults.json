@@ -1763,6 +1763,50 @@
     "src": "A new sapling sprouted at {{where}}.",
     "out": "Brotó un nuevo retoño en {{where}}."
   },
+  "lyngk.CAPTURE.default": {
+    "src": "{{player}} captured a stack at {{where}}.",
+    "out": "{{player}} capturó una pila en {{where}}."
+  },
+  "lyngk.CLAIM.default": {
+    "src": "{{player}} claimed the {{colourName}} colour.",
+    "out": "{{player}} reclamó el color {{colourName}}."
+  },
+  "lyngk.COLOUR.1": {
+    "src": "red",
+    "out": "rojo"
+  },
+  "lyngk.COLOUR.2": {
+    "src": "blue",
+    "out": "azul"
+  },
+  "lyngk.COLOUR.3": {
+    "src": "green",
+    "out": "verde"
+  },
+  "lyngk.COLOUR.4": {
+    "src": "yellow",
+    "out": "amarillo"
+  },
+  "lyngk.COLOUR.5": {
+    "src": "purple",
+    "out": "morado"
+  },
+  "lyngk.EOG.draw": {
+    "src": "The game is a draw.",
+    "out": "La partida terminó en empate."
+  },
+  "lyngk.EOG.score": {
+    "src": "{{player}} wins with {{count}} captured stacks.",
+    "out": "{{player}} gana con {{count}} pilas capturadas."
+  },
+  "lyngk.EOG.tiebreak": {
+    "src": "{{player}} wins on tiebreak.",
+    "out": "{{player}} gana por desempate."
+  },
+  "lyngk.MOVE.default": {
+    "src": "{{player}} moved {{cells}}.",
+    "out": "{{player}} movió {{cells}}."
+  },
   "magnate.ADD_one": {
     "src": "{{player}} added one token to their deeded card {{where}}.",
     "out": "{{player}} agregó una ficha a su carta de propiedad {{where}}."

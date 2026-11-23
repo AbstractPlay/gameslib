@@ -4430,7 +4430,57 @@
       "newLeaf": "default",
       "newPath": "lyngk.CLAIM.default",
       "newFullKey": "apresults:lyngk.CLAIM.default",
-      "english": "{{player}} claimed colour {{colour}}."
+      "english": "{{player}} claimed the {{colourName}} colour."
+    },
+    {
+      "oldPath": "COLOUR.lyngk_1",
+      "oldFullKey": "apresults:COLOUR.lyngk_1",
+      "uid": "lyngk",
+      "resultType": "COLOUR",
+      "newLeaf": "1",
+      "newPath": "lyngk.COLOUR.1",
+      "newFullKey": "apresults:lyngk.COLOUR.1",
+      "english": "red"
+    },
+    {
+      "oldPath": "COLOUR.lyngk_2",
+      "oldFullKey": "apresults:COLOUR.lyngk_2",
+      "uid": "lyngk",
+      "resultType": "COLOUR",
+      "newLeaf": "2",
+      "newPath": "lyngk.COLOUR.2",
+      "newFullKey": "apresults:lyngk.COLOUR.2",
+      "english": "blue"
+    },
+    {
+      "oldPath": "COLOUR.lyngk_3",
+      "oldFullKey": "apresults:COLOUR.lyngk_3",
+      "uid": "lyngk",
+      "resultType": "COLOUR",
+      "newLeaf": "3",
+      "newPath": "lyngk.COLOUR.3",
+      "newFullKey": "apresults:lyngk.COLOUR.3",
+      "english": "green"
+    },
+    {
+      "oldPath": "COLOUR.lyngk_4",
+      "oldFullKey": "apresults:COLOUR.lyngk_4",
+      "uid": "lyngk",
+      "resultType": "COLOUR",
+      "newLeaf": "4",
+      "newPath": "lyngk.COLOUR.4",
+      "newFullKey": "apresults:lyngk.COLOUR.4",
+      "english": "yellow"
+    },
+    {
+      "oldPath": "COLOUR.lyngk_5",
+      "oldFullKey": "apresults:COLOUR.lyngk_5",
+      "uid": "lyngk",
+      "resultType": "COLOUR",
+      "newLeaf": "5",
+      "newPath": "lyngk.COLOUR.5",
+      "newFullKey": "apresults:lyngk.COLOUR.5",
+      "english": "purple"
     },
     {
       "oldPath": "EOG.lyngk_draw",

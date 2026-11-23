@@ -1763,6 +1763,50 @@
     "src": "A new sapling sprouted at {{where}}.",
     "out": "Un jeune arbre a poussé en {{where}}."
   },
+  "lyngk.CAPTURE.default": {
+    "src": "{{player}} captured a stack at {{where}}.",
+    "out": "{{player}} a capturé une pile en {{where}}."
+  },
+  "lyngk.CLAIM.default": {
+    "src": "{{player}} claimed the {{colourName}} colour.",
+    "out": "{{player}} a revendiqué la couleur {{colourName}}."
+  },
+  "lyngk.COLOUR.1": {
+    "src": "red",
+    "out": "rouge"
+  },
+  "lyngk.COLOUR.2": {
+    "src": "blue",
+    "out": "bleu"
+  },
+  "lyngk.COLOUR.3": {
+    "src": "green",
+    "out": "vert"
+  },
+  "lyngk.COLOUR.4": {
+    "src": "yellow",
+    "out": "jaune"
+  },
+  "lyngk.COLOUR.5": {
+    "src": "purple",
+    "out": "violet"
+  },
+  "lyngk.EOG.draw": {
+    "src": "The game is a draw.",
+    "out": "La partie est nulle."
+  },
+  "lyngk.EOG.score": {
+    "src": "{{player}} wins with {{count}} captured stacks.",
+    "out": "{{player}} gagne avec {{count}} piles capturées."
+  },
+  "lyngk.EOG.tiebreak": {
+    "src": "{{player}} wins on tiebreak.",
+    "out": "{{player}} gagne au départage."
+  },
+  "lyngk.MOVE.default": {
+    "src": "{{player}} moved {{cells}}.",
+    "out": "{{player}} a déplacé {{cells}}."
+  },
   "magnate.ADD_one": {
     "src": "{{player}} added one token to their deeded card {{where}}.",
     "out": "{{player}} a ajouté un jeton sur sa carte de propriété {{where}}."

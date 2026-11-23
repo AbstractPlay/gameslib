@@ -1072,6 +1072,29 @@
       "spawn": "Un nuovo germoglio è spuntato in {{where}}."
     }
   },
+  "lyngk": {
+    "COLOUR": {
+      "1": "rosso",
+      "2": "blu",
+      "3": "verde",
+      "4": "giallo",
+      "5": "viola"
+    },
+    "CLAIM": {
+      "default": "{{player}} ha rivendicato il colore {{colourName}}."
+    },
+    "MOVE": {
+      "default": "{{player}} ha mosso {{cells}}."
+    },
+    "CAPTURE": {
+      "default": "{{player}} ha catturato una pila in {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} vince con {{count}} pile catturate.",
+      "tiebreak": "{{player}} vince allo spareggio.",
+      "draw": "La partita termina in parità."
+    }
+  },
   "magnate": {
     "ADD_one": "{{player}} ha aggiunto un segnalino alla sua carta di proprietà {{where}}.",
     "ADD_other": "{{player}} ha aggiunto {{count}} segnalini alla sua carta di proprietà {{where}}.",

@@ -1072,6 +1072,29 @@
       "spawn": "Un jeune arbre a poussé en {{where}}."
     }
   },
+  "lyngk": {
+    "COLOUR": {
+      "1": "rouge",
+      "2": "bleu",
+      "3": "vert",
+      "4": "jaune",
+      "5": "violet"
+    },
+    "CLAIM": {
+      "default": "{{player}} a revendiqué la couleur {{colourName}}."
+    },
+    "MOVE": {
+      "default": "{{player}} a déplacé {{cells}}."
+    },
+    "CAPTURE": {
+      "default": "{{player}} a capturé une pile en {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} gagne avec {{count}} piles capturées.",
+      "tiebreak": "{{player}} gagne au départage.",
+      "draw": "La partie est nulle."
+    }
+  },
   "magnate": {
     "ADD_one": "{{player}} a ajouté un jeton sur sa carte de propriété {{where}}.",
     "ADD_other": "{{player}} a ajouté {{count}} jetons sur sa carte de propriété {{where}}.",

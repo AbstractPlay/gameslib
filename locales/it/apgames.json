@@ -695,6 +695,10 @@
     "lielow": {
       "MOVESUNTILSUICIDE": "Mosse fino al suicidio"
     },
+    "lyngk": {
+      "CLAIMED": "Colori rivendicati",
+      "CAPTURED": "Pile catturate"
+    },
     "meg": {
       "OFFENSE": "Giocatore in attacco",
       "COUNTDOWN": "Mosse rimanenti"
@@ -2509,6 +2513,16 @@
       "INSUFFICIENT_LOS": "Sono necessarie {{count}} direzioni con linea di vista per catturare la casella in {{cell}}.",
       "CAPTURE4PLACE": "Hai aggiunto il suffisso 'x' alla casella per indicare una cattura, ma questa non è una mossa di cattura. Prova '{{cell}}'.",
       "OPPONENT_CONTROLLED": "La casella in {{where}} è controllata dal tuo avversario."
+    },
+    "lyngk": {
+      "INITIAL_INSTRUCTIONS": "Fai clic su una pila che controlli, poi fai clic sulle destinazioni lungo una linea. In alternativa, puoi prima rivendicare un colore dalla riserva.",
+      "NO_PASS": "Devi effettuare una mossa sulla plancia quando ce n'è una disponibile.",
+      "MUST_PASS": "Non hai mosse valide; il tuo turno passerà automaticamente.",
+      "INVALID_MOVE": "Questa mossa non è valida.",
+      "INVALID_CLAIM": "Non puoi rivendicare quel colore.",
+      "CLAIM_WITHOUT_MOVE": "Rivendicare un colore richiede una mossa sulla plancia nello stesso turno.",
+      "CLAIM_WITH_PASS": "Non puoi rivendicare un colore quando passi.",
+      "RESERVE_LABEL": "Colori non rivendicati"
     },
     "magnate": {
       "BUTTON_INSTRUCTIONS": "Fai clic su un pulsante per selezionare la tua prossima azione.",
@@ -4506,6 +4520,7 @@
     "loa": "Un gioco classico in cui cerchi di raccogliere tutti i tuoi pezzi in un unico gruppo connesso. I pezzi possono muoversi solo dell'esatto numero di caselle pari al numero di pezzi presenti lungo la linea di movimento. È supportata la variante con la configurazione iniziale \"Uova Strapazzate\".",
     "logger": "Un gioco di piramidi Looney in cui i giocatori gareggiano per far crescere e raccogliere più alberi dei loro avversari.",
     "lox": "Un gioco di connessione esagonale con catture ispirato a Tumbleweed. Una casella è controllata da un giocatore se ha più linee di vista verso i pezzi del giocatore rispetto a metà del numero di vicini che possiede. Se un pezzo avversario si trova su una casella controllata da te, puoi catturarlo sostituendolo con un tuo pezzo durante il tuo turno. Il giocatore che possiede una connessione solida tra i suoi due lati all'inizio del proprio turno vince.",
+    "lyngk": "Rivendica due dei cinque colori, impila e fai scorrere i pezzi su una plancia esagonale, crea catene passando per il tuo colore con la regola LYNGK e segna punti catturando le pile completate di cinque pezzi.",
     "magnate": "Un gioco economico per Decktet in cui i giocatori gareggiano per il controllo di cinque quartieri sviluppando sequenze di carte. Le carte di rango più alto costano di più, ma contribuiscono maggiormente alle tue entrate (anche se solo parzialmente sviluppate) e al tuo punteggio. La valuta (tassabile) del regno è rappresentata da gettoni seme, raccolti vendendo carte indesiderate o guadagnati da carte parzialmente o completamente sviluppate con un tiro di dadi, come in Catan.",
     "majorities": "Un gioco di maggioranze. La maggioranza dei pezzi su una linea vince quella linea. La maggioranza delle linee parallele in una direzione vince quella direzione. La maggioranza delle direzioni vince la partita. Il primo giocatore posiziona un pezzo e, successivamente, ogni giocatore posiziona due pezzi per turno.",
     "manalath": "Manalath è un gioco su griglia esagonale in cui puoi posizionare pezzi di entrambi i colori. Vinci se alla fine del tuo turno c'è un gruppo di cinque pezzi del tuo colore, ma *perdi* se c'è un gruppo di quattro pietre del tuo colore. Come farai a riuscirci?!",
@@ -5023,6 +5038,7 @@
     "lielow": "\"Mosse fino al suicidio\" calcola per ciascun giocatore quante mosse ciascuna delle sue pile potrebbe ancora compiere — crescendo di uno a ogni mossa e scegliendo sempre la direzione che sopravvive più a lungo — prima di essere costretta a uscire dal tabellone. Ignora ogni altra pila sul tabellone, amica o nemica, quindi è una misura approssimativa di quanto siano esposte le pedine di un giocatore, non un conteggio delle mosse legali effettivamente rimaste.",
     "linage": "Linage è un gioco del 2016 progettato da Luis Bolaños Mures. Il gioco si basa sulle seguenti definizioni: una **regione** è un insieme massimale di punti vuoti ortogonalmente contigui. Una **linea** è un insieme di N punti vuoti ortogonalmente contigui sulla stessa riga o colonna (il valore predefinito è N=3); e una regione è di **proprietà** di Verticale se non contiene linee orizzontali, e di Orizzontale se non contiene linee verticali. Una regione è libera se non appartiene a nessuno dei due giocatori. Le regioni devono sempre contenere almeno una linea.\n\nNel proprio turno, il giocatore passa o posiziona una pedina in una regione libera. La partita termina quando entrambi i giocatori passano consecutivamente, e vince chi ha il punteggio più alto (ovvero il numero di punti nelle regioni possedute dal giocatore, più il komi).",
     "loa": "Al centro del tabellone 9x9 c'è un \"buco nero\". Atterrare sul buco nero comporta la rimozione del pezzo dal gioco. Le connessioni simultanee sono considerate una patta.",
+    "lyngk": "La rivendicazione utilizza i numeri della tavolozza 1–5 nel registro delle mosse e nella chat (prefisso di rivendicazione opzionale, seguito da una virgola, poi la sequenza di caselle, ad es. `4,e7-d8`). Per impostazione predefinita, 1 è rosso, 2 è blu, 3 è verde, 4 è giallo e 5 è viola. I Jolly corrispondono alla tavolozza 6 (motivo a punti per impostazione predefinita) e non vengono rivendicati. Un colore attivo rimane neutrale per tutta la partita.",
     "magnate": "La terminologia di alcune azioni di Magnate è stata modificata per chiarezza e brevità. Lo sviluppo completo di una nuova proprietà è chiamato azione \"Acquista\" (Buy); l'acquisto del titolo di proprietà per una nuova proprietà è chiamato \"Atto\" (Deed); lo sviluppo dei titoli (ovvero l'aggiunta di segnalini a una proprietà con atto, indipendentemente dal fatto che renda l'atto completamente sviluppato o meno) è chiamato \"Aggiungi\" (Add). (La vendita di una carta e lo scambio di 3 a 1 dei segnalini seme rimangono invariati.)\n\nPer velocizzare il processo di lancio dei dadi per le risorse, ci sono due azioni aggiuntive:\n* \"Preferisci\" serve a impostare la preferenza su quale segnalino seme prendere quando un atto paga sul lancio dell'avversario. Se non imposti una preferenza esplicita, il codice sceglierà per te il segnalino più raro in base ai tuoi semi non-corona e alla tua riserva attuale di segnalini. Il segnalino attualmente preferito è cerchiato nell'interfaccia, ma la tua preferenza personale non è mai visibile all'altro giocatore.\n* \"Scegli\" è un'azione iniziale obbligatoria per raccogliere i segnalini seme quando un atto paga sul tuo stesso lancio. (In tutti i casi in cui devi scegliere un segnalino seme non ancora presente tra i tuoi segnalini, fai comunque clic sulla pila di segnalini appropriata.)\n\nPoiché puoi eseguire diverse azioni durante una semimossa in qualsiasi ordine, c'è anche un'azione \"Annulla\" per annullare l'azione più recente, indipendentemente dal fatto che fosse completa o meno.\n\nNota che viene visualizzato solo il risultato finale del dado risorsa, ma la distribuzione dei risultati attesi è comunque quella di un lancio di 2d10 prendendo il valore più alto. La tassazione avviene quando il valore più basso di 2d10 è 1; viene lanciato un dado seme (o due, nella variante a doppia tassazione) e i semi verranno mostrati sotto il risultato della risorsa. Il lancio viene registrato alla fine del turno di un giocatore ed è attribuito al giocatore successivo (che avrebbe lanciato il dado nel gioco fisico). A eccezione di \"Scegli\", non è richiesta alcuna azione dell'utente; le risorse vengono aggiunte o rimosse automaticamente dal server tra un turno e l'altro.\n\nQuando un giocatore è in vantaggio in un distretto, la Pedina o la Scusa per quel distretto è contornata con il colore di quel giocatore. Il primo punteggio di spareggio (valore totale della proprietà) è mostrato tra parentesi dopo il punteggio del distretto. Il secondo criterio di spareggio è il numero totale di segnalini rimanenti.",
     "mchess": "Se ci sono stati sette turni consecutivi senza alcuna cattura, qualcuno può \"chiamare l'orologio\" aggiungendo un asterisco (*) alla fine della propria mossa. Questo può essere fatto solo selezionando la mossa dall'elenco a discesa. Dopo altri sette turni senza catture, la partita terminerà e si procederà al calcolo del punteggio.",
     "mirador": "Dichiarare occupa l'intero turno. Completa prima la tua connessione inattaccabile, poi dichiara nel tuo turno successivo; non puoi posizionare un mirador e dichiarare nello stesso turno.",
@@ -5424,6 +5440,12 @@
       "hide-controlled": {
         "description": "Non evidenziare le caselle controllate o i pezzi minacciati per ciascun giocatore.",
         "name": "Nascondi tutti gli indicatori di controllo"
+      }
+    },
+    "lyngk": {
+      "hide-stack-owner": {
+        "name": "Nascondi proprietario della pila",
+        "description": "Non contrassegnare il disco superiore delle pile che controlli."
       }
     },
     "margo": {

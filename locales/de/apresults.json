@@ -1072,6 +1072,29 @@
       "spawn": "Ein neuer Setzling ist bei {{where}} gesprosst."
     }
   },
+  "lyngk": {
+    "COLOUR": {
+      "1": "rot",
+      "2": "blau",
+      "3": "grün",
+      "4": "gelb",
+      "5": "violett"
+    },
+    "CLAIM": {
+      "default": "{{player}} hat die Farbe {{colourName}} beansprucht."
+    },
+    "MOVE": {
+      "default": "{{player}} hat {{cells}} gezogen."
+    },
+    "CAPTURE": {
+      "default": "{{player}} hat einen Stapel auf {{where}} geschlagen."
+    },
+    "EOG": {
+      "score": "{{player}} gewinnt mit {{count}} geschlagenen Stapeln.",
+      "tiebreak": "{{player}} gewinnt durch Feinwertung.",
+      "draw": "Das Spiel endet unentschieden."
+    }
+  },
   "magnate": {
     "ADD_one": "{{player}} hat einen Marker auf der Urkundenkarte {{where}} hinzugefügt.",
     "ADD_other": "{{player}} hat {{count}} Marker auf der Urkundenkarte {{where}} hinzugefügt.",

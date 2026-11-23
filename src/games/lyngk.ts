@@ -109,8 +109,15 @@ export const gameApgamesEn = {
 };
 
 export const gameApresultsEn = {
+    COLOUR: {
+        "1": "red",
+        "2": "blue",
+        "3": "green",
+        "4": "yellow",
+        "5": "purple",
+    },
     CLAIM: {
-        default: "{{player}} claimed colour {{colour}}.",
+        default: "{{player}} claimed the {{colourName}} colour.",
     },
     MOVE: {
         default: "{{player}} moved {{cells}}.",
@@ -136,6 +143,8 @@ export class LyngkGame extends GameBase {
         dateAdded: "2026-11-23",
         description:
             "Claim two of five colours, stack and slide pieces on a hex board, chain through your colour with the LYNGK rule, and score by capturing completed stacks of five.",
+        notes:
+            "Claiming uses palette numbers 1–5 in the move log and chat (optional claim prefix, then a comma, then the cell chain, e.g. `4,e7-d8`). By default, 1 is red, 2 is blue, 3 is green, 4 is yellow, and 5 is purple. Jokers are palette 6 (dots pattern by default) and are not claimed. One active colour remains neutral for the whole game.",
         urls: [
             "https://www.gipf.com/",
             "https://boardgamegeek.com/boardgame/217083/lyngk",
@@ -719,9 +728,10 @@ export class LyngkGame extends GameBase {
         switch (r.type) {
             case "claim": {
                 const seat = (r.who ?? ctx.defaultSeat) as playerid;
+                const n = r.count as ActiveColour;
                 this.pushSeatChatLine(lines, seat, "apresults:lyngk.CLAIM.default", {
                     player: chatPlayerToken(seat),
-                    colour: r.count,
+                    colourName: String(i18next.t(`apresults:lyngk.COLOUR.${n}`)),
                 });
                 return true;
             }

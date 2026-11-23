@@ -10,6 +10,7 @@ import {
 } from "./_base.js";
 import { GameBaseSequenced } from "./_turn-sequenced.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
+import { type FlagContext, type GameFlag } from "./_base.js";
 import type { APRenderRep, Colourfuncs, Glyph, RowCol } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError } from "../common/index.js";
@@ -19,14 +20,18 @@ import {
   allLegalMoves,
   applyStackMove,
   cloneBoard,
+  isSurrounded,
   legalDestinations,
   removeIsolated,
 } from "./dvonn/move.js";
 import { parsePlayMove, parseSetupPlace } from "./dvonn/notation.js";
 import {
+  buildRandomSetupBoard,
   cloneReserves,
+  emptyReserves,
   initialReserves,
   reserveForDisc,
+  serializeBoard,
   setupComplete,
   setupDisc,
   stackFromDisc,
@@ -41,6 +46,7 @@ import {
   type playerid,
   type Reserves,
   type StackDisc,
+  isDvonnDisc,
 } from "./dvonn/types.js";
 import { bothImmobilized, controlledPieceCount, resolveWinner } from "./dvonn/win.js";
 
@@ -84,10 +90,10 @@ function dvonnPieceLegend(fill: Colourfuncs): [Glyph, Glyph] {
 }
 
 function discGlyph(disc: StackDisc): string {
-  if (disc.kind === "dvonn") {
+  if (isDvonnDisc(disc)) {
     return "D";
   }
-  return disc.owner === 1 ? "W" : "X";
+  return disc === 1 ? "W" : "X";
 }
 
 function stackGlyphs(pieces: StackDisc[]): string[] {
@@ -104,10 +110,17 @@ export const gameApgamesEn = {
     EMPTY: "There is no stack at {{where}}.",
     NOT_YOUR_STACK: "You may only move a stack you control.",
     INVALID_MOVE: "That slide is not legal.",
+    SURROUNDED: "Stacks that are surrounded on six sides may not move.",
     WRONG_SETUP_PIECE: "That is not the next piece due in the setup sequence.",
   },
   status: {
     CONTROLLED: "Controlled pieces",
+  },
+  variants: {
+    quickstart: {
+      name: "Quick start",
+      description: "The full setup is dealt at random; player 1 moves first.",
+    },
   },
 };
 
@@ -167,7 +180,7 @@ export class DvonnGame extends GameBaseSequenced {
         apid: "124dd3ce-b309-4d14-9c8e-856e56241dfe",
       },
     ],
-    variants: [],
+    variants: [{ uid: "quickstart" }],
     customizations: [
       { num: 1, default: GIPF_P1, explanation: "Player 1 basic piece fill", player: 1 },
       { num: 2, default: GIPF_P2, explanation: "Player 2 basic piece fill", player: 2 },
@@ -188,6 +201,14 @@ export class DvonnGame extends GameBaseSequenced {
     flags: ["custom-colours", "automove", "scores", "experimental"],
   };
 
+  public static resolveFlags(context: FlagContext = {}): readonly GameFlag[] {
+    const flags: GameFlag[] = [...(this.gameinfo.flags ?? [])];
+    if (context.variants?.includes("quickstart")) {
+      flags.push("random-start");
+    }
+    return flags;
+  }
+
   public readonly graph = new DvonnGraph();
   public numplayers = 2;
   public currplayer: playerid = 1;
@@ -207,14 +228,15 @@ export class DvonnGame extends GameBaseSequenced {
       if (variants !== undefined) {
         this.variants = [...variants];
       }
+      const quickstart = this.isQuickstart();
       const fresh: IMoveState = {
         _version: DvonnGame.gameinfo.version,
         _results: [],
         _timestamp: new Date(),
         currplayer: 1,
-        phase: "setup",
-        board: new Map(),
-        reserves: initialReserves(),
+        phase: quickstart ? "play" : "setup",
+        board: quickstart ? buildRandomSetupBoard(this.graph, this.rng) : new Map(),
+        reserves: quickstart ? emptyReserves() : initialReserves(),
       };
       this.stack = [fresh];
     } else {
@@ -230,6 +252,14 @@ export class DvonnGame extends GameBaseSequenced {
       this.stack = [...state.stack];
     }
     this.load();
+  }
+
+  public isQuickstart(): boolean {
+    return this.variants.includes("quickstart");
+  }
+
+  public getStartingPosition(): string {
+    return serializeBoard(this.stack[0]!.board);
   }
 
   public load(idx = -1): DvonnGame {
@@ -253,6 +283,23 @@ export class DvonnGame extends GameBaseSequenced {
   private rowCol(cell: string): RowCol {
     const [col, row] = this.graph.algebraic2coords(cell);
     return { row, col };
+  }
+
+  private clearMoveHighlights(): void {
+    this.moveHighlights = [];
+  }
+
+  private syncMoveHighlightsFromMove(m: string): void {
+    this.clearMoveHighlights();
+    const fromOnly = /^([a-z]+\d+)-$/i.exec(m);
+    if (fromOnly === null) {
+      return;
+    }
+    const from = fromOnly[1]!.toLowerCase();
+    if (this.board.get(from)?.owner !== this.currplayer) {
+      return;
+    }
+    this.moveHighlights = legalDestinations(this.graph, this.board, from, this.currplayer);
   }
 
   private nextSetupDisc(): StackDisc {
@@ -294,8 +341,10 @@ export class DvonnGame extends GameBaseSequenced {
     }
     m = m.toLowerCase().replace(/\s+/g, "");
     if (m.length === 0) {
+      this.clearMoveHighlights();
       result.valid = true;
       result.complete = -1;
+      result.canrender = true;
       result.message = this.phase === "setup"
         ? i18next.t("apgames:validation.dvonn.INITIAL_INSTRUCTIONS_SETUP")
         : i18next.t("apgames:validation.dvonn.INITIAL_INSTRUCTIONS");
@@ -339,17 +388,25 @@ export class DvonnGame extends GameBaseSequenced {
       if (fromOnly !== null) {
         const from = fromOnly[1]!.toLowerCase();
         if (this.board.get(from)?.owner !== this.currplayer) {
+          this.clearMoveHighlights();
           result.message = i18next.t("apgames:validation.dvonn.NOT_YOUR_STACK");
           return result;
         }
         const dests = legalDestinations(this.graph, this.board, from, this.currplayer);
         if (dests.length === 0) {
-          result.message = i18next.t("apgames:validation.dvonn.INVALID_MOVE");
+          this.clearMoveHighlights();
+          if (isSurrounded(this.graph, this.board, from)) {
+            result.message = i18next.t("apgames:validation.dvonn.SURROUNDED");
+          } else {
+            result.message = i18next.t("apgames:validation.dvonn.INVALID_MOVE");
+          }
           return result;
         }
         result.valid = true;
         result.complete = 0;
+        result.canrender = true;
         result.message = i18next.t("apgames:validation.dvonn.INITIAL_INSTRUCTIONS");
+        this.syncMoveHighlightsFromMove(m);
         return result;
       }
       result.message = i18next.t("apgames:validation._general.INVALID_MOVE", { move: m });
@@ -418,17 +475,13 @@ export class DvonnGame extends GameBaseSequenced {
 
     if (partial) {
       if (this.phase === "play") {
-        const fromOnly = /^([a-z]+\d+)-$/i.exec(m);
-        if (fromOnly !== null) {
-          const from = fromOnly[1]!.toLowerCase();
-          this.moveHighlights = legalDestinations(this.graph, this.board, from, this.currplayer);
-        }
+        this.syncMoveHighlightsFromMove(m);
       }
       return this;
     }
 
     this.results = [];
-    this.moveHighlights = [];
+    this.clearMoveHighlights();
     const player = this.currplayer;
 
     if (this.phase === "setup") {
@@ -590,7 +643,7 @@ export class DvonnGame extends GameBaseSequenced {
       });
     }
     for (const r of this.results) {
-      if (r.type === "place" && r.where) {
+      if (r.type === "place" && r.where && this.phase === "setup") {
         const [x, y] = this.graph.algebraic2coords(r.where);
         rep.annotations!.push({
           type: "enter",

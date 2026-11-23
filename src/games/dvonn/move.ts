@@ -1,14 +1,15 @@
 import type { DvonnGraph } from "../../common/graphs/dvonn.js";
 import type { HexDir } from "../../common/graphs/hextri.js";
 import type { CellStack, playerid, StackDisc } from "./types.js";
+import { DVONN_DISC, isDvonnDisc, playerFromDisc } from "./types.js";
 
 const DIRS: HexDir[] = ["NE", "E", "SE", "SW", "W", "NW"];
 
 export function ownerFromPieces(pieces: StackDisc[]): playerid | undefined {
   for (let i = pieces.length - 1; i >= 0; i--) {
-    const p = pieces[i]!;
-    if (p.kind === "basic") {
-      return p.owner;
+    const owner = playerFromDisc(pieces[i]!);
+    if (owner !== undefined) {
+      return owner;
     }
   }
   return undefined;
@@ -23,11 +24,11 @@ export function stackHeight(stack: CellStack | undefined): number {
 }
 
 export function stackHasDvonn(stack: CellStack): boolean {
-  return stack.pieces.some((p) => p.kind === "dvonn");
+  return stack.pieces.some((p) => isDvonnDisc(p));
 }
 
 export function isBareDvonn(stack: CellStack): boolean {
-  return stack.pieces.length === 1 && stack.pieces[0]!.kind === "dvonn";
+  return stack.pieces.length === 1 && stack.pieces[0] === DVONN_DISC;
 }
 
 export function isSurrounded(graph: DvonnGraph, board: Map<string, CellStack>, cell: string): boolean {

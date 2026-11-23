@@ -1816,6 +1816,7 @@
       "EMPTY": "There is no stack at {{where}}.",
       "NOT_YOUR_STACK": "You may only move a stack you control.",
       "INVALID_MOVE": "That slide is not legal.",
+      "SURROUNDED": "Stacks that are surrounded on six sides may not move.",
       "WRONG_SETUP_PIECE": "That is not the next piece due in the setup sequence."
     },
     "elOso": {
@@ -6884,6 +6885,12 @@
       },
       "#ruleset": {
         "name": "Default ruleset"
+      }
+    },
+    "dvonn": {
+      "quickstart": {
+        "name": "Quick start",
+        "description": "The full setup is dealt at random; player 1 moves first."
       }
     },
     "emu": {

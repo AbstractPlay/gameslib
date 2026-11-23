@@ -9131,6 +9131,10 @@
     "src": "That intersection is already occupied.",
     "out": "Cette intersection est déjà occupée."
   },
+  "validation.dvonn.SURROUNDED": {
+    "src": "Stacks that are surrounded on six sides may not move.",
+    "out": "Les piles entourées sur leurs six côtés ne peuvent pas se déplacer."
+  },
   "validation.dvonn.WRONG_SETUP_PIECE": {
     "src": "That is not the next piece due in the setup sequence.",
     "out": "Ce n'est pas la pièce suivante attendue dans la séquence de mise en place."
@@ -19158,6 +19162,14 @@
   "variants.druid.y-9.name": {
     "src": "Druid's Y (size 9)",
     "out": "Druid's Y (taille 9)"
+  },
+  "variants.dvonn.quickstart.description": {
+    "src": "The full setup is dealt at random; player 1 moves first.",
+    "out": "La mise en place complète est distribuée au hasard ; le joueur 1 commence."
+  },
+  "variants.dvonn.quickstart.name": {
+    "src": "Quick start",
+    "out": "Départ rapide"
   },
   "variants.emu.#deck.name": {
     "src": "Excuse + Pawns (default)",

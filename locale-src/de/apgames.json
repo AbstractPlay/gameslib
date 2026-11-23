@@ -9131,6 +9131,10 @@
     "src": "That intersection is already occupied.",
     "out": "Dieser Schnittpunkt ist bereits besetzt."
   },
+  "validation.dvonn.SURROUNDED": {
+    "src": "Stacks that are surrounded on six sides may not move.",
+    "out": "Stapel, die an allen sechs Seiten umgeben sind, dürfen nicht bewegt werden."
+  },
   "validation.dvonn.WRONG_SETUP_PIECE": {
     "src": "That is not the next piece due in the setup sequence.",
     "out": "Das ist nicht der nächste Stein in der Aufstellungsreihenfolge."
@@ -19158,6 +19162,14 @@
   "variants.druid.y-9.name": {
     "src": "Druid's Y (size 9)",
     "out": "Druids Y (Größe 9)"
+  },
+  "variants.dvonn.quickstart.description": {
+    "src": "The full setup is dealt at random; player 1 moves first.",
+    "out": "Der komplette Aufbau wird zufällig verteilt; Spieler 1 zieht zuerst."
+  },
+  "variants.dvonn.quickstart.name": {
+    "src": "Quick start",
+    "out": "Schnellstart"
   },
   "variants.emu.#deck.name": {
     "src": "Excuse + Pawns (default)",

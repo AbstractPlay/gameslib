@@ -1816,6 +1816,7 @@
       "EMPTY": "Auf {{where}} befindet sich kein Stapel.",
       "NOT_YOUR_STACK": "Du darfst nur Stapel bewegen, die du kontrollierst.",
       "INVALID_MOVE": "Dieser Zug ist nicht zulässig.",
+      "SURROUNDED": "Stapel, die an allen sechs Seiten umgeben sind, dürfen nicht bewegt werden.",
       "WRONG_SETUP_PIECE": "Das ist nicht der nächste Stein in der Aufstellungsreihenfolge."
     },
     "elOso": {
@@ -6884,6 +6885,12 @@
       },
       "#ruleset": {
         "name": "Standard-Regelwerk"
+      }
+    },
+    "dvonn": {
+      "quickstart": {
+        "name": "Schnellstart",
+        "description": "Der komplette Aufbau wird zufällig verteilt; Spieler 1 zieht zuerst."
       }
     },
     "emu": {

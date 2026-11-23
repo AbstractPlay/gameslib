@@ -1816,6 +1816,7 @@
       "EMPTY": "Non c'è alcuna pila in {{where}}.",
       "NOT_YOUR_STACK": "Puoi muovere solo una pila che controlli.",
       "INVALID_MOVE": "Questo scorrimento non è valido.",
+      "SURROUNDED": "Le pile circondate su sei lati non possono muoversi.",
       "WRONG_SETUP_PIECE": "Questo non è il pezzo successivo previsto nella sequenza di posizionamento."
     },
     "elOso": {
@@ -6884,6 +6885,12 @@
       },
       "#ruleset": {
         "name": "Set di regole predefinito"
+      }
+    },
+    "dvonn": {
+      "quickstart": {
+        "name": "Inizio rapido",
+        "description": "La disposizione iniziale viene distribuita casualmente; il giocatore 1 muove per primo."
       }
     },
     "emu": {

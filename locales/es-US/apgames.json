@@ -1816,6 +1816,7 @@
       "EMPTY": "No hay ninguna pila en {{where}}.",
       "NOT_YOUR_STACK": "Solo puedes mover una pila que controles.",
       "INVALID_MOVE": "Ese deslizamiento no es válido.",
+      "SURROUNDED": "Las pilas que estén rodeadas por sus seis lados no pueden moverse.",
       "WRONG_SETUP_PIECE": "Esa no es la siguiente ficha en la secuencia de preparación."
     },
     "elOso": {
@@ -6884,6 +6885,12 @@
       },
       "#ruleset": {
         "name": "Conjunto de reglas por defecto"
+      }
+    },
+    "dvonn": {
+      "quickstart": {
+        "name": "Inicio rápido",
+        "description": "La preparación completa se reparte al azar; el jugador 1 mueve primero."
       }
     },
     "emu": {

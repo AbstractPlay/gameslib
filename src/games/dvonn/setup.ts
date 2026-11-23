@@ -1,5 +1,8 @@
+import { shuffle } from "../../common/shuffle.js";
+import type { GameRng } from "../../common/rng.js";
+import type { DvonnGraph } from "../../common/graphs/dvonn.js";
 import type { CellStack, playerid, Reserves, SeatReserves, StackDisc } from "./types.js";
-import { PIECES_PER_PLAYER, SETUP_PLIES } from "./types.js";
+import { DVONN_DISC, isDvonnDisc, PIECES_PER_PLAYER, SETUP_PLIES } from "./types.js";
 import type { Phase } from "./types.js";
 
 export function initialReserves(): Reserves {
@@ -20,15 +23,14 @@ export function setupActor(plyIndex: number): playerid {
 /** Which disc type is placed on setup ply `plyIndex`. */
 export function setupDisc(plyIndex: number): StackDisc {
   if (plyIndex < 3) {
-    return { kind: "dvonn" };
+    return DVONN_DISC;
   }
-  const owner = setupActor(plyIndex);
-  return { kind: "basic", owner };
+  return setupActor(plyIndex);
 }
 
 export function reserveForDisc(reserves: Reserves, player: playerid, disc: StackDisc): boolean {
   const seat = reserves[player - 1]!;
-  if (disc.kind === "dvonn") {
+  if (isDvonnDisc(disc)) {
     if (seat.dvonn <= 0) {
       return false;
     }
@@ -47,10 +49,10 @@ export function formatReserveLine(seat: SeatReserves): string {
 }
 
 export function stackFromDisc(disc: StackDisc): CellStack {
-  if (disc.kind === "dvonn") {
+  if (isDvonnDisc(disc)) {
     return { pieces: [disc] };
   }
-  return { owner: disc.owner, pieces: [disc] };
+  return { owner: disc, pieces: [disc] };
 }
 
 export function playStartStackIndex(stack: Array<{ phase: Phase }>): number {
@@ -76,4 +78,45 @@ export function cloneReserves(r: Reserves): Reserves {
     { dvonn: r[0]!.dvonn, basic: r[0]!.basic },
     { dvonn: r[1]!.dvonn, basic: r[1]!.basic },
   ];
+}
+
+export function emptyReserves(): Reserves {
+  return [
+    { dvonn: 0, basic: 0 },
+    { dvonn: 0, basic: 0 },
+  ];
+}
+
+function discSerialGlyph(disc: StackDisc): string {
+  if (isDvonnDisc(disc)) {
+    return "D";
+  }
+  return disc === 1 ? "W" : "X";
+}
+
+/** Random quickstart: full setup sequence on shuffled empty cells. */
+export function buildRandomSetupBoard(graph: DvonnGraph, rng?: GameRng): Map<string, CellStack> {
+  const cells = graph.playableCells();
+  if (cells.length !== SETUP_PLIES) {
+    throw new Error(`Expected ${SETUP_PLIES} cells, got ${cells.length}`);
+  }
+  const shuffledCells = shuffle([...cells], rng);
+  const board = new Map<string, CellStack>();
+  for (let ply = 0; ply < SETUP_PLIES; ply++) {
+    const disc = setupDisc(ply);
+    board.set(shuffledCells[ply]!, stackFromDisc(disc));
+  }
+  return board;
+}
+
+export function serializeBoard(board: Map<string, CellStack>): string {
+  const cells = [...board.keys()].sort();
+  return cells
+    .map((c) => {
+      const s = board.get(c)!;
+      const glyphs = s.pieces.map(discSerialGlyph).join("");
+      const owner = s.owner === undefined ? "" : String(s.owner);
+      return `${c}:${owner}${glyphs}`;
+    })
+    .join(";");
 }

@@ -1816,6 +1816,7 @@
       "EMPTY": "Il n'y a pas de pile en {{where}}.",
       "NOT_YOUR_STACK": "Vous ne pouvez déplacer qu'une pile que vous contrôlez.",
       "INVALID_MOVE": "Ce déplacement n'est pas légal.",
+      "SURROUNDED": "Les piles entourées sur leurs six côtés ne peuvent pas se déplacer.",
       "WRONG_SETUP_PIECE": "Ce n'est pas la pièce suivante attendue dans la séquence de mise en place."
     },
     "elOso": {
@@ -6884,6 +6885,12 @@
       },
       "#ruleset": {
         "name": "Ensemble de règles par défaut"
+      }
+    },
+    "dvonn": {
+      "quickstart": {
+        "name": "Départ rapide",
+        "description": "La mise en place complète est distribuée au hasard ; le joueur 1 commence."
       }
     },
     "emu": {

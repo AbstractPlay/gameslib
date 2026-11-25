@@ -3208,7 +3208,7 @@ function readPlaygroundInputModeSelection() {
     return active;
 }
 
-function restorePlaygroundInputModeSelection(groups, ungrouped, defs) {
+function restorePlaygroundInputModeSelection(groups, defs) {
     let saved = readStoredPlaygroundInputModeUids();
     if (!Array.isArray(saved) || saved.length === 0) {
         saved = APGames.sanitizeInputModeSelection(defs, []);
@@ -3369,8 +3369,11 @@ function updatePlaygroundInputModeOptions(gameEngine) {
 
     const { groups, ungrouped } = partitionInputModes(rootModes);
 
-    const singleGroupOnly = groups.size === 1 && ungrouped.length === 0;
-    for (const [groupName, members] of groups) {
+    // Match the site picker: an entirely ungrouped list selects one input mode.
+    const flat = groups.size === 0;
+    const radioGroups = flat ? [["", ungrouped]] : groups;
+    const singleGroupOnly = flat || (groups.size === 1 && ungrouped.length === 0);
+    for (const [groupName, members] of radioGroups) {
         const radioName = singleGroupOnly ? "inputModeOption" : `inputModeOption_${groupName}`;
         for (const mode of members) {
             const value = inputModeOptionRadioValue(mode);
@@ -3386,7 +3389,7 @@ function updatePlaygroundInputModeOptions(gameEngine) {
         }
     }
 
-    for (const mode of ungrouped) {
+    for (const mode of flat ? [] : ungrouped) {
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.value = mode.uid;
@@ -3396,7 +3399,7 @@ function updatePlaygroundInputModeOptions(gameEngine) {
     }
 
     container.appendChild(fieldset);
-    restorePlaygroundInputModeSelection(groups, ungrouped, defs);
+    restorePlaygroundInputModeSelection(groups, defs);
     writeStoredPlaygroundInputModeUids(readPlaygroundInputModeSelection());
     container.style.display = "block";
 }

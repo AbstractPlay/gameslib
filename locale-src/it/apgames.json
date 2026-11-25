@@ -3535,6 +3535,22 @@
     "src": "Isometric: Subtle Elevation",
     "out": "Isometrica: Elevazione leggera"
   },
+  "inputModes.arimaa.advanced.description": {
+    "src": "Select by origin or target, and use inferred movements and trap-capture controls.",
+    "out": "Seleziona per origine o destinazione e usa i movimenti dedotti e i controlli per la cattura nelle trappole."
+  },
+  "inputModes.arimaa.advanced.name": {
+    "src": "Advanced",
+    "out": "Avanzata"
+  },
+  "inputModes.arimaa.basic.description": {
+    "src": "Move only pieces you explicitly select, in the order you enter them. Every completed click sequence has an unambiguous result.",
+    "out": "Muovi solo i pezzi selezionati esplicitamente, nell'ordine in cui li inserisci. Ogni sequenza di clic completata produce un risultato univoco."
+  },
+  "inputModes.arimaa.basic.name": {
+    "src": "Basic",
+    "out": "Base"
+  },
   "inputModes.description": {
     "src": "How the board interprets your clicks for this game.",
     "out": "Come la plancia interpreta i tuoi clic per questa partita."
@@ -4800,8 +4816,8 @@
     "out": "Questa implementazione segue il regolamento di David Ploog. Tre modifiche degne di nota sono che (1) le barriere sono proibite, (2) al posto di una variante 16x16 ne abbiamo una 15x15, in cui i pezzi si promuovono a cavalli sulla linea centrale e il drago non può saltare allo spazio 7x7 dall'altro angolo, e (3) contro gli angoli, i pezzi vengono catturati tramite cattura per schiacciamento anziché cattura in custodia, quindi devono esserci almeno due pezzi avversari in linea prima che venga effettuata una cattura contro gli angoli.\n\nNota: il controllo dello stallo è impegnativo dal punto di vista computazionale. Se non puoi effettuare alcuna mossa legale, dovresti abbandonare manualmente."
   },
   "notes.arimaa": {
-    "src": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDuring standard setup, you only need to place your eight non-rabbits. Once they are down, Complete Move fills the rest of your setup area with rabbits. You can still place any or all of the rabbits yourself first if you want them somewhere in particular.\n\nTo enter a move, click a piece and then the square it should end your turn on. The engine finds the shortest legal way to get it there, pushes and pulls included, and draws one arrow per piece from where it started to where it ends up. You can point at enemy pieces too. Click an arrow's head to extend it, or its tail to remove it. Clicking a selected piece a second time keeps it where it stands, which is how you stop the engine moving it aside. A few rarer turns need one more click; the wiki page for this game lists them all.\n\nMoves are recorded in Lightvector notation, which names each piece and where it ends up rather than listing every step. You can type it into the move box, and the older step-by-step notation is still accepted. The wiki page explains the notation in full.\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nIn Dicey Moves, a player whose die allows a single step has no move, and loses, when only pushes and pulls remain.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
-    "out": "Reso disponibile ai sensi della sezione 3 della [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDurante il posizionamento iniziale standard, devi solo posizionare i tuoi otto pezzi non-coniglio. Una volta posizionati, Completa mossa riempie il resto della tua area di posizionamento con i conigli. Puoi comunque posizionare tu stesso alcuni o tutti i conigli per primi, se li vuoi in un punto particolare.\n\nPer inserire una mossa, fai clic su un pezzo e poi sulla casella su cui dovrebbe finire il tuo turno. Il motore trova il modo legale più breve per portarlo lì, comprese spinte e trazioni, e disegna una freccia per pezzo da dove ha iniziato a dove finisce. Puoi anche selezionare pezzi nemici. Fai clic sulla punta di una freccia per estenderla, o sulla coda per rimuoverla. Fare clic su un pezzo selezionato una seconda volta lo mantiene dove si trova, impedendo al motore di spostarlo. Alcuni turni più rari richiedono un clic in più; la pagina wiki di questo gioco li elenca tutti.\n\nLe mosse sono registrate nella notazione Lightvector, che indica ciascun pezzo e dove finisce anziché elencare ogni singolo passo. Puoi digitarla nella casella della mossa; è comunque accettata anche la vecchia notazione passo-passo. La pagina wiki spiega la notazione per intero.\n\nHarlog è un metodo riconosciuto per determinare il vantaggio di materiale. I punteggi positivi favoriscono l'Oro, quelli negativi l'Argento. L'intervallo teorico è ±112, ma in pratica ±20 rappresenta già un vantaggio molto netto.\n\nPoiché non possiamo generare elenchi completi di mosse, il sistema non può rilevare i rari casi in cui le tue uniche mosse disponibili sono illegali a causa della ripetizione di posizione. Il sistema non ti permetterà di effettuare tali ripetizioni illegali e dovrai abbandonare manualmente."
+    "src": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nControl Inputs: Click on an empty square to mark the move complete. Click on an opposing piece to undo the last move token.\n\nBasic Input Mode (default): Click on pieces and where you want to move them in the order they must move as per the rules. This mode is intended to be in line with other AP games in terms of intuitiveness and ease of use. See the AP Wiki for more details.\n\nAdvanced Input Mode: Click on pieces and where you want them to end up at the end of the turn. For sending a piece to a trap square, a filled triangle means to capture the piece if possible, an empty triangle means to avoid capturing the piece if possible, and clicking elsewhere on the trap square tries the other/default, which is almost always what you want. Click on certain empty squares to expedite certain sets of steps (cf, AP Wiki: Target Clicks). The system heavily infers steps necessary to make your input legal. This mode is intended to strive for click-efficiency without being too unintuitive once you're used to it. See the AP Wiki for more details (highly recommended).\n\nMoves are recorded in Lightvector notation, which is modeled after algebraic chess notation, albeit more flexible (and using lowercase letters to denote silver pieces). It's backwards-compatible with the Arimaa Gameroom Notation, and the legacy AP notation is still accepted. See the AP Wiki for more details.\n\nHarlog is a method for estimating material advantage. The color of the icon indicates who it favors. The hard range for standard setup is ±112, but in practice ±20 is a very strong advantage.\n\nIn Dicey Moves, a player whose die allows a single step has no move (and loses), if only pushes and pulls remain.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
+    "out": "Reso disponibile ai sensi della sezione 3 della [licenza pubblica Arimaa](https://arimaa.com/arimaa/license/).\n\nControlli di input: Clicca su una casella vuota per contrassegnare la mossa come completata. Clicca su un pezzo avversario per annullare l'ultimo gettone di mossa.\n\nModalità di input base (predefinita): Clicca sui pezzi e su dove desideri muoverli nell'ordine in cui devono muoversi secondo le regole. Questa modalità è pensata per essere in linea con gli altri giochi AP in termini di intuitività e facilità d'uso. Consulta la Wiki di AP per maggiori dettagli.\n\nModalità di input avanzata: Clicca sui pezzi e sul punto in cui vuoi che finiscano alla fine del turno. Per inviare un pezzo su una casella trappola, un triangolo pieno indica di catturare il pezzo se possibile, un triangolo vuoto indica di evitare la cattura del pezzo se possibile, e cliccare altrove sulla casella trappola prova l'altra opzione/predefinita, che è quasi sempre ciò che desideri. Clicca su determinate caselle vuote per velocizzare particolari sequenze di passaggi (cfr. AP Wiki: Target Clicks). Il sistema deduce ampiamente i passaggi necessari per rendere valido il tuo input. Questa modalità mira ad ottimizzare l'efficienza dei clic senza risultare troppo poco intuitiva una volta presaci la mano. Consulta la Wiki di AP per maggiori dettagli (vivamente consigliato).\n\nLe mosse sono registrate nella notazione Lightvector, modellata sulla notazione algebrica scacchistica, sebbene più flessibile (e che usa lettere minuscole per indicare i pezzi d'argento). È retrocompatibile con la notazione della Arimaa Gameroom e la notazione AP precedente è ancora accettata. Consulta la Wiki di AP per maggiori dettagli.\n\nHarlog è un metodo per stimare il vantaggio di materiale. Il colore dell'icona indica chi favorisce. L'intervallo teorico per la configurazione standard è ±112, ma in pratica ±20 rappresenta già un vantaggio molto netto.\n\nIn Mosse con Dado (Dicey Moves), un giocatore il cui dado consente un solo passo non ha mosse disponibili (e perde) se rimangono solo spinte e tirate.\n\nPoiché non possiamo generare elenchi completi di mosse, il sistema non è in grado di rilevare i rari casi in cui le tue uniche mosse disponibili sono illegali a causa della ripetizione di posizione. Il sistema non ti permetterà di effettuare tali ripetizioni illegali e dovrai abbandonare manualmente."
   },
   "notes.armadas": {
     "src": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
@@ -6656,8 +6672,8 @@
     "out": "Non puoi lasciare i tuoi pezzi sul tuo porto di partenza."
   },
   "validation.arimaa.AMBIGUOUS": {
-    "src": "That fits {{count}} different moves. Say where another piece ends up to settle it.",
-    "out": "Corrisponde a {{count}} mosse diverse. Indica dove finisce un altro pezzo per risolvere l'ambiguità."
+    "src": "That fits {{count}} different moves, and the one shown is the one that will be played. Say where another piece ends up to choose another.",
+    "out": "Questo corrisponde a {{count}} mosse diverse, e quella mostrata è quella che verrà giocata. Indica dove finisce un altro pezzo per sceglierne un'altra."
   },
   "validation.arimaa.BACKWARDS": {
     "src": "You may not move your own rabbits backwards.",
@@ -6679,9 +6695,13 @@
     "src": "You may only place pieces on the two ranks closest to you.",
     "out": "Puoi posizionare pezzi solo sulle due traverse più vicine a te."
   },
+  "validation.arimaa.IDLE": {
+    "src": "Nothing moves yet. Say where a piece ends up.",
+    "out": "Ancora nessuna mossa. Indica dove deve finire un pezzo."
+  },
   "validation.arimaa.INCOMPLETE": {
-    "src": "A piece is selected. Click a square to send it there, or click it again to keep it where it is.",
-    "out": "È selezionato un pezzo. Fai clic su una casella per mandarlo lì, o fai clic di nuovo per mantenerlo dove si trova."
+    "src": "A piece is selected. Click a square to send it there.",
+    "out": "Un pezzo è selezionato. Clicca su una casella per inviarlo lì."
   },
   "validation.arimaa.INFERRED": {
     "src": "Also moving: {{pieces}}.",
@@ -6692,8 +6712,8 @@
     "out": "Seleziona un pezzo dalla tua mano da posizionare sulla plancia."
   },
   "validation.arimaa.INITIAL_INSTRUCTIONS_play": {
-    "src": "Click a piece, then the square it should end the turn on. You can point at enemy pieces too; pushes and pulls are worked out for you.",
-    "out": "Fai clic su un pezzo, poi sulla casella su cui dovrebbe finire il turno. Puoi selezionare anche i pezzi nemici; spinte e trazioni verranno calcolate automaticamente."
+    "src": "Select a piece, then its destination. Select additional pieces to move them as a chain. Advanced mode also supports target clicks and inferred moves.",
+    "out": "Seleziona un pezzo, quindi la sua destinazione. Seleziona altri pezzi per muoverli in catena. La modalità avanzata supporta anche i clic sulla destinazione e le mosse dedotte."
   },
   "validation.arimaa.INVALID_PUSH": {
     "src": "Pushes must be immediately completed by moving the pushing piece into the space vacated by the pushed enemy piece.",

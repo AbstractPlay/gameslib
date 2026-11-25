@@ -77,12 +77,12 @@ export class SkismaGame extends GameBase {
         dateAdded: "2026-11-22",
         description: "Surround one enemy stone with a single group to win: cut it off from half of the board's edge.",
         notes: "A stone is surrounded when, because of a single enemy group, it can reach fewer than half of the edge cells. Paths may go through any cell except that group's stones. You may not place a stone where it would be surrounded, unless that placement wins. A player with no legal move loses, also when the board is full: whoever fills the last cell wins, and there are no draws. On square boards, stones connect into groups diagonally as well as orthogonally, but paths only go orthogonally, so a diagonal chain is a wall.",
-        urls: [],
+        urls: ["https://snake-eyes.io/board-games/skisma/"],
         people: [
             {
                 type: "designer",
                 name: "Noé Falzon",
-                urls: ["https://boardgamegeek.com/boardgamedesigner/164706/noe-falzon"],
+                urls: ["https://boardgamegeek.com/boardgamedesigner/164706/noe-falzon", "https://snake-eyes.io/"],
                 apid: "89144a32-7a68-41b4-a443-f98ed3c6df01",
             },
             {

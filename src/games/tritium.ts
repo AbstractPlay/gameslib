@@ -74,13 +74,13 @@ export class TritiumGame extends GameBase {
         playercounts: [2],
         version: "1.0",
         description: "Two players take turns creating and growing regions and claiming them. Once the board is full, the player who controls most tiles wins.",
-        urls: ["https://boardgamegeek.com/boardgame/430859/tritium"],
+        urls: ["https://boardgamegeek.com/boardgame/430859/tritium", "https://snake-eyes.io/board-games/tritium/"],
         bggid: "430859",
         people: [
             {
                 type: "designer",
                 name: "Noé Falzon",
-                urls: ["https://boardgamegeek.com/boardgamedesigner/164706/noe-falzon"],
+                urls: ["https://boardgamegeek.com/boardgamedesigner/164706/noe-falzon", "https://snake-eyes.io/"],
                 apid: "89144a32-7a68-41b4-a443-f98ed3c6df01",
             },
             {

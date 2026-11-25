@@ -1,19 +1,32 @@
-import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IStatus, IValidationResult, type ChatLogCollectContext, type ChatLogLine, type FlagContext, type GameFlag } from "./_base.js";
+import {  GameBase, IAPGameState, IClickResult, ICustomButton, IIndividualState, IScores, IStatus, IValidationResult, IHandleClickUi, IRenderOpts, type ChatLogCollectContext, type ChatLogLine, type FlagContext, type GameFlag } from "./_base.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
 import { APRenderRep, AreaPieces, BoardBasic, Colourfuncs, Glyph, PaintEntry } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
-import { randomInt, RectGrid, reviver, shuffle, SquareOrthGraph, UserFacingError, cloneState } from "../common/index.js";
+import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import i18next from "i18next";
-import { arrowToken, captureToken, isArrow, isLegacy, isMark, isHold, joinMove, normalize, parseMove, pieceChar, holdToken, tokenText, NotationError, type ParsedMove, type Token } from "./arimaa/notation.js";
-import { hasAnyMove, inferred, resolve, serializeTurn, sqName, turnFromSteps, type Turn } from "./arimaa/turns.js";
+import { isArrow, isLegacy, isLower, isMark, normalize, parseMove, pc2name, pieceChar, tokenText, NotationError, type ParsedMove, type Token } from "./arimaa/notation.js";
+import { STRENGTH, display, hasAnyMove, inferred, isAlone, isFrozen, resolve, serializeTurn, sqName, turnFromSteps, type Turn } from "./arimaa/turns.js";
 import { castDie, type IDie } from "./arimaa/dice.js";
+import { ARIMAA_CAPTURE_CHOICE, ARIMAA_SPARE_CHOICE, captureAlternatives, captureChoices, declared, inputClick, pendingPush, type InputClick } from "./arimaa/input.js";
+import { baseMove, classify, validateLegacyMovement, type StepKind } from "./arimaa/legacy.js";
+import { endlessEndgame, fillRabbits, placing, setupClick, standardSetup, validateSetup } from "./arimaa/setup.js";
 export const gameApgamesEn = {
+    inputModes: {
+        basic: {
+            name: "Basic",
+            description: "Move only pieces you explicitly select, in the order you enter them. Every completed click sequence has an unambiguous result.",
+        },
+        advanced: {
+            name: "Advanced",
+            description: "Select by origin or target, and use inferred movements and trap-capture controls.",
+        },
+    },
     validation: {
         BACKWARDS: "You may not move your own rabbits backwards.",
         FROZEN: "The piece at {{where}} is frozen. It cannot move on its own.",
         HOME_ROW: "You may only place pieces on the two ranks closest to you.",
         INITIAL_INSTRUCTIONS_place: "Select a piece from your hand to place on the board.",
-        INITIAL_INSTRUCTIONS_play: "Click a piece, then the square it should end the turn on. You can point at enemy pieces too; pushes and pulls are worked out for you.",
+        INITIAL_INSTRUCTIONS_play: "Select a piece, then its destination. Select additional pieces to move them as a chain. Advanced mode also supports target clicks and inferred moves.",
         INVALID_PUSH: "Pushes must be immediately completed by moving the pushing piece into the space vacated by the pushed enemy piece.",
         INVALID_PUSHPULL: "You may only move enemy pieces when completing a pull or starting a push. Neither seem to apply in this case.",
         LABEL_STASH: "{{player}}'s stash",
@@ -42,9 +55,10 @@ export const gameApgamesEn = {
         NO_MOVE_FROZEN: "The piece on {{from}} is frozen, and nothing can free it in time.",
         NO_MOVE_REACH: "The piece on {{from}} cannot get to {{to}} within {{num}} steps.",
         NO_MOVE_TOGETHER: "Each of those works on its own, but not all of them within {{num}} steps.",
-        AMBIGUOUS: "That fits {{count}} different moves. Say where another piece ends up to settle it.",
+        AMBIGUOUS: "That fits {{count}} different moves, and the one shown is the one that will be played. Say where another piece ends up to choose another.",
+        IDLE: "Nothing moves yet. Say where a piece ends up.",
         INFERRED: "Also moving: {{pieces}}.",
-        INCOMPLETE: "A piece is selected. Click a square to send it there, or click it again to keep it where it is.",
+        INCOMPLETE: "A piece is selected. Click a square to send it there.",
         TOO_LONG: "What you have drawn needs more than {{num}} steps.",
         DIE_one: "The die allows a single step this turn.",
         DIE_other: "The die allows up to {{count}} steps this turn.",
@@ -95,14 +109,8 @@ export type playerid = 1|2;
 export type Piece = "E" | "M" | "H" | "D" | "C" | "R";
 export type CellContents = [Piece, playerid];
 
-export const pc2name = new Map<Piece, string>([
-    ["E", "Elephant"],
-    ["M", "Camel"],
-    ["H", "Horse"],
-    ["D", "Dog"],
-    ["C", "Cat"],
-    ["R", "Rabbit"],
-]);
+export { pc2name };
+// the order the free setup has always reported its captures in
 const traps = ["f3", "f6", "c3", "c6"];
 
 export interface IMoveState extends IIndividualState {
@@ -128,9 +136,11 @@ interface ILegendObj {
     [key: string]: Glyph|[Glyph, ...Glyph[]];
 }
 
-function isLower(character: string): boolean {
-  return character === character.toLowerCase() && character !== character.toUpperCase();
+/** `inputMode` is the mode a click was made in, as `handleClick` returns it in its result's `opts`. */
+interface IArimaaRenderOpts extends IRenderOpts {
+    inputMode?: string;
 }
+
 
 export class ArimaaGame extends GameBase {
     public static readonly gameinfo: APGamesInformation = {
@@ -140,7 +150,7 @@ export class ArimaaGame extends GameBase {
         version: "20251223",
         dateAdded: "2026-01-23",
         description: "The pieces are animals of various strengths jockeying for position, trying to get one of their rabbits to the far row. But watch out for traps!",
-        notes: "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDuring standard setup, you only need to place your eight non-rabbits. Once they are down, Complete Move fills the rest of your setup area with rabbits. You can still place any or all of the rabbits yourself first if you want them somewhere in particular.\n\nTo enter a move, click a piece and then the square it should end your turn on. The engine finds the shortest legal way to get it there, pushes and pulls included, and draws one arrow per piece from where it started to where it ends up. You can point at enemy pieces too. Click an arrow's head to extend it, or its tail to remove it. Clicking a selected piece a second time keeps it where it stands, which is how you stop the engine moving it aside. A few rarer turns need one more click; the wiki page for this game lists them all.\n\nMoves are recorded in Lightvector notation, which names each piece and where it ends up rather than listing every step. You can type it into the move box, and the older step-by-step notation is still accepted. The wiki page explains the notation in full.\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nIn Dicey Moves, a player whose die allows a single step has no move, and loses, when only pushes and pulls remain.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
+        notes: "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nControl Inputs: Click on an empty square to mark the move complete. Click on an opposing piece to undo the last move token.\n\nBasic Input Mode (default): Click on pieces and where you want to move them in the order they must move as per the rules. This mode is intended to be in line with other AP games in terms of intuitiveness and ease of use. See the AP Wiki for more details.\n\nAdvanced Input Mode: Click on pieces and where you want them to end up at the end of the turn. For sending a piece to a trap square, a filled triangle means to capture the piece if possible, an empty triangle means to avoid capturing the piece if possible, and clicking elsewhere on the trap square tries the other/default, which is almost always what you want. Click on certain empty squares to expedite certain sets of steps (cf, AP Wiki: Target Clicks). The system heavily infers steps necessary to make your input legal. This mode is intended to strive for click-efficiency without being too unintuitive once you're used to it. See the AP Wiki for more details (highly recommended).\n\nMoves are recorded in Lightvector notation, which is modeled after algebraic chess notation, albeit more flexible (and using lowercase letters to denote silver pieces). It's backwards-compatible with the Arimaa Gameroom Notation, and the legacy AP notation is still accepted. See the AP Wiki for more details.\n\nHarlog is a method for estimating material advantage. The color of the icon indicates who it favors. The hard range for standard setup is ±112, but in practice ±20 is a very strong advantage.\n\nIn Dicey Moves, a player whose die allows a single step has no move (and loses), if only pushes and pulls remain.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
         urls: [
             "https://arimaa.com/arimaa/",
             "https://arimaa.com/arimaa/learn/rulesIntro.html",
@@ -176,7 +186,7 @@ export class ArimaaGame extends GameBase {
                 ],
             },
             { uid: "free", group: "setup", unrated: true },
-            { uid: "dicey", experimental: true },
+            { uid: "dicey", experimental: false },
         ],
         customizations: [
             {
@@ -216,6 +226,10 @@ export class ArimaaGame extends GameBase {
                 explanation: "Traps are the `fill` colour at 50% opacity"
             },
         ],
+        inputModes: [
+            {uid: "basic", group: "entry"},
+            {uid: "advanced", group: "entry"},
+        ],
         categories: ["goal>breakthrough", "goal>cripple", "goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>coopt", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>chess"],
         flags: ["perspective", "no-moves", "custom-buttons", "random-start", "custom-colours"]
     };
@@ -235,102 +249,10 @@ export class ArimaaGame extends GameBase {
         return GameBase.algebraic2coords(cell, 8);
     }
     public static strength(piece: Piece): number {
-        const str = "EMHDCR";
-        return str.length - str.indexOf(piece);
-    }
-    // the two ranks a player sets up on, in the order they get auto-filled
-    private static homeCells(player: playerid): string[] {
-        const cells: string[] = [];
-        for (const row of (player === 1 ? [6,7] : [0,1])) {
-            for (let col = 0; col < 8; col++) {
-                cells.push(ArimaaGame.coords2algebraic(col, row));
-            }
-        }
-        return cells;
+        return STRENGTH[piece];
     }
     public static EEE(): {gold: [Piece, string][], silver: [Piece, string][]} {
-        const getRanks = (ranks: number[]): string[] => {
-            const cells: string[] = [];
-            for (const row of ranks) {
-                for (let col = 0; col < 8; col++) {
-                    cells.push(ArimaaGame.coords2algebraic(col, row));
-                }
-            }
-            return cells;
-        }
-
-        let gold: Piece[];
-        do {
-            gold = ["E"];
-            // camels
-            let limit = randomInt(1, 0);
-            for (let i = 0; i < limit; i++) {
-                gold.push("M");
-            }
-            // horses, dogs, cats
-            for (const pc of ["H","D","C"] as const) {
-                limit = randomInt(2, 0);
-                for (let i = 0; i < limit; i++) {
-                    gold.push(pc);
-                }
-            }
-            // rabbits
-            limit = randomInt(8, 1);
-            for (let i = 0; i < limit; i++) {
-                gold.push("R");
-            }
-        } while (gold.length < 4 || gold.length > 12);
-        const cellsGold = shuffle(getRanks([6,7]));
-        const combinedGold: [Piece, string][] = [];
-        for (let i = 0; i < gold.length; i++) {
-            combinedGold.push([gold[i], cellsGold[i]]);
-        }
-        const flip = randomInt(1, 0);
-        const combinedSilver: [Piece, string][] = [];
-        combinedGold.forEach(([pc, cell]) => {
-            const [col, row] = ArimaaGame.algebraic2coords(cell);
-            // rows reverse no matter what
-            let newRow: number;
-            if (row === 6) {
-                newRow = 1;
-            } else {
-                newRow = 0;
-            }
-            // reverse columns only if flip is 1
-            let newCol = col;
-            if (flip === 1) {
-                newCol = 7 - col;
-            }
-            combinedSilver.push([pc, ArimaaGame.coords2algebraic(newCol, newRow)]);
-        });
-        return {gold: combinedGold, silver: combinedSilver};
-    }
-
-    // strip any parentheticals and just return the base move
-    private static baseMove(mv: string): [Piece, playerid, string?, string?] {
-        mv = mv.replace(/\s+/g, "");
-        const idx = mv.indexOf("(");
-        let base = mv;
-        if (idx >= 0) {
-            base = mv.slice(0, idx);
-        }
-        const pcStr = base[0];
-        let player: playerid;
-        if (isLower(pcStr)) {
-            player = 2;
-        } else {
-            player = 1;
-        }
-        const pc = pcStr.toUpperCase() as Piece;
-        let from: string|undefined;
-        if (base.length > 1) {
-            from = base.substring(1,3);
-        }
-        let to: string|undefined;
-        if (base.length > 3) {
-            to = base.substring(3);
-        }
-        return [pc, player, from, to];
+        return endlessEndgame();
     }
 
     public numplayers = 2;
@@ -346,10 +268,11 @@ export class ArimaaGame extends GameBase {
     public stack!: Array<IMoveState>;
     public results: Array<APMoveResult> = [];
     private _selected: string|undefined;
+    private _selections: string[]|undefined;
+    private _entryMove: string|undefined;
     // the player's arrows, kept for drawing when they do not yet resolve to a move
     private _arrows: Array<[string, string]>|undefined;
-    // the squares of the player's holds and capture marks, drawn whether or not the move resolves
-    private _holds: string[]|undefined;
+    // the squares of the player's capture marks, drawn whether or not the move resolves
     private _marks: string[]|undefined;
 
     constructor(state?: IArimaaState | string, variants?: string[]) {
@@ -426,20 +349,16 @@ export class ArimaaGame extends GameBase {
         // what a turn did is drawn from its results; anything left over from a
         // partial move belongs to the entry being typed, not to this state
         this._selected = undefined;
+        this._selections = undefined;
+        this._entryMove = undefined;
         this._arrows = undefined;
-        this._holds = undefined;
         this._marks = undefined;
         return this;
     }
 
-    // the standard 16-piece setup, which the setup variants replace
-    private standardSetup(): boolean {
-        return !this.variants.includes("eee") && !this.variants.includes("free");
-    }
-
     public getButtons(): ICustomButton[] {
         // base game, gold setup
-        if (this.standardSetup() && this.stack.length === 1) {
+        if (standardSetup(this.variants) && this.stack.length === 1) {
             return [
                 {
                     label: "apgames:buttons.arimaa.gold99",
@@ -448,7 +367,7 @@ export class ArimaaGame extends GameBase {
             ];
         }
         // base game, silver setup
-        else if (this.standardSetup() && this.stack.length === 2) {
+        else if (standardSetup(this.variants) && this.stack.length === 2) {
             return [
                 {
                     label: "apgames:buttons.arimaa.silver99e7",
@@ -463,135 +382,9 @@ export class ArimaaGame extends GameBase {
         return [];
     }
 
-    // In standard setup, a player only needs to place their eight non-rabbits.
-    // Once they have, the rest of their setup area gets filled with rabbits.
-    // Returns the move untouched in every other circumstance.
-    private fillRabbits(m: string): string {
-        if (!this.standardSetup() || this.hands === undefined || this.hands[this.currplayer - 1].length === 0) {
-            return m;
-        }
-        const mvs = m.split(",").filter(Boolean);
-        const steps = mvs.map(mv => ArimaaGame.baseMove(mv));
-        const myhand = [...this.hands[this.currplayer - 1]];
-        for (const [pc, , cell] of steps) {
-            // a dangling piece selection or anything the validator will reject
-            if (cell === undefined || !myhand.includes(pc)) {
-                return m;
-            }
-            myhand.splice(myhand.indexOf(pc), 1);
-        }
-        // everything but the rabbits has to be placed already
-        if (myhand.length === 0 || myhand.some(pc => pc !== "R")) {
-            return m;
-        }
-        const placedCells = new Set<string>(steps.map(([,,cell,]) => cell!));
-        const empty = ArimaaGame.homeCells(this.currplayer).filter(cell => !this.board.has(cell) && !placedCells.has(cell));
-        if (empty.length !== myhand.length) {
-            return m;
-        }
-        return [...mvs, ...empty.map(cell => `${this.currplayer === 1 ? "R" : "r"}${cell}`)].join(",");
-    }
-
-    // A very niche helper function to fix the "can't push pull at same time" issue
-    // Looks at each move in a chain and determines the nature of each.
-    // Naive. Just looks at the notation and sequence, not board context.
-    public static classify(player: playerid, moves: string[]): ("placement"|"pusher"|"puller"|"pushee"|"pullee"|"mover"|undefined)[] {
-        const classifications: ("placement"|"pusher"|"puller"|"pushee"|"pullee"|"mover"|undefined)[] = [];
-
-        for (let i = 0; i < moves.length; i++) {
-            const [, owner, from, to] = ArimaaGame.baseMove(moves[i]);
-            // if mine:
-            // - placement if to is undefined
-            // - pusher if previous was pushed
-            // - puller if next is enemy and moves into vacated space
-            // - mover otherwise
-            if (owner === player) {
-                if (to === undefined) {
-                    classifications.push("placement");
-                } else if (i > 0 && classifications[i - 1] === "pushee") {
-                    classifications.push("pusher");
-                } else {
-                    if (i < moves.length - 1) {
-                        const [, nextOwner, , nextTo] = ArimaaGame.baseMove(moves[i + 1]);
-                        if (nextOwner !== player && nextTo === from) {
-                            classifications.push("puller");
-                        } else {
-                            classifications.push("mover");
-                        }
-                    } else {
-                        classifications.push("mover");
-                    }
-                }
-            }
-            // if other:
-            // - pullee if previous is puller
-            // - pushee if previous is not puller and next is mine moving into space
-            // - undefined otherwise
-            else {
-                if (i > 0 && classifications[i - 1] === "puller") {
-                    classifications.push("pullee");
-                } else {
-                    if (i < moves.length - 1) {
-                        const [, nextOwner, , nextTo] = ArimaaGame.baseMove(moves[i + 1]);
-                        if (nextOwner === player && nextTo === from) {
-                            classifications.push("pushee");
-                        } else {
-                            classifications.push(undefined);
-                        }
-                    } else {
-                        classifications.push(undefined);
-                    }
-                }
-            }
-        }
-
-        return classifications;
-    }
-
-    private isFrozen(cell: string): boolean {
-        const g = new SquareOrthGraph(8, 8);
-        if (!this.board.has(cell)) {
-            throw new Error("You can't check the frozen status of a nonexistent piece.");
-        }
-        const [pc, owner] = this.board.get(cell)!;
-        const friendlies: Piece[] = [];
-        const enemies: Piece[] = [];
-        for (const n of g.neighbours(cell)) {
-            if (this.board.has(n)) {
-                const [nPc, nOwner] = this.board.get(n)!;
-                if (nOwner === owner) {
-                    friendlies.push(nPc);
-                } else {
-                    enemies.push(nPc);
-                }
-            }
-        }
-        // only ever frozen if no friendlies and at least one stronger enemy
-        if (friendlies.length === 0) {
-            for (const enemy of enemies) {
-                if (ArimaaGame.strength(enemy) > ArimaaGame.strength(pc)) {
-                    return true;
-                }
-            }
-        }
-        // otherwise free
-        return false;
-    }
-
-    private isAlone(cell: string): boolean {
-        if (this.board.has(cell)) {
-            const [, owner] = this.board.get(cell)!;
-            const g = new SquareOrthGraph(8, 8);
-            for (const n of g.neighbours(cell)) {
-                if (this.board.has(n)) {
-                    const [, nOwner] = this.board.get(n)!;
-                    if (nOwner === owner) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
+    // what each step of a legacy step list is (see arimaa/legacy.ts)
+    public static classify(player: playerid, moves: string[]): StepKind[] {
+        return classify(player, moves);
     }
 
     // chains together a random series of moves
@@ -601,14 +394,43 @@ export class ArimaaGame extends GameBase {
     //     return moves[Math.floor(Math.random() * moves.length)];
     // }
 
-    public handleClick(move: string, row: number, col: number, piece?: string): IClickResult {
+    public handleClick(move: string, row: number, col: number, piece?: string, ui?: IHandleClickUi): IClickResult {
         try {
             // placing pieces:
             // - either still pieces in hand
             // - or we're in standard setup and ply 1 or 2, no matter the hands
-            const placing = (this.hands !== undefined && this.hands[this.currplayer - 1].length > 0) ||
-                (this.standardSetup() && this.stack.length <= 2);
-            const newmove = placing ? this.setupClick(move, row, col, piece) : this.moveClick(move, row, col);
+            const setup = placing(this.hands, this.currplayer) ||
+                (standardSetup(this.variants) && this.stack.length <= 2);
+            const advanced = this.resolveActiveInputMode(ui?.inputMode) === "advanced";
+            // The custom SVG triangle is an ordinary clickable renderer
+            // piece. Its reserved keys (one per way it is drawn) distinguish
+            // its click from a click on the trap square itself, without
+            // affecting actual board pieces.
+            const square = row >= 0 && row < 8 && col >= 0 && col < 8 ?
+                ArimaaGame.coords2algebraic(col, row) : undefined;
+            const isCaptureChoice = piece === ARIMAA_CAPTURE_CHOICE || piece === ARIMAA_SPARE_CHOICE;
+            const alternativeCapture = !setup && isCaptureChoice &&
+                advanced && square !== undefined &&
+                captureAlternatives(this.board, this.currplayer, this.maxSteps(), move).includes(square);
+            // render() is not told the input mode and runs on a fresh game
+            // object, but clients hand a click's `opts` on to it: that is how
+            // the preview of an Advanced entry gets its trap controls.
+            const withMode = (r: IClickResult): IClickResult => {
+                if (advanced && !setup && r.move.length > 0) {
+                    const opts: IArimaaRenderOpts = {inputMode: "advanced"};
+                    r.opts = opts;
+                }
+                return r;
+            };
+            // a control that is not on offer does nothing, and neither does
+            // a click off the board once the pieces are down
+            if ((isCaptureChoice && !alternativeCapture) || (!setup && square === undefined)) {
+                return withMode({...this.validateMove(move), move});
+            }
+            const input: InputClick = setup ? setupClick(this, move, row, col, piece) :
+                inputClick(this.board, this.currplayer, this.maxSteps(), move, square!,
+                    advanced ? "advanced" : "basic", alternativeCapture);
+            const newmove = input.move;
             let result = this.validateMove(newmove) as IClickResult;
             if (! result.valid) {
                 result.move = move;
@@ -620,8 +442,14 @@ export class ArimaaGame extends GameBase {
                 } else {
                     result.move = newmove;
                 }
+                if (input.complete && result.valid && result.complete === 0) {
+                    result.complete = 1;
+                } else if (input.oneOf !== undefined && result.valid && result.complete === 0) {
+                    // the click had more than one equally good way to go
+                    result.message = `${result.message} ${i18next.t("apgames:validation.arimaa.AMBIGUOUS", {count: input.oneOf})}`;
+                }
             }
-            return result;
+            return withMode(result);
         } catch (e) {
             // console.log(e);
             return {
@@ -632,213 +460,9 @@ export class ArimaaGame extends GameBase {
         }
     }
 
-    // Setup clicks work on the comma-separated placement list.
-    private setupClick(move: string, row: number, col: number, piece?: string): string {
-            let newmove = "";
-            const steps = move.split(",").filter(Boolean).map(mv => ArimaaGame.baseMove(mv));
-            let lastPc: Piece|undefined;
-            let lastPlayer: playerid|undefined;
-            let lastFrom: string|undefined;
-            let lastTo: string|undefined;
-            if (steps.length > 0) {
-                [lastPc,lastPlayer,lastFrom,lastTo] = steps[steps.length - 1];
-            }
-            let lastmove = "";
-            let stub = move;
-            if (steps.length > 0) {
-                // set lastmove and stub if move is incomplete
-                // placement
-                if (this.hands !== undefined && this.hands[this.currplayer - 1].length > 0 && lastFrom === undefined) {
-                    lastmove = this.currplayer === 1 ? lastPc! : lastPc!.toLowerCase();
-                    stub = move.substring(0, move.lastIndexOf(","));
-                }
-                // movement
-                else if ((this.hands === undefined || this.hands[this.currplayer - 1].length === 0) && (lastFrom !== undefined && lastTo === undefined) ) {
-                    lastmove = `${lastPlayer === 1 ? lastPc : lastPc!.toLowerCase()}${lastFrom}`;
-                    stub = move.substring(0, move.lastIndexOf(","));
-                }
-            }
-            // console.log(JSON.stringify({move, lastPc, lastFrom, lastTo, lastmove, stub}));
-            // make the moves in the stub
-            const cloned = this.clone();
-            cloned.move(stub, {partial: true});
-
-            // clicking off the board resets
-            if (row === -1 || col === -1) {
-                const [,pc, pstr] = piece!.split("");
-                const p = parseInt(pstr, 10);
-                newmove = `${stub}${stub.length > 0 ? "," : ""}${p === 1 ? pc : pc.toLowerCase()}`;
-            } else {
-                const cell = ArimaaGame.coords2algebraic(col, row);
-                // clicking a placed cell unplaces it
-                if (cloned.board.has(cell)) {
-                    // clicking an occupied cell after selecting a piece to place
-                    if (lastmove.length === 0) {
-                        // the click may land on the piece glyph or on the empty part of
-                        // the square (then `piece` is empty), so go by what's on the board
-                        const [occupant,] = cloned.board.get(cell)!;
-                        const idx = steps.findIndex(([pc,,f,]) => pc === occupant && f === cell);
-                        if (idx >= 0) {
-                            steps.splice(idx, 1);
-                            newmove = steps.map(([pc, p, f,]) => `${p === 1 ? pc : pc.toLowerCase()}${f}`).join(",");
-                        } else {
-                            newmove = stub;
-                        }
-                    } else {
-                        newmove = stub;
-                    }
-                } else {
-                    // if just clicking directly on the board, choose a piece for them:
-                    // in free setup the hand never empties, so default to a rabbit;
-                    // otherwise take the strongest piece still in hand
-                    if (lastmove === undefined || lastmove === "") {
-                        let dflt: Piece;
-                        if (this.variants.includes("free")) {
-                            dflt = "R";
-                        } else {
-                            dflt = [...cloned.hands![cloned.currplayer - 1]].sort((a,b) => ArimaaGame.strength(b) - ArimaaGame.strength(a))[0];
-                        }
-                        lastmove = cloned.currplayer === 1 ? dflt : dflt.toLowerCase();
-                    }
-                    newmove = `${stub}${stub.length > 0 ? "," : ""}${lastmove}${cell}`;
-                }
-            }
-        
-        return newmove;
-    }
-
-    // Movement clicks work on the drawn tokens; the rules are in the branch
-    // comments below. The move string holds destination tokens (arrows, and
-    // holds: a piece sent to its own square), capture marks (a hold on a trap,
-    // clicked once more), anything typed, and at most two trailing bare
-    // squares: the selected piece awaiting a destination and, before it, the
-    // selection that a second click on the current one completes an arrow from.
-    private moveClick(move: string, row: number, col: number): string {
-        let parsed: ParsedMove;
-        try {
-            parsed = parseMove(move, true);
-        } catch {
-            // unreadable typed input: start over from this click
-            parsed = {tokens: []};
-        }
-        const clicked = ArimaaGame.coords2algebraic(col, row);
-        const drawn = parsed.tokens.filter(t => isArrow(t) || isHold(t) || isMark(t));
-        const others = parsed.tokens.filter(t => !drawn.includes(t));
-        let pending = parsed.pending;
-        let previous = parsed.previous;
-        const tailOf = (sq: string): number => drawn.findIndex(t => isArrow(t) && t.spec.square === sq);
-        const headOf = (sq: string): number => drawn.findIndex(t => isArrow(t) && (t.prop as {square: string}).square === sq);
-        // every arrow ending on this square, latest first: more than one piece
-        // can finish on a trap, the ones that died there and at most one alive
-        const headsOf = (sq: string): Token[] => drawn.filter(t => isArrow(t) && (t.prop as {square: string}).square === sq).reverse();
-        const holdOf = (sq: string): number => drawn.findIndex(t => isHold(t) && t.spec.square === sq);
-        const markOf = (sq: string): number => drawn.findIndex(t => isMark(t) && t.spec.square === sq);
-        // occupancy is judged at the start of the turn; a square whose piece
-        // already has an arrow away from it counts as vacated
-        const unvacatedPiece = (sq: string): boolean => this.board.has(sq) && tailOf(sq) < 0;
-        const mkArrow = (from: string, to: string): Token => {
-            const [pc, owner] = this.board.get(from)!;
-            return arrowToken(pc, owner, from, to);
-        };
-        // a capture asserted of an arrow's piece rides with that arrow: it says
-        // the piece dies where the arrow sends it, so it goes when the arrow does
-        const dropMark = (origin: string): void => {
-            const m = markOf(origin);
-            if (m >= 0) {
-                drawn.splice(m, 1);
-            }
-        };
-        // send what is selected at `from` to `to`: a new arrow from a piece's
-        // square, or the extension of the arrow whose head was re-opened
-        const complete = (from: string, to: string): void => {
-            if (unvacatedPiece(from)) {
-                drawn.push(mkArrow(from, to));
-                return;
-            }
-            const h = headOf(from);
-            if (h >= 0) {
-                const tail = drawn[h].spec.square!;
-                dropMark(tail);
-                if (tail === to) {
-                    drawn.splice(headOf(from), 1);
-                } else {
-                    drawn[headOf(from)] = mkArrow(tail, to);
-                }
-            }
-        };
-
-        if (pending !== undefined) {
-            if (clicked === pending) {
-                if (previous !== undefined) {
-                    // the second click on an occupied square sends the
-                    // selection before it there; its occupant will have to move
-                    complete(previous, clicked);
-                } else if (traps.includes(clicked) && headOf(clicked) >= 0) {
-                    // the second click on an arrow's head, when that head is a
-                    // trap, says the piece dies there rather than surviving on
-                    // it; the arrow stays, because it says which trap. This
-                    // comes before holding, because whatever still stands on
-                    // the trap cannot survive alongside what is arriving. The
-                    // claim falls on the last arrow drawn to that trap that
-                    // does not carry one yet, and once they all do, clicking
-                    // again takes them all back.
-                    const heads = headsOf(clicked);
-                    const next = heads.find(t => markOf(t.spec.square!) < 0);
-                    if (next === undefined) {
-                        for (const t of heads) {
-                            dropMark(t.spec.square!);
-                        }
-                    } else {
-                        const [pc, owner] = this.board.get(next.spec.square!)!;
-                        drawn.push(captureToken(pc, owner, next.spec.square!));
-                    }
-                } else if (unvacatedPiece(clicked) && holdOf(clicked) < 0 && markOf(clicked) < 0) {
-                    // the second click on a selected piece holds it where it stands
-                    const [pc, owner] = this.board.get(clicked)!;
-                    drawn.push(holdToken(pc, owner, clicked));
-                }
-                // a re-opened arrow head is simply released
-                pending = undefined;
-                previous = undefined;
-            } else if (unvacatedPiece(clicked)) {
-                // re-selection rather than a destination; the selection it
-                // replaces is kept in case the next click confirms this square
-                previous = unvacatedPiece(pending) || headOf(pending) >= 0 ? pending : undefined;
-                pending = clicked;
-            } else {
-                complete(pending, clicked);
-                pending = undefined;
-                previous = undefined;
-            }
-        } else {
-            const t = tailOf(clicked);
-            const p = holdOf(clicked);
-            if (t >= 0) {
-                // grabbing an arrow's tail removes it and starts a new one
-                dropMark(clicked);
-                drawn.splice(tailOf(clicked), 1);
-                pending = clicked;
-            } else if (p >= 0 && traps.includes(clicked)) {
-                // on a trap a hold cannot tell survival from capture, so a
-                // click on it turns the hold into a capture mark
-                const [pc, owner] = this.board.get(clicked)!;
-                drawn[p] = captureToken(pc, owner, clicked);
-            } else if (p >= 0 || markOf(clicked) >= 0) {
-                // a hold or a capture mark is lifted like an arrow's tail
-                drawn.splice(p >= 0 ? p : markOf(clicked), 1);
-                pending = clicked;
-            } else if (this.board.has(clicked) || headOf(clicked) >= 0) {
-                pending = clicked;
-            } else {
-                return move;
-            }
-        }
-        return joinMove([...others, ...drawn], pending, previous);
-    }
-
     public validateMove(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
-        const setup = this.hands !== undefined && this.hands[this.currplayer - 1].length > 0;
+        const setup = placing(this.hands, this.currplayer);
         // placement and legacy step lists ignore whitespace; the notation is space-delimited
         if (setup || isLegacy(m)) {
             m = m.replace(/\s+/g, "");
@@ -855,7 +479,7 @@ export class ArimaaGame extends GameBase {
                 result.canrender = true;
             }
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.arimaa.INITIAL_INSTRUCTIONS", {context: (this.hands !== undefined && this.hands[this.currplayer - 1].length > 0) ? "place" : "play"});
+            result.message = i18next.t("apgames:validation.arimaa.INITIAL_INSTRUCTIONS", {context: placing(this.hands, this.currplayer) ? "place" : "play"});
             // Dicey Moves: lead with what the die allows
             if (this.die !== undefined) {
                 result.message = [i18next.t("apgames:validation.arimaa.DIE", {count: this.die.steps}), result.message].join(" ");
@@ -864,373 +488,12 @@ export class ArimaaGame extends GameBase {
         }
 
         if (setup) {
-            return this.validateSetup(m);
+            return validateSetup(this.board, this.hands![this.currplayer - 1], this.currplayer, this.variants, m);
         }
         if (isLegacy(m)) {
-            return this.validateLegacyMovement(m);
+            return validateLegacyMovement(this, m, this.maxSteps());
         }
         return this.validateNotation(m);
-    }
-
-    private validateSetup(m: string): IValidationResult {
-        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
-        const g = new SquareOrthGraph(8, 8);
-        // capture tokens written at the end of free setup carry no instruction
-        const steps = m.split(",").filter(Boolean).filter(mv => !mv.startsWith("x")).map(mv => ArimaaGame.baseMove(mv));
-            const cloned = this.clone();
-            const myhand = [...cloned.hands![cloned.currplayer - 1]];
-            for (const [pc, , cell] of steps) {
-                // must have pc in hand
-                if (!myhand.includes(pc)) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.arimaa.NOPIECE", {piece: pc2name.get(pc)});
-                    return result;
-                }
-                if (cell !== undefined) {
-                    // cell must be valid
-                    try {
-                        ArimaaGame.algebraic2coords(cell);
-                    } catch {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell});
-                        return result;
-                    }
-                    // cell must be empty, including of anything placed earlier in this move
-                    if (cloned.board.has(cell)) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: cell});
-                        return result;
-                    }
-                    // in normal play, must be on home ranks
-                    if (!this.variants.includes("free")) {
-                        const homeRows = this.currplayer === 1 ? [6,7] : [0,1];
-                        const [,y] = ArimaaGame.algebraic2coords(cell);
-                        if (!homeRows.includes(y)) {
-                            result.valid = false;
-                            result.message = i18next.t("apgames:validation.arimaa.HOME_ROW");
-                            return result;
-                        }
-                    }
-                    // fake place the piece
-                    cloned.board.set(cell, [pc, cloned.currplayer]);
-                    // remove the piece from the hand unless in free mode
-                    if (!this.variants.includes("free")) {
-                        myhand.splice(myhand.indexOf(pc), 1);
-                    }
-                }
-                // if it's just a piece number, we need a cell
-                else {
-                    result.valid = true;
-                    result.complete = -1;
-                    result.message = i18next.t("apgames:validation.arimaa.PARTIAL_PLACE");
-                    return result;
-                }
-            }
-
-            // if we've gotten this far, everything is valid
-            // now we just have to check completeness and return
-            let complete: -1|0|1;
-            let message: string;
-            // in free mode:
-            // - usually 0 with specific message
-            // - but must have 1 rabbit and none on the goal row
-            if (this.variants.includes("free")) {
-                const rabbits = [...cloned.board.entries()].filter(e => e[1][1] === cloned.currplayer && e[1][0] === "R").map(e => e[0]);
-                const goal = cloned.currplayer === 1 ? "8" : "1";
-                if (rabbits.length === 0 || rabbits.filter(cell => cell.endsWith(goal)).length > 0) {
-                    complete = -1;
-                    message = i18next.t("apgames:validation.arimaa.PARTIAL_FREE_NO")
-                } else {
-                    complete = 0;
-                    message = i18next.t("apgames:validation.arimaa.PARTIAL_FREE")
-                }
-            }
-            // otherwise, you have to place all your pieces,
-            // though the rabbits can be filled in for you
-            else {
-                const emptyHome = ArimaaGame.homeCells(cloned.currplayer).filter(c => !cloned.board.has(c));
-                const autoRabbits = myhand.length > 0 && myhand.every(pc => pc === "R") && emptyHome.length === myhand.length;
-                if (myhand.length > 0 && !autoRabbits) {
-                    complete = -1;
-                    message = i18next.t("apgames:validation.arimaa.PARTIAL_PLAY")
-                } else {
-                    // fake place the rabbits so the advice below sees the real setup
-                    if (autoRabbits) {
-                        for (const cell of emptyHome) {
-                            cloned.board.set(cell, ["R", cloned.currplayer]);
-                        }
-                    }
-                    // warnings go here
-                    const warnings: string[] = [];
-                    // same file (only silver)
-                    if (this.currplayer === 2) {
-                        const [e1, e2] = [...cloned.board.entries()].filter(e => e[1][0] === "E").map(e => e[0][0]);
-                        if (e1 === e2) {
-                            warnings.push(i18next.t("apgames:validation.arimaa.WARN_FILE") || "WARN");
-                        }
-                    }
-                    // unbalanced (gold and silver)
-                    const majors = [...cloned.board.entries()].filter(e => e[1][1] === this.currplayer && ["E", "M", "H"].includes(e[1][0])).map(e => ArimaaGame.algebraic2coords(e[0])[0]);
-                    const oneSide = majors.filter(n => n < 5).length;
-                    if (oneSide === 0 || oneSide === 4) {
-                        warnings.push(i18next.t("apgames:validation.arimaa.WARN_BALANCE") || "WARN");
-                    }
-                    // hiding (gold and silver)
-                    const frontRow = this.currplayer === 1 ? 6 : 1;
-                    const backRow = this.currplayer === 1 ? 7 : 0;
-                    for (let col = 0; col < 8; col++) {
-                        const frontCell = g.coords2algebraic(col, frontRow);
-                        const backCell = g.coords2algebraic(col, backRow);
-                        const front = cloned.board.get(frontCell)![0];
-                        const back = cloned.board.get(backCell)![0];
-                        if (ArimaaGame.strength(front) < ArimaaGame.strength(back)) {
-                            if (front !== "R" && back !== "C") {
-                                warnings.push(i18next.t("apgames:validation.arimaa.WARN_HIDE") || "WARN");
-                                break;
-                            }
-                        }
-                    }
-                    if (warnings.length > 0) {
-                        complete = 0;
-                        message = [i18next.t("apgames:validation.arimaa.WARNINGS"), ...warnings].join(" ");
-                    } else {
-                        // complete is never 1 for setup
-                        complete = 0;
-                        message = i18next.t("apgames:validation._general.VALID_MOVE")
-                    }
-                    if (autoRabbits) {
-                        message = [i18next.t("apgames:validation.arimaa.PARTIAL_RABBITS"), message].join(" ");
-                    }
-                }
-            }
-
-            result.valid = true;
-            result.canrender = true;
-            result.complete = complete;
-            result.message = message;
-            return result;
-        
-    }
-
-    // The pre-notation movement grammar: comma-separated `<piece><from><to>`
-    // steps with optional capture parentheticals. Kept verbatim so every
-    // historical move string still validates exactly as it did.
-    private validateLegacyMovement(m: string): IValidationResult {
-        const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
-        const g = new SquareOrthGraph(8, 8);
-        // This validator once had two lapses: a push completed by a piece of
-        // equal strength when a stronger one was also adjacent, and a pull that
-        // moved the pulled piece somewhere other than the square the puller
-        // vacated. Both are rejected here, so no new move can use them. A few
-        // recorded games contain such a move; they replay through `trusted`,
-        // which skips validation entirely, so no saved game is disturbed.
-        const classifications = ArimaaGame.classify(this.currplayer, m.split(",").filter(Boolean));
-        const steps = m.split(",").filter(Boolean).map(mv => ArimaaGame.baseMove(mv));
-            // can't make too many moves
-            const maxMoves = this.maxSteps();
-            if (steps.length > maxMoves) {
-                result.valid = false;
-                result.message = i18next.t("apgames:validation.arimaa.TOO_MANY", {num: maxMoves});
-                return result;
-            }
-            const cloned = this.clone();
-            // pushPending is used to make sure pushes are completed
-            let pushPending = false;
-            // validate each step
-            for (let i = 0; i < steps.length; i++) {
-                const [pc, owner, from, to] = steps[i];
-                // console.log(JSON.stringify({pc, owner, from, to}));
-                // validate from first
-                if (from === undefined) {
-                    throw new Error("From should never be undefined at this point.");
-                }
-                // valid cell
-                try {
-                    ArimaaGame.algebraic2coords(from);
-                } catch {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: from});
-                    return result;
-                }
-                // from contents match
-                if (!cloned.board.has(from) || cloned.board.get(from)![0] !== pc || cloned.board.get(from)![1] !== owner) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.NONEXISTENT");
-                    return result;
-                }
-                // if it's your piece, it can't be frozen
-                if (owner === cloned.currplayer && cloned.isFrozen(from)) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.arimaa.FROZEN", {where: from});
-                    return result;
-                }
-                // if a push is pending, then this move *must* be completing the push
-                if (pushPending) {
-                    const [lastPc, lastPlayer, lastFrom] = steps[i - 1];
-                    // lastPlayer must be the enemy
-                    // from must be adjacent to lastFrom
-                    // to must equal lastFrom
-                    // pc must be stronger than lastPc
-                    if (lastPlayer === cloned.currplayer || !g.neighbours(lastFrom!).includes(from) || (to !== undefined && to !== lastFrom) || ArimaaGame.strength(pc) <= ArimaaGame.strength(lastPc)) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.arimaa.INVALID_PUSH", {where: from});
-                        return result;
-                    }
-                    pushPending = false;
-                    // if this is the last step, suggest an autocomplete
-                    if (i === steps.length - 1 && to === undefined) {
-                        result.autocomplete = m + lastFrom;
-                    }
-                }
-                // if it's an enemy piece, it must be a push or pull
-                if (owner !== cloned.currplayer) {
-                    // check for pulls first
-                    let validPull = false;
-                    if (i > 0 && classifications[i - 1] !== "pusher") {
-                        const [lastPc, lastPlayer, lastFrom] = steps[i - 1];
-                        const ns = g.neighbours(from);
-                        if (lastPlayer === cloned.currplayer && ns.includes(lastFrom!) && ArimaaGame.strength(lastPc) > ArimaaGame.strength(pc) && (to === undefined || to === lastFrom)) {
-                            validPull = true;
-                            // check if push is possible
-                            let canPush = false;
-                            if (i < maxMoves - 1) {
-                                for (const n of g.neighbours(from)) {
-                                    if (cloned.board.has(n)) {
-                                        const [nPc, nOwner] = cloned.board.get(n)!;
-                                        if (nOwner === cloned.currplayer && ArimaaGame.strength(nPc) > ArimaaGame.strength(pc) && !cloned.isFrozen(n)) {
-                                            canPush = true;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            // if this is the last step, suggest an autocomplete
-                            if (i === steps.length - 1 && to === undefined) {
-                                if (i === maxMoves - 1 || !canPush) {
-                                    result.autocomplete = m + lastFrom;
-                                }
-                            }
-                        }
-                    }
-                    // if there is no valid pull, then it must be a push and be completed
-                    // on the next step
-                    if (!validPull) {
-                        pushPending = true;
-                        // for it to be a valid pending push, the current player must have
-                        // an unfrozen, stronger piece adjacent
-                        let validPush = false;
-                        for (const n of g.neighbours(from)) {
-                            if (cloned.board.has(n)) {
-                                const [nPc, nOwner] = cloned.board.get(n)!;
-                                if (nOwner === cloned.currplayer && ArimaaGame.strength(nPc) > ArimaaGame.strength(pc) && !cloned.isFrozen(n)) {
-                                    validPush = true;
-                                }
-                            }
-                        }
-                        if (!validPush) {
-                            result.valid = false;
-                            result.message = i18next.t("apgames:validation.arimaa.INVALID_PUSHPULL", {where: from});
-                            return result;
-                        }
-                    }
-                }
-
-                // partial move at the end of the chain
-                if (from !== undefined && to === undefined && i === steps.length - 1) {
-                    result.valid = true;
-                    result.complete = -1;
-                    result.message = i18next.t("apgames:validation.arimaa.PARTIAL_MOVE");
-                    result.canrender = true;
-                    return result;
-                }
-                // otherwise from and to must be defined
-                else if (from === undefined || to === undefined) {
-                    throw new Error("From and to should never be undefined at this point.");
-                }
-
-                // to is a valid cell
-                try {
-                    ArimaaGame.algebraic2coords(to);
-                } catch {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.INVALIDCELL", {cell: to});
-                    return result;
-                }
-                // to is empty
-                if (cloned.board.has(to)) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation._general.OCCUPIED", {where: to});
-                    return result;
-                }
-                // to is orthogonally adjacent
-                if (!g.neighbours(from).includes(to)) {
-                    result.valid = false;
-                    result.message = i18next.t("apgames:validation.arimaa.NOT_ADJ");
-                    return result;
-                }
-                // you can't move your own rabbits backwards
-                const forbidden = cloned.currplayer === 1 ? "S" : "N";
-                if (pc === "R" && owner === cloned.currplayer) {
-                    const [fx, fy] = ArimaaGame.algebraic2coords(from);
-                    const [tx, ty] = ArimaaGame.algebraic2coords(to);
-                    const bearing = RectGrid.bearing(fx, fy, tx, ty)!;
-                    if (bearing.startsWith(forbidden)) {
-                        result.valid = false;
-                        result.message = i18next.t("apgames:validation.arimaa.BACKWARDS", {where: from});
-                        return result;
-                    }
-                }
-
-                // fake execute the step
-                const moved = cloned.board.get(from)!;
-                cloned.board.set(to, moved);
-                cloned.board.delete(from);
-                // check traps
-                for (const trap of traps) {
-                    if (cloned.board.has(trap) && cloned.isAlone(trap)) {
-                        cloned.board.delete(trap);
-                    }
-                }
-            }
-
-            // At this point, everything is valid.
-            // Verify completeness and board state repetition and return.
-            // Because partial moves that are invalid can become valid with further steps,
-            // we can't return `valid: false`; return `complete: -1` instead.
-            let complete: -1|0|1;
-            let message: string;
-            // if the board position hasn't changed, then -1
-            if (cloned.signature() === this.signature()) {
-                complete = -1;
-                message = i18next.t("apgames:validation.arimaa.NOPASS");
-            }
-            // if third occurrence of position, then -1
-            else if (cloned.numRepeats() >= 2) {
-                complete = -1;
-                message = i18next.t("apgames:validation.arimaa.REPEAT");
-            }
-            // if a push is pending, then -1
-            else if (pushPending) {
-                complete = -1;
-                message = i18next.t("apgames:validation.arimaa.PARTIAL_PUSH");
-            }
-            // if the number of moves are < max moves, then 0
-            else if (steps.length < maxMoves) {
-                const remaining = maxMoves - steps.length;
-                complete = 0;
-                message = i18next.t("apgames:validation.arimaa.PARTIAL", {count: remaining});
-            }
-            // otherwise we're good
-            else {
-                complete = 1;
-                message = i18next.t("apgames:validation._general.VALID_MOVE");
-            }
-
-            result.valid = true;
-            result.canrender = true;
-            result.complete = complete;
-            result.message = message;
-            return result;
     }
 
     // Steps the mover may take this turn: what the die says in Dicey Moves,
@@ -1284,9 +547,10 @@ export class ArimaaGame extends GameBase {
         return `${pc}${sqName(tr.start)}${sqName(tr.final)}`;
     }
 
-    // Lightvector notation: resolve the tokens leniently and report: invalid for
-    // unreadable or unsatisfiable input, -1 while ambiguous, selecting or
-    // repeating, 1 only for a full turn with nothing inferred, otherwise 0.
+    // Lightvector notation: find the turn the tokens are shown as and report:
+    // invalid for unreadable or unsatisfiable input; -1 while nothing moves
+    // yet, a piece is only selected, or the position would repeat; otherwise
+    // 0, so that the move stays open to editing until the player completes it.
     private validateNotation(m: string): IValidationResult {
         const result: IValidationResult = {valid: false, message: i18next.t("apgames:validation._general.DEFAULT_HANDLER")};
         let parsed: ParsedMove;
@@ -1301,52 +565,60 @@ export class ArimaaGame extends GameBase {
             result.message = i18next.t("apgames:validation.arimaa.TOO_LONG", {num: maxMoves});
             return result;
         }
+        // a push entered step by step waits for the piece that pushes
+        const awaitsPusher = (shown: Map<string, CellContents>): boolean =>
+            pendingPush(shown, this.currplayer, parsed.selections ?? []) !== undefined;
         // only a selected piece so far
         if (parsed.tokens.length === 0) {
             result.valid = true;
             result.complete = -1;
             result.canrender = true;
-            result.message = i18next.t("apgames:validation.arimaa.PARTIAL_MOVE");
+            result.message = i18next.t(awaitsPusher(this.board) ? "apgames:validation.arimaa.PARTIAL_PUSH" : "apgames:validation.arimaa.PARTIAL_MOVE");
             return result;
         }
-        const r = resolve(this.board, this.currplayer, maxMoves, parsed.tokens, true);
-        if (r.status === "unsatisfiable") {
+        const d = display(this.board, this.currplayer, maxMoves, parsed.tokens);
+        if (d.status === "unsatisfiable") {
             result.message = this.explainUnsatisfiable(parsed.tokens, maxMoves);
             return result;
         }
         result.valid = true;
         result.canrender = true;
-        if (r.status === "ambiguous") {
-            result.complete = -1;
-            result.message = i18next.t("apgames:validation.arimaa.AMBIGUOUS", {count: r.positions});
-            return result;
-        }
-        // the move is known; repetition is checked only now
-        const cloned = this.clone();
-        cloned.applyTurn(r.turn);
-        if (cloned.numRepeats() >= 2) {
-            result.complete = -1;
-            result.message = i18next.t("apgames:validation.arimaa.REPEAT");
-            return result;
-        }
-        const extra = inferred(r.turn, parsed.tokens);
-        const used = r.turn.steps.length;
         const messages: string[] = [];
-        if (used === maxMoves) {
-            // auto-completion only when the player has seen every piece that moves
-            result.complete = extra.length === 0 ? 1 : 0;
-            messages.push(i18next.t("apgames:validation._general.VALID_MOVE"));
+        let shown = this.board;
+        if (d.status === "idle") {
+            // pieces are only held where they stand: there is no move to submit yet
+            result.complete = -1;
+            messages.push(i18next.t("apgames:validation.arimaa.IDLE"));
         } else {
+            // the move is known; repetition is checked only now
+            const cloned = this.clone();
+            cloned.applyTurn(d.turn);
+            shown = cloned.board;
+            if (cloned.numRepeats() >= 2) {
+                result.complete = -1;
+                result.message = i18next.t("apgames:validation.arimaa.REPEAT");
+                return result;
+            }
             result.complete = 0;
-            messages.push(i18next.t("apgames:validation.arimaa.PARTIAL", {count: maxMoves - used}));
-        }
-        if (extra.length > 0) {
-            messages.push(i18next.t("apgames:validation.arimaa.INFERRED", {pieces: extra.map(tr => this.describeTrajectory(tr)).join(", ")}));
+            const used = d.turn.steps.length;
+            if (used === maxMoves) {
+                messages.push(i18next.t("apgames:validation._general.VALID_MOVE"));
+            } else {
+                messages.push(i18next.t("apgames:validation.arimaa.PARTIAL", {count: maxMoves - used}));
+            }
+            // an entry that ends with the steps of its turn names every piece in them: what else it says is what was asked for
+            const extra = inferred(d.turn, declared(parsed.tokens, d.turn));
+            if (extra.length > 0) {
+                messages.push(i18next.t("apgames:validation.arimaa.INFERRED", {pieces: extra.map(tr => this.describeTrajectory(tr)).join(", ")}));
+            }
+            if (d.by === "choice") {
+                // what is shown is one of several moves the entry fits, and it is the one a submission plays
+                messages.push(i18next.t("apgames:validation.arimaa.AMBIGUOUS", {count: d.positions}));
+            }
         }
         if (parsed.pending !== undefined) {
-            // a selected piece never submits on its own; the hint says what a click does
-            result.complete = 0;
-            messages.push(i18next.t("apgames:validation.arimaa.INCOMPLETE"));
+            // a selection is dropped on submission; the hint says what a click does
+            messages.push(i18next.t(awaitsPusher(shown) ? "apgames:validation.arimaa.PARTIAL_PUSH" : "apgames:validation.arimaa.INCOMPLETE"));
         }
         result.message = messages.join(" ");
         return result;
@@ -1386,7 +658,7 @@ export class ArimaaGame extends GameBase {
         if (to !== undefined && to !== from && occupant[0] === "R" && (this.currplayer === 1 ? to[1] < from[1] : to[1] > from[1])) {
             return i18next.t("apgames:validation.arimaa.BACKWARDS");
         }
-        if (this.isFrozen(from)) {
+        if (isFrozen(this.board, from)) {
             return i18next.t("apgames:validation.arimaa.NO_MOVE_FROZEN", {from});
         }
         if (to !== undefined && to !== from) {
@@ -1400,7 +672,7 @@ export class ArimaaGame extends GameBase {
             throw new UserFacingError("MOVES_GAMEOVER", i18next.t("apgames:validation._general.MOVES_GAMEOVER"));
         }
 
-        const setup = this.hands !== undefined && this.hands[this.currplayer - 1].length > 0;
+        const setup = placing(this.hands, this.currplayer);
         if (setup || isLegacy(m)) {
             m = m.replace(/\s+/g, "");
         } else {
@@ -1415,7 +687,7 @@ export class ArimaaGame extends GameBase {
         // top up a standard setup with the rabbits the player didn't place
         // (a no-op on a setup that's already complete, so replays are unaffected)
         if (!partial) {
-            m = this.fillRabbits(m);
+            m = fillRabbits(this.board, this.hands, this.currplayer, this.variants, m);
         }
 
         const initial = this.clone(); // used to triple check that the board state changes
@@ -1427,8 +699,9 @@ export class ArimaaGame extends GameBase {
             this.results.push({type: "roll", values: [this.die.steps]});
         }
         this._selected = undefined;
+        this._selections = undefined;
+        this._entryMove = undefined;
         this._arrows = undefined;
-        this._holds = undefined;
         this._marks = undefined;
         if (m.length > 0) {
             if (setup) {
@@ -1442,7 +715,7 @@ export class ArimaaGame extends GameBase {
             } else {
                 const turn = this.applyNotation(m, partial);
                 if (turn !== undefined && !partial) {
-                    lastmove.push(serializeTurn(initial.board, this.currplayer, this.maxSteps(), turn) ?? m);
+                    lastmove.push(serializeTurn(initial.board, this.currplayer, this.maxSteps(), turn) ?? turn.steps.map(st => `${pieceChar(st.piece, st.owner)}${sqName(st.from)}${st.dir}`).join(" "));
                 }
             }
         }
@@ -1454,7 +727,7 @@ export class ArimaaGame extends GameBase {
         // failsafe checks
         // except for "free" variant, nobody should have pieces in hand at the end of the turn
         if (!this.variants.includes("free")) {
-            if (this.hands !== undefined && this.hands[this.currplayer - 1].length > 0) {
+            if (placing(this.hands, this.currplayer)) {
                 throw new Error("Players should only have empty hands at the end of the turn.");
             }
         }
@@ -1482,7 +755,7 @@ export class ArimaaGame extends GameBase {
         // After free setup, activate all traps
         if (this.variants.includes("free") && this.stack.length === 2) {
             for (const trap of traps) {
-                if (this.board.has(trap) && this.isAlone(trap)) {
+                if (this.board.has(trap) && isAlone(this.board, trap)) {
                     const [trapPc, trapOwner] = this.board.get(trap)!;
                     this.board.delete(trap);
                     this.results.push({type: "destroy", what: trapOwner === 1 ? trapPc : trapPc.toLowerCase(), where: trap});
@@ -1534,7 +807,7 @@ export class ArimaaGame extends GameBase {
         this.board.delete(from);
         this.results.push({type: "move", from, to});
         for (const trap of traps) {
-            if (this.board.has(trap) && this.isAlone(trap)) {
+            if (this.board.has(trap) && isAlone(this.board, trap)) {
                 const [trapPc, trapOwner] = this.board.get(trap)!;
                 this.board.delete(trap);
                 this.results.push({type: "destroy", what: trapOwner === 1 ? trapPc : trapPc.toLowerCase(), where: trap});
@@ -1552,7 +825,7 @@ export class ArimaaGame extends GameBase {
     // Placement: returns the notation for each piece placed.
     private applySetup(m: string): string[] {
         const parts: string[] = [];
-        const steps = m.split(",").filter(Boolean).filter(mv => !mv.startsWith("x")).map(mv => ArimaaGame.baseMove(mv));
+        const steps = m.split(",").filter(Boolean).filter(mv => !mv.startsWith("x")).map(mv => baseMove(mv));
         for (let i = 0; i < steps.length; i++) {
             const [pc, , from] = steps[i];
             if (from !== undefined) {
@@ -1575,7 +848,7 @@ export class ArimaaGame extends GameBase {
     private applyLegacy(m: string): {steps: Array<{from: string; to: string}>; legacy: string[]} {
         const taken: Array<{from: string; to: string}> = [];
         const legacy: string[] = [];
-        const steps = m.split(",").filter(Boolean).map(mv => ArimaaGame.baseMove(mv));
+        const steps = m.split(",").filter(Boolean).map(mv => baseMove(mv));
         for (let i = 0; i < steps.length; i++) {
             const [pc, owner, from, to] = steps[i];
             if (from !== undefined && to !== undefined) {
@@ -1593,34 +866,46 @@ export class ArimaaGame extends GameBase {
         return {steps: taken, legacy};
     }
 
-    // Lightvector notation: resolve and play the turn. Returns nothing when a
-    // partial move does not (yet) denote one; the arrows are kept for drawing.
+    // Lightvector notation: play the turn the tokens are shown as. Returns
+    // nothing when a partial move does not (yet) denote one; the arrows are
+    // kept for drawing.
     private applyNotation(m: string, partial: boolean): Turn|undefined {
         // a selection never blocks a submission: it is simply dropped
         const parsed = parseMove(m, true);
         this._selected = parsed.pending;
+        this._selections = parsed.selections;
+        this._entryMove = m;
         if (parsed.tokens.length === 0) {
+            this.drawPendingPush(parsed);
             return undefined;
         }
-        const r = resolve(this.board, this.currplayer, this.maxSteps(), parsed.tokens, true);
-        if (r.status !== "resolved") {
+        const d = display(this.board, this.currplayer, this.maxSteps(), parsed.tokens);
+        if (d.status !== "turn") {
             if (!partial) {
-                throw new UserFacingError("VALIDATION_GENERAL", i18next.t(r.status === "ambiguous" ? "apgames:validation.arimaa.AMBIGUOUS" : "apgames:validation.arimaa.NO_MOVE", {count: r.status === "ambiguous" ? r.positions : 0}));
+                throw new UserFacingError("VALIDATION_GENERAL", i18next.t(d.status === "idle" ? "apgames:validation.arimaa.NOPASS" : "apgames:validation.arimaa.NO_MOVE"));
             }
             // the move does not yet denote a turn, so draw what was entered
             this._arrows = parsed.tokens.filter(isArrow).map(t => [t.spec.square!, (t.prop as {square: string}).square]);
-            this._holds = parsed.tokens.filter(isHold).map(t => t.spec.square!);
             this._marks = parsed.tokens.filter(isMark).map(t => t.spec.square!);
+            if (d.status === "idle") {
+                this.drawPendingPush(parsed);
+            }
             return undefined;
         }
-        this.applyTurn(r.turn);
+        this.applyTurn(d.turn);
         if (partial) {
-            // the turn's own results draw its arrows and captures, but a held
-            // piece leaves no trace in them, and the player needs to see that
-            // the hold is there (a click on it lifts it)
-            this._holds = parsed.tokens.filter(isHold).map(t => t.spec.square!);
+            this.drawPendingPush(parsed);
         }
-        return r.turn;
+        return d.turn;
+    }
+
+    // The enemy piece's step of a push entered step by step is drawn as an
+    // arrow while the pusher's step is still to come.
+    private drawPendingPush(parsed: ParsedMove): void {
+        const push = pendingPush(this.board, this.currplayer, parsed.selections ?? []);
+        if (push !== undefined) {
+            this._arrows = [...(this._arrows ?? []), [push.from, push.to]];
+        }
     }
 
     protected checkEOG(): ArimaaGame {
@@ -1709,7 +994,7 @@ export class ArimaaGame extends GameBase {
         };
     }
 
-    public render(): APRenderRep {
+    public render(opts: IArimaaRenderOpts = {}): APRenderRep {
         // Build piece string
         const plst: string[] = [];
         for (let row = 0; row < 8; row++) {
@@ -1718,7 +1003,7 @@ export class ArimaaGame extends GameBase {
                 const cell = ArimaaGame.coords2algebraic(col, row);
                 if (this.board.has(cell)) {
                     const [pc, owner] = this.board.get(cell)!;
-                    pieces.push(`${pc}${owner}${this.isFrozen(cell) ? "x" : ""}`);
+                    pieces.push(`${pc}${owner}${isFrozen(this.board, cell) ? "x" : ""}`);
                 } else {
                     pieces.push("-");
                 }
@@ -1792,7 +1077,7 @@ export class ArimaaGame extends GameBase {
 
         // add an area if the current player has pieces to place
         let areas: AreaPieces[]|undefined;
-        if (this.hands !== undefined && this.hands[this.currplayer - 1].length > 0) {
+        if (placing(this.hands, this.currplayer)) {
             // add pieces to legend with wider click boxes to the legend
             for (const [key, pc] of [...Object.entries(legend)]) {
                 if (key !== "T" && !Array.isArray(pc)) {
@@ -1885,6 +1170,46 @@ export class ArimaaGame extends GameBase {
             });
         }
 
+        // Advanced trap capture control: one custom SVG triangle is both the
+        // visible control and its hit shape. Unlike an ordinary shading
+        // marker, the renderer gives board pieces a click handler. The
+        // triangle is filled where clicking it has the piece captured, and
+        // a thick outline where it keeps the piece alive; the outline's
+        // interior is painted fully transparent so that it is still hit.
+        if (opts.inputMode === "advanced" && this._entryMove !== undefined && this._selected !== undefined) {
+            const original = this.stack[this.stack.length - 1].board;
+            const choices = captureChoices(original, this.currplayer, this.maxSteps(), this._entryMove);
+            if (choices.size > 0) {
+                rep.glyphDefs = {};
+                // Board pieces normally have a 0.85 placement inset. Cancel it
+                // to align the polygon exactly to the grid: x=[0.5,1], y=[0,0.5]
+                // of the trap cell.
+                const paint = {func: "flatten", fg: "_context_fill", bg: "_context_board", opacity: 0.5} as const;
+                if ([...choices.values()].includes(true)) {
+                    rep.glyphDefs["arimaa-trap-choice"] = {
+                        viewBox: [0, 0, 100, 100],
+                        markup: '<polygon points="50,0 100,0 100,50" fill="#ffffff" data-slot-fill="fill"/>',
+                    };
+                    legend[ARIMAA_CAPTURE_CHOICE] = {def: "arimaa-trap-choice", scale: 1 / 0.85, paint: {fill: paint}};
+                }
+                if ([...choices.values()].includes(false)) {
+                    rep.glyphDefs["arimaa-trap-spare"] = {
+                        viewBox: [0, 0, 100, 100],
+                        markup: '<polygon points="62,5 95,5 95,38" fill="#ffffff" fill-opacity="0" stroke="#ffffff" stroke-width="10" stroke-linejoin="round" data-slot-stroke="fill"/>',
+                    };
+                    legend[ARIMAA_SPARE_CHOICE] = {def: "arimaa-trap-spare", scale: 1 / 0.85, paint: {fill: paint}};
+                }
+                // This is a render-only extra layer. The actual game board,
+                // saved moves and the mode-independent pieces stay unchanged.
+                const layers = plst.map(line => line.split(",").map(key => key === "-" ? [] : [key]));
+                for (const [trap, captured] of choices) {
+                    const [x, y] = ArimaaGame.algebraic2coords(trap);
+                    layers[y][x].push(captured ? ARIMAA_CAPTURE_CHOICE : ARIMAA_SPARE_CHOICE);
+                }
+                rep.pieces = [layers[0], ...layers.slice(1)];
+            }
+        }
+
         // Add annotations: one arrow per piece from where it started the turn
         // to where it ended up, the enter glyph for a piece back where it began,
         // and the exit glyph on a trap that claimed a piece
@@ -1893,7 +1218,6 @@ export class ArimaaGame extends GameBase {
             const [x, y] = ArimaaGame.algebraic2coords(cell);
             return {row: y, col: x};
         };
-        const entered = new Set<string>();
         const exited = new Set<string>();
         for (const tr of ArimaaGame.trajectoriesFromResults(this.results)) {
             if (tr.start !== tr.final) {
@@ -1904,7 +1228,6 @@ export class ArimaaGame extends GameBase {
                 exited.add(tr.final);
             } else if (tr.start === tr.final) {
                 rep.annotations.push({type: "enter", targets: [point(tr.start)]});
-                entered.add(tr.start);
             }
         }
         for (const r of this.results) {
@@ -1918,15 +1241,7 @@ export class ArimaaGame extends GameBase {
                 rep.annotations.push({type: "move", targets: [point(from), point(to)]});
             }
         }
-        // holds are drawn as the piece entering its own square, capture marks as it leaving
-        if (this._holds !== undefined) {
-            for (const sq of this._holds) {
-                if (!entered.has(sq) && !exited.has(sq)) {
-                    rep.annotations.push({type: "enter", targets: [point(sq)]});
-                    entered.add(sq);
-                }
-            }
-        }
+        // capture marks are drawn as the piece leaving
         if (this._marks !== undefined) {
             for (const sq of this._marks) {
                 if (!exited.has(sq)) {
@@ -1935,16 +1250,16 @@ export class ArimaaGame extends GameBase {
                 }
             }
         }
-        // show selected piece if present
-        if (this._selected !== undefined) {
-            const [x, y] = ArimaaGame.algebraic2coords(this._selected);
+        // A chain can have several selected pieces. Highlight each square,
+        // including an enemy which is about to be pushed or pulled.
+        for (const square of this._selections ?? (this._selected === undefined ? [] : [this._selected])) {
+            const [x, y] = ArimaaGame.algebraic2coords(square);
             (rep.board as BoardBasic).markers!.push({
                 type: "flood",
                 colour: this.getPlayerColour(this.currplayer),
                 opacity: 0.25,
                 points: [{row: y, col: x}],
             });
-            // rep.annotations.push({type: "enter", targets: [{row: y, col: x}]});
         }
         if (rep.annotations.length === 0) {
             delete rep.annotations;

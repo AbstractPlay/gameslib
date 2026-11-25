@@ -26,6 +26,8 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **New games:** Clear Path, Kill-All Go, Selfo, Thue-Morse Go, Yodd, Yonkoma (Kill-All Go handicap opening variant remains unrated).
 - **Quax:** optional **Diamond board** display (`squares-diamonds` with connection flood fill; vertex board remains default).
 - **Locale tooling:** `npm run audit-locale` (dev-only catalog/shape/stale-MT audit with `locale-src/en/_locale-audit-allowlist.json`); `npm test` includes full-registry **missing catalog key** checks for runtime i18n.
+- **Arimaa: Dicey Moves**
+  - Roll a weighted d4 (weights {1, 1, 1, 3}) and take up to that number of steps each turn (see wiki for details)
 
 ### Fixed
 
@@ -53,6 +55,21 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **`handleClick` API:** optional fifth argument **`IHandleClickUi`** (`panelId`, `board` as **`IClickBoardContext`**) for composite panels and draw-grid-aware board clicks; clients pass `ui.board` from the visible `APRenderRep.board` (Abstract Play front and playground ship this for Quax diamond-board).
 - **Render annotations:** connection paths, win lines, and other undirected polylines use `type: "line"` instead of `type: "move"` with `arrow: false` (dozens of games; piece-slide highlights unchanged in Tintas, Chase, and Swarm; Even at Odds unchanged; Fractured score-track shifts stay `move` with arrows; Sentinel lines-of-sight stay `move` without arrowheads).
 - **Clear Path:** after a cut-off win the board no longer draws the winner's sealing chain (which steps diagonally and could pass a crosscut); it draws one of the winner's remaining possible connections instead, the one needing the fewest further stones, as a dashed line with the stones still to be placed shown faintly. A completed winning path is still drawn as a solid line. Game description states the cut-off ending, and the move-log line names the winner and the dashed line (`version` `20261117`).
+- **Arimaa Input Update:**
+  - Control Inputs (lowest priority; actual input takes precedence)
+    - Click on an empty square to mark the move complete
+    - Click on an opposing piece to undo the last move token
+  - Basic Input Mode (default)
+    - Click on a piece and then its destination to move it (and never any other piece) there
+    - "Chains" work, except for the 2-piece loop chain, which was deemed too easy to accidentally input and get surprised by for Basic Mode (it works in Advanced Mode)
+    - Pushes and Pulls can be input in either order
+    - The order you move pieces in determines which pieces are captured and not captured in traps
+  - Advanced Input Mode
+    - Click on a piece and then its final destination to move it there
+    - "Chains" work
+    - Moves which are necessary to make your input legal are inferred
+    - When a triangle appears in the corner of a trap square, click it when it's hollow to try to not capture the piece you're moving there, click it when it's filled to try to capture the piece you're moving there
+    - Clicking on an empty square you can move a piece to without selecting a piece first (called a "target" click/move internally) moves a piece there if it can narrow your intention down to one possibility (see wiki for exact hierarchy)
 
 ### Fixed
 

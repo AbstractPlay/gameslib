@@ -400,12 +400,12 @@ describe("TzaarGame", () => {
         expect(soloRep.pieces).to.not.include("Ah1");
     });
 
-    it("flat display uses plain discs with type-coloured borders", () => {
+    it("flat display uses thick-rim discs with type-coloured borders", () => {
         const rep = new TzaarGame().render({});
         const b = rep.legend!["B"] as { name?: string; paint?: { border?: { palette?: number; default?: string } } };
         const c = rep.legend!["C"] as { name?: string; paint?: { border?: { palette?: number; default?: string } } };
-        expect(b.name).to.equal("piece");
-        expect(c.name).to.equal("piece");
+        expect(b.name).to.equal("piece-thick");
+        expect(c.name).to.equal("piece-thick");
         expect(b.paint?.border?.palette).to.equal(5);
         expect(b.paint?.border?.default).to.equal("#1f78b4");
         expect(c.paint?.border?.palette).to.equal(9);

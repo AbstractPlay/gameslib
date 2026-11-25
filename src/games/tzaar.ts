@@ -120,10 +120,10 @@ function flatTypeBorder(owner: playerid, kind: PieceKind): Colourfuncs {
     return { func: "custom", default: defaultByKind[kind], palette: paletteByKind[kind][owner] };
 }
 
-/** Flat display: plain discs; rim colour encodes piece type (palette slots unchanged for customize). */
+/** Flat display: thick-rim discs; rim colour encodes piece type (palette slots unchanged for customize). */
 function buildFlatBaseLegend(p1: Colourfuncs, p2: Colourfuncs): FlatLegend {
     const flatPiece = (fill: Colourfuncs, owner: playerid, kind: PieceKind): Glyph => ({
-        name: "piece",
+        name: "piece-thick",
         paint: { fill, border: flatTypeBorder(owner, kind) },
     });
     return {

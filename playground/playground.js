@@ -594,7 +594,8 @@ function applyPlaygroundClickResult(game, gamename, result) {
         movebox.classList.add("move-ready");
     }
     if ( ( (result.hasOwnProperty("canrender")) && (result.canrender === true) ) || (result.complete >= 0) ) {
-        let renderOpts = playgroundRenderOpts(game, gamename);
+        // a click result's opts are meant for render(), as on the live site
+        let renderOpts = playgroundRenderOpts(game, gamename, result.opts);
         applyPlaygroundDisplayRenderOpts(renderOpts);
         const dotClearPartial =
             result.valid &&

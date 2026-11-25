@@ -162,6 +162,24 @@ describe("Lyngk jokers", () => {
 });
 
 describe("Lyngk movement", () => {
+    it("allows claim-then-LYNGK when unclaimed top colour needs ownership for chains", () => {
+        const graph = new LyngkGraph();
+        const board = new Map<string, PieceColour[]>([
+            ["b3", [2, 5, 3]],
+            ["c2", [1]],
+            ["c4", [3]],
+            ["c5", [4]],
+            ["d4", [1]],
+            ["d5", [4]],
+        ]);
+        const g = gameFromBoard(board);
+        expect(g.moves().some((m) => m.startsWith("3,b3-"))).to.equal(true);
+        const v = g.validateMove("3,b3");
+        expect(v.valid).to.equal(true);
+        expect(v.complete).to.equal(0);
+        const next = legalNextCellsForPath(graph, board, initialClaims(), 1, ["b3"], 3);
+        expect(next.length).to.be.greaterThan(0);
+    });
     const graph = new LyngkGraph();
 
     it("parseCellChain accepts optional claim prefix via parseClaimPrefix", () => {

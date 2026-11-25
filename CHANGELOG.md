@@ -15,7 +15,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, DVONN, GIPF, Ice Palace, LYNGK, Polypods, Skisma, Squares, TZAAR, YINSH, ZERTZ.
 
-## [1.0.0-ci] - 2026-11-23
+## [1.0.0-ci] - 2026-11-25
 
 ### Added
 
@@ -41,6 +41,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **Thricewise:** move log and ply export attribute compound placements (and related flat `_results`) using stored `who`, not `currplayer`, so the inactive seat’s elim token on simultaneous wire no longer credits the wrong player.
 - **Buku:** move log uses `TAKE.row` / `TAKE.col` and `CLAIM.singletons` / `CLAIM.repetition` i18n stems so take and claim lines translate instead of showing raw keys.
 - **Yonkoma:** `eogSubjectSeat()` reports the crosscut loser for completed-game indexes; completed-game lists interpolate `{{player}}` when `gameEndPlayer` is present (with front/backend support).
+- **LYNGK:** claim-prefixed turns evaluate legality as if the reserve claim already applied, so LYNGK chains and landings that require owning the top colour (e.g. claim green then move `b3` with green on top) appear in the move list and click handler.
 
 ### Changed
 

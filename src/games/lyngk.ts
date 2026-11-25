@@ -24,8 +24,9 @@ import {
 } from "./lyngk/colours.js";
 import {
     allLegalMoveStrings,
-    anyBoardPath,
+    anyLegalMove,
     bothImmobilized,
+    effectiveClaims,
     legalNextCellsForPath,
     pathIsLegal,
 } from "./lyngk/move.js";
@@ -286,7 +287,7 @@ export class LyngkGame extends GameBase {
 
     private syncMoveHighlightsFromMove(m: string): void {
         this.clearMoveHighlights();
-        const { rest } = parseClaimPrefix(m.toLowerCase().replace(/\s+/g, ""));
+        const { claim, rest } = parseClaimPrefix(m.toLowerCase().replace(/\s+/g, ""));
         const cells = parseCellChain(rest);
         if (cells === undefined || cells.length === 0) {
             return;
@@ -298,6 +299,7 @@ export class LyngkGame extends GameBase {
             this.claims,
             this.currplayer,
             cells,
+            claim,
         );
     }
 
@@ -329,7 +331,7 @@ export class LyngkGame extends GameBase {
         }
 
         if (m === "pass") {
-            if (anyBoardPath(this.graph, this.board, this.claims, this.currplayer)) {
+            if (anyLegalMove(this.graph, this.board, this.claims, this.claimed, this.currplayer)) {
                 result.message = i18next.t("apgames:validation.lyngk.NO_PASS");
                 return result;
             }
@@ -371,19 +373,20 @@ export class LyngkGame extends GameBase {
             return result;
         }
 
-        if (claim !== undefined && !anyBoardPath(this.graph, this.board, this.claims, this.currplayer)) {
+        if (claim !== undefined && !anyLegalMove(this.graph, this.board, this.claims, this.claimed, this.currplayer)) {
             result.message = i18next.t("apgames:validation.lyngk.CLAIM_WITHOUT_MOVE");
             return result;
         }
 
+        const moveClaims = effectiveClaims(this.claims, this.currplayer, claim);
         const from = cells[0]!;
-        if (!this.board.has(from) || !canPlayerUseStack(this.claims, this.board.get(from)!, this.currplayer)) {
+        if (!this.board.has(from) || !canPlayerUseStack(moveClaims, this.board.get(from)!, this.currplayer)) {
             this.clearMoveHighlights();
             result.message = i18next.t("apgames:validation.lyngk.INVALID_MOVE");
             return result;
         }
 
-        if (cells.length >= 2 && pathIsLegal(this.graph, this.board, this.claims, this.currplayer, cells)) {
+        if (cells.length >= 2 && pathIsLegal(this.graph, this.board, this.claims, this.currplayer, cells, claim)) {
             const formatted = formatMove(claim, cells);
             if (!this.moves().includes(formatted)) {
                 this.clearMoveHighlights();
@@ -397,7 +400,7 @@ export class LyngkGame extends GameBase {
             return result;
         }
 
-        const nextCells = legalNextCellsForPath(this.graph, this.board, this.claims, this.currplayer, cells);
+        const nextCells = legalNextCellsForPath(this.graph, this.board, this.claims, this.currplayer, cells, claim);
         if (nextCells.length > 0) {
             result.valid = true;
             result.complete = 0;
@@ -477,7 +480,7 @@ export class LyngkGame extends GameBase {
         if (this.gameover) {
             return this;
         }
-        if (!bothImmobilized(this.graph, this.board, this.claims)) {
+        if (!bothImmobilized(this.graph, this.board, this.claims, this.claimed)) {
             return this;
         }
         this.gameover = true;
@@ -526,8 +529,9 @@ export class LyngkGame extends GameBase {
                 const { claim, rest } = parseClaimPrefix(newmove);
                 const chain = parseCellChain(rest) ?? [];
 
+                const moveClaims = effectiveClaims(this.claims, this.currplayer, claim);
                 if (chain.length === 0) {
-                    if (this.board.has(cell) && canPlayerUseStack(this.claims, this.board.get(cell)!, this.currplayer)) {
+                    if (this.board.has(cell) && canPlayerUseStack(moveClaims, this.board.get(cell)!, this.currplayer)) {
                         newmove = formatMove(claim, [cell]);
                     }
                 } else {
@@ -538,12 +542,13 @@ export class LyngkGame extends GameBase {
                         this.claims,
                         this.currplayer,
                         chain,
+                        claim,
                     );
                     if (cell === last && chain.length === 1) {
                         newmove = formatMove(claim, [cell]);
                     } else if (next.includes(cell)) {
                         newmove = formatMove(claim, [...chain, cell]);
-                    } else if (canPlayerUseStack(this.claims, this.board.get(cell)!, this.currplayer)) {
+                    } else if (canPlayerUseStack(moveClaims, this.board.get(cell)!, this.currplayer)) {
                         newmove = formatMove(claim, [cell]);
                     }
                 }

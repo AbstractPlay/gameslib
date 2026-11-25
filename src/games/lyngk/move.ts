@@ -11,6 +11,22 @@ import {
 } from "./colours.js";
 import { canLandStacks } from "./stack.js";
 import { formatMove } from "./notation.js";
+import { cloneClaims } from "./setup.js";
+
+/** Claims state as after an optional same-turn reserve claim (for move generation / validation). */
+export function effectiveClaims(
+    claims: ClaimState,
+    player: playerid,
+    pendingClaim?: ActiveColour,
+): ClaimState {
+    if (pendingClaim === undefined) {
+        return claims;
+    }
+    const next = cloneClaims(claims);
+    next.owner[pendingClaim - 1] = player;
+    next.inReserve.delete(pendingClaim);
+    return next;
+}
 
 const DIRS: HexDir[] = ["NE", "E", "SE", "SW", "W", "NW"];
 
@@ -69,15 +85,17 @@ export function legalCellPaths(
     board: Board,
     claims: ClaimState,
     player: playerid,
+    pendingClaim?: ActiveColour,
 ): string[][] {
+    const eff = effectiveClaims(claims, player, pendingClaim);
     const out: string[][] = [];
     const seen = new Set<string>();
 
     for (const [from, mover] of board) {
-        if (!canPlayerUseStack(claims, mover, player)) {
+        if (!canPlayerUseStack(eff, mover, player)) {
             continue;
         }
-        const lyngk = lyngkColourForStack(claims, mover, player);
+        const lyngk = lyngkColourForStack(eff, mover, player);
 
         const visit = (current: string, path: string[], usedLyngk: Set<string>): void => {
             for (const land of slideLandings(graph, board, current)) {
@@ -89,7 +107,7 @@ export function legalCellPaths(
                 const asLyngk =
                     lyngk !== undefined
                     && path.length >= 1
-                    && isLyngkPoint(claims, board, land, lyngk, player);
+                    && isLyngkPoint(eff, board, land, lyngk, player);
 
                 if (asLyngk) {
                     if (usedLyngk.has(land)) {
@@ -101,7 +119,7 @@ export function legalCellPaths(
                     continue;
                 }
 
-                if (canLandStacks(claims, mover, target, player)) {
+                if (canLandStacks(eff, mover, target, player)) {
                     const full = [...path, land];
                     const key = full.join("-");
                     if (!seen.has(key)) {
@@ -147,16 +165,18 @@ export function pathIsLegal(
     claims: ClaimState,
     player: playerid,
     cells: string[],
+    pendingClaim?: ActiveColour,
 ): boolean {
     if (cells.length < 2) {
         return false;
     }
+    const eff = effectiveClaims(claims, player, pendingClaim);
     const origin = cells[0]!;
     const mover = board.get(origin);
-    if (mover === undefined || !canPlayerUseStack(claims, mover, player)) {
+    if (mover === undefined || !canPlayerUseStack(eff, mover, player)) {
         return false;
     }
-    const lyngk = lyngkColourForStack(claims, mover, player);
+    const lyngk = lyngkColourForStack(eff, mover, player);
     const usedLyngk = new Set<string>();
 
     for (let i = 0; i < cells.length - 1; i++) {
@@ -167,15 +187,33 @@ export function pathIsLegal(
         }
         const terminal = i === cells.length - 2;
         if (terminal) {
-            return canLandStacks(claims, mover, board.get(to)!, player);
+            return canLandStacks(eff, mover, board.get(to)!, player);
         }
-        if (lyngk === undefined || !isLyngkPoint(claims, board, to, lyngk, player)) {
+        if (lyngk === undefined || !isLyngkPoint(eff, board, to, lyngk, player)) {
             return false;
         }
         if (usedLyngk.has(to)) {
             return false;
         }
         usedLyngk.add(to);
+    }
+    return false;
+}
+
+export function anyLegalMove(
+    graph: LyngkGraph,
+    board: Board,
+    claims: ClaimState,
+    claimed: [ActiveColour[], ActiveColour[]],
+    player: playerid,
+): boolean {
+    if (legalCellPaths(graph, board, claims, player).length > 0) {
+        return true;
+    }
+    for (const c of legalClaimColours(claims, claimed, player)) {
+        if (legalCellPaths(graph, board, claims, player, c).length > 0) {
+            return true;
+        }
     }
     return false;
 }
@@ -187,14 +225,15 @@ export function allLegalMoveStrings(
     claimed: [ActiveColour[], ActiveColour[]],
     player: playerid,
 ): string[] {
-    const paths = legalCellPaths(graph, board, claims, player);
-    if (paths.length === 0) {
+    if (!anyLegalMove(graph, board, claims, claimed, player)) {
         return ["pass"];
     }
-    const claimOpts: Array<ActiveColour | undefined> = [undefined, ...legalClaimColours(claims, claimed, player)];
     const moves: string[] = [];
-    for (const claim of claimOpts) {
-        for (const path of paths) {
+    for (const path of legalCellPaths(graph, board, claims, player)) {
+        moves.push(formatMove(undefined, path));
+    }
+    for (const claim of legalClaimColours(claims, claimed, player)) {
+        for (const path of legalCellPaths(graph, board, claims, player, claim)) {
             moves.push(formatMove(claim, path));
         }
     }
@@ -205,8 +244,9 @@ export function bothImmobilized(
     graph: LyngkGraph,
     board: Board,
     claims: ClaimState,
+    claimed: [ActiveColour[], ActiveColour[]],
 ): boolean {
-    return !anyBoardPath(graph, board, claims, 1) && !anyBoardPath(graph, board, claims, 2);
+    return !anyLegalMove(graph, board, claims, claimed, 1) && !anyLegalMove(graph, board, claims, claimed, 2);
 }
 
 /** Next cells that legally extend a partial path prefix (for click / enter highlights). */
@@ -216,16 +256,18 @@ export function legalNextCellsForPath(
     claims: ClaimState,
     player: playerid,
     prefix: string[],
+    pendingClaim?: ActiveColour,
 ): string[] {
     if (prefix.length === 0) {
         return [];
     }
+    const eff = effectiveClaims(claims, player, pendingClaim);
     const from = prefix[0]!;
     const mover = board.get(from);
-    if (mover === undefined || !canPlayerUseStack(claims, mover, player)) {
+    if (mover === undefined || !canPlayerUseStack(eff, mover, player)) {
         return [];
     }
-    const paths = legalCellPaths(graph, board, claims, player);
+    const paths = legalCellPaths(graph, board, claims, player, pendingClaim);
     const next = new Set<string>();
     for (const path of paths) {
         if (path.length <= prefix.length) {

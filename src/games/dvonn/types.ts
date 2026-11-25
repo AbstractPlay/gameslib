@@ -1,5 +1,3 @@
-import { GIPF_P1, GIPF_P2, GIPF_P2_STACKED_FILL, GIPF_PIECE_BORDER } from "../gipf/types.js";
-
 export type playerid = 1 | 2;
 export type Phase = "setup" | "play";
 
@@ -35,4 +33,7 @@ export const SETUP_PLIES = DVONN_PIECES + PIECES_PER_PLAYER * 2;
 /** Theme palette-1 default red (customization slot 5 fall-back). */
 export const DVONN_FILL = "#CC0000";
 
-export { GIPF_P1, GIPF_P2, GIPF_P2_STACKED_FILL, GIPF_PIECE_BORDER };
+export const DVONN_P1 = "#ffffff";
+/** Player 2 disc fill (dark grey, black rim). */
+export const DVONN_P2_FILL = "#666666";
+export const DVONN_PIECE_BORDER = "#000000";

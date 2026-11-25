@@ -21,14 +21,6 @@ import type { APMoveResult } from "../schemas/moveresults.js";
 import { cloneState, reviver, UserFacingError } from "../common/index.js";
 import i18next from "i18next";
 import { TzaarGraph, TZAAR_BLOCKED_RENDER } from "./tzaar/graph.js";
-import {
-    GIPF_CHARIOT_BORDER,
-    GIPF_P1,
-    GIPF_P1_CHARIOT_INNER,
-    GIPF_P2_CHARIOT_INNER,
-    GIPF_P2_STACKED_FILL,
-    GIPF_PIECE_BORDER,
-} from "./gipf/types.js";
 import type { GameRng } from "../common/rng.js";
 import {
     applyCapture,
@@ -62,6 +54,12 @@ import {
 } from "./tzaar/setup.js";
 import {
     PIECE_KIND_LABEL,
+    TZAAR_CHARIOT_BORDER,
+    TZAAR_P1,
+    TZAAR_P1_CHARIOT_INNER,
+    TZAAR_P2_CHARIOT_INNER,
+    TZAAR_P2_FILL,
+    TZAAR_PIECE_BORDER,
     type CellStack,
     type PendingSetup,
     type Phase,
@@ -77,17 +75,17 @@ const FLAT_HEIGHT_TEXT_SCALE = 0.75;
 const TOTT_BORDER_DEFAULT = "#33a02c";
 const TZARRA_BORDER_DEFAULT = "#1f78b4";
 const TZAAR_BORDER_DEFAULT = "#e31a1c";
-const P2_TOTT_BORDER: Colourfuncs = { func: "custom", default: GIPF_PIECE_BORDER, palette: 4 };
-const P2_TZARRA_BORDER: Colourfuncs = { func: "custom", default: GIPF_PIECE_BORDER, palette: 7 };
-const P2_TZAAR_BORDER: Colourfuncs = { func: "custom", default: GIPF_PIECE_BORDER, palette: 11 };
-const P1_TOTT_BORDER: Colourfuncs = { func: "custom", default: GIPF_PIECE_BORDER, palette: 3 };
+const P2_TOTT_BORDER: Colourfuncs = { func: "custom", default: TZAAR_PIECE_BORDER, palette: 4 };
+const P2_TZARRA_BORDER: Colourfuncs = { func: "custom", default: TZAAR_PIECE_BORDER, palette: 7 };
+const P2_TZAAR_BORDER: Colourfuncs = { func: "custom", default: TZAAR_PIECE_BORDER, palette: 11 };
+const P1_TOTT_BORDER: Colourfuncs = { func: "custom", default: TZAAR_PIECE_BORDER, palette: 3 };
 
-const P1_TZARRA_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 5 };
-const P1_TZARRA_INNER: Colourfuncs = { func: "custom", default: GIPF_P1_CHARIOT_INNER, palette: 6 };
-const P2_TZARRA_INNER: Colourfuncs = { func: "custom", default: GIPF_P2_CHARIOT_INNER, palette: 8 };
-const P1_TZAAR_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 9 };
-const P1_TZAAR_INNER: Colourfuncs = { func: "custom", default: GIPF_P1_CHARIOT_INNER, palette: 10 };
-const P2_TZAAR_INNER: Colourfuncs = { func: "custom", default: GIPF_P2_CHARIOT_INNER, palette: 12 };
+const P1_TZARRA_BORDER: Colourfuncs = { func: "custom", default: TZAAR_CHARIOT_BORDER, palette: 5 };
+const P1_TZARRA_INNER: Colourfuncs = { func: "custom", default: TZAAR_P1_CHARIOT_INNER, palette: 6 };
+const P2_TZARRA_INNER: Colourfuncs = { func: "custom", default: TZAAR_P2_CHARIOT_INNER, palette: 8 };
+const P1_TZAAR_BORDER: Colourfuncs = { func: "custom", default: TZAAR_CHARIOT_BORDER, palette: 9 };
+const P1_TZAAR_INNER: Colourfuncs = { func: "custom", default: TZAAR_P1_CHARIOT_INNER, palette: 10 };
+const P2_TZAAR_INNER: Colourfuncs = { func: "custom", default: TZAAR_P2_CHARIOT_INNER, palette: 12 };
 
 function stackedTottLegend(fill: Colourfuncs, borderPalette: 3 | 4): Glyph {
     const border = borderPalette === 4 ? P2_TOTT_BORDER : P1_TOTT_BORDER;
@@ -322,18 +320,18 @@ export class TzaarGame extends GameBase {
         ],
         displays: [{ uid: "stacked", group: "projection" }],
         customizations: [
-            { num: 1, default: GIPF_P1, explanation: "Player 1 piece fill", player: 1 },
-            { num: 2, default: GIPF_P2_STACKED_FILL, explanation: "Player 2 piece fill", player: 2 },
+            { num: 1, default: TZAAR_P1, explanation: "Player 1 piece fill", player: 1 },
+            { num: 2, default: TZAAR_P2_FILL, explanation: "Player 2 piece fill", player: 2 },
             { num: 3, default: TOTT_BORDER_DEFAULT, explanation: "Player 1 Tott border", player: 1 },
-            { num: 4, default: GIPF_PIECE_BORDER, explanation: "Player 2 Tott border", player: 2 },
+            { num: 4, default: TZAAR_PIECE_BORDER, explanation: "Player 2 Tott border", player: 2 },
             { num: 5, default: TZARRA_BORDER_DEFAULT, explanation: "Player 1 Tzarra border", player: 1 },
-            { num: 6, default: GIPF_P1_CHARIOT_INNER, explanation: "Player 1 Tzarra inner", player: 1 },
-            { num: 7, default: GIPF_PIECE_BORDER, explanation: "Player 2 Tzarra border", player: 2 },
-            { num: 8, default: GIPF_P2_CHARIOT_INNER, explanation: "Player 2 Tzarra inner", player: 2 },
+            { num: 6, default: TZAAR_P1_CHARIOT_INNER, explanation: "Player 1 Tzarra inner", player: 1 },
+            { num: 7, default: TZAAR_PIECE_BORDER, explanation: "Player 2 Tzarra border", player: 2 },
+            { num: 8, default: TZAAR_P2_CHARIOT_INNER, explanation: "Player 2 Tzarra inner", player: 2 },
             { num: 9, default: TZAAR_BORDER_DEFAULT, explanation: "Player 1 Tzaar border", player: 1 },
-            { num: 10, default: GIPF_P1_CHARIOT_INNER, explanation: "Player 1 Tzaar inner", player: 1 },
-            { num: 11, default: GIPF_PIECE_BORDER, explanation: "Player 2 Tzaar border", player: 2 },
-            { num: 12, default: GIPF_P2_CHARIOT_INNER, explanation: "Player 2 Tzaar inner", player: 2 },
+            { num: 10, default: TZAAR_P1_CHARIOT_INNER, explanation: "Player 1 Tzaar inner", player: 1 },
+            { num: 11, default: TZAAR_PIECE_BORDER, explanation: "Player 2 Tzaar border", player: 2 },
+            { num: 12, default: TZAAR_P2_CHARIOT_INNER, explanation: "Player 2 Tzaar inner", player: 2 },
         ],
         categories: [
             "goal>eliminate",
@@ -1169,9 +1167,9 @@ export class TzaarGame extends GameBase {
 
     public getPlayerColour(p: playerid): Colourfuncs {
         if (p === 1) {
-            return { func: "custom", default: GIPF_P1, palette: 1 };
+            return { func: "custom", default: TZAAR_P1, palette: 1 };
         }
-        return { func: "custom", default: GIPF_P2_STACKED_FILL, palette: 2 };
+        return { func: "custom", default: TZAAR_P2_FILL, palette: 2 };
     }
 
     public sidebarScores(): IScores[] {

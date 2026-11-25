@@ -47,13 +47,8 @@ import {
     takeSetForMarkerMove,
 } from "./yinsh/row-notation.js";
 
-function yinshContrastBorder(fill: Colourfuncs, palette: 3 | 4): Colourfuncs {
-    return {
-        func: "custom",
-        default: { func: "bestContrast", bg: fill, fg: ["#000000", "#ffffff"] },
-        palette,
-    };
-}
+const P1_BORDER: Colourfuncs = { func: "custom", default: YINSH_BORDER, palette: 3 };
+const P2_BORDER: Colourfuncs = { func: "custom", default: YINSH_BORDER, palette: 4 };
 
 export const gameApgamesEn = {
     validation: {
@@ -129,18 +124,8 @@ export class YinshGame extends GameBaseSequenced {
         customizations: [
             { num: 1, default: YINSH_P1, explanation: "Player 1 marker fill", player: 1 },
             { num: 2, default: YINSH_P2, explanation: "Player 2 marker fill", player: 2 },
-            {
-                num: 3,
-                default: YINSH_BORDER,
-                explanation: "Player 1 ring and marker border (overrides automatic contrast when set)",
-                player: 1,
-            },
-            {
-                num: 4,
-                default: YINSH_BORDER,
-                explanation: "Player 2 ring and marker border (overrides automatic contrast when set)",
-                player: 2,
-            },
+            { num: 3, default: YINSH_BORDER, explanation: "Player 1 ring and marker border", player: 1 },
+            { num: 4, default: YINSH_BORDER, explanation: "Player 2 ring and marker border", player: 2 },
         ],
         categories: [
             "goal>score",
@@ -1047,8 +1032,8 @@ export class YinshGame extends GameBaseSequenced {
     public render(): APRenderRep {
         const p1 = this.getPlayerColour(1);
         const p2 = this.getPlayerColour(2);
-        const p1Border = yinshContrastBorder(p1, 3);
-        const p2Border: Colourfuncs = { func: "custom", default: YINSH_BORDER, palette: 4 };
+        const p1Border = P1_BORDER;
+        const p2Border = P2_BORDER;
         const cells = this.graph.listCells(true) as string[][];
         const rows: string[] = [];
         for (const line of cells) {

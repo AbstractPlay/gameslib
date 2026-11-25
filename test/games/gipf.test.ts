@@ -23,13 +23,8 @@ describe("GipfGame", () => {
 
     it("legend paints basic and GIPF-piece borders via custom palettes", () => {
         const rep = new GipfGame().render();
-        const p1Fill = { func: "custom", default: "#ffffff", palette: 1 };
-        const p2Fill = { func: "custom", default: "#000000", palette: 2 };
-        const overlayBorder = (fill: typeof p1Fill, palette: number) => ({
-            func: "custom",
-            default: { func: "bestContrast", bg: fill, fg: ["#000000", "#ffffff"] },
-            palette,
-        });
+        const p1Fill = { func: "custom", default: "#e31a1c", palette: 1 };
+        const p2Fill = { func: "custom", default: "#1f78b4", palette: 2 };
         const expectBasicStack = (key: "A" | "C", fill: typeof p1Fill, borderPalette: number) => {
             expect(rep.legend![key]).to.be.an("array");
             const layers = rep.legend![key] as [
@@ -42,7 +37,11 @@ describe("GipfGame", () => {
             expect(layers[1]!.name).to.equal("piece");
             expect(layers[1]!.scale).to.equal(0.85);
             expect(layers[1]!.paint!.fill).to.deep.equal(fill);
-            expect(layers[1]!.paint!.border).to.deep.equal(overlayBorder(fill, borderPalette));
+            expect(layers[1]!.paint!.border).to.deep.equal({
+                func: "custom",
+                default: "#000000",
+                palette: borderPalette,
+            });
         };
         expectBasicStack("A", p1Fill, 3);
         expectBasicStack("C", p2Fill, 4);
@@ -52,7 +51,7 @@ describe("GipfGame", () => {
         expect(b.paint!.border).to.deep.equal({ func: "custom", default: "#000000", palette: 5 });
         expect(b.paint!.inner).to.deep.equal({ func: "custom", default: "#000000", palette: 6 });
         expect(d.paint!.border).to.deep.equal({ func: "custom", default: "#000000", palette: 7 });
-        expect(d.paint!.inner).to.deep.equal({ func: "custom", default: "#ffffff", palette: 8 });
+        expect(d.paint!.inner).to.deep.equal({ func: "custom", default: "#000000", palette: 8 });
         expect(GipfGame.gameinfo.customizations).to.have.length(8);
     });
     it("Standard setup: reserve 12 each with three gipf on board", () => {

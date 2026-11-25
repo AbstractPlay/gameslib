@@ -5,9 +5,10 @@ export type MarbleColour = "W" | "G" | "B";
 
 export const MARBLE_COLOURS: readonly MarbleColour[] = ["W", "G", "B"];
 
-export const ZERTZ_WHITE = "#E6E6E6";
-export const ZERTZ_GREY = "#888888";
-export const ZERTZ_BLACK = "#333333";
+/** Default marble fills (AP theme palettes 1–3: red, blue, green). */
+export const ZERTZ_MARBLE_W_FILL = "#e31a1c";
+export const ZERTZ_MARBLE_G_FILL = "#1f78b4";
+export const ZERTZ_MARBLE_B_FILL = "#33a02c";
 
 export const ZERTZ_RING_FILL: Colourfuncs = {
     func: "custom",
@@ -23,19 +24,19 @@ export const ZERTZ_RING_BORDER: Colourfuncs = {
 
 export const ZERTZ_MARBLE_WHITE: Colourfuncs = {
     func: "custom",
-    default: ZERTZ_WHITE,
+    default: ZERTZ_MARBLE_W_FILL,
     palette: 1,
 };
 
 export const ZERTZ_MARBLE_GREY: Colourfuncs = {
     func: "custom",
-    default: ZERTZ_GREY,
+    default: ZERTZ_MARBLE_G_FILL,
     palette: 2,
 };
 
 export const ZERTZ_MARBLE_BLACK: Colourfuncs = {
     func: "custom",
-    default: ZERTZ_BLACK,
+    default: ZERTZ_MARBLE_B_FILL,
     palette: 3,
 };
 

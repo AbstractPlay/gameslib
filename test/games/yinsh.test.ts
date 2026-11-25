@@ -77,19 +77,12 @@ describe("YinshGame", () => {
         expect(rep.legend!.E!.name).to.equal("ring-23");
         expect(rep.legend!.F).to.be.an("array");
         expect((rep.legend!.F as Array<{ name: string }>)[1]!.name).to.equal("ring-23");
-        const fill = rep.legend!.A!.paint!.fill;
-        expect(rep.legend!.A!.paint!.border).to.deep.equal({
-            func: "custom",
-            default: { func: "bestContrast", bg: fill, fg: ["#000000", "#ffffff"] },
-            palette: 3,
-        });
+        const p1 = rep.legend!.A!.paint!;
+        expect(p1.fill?.default).to.equal("#e31a1c");
+        expect(p1.border).to.deep.equal({ func: "custom", default: "#000000", palette: 3 });
         const p2 = rep.legend!.D!.paint!;
-        expect(p2.fill?.default).to.equal("#666666");
-        expect(p2.border).to.deep.equal({
-            func: "custom",
-            default: "#000000",
-            palette: 4,
-        });
+        expect(p2.fill?.default).to.equal("#1f78b4");
+        expect(p2.border).to.deep.equal({ func: "custom", default: "#000000", palette: 4 });
         expect(YinshGame.gameinfo.customizations).to.have.length(4);
     });
 

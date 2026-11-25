@@ -52,27 +52,21 @@ import {
 
 const GIPF_BASIC_OVERLAY_SCALE = 0.85;
 
+const GIPF_P1_BASIC_BORDER: Colourfuncs = { func: "custom", default: GIPF_PIECE_BORDER, palette: 3 };
+const GIPF_P2_BASIC_BORDER: Colourfuncs = { func: "custom", default: GIPF_PIECE_BORDER, palette: 4 };
 const GIPF_P1_CHARIOT_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 5 };
 const GIPF_P1_CHARIOT_INNER_COLOUR: Colourfuncs = { func: "custom", default: GIPF_P1_CHARIOT_INNER, palette: 6 };
 const GIPF_P2_CHARIOT_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 7 };
 const GIPF_P2_CHARIOT_INNER_COLOUR: Colourfuncs = { func: "custom", default: GIPF_P2_CHARIOT_INNER, palette: 8 };
 
-function gipfBasicOverlayBorder(fill: Colourfuncs, palette: 3 | 4): Colourfuncs {
-    return {
-        func: "custom",
-        default: { func: "bestContrast", bg: fill, fg: ["#000000", "#ffffff"] },
-        palette,
-    };
-}
-
-/** Full-size black rim under a scaled piece with customizable contrast border. */
-function gipfBasicPieceLegend(fill: Colourfuncs, borderPalette: 3 | 4): [Glyph, Glyph] {
+/** Full-size fixed black rim under a scaled piece with palette-customizable border. */
+function gipfBasicPieceLegend(fill: Colourfuncs, border: Colourfuncs): [Glyph, Glyph] {
     return [
         { name: "piece", paint: { fill, border: GIPF_PIECE_BORDER } },
         {
             name: "piece",
             scale: GIPF_BASIC_OVERLAY_SCALE,
-            paint: { fill, border: gipfBasicOverlayBorder(fill, borderPalette) },
+            paint: { fill, border },
         },
     ];
 }
@@ -1694,7 +1688,7 @@ export class GipfGame extends GameBaseSequenced {
                 rotate: 90,
             },
             legend: {
-                A: gipfBasicPieceLegend(p1, 3),
+                A: gipfBasicPieceLegend(p1, GIPF_P1_BASIC_BORDER),
                 B: {
                     name: "piece-chariot",
                     paint: {
@@ -1703,7 +1697,7 @@ export class GipfGame extends GameBaseSequenced {
                         inner: GIPF_P1_CHARIOT_INNER_COLOUR,
                     },
                 },
-                C: gipfBasicPieceLegend(p2, 4),
+                C: gipfBasicPieceLegend(p2, GIPF_P2_BASIC_BORDER),
                 D: {
                     name: "piece-chariot",
                     paint: {

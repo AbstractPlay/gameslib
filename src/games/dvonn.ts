@@ -38,9 +38,9 @@ import {
 } from "./dvonn/setup.js";
 import {
   DVONN_FILL,
-  GIPF_P1,
-  GIPF_P2_STACKED_FILL,
-  GIPF_PIECE_BORDER,
+  DVONN_P1,
+  DVONN_P2_FILL,
+  DVONN_PIECE_BORDER,
   type CellStack,
   type Phase,
   type playerid,
@@ -53,7 +53,7 @@ import { bothImmobilized, controlledPieceCount, resolveWinner } from "./dvonn/wi
 type PieceBorderPalette = 3 | 4 | 6;
 
 function pieceBorder(palette: PieceBorderPalette): Colourfuncs {
-  return { func: "custom", default: GIPF_PIECE_BORDER, palette };
+  return { func: "custom", default: DVONN_PIECE_BORDER, palette };
 }
 
 function plainPieceGlyph(fill: Colourfuncs, borderPalette: PieceBorderPalette): Glyph {
@@ -153,12 +153,12 @@ export class DvonnGame extends GameBaseSequenced {
     ],
     variants: [{ uid: "quickstart" }],
     customizations: [
-      { num: 1, default: GIPF_P1, explanation: "Player 1 basic piece fill", player: 1 },
-      { num: 2, default: GIPF_P2_STACKED_FILL, explanation: "Player 2 basic piece fill", player: 2 },
-      { num: 3, default: GIPF_PIECE_BORDER, explanation: "Player 1 basic piece border", player: 1 },
-      { num: 4, default: GIPF_PIECE_BORDER, explanation: "Player 2 basic piece border", player: 2 },
+      { num: 1, default: DVONN_P1, explanation: "Player 1 basic piece fill", player: 1 },
+      { num: 2, default: DVONN_P2_FILL, explanation: "Player 2 basic piece fill", player: 2 },
+      { num: 3, default: DVONN_PIECE_BORDER, explanation: "Player 1 basic piece border", player: 1 },
+      { num: 4, default: DVONN_PIECE_BORDER, explanation: "Player 2 basic piece border", player: 2 },
       { num: 5, default: DVONN_FILL, explanation: "DVONN piece fill" },
-      { num: 6, default: GIPF_PIECE_BORDER, explanation: "DVONN piece border" },
+      { num: 6, default: DVONN_PIECE_BORDER, explanation: "DVONN piece border" },
     ],
     categories: [
       "goal>score>eog",
@@ -562,9 +562,9 @@ export class DvonnGame extends GameBaseSequenced {
 
   public getPlayerColour(p: playerid): Colourfuncs {
     if (p === 1) {
-      return { func: "custom", default: GIPF_P1, palette: 1 };
+      return { func: "custom", default: DVONN_P1, palette: 1 };
     }
-    return { func: "custom", default: GIPF_P2_STACKED_FILL, palette: 2 };
+    return { func: "custom", default: DVONN_P2_FILL, palette: 2 };
   }
 
   public dvonnColour(): Colourfuncs {

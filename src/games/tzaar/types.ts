@@ -48,3 +48,11 @@ export const PIECE_KIND_LABEL: Record<PieceKind, string> = {
     tzarra: "Tzarra",
     tzaar: "Tzaar",
 };
+
+export const TZAAR_P1 = "#ffffff";
+/** Player 2 disc fill (stacked and flat). */
+export const TZAAR_P2_FILL = "#666666";
+export const TZAAR_PIECE_BORDER = "#000000";
+export const TZAAR_CHARIOT_BORDER = "#000000";
+export const TZAAR_P1_CHARIOT_INNER = "#000000";
+export const TZAAR_P2_CHARIOT_INNER = "#000000";

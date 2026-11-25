@@ -68,7 +68,7 @@ import {
     type Reserves,
     type SlideMode,
 } from "./tzaar/types.js";
-import { lacksTrinity, visiblePieceCounts, type WinReason } from "./tzaar/win.js";
+import { trinityWinner, visiblePieceCounts, type WinReason } from "./tzaar/win.js";
 
 const FLAT_HEIGHT_TEXT_SCALE = 0.75;
 
@@ -859,15 +859,15 @@ export class TzaarGame extends GameBase {
         return true;
     }
 
-    private checkTrinityWin(player: playerid): boolean {
-        const opponent = player === 1 ? 2 : 1;
-        if (!lacksTrinity(this.board, opponent)) {
+    private checkTrinityWin(mover: playerid): boolean {
+        const winner = trinityWinner(this.board, mover);
+        if (winner === undefined) {
             return false;
         }
         this.gameover = true;
-        this.winner = [player];
+        this.winner = [winner];
         this.results.push({ type: "eog", reason: "types" });
-        this.results.push({ type: "winners", players: [player] });
+        this.results.push({ type: "winners", players: [winner] });
         return true;
     }
 

@@ -38,15 +38,27 @@ export function lacksTrinity(board: Map<string, CellStack>, owner: playerid): bo
     return kinds.size < 3;
 }
 
+/** Who wins on type elimination, if anyone. Mover losing trinity first awards the opponent. */
+export function trinityWinner(board: Map<string, CellStack>, mover: playerid): playerid | undefined {
+    const opponent = mover === 1 ? 2 : 1;
+    if (lacksTrinity(board, mover)) {
+        return opponent;
+    }
+    if (lacksTrinity(board, opponent)) {
+        return mover;
+    }
+    return undefined;
+}
+
 export function checkWinAfterMove(
     graph: TzaarGraph,
     board: Map<string, CellStack>,
     mover: playerid,
     nextPlayer: playerid,
 ): { winner: playerid; reason: WinReason } | undefined {
-    const opponent = mover === 1 ? 2 : 1;
-    if (lacksTrinity(board, opponent)) {
-        return { winner: mover, reason: "types" };
+    const byTypes = trinityWinner(board, mover);
+    if (byTypes !== undefined) {
+        return { winner: byTypes, reason: "types" };
     }
     if (!hasForcedCapture(graph, board, nextPlayer)) {
         return { winner: mover, reason: "immobilize" };

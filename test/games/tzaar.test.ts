@@ -13,7 +13,7 @@ import {
     hasForcedCapture,
     legalSlideDestinations,
 } from "../../src/games/tzaar/move.js";
-import { lacksTrinity, typesPresent } from "../../src/games/tzaar/win.js";
+import { lacksTrinity, trinityWinner, typesPresent } from "../../src/games/tzaar/win.js";
 import { parsePlayMove } from "../../src/games/tzaar/notation.js";
 import { PLAYABLE_INTERSECTIONS } from "../../src/games/tzaar/types.js";
 
@@ -267,6 +267,44 @@ describe("TzaarGame", () => {
             ["a1", { owner: 2 as const, pieces: ["tott" as const, "tzaar" as const] }],
         ]);
         expect(lacksTrinity(board, 2)).to.equal(true);
+    });
+
+    it("trinityWinner awards opponent when mover loses a visible type", () => {
+        const board = new Map([
+            ["a1", { owner: 2 as const, pieces: ["tott" as const] }],
+            ["a2", { owner: 2 as const, pieces: ["tzarra" as const] }],
+        ]);
+        expect(trinityWinner(board, 2)).to.equal(1);
+    });
+
+    it("trinityWinner awards mover when opponent lacks trinity", () => {
+        const board = new Map([
+            ["a1", { owner: 2 as const, pieces: ["tott" as const] }],
+            ["a2", { owner: 1 as const, pieces: ["tzaar" as const] }],
+            ["a3", { owner: 1 as const, pieces: ["tzarra" as const] }],
+            ["a4", { owner: 1 as const, pieces: ["tott" as const] }],
+        ]);
+        expect(trinityWinner(board, 1)).to.equal(1);
+    });
+
+    it("ends when mover buries their own last visible tzaar", () => {
+        const g = new TzaarGame();
+        g.phase = "play";
+        g.currplayer = 2;
+        g.board = new Map([
+            ["i3", { owner: 2 as const, pieces: ["tott" as const] }],
+            ["i5", { owner: 2 as const, pieces: ["tzaar" as const] }],
+            ["i4", { owner: 2 as const, pieces: ["tzarra" as const] }],
+            ["d8", { owner: 2 as const, pieces: ["tzarra" as const] }],
+            ["h4", { owner: 1 as const, pieces: ["tzaar" as const] }],
+            ["c4", { owner: 1 as const, pieces: ["tzaar" as const] }],
+            ["b5", { owner: 1 as const, pieces: ["tott" as const] }],
+            ["c3", { owner: 1 as const, pieces: ["tzarra" as const] }],
+        ]);
+        expect(g.validateMove("i4-h4,i3-i5").valid).to.equal(true);
+        g.move("i4-h4,i3-i5", { trusted: true });
+        expect(g.gameover).to.equal(true);
+        expect(g.winner).to.deep.equal([1]);
     });
 
     it("tournament variant starts empty with reserves", () => {

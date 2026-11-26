@@ -594,7 +594,8 @@ function applyPlaygroundClickResult(game, gamename, result) {
         movebox.classList.add("move-ready");
     }
     if ( ( (result.hasOwnProperty("canrender")) && (result.canrender === true) ) || (result.complete >= 0) ) {
-        let renderOpts = playgroundRenderOpts(game, gamename);
+        // a click result's opts are meant for render(), as on the live site
+        let renderOpts = playgroundRenderOpts(game, gamename, result.opts);
         applyPlaygroundDisplayRenderOpts(renderOpts);
         const dotClearPartial =
             result.valid &&
@@ -763,6 +764,40 @@ let customizations = JSON.parse(JSON.stringify(defaultCustomizationsLight));
 let draggedColor = null;
 let settingsDirty = false;
 
+function isDarkModeEnabled() {
+    return window.localStorage.getItem("darkMode") === "true";
+}
+
+function defaultCustomizationsForTheme(isDark) {
+    return isDark ? defaultCustomizationsDark : defaultCustomizationsLight;
+}
+
+function readStoredCustomizations() {
+    const stored = window.localStorage.getItem("customizations");
+    if (!stored) {
+        return null;
+    }
+    try {
+        return JSON.parse(stored);
+    } catch (e) {
+        console.error("Error loading customizations:", e);
+        return null;
+    }
+}
+
+function colourContextForTheme(stored, isDark) {
+    const defaults = defaultCustomizationsForTheme(isDark).colourContext;
+    const themed = isDark ? stored?.colourContextDark : stored?.colourContextLight;
+    if (themed && typeof themed === "object") {
+        return { ...defaults, ...themed };
+    }
+    // Legacy single `colourContext` only applies in light mode (older saved settings).
+    if (!isDark && stored?.colourContext && typeof stored.colourContext === "object") {
+        return { ...defaults, ...stored.colourContext };
+    }
+    return { ...defaults };
+}
+
 function getRenderOptions(baseOpts = {}) {
     const opts = { ...baseOpts };
     opts.contextGlobal = false;
@@ -784,23 +819,34 @@ function getRenderOptions(baseOpts = {}) {
 }
 
 function loadCustomizations() {
-    const stored = window.localStorage.getItem("customizations");
+    const isDark = isDarkModeEnabled();
+    const stored = readStoredCustomizations();
     if (stored) {
-        try {
-            customizations = JSON.parse(stored);
-        } catch (e) {
-            console.error("Error loading customizations:", e);
-            const isDark = window.localStorage.getItem("darkMode") === "true";
-            customizations = JSON.parse(JSON.stringify(isDark ? defaultCustomizationsDark : defaultCustomizationsLight));
-        }
+        customizations = {
+            colourContext: colourContextForTheme(stored, isDark),
+            palette: Array.isArray(stored.palette) ? stored.palette : [],
+            glyphmap: Array.isArray(stored.glyphmap) ? stored.glyphmap : [],
+        };
     } else {
-        const isDark = window.localStorage.getItem("darkMode") === "true";
-        customizations = JSON.parse(JSON.stringify(isDark ? defaultCustomizationsDark : defaultCustomizationsLight));
+        customizations = JSON.parse(JSON.stringify(defaultCustomizationsForTheme(isDark)));
     }
 }
 
 function saveCustomizations() {
-    window.localStorage.setItem("customizations", JSON.stringify(customizations));
+    const isDark = isDarkModeEnabled();
+    const stored = readStoredCustomizations() || {};
+    const payload = {
+        palette: customizations.palette,
+        glyphmap: customizations.glyphmap,
+        colourContextLight: stored.colourContextLight,
+        colourContextDark: stored.colourContextDark,
+    };
+    if (isDark) {
+        payload.colourContextDark = { ...customizations.colourContext };
+    } else {
+        payload.colourContextLight = { ...customizations.colourContext };
+    }
+    window.localStorage.setItem("customizations", JSON.stringify(payload));
     settingsDirty = false;
 }
 
@@ -1341,8 +1387,8 @@ function createCustomizeModal() {
         renderGame();
     });
     document.getElementById("customizeReset").addEventListener("click", () => {
-        const isDark = window.localStorage.getItem("darkMode") === "true";
-        customizations = JSON.parse(JSON.stringify(isDark ? defaultCustomizationsDark : defaultCustomizationsLight));
+        const isDark = isDarkModeEnabled();
+        customizations = JSON.parse(JSON.stringify(defaultCustomizationsForTheme(isDark)));
         window.localStorage.removeItem("customizations");
         settingsDirty = false;
         syncCustomizeUI();

@@ -1,4 +1,4 @@
-import type { GipfGraph } from "../../common/graphs/gipf.js";
+import type { GipfGraph } from "./graph.js";
 import type { CellPiece } from "./types.js";
 
 export type PushResult =

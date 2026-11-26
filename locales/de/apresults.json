@@ -685,6 +685,19 @@
       "sarsen": "{{player}} hat einen Sarsenstein bei {{where}} platziert."
     }
   },
+  "dvonn": {
+    "REMOVE": {
+      "isolated_one": "1 Stapel wurde entfernt, da der Kontakt zu DVONN verloren ging.",
+      "isolated_other": "{{count}} Stapel wurden entfernt, da der Kontakt zu DVONN verloren ging."
+    },
+    "PASS": {
+      "skipped": "{{player}} hatte keinen gültigen Zug und passte."
+    },
+    "EOG": {
+      "score": "{{player}} gewinnt mit {{count}} kontrollierten Steinen.",
+      "tie": "Das Spiel endet unentschieden mit jeweils {{count}} kontrollierten Steinen."
+    }
+  },
   "elOso": {
     "ACTOR": {
       "bear": "Der Bär"
@@ -1057,6 +1070,29 @@
       "logger": "{{player}} hat seinen Holzfäller bei {{where}} platziert.",
       "plant": "{{player}} hat einen Setzling bei {{where}} gepflanzt.",
       "spawn": "Ein neuer Setzling ist bei {{where}} gesprosst."
+    }
+  },
+  "lyngk": {
+    "COLOUR": {
+      "1": "rot",
+      "2": "blau",
+      "3": "grün",
+      "4": "gelb",
+      "5": "violett"
+    },
+    "CLAIM": {
+      "default": "{{player}} hat die Farbe {{colourName}} beansprucht."
+    },
+    "MOVE": {
+      "default": "{{player}} hat {{cells}} gezogen."
+    },
+    "CAPTURE": {
+      "default": "{{player}} hat einen Stapel auf {{where}} geschlagen."
+    },
+    "EOG": {
+      "score": "{{player}} gewinnt mit {{count}} geschlagenen Stapeln.",
+      "tiebreak": "{{player}} gewinnt durch Feinwertung.",
+      "draw": "Das Spiel endet unentschieden."
     }
   },
   "magnate": {
@@ -1467,6 +1503,11 @@
       "default": "{{player}} hat \"{{what}}\" neben {{where}} platziert."
     }
   },
+  "skisma": {
+    "EOG": {
+      "surround": "Das Spiel ist beendet, da ein gegnerischer Stein umzingelt wurde."
+    }
+  },
   "slyde": {
     "MOVE": {
       "default": "{{player}} hat einen Stein von {{from}} nach {{to}} geschoben."
@@ -1808,6 +1849,20 @@
       "default": "{{player}} hat eine Verbindung bei {{where}} entfernt."
     }
   },
+  "tzaar": {
+    "PLACE": {
+      "default": "{{player}} platzierte einen {{piece}} auf {{where}}."
+    },
+    "MOVE": {
+      "capture": "{{player}} zog von {{from}} nach {{to}} und schlug einen {{piece}}.",
+      "strengthen": "{{player}} verstärkte von {{from}} nach {{to}}.",
+      "pass": "{{player}} passte die zweite Aktion."
+    },
+    "EOG": {
+      "types": "{{player}} gewinnt — der Gegner hat nicht mehr alle drei Steinarten auf dem Brett.",
+      "immobilize": "{{player}} gewinnt — der Gegner kann keinen Pflichtschlag ausführen."
+    }
+  },
   "unane": {
     "PLACE": {
       "default": "{{player}} hat sich bei {{where}} selbst geschlagen."
@@ -1882,6 +1937,20 @@
       "default": "{{player}} hat die Plätze getauscht und gewählt, als Erster zu spielen."
     }
   },
+  "yinsh": {
+    "MOVE": {
+      "ring": "{{player}} hat einen Ring von {{from}} nach {{to}} bewegt."
+    },
+    "ROW": {
+      "markers": "{{player}} hat eine Reihe von Markern entfernt: {{cells}}.",
+      "ring": "{{player}} hat einen Ring von {{where}} gewertet."
+    },
+    "EOG": {
+      "score": "{{player}} gewinnt mit {{count}} gewerteten Ringen.",
+      "pool": "Der Markervorrat ist leer; {{player}} gewinnt mit mehr gewerteten Ringen.",
+      "draw": "Der Markervorrat ist leer bei gleicher Anzahl gewerteter Ringe; das Spiel endet unentschieden."
+    }
+  },
   "yonkoma": {
     "EOG": {
       "crosscut": "{{player}} hat einen Kreuzschnitt ausgeführt und verliert das Spiel."
@@ -1891,6 +1960,25 @@
     "EOG": {
       "four": "Das Spiel ist beendet, da ein Spieler vier in einer Reihe gebildet hat.",
       "five": "Das Spiel ist beendet, da ein Spieler fünf in einer Reihe gebildet hat."
+    }
+  },
+  "zertz": {
+    "MOVE": {
+      "place": "{{player}} platzierte {{colour}} auf {{where}}.",
+      "remove": "{{player}} entfernte den Ring auf {{where}}.",
+      "jump": "{{player}} sprang von {{from}} nach {{to}}."
+    },
+    "CAPTURE": {
+      "jump": "{{player}} schlug eine {{colour}} Murmel auf {{where}}.",
+      "isolation": "{{player}} isolierte und schlug {{colour}} auf {{where}}."
+    },
+    "EOG": {
+      "each": "{{player}} gewinnt durch das Schlagen von jeweils {{count}} Murmeln jeder Farbe.",
+      "white": "{{player}} gewinnt durch das Schlagen von {{count}} weißen Murmeln.",
+      "grey": "{{player}} gewinnt durch das Schlagen von {{count}} grauen Murmeln.",
+      "black": "{{player}} gewinnt durch das Schlagen von {{count}} schwarzen Murmeln.",
+      "full": "{{player}} gewinnt — das Spielbrett ist voll.",
+      "repetition": "Das Spiel endet unentschieden durch Stellungswiederholung."
     }
   }
 }

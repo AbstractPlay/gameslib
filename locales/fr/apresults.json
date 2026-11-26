@@ -685,6 +685,19 @@
       "sarsen": "{{player}} a placé un sarsen en {{where}}."
     }
   },
+  "dvonn": {
+    "REMOVE": {
+      "isolated_one": "1 pile a été retirée pour avoir perdu le contact avec DVONN.",
+      "isolated_other": "{{count}} piles ont été retirées pour avoir perdu le contact avec DVONN."
+    },
+    "PASS": {
+      "skipped": "{{player}} n'avait aucun coup légal et a passé son tour."
+    },
+    "EOG": {
+      "score": "{{player}} gagne avec {{count}} pièces contrôlées.",
+      "tie": "Égalité avec {{count}} pièces contrôlées chacun."
+    }
+  },
   "elOso": {
     "ACTOR": {
       "bear": "L'Ours"
@@ -1057,6 +1070,29 @@
       "logger": "{{player}} a placé son bûcheron en {{where}}.",
       "plant": "{{player}} a planté un jeune arbre en {{where}}.",
       "spawn": "Un jeune arbre a poussé en {{where}}."
+    }
+  },
+  "lyngk": {
+    "COLOUR": {
+      "1": "rouge",
+      "2": "bleu",
+      "3": "vert",
+      "4": "jaune",
+      "5": "violet"
+    },
+    "CLAIM": {
+      "default": "{{player}} a revendiqué la couleur {{colourName}}."
+    },
+    "MOVE": {
+      "default": "{{player}} a déplacé {{cells}}."
+    },
+    "CAPTURE": {
+      "default": "{{player}} a capturé une pile en {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} gagne avec {{count}} piles capturées.",
+      "tiebreak": "{{player}} gagne au départage.",
+      "draw": "La partie est nulle."
     }
   },
   "magnate": {
@@ -1467,6 +1503,11 @@
       "default": "{{player}} a placé \"{{what}}\" à côté de {{where}}."
     }
   },
+  "skisma": {
+    "EOG": {
+      "surround": "La partie est terminée car une pierre adverse a été encerclée."
+    }
+  },
   "slyde": {
     "MOVE": {
       "default": "{{player}} a fait glisser une pièce de {{from}} vers {{to}}."
@@ -1808,6 +1849,20 @@
       "default": "{{player}} a retiré un lien en {{where}}."
     }
   },
+  "tzaar": {
+    "PLACE": {
+      "default": "{{player}} a placé un {{piece}} en {{where}}."
+    },
+    "MOVE": {
+      "capture": "{{player}} a déplacé de {{from}} à {{to}} en capturant un {{piece}}.",
+      "strengthen": "{{player}} a renforcé de {{from}} à {{to}}.",
+      "pass": "{{player}} a passé la deuxième action."
+    },
+    "EOG": {
+      "types": "{{player}} gagne — l'adversaire ne possède plus les trois types de pièces sur le plateau.",
+      "immobilize": "{{player}} gagne — l'adversaire ne peut plus effectuer de capture obligatoire."
+    }
+  },
   "unane": {
     "PLACE": {
       "default": "{{player}} s'est auto-capturé en {{where}}."
@@ -1882,6 +1937,20 @@
       "default": "{{player}} a changé de place, choisissant de jouer en premier."
     }
   },
+  "yinsh": {
+    "MOVE": {
+      "ring": "{{player}} a déplacé un anneau de {{from}} à {{to}}."
+    },
+    "ROW": {
+      "markers": "{{player}} a retiré un alignement de marqueurs : {{cells}}.",
+      "ring": "{{player}} a retiré un anneau depuis {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} gagne avec {{count}} anneaux marqués.",
+      "pool": "La réserve de marqueurs est vide ; {{player}} gagne avec plus d'anneaux marqués.",
+      "draw": "La réserve de marqueurs est vide et le nombre d'anneaux marqués est égal ; la partie se termine par une égalité."
+    }
+  },
   "yonkoma": {
     "EOG": {
       "crosscut": "{{player}} a réalisé une coupe croisée et perd la partie."
@@ -1891,6 +1960,25 @@
     "EOG": {
       "four": "La partie est terminée car un joueur a aligné quatre pièces.",
       "five": "La partie est terminée car un joueur a aligné cinq pièces."
+    }
+  },
+  "zertz": {
+    "MOVE": {
+      "place": "{{player}} a placé {{colour}} en {{where}}.",
+      "remove": "{{player}} a retiré l'anneau en {{where}}.",
+      "jump": "{{player}} a sauté de {{from}} à {{to}}."
+    },
+    "CAPTURE": {
+      "jump": "{{player}} a capturé une bille {{colour}} en {{where}}.",
+      "isolation": "{{player}} a isolé et capturé {{colour}} en {{where}}."
+    },
+    "EOG": {
+      "each": "{{player}} gagne en capturant {{count}} billes de chaque couleur.",
+      "white": "{{player}} gagne en capturant {{count}} billes blanches.",
+      "grey": "{{player}} gagne en capturant {{count}} billes grises.",
+      "black": "{{player}} gagne en capturant {{count}} billes noires.",
+      "full": "{{player}} gagne — le plateau est plein.",
+      "repetition": "Partie nulle par répétition."
     }
   }
 }

@@ -1,7 +1,8 @@
 // An independent enumerator of every legal Arimaa turn from a position, used to
-// check that each reachable position can be entered with clicks alone. It
-// deliberately re-implements the rules rather than calling the engine's own
-// search, so a mistake in one is not mirrored in the other.
+// check that each reachable position can be entered with clicks alone, and
+// that click entry prefers the turns it is meant to. It deliberately
+// re-implements the rules rather than calling the engine's own search, so a
+// mistake in one is not mirrored in the other.
 export type Owner = 1 | 2;
 export type Board = Map<string, [string, Owner]>;
 
@@ -146,4 +147,105 @@ export const allTurns = (b: Board, player: Owner, maxSteps: number): Map<string,
     };
     dfs(b, [], maxSteps);
     return found;
+};
+
+/** What became of a piece in a turn: the squares it stood on, in order, and the one it ended up or was captured on. */
+export interface Path {
+    type: string;
+    owner: Owner;
+    visited: string[];
+    final: string;
+    captured: boolean;
+}
+
+/** One way of playing a turn. */
+export interface Play {
+    steps: number;
+    board: Board;
+    /** by the square it started on, each piece that moved or was captured */
+    paths: Map<string, Path>;
+    /** pushes and pulls made by a piece exactly one rank above the piece it moved */
+    rightSized: number;
+}
+
+/**
+ * Whether `strong` is exactly one rank above `weak` on a board. A rank that
+ * no piece of either colour holds does not count: with no dog on the board, a
+ * horse is one rank above a cat.
+ */
+export const oneRankAbove = (b: Board, strong: string, weak: string): boolean => {
+    if (STRENGTH[strong] <= STRENGTH[weak]) {
+        return false;
+    }
+    for (const [pc] of b.values()) {
+        if (STRENGTH[pc] > STRENGTH[weak] && STRENGTH[pc] < STRENGTH[strong]) {
+            return false;
+        }
+    }
+    return true;
+};
+
+/**
+ * Every way of playing every legal turn of at most `maxSteps` steps, with each
+ * piece followed from the square it started on. A push or pull is judged on
+ * the board as it stands when it is made.
+ */
+export const allPlays = (b: Board, player: Owner, maxSteps: number): Play[] => {
+    const start = signature(b);
+    const out: Play[] = [];
+    // `origin` maps the square a moved piece stands on to the one it started on
+    const dfs = (cur: Board, origin: Map<string, string>, paths: Map<string, Path>, steps: number, rightSized: number): void => {
+        if (steps > 0 && signature(cur) !== start) {
+            out.push({ steps, board: cur, paths, rightSized });
+        }
+        const left = maxSteps - steps;
+        for (const atom of left === 0 ? [] : atoms(cur, player, left)) {
+            if (atom.length > left) {
+                continue;
+            }
+            let fits = 0;
+            if (atom.length === 2) {
+                const first = cur.get(atom[0][0])!;
+                const second = cur.get(atom[1][0])!;
+                const [mine, theirs] = first[1] === player ? [first, second] : [second, first];
+                fits = oneRankAbove(cur, mine[0], theirs[0]) ? 1 : 0;
+            }
+            let nb = cur;
+            const no = new Map(origin);
+            const np = new Map([...paths].map(([from, p]): [string, Path] => [from, { ...p, visited: p.visited.slice() }]));
+            const pathOf = (from: string, pc: [string, Owner]): Path => {
+                let p = np.get(from);
+                if (p === undefined) {
+                    p = { type: pc[0], owner: pc[1], visited: [from], final: from, captured: false };
+                    np.set(from, p);
+                }
+                return p;
+            };
+            for (const [f, t] of atom) {
+                const pc = nb.get(f)!;
+                const from = no.get(f) ?? f;
+                no.delete(f);
+                no.set(t, from);
+                const moved = pathOf(from, pc);
+                moved.visited.push(t);
+                moved.final = t;
+                const standing: Board = new Map(nb);
+                standing.set(t, pc);
+                standing.delete(f);
+                nb = step(nb, f, t);
+                for (const trap of TRAPS) {
+                    const gone = standing.get(trap);
+                    if (gone !== undefined && !nb.has(trap)) {
+                        const died = pathOf(no.get(trap) ?? trap, gone);
+                        no.delete(trap);
+                        died.captured = true;
+                        died.final = trap;
+                    }
+                }
+            }
+            dfs(nb, no, np, steps + atom.length, rightSized + fits);
+        }
+    };
+    dfs(b, new Map(), new Map(), 0, 0);
+    return out;
 };

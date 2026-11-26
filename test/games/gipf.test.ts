@@ -4,7 +4,7 @@ import "mocha";
 import { addResource } from "../../src";
 import { GipfGame } from "../../src/games/gipf.js";
 import type { CellPiece } from "../../src/games/gipf/types.js";
-import { GipfGraph } from "../../src/common/graphs/gipf.js";
+import { GipfGraph } from "../../src/games/gipf/graph.js";
 import { formatCaptureMove, listCaptureConfirmMoves } from "../../src/games/gipf/capture-notation.js";
 import { findAllCapturableRows } from "../../src/games/gipf/rows.js";
 import { legalPushDestinations, pushEntrySpot, simulatePush } from "../../src/games/gipf/push.js";
@@ -21,16 +21,38 @@ describe("GipfGame", () => {
         expect(GipfGame.gameinfo.flags).to.include("automove");
     });
 
-    it("GIPF-piece legend paints chariot border and inner via custom palettes", () => {
+    it("legend paints basic and GIPF-piece borders via custom palettes", () => {
         const rep = new GipfGame().render();
+        const p1Fill = { func: "custom", default: "#e31a1c", palette: 1 };
+        const p2Fill = { func: "custom", default: "#1f78b4", palette: 2 };
+        const expectBasicStack = (key: "A" | "C", fill: typeof p1Fill, borderPalette: number) => {
+            expect(rep.legend![key]).to.be.an("array");
+            const layers = rep.legend![key] as [
+                { name: string; paint?: { fill: unknown; border: unknown } },
+                { name: string; scale?: number; paint?: { fill: unknown; border: unknown } },
+            ];
+            expect(layers[0]!.name).to.equal("piece");
+            expect(layers[0]!.paint!.fill).to.deep.equal(fill);
+            expect(layers[0]!.paint!.border).to.equal("#000000");
+            expect(layers[1]!.name).to.equal("piece");
+            expect(layers[1]!.scale).to.equal(0.85);
+            expect(layers[1]!.paint!.fill).to.deep.equal(fill);
+            expect(layers[1]!.paint!.border).to.deep.equal({
+                func: "custom",
+                default: "#000000",
+                palette: borderPalette,
+            });
+        };
+        expectBasicStack("A", p1Fill, 3);
+        expectBasicStack("C", p2Fill, 4);
         const b = rep.legend!.B!;
         const d = rep.legend!.D!;
         expect(b.name).to.equal("piece-chariot");
-        expect(b.paint!.border).to.deep.equal({ func: "custom", default: "#000000", palette: 3 });
-        expect(b.paint!.inner).to.deep.equal({ func: "custom", default: "#000000", palette: 4 });
-        expect(d.paint!.border).to.deep.equal({ func: "custom", default: "#000000", palette: 5 });
-        expect(d.paint!.inner).to.deep.equal({ func: "custom", default: "#ffffff", palette: 6 });
-        expect(GipfGame.gameinfo.customizations).to.have.length(6);
+        expect(b.paint!.border).to.deep.equal({ func: "custom", default: "#000000", palette: 5 });
+        expect(b.paint!.inner).to.deep.equal({ func: "custom", default: "#000000", palette: 6 });
+        expect(d.paint!.border).to.deep.equal({ func: "custom", default: "#000000", palette: 7 });
+        expect(d.paint!.inner).to.deep.equal({ func: "custom", default: "#000000", palette: 8 });
+        expect(GipfGame.gameinfo.customizations).to.have.length(8);
     });
     it("Standard setup: reserve 12 each with three gipf on board", () => {
         const g = new GipfGame(undefined, []);

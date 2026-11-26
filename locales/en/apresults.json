@@ -685,6 +685,19 @@
       "sarsen": "{{player}} placed a sarsen at {{where}}."
     }
   },
+  "dvonn": {
+    "REMOVE": {
+      "isolated_one": "1 stack was removed for losing contact with DVONN.",
+      "isolated_other": "{{count}} stacks were removed for losing contact with DVONN."
+    },
+    "PASS": {
+      "skipped": "{{player}} had no legal move and passed."
+    },
+    "EOG": {
+      "score": "{{player}} wins with {{count}} controlled pieces.",
+      "tie": "The game is a draw with {{count}} controlled pieces each."
+    }
+  },
   "elOso": {
     "ACTOR": {
       "bear": "The Bear"
@@ -1057,6 +1070,29 @@
       "logger": "{{player}} placed their logger at {{where}}.",
       "plant": "{{player}} planted a sapling at {{where}}.",
       "spawn": "A new sapling sprouted at {{where}}."
+    }
+  },
+  "lyngk": {
+    "COLOUR": {
+      "1": "red",
+      "2": "blue",
+      "3": "green",
+      "4": "yellow",
+      "5": "purple"
+    },
+    "CLAIM": {
+      "default": "{{player}} claimed the {{colourName}} colour."
+    },
+    "MOVE": {
+      "default": "{{player}} moved {{cells}}."
+    },
+    "CAPTURE": {
+      "default": "{{player}} captured a stack at {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} wins with {{count}} captured stacks.",
+      "tiebreak": "{{player}} wins on tiebreak.",
+      "draw": "The game is a draw."
     }
   },
   "magnate": {
@@ -1467,6 +1503,11 @@
       "default": "{{player}} placed \"{{what}}\" next to {{where}}."
     }
   },
+  "skisma": {
+    "EOG": {
+      "surround": "The game has ended because an enemy stone was surrounded."
+    }
+  },
   "slyde": {
     "MOVE": {
       "default": "{{player}} slid a piece from {{from}} to {{to}}."
@@ -1808,6 +1849,20 @@
       "default": "{{player}} removed a link at {{where}}."
     }
   },
+  "tzaar": {
+    "PLACE": {
+      "default": "{{player}} placed a {{piece}} at {{where}}."
+    },
+    "MOVE": {
+      "capture": "{{player}} moved from {{from}} to {{to}}, capturing a {{piece}}.",
+      "strengthen": "{{player}} strengthened from {{from}} to {{to}}.",
+      "pass": "{{player}} passed the second action."
+    },
+    "EOG": {
+      "types": "{{player}} wins — the opponent no longer has all three piece types on the board.",
+      "immobilize": "{{player}} wins — the opponent cannot make a forced capture."
+    }
+  },
   "unane": {
     "PLACE": {
       "default": "{{player}} self-captured {{where}}."
@@ -1882,6 +1937,20 @@
       "default": "{{player}} swapped seats, choosing to play first."
     }
   },
+  "yinsh": {
+    "MOVE": {
+      "ring": "{{player}} moved a ring from {{from}} to {{to}}."
+    },
+    "ROW": {
+      "markers": "{{player}} removed a row of markers: {{cells}}.",
+      "ring": "{{player}} scored a ring from {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} wins with {{count}} scored rings.",
+      "pool": "The marker pool is empty; {{player}} wins with more scored rings.",
+      "draw": "The marker pool is empty with equal scored rings; the game is a draw."
+    }
+  },
   "yonkoma": {
     "EOG": {
       "crosscut": "{{player}} completed a crosscut and loses the game."
@@ -1891,6 +1960,25 @@
     "EOG": {
       "four": "The game has ended because a player made four in a row.",
       "five": "The game has ended because a player made five in a row."
+    }
+  },
+  "zertz": {
+    "MOVE": {
+      "place": "{{player}} placed {{colour}} at {{where}}.",
+      "remove": "{{player}} removed the ring at {{where}}.",
+      "jump": "{{player}} jumped from {{from}} to {{to}}."
+    },
+    "CAPTURE": {
+      "jump": "{{player}} captured a {{colour}} marble at {{where}}.",
+      "isolation": "{{player}} isolated and captured {{colour}} at {{where}}."
+    },
+    "EOG": {
+      "each": "{{player}} wins by capturing {{count}} of each colour.",
+      "white": "{{player}} wins by capturing {{count}} white marbles.",
+      "grey": "{{player}} wins by capturing {{count}} grey marbles.",
+      "black": "{{player}} wins by capturing {{count}} black marbles.",
+      "full": "{{player}} wins — the board is full.",
+      "repetition": "The game is drawn by repetition."
     }
   }
 }

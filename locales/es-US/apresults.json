@@ -685,6 +685,19 @@
       "sarsen": "{{player}} colocó un sarsen en {{where}}."
     }
   },
+  "dvonn": {
+    "REMOVE": {
+      "isolated_one": "Se retiró 1 pila por perder contacto con DVONN.",
+      "isolated_other": "Se retiraron {{count}} pilas por perder contacto con DVONN."
+    },
+    "PASS": {
+      "skipped": "{{player}} no tenía ningún movimiento legal y pasó."
+    },
+    "EOG": {
+      "score": "{{player}} gana con {{count}} fichas controladas.",
+      "tie": "La partida es un empate con {{count}} fichas controladas cada uno."
+    }
+  },
   "elOso": {
     "ACTOR": {
       "bear": "El Oso"
@@ -1057,6 +1070,29 @@
       "logger": "{{player}} colocó su leñador en {{where}}.",
       "plant": "{{player}} plantó un retoño en {{where}}.",
       "spawn": "Brotó un nuevo retoño en {{where}}."
+    }
+  },
+  "lyngk": {
+    "COLOUR": {
+      "1": "rojo",
+      "2": "azul",
+      "3": "verde",
+      "4": "amarillo",
+      "5": "morado"
+    },
+    "CLAIM": {
+      "default": "{{player}} reclamó el color {{colourName}}."
+    },
+    "MOVE": {
+      "default": "{{player}} movió {{cells}}."
+    },
+    "CAPTURE": {
+      "default": "{{player}} capturó una pila en {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} gana con {{count}} pilas capturadas.",
+      "tiebreak": "{{player}} gana por desempate.",
+      "draw": "La partida terminó en empate."
     }
   },
   "magnate": {
@@ -1467,6 +1503,11 @@
       "default": "{{player}} colocó \"{{what}}\" junto a {{where}}."
     }
   },
+  "skisma": {
+    "EOG": {
+      "surround": "La partida ha terminado porque una piedra enemiga fue rodeada."
+    }
+  },
   "slyde": {
     "MOVE": {
       "default": "{{player}} deslizó una pieza de {{from}} a {{to}}."
@@ -1808,6 +1849,20 @@
       "default": "{{player}} retiró un enlace en {{where}}."
     }
   },
+  "tzaar": {
+    "PLACE": {
+      "default": "{{player}} colocó una {{piece}} en {{where}}."
+    },
+    "MOVE": {
+      "capture": "{{player}} movió de {{from}} a {{to}}, capturando una {{piece}}.",
+      "strengthen": "{{player}} reforzó de {{from}} a {{to}}.",
+      "pass": "{{player}} pasó la segunda acción."
+    },
+    "EOG": {
+      "types": "{{player}} gana — el oponente ya no tiene los tres tipos de piezas en el tablero.",
+      "immobilize": "{{player}} gana — el oponente no puede hacer una captura obligatoria."
+    }
+  },
   "unane": {
     "PLACE": {
       "default": "{{player}} se autocapturó en {{where}}."
@@ -1882,6 +1937,20 @@
       "default": "{{player}} cambió de asiento, eligiendo jugar primero."
     }
   },
+  "yinsh": {
+    "MOVE": {
+      "ring": "{{player}} movió un anillo de {{from}} a {{to}}."
+    },
+    "ROW": {
+      "markers": "{{player}} retiró una fila de marcadores: {{cells}}.",
+      "ring": "{{player}} anotó un anillo desde {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} gana con {{count}} anillos anotados.",
+      "pool": "La reserva de marcadores está vacía; {{player}} gana con más anillos anotados.",
+      "draw": "La reserva de marcadores está vacía con igual número de anillos anotados; la partida termina en empate."
+    }
+  },
   "yonkoma": {
     "EOG": {
       "crosscut": "{{player}} completó un corte cruzado y pierde la partida."
@@ -1891,6 +1960,25 @@
     "EOG": {
       "four": "El juego ha terminado porque un jugador hizo cuatro en línea.",
       "five": "El juego ha terminado porque un jugador hizo cinco en línea."
+    }
+  },
+  "zertz": {
+    "MOVE": {
+      "place": "{{player}} colocó {{colour}} en {{where}}.",
+      "remove": "{{player}} retiró el anillo en {{where}}.",
+      "jump": "{{player}} saltó de {{from}} a {{to}}."
+    },
+    "CAPTURE": {
+      "jump": "{{player}} capturó una canica {{colour}} en {{where}}.",
+      "isolation": "{{player}} aisló y capturó {{colour}} en {{where}}."
+    },
+    "EOG": {
+      "each": "{{player}} gana al capturar {{count}} de cada color.",
+      "white": "{{player}} gana al capturar {{count}} canicas blancas.",
+      "grey": "{{player}} gana al capturar {{count}} canicas grises.",
+      "black": "{{player}} gana al capturar {{count}} canicas negras.",
+      "full": "{{player}} gana — el tablero está lleno.",
+      "repetition": "La partida termina en empate por repetición."
     }
   }
 }

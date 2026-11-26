@@ -292,6 +292,11 @@
       "full": "Famiglia > Dama",
       "tag": "F: Dama"
     },
+    "family>gipf": {
+      "description": "La serie di giochi astratti Project GIPF di Kris Burm",
+      "full": "Famiglia > GIPF",
+      "tag": "F: GIPF"
+    },
     "family>gomoku": {
       "description": "Giochi di posizionamento e formazione di linee del lignaggio Gomoku / Renju / Connect6 e affini",
       "full": "Famiglia > Gomoku",
@@ -545,7 +550,17 @@
   },
   "inputModes": {
     "section": "Modalità di input",
-    "description": "Come la plancia interpreta i tuoi clic per questa partita."
+    "description": "Come la plancia interpreta i tuoi clic per questa partita.",
+    "arimaa": {
+      "basic": {
+        "name": "Base",
+        "description": "Muovi solo i pezzi selezionati esplicitamente, nell'ordine in cui li inserisci. Ogni sequenza di clic completata produce un risultato univoco."
+      },
+      "advanced": {
+        "name": "Avanzata",
+        "description": "Seleziona per origine o destinazione e usa i movimenti dedotti e i controlli per la cattura nelle trappole."
+      }
+    }
   },
   "status": {
     "_player": "{{player}}",
@@ -629,6 +644,9 @@
       "PLANES": "Aerei",
       "TOTAL_ALTITUDE": "Altitudine totale"
     },
+    "dvonn": {
+      "CONTROLLED": "Pezzi controllati"
+    },
     "elOso": {
       "SKY": "Cielo",
       "CAVE": "Caverna",
@@ -686,6 +704,10 @@
     },
     "lielow": {
       "MOVESUNTILSUICIDE": "Mosse fino al suicidio"
+    },
+    "lyngk": {
+      "CLAIMED": "Colori rivendicati",
+      "CAPTURED": "Pile catturate"
     },
     "meg": {
       "OFFENSE": "Giocatore in attacco",
@@ -757,10 +779,16 @@
       "MAJORITIES": "Maggioranze vinte",
       "MONOCHROME": "Potenziale monocromatico"
     },
+    "tzaar": {
+      "PIECES": "Pezzi (Tott/Tzarra/Tzaar)"
+    },
     "waldmeister": {
       "COLOUR": "colori",
       "GOALS": "Obiettivi",
       "HEIGHT": "altezze"
+    },
+    "yinsh": {
+      "SCORE": "Punteggio"
     }
   },
   "validation": {
@@ -1011,7 +1039,7 @@
       "FROZEN": "Il pezzo in {{where}} è congelato. Non può muoversi da solo.",
       "HOME_ROW": "Puoi posizionare pezzi solo sulle due traverse più vicine a te.",
       "INITIAL_INSTRUCTIONS_place": "Seleziona un pezzo dalla tua mano da posizionare sulla plancia.",
-      "INITIAL_INSTRUCTIONS_play": "Fai clic su un pezzo, poi sulla casella su cui dovrebbe finire il turno. Puoi selezionare anche i pezzi nemici; spinte e trazioni verranno calcolate automaticamente.",
+      "INITIAL_INSTRUCTIONS_play": "Seleziona un pezzo, quindi la sua destinazione. Seleziona altri pezzi per muoverli in catena. La modalità avanzata supporta anche i clic sulla destinazione e le mosse dedotte.",
       "INVALID_PUSH": "Le spinte devono essere completate immediatamente muovendo il pezzo che spinge nello spazio liberato dal pezzo nemico spinto.",
       "INVALID_PUSHPULL": "Puoi muovere i pezzi nemici solo quando completi una trazione o inizi una spinta. Nessuna delle due sembra applicarsi in questo caso.",
       "LABEL_STASH": "Riserva di {{player}}",
@@ -1040,9 +1068,10 @@
       "NO_MOVE_FROZEN": "Il pezzo su {{from}} è congelato e niente può liberarlo in tempo.",
       "NO_MOVE_REACH": "Il pezzo su {{from}} non può raggiungere {{to}} entro {{num}} passi.",
       "NO_MOVE_TOGETHER": "Ciascuna di queste mosse funziona da sola, ma non tutte insieme entro {{num}} passi.",
-      "AMBIGUOUS": "Corrisponde a {{count}} mosse diverse. Indica dove finisce un altro pezzo per risolvere l'ambiguità.",
+      "AMBIGUOUS": "Questo corrisponde a {{count}} mosse diverse, e quella mostrata è quella che verrà giocata. Indica dove finisce un altro pezzo per sceglierne un'altra.",
+      "IDLE": "Ancora nessuna mossa. Indica dove deve finire un pezzo.",
       "INFERRED": "In movimento anche: {{pieces}}.",
-      "INCOMPLETE": "È selezionato un pezzo. Fai clic su una casella per mandarlo lì, o fai clic di nuovo per mantenerlo dove si trova.",
+      "INCOMPLETE": "Un pezzo è selezionato. Clicca su una casella per inviarlo lì.",
       "TOO_LONG": "Ciò che hai disegnato richiede più di {{num}} passi.",
       "DIE_one": "Il dado consente un solo passo in questo turno.",
       "DIE_other": "Il dado consente fino a {{count}} passi in questo turno."
@@ -1793,6 +1822,18 @@
       "SELECT_LINTEL_END": "Seleziona l'altra estremità dell'architrave.",
       "SELECT_MOVE": "Posiziona un sarsen, posa un architrave, muovi il tuo Druido o passa."
     },
+    "dvonn": {
+      "INITIAL_INSTRUCTIONS_SETUP": "Fai clic su un'intersezione vuota per piazzare il pezzo successivo dalla coda di preparazione.",
+      "INITIAL_INSTRUCTIONS": "Fai clic su una delle tue pile, poi fai clic su una destinazione valida.",
+      "NO_PASS": "Devi effettuare una mossa quando ce n'è una disponibile.",
+      "MUST_PASS": "Non hai mosse valide; il tuo turno passerà automaticamente.",
+      "OCCUPIED": "Quell'intersezione è già occupata.",
+      "EMPTY": "Non c'è alcuna pila in {{where}}.",
+      "NOT_YOUR_STACK": "Puoi muovere solo una pila che controlli.",
+      "INVALID_MOVE": "Questo scorrimento non è valido.",
+      "SURROUNDED": "Le pile circondate su sei lati non possono muoversi.",
+      "WRONG_SETUP_PIECE": "Questo non è il pezzo successivo previsto nella sequenza di posizionamento."
+    },
     "elOso": {
       "INITIAL_INSTRUCTIONS": "Seleziona una delle tue pile da muovere. Fai clic due volte su una pila per passare.",
       "VALID_PARTIAL": "Seleziona una destinazione. Fai clic di nuovo sulla stessa pila per passare.",
@@ -2483,6 +2524,16 @@
       "INSUFFICIENT_LOS": "Sono necessarie {{count}} direzioni con linea di vista per catturare la casella in {{cell}}.",
       "CAPTURE4PLACE": "Hai aggiunto il suffisso 'x' alla casella per indicare una cattura, ma questa non è una mossa di cattura. Prova '{{cell}}'.",
       "OPPONENT_CONTROLLED": "La casella in {{where}} è controllata dal tuo avversario."
+    },
+    "lyngk": {
+      "INITIAL_INSTRUCTIONS": "Fai clic su una pila che controlli, poi fai clic sulle destinazioni lungo una linea. In alternativa, puoi prima rivendicare un colore dalla riserva.",
+      "NO_PASS": "Devi effettuare una mossa sulla plancia quando ce n'è una disponibile.",
+      "MUST_PASS": "Non hai mosse valide; il tuo turno passerà automaticamente.",
+      "INVALID_MOVE": "Questa mossa non è valida.",
+      "INVALID_CLAIM": "Non puoi rivendicare quel colore.",
+      "CLAIM_WITHOUT_MOVE": "Rivendicare un colore richiede una mossa sulla plancia nello stesso turno.",
+      "CLAIM_WITH_PASS": "Non puoi rivendicare un colore quando passi.",
+      "RESERVE_LABEL": "Colori non rivendicati"
     },
     "magnate": {
       "BUTTON_INSTRUCTIONS": "Fai clic su un pulsante per selezionare la tua prossima azione.",
@@ -3377,6 +3428,10 @@
       "LABEL_STASH": "Mano di {{player}}",
       "VALID_BUT": "Piazzamento valido. È anche possibile sovrapporsi a due carte. Clicca su \"Completa Mossa\" per mantenere la carta genitore singola, oppure clicca sulla carta adiacente per sovrapporle entrambe."
     },
+    "skisma": {
+      "INSTRUCTIONS": "Seleziona una casella vuota per posizionare una pietra.",
+      "SUICIDE": "Non puoi piazzare una pedina su {{where}}: verrebbe circondata."
+    },
     "slimetrail": {
       "INITIAL_INSTRUCTIONS": "Muovi la pallina in una casella adiacente vuota.",
       "INVALID_MOVE": "La casella scelta deve essere vuota e adiacente alla pallina."
@@ -4040,6 +4095,20 @@
       "PARTIAL_OPPONENT": "Non puoi riorganizzare i collegamenti del tuo avversario.",
       "TOO_MANY_PEGS": "Puoi piazzare solo un piolo per turno."
     },
+    "tzaar": {
+      "INITIAL_INSTRUCTIONS": "Cattura un pezzo avversario facendo scorrere una delle tue pile su di esso.",
+      "INITIAL_INSTRUCTIONS_SECOND": "Effettua una seconda cattura, rinforza una pila o premi Passa.",
+      "INITIAL_INSTRUCTIONS_OPENING": "Mossa d'apertura del Bianco: effettua una cattura.",
+      "INITIAL_INSTRUCTIONS_SETUP": "Fai clic su un'intersezione vuota per scegliere un tipo di pezzo, poi fai di nuovo clic per posizionarlo.",
+      "BLOCKED": "Quella intersezione non è sulla plancia.",
+      "OCCUPIED": "Quell'intersezione è già occupata.",
+      "MUST_CAPTURE_FIRST": "La prima azione del tuo turno deve essere una cattura.",
+      "MUST_CAPTURE_OPENING": "La mossa d'apertura deve essere una cattura.",
+      "INVALID_LEG": "Questo scorrimento non è valido.",
+      "NO_RESERVE": "Non hai più quel tipo di pezzo nella tua riserva.",
+      "NO_CAPTURES_FROM": "Non ci sono catture valide per la pila in {{where}}.",
+      "NO_SECOND_ACTION_FROM": "Non ci sono catture o mosse di rinforzo valide per la pila in {{where}}."
+    },
     "unane": {
       "INITIAL_INSTRUCTIONS": "Seleziona una pedina amica.",
       "INSTRUCTIONS": "Fai clic su una pedina avversaria ortogonalmente adiacente per catturarla per sostituzione. Se non è possibile alcuna cattura, fai nuovamente clic sulla pedina amica per rimuoverla.",
@@ -4240,6 +4309,19 @@
       "INITIAL_INSTRUCTIONS": "Clicca su una casella vuota per posizionare un pezzo.",
       "MUST_BLOCK": "In una partita a tre giocatori, devi bloccare la vittoria dell'avversario successivo, se possibile."
     },
+    "yinsh": {
+      "INITIAL_INSTRUCTIONS_SETUP": "Fai clic su un'intersezione vuota per posizionare un anello dalla tua riserva.",
+      "INITIAL_INSTRUCTIONS": "Fai clic su uno dei tuoi anelli, poi fai clic su una destinazione lungo una linea.",
+      "INITIAL_INSTRUCTIONS_ROW": "Rimuovi i cinque marcatori nella riga, poi rimuovi uno dei tuoi anelli.",
+      "INITIAL_INSTRUCTIONS_SEGMENT": "Fai clic sui marcatori per deselezionare quelli al di fuori dei cinque da rimuovere. Conferma quando rimangono evidenziati esattamente cinque marcatori in fila.",
+      "INITIAL_INSTRUCTIONS_CHOOSE_ROW": "Fai clic su una riga evidenziata per scegliere quali cinque marcatori rimuovere.",
+      "INITIAL_INSTRUCTIONS_REMOVE_RING": "Fai clic su uno dei tuoi anelli per segnarlo.",
+      "BLOCKED": "Quella intersezione non è sulla plancia.",
+      "OCCUPIED": "C'è già un anello su quell'intersezione.",
+      "MUST_RESOLVE_ROW": "Devi completare la rimozione della riga prima di continuare.",
+      "NO_MARKERS": "Non ci sono più marcatori nella riserva.",
+      "NOT_YOUR_RING": "Quello non è un tuo anello."
+    },
     "yodd": {
       "INITIAL_INSTRUCTIONS": "Fai clic su un punto vuoto per posizionare una pietra del tuo colore. Fai di nuovo clic per passare all'altro colore, e ancora per rimuovere la pietra. Usa Completa mossa quando sei pronto (solo una pietra al primo turno).",
       "INITIAL_INSTRUCTIONS_yopp": "Fai clic su un punto vuoto per posizionare la tua pietra. Fai di nuovo clic su di esso per rimuoverla. Usa Completa mossa quando sei pronto (una sola pietra al primo turno).",
@@ -4266,6 +4348,23 @@
     "yonmoque": {
       "INITIAL_INSTRUCTIONS": "Seleziona una casella vuota per posizionare un pezzo o un pezzo esistente per iniziare una mossa.",
       "PARTIAL": "Seleziona una destinazione."
+    },
+    "zertz": {
+      "INITIAL_INSTRUCTIONS_POOL": "Scegli una biglia dalla riserva.",
+      "INITIAL_INSTRUCTIONS_CAPTURED": "Scegli una biglia dalla tua area di cattura.",
+      "INITIAL_INSTRUCTIONS_CAPTURE": "Esegui una cattura.",
+      "MUST_JUMP": "Esegui una cattura.",
+      "BAD_JUMP": "Questa sequenza di salti non è legale.",
+      "BAD_PLACE": "Non c'è alcun anello vuoto in {{where}}.",
+      "NO_MARBLE": "Non hai una biglia {{colour}} disponibile da giocare.",
+      "REMOVE_SAME_AS_PLACE": "Non puoi rimuovere l'anello su cui hai appena posizionato una biglia.",
+      "REMOVE_OCCUPIED": "L'anello in {{where}} non è vuoto.",
+      "RING_NOT_FREE": "L'anello in {{where}} non può essere rimosso senza spostare altri anelli.",
+      "MUST_CHOOSE_REMOVE": "Devi rimuovere un anello libero dopo aver posizionato la biglia.",
+      "PARTIAL_PLACE": "Seleziona un anello vuoto per la biglia.",
+      "PARTIAL_REMOVE": "Seleziona un anello da rimuovere.",
+      "POOL_LABEL": "Riserva",
+      "CAPTURED_LABEL": "Biglie catturate da {{player}}"
     },
     "zola": {
       "DISTANCE_CAPTURES": "Le mosse di cattura non devono aumentare la tua distanza dal centro.",
@@ -4369,6 +4468,7 @@
     "domineering": "I giocatori posizionano tessere del domino, una in verticale e un'altra in orizzontale, finché uno dei due non può più giocare, perdendo così la partita.",
     "dragoneyes": "Una variante della dama con informazione incompleta, caselle magiche \"occhio di drago\", e giocata su un tavoliere esagonale.",
     "druid": "Posiziona sarsen e architravi per connettere i tuoi bordi del tavoliere. Sul tavoliere rettangolare standard, il Giocatore 1 connette est e ovest; il Giocatore 2 connette nord e sud. Su Druid's Y, connetti tutti e tre i lati (gli angoli contano per entrambi i bordi adiacenti). Su Druid's Hex, connetti tre lati alternati qualsiasi (non adiacenti). Solo la pietra più in alto su ciascuna cella conta ai fini della connessione.",
+    "dvonn": "Impila i pezzi su una griglia esagonale e mantieni il collegamento con i pezzi rossi DVONN. Isola le pile nemiche, controlla il maggior numero di dischi quando nessun giocatore può più muovere e vinci.",
     "elOso": "Un solitario ambientato nel mondo di Carrisor. Muovi le tue pile fuori dalla parte superiore della plancia verso il Cielo mentre l'Orso lancia i dadi e avanza dall'alto. Porta dieci o più pezzi nel Cielo per vincere.",
     "emergo": "Una variante della Dama in cui i pezzi catturati rimangono sul tavoliere e possono essere liberati in seguito. Cattura tutti i pezzi avversari per vincere. Derivato da Lasca ma con due fasi di gioco e catture massime obbligatorie.",
     "emu": "Ogni uccello nel tuo allevamento è rappresentato da una pila di carte. Alla fine della mano, il valore di un uccello è determinato dalla somma delle carte numeriche nella pila. Lo scopo, ovviamente, è allevare uccelli redditizi. Vince il punteggio più alto dopo un determinato numero di \"anni\".",
@@ -4431,6 +4531,7 @@
     "loa": "Un gioco classico in cui cerchi di raccogliere tutti i tuoi pezzi in un unico gruppo connesso. I pezzi possono muoversi solo dell'esatto numero di caselle pari al numero di pezzi presenti lungo la linea di movimento. È supportata la variante con la configurazione iniziale \"Uova Strapazzate\".",
     "logger": "Un gioco di piramidi Looney in cui i giocatori gareggiano per far crescere e raccogliere più alberi dei loro avversari.",
     "lox": "Un gioco di connessione esagonale con catture ispirato a Tumbleweed. Una casella è controllata da un giocatore se ha più linee di vista verso i pezzi del giocatore rispetto a metà del numero di vicini che possiede. Se un pezzo avversario si trova su una casella controllata da te, puoi catturarlo sostituendolo con un tuo pezzo durante il tuo turno. Il giocatore che possiede una connessione solida tra i suoi due lati all'inizio del proprio turno vince.",
+    "lyngk": "Rivendica due dei cinque colori, impila e fai scorrere i pezzi su una plancia esagonale, crea catene passando per il tuo colore con la regola LYNGK e segna punti catturando le pile completate di cinque pezzi.",
     "magnate": "Un gioco economico per Decktet in cui i giocatori gareggiano per il controllo di cinque quartieri sviluppando sequenze di carte. Le carte di rango più alto costano di più, ma contribuiscono maggiormente alle tue entrate (anche se solo parzialmente sviluppate) e al tuo punteggio. La valuta (tassabile) del regno è rappresentata da gettoni seme, raccolti vendendo carte indesiderate o guadagnati da carte parzialmente o completamente sviluppate con un tiro di dadi, come in Catan.",
     "majorities": "Un gioco di maggioranze. La maggioranza dei pezzi su una linea vince quella linea. La maggioranza delle linee parallele in una direzione vince quella direzione. La maggioranza delle direzioni vince la partita. Il primo giocatore posiziona un pezzo e, successivamente, ogni giocatore posiziona due pezzi per turno.",
     "manalath": "Manalath è un gioco su griglia esagonale in cui puoi posizionare pezzi di entrambi i colori. Vinci se alla fine del tuo turno c'è un gruppo di cinque pezzi del tuo colore, ma *perdi* se c'è un gruppo di quattro pietre del tuo colore. Come farai a riuscirci?!",
@@ -4509,6 +4610,7 @@
     "shapechess": "Shape Chess è un gioco in cui i giocatori usano i propri pezzi per creare forme a simmetria lineare. Utilizzando tre tipi di azioni (posizionamenti, salti, spinte), i giocatori mirano a creare gruppi simmetrici di sei o più pezzi, ottenendo più punti per i gruppi più grandi.",
     "shifty": "Un gioco di connessione in cui posizioni un pezzo ortogonalmente adiacente a un pezzo alleato, oppure muovi uno dei tuoi pezzi ortogonalmente adiacente a un pezzo alleato, con la mossa della donna degli scacchi, in una posizione non adiacente ortogonalmente a nessun altro pezzo alleato. I crosscut sono illegali. Il giocatore che forma un percorso ortogonale o diagonale che collega i suoi due lati vince.",
     "siegeofj": "Posiziona carte, che rappresentano eserciti, per esercitare pressione sui segmenti delle mura attorno alla città di Jacynth. Esercita la pressione maggiore sul maggior numero di segmenti per vincere.",
+    "skisma": "Circonda una pedina avversaria con un singolo gruppo per vincere: isolala da metà del bordo del tabellone.",
     "slimetrail": "Spingi la palla in una casella vuota adiacente e portala al tuo obiettivo, oppure manda l'avversario in stallo.",
     "slither": "Gioco di connessione su tabellone quadrato con regole aggiornate del 2018. Facoltativamente muovi un pezzo e poi posiziona un pezzo, in modo tale che nessun paio di pezzi dello stesso colore siano adiacenti in diagonale a meno che non siano collegati ortogonalmente da una pietra dello stesso colore. In Advanced Slither, un pezzo può muoversi solo se fa parte di un gruppo ortogonale contiguo composto da pezzi di entrambi i colori.",
     "slyde": "In Slyde, l'obiettivo è formare il gruppo ortogonale più grande del tuo colore. I pezzi possono essere fissi o mobili. Il gioco inizia in una posizione a scacchiera e tutti i pezzi iniziano mobili. Nel tuo turno, puoi scambiare un pezzo mobile con un pezzo mobile adiacente dell'avversario, e il tuo pezzo diventa fisso. La partita termina quando un giocatore rimane senza mosse. Se il tabellone si trova in una posizione simmetrica a specchio dopo il primo turno, puoi cambiare lo stato di un pezzo invece di eseguire lo scambio standard.",
@@ -4559,6 +4661,7 @@
     "tumbleweed": "Tumbleweed è un gioco di linea di vista. Si costruiscono torri e le caselle sono controllate dal giocatore con il maggior numero di torri che riescono a vedere quella casella. Competere per controllare la maggioranza del tabellone esagonale.",
     "twinflames": "I giocatori ottengono punti moltiplicando la dimensione dei loro due gruppi più grandi. Il punteggio più alto vince. In caso di parità, vince il secondo giocatore. Il gioco utilizza una configurazione iniziale casuale per posizionare un numero fisso di muri.",
     "twixt": "Twixt è un gioco di connessione in cui i giocatori si alternano collocando pioli e ponti su una griglia con l'obiettivo di collegare i propri lati opposti.",
+    "tzaar": "Impila e cattura su un tabellone esagonale. Mantieni in cima almeno un Tzaar, una Tzarra e un Tott, oppure blocca l'avversario lasciandolo senza catture legali.",
     "unane": "Un gioco di unificazione ispirato a Konane.",
     "unlur": "Un gioco di connessione asimmetrico in cui un giocatore cerca di formare una Y e l'altro cerca di collegare lati opposti. Raggiungere l'obiettivo dell'avversario senza raggiungere il proprio comporta la sconfitta. La partita inizia con una fase di asta/contratto in cui entrambi i giocatori piazzano pezzi del colore del giocatore Y finché qualcuno non passa; a quel punto l'avversario diventa il giocatore Linea.",
     "unstack": "Semina le tue pile per catturare i pezzi avversari ed essere colui che possiede più pezzi alla fine.",
@@ -4577,9 +4680,11 @@
     "xana": "Un gioco di impilamento in cui i giocatori hanno un numero limitato di pezzi e un numero illimitato di muri per conquistare territorio.",
     "y": "Il classico gioco di connessione. Connetti tutti e tre i lati per vincere.",
     "yavalath": "Forma una linea di quattro o più pezzi del tuo colore *senza* prima formare una linea di tre pezzi.",
+    "yinsh": "Posiziona gli anelli, poi a ogni turno inserisci un marcatore in un anello e fai scorrere l'anello lungo una linea, capovolgendo i marcatori scavalcati. Forma file di cinque marcatori del tuo colore per rimuoverli e segnare un anello.",
     "yodd": "Passa o posiziona una o due pietre di qualsiasi colore. Dopo il tuo turno ci deve essere un numero dispari di gruppi sul tabellone. Quando entrambi i giocatori passano di seguito, vince il giocatore con meno gruppi del proprio colore.",
     "yonkoma": "Due pedine rosse e due blu su una scacchiera. Una pedina si muove lungo una diagonale come un alfiere, e ogni mossa deve avvicinare la pedina mossa alle due pedine avversarie, oppure mantenere tale distanza e allontanarla dalla propria compagna. Chiunque completi un crosscut, un blocco 2x2 contenente tutte e quattro le pedine, perde.",
     "yonmoque": "Cerca di formare un quattro in linea in un gioco in cui non tutti gli spazi sono uguali e i pezzi avversari possono essere convertiti.",
+    "zertz": "I giocatori condividono una riserva di biglie su una plancia esagonale che si restringe. Cattura serie saltando o isolando gruppi, oppure raccogliendo abbastanza biglie di un singolo colore.",
     "zola": "Un gioco in cui il tuo movimento è vincolato dalla tua distanza dal centro del tabellone. Le mosse di cattura non devono aumentare tale distanza. Le mosse non di cattura devono aumentare tale distanza. La prima persona che cattura tutti i pezzi avversari vince."
   },
   "names": {
@@ -4675,6 +4780,7 @@
     "domineering": "Domineering",
     "dragoneyes": "Dragon Eyes",
     "druid": "Druid",
+    "dvonn": "DVONN",
     "elOso": "El Oso",
     "emergo": "Emergo",
     "emu": "Emu Ranchers",
@@ -4737,6 +4843,7 @@
     "loa": "Lines of Action",
     "logger": "Logger",
     "lox": "Lox",
+    "lyngk": "LYNGK",
     "magnate": "Magnate",
     "majorities": "Majorities",
     "manalath": "Manalath",
@@ -4815,6 +4922,7 @@
     "shapechess": "Shape Chess",
     "shifty": "Shifty",
     "siegeofj": "Siege of Jacynth",
+    "skisma": "Skisma",
     "slimetrail": "Slimetrail",
     "slither": "Advanced Slither",
     "slyde": "Slyde",
@@ -4865,6 +4973,7 @@
     "tumbleweed": "Tumbleweed",
     "twinflames": "Twin Flames",
     "twixt": "Twixt",
+    "tzaar": "TZAAR",
     "unane": "Unane",
     "unlur": "Unlur",
     "unstack": "Unstack",
@@ -4883,9 +4992,11 @@
     "xana": "Xana",
     "y": "Y",
     "yavalath": "Yavalath",
+    "yinsh": "YINSH",
     "yodd": "Yodd",
     "yonkoma": "Yonkoma",
     "yonmoque": "Yonmoque",
+    "zertz": "ZERTZ",
     "zola": "Zola"
   },
   "notes": {
@@ -4893,7 +5004,7 @@
     "akimbo": "Akimbo, progettato da Luis Bolaños Mures nel 2026, è un gioco di connessione senza pareggi per due giocatori. Una _diagonale nuda_ è una coppia di pezzi adiacenti in diagonale dello stesso colore privi di altri pezzi dello stesso colore adiacenti a entrambi. Un _crosscut_ è un'area 2×2 con due diagonali nude incrociate di colori opposti.\n\nNel proprio turno, il giocatore piazza un pezzo amico su una casella vuota. Se ciò completa un crosscut, l'altro pezzo nel crosscut viene rimosso. Non deve mai esserci più di una diagonale nuda per colore sul tabellone — nemmeno momentaneamente prima di rimuovere un pezzo. Un giocatore vince se, alla fine del proprio turno, c'è una catena di pezzi del proprio colore connessi ortogonalmente che tocca i due bordi opposti del tabellone del giocatore.\n\nOkimba è una variante in cui può esistere al massimo una diagonale nuda sul tabellone (quindi mentre un giocatore ha la diagonale, l'avversario non può crearne un'altra).",
     "alta": "Ci sono due modi per posizionare gli scambi sull'interfaccia grafica: (1) Selezionare l'orientamento dello scambio nel pannello, quindi fare clic sullo spazio desiderato sul tabellone per posizionarlo, oppure (2) fare clic su due vertici. I vertici sono annotati con un asterisco, seguito dalla notazione algebrica dello spazio in cui il vertice si trova nell'angolo in basso a sinistra. Per azionare uno scambio, basta fare clic sullo spazio.",
     "anache": "Questa implementazione segue il regolamento di David Ploog. Tre modifiche degne di nota sono che (1) le barriere sono proibite, (2) al posto di una variante 16x16 ne abbiamo una 15x15, in cui i pezzi si promuovono a cavalli sulla linea centrale e il drago non può saltare allo spazio 7x7 dall'altro angolo, e (3) contro gli angoli, i pezzi vengono catturati tramite cattura per schiacciamento anziché cattura in custodia, quindi devono esserci almeno due pezzi avversari in linea prima che venga effettuata una cattura contro gli angoli.\n\nNota: il controllo dello stallo è impegnativo dal punto di vista computazionale. Se non puoi effettuare alcuna mossa legale, dovresti abbandonare manualmente.",
-    "arimaa": "Reso disponibile ai sensi della sezione 3 della [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDurante il posizionamento iniziale standard, devi solo posizionare i tuoi otto pezzi non-coniglio. Una volta posizionati, Completa mossa riempie il resto della tua area di posizionamento con i conigli. Puoi comunque posizionare tu stesso alcuni o tutti i conigli per primi, se li vuoi in un punto particolare.\n\nPer inserire una mossa, fai clic su un pezzo e poi sulla casella su cui dovrebbe finire il tuo turno. Il motore trova il modo legale più breve per portarlo lì, comprese spinte e trazioni, e disegna una freccia per pezzo da dove ha iniziato a dove finisce. Puoi anche selezionare pezzi nemici. Fai clic sulla punta di una freccia per estenderla, o sulla coda per rimuoverla. Fare clic su un pezzo selezionato una seconda volta lo mantiene dove si trova, impedendo al motore di spostarlo. Alcuni turni più rari richiedono un clic in più; la pagina wiki di questo gioco li elenca tutti.\n\nLe mosse sono registrate nella notazione Lightvector, che indica ciascun pezzo e dove finisce anziché elencare ogni singolo passo. Puoi digitarla nella casella della mossa; è comunque accettata anche la vecchia notazione passo-passo. La pagina wiki spiega la notazione per intero.\n\nHarlog è un metodo riconosciuto per determinare il vantaggio di materiale. I punteggi positivi favoriscono l'Oro, quelli negativi l'Argento. L'intervallo teorico è ±112, ma in pratica ±20 rappresenta già un vantaggio molto netto.\n\nPoiché non possiamo generare elenchi completi di mosse, il sistema non può rilevare i rari casi in cui le tue uniche mosse disponibili sono illegali a causa della ripetizione di posizione. Il sistema non ti permetterà di effettuare tali ripetizioni illegali e dovrai abbandonare manualmente.",
+    "arimaa": "Reso disponibile ai sensi della sezione 3 della [licenza pubblica Arimaa](https://arimaa.com/arimaa/license/).\n\nControlli di input: Clicca su una casella vuota per contrassegnare la mossa come completata. Clicca su un pezzo avversario per annullare l'ultimo gettone di mossa.\n\nModalità di input base (predefinita): Clicca sui pezzi e su dove desideri muoverli nell'ordine in cui devono muoversi secondo le regole. Questa modalità è pensata per essere in linea con gli altri giochi AP in termini di intuitività e facilità d'uso. Consulta la Wiki di AP per maggiori dettagli.\n\nModalità di input avanzata: Clicca sui pezzi e sul punto in cui vuoi che finiscano alla fine del turno. Per inviare un pezzo su una casella trappola, un triangolo pieno indica di catturare il pezzo se possibile, un triangolo vuoto indica di evitare la cattura del pezzo se possibile, e cliccare altrove sulla casella trappola prova l'altra opzione/predefinita, che è quasi sempre ciò che desideri. Clicca su determinate caselle vuote per velocizzare particolari sequenze di passaggi (cfr. AP Wiki: Target Clicks). Il sistema deduce ampiamente i passaggi necessari per rendere valido il tuo input. Questa modalità mira ad ottimizzare l'efficienza dei clic senza risultare troppo poco intuitiva una volta presaci la mano. Consulta la Wiki di AP per maggiori dettagli (vivamente consigliato).\n\nLe mosse sono registrate nella notazione Lightvector, modellata sulla notazione algebrica scacchistica, sebbene più flessibile (e che usa lettere minuscole per indicare i pezzi d'argento). È retrocompatibile con la notazione della Arimaa Gameroom e la notazione AP precedente è ancora accettata. Consulta la Wiki di AP per maggiori dettagli.\n\nHarlog è un metodo per stimare il vantaggio di materiale. Il colore dell'icona indica chi favorisce. L'intervallo teorico per la configurazione standard è ±112, ma in pratica ±20 rappresenta già un vantaggio molto netto.\n\nIn Mosse con Dado (Dicey Moves), un giocatore il cui dado consente un solo passo non ha mosse disponibili (e perde) se rimangono solo spinte e tirate.\n\nPoiché non possiamo generare elenchi completi di mosse, il sistema non è in grado di rilevare i rari casi in cui le tue uniche mosse disponibili sono illegali a causa della ripetizione di posizione. Il sistema non ti permetterà di effettuare tali ripetizioni illegali e dovrai abbandonare manualmente.",
     "armadas": "Sono noti problemi con questo gioco sui dispositivi iOS.\n\nQuesto gioco offre due scenari:\n\n* L'impostazione predefinita vede ogni giocatore con due trii di pezzi. Nella fase di piazzamento, ciascun giocatore deve piazzare da 1 a 3 navi finché tutte le navi non sono state piazzate.\n* La variante \"Forma libera\" ti consente di piazzare le navi che desideri (massimo tre alla volta) finché entrambi i giocatori non dicono \"passo\". Questo ti permette di creare flotte sbilanciate o altrimenti asimmetriche.\n\nLe partite vedono di default un'isola al centro del campo. Sono disponibili sia la variante \"senza isole\" che quella a \"due isole\". Non puoi muoverti o sparare attraverso le isole. Per colpire con successo una nave, almeno un angolo del triangolo della tua nave deve avere una visuale libera su almeno un angolo della nave bersaglio.\n\nRicorda che è possibile incastrare la tua nave contro un'isola o il bordo del tabellone in modo tale da non poterla più muovere! Fai attenzione!",
     "ataxx": "Alla terza ripetizione della posizione, la partita termina e si calcola il punteggio.",
     "bao": "Le mosse in Bao possono essere molto complesse, comportando più giri attorno al tabellone e cambi di direzione. Le annotazioni sono, pertanto, essenziali. La casella iniziale e la direzione vengono evidenziate, e vengono contrassegnate anche le caselle catturate. Ma un'annotazione dettagliata del movimento non è possibile. Se ritieni di aver riscontrato un errore, faccelo sapere su Discord.",
@@ -4938,6 +5049,7 @@
     "lielow": "\"Mosse fino al suicidio\" calcola per ciascun giocatore quante mosse ciascuna delle sue pile potrebbe ancora compiere — crescendo di uno a ogni mossa e scegliendo sempre la direzione che sopravvive più a lungo — prima di essere costretta a uscire dal tabellone. Ignora ogni altra pila sul tabellone, amica o nemica, quindi è una misura approssimativa di quanto siano esposte le pedine di un giocatore, non un conteggio delle mosse legali effettivamente rimaste.",
     "linage": "Linage è un gioco del 2016 progettato da Luis Bolaños Mures. Il gioco si basa sulle seguenti definizioni: una **regione** è un insieme massimale di punti vuoti ortogonalmente contigui. Una **linea** è un insieme di N punti vuoti ortogonalmente contigui sulla stessa riga o colonna (il valore predefinito è N=3); e una regione è di **proprietà** di Verticale se non contiene linee orizzontali, e di Orizzontale se non contiene linee verticali. Una regione è libera se non appartiene a nessuno dei due giocatori. Le regioni devono sempre contenere almeno una linea.\n\nNel proprio turno, il giocatore passa o posiziona una pedina in una regione libera. La partita termina quando entrambi i giocatori passano consecutivamente, e vince chi ha il punteggio più alto (ovvero il numero di punti nelle regioni possedute dal giocatore, più il komi).",
     "loa": "Al centro del tabellone 9x9 c'è un \"buco nero\". Atterrare sul buco nero comporta la rimozione del pezzo dal gioco. Le connessioni simultanee sono considerate una patta.",
+    "lyngk": "La rivendicazione utilizza i numeri della tavolozza 1–5 nel registro delle mosse e nella chat (prefisso di rivendicazione opzionale, seguito da una virgola, poi la sequenza di caselle, ad es. `4,e7-d8`). Per impostazione predefinita, 1 è rosso, 2 è blu, 3 è verde, 4 è giallo e 5 è viola. I Jolly corrispondono alla tavolozza 6 (motivo a punti per impostazione predefinita) e non vengono rivendicati. Un colore attivo rimane neutrale per tutta la partita.",
     "magnate": "La terminologia di alcune azioni di Magnate è stata modificata per chiarezza e brevità. Lo sviluppo completo di una nuova proprietà è chiamato azione \"Acquista\" (Buy); l'acquisto del titolo di proprietà per una nuova proprietà è chiamato \"Atto\" (Deed); lo sviluppo dei titoli (ovvero l'aggiunta di segnalini a una proprietà con atto, indipendentemente dal fatto che renda l'atto completamente sviluppato o meno) è chiamato \"Aggiungi\" (Add). (La vendita di una carta e lo scambio di 3 a 1 dei segnalini seme rimangono invariati.)\n\nPer velocizzare il processo di lancio dei dadi per le risorse, ci sono due azioni aggiuntive:\n* \"Preferisci\" serve a impostare la preferenza su quale segnalino seme prendere quando un atto paga sul lancio dell'avversario. Se non imposti una preferenza esplicita, il codice sceglierà per te il segnalino più raro in base ai tuoi semi non-corona e alla tua riserva attuale di segnalini. Il segnalino attualmente preferito è cerchiato nell'interfaccia, ma la tua preferenza personale non è mai visibile all'altro giocatore.\n* \"Scegli\" è un'azione iniziale obbligatoria per raccogliere i segnalini seme quando un atto paga sul tuo stesso lancio. (In tutti i casi in cui devi scegliere un segnalino seme non ancora presente tra i tuoi segnalini, fai comunque clic sulla pila di segnalini appropriata.)\n\nPoiché puoi eseguire diverse azioni durante una semimossa in qualsiasi ordine, c'è anche un'azione \"Annulla\" per annullare l'azione più recente, indipendentemente dal fatto che fosse completa o meno.\n\nNota che viene visualizzato solo il risultato finale del dado risorsa, ma la distribuzione dei risultati attesi è comunque quella di un lancio di 2d10 prendendo il valore più alto. La tassazione avviene quando il valore più basso di 2d10 è 1; viene lanciato un dado seme (o due, nella variante a doppia tassazione) e i semi verranno mostrati sotto il risultato della risorsa. Il lancio viene registrato alla fine del turno di un giocatore ed è attribuito al giocatore successivo (che avrebbe lanciato il dado nel gioco fisico). A eccezione di \"Scegli\", non è richiesta alcuna azione dell'utente; le risorse vengono aggiunte o rimosse automaticamente dal server tra un turno e l'altro.\n\nQuando un giocatore è in vantaggio in un distretto, la Pedina o la Scusa per quel distretto è contornata con il colore di quel giocatore. Il primo punteggio di spareggio (valore totale della proprietà) è mostrato tra parentesi dopo il punteggio del distretto. Il secondo criterio di spareggio è il numero totale di segnalini rimanenti.",
     "mchess": "Se ci sono stati sette turni consecutivi senza alcuna cattura, qualcuno può \"chiamare l'orologio\" aggiungendo un asterisco (*) alla fine della propria mossa. Questo può essere fatto solo selezionando la mossa dall'elenco a discesa. Dopo altri sette turni senza catture, la partita terminerà e si procederà al calcolo del punteggio.",
     "mirador": "Dichiarare occupa l'intero turno. Completa prima la tua connessione inattaccabile, poi dichiara nel tuo turno successivo; non puoi posizionare un mirador e dichiarare nello stesso turno.",
@@ -4966,6 +5078,7 @@
     "sentinel": "I giochi di sorveglianza (Vigil Games) sono una classe di giochi di strategia in cui i giocatori devono mantenere una linea di vista ininterrotta tra i propri pezzi e un punto di riferimento o una regione designata del tabellone. Il primo gioco di questo genere di cui si ha notizia è Kastellet del 1892.\n\nSentinel è un gioco di sorveglianza in cui i giocatori devono sempre avere almeno una linea di vista verso il centro del tabellone. Sentinel è il secondo gioco astratto di questo genere (dopo oltre 130 anni!), che unisce i ludemi tipici di movimento e cattura con il controllo permanente in linea di vista della casella centrale.\n\nIl gioco unisce il movimento in avanti con la semina di pile, che è l'unico modo per gli eserciti di aumentare le proprie dimensioni.",
     "shapechess": "Shape Chess, 形棋 (forma - gioco da tavolo), è stato progettato c.2010 da 日出 (Richu) di Guangzhou, Cina. Il gioco si è evoluto nella sua forma attuale attraverso anni di perfezionamento all'interno della comunità cinese di game design (citato da Kanare_Abstract). Non è un gioco di tipo scacchistico, ma sfrutta un concetto molto originale facendo costruire ai giocatori forme a simmetria speculare. Questa implementazione include diverse dimensioni del tabellone e anche diversi punteggi di vittoria, per i giocatori che preferiscono partite più brevi o più lunghe.",
     "siegeofj": "Maggiori informazioni sul sistema Decktet sono disponibili sul [sito ufficiale del Decktet](https://www.decktet.com). Le carte nella mano dei giocatori sono nascoste agli osservatori e sono nascoste agli avversari finché il mazzo non è vuoto, momento in cui i giocatori dispongono di informazione perfetta e le mani vengono rivelate.",
+    "skisma": "Una pedina è circondata quando, a causa di un singolo gruppo avversario, può raggiungere meno della metà delle caselle di bordo. I percorsi possono passare attraverso qualsiasi casella tranne le pedine di quel gruppo. Non puoi piazzare una pedina dove verrebbe circondata, a meno che tale piazzamento non porti alla vittoria. Un giocatore senza mosse legali perde, anche quando il tabellone è pieno: chi riempie l'ultima casella vince e non ci sono patte. Sui tabelloni quadrati, le pedine si collegano in gruppi sia in diagonale che in ortogonale, ma i percorsi vanno solo in ortogonale, quindi una catena diagonale costituisce un muro.",
     "slimetrail": "Slimetrail è stato progettato da Bill Taylor nel 1992. Inizialmente il gioco veniva giocato su un tabellone esagonale (Hex) e lo stallo era una patta. Il gioco si è poi evoluto per essere giocato su un tabellone 8x8, in cui il giocatore in stallo perde la partita. Questa versione è stata utilizzata nel Torneo Portoghese di Giochi da Tavolo per diversi anni. Esistono alcuni precursori degli anni '70 con questo tema, come Knight Chase, Blokeo, ZigZag e Tesoro (cfr. la pagina di WAG nei link).",
     "soccolot": "Soccolot è un gioco del 1972 di David Wilson. Il gioco originale veniva giocato su un tabellone 8x8 con sei pedine per squadra. I giocatori possono muovere o interagire con la palla sia calciandola (kick) sia muovendola insieme a una pedina della squadra (dribble). C'è una lotta costante per conquistare il controllo del tabellone e trovare un varco per muovere o calciare la palla nella riga di base dell'avversario. La variante principale è più veloce, giocata su un tabellone 7x7 per una migliore interazione tra i pezzi. Robert A. Kraus ha implementato entrambe le varianti per [Zillions](https://www.zillions-of-games.com/cgi-bin/zilligames/submissions.cgi?do=show;id=802).",
     "spire": "In questa implementazione, se selezioni uno solo spazio, si presuppone che tu abbia posizionato la sfera del tuo colore; se selezioni due spazi, il primo spazio è per la sfera neutrale e il secondo spazio è per la sfera del tuo colore. Se il primo clic viene effettuato su uno spazio in cui è valida solo la sfera neutrale o la sfera del tuo colore, quella sfera verrà confermata automaticamente.",
@@ -5340,6 +5453,12 @@
         "name": "Nascondi tutti gli indicatori di controllo"
       }
     },
+    "lyngk": {
+      "hide-stack-owner": {
+        "name": "Nascondi proprietario della pila",
+        "description": "Non contrassegnare il disco superiore delle pile che controlli."
+      }
+    },
     "margo": {
       "orb-3d": {
         "description": "Usa texture di sfere 3D semplici.",
@@ -5456,6 +5575,12 @@
       "hide-highlights": {
         "description": "Non evidenziare le Regioni Rivendicate.",
         "name": "Nascondi evidenziazioni"
+      }
+    },
+    "skisma": {
+      "hide-enclosed": {
+        "name": "Nascondi zone racchiuse",
+        "description": "Non ombreggiare le zone racchiuse dai gruppi di ciascun giocatore, dove l'altro giocatore può giocare solo una mossa vincente."
       }
     },
     "spire": {
@@ -5597,6 +5722,16 @@
       "hide-diagonals": {
         "description": "Non mostrare le linee diagonali.",
         "name": "Nascondi diagonali"
+      }
+    },
+    "tzaar": {
+      "#projection": {
+        "name": "Vista dall'alto",
+        "description": "Solo il pezzo superiore di ogni pila, con l'altezza mostrata da un numero quando è maggiore di uno."
+      },
+      "stacked": {
+        "name": "Vista impilata",
+        "description": "Pile sfalsate che mostrano ogni disco della pila."
       }
     },
     "upperhand": {
@@ -6807,6 +6942,12 @@
       },
       "#ruleset": {
         "name": "Set di regole predefinito"
+      }
+    },
+    "dvonn": {
+      "quickstart": {
+        "name": "Inizio rapido",
+        "description": "La disposizione iniziale viene distribuita casualmente; il giocatore 1 muove per primo."
       }
     },
     "emu": {
@@ -8613,6 +8754,32 @@
         "description": "Distribuisce tutte le 24 carte ai giocatori all'inizio della partita. Tutte le mani sono visibili."
       }
     },
+    "skisma": {
+      "#board": {
+        "name": "Hexhex 6"
+      },
+      "size-7": {
+        "name": "Hexhex 7"
+      },
+      "size-8": {
+        "name": "Hexhex 8"
+      },
+      "size-9": {
+        "name": "Hexhex 9"
+      },
+      "square-9": {
+        "name": "Quadrato 9x9"
+      },
+      "square-11": {
+        "name": "Quadrato 11x11"
+      },
+      "square-13": {
+        "name": "Quadrato 13x13"
+      },
+      "square-15": {
+        "name": "Quadrato 15x15"
+      }
+    },
     "slimetrail": {
       "#board": {
         "description": "Gioco su tabellone 8x8",
@@ -9379,6 +9546,19 @@
         "name": "Plancia più grande (30x30)"
       }
     },
+    "tzaar": {
+      "#setup": {
+        "name": "Setup fisso"
+      },
+      "random": {
+        "name": "Configurazione casuale",
+        "description": "Tutti i pezzi vengono posizionati sul tabellone in modo casuale."
+      },
+      "tournament": {
+        "name": "Setup da torneo",
+        "description": "I giocatori si alternano nel posizionare i pezzi dalla propria riserva prima di giocare."
+      }
+    },
     "unane": {
       "size-6": {
         "name": "Plancia 5x6"
@@ -9580,6 +9760,12 @@
         "name": "Progressiva con restrizione di gruppo"
       }
     },
+    "yinsh": {
+      "blitz": {
+        "name": "Blitz",
+        "description": "Vinci segnando un anello (formando una riga di cinque marcatori)."
+      }
+    },
     "yodd": {
       "hex-6": {
         "name": "Esagonale dimensione 6"
@@ -9622,6 +9808,23 @@
       },
       "size-12": {
         "name": "Tabellone 12x12"
+      }
+    },
+    "zertz": {
+      "#board": {
+        "name": "Plancia Hexhex 4 (37 anelli)"
+      },
+      "tournament": {
+        "name": "Plancia da torneo",
+        "description": "Plancia più grande a esagono di triangoli alternati (48 anelli)"
+      },
+      "oversize": {
+        "name": "Plancia oversize",
+        "description": "Plancia Hexhex 5 (61 anelli)"
+      },
+      "blitz": {
+        "name": "Blitz",
+        "description": "Meno biglie e obiettivi di cattura inferiori; solo plancia predefinita."
       }
     },
     "zola": {

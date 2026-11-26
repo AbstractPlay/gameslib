@@ -1175,6 +1175,26 @@
     "src": "{{player}} placed a sarsen at {{where}}.",
     "out": "{{player}} colocó un sarsen en {{where}}."
   },
+  "dvonn.EOG.score": {
+    "src": "{{player}} wins with {{count}} controlled pieces.",
+    "out": "{{player}} gana con {{count}} fichas controladas."
+  },
+  "dvonn.EOG.tie": {
+    "src": "The game is a draw with {{count}} controlled pieces each.",
+    "out": "La partida es un empate con {{count}} fichas controladas cada uno."
+  },
+  "dvonn.PASS.skipped": {
+    "src": "{{player}} had no legal move and passed.",
+    "out": "{{player}} no tenía ningún movimiento legal y pasó."
+  },
+  "dvonn.REMOVE.isolated_one": {
+    "src": "1 stack was removed for losing contact with DVONN.",
+    "out": "Se retiró 1 pila por perder contacto con DVONN."
+  },
+  "dvonn.REMOVE.isolated_other": {
+    "src": "{{count}} stacks were removed for losing contact with DVONN.",
+    "out": "Se retiraron {{count}} pilas por perder contacto con DVONN."
+  },
   "elOso.ACTOR.bear": {
     "src": "The Bear",
     "out": "El Oso"
@@ -1742,6 +1762,50 @@
   "logger.PLACE.spawn": {
     "src": "A new sapling sprouted at {{where}}.",
     "out": "Brotó un nuevo retoño en {{where}}."
+  },
+  "lyngk.CAPTURE.default": {
+    "src": "{{player}} captured a stack at {{where}}.",
+    "out": "{{player}} capturó una pila en {{where}}."
+  },
+  "lyngk.CLAIM.default": {
+    "src": "{{player}} claimed the {{colourName}} colour.",
+    "out": "{{player}} reclamó el color {{colourName}}."
+  },
+  "lyngk.COLOUR.1": {
+    "src": "red",
+    "out": "rojo"
+  },
+  "lyngk.COLOUR.2": {
+    "src": "blue",
+    "out": "azul"
+  },
+  "lyngk.COLOUR.3": {
+    "src": "green",
+    "out": "verde"
+  },
+  "lyngk.COLOUR.4": {
+    "src": "yellow",
+    "out": "amarillo"
+  },
+  "lyngk.COLOUR.5": {
+    "src": "purple",
+    "out": "morado"
+  },
+  "lyngk.EOG.draw": {
+    "src": "The game is a draw.",
+    "out": "La partida terminó en empate."
+  },
+  "lyngk.EOG.score": {
+    "src": "{{player}} wins with {{count}} captured stacks.",
+    "out": "{{player}} gana con {{count}} pilas capturadas."
+  },
+  "lyngk.EOG.tiebreak": {
+    "src": "{{player}} wins on tiebreak.",
+    "out": "{{player}} gana por desempate."
+  },
+  "lyngk.MOVE.default": {
+    "src": "{{player}} moved {{cells}}.",
+    "out": "{{player}} movió {{cells}}."
   },
   "magnate.ADD_one": {
     "src": "{{player}} added one token to their deeded card {{where}}.",
@@ -2431,6 +2495,10 @@
     "src": "{{player}} placed \"{{what}}\" next to {{where}}.",
     "out": "{{player}} colocó \"{{what}}\" junto a {{where}}."
   },
+  "skisma.EOG.surround": {
+    "src": "The game has ended because an enemy stone was surrounded.",
+    "out": "La partida ha terminado porque una piedra enemiga fue rodeada."
+  },
   "slyde.MOVE.default": {
     "src": "{{player}} slid a piece from {{from}} to {{to}}.",
     "out": "{{player}} deslizó una pieza de {{from}} a {{to}}."
@@ -3091,6 +3159,30 @@
     "src": "{{player}} removed a link at {{where}}.",
     "out": "{{player}} retiró un enlace en {{where}}."
   },
+  "tzaar.EOG.immobilize": {
+    "src": "{{player}} wins — the opponent cannot make a forced capture.",
+    "out": "{{player}} gana — el oponente no puede hacer una captura obligatoria."
+  },
+  "tzaar.EOG.types": {
+    "src": "{{player}} wins — the opponent no longer has all three piece types on the board.",
+    "out": "{{player}} gana — el oponente ya no tiene los tres tipos de piezas en el tablero."
+  },
+  "tzaar.MOVE.capture": {
+    "src": "{{player}} moved from {{from}} to {{to}}, capturing a {{piece}}.",
+    "out": "{{player}} movió de {{from}} a {{to}}, capturando una {{piece}}."
+  },
+  "tzaar.MOVE.pass": {
+    "src": "{{player}} passed the second action.",
+    "out": "{{player}} pasó la segunda acción."
+  },
+  "tzaar.MOVE.strengthen": {
+    "src": "{{player}} strengthened from {{from}} to {{to}}.",
+    "out": "{{player}} reforzó de {{from}} a {{to}}."
+  },
+  "tzaar.PLACE.default": {
+    "src": "{{player}} placed a {{piece}} at {{where}}.",
+    "out": "{{player}} colocó una {{piece}} en {{where}}."
+  },
   "unane.PLACE.default": {
     "src": "{{player}} self-captured {{where}}.",
     "out": "{{player}} se autocapturó en {{where}}."
@@ -3211,6 +3303,30 @@
     "src": "{{player}} swapped seats, choosing to play first.",
     "out": "{{player}} cambió de asiento, eligiendo jugar primero."
   },
+  "yinsh.EOG.draw": {
+    "src": "The marker pool is empty with equal scored rings; the game is a draw.",
+    "out": "La reserva de marcadores está vacía con igual número de anillos anotados; la partida termina en empate."
+  },
+  "yinsh.EOG.pool": {
+    "src": "The marker pool is empty; {{player}} wins with more scored rings.",
+    "out": "La reserva de marcadores está vacía; {{player}} gana con más anillos anotados."
+  },
+  "yinsh.EOG.score": {
+    "src": "{{player}} wins with {{count}} scored rings.",
+    "out": "{{player}} gana con {{count}} anillos anotados."
+  },
+  "yinsh.MOVE.ring": {
+    "src": "{{player}} moved a ring from {{from}} to {{to}}.",
+    "out": "{{player}} movió un anillo de {{from}} a {{to}}."
+  },
+  "yinsh.ROW.markers": {
+    "src": "{{player}} removed a row of markers: {{cells}}.",
+    "out": "{{player}} retiró una fila de marcadores: {{cells}}."
+  },
+  "yinsh.ROW.ring": {
+    "src": "{{player}} scored a ring from {{where}}.",
+    "out": "{{player}} anotó un anillo desde {{where}}."
+  },
   "yonkoma.EOG.crosscut": {
     "src": "{{player}} completed a crosscut and loses the game.",
     "out": "{{player}} completó un corte cruzado y pierde la partida."
@@ -3222,5 +3338,49 @@
   "yonmoque.EOG.four": {
     "src": "The game has ended because a player made four in a row.",
     "out": "El juego ha terminado porque un jugador hizo cuatro en línea."
+  },
+  "zertz.CAPTURE.isolation": {
+    "src": "{{player}} isolated and captured {{colour}} at {{where}}.",
+    "out": "{{player}} aisló y capturó {{colour}} en {{where}}."
+  },
+  "zertz.CAPTURE.jump": {
+    "src": "{{player}} captured a {{colour}} marble at {{where}}.",
+    "out": "{{player}} capturó una canica {{colour}} en {{where}}."
+  },
+  "zertz.EOG.black": {
+    "src": "{{player}} wins by capturing {{count}} black marbles.",
+    "out": "{{player}} gana al capturar {{count}} canicas negras."
+  },
+  "zertz.EOG.each": {
+    "src": "{{player}} wins by capturing {{count}} of each colour.",
+    "out": "{{player}} gana al capturar {{count}} de cada color."
+  },
+  "zertz.EOG.full": {
+    "src": "{{player}} wins — the board is full.",
+    "out": "{{player}} gana — el tablero está lleno."
+  },
+  "zertz.EOG.grey": {
+    "src": "{{player}} wins by capturing {{count}} grey marbles.",
+    "out": "{{player}} gana al capturar {{count}} canicas grises."
+  },
+  "zertz.EOG.repetition": {
+    "src": "The game is drawn by repetition.",
+    "out": "La partida termina en empate por repetición."
+  },
+  "zertz.EOG.white": {
+    "src": "{{player}} wins by capturing {{count}} white marbles.",
+    "out": "{{player}} gana al capturar {{count}} canicas blancas."
+  },
+  "zertz.MOVE.jump": {
+    "src": "{{player}} jumped from {{from}} to {{to}}.",
+    "out": "{{player}} saltó de {{from}} a {{to}}."
+  },
+  "zertz.MOVE.place": {
+    "src": "{{player}} placed {{colour}} at {{where}}.",
+    "out": "{{player}} colocó {{colour}} en {{where}}."
+  },
+  "zertz.MOVE.remove": {
+    "src": "{{player}} removed the ring at {{where}}.",
+    "out": "{{player}} retiró el anillo en {{where}}."
   }
 }

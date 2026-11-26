@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-21",
+  "generatedAt": "2026-11-25",
   "schemaVersion": 1,
   "entries": [
     {
@@ -2943,6 +2943,56 @@
       "english": "{{player}} placed a sarsen at {{where}}."
     },
     {
+      "oldPath": "EOG.dvonn_score",
+      "oldFullKey": "apresults:EOG.dvonn_score",
+      "uid": "dvonn",
+      "resultType": "EOG",
+      "newLeaf": "score",
+      "newPath": "dvonn.EOG.score",
+      "newFullKey": "apresults:dvonn.EOG.score",
+      "english": "{{player}} wins with {{count}} controlled pieces."
+    },
+    {
+      "oldPath": "EOG.dvonn_tie",
+      "oldFullKey": "apresults:EOG.dvonn_tie",
+      "uid": "dvonn",
+      "resultType": "EOG",
+      "newLeaf": "tie",
+      "newPath": "dvonn.EOG.tie",
+      "newFullKey": "apresults:dvonn.EOG.tie",
+      "english": "The game is a draw with {{count}} controlled pieces each."
+    },
+    {
+      "oldPath": "PASS.dvonn_skipped",
+      "oldFullKey": "apresults:PASS.dvonn_skipped",
+      "uid": "dvonn",
+      "resultType": "PASS",
+      "newLeaf": "skipped",
+      "newPath": "dvonn.PASS.skipped",
+      "newFullKey": "apresults:dvonn.PASS.skipped",
+      "english": "{{player}} had no legal move and passed."
+    },
+    {
+      "oldPath": "REMOVE.dvonn_isolated_one",
+      "oldFullKey": "apresults:REMOVE.dvonn_isolated_one",
+      "uid": "dvonn",
+      "resultType": "REMOVE",
+      "newLeaf": "isolated_one",
+      "newPath": "dvonn.REMOVE.isolated_one",
+      "newFullKey": "apresults:dvonn.REMOVE.isolated_one",
+      "english": "1 stack was removed for losing contact with DVONN."
+    },
+    {
+      "oldPath": "REMOVE.dvonn_isolated_other",
+      "oldFullKey": "apresults:REMOVE.dvonn_isolated_other",
+      "uid": "dvonn",
+      "resultType": "REMOVE",
+      "newLeaf": "isolated_other",
+      "newPath": "dvonn.REMOVE.isolated_other",
+      "newFullKey": "apresults:dvonn.REMOVE.isolated_other",
+      "english": "{{count}} stacks were removed for losing contact with DVONN."
+    },
+    {
       "oldPath": "ACTOR.elOso.bear",
       "oldFullKey": "apresults:ACTOR.elOso.bear",
       "uid": "elOso",
@@ -4361,6 +4411,116 @@
       "newPath": "logger.PLACE.spawn",
       "newFullKey": "apresults:logger.PLACE.spawn",
       "english": "A new sapling sprouted at {{where}}."
+    },
+    {
+      "oldPath": "CAPTURE.lyngk",
+      "oldFullKey": "apresults:CAPTURE.lyngk",
+      "uid": "lyngk",
+      "resultType": "CAPTURE",
+      "newLeaf": "default",
+      "newPath": "lyngk.CAPTURE.default",
+      "newFullKey": "apresults:lyngk.CAPTURE.default",
+      "english": "{{player}} captured a stack at {{where}}."
+    },
+    {
+      "oldPath": "CLAIM.lyngk",
+      "oldFullKey": "apresults:CLAIM.lyngk",
+      "uid": "lyngk",
+      "resultType": "CLAIM",
+      "newLeaf": "default",
+      "newPath": "lyngk.CLAIM.default",
+      "newFullKey": "apresults:lyngk.CLAIM.default",
+      "english": "{{player}} claimed the {{colourName}} colour."
+    },
+    {
+      "oldPath": "COLOUR.lyngk_1",
+      "oldFullKey": "apresults:COLOUR.lyngk_1",
+      "uid": "lyngk",
+      "resultType": "COLOUR",
+      "newLeaf": "1",
+      "newPath": "lyngk.COLOUR.1",
+      "newFullKey": "apresults:lyngk.COLOUR.1",
+      "english": "red"
+    },
+    {
+      "oldPath": "COLOUR.lyngk_2",
+      "oldFullKey": "apresults:COLOUR.lyngk_2",
+      "uid": "lyngk",
+      "resultType": "COLOUR",
+      "newLeaf": "2",
+      "newPath": "lyngk.COLOUR.2",
+      "newFullKey": "apresults:lyngk.COLOUR.2",
+      "english": "blue"
+    },
+    {
+      "oldPath": "COLOUR.lyngk_3",
+      "oldFullKey": "apresults:COLOUR.lyngk_3",
+      "uid": "lyngk",
+      "resultType": "COLOUR",
+      "newLeaf": "3",
+      "newPath": "lyngk.COLOUR.3",
+      "newFullKey": "apresults:lyngk.COLOUR.3",
+      "english": "green"
+    },
+    {
+      "oldPath": "COLOUR.lyngk_4",
+      "oldFullKey": "apresults:COLOUR.lyngk_4",
+      "uid": "lyngk",
+      "resultType": "COLOUR",
+      "newLeaf": "4",
+      "newPath": "lyngk.COLOUR.4",
+      "newFullKey": "apresults:lyngk.COLOUR.4",
+      "english": "yellow"
+    },
+    {
+      "oldPath": "COLOUR.lyngk_5",
+      "oldFullKey": "apresults:COLOUR.lyngk_5",
+      "uid": "lyngk",
+      "resultType": "COLOUR",
+      "newLeaf": "5",
+      "newPath": "lyngk.COLOUR.5",
+      "newFullKey": "apresults:lyngk.COLOUR.5",
+      "english": "purple"
+    },
+    {
+      "oldPath": "EOG.lyngk_draw",
+      "oldFullKey": "apresults:EOG.lyngk_draw",
+      "uid": "lyngk",
+      "resultType": "EOG",
+      "newLeaf": "draw",
+      "newPath": "lyngk.EOG.draw",
+      "newFullKey": "apresults:lyngk.EOG.draw",
+      "english": "The game is a draw."
+    },
+    {
+      "oldPath": "EOG.lyngk_score",
+      "oldFullKey": "apresults:EOG.lyngk_score",
+      "uid": "lyngk",
+      "resultType": "EOG",
+      "newLeaf": "score",
+      "newPath": "lyngk.EOG.score",
+      "newFullKey": "apresults:lyngk.EOG.score",
+      "english": "{{player}} wins with {{count}} captured stacks."
+    },
+    {
+      "oldPath": "EOG.lyngk_tiebreak",
+      "oldFullKey": "apresults:EOG.lyngk_tiebreak",
+      "uid": "lyngk",
+      "resultType": "EOG",
+      "newLeaf": "tiebreak",
+      "newPath": "lyngk.EOG.tiebreak",
+      "newFullKey": "apresults:lyngk.EOG.tiebreak",
+      "english": "{{player}} wins on tiebreak."
+    },
+    {
+      "oldPath": "MOVE.lyngk",
+      "oldFullKey": "apresults:MOVE.lyngk",
+      "uid": "lyngk",
+      "resultType": "MOVE",
+      "newLeaf": "default",
+      "newPath": "lyngk.MOVE.default",
+      "newFullKey": "apresults:lyngk.MOVE.default",
+      "english": "{{player}} moved {{cells}}."
     },
     {
       "oldPath": "ADD.magnate_one",
@@ -6083,6 +6243,16 @@
       "english": "{{player}} placed \"{{what}}\" next to {{where}}."
     },
     {
+      "oldPath": "EOG.skisma_surround",
+      "oldFullKey": "apresults:EOG.skisma_surround",
+      "uid": "skisma",
+      "resultType": "EOG",
+      "newLeaf": "surround",
+      "newPath": "skisma.EOG.surround",
+      "newFullKey": "apresults:skisma.EOG.surround",
+      "english": "The game has ended because an enemy stone was surrounded."
+    },
+    {
       "oldPath": "MOVE.slyde",
       "oldFullKey": "apresults:MOVE.slyde",
       "uid": "slyde",
@@ -7733,6 +7903,66 @@
       "english": "{{player}} removed a link at {{where}}."
     },
     {
+      "oldPath": "EOG.tzaar_immobilize",
+      "oldFullKey": "apresults:EOG.tzaar_immobilize",
+      "uid": "tzaar",
+      "resultType": "EOG",
+      "newLeaf": "immobilize",
+      "newPath": "tzaar.EOG.immobilize",
+      "newFullKey": "apresults:tzaar.EOG.immobilize",
+      "english": "{{player}} wins — the opponent cannot make a forced capture."
+    },
+    {
+      "oldPath": "EOG.tzaar_types",
+      "oldFullKey": "apresults:EOG.tzaar_types",
+      "uid": "tzaar",
+      "resultType": "EOG",
+      "newLeaf": "types",
+      "newPath": "tzaar.EOG.types",
+      "newFullKey": "apresults:tzaar.EOG.types",
+      "english": "{{player}} wins — the opponent no longer has all three piece types on the board."
+    },
+    {
+      "oldPath": "MOVE.tzaar_capture",
+      "oldFullKey": "apresults:MOVE.tzaar_capture",
+      "uid": "tzaar",
+      "resultType": "MOVE",
+      "newLeaf": "capture",
+      "newPath": "tzaar.MOVE.capture",
+      "newFullKey": "apresults:tzaar.MOVE.capture",
+      "english": "{{player}} moved from {{from}} to {{to}}, capturing a {{piece}}."
+    },
+    {
+      "oldPath": "MOVE.tzaar_pass",
+      "oldFullKey": "apresults:MOVE.tzaar_pass",
+      "uid": "tzaar",
+      "resultType": "MOVE",
+      "newLeaf": "pass",
+      "newPath": "tzaar.MOVE.pass",
+      "newFullKey": "apresults:tzaar.MOVE.pass",
+      "english": "{{player}} passed the second action."
+    },
+    {
+      "oldPath": "MOVE.tzaar_strengthen",
+      "oldFullKey": "apresults:MOVE.tzaar_strengthen",
+      "uid": "tzaar",
+      "resultType": "MOVE",
+      "newLeaf": "strengthen",
+      "newPath": "tzaar.MOVE.strengthen",
+      "newFullKey": "apresults:tzaar.MOVE.strengthen",
+      "english": "{{player}} strengthened from {{from}} to {{to}}."
+    },
+    {
+      "oldPath": "PLACE.tzaar",
+      "oldFullKey": "apresults:PLACE.tzaar",
+      "uid": "tzaar",
+      "resultType": "PLACE",
+      "newLeaf": "default",
+      "newPath": "tzaar.PLACE.default",
+      "newFullKey": "apresults:tzaar.PLACE.default",
+      "english": "{{player}} placed a {{piece}} at {{where}}."
+    },
+    {
       "oldPath": "PLACE.unane",
       "oldFullKey": "apresults:PLACE.unane",
       "uid": "unane",
@@ -8033,6 +8263,66 @@
       "english": "{{player}} swapped seats, choosing to play first."
     },
     {
+      "oldPath": "EOG.yinsh_draw",
+      "oldFullKey": "apresults:EOG.yinsh_draw",
+      "uid": "yinsh",
+      "resultType": "EOG",
+      "newLeaf": "draw",
+      "newPath": "yinsh.EOG.draw",
+      "newFullKey": "apresults:yinsh.EOG.draw",
+      "english": "The marker pool is empty with equal scored rings; the game is a draw."
+    },
+    {
+      "oldPath": "EOG.yinsh_pool",
+      "oldFullKey": "apresults:EOG.yinsh_pool",
+      "uid": "yinsh",
+      "resultType": "EOG",
+      "newLeaf": "pool",
+      "newPath": "yinsh.EOG.pool",
+      "newFullKey": "apresults:yinsh.EOG.pool",
+      "english": "The marker pool is empty; {{player}} wins with more scored rings."
+    },
+    {
+      "oldPath": "EOG.yinsh_score",
+      "oldFullKey": "apresults:EOG.yinsh_score",
+      "uid": "yinsh",
+      "resultType": "EOG",
+      "newLeaf": "score",
+      "newPath": "yinsh.EOG.score",
+      "newFullKey": "apresults:yinsh.EOG.score",
+      "english": "{{player}} wins with {{count}} scored rings."
+    },
+    {
+      "oldPath": "MOVE.yinsh_ring",
+      "oldFullKey": "apresults:MOVE.yinsh_ring",
+      "uid": "yinsh",
+      "resultType": "MOVE",
+      "newLeaf": "ring",
+      "newPath": "yinsh.MOVE.ring",
+      "newFullKey": "apresults:yinsh.MOVE.ring",
+      "english": "{{player}} moved a ring from {{from}} to {{to}}."
+    },
+    {
+      "oldPath": "ROW.yinsh_markers",
+      "oldFullKey": "apresults:ROW.yinsh_markers",
+      "uid": "yinsh",
+      "resultType": "ROW",
+      "newLeaf": "markers",
+      "newPath": "yinsh.ROW.markers",
+      "newFullKey": "apresults:yinsh.ROW.markers",
+      "english": "{{player}} removed a row of markers: {{cells}}."
+    },
+    {
+      "oldPath": "ROW.yinsh_ring",
+      "oldFullKey": "apresults:ROW.yinsh_ring",
+      "uid": "yinsh",
+      "resultType": "ROW",
+      "newLeaf": "ring",
+      "newPath": "yinsh.ROW.ring",
+      "newFullKey": "apresults:yinsh.ROW.ring",
+      "english": "{{player}} scored a ring from {{where}}."
+    },
+    {
       "oldPath": "EOG.yonkoma_crosscut",
       "oldFullKey": "apresults:EOG.yonkoma_crosscut",
       "uid": "yonkoma",
@@ -8061,6 +8351,116 @@
       "newPath": "yonmoque.EOG.four",
       "newFullKey": "apresults:yonmoque.EOG.four",
       "english": "The game has ended because a player made four in a row."
+    },
+    {
+      "oldPath": "CAPTURE.zertz_isolation",
+      "oldFullKey": "apresults:CAPTURE.zertz_isolation",
+      "uid": "zertz",
+      "resultType": "CAPTURE",
+      "newLeaf": "isolation",
+      "newPath": "zertz.CAPTURE.isolation",
+      "newFullKey": "apresults:zertz.CAPTURE.isolation",
+      "english": "{{player}} isolated and captured {{colour}} at {{where}}."
+    },
+    {
+      "oldPath": "CAPTURE.zertz_jump",
+      "oldFullKey": "apresults:CAPTURE.zertz_jump",
+      "uid": "zertz",
+      "resultType": "CAPTURE",
+      "newLeaf": "jump",
+      "newPath": "zertz.CAPTURE.jump",
+      "newFullKey": "apresults:zertz.CAPTURE.jump",
+      "english": "{{player}} captured a {{colour}} marble at {{where}}."
+    },
+    {
+      "oldPath": "EOG.zertz_black",
+      "oldFullKey": "apresults:EOG.zertz_black",
+      "uid": "zertz",
+      "resultType": "EOG",
+      "newLeaf": "black",
+      "newPath": "zertz.EOG.black",
+      "newFullKey": "apresults:zertz.EOG.black",
+      "english": "{{player}} wins by capturing {{count}} black marbles."
+    },
+    {
+      "oldPath": "EOG.zertz_each",
+      "oldFullKey": "apresults:EOG.zertz_each",
+      "uid": "zertz",
+      "resultType": "EOG",
+      "newLeaf": "each",
+      "newPath": "zertz.EOG.each",
+      "newFullKey": "apresults:zertz.EOG.each",
+      "english": "{{player}} wins by capturing {{count}} of each colour."
+    },
+    {
+      "oldPath": "EOG.zertz_full",
+      "oldFullKey": "apresults:EOG.zertz_full",
+      "uid": "zertz",
+      "resultType": "EOG",
+      "newLeaf": "full",
+      "newPath": "zertz.EOG.full",
+      "newFullKey": "apresults:zertz.EOG.full",
+      "english": "{{player}} wins — the board is full."
+    },
+    {
+      "oldPath": "EOG.zertz_grey",
+      "oldFullKey": "apresults:EOG.zertz_grey",
+      "uid": "zertz",
+      "resultType": "EOG",
+      "newLeaf": "grey",
+      "newPath": "zertz.EOG.grey",
+      "newFullKey": "apresults:zertz.EOG.grey",
+      "english": "{{player}} wins by capturing {{count}} grey marbles."
+    },
+    {
+      "oldPath": "EOG.zertz_repetition",
+      "oldFullKey": "apresults:EOG.zertz_repetition",
+      "uid": "zertz",
+      "resultType": "EOG",
+      "newLeaf": "repetition",
+      "newPath": "zertz.EOG.repetition",
+      "newFullKey": "apresults:zertz.EOG.repetition",
+      "english": "The game is drawn by repetition."
+    },
+    {
+      "oldPath": "EOG.zertz_white",
+      "oldFullKey": "apresults:EOG.zertz_white",
+      "uid": "zertz",
+      "resultType": "EOG",
+      "newLeaf": "white",
+      "newPath": "zertz.EOG.white",
+      "newFullKey": "apresults:zertz.EOG.white",
+      "english": "{{player}} wins by capturing {{count}} white marbles."
+    },
+    {
+      "oldPath": "MOVE.zertz_jump",
+      "oldFullKey": "apresults:MOVE.zertz_jump",
+      "uid": "zertz",
+      "resultType": "MOVE",
+      "newLeaf": "jump",
+      "newPath": "zertz.MOVE.jump",
+      "newFullKey": "apresults:zertz.MOVE.jump",
+      "english": "{{player}} jumped from {{from}} to {{to}}."
+    },
+    {
+      "oldPath": "MOVE.zertz_place",
+      "oldFullKey": "apresults:MOVE.zertz_place",
+      "uid": "zertz",
+      "resultType": "MOVE",
+      "newLeaf": "place",
+      "newPath": "zertz.MOVE.place",
+      "newFullKey": "apresults:zertz.MOVE.place",
+      "english": "{{player}} placed {{colour}} at {{where}}."
+    },
+    {
+      "oldPath": "MOVE.zertz_remove",
+      "oldFullKey": "apresults:MOVE.zertz_remove",
+      "uid": "zertz",
+      "resultType": "MOVE",
+      "newLeaf": "remove",
+      "newPath": "zertz.MOVE.remove",
+      "newFullKey": "apresults:zertz.MOVE.remove",
+      "english": "{{player}} removed the ring at {{where}}."
     }
   ]
 }

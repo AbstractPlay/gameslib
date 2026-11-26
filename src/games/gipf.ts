@@ -9,11 +9,11 @@ import {
 } from "./_base.js";
 import { GameBaseSequenced } from "./_turn-sequenced.js";
 import type { APGamesInformation } from "../schemas/gameinfo.js";
-import { APRenderRep, type Colourfuncs } from "@abstractplay/renderer/build/schemas/schema";
+import { APRenderRep, type Colourfuncs, type Glyph } from "@abstractplay/renderer/build/schemas/schema";
 import type { APMoveResult } from "../schemas/moveresults.js";
 import { reviver, UserFacingError, cloneState } from "../common/index.js";
 import { chatPlayerToken } from "../common/chat-log.js";
-import { GipfGraph } from "../common/graphs/gipf.js";
+import { GipfGraph } from "./gipf/graph.js";
 import i18next from "i18next";
 import type { IGamePly } from "./_turn-model.js";
 import { sequencedShouldCloseRound } from "./_turn-sequenced.js";
@@ -32,6 +32,7 @@ import {
     GIPF_P1_CHARIOT_INNER,
     GIPF_P2,
     GIPF_P2_CHARIOT_INNER,
+    GIPF_PIECE_BORDER,
 } from "./gipf/types.js";
 import { buildInitialBoard, initialReserve } from "./gipf/setup.js";
 import {
@@ -49,10 +50,26 @@ import {
     takeSetForCaptureMask,
 } from "./gipf/rows.js";
 
-const GIPF_P1_CHARIOT_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 3 };
-const GIPF_P1_CHARIOT_INNER_COLOUR: Colourfuncs = { func: "custom", default: GIPF_P1_CHARIOT_INNER, palette: 4 };
-const GIPF_P2_CHARIOT_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 5 };
-const GIPF_P2_CHARIOT_INNER_COLOUR: Colourfuncs = { func: "custom", default: GIPF_P2_CHARIOT_INNER, palette: 6 };
+const GIPF_BASIC_OVERLAY_SCALE = 0.85;
+
+const GIPF_P1_BASIC_BORDER: Colourfuncs = { func: "custom", default: GIPF_PIECE_BORDER, palette: 3 };
+const GIPF_P2_BASIC_BORDER: Colourfuncs = { func: "custom", default: GIPF_PIECE_BORDER, palette: 4 };
+const GIPF_P1_CHARIOT_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 5 };
+const GIPF_P1_CHARIOT_INNER_COLOUR: Colourfuncs = { func: "custom", default: GIPF_P1_CHARIOT_INNER, palette: 6 };
+const GIPF_P2_CHARIOT_BORDER: Colourfuncs = { func: "custom", default: GIPF_CHARIOT_BORDER, palette: 7 };
+const GIPF_P2_CHARIOT_INNER_COLOUR: Colourfuncs = { func: "custom", default: GIPF_P2_CHARIOT_INNER, palette: 8 };
+
+/** Full-size fixed black rim under a scaled piece with palette-customizable border. */
+function gipfBasicPieceLegend(fill: Colourfuncs, border: Colourfuncs): [Glyph, Glyph] {
+    return [
+        { name: "piece", paint: { fill, border: GIPF_PIECE_BORDER } },
+        {
+            name: "piece",
+            scale: GIPF_BASIC_OVERLAY_SCALE,
+            paint: { fill, border },
+        },
+    ];
+}
 
 export const gameApgamesEn = {
     validation: {
@@ -153,26 +170,28 @@ export class GipfGame extends GameBaseSequenced {
         customizations: [
             { num: 1, default: GIPF_P1, explanation: "Player 1 basic piece fill", player: 1 },
             { num: 2, default: GIPF_P2, explanation: "Player 2 basic piece fill", player: 2 },
+            { num: 3, default: GIPF_PIECE_BORDER, explanation: "Player 1 basic piece border", player: 1 },
+            { num: 4, default: GIPF_PIECE_BORDER, explanation: "Player 2 basic piece border", player: 2 },
             {
-                num: 3,
+                num: 5,
                 default: GIPF_CHARIOT_BORDER,
                 explanation: "Player 1 GIPF-piece border (chariot outer ring)",
                 player: 1,
             },
             {
-                num: 4,
+                num: 6,
                 default: GIPF_P1_CHARIOT_INNER,
                 explanation: "Player 1 GIPF-piece inner rings",
                 player: 1,
             },
             {
-                num: 5,
+                num: 7,
                 default: GIPF_CHARIOT_BORDER,
                 explanation: "Player 2 GIPF-piece border (chariot outer ring)",
                 player: 2,
             },
             {
-                num: 6,
+                num: 8,
                 default: GIPF_P2_CHARIOT_INNER,
                 explanation: "Player 2 GIPF-piece inner rings",
                 player: 2,
@@ -186,6 +205,7 @@ export class GipfGame extends GameBaseSequenced {
             "board>shape>hex",
             "board>connect>hex",
             "components>simple>1per",
+            "family>gipf",
         ],
         flags: ["custom-colours", "automove", "experimental"],
     };
@@ -1668,7 +1688,7 @@ export class GipfGame extends GameBaseSequenced {
                 rotate: 90,
             },
             legend: {
-                A: { name: "piece", colour: p1 },
+                A: gipfBasicPieceLegend(p1, GIPF_P1_BASIC_BORDER),
                 B: {
                     name: "piece-chariot",
                     paint: {
@@ -1677,7 +1697,7 @@ export class GipfGame extends GameBaseSequenced {
                         inner: GIPF_P1_CHARIOT_INNER_COLOUR,
                     },
                 },
-                C: { name: "piece", colour: p2 },
+                C: gipfBasicPieceLegend(p2, GIPF_P2_BASIC_BORDER),
                 D: {
                     name: "piece-chariot",
                     paint: {
@@ -1692,8 +1712,7 @@ export class GipfGame extends GameBaseSequenced {
 
         rep.annotations = [];
         const graph = this.graph;
-        const r = this.stack[this.stack.length - 1]._results;
-        for (const res of r) {
+        for (const res of this.results) {
             if (res.type === "move" && res.from && res.to) {
                 const [fx, fy] = graph.algebraic2coords(res.from);
                 const [tx, ty] = graph.algebraic2coords(res.to);
@@ -1759,14 +1778,14 @@ export class GipfGame extends GameBaseSequenced {
                 }
             }
         } else {
-            for (const res of r) {
+            for (const res of this.results) {
                 if (res.type !== "capture" || res.how !== "gipf-row" || res.where === undefined) {
                     continue;
                 }
                 const cells = res.where
                     .split(",")
-                    .map((c) => c.trim().toLowerCase())
-                    .filter((c) => c.length > 0);
+                    .map((c: string) => c.trim().toLowerCase())
+                    .filter((c: string) => c.length > 0);
                 exitOnCells(cells);
             }
         }

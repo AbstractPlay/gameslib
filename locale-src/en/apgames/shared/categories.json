@@ -210,6 +210,11 @@
       "full": "Family > Draughts",
       "tag": "F: Draughts"
     },
+    "family>gipf": {
+      "description": "Kris Burm's Project GIPF series of abstract games",
+      "full": "Family > GIPF",
+      "tag": "F: GIPF"
+    },
     "family>gomoku": {
       "description": "Line-forming placement games in the Gomoku / Renju / Connect6 lineage and close in-a-row relatives",
       "full": "Family > Gomoku",

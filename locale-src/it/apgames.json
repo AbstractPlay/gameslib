@@ -743,6 +743,18 @@
     "src": "F: Draughts",
     "out": "F: Dama"
   },
+  "categories.family>gipf.description": {
+    "src": "Kris Burm's Project GIPF series of abstract games",
+    "out": "La serie di giochi astratti Project GIPF di Kris Burm"
+  },
+  "categories.family>gipf.full": {
+    "src": "Family > GIPF",
+    "out": "Famiglia > GIPF"
+  },
+  "categories.family>gipf.tag": {
+    "src": "F: GIPF",
+    "out": "F: GIPF"
+  },
   "categories.family>gomoku.description": {
     "src": "Line-forming placement games in the Gomoku / Renju / Connect6 lineage and close in-a-row relatives",
     "out": "Giochi di posizionamento e formazione di linee del lignaggio Gomoku / Renju / Connect6 e affini"
@@ -1711,6 +1723,10 @@
     "src": "Place sarsens and lintels to connect your edges of the board. On the standard rectangular board, player 1 connects north and south; player 2 connects east and west. On Druid's Y, connect all three sides (corners count for both adjacent edges). On Druid's Hex, connect any three alternating (non-adjacent) sides. Only the topmost stone on each cell counts toward a connection.",
     "out": "Posiziona sarsen e architravi per connettere i tuoi bordi del tavoliere. Sul tavoliere rettangolare standard, il Giocatore 1 connette est e ovest; il Giocatore 2 connette nord e sud. Su Druid's Y, connetti tutti e tre i lati (gli angoli contano per entrambi i bordi adiacenti). Su Druid's Hex, connetti tre lati alternati qualsiasi (non adiacenti). Solo la pietra più in alto su ciascuna cella conta ai fini della connessione."
   },
+  "descriptions.dvonn": {
+    "src": "Stack pieces on a hex grid and stay linked to the red DVONN pieces. Isolate enemy stacks, control the most discs when neither player can move, and win.",
+    "out": "Impila i pezzi su una griglia esagonale e mantieni il collegamento con i pezzi rossi DVONN. Isola le pile nemiche, controlla il maggior numero di dischi quando nessun giocatore può più muovere e vinci."
+  },
   "descriptions.elOso": {
     "src": "A solitaire game from the world of Carrisor. Move your stacks off the top of the board into the Sky while the Bear rolls dice and advances from above. Score ten or more pieces in the Sky to win.",
     "out": "Un solitario ambientato nel mondo di Carrisor. Muovi le tue pile fuori dalla parte superiore della plancia verso il Cielo mentre l'Orso lancia i dadi e avanza dall'alto. Porta dieci o più pezzi nel Cielo per vincere."
@@ -1958,6 +1974,10 @@
   "descriptions.lox": {
     "src": "Hex connection game with captures inspired by Tumbleweed. A cell is controlled by a player if it has more lines of sight to the player's pieces than half of the number neighbours that it has. If an opponent's piece is on your controlled cell, you may capture it by replacing it with your own piece on your turn. The player with a solid connection between their two sides at the start of their turn wins.",
     "out": "Un gioco di connessione esagonale con catture ispirato a Tumbleweed. Una casella è controllata da un giocatore se ha più linee di vista verso i pezzi del giocatore rispetto a metà del numero di vicini che possiede. Se un pezzo avversario si trova su una casella controllata da te, puoi catturarlo sostituendolo con un tuo pezzo durante il tuo turno. Il giocatore che possiede una connessione solida tra i suoi due lati all'inizio del proprio turno vince."
+  },
+  "descriptions.lyngk": {
+    "src": "Claim two of five colours, stack and slide pieces on a hex board, chain through your colour with the LYNGK rule, and score by capturing completed stacks of five.",
+    "out": "Rivendica due dei cinque colori, impila e fai scorrere i pezzi su una plancia esagonale, crea catene passando per il tuo colore con la regola LYNGK e segna punti catturando le pile completate di cinque pezzi."
   },
   "descriptions.magnate": {
     "src": "An economic game for the Decktet in which players vie for control of five districts by developing sequences of cards.  Higher ranked cards cost more, but contribute more towards your income (even while only partly developed) and your score. The (taxable) currency of the land is suit tokens, collected by selling unwanted cards, or earned from partly or fully developed cards on a roll of the dice, as in Catan.",
@@ -2271,6 +2291,10 @@
     "src": "Place cards, representing armies, to exert pressure on segments of the wall around the city of Jacynth. Exert the most pressure on the most segments to win.",
     "out": "Posiziona carte, che rappresentano eserciti, per esercitare pressione sui segmenti delle mura attorno alla città di Jacynth. Esercita la pressione maggiore sul maggior numero di segmenti per vincere."
   },
+  "descriptions.skisma": {
+    "src": "Surround one enemy stone with a single group to win: cut it off from half of the board's edge.",
+    "out": "Circonda una pedina avversaria con un singolo gruppo per vincere: isolala da metà del bordo del tabellone."
+  },
   "descriptions.slimetrail": {
     "src": "Push the ball piece to an adjacent empty cell and bring it to your goal, or stalemate the adversary.",
     "out": "Spingi la palla in una casella vuota adiacente e portala al tuo obiettivo, oppure manda l'avversario in stallo."
@@ -2471,6 +2495,10 @@
     "src": "Twixt is a connection game where players alternate turns placing pegs and links on a pegboard in an attempt to link their opposite sides.",
     "out": "Twixt è un gioco di connessione in cui i giocatori si alternano collocando pioli e ponti su una griglia con l'obiettivo di collegare i propri lati opposti."
   },
+  "descriptions.tzaar": {
+    "src": "Stack and capture on a hex board. Keep at least one Tzaar, Tzarra, and Tott on top, or trap the opponent with no legal capture.",
+    "out": "Impila e cattura su un tabellone esagonale. Mantieni in cima almeno un Tzaar, una Tzarra e un Tott, oppure blocca l'avversario lasciandolo senza catture legali."
+  },
   "descriptions.unane": {
     "src": "A Konane-inspired game of unification.",
     "out": "Un gioco di unificazione ispirato a Konane."
@@ -2543,6 +2571,10 @@
     "src": "Form a line of four or more pieces of your colour *without* forming a line of three pieces first.",
     "out": "Forma una linea di quattro o più pezzi del tuo colore *senza* prima formare una linea di tre pezzi."
   },
+  "descriptions.yinsh": {
+    "src": "Place rings, then each turn drop a marker into a ring and slide the ring along a line, flipping jumped markers. Form rows of five of your colour to remove markers and score a ring.",
+    "out": "Posiziona gli anelli, poi a ogni turno inserisci un marcatore in un anello e fai scorrere l'anello lungo una linea, capovolgendo i marcatori scavalcati. Forma file di cinque marcatori del tuo colore per rimuoverli e segnare un anello."
+  },
   "descriptions.yodd": {
     "src": "Pass or place one or two stones of either colour. After your turn there must be an odd number of groups on the board. When both players pass in succession, the player with fewer groups of their colour wins.",
     "out": "Passa o posiziona una o due pietre di qualsiasi colore. Dopo il tuo turno ci deve essere un numero dispari di gruppi sul tabellone. Quando entrambi i giocatori passano di seguito, vince il giocatore con meno gruppi del proprio colore."
@@ -2554,6 +2586,10 @@
   "descriptions.yonmoque": {
     "src": "Try to form four in a row in a game where not all spaces are equal and opposing pieces can be converted.",
     "out": "Cerca di formare un quattro in linea in un gioco in cui non tutti gli spazi sono uguali e i pezzi avversari possono essere convertiti."
+  },
+  "descriptions.zertz": {
+    "src": "Players share a pool of marbles on a shrinking hex board. Capture sets by jumping or isolating groups, or by collecting enough marbles of one colour.",
+    "out": "I giocatori condividono una riserva di biglie su una plancia esagonale che si restringe. Cattura serie saltando o isolando gruppi, oppure raccogliendo abbastanza biglie di un singolo colore."
   },
   "descriptions.zola": {
     "src": "A game where your movement is constrained by your distance from the centre of the board. Capturing moves must not increase that distance. Non-capturing moves must increase that distance. First person to capture all opposing pieces wins.",
@@ -3055,6 +3091,14 @@
     "src": "Hide focus on threatened",
     "out": "Nascondi focus su minacciati"
   },
+  "displays.lyngk.hide-stack-owner.description": {
+    "src": "Do not mark the top disc of stacks you control.",
+    "out": "Non contrassegnare il disco superiore delle pile che controlli."
+  },
+  "displays.lyngk.hide-stack-owner.name": {
+    "src": "Hide stack owner",
+    "out": "Nascondi proprietario della pila"
+  },
   "displays.margo.orb-3d.description": {
     "src": "Use plain 3D orb textures.",
     "out": "Usa texture di sfere 3D semplici."
@@ -3214,6 +3258,14 @@
   "displays.rootbound.hide-highlights.name": {
     "src": "Hide highlights",
     "out": "Nascondi evidenziazioni"
+  },
+  "displays.skisma.hide-enclosed.description": {
+    "src": "Don't shade the zones enclosed by each player's groups, where the other player may only play a winning move.",
+    "out": "Non ombreggiare le zone racchiuse dai gruppi di ciascun giocatore, dove l'altro giocatore può giocare solo una mossa vincente."
+  },
+  "displays.skisma.hide-enclosed.name": {
+    "src": "Hide enclosed zones",
+    "out": "Nascondi zone racchiuse"
   },
   "displays.spire.orb-3d.description": {
     "src": "Use plain 3D orb textures.",
@@ -3427,6 +3479,22 @@
     "src": "Hide diagonals",
     "out": "Nascondi diagonali"
   },
+  "displays.tzaar.#projection.description": {
+    "src": "Top piece only on each stack, with height shown as a numeral when greater than one.",
+    "out": "Solo il pezzo superiore di ogni pila, con l'altezza mostrata da un numero quando è maggiore di uno."
+  },
+  "displays.tzaar.#projection.name": {
+    "src": "Flat view",
+    "out": "Vista dall'alto"
+  },
+  "displays.tzaar.stacked.description": {
+    "src": "Offset stacks showing every disc in the pile.",
+    "out": "Pile sfalsate che mostrano ogni disco della pila."
+  },
+  "displays.tzaar.stacked.name": {
+    "src": "Stacked view",
+    "out": "Vista impilata"
+  },
   "displays.upperhand.orb-3d.description": {
     "src": "Use plain 3D orb textures.",
     "out": "Usa texture di sfere 3D semplici."
@@ -3466,6 +3534,22 @@
   "displays.zola.isometric-5.name": {
     "src": "Isometric: Subtle Elevation",
     "out": "Isometrica: Elevazione leggera"
+  },
+  "inputModes.arimaa.advanced.description": {
+    "src": "Select by origin or target, and use inferred movements and trap-capture controls.",
+    "out": "Seleziona per origine o destinazione e usa i movimenti dedotti e i controlli per la cattura nelle trappole."
+  },
+  "inputModes.arimaa.advanced.name": {
+    "src": "Advanced",
+    "out": "Avanzata"
+  },
+  "inputModes.arimaa.basic.description": {
+    "src": "Move only pieces you explicitly select, in the order you enter them. Every completed click sequence has an unambiguous result.",
+    "out": "Muovi solo i pezzi selezionati esplicitamente, nell'ordine in cui li inserisci. Ogni sequenza di clic completata produce un risultato univoco."
+  },
+  "inputModes.arimaa.basic.name": {
+    "src": "Basic",
+    "out": "Base"
   },
   "inputModes.description": {
     "src": "How the board interprets your clicks for this game.",
@@ -3843,6 +3927,10 @@
     "src": "Druid",
     "out": "Druid"
   },
+  "names.dvonn": {
+    "src": "DVONN",
+    "out": "DVONN"
+  },
   "names.elOso": {
     "src": "El Oso",
     "out": "El Oso"
@@ -4090,6 +4178,10 @@
   "names.lox": {
     "src": "Lox",
     "out": "Lox"
+  },
+  "names.lyngk": {
+    "src": "LYNGK",
+    "out": "LYNGK"
   },
   "names.magnate": {
     "src": "Magnate",
@@ -4403,6 +4495,10 @@
     "src": "Siege of Jacynth",
     "out": "Siege of Jacynth"
   },
+  "names.skisma": {
+    "src": "Skisma",
+    "out": "Skisma"
+  },
   "names.slimetrail": {
     "src": "Slimetrail",
     "out": "Slimetrail"
@@ -4603,6 +4699,10 @@
     "src": "Twixt",
     "out": "Twixt"
   },
+  "names.tzaar": {
+    "src": "TZAAR",
+    "out": "TZAAR"
+  },
   "names.unane": {
     "src": "Unane",
     "out": "Unane"
@@ -4675,6 +4775,10 @@
     "src": "Yavalath",
     "out": "Yavalath"
   },
+  "names.yinsh": {
+    "src": "YINSH",
+    "out": "YINSH"
+  },
   "names.yodd": {
     "src": "Yodd",
     "out": "Yodd"
@@ -4686,6 +4790,10 @@
   "names.yonmoque": {
     "src": "Yonmoque",
     "out": "Yonmoque"
+  },
+  "names.zertz": {
+    "src": "ZERTZ",
+    "out": "ZERTZ"
   },
   "names.zola": {
     "src": "Zola",
@@ -4708,8 +4816,8 @@
     "out": "Questa implementazione segue il regolamento di David Ploog. Tre modifiche degne di nota sono che (1) le barriere sono proibite, (2) al posto di una variante 16x16 ne abbiamo una 15x15, in cui i pezzi si promuovono a cavalli sulla linea centrale e il drago non può saltare allo spazio 7x7 dall'altro angolo, e (3) contro gli angoli, i pezzi vengono catturati tramite cattura per schiacciamento anziché cattura in custodia, quindi devono esserci almeno due pezzi avversari in linea prima che venga effettuata una cattura contro gli angoli.\n\nNota: il controllo dello stallo è impegnativo dal punto di vista computazionale. Se non puoi effettuare alcuna mossa legale, dovresti abbandonare manualmente."
   },
   "notes.arimaa": {
-    "src": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDuring standard setup, you only need to place your eight non-rabbits. Once they are down, Complete Move fills the rest of your setup area with rabbits. You can still place any or all of the rabbits yourself first if you want them somewhere in particular.\n\nTo enter a move, click a piece and then the square it should end your turn on. The engine finds the shortest legal way to get it there, pushes and pulls included, and draws one arrow per piece from where it started to where it ends up. You can point at enemy pieces too. Click an arrow's head to extend it, or its tail to remove it. Clicking a selected piece a second time keeps it where it stands, which is how you stop the engine moving it aside. A few rarer turns need one more click; the wiki page for this game lists them all.\n\nMoves are recorded in Lightvector notation, which names each piece and where it ends up rather than listing every step. You can type it into the move box, and the older step-by-step notation is still accepted. The wiki page explains the notation in full.\n\nHarlog is an accepted method for determining material advantage. Positive scores favour Gold, negative Silver. The hard range is ±112, but in practice ±20 is a very strong advantage.\n\nIn Dicey Moves, a player whose die allows a single step has no move, and loses, when only pushes and pulls remain.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
-    "out": "Reso disponibile ai sensi della sezione 3 della [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nDurante il posizionamento iniziale standard, devi solo posizionare i tuoi otto pezzi non-coniglio. Una volta posizionati, Completa mossa riempie il resto della tua area di posizionamento con i conigli. Puoi comunque posizionare tu stesso alcuni o tutti i conigli per primi, se li vuoi in un punto particolare.\n\nPer inserire una mossa, fai clic su un pezzo e poi sulla casella su cui dovrebbe finire il tuo turno. Il motore trova il modo legale più breve per portarlo lì, comprese spinte e trazioni, e disegna una freccia per pezzo da dove ha iniziato a dove finisce. Puoi anche selezionare pezzi nemici. Fai clic sulla punta di una freccia per estenderla, o sulla coda per rimuoverla. Fare clic su un pezzo selezionato una seconda volta lo mantiene dove si trova, impedendo al motore di spostarlo. Alcuni turni più rari richiedono un clic in più; la pagina wiki di questo gioco li elenca tutti.\n\nLe mosse sono registrate nella notazione Lightvector, che indica ciascun pezzo e dove finisce anziché elencare ogni singolo passo. Puoi digitarla nella casella della mossa; è comunque accettata anche la vecchia notazione passo-passo. La pagina wiki spiega la notazione per intero.\n\nHarlog è un metodo riconosciuto per determinare il vantaggio di materiale. I punteggi positivi favoriscono l'Oro, quelli negativi l'Argento. L'intervallo teorico è ±112, ma in pratica ±20 rappresenta già un vantaggio molto netto.\n\nPoiché non possiamo generare elenchi completi di mosse, il sistema non può rilevare i rari casi in cui le tue uniche mosse disponibili sono illegali a causa della ripetizione di posizione. Il sistema non ti permetterà di effettuare tali ripetizioni illegali e dovrai abbandonare manualmente."
+    "src": "Made available under section 3 of the [Arimaa public license](https://arimaa.com/arimaa/license/).\n\nControl Inputs: Click on an empty square to mark the move complete. Click on an opposing piece to undo the last move token.\n\nBasic Input Mode (default): Click on pieces and where you want to move them in the order they must move as per the rules. This mode is intended to be in line with other AP games in terms of intuitiveness and ease of use. See the AP Wiki for more details.\n\nAdvanced Input Mode: Click on pieces and where you want them to end up at the end of the turn. For sending a piece to a trap square, a filled triangle means to capture the piece if possible, an empty triangle means to avoid capturing the piece if possible, and clicking elsewhere on the trap square tries the other/default, which is almost always what you want. Click on certain empty squares to expedite certain sets of steps (cf, AP Wiki: Target Clicks). The system heavily infers steps necessary to make your input legal. This mode is intended to strive for click-efficiency without being too unintuitive once you're used to it. See the AP Wiki for more details (highly recommended).\n\nMoves are recorded in Lightvector notation, which is modeled after algebraic chess notation, albeit more flexible (and using lowercase letters to denote silver pieces). It's backwards-compatible with the Arimaa Gameroom Notation, and the legacy AP notation is still accepted. See the AP Wiki for more details.\n\nHarlog is a method for estimating material advantage. The color of the icon indicates who it favors. The hard range for standard setup is ±112, but in practice ±20 is a very strong advantage.\n\nIn Dicey Moves, a player whose die allows a single step has no move (and loses), if only pushes and pulls remain.\n\nBecause we can't generate comprehensive lists of moves, the system cannot detect the rare cases where your only available moves are illegal due to position repetition. The system won't let you make those illegal repetitions, and you'll have to resign manually.",
+    "out": "Reso disponibile ai sensi della sezione 3 della [licenza pubblica Arimaa](https://arimaa.com/arimaa/license/).\n\nControlli di input: Clicca su una casella vuota per contrassegnare la mossa come completata. Clicca su un pezzo avversario per annullare l'ultimo gettone di mossa.\n\nModalità di input base (predefinita): Clicca sui pezzi e su dove desideri muoverli nell'ordine in cui devono muoversi secondo le regole. Questa modalità è pensata per essere in linea con gli altri giochi AP in termini di intuitività e facilità d'uso. Consulta la Wiki di AP per maggiori dettagli.\n\nModalità di input avanzata: Clicca sui pezzi e sul punto in cui vuoi che finiscano alla fine del turno. Per inviare un pezzo su una casella trappola, un triangolo pieno indica di catturare il pezzo se possibile, un triangolo vuoto indica di evitare la cattura del pezzo se possibile, e cliccare altrove sulla casella trappola prova l'altra opzione/predefinita, che è quasi sempre ciò che desideri. Clicca su determinate caselle vuote per velocizzare particolari sequenze di passaggi (cfr. AP Wiki: Target Clicks). Il sistema deduce ampiamente i passaggi necessari per rendere valido il tuo input. Questa modalità mira ad ottimizzare l'efficienza dei clic senza risultare troppo poco intuitiva una volta presaci la mano. Consulta la Wiki di AP per maggiori dettagli (vivamente consigliato).\n\nLe mosse sono registrate nella notazione Lightvector, modellata sulla notazione algebrica scacchistica, sebbene più flessibile (e che usa lettere minuscole per indicare i pezzi d'argento). È retrocompatibile con la notazione della Arimaa Gameroom e la notazione AP precedente è ancora accettata. Consulta la Wiki di AP per maggiori dettagli.\n\nHarlog è un metodo per stimare il vantaggio di materiale. Il colore dell'icona indica chi favorisce. L'intervallo teorico per la configurazione standard è ±112, ma in pratica ±20 rappresenta già un vantaggio molto netto.\n\nIn Mosse con Dado (Dicey Moves), un giocatore il cui dado consente un solo passo non ha mosse disponibili (e perde) se rimangono solo spinte e tirate.\n\nPoiché non possiamo generare elenchi completi di mosse, il sistema non è in grado di rilevare i rari casi in cui le tue uniche mosse disponibili sono illegali a causa della ripetizione di posizione. Il sistema non ti permetterà di effettuare tali ripetizioni illegali e dovrai abbandonare manualmente."
   },
   "notes.armadas": {
     "src": "There are known issues with this game on iOS devices.\n\nThis game offers two scenarios:\n\n* The default is each player having two trios of pieces. In the placement phase, each player must place 1 to 3 ships until all ships are placed.\n* The \"Freeform\" variant allows you to place whatever ships you want (maximum of three at a time) until both players \"pass.\" This lets you create unbalanced or otherwise asymmetrical fleets.\n\nGames default to having one island in the centre of the field. Both a \"no islands\" and a \"two islands\" variant are available. You cannot move or fire through islands. To successfully hit a ship, at least one corner of your ship's triangle must have a clear view of at least one corner of the target ship.\n\nRemember that it is possible to get your ship in a position against an island or the edge of the board such that you can no longer move that ship! Be careful!",
@@ -4887,6 +4995,10 @@
     "src": "In the centre of the 9x9 board is a \"black hole.\". Landing on the black hole means the piece is removed from the game. Simultaneous connections are scored as a draw.",
     "out": "Al centro del tabellone 9x9 c'è un \"buco nero\". Atterrare sul buco nero comporta la rimozione del pezzo dal gioco. Le connessioni simultanee sono considerate una patta."
   },
+  "notes.lyngk": {
+    "src": "Claiming uses palette numbers 1–5 in the move log and chat (optional claim prefix, then a comma, then the cell chain, e.g. `4,e7-d8`). By default, 1 is red, 2 is blue, 3 is green, 4 is yellow, and 5 is purple. Jokers are palette 6 (dots pattern by default) and are not claimed. One active colour remains neutral for the whole game.",
+    "out": "La rivendicazione utilizza i numeri della tavolozza 1–5 nel registro delle mosse e nella chat (prefisso di rivendicazione opzionale, seguito da una virgola, poi la sequenza di caselle, ad es. `4,e7-d8`). Per impostazione predefinita, 1 è rosso, 2 è blu, 3 è verde, 4 è giallo e 5 è viola. I Jolly corrispondono alla tavolozza 6 (motivo a punti per impostazione predefinita) e non vengono rivendicati. Un colore attivo rimane neutrale per tutta la partita."
+  },
   "notes.magnate": {
     "src": "The terminology of some Magnate actions has been altered for clarity and brevity. Completely developing a new property is called the \"Buy\" action; purchasing a deed for a new property is called \"Deed\", developing deeds (that is, adding tokens to a deeded property, whether it results in the deed becoming fully developed or not) is called \"Add\". (Selling a card and trading suit tokens 3 for 1 are unchanged.)\n\nIn order to speed up the process of rolling for resources, there are two additional actions:\n* \"Prefer\" is for setting your preference of which suit token to take when a deed pays out on your opponent's roll. If you do not set an explicit preference, the code will choose the rarer token for you based on your non-crown suits and current supply of tokens. The currently preferred token is circled in the UI, but your personal preference is never visible to the other player.\n* \"Choose\" is a mandatory first action for collecting suit tokens when a deed pays out on your own roll. (In all cases where you need to choose a suit token that is not already among your tokens, you still click on the appropriate token pile.)\n\nBecause you can perform several actions during a ply in any order, there is also an \"Undo\" action to back out your most recent action, whether or not it was complete.\n\nNote that only the final resource die result is displayed, but the distribution of expected outcomes is still that of rolling 2d10 and taking the higher value. Taxation happens when the lower of 2d10 comes up 1; a suit die is rolled (or two, in the double taxation variant), and the suits will be displayed underneath the resource result. The roll is logged at the end of a player's turn, and is attributed to the next player (who would have rolled in the physical game). Except for a \"Choose\", no user action is required; resources are added or removed automatically by the server in between turns.\n\nWhen a player is ahead in a district, the Pawn or Excuse for that district is outlined in that player's color. The first tiebreaker score (total property value) is displayed in parentheses after the district score. The second tiebreaker is total number of tokens remaining.",
     "out": "La terminologia di alcune azioni di Magnate è stata modificata per chiarezza e brevità. Lo sviluppo completo di una nuova proprietà è chiamato azione \"Acquista\" (Buy); l'acquisto del titolo di proprietà per una nuova proprietà è chiamato \"Atto\" (Deed); lo sviluppo dei titoli (ovvero l'aggiunta di segnalini a una proprietà con atto, indipendentemente dal fatto che renda l'atto completamente sviluppato o meno) è chiamato \"Aggiungi\" (Add). (La vendita di una carta e lo scambio di 3 a 1 dei segnalini seme rimangono invariati.)\n\nPer velocizzare il processo di lancio dei dadi per le risorse, ci sono due azioni aggiuntive:\n* \"Preferisci\" serve a impostare la preferenza su quale segnalino seme prendere quando un atto paga sul lancio dell'avversario. Se non imposti una preferenza esplicita, il codice sceglierà per te il segnalino più raro in base ai tuoi semi non-corona e alla tua riserva attuale di segnalini. Il segnalino attualmente preferito è cerchiato nell'interfaccia, ma la tua preferenza personale non è mai visibile all'altro giocatore.\n* \"Scegli\" è un'azione iniziale obbligatoria per raccogliere i segnalini seme quando un atto paga sul tuo stesso lancio. (In tutti i casi in cui devi scegliere un segnalino seme non ancora presente tra i tuoi segnalini, fai comunque clic sulla pila di segnalini appropriata.)\n\nPoiché puoi eseguire diverse azioni durante una semimossa in qualsiasi ordine, c'è anche un'azione \"Annulla\" per annullare l'azione più recente, indipendentemente dal fatto che fosse completa o meno.\n\nNota che viene visualizzato solo il risultato finale del dado risorsa, ma la distribuzione dei risultati attesi è comunque quella di un lancio di 2d10 prendendo il valore più alto. La tassazione avviene quando il valore più basso di 2d10 è 1; viene lanciato un dado seme (o due, nella variante a doppia tassazione) e i semi verranno mostrati sotto il risultato della risorsa. Il lancio viene registrato alla fine del turno di un giocatore ed è attribuito al giocatore successivo (che avrebbe lanciato il dado nel gioco fisico). A eccezione di \"Scegli\", non è richiesta alcuna azione dell'utente; le risorse vengono aggiunte o rimosse automaticamente dal server tra un turno e l'altro.\n\nQuando un giocatore è in vantaggio in un distretto, la Pedina o la Scusa per quel distretto è contornata con il colore di quel giocatore. Il primo punteggio di spareggio (valore totale della proprietà) è mostrato tra parentesi dopo il punteggio del distretto. Il secondo criterio di spareggio è il numero totale di segnalini rimanenti."
@@ -4998,6 +5110,10 @@
   "notes.siegeofj": {
     "src": "More information on the Decktet system can be found on the [official Decktet website](https://www.decktet.com). Cards in players' hands are hidden from observers, and they are hidden from opponents until the deck is empty, at which point the players have perfect information, so the hands are revealed.",
     "out": "Maggiori informazioni sul sistema Decktet sono disponibili sul [sito ufficiale del Decktet](https://www.decktet.com). Le carte nella mano dei giocatori sono nascoste agli osservatori e sono nascoste agli avversari finché il mazzo non è vuoto, momento in cui i giocatori dispongono di informazione perfetta e le mani vengono rivelate."
+  },
+  "notes.skisma": {
+    "src": "A stone is surrounded when, because of a single enemy group, it can reach fewer than half of the edge cells. Paths may go through any cell except that group's stones. You may not place a stone where it would be surrounded, unless that placement wins. A player with no legal move loses, also when the board is full: whoever fills the last cell wins, and there are no draws. On square boards, stones connect into groups diagonally as well as orthogonally, but paths only go orthogonally, so a diagonal chain is a wall.",
+    "out": "Una pedina è circondata quando, a causa di un singolo gruppo avversario, può raggiungere meno della metà delle caselle di bordo. I percorsi possono passare attraverso qualsiasi casella tranne le pedine di quel gruppo. Non puoi piazzare una pedina dove verrebbe circondata, a meno che tale piazzamento non porti alla vittoria. Un giocatore senza mosse legali perde, anche quando il tabellone è pieno: chi riempie l'ultima casella vince e non ci sono patte. Sui tabelloni quadrati, le pedine si collegano in gruppi sia in diagonale che in ortogonale, ma i percorsi vanno solo in ortogonale, quindi una catena diagonale costituisce un muro."
   },
   "notes.slimetrail": {
     "src": "Slimetrail was designed by Bill Taylor in 1992. Initially the game was played on the Hex board and a stalemate was a draw. The game evolved to be played on a 8x8 board, where a stalemated player loses the match. This version was used in the Portuguese Tournament of Board Games for several years. There are some 1970s precursors of this theme, like Knight Chase, Blokeo, ZigZag, and Tesoro (cf. WAG's page in the links).",
@@ -5331,6 +5447,10 @@
     "src": "Total altitude",
     "out": "Altitudine totale"
   },
+  "status.dvonn.CONTROLLED": {
+    "src": "Controlled pieces",
+    "out": "Pezzi controllati"
+  },
   "status.elOso.CAVE": {
     "src": "Cave",
     "out": "Caverna"
@@ -5486,6 +5606,14 @@
   "status.lielow.MOVESUNTILSUICIDE": {
     "src": "Moves until suicide",
     "out": "Mosse fino al suicidio"
+  },
+  "status.lyngk.CAPTURED": {
+    "src": "Captured stacks",
+    "out": "Pile catturate"
+  },
+  "status.lyngk.CLAIMED": {
+    "src": "Claimed colours",
+    "out": "Colori rivendicati"
   },
   "status.meg.COUNTDOWN": {
     "src": "Plies remaining",
@@ -5675,6 +5803,10 @@
     "src": "Monochrome potential",
     "out": "Potenziale monocromatico"
   },
+  "status.tzaar.PIECES": {
+    "src": "Pieces (Tott/Tzarra/Tzaar)",
+    "out": "Pezzi (Tott/Tzarra/Tzaar)"
+  },
   "status.waldmeister.COLOUR": {
     "src": "colours",
     "out": "colori"
@@ -5686,6 +5818,10 @@
   "status.waldmeister.HEIGHT": {
     "src": "heights",
     "out": "altezze"
+  },
+  "status.yinsh.SCORE": {
+    "src": "Score",
+    "out": "Punteggio"
   },
   "validation._general.CAPTURE4MOVE": {
     "src": "You signalled a capture, but there's no piece at {{where}}.",
@@ -6536,8 +6672,8 @@
     "out": "Non puoi lasciare i tuoi pezzi sul tuo porto di partenza."
   },
   "validation.arimaa.AMBIGUOUS": {
-    "src": "That fits {{count}} different moves. Say where another piece ends up to settle it.",
-    "out": "Corrisponde a {{count}} mosse diverse. Indica dove finisce un altro pezzo per risolvere l'ambiguità."
+    "src": "That fits {{count}} different moves, and the one shown is the one that will be played. Say where another piece ends up to choose another.",
+    "out": "Questo corrisponde a {{count}} mosse diverse, e quella mostrata è quella che verrà giocata. Indica dove finisce un altro pezzo per sceglierne un'altra."
   },
   "validation.arimaa.BACKWARDS": {
     "src": "You may not move your own rabbits backwards.",
@@ -6559,9 +6695,13 @@
     "src": "You may only place pieces on the two ranks closest to you.",
     "out": "Puoi posizionare pezzi solo sulle due traverse più vicine a te."
   },
+  "validation.arimaa.IDLE": {
+    "src": "Nothing moves yet. Say where a piece ends up.",
+    "out": "Ancora nessuna mossa. Indica dove deve finire un pezzo."
+  },
   "validation.arimaa.INCOMPLETE": {
-    "src": "A piece is selected. Click a square to send it there, or click it again to keep it where it is.",
-    "out": "È selezionato un pezzo. Fai clic su una casella per mandarlo lì, o fai clic di nuovo per mantenerlo dove si trova."
+    "src": "A piece is selected. Click a square to send it there.",
+    "out": "Un pezzo è selezionato. Clicca su una casella per inviarlo lì."
   },
   "validation.arimaa.INFERRED": {
     "src": "Also moving: {{pieces}}.",
@@ -6572,8 +6712,8 @@
     "out": "Seleziona un pezzo dalla tua mano da posizionare sulla plancia."
   },
   "validation.arimaa.INITIAL_INSTRUCTIONS_play": {
-    "src": "Click a piece, then the square it should end the turn on. You can point at enemy pieces too; pushes and pulls are worked out for you.",
-    "out": "Fai clic su un pezzo, poi sulla casella su cui dovrebbe finire il turno. Puoi selezionare anche i pezzi nemici; spinte e trazioni verranno calcolate automaticamente."
+    "src": "Select a piece, then its destination. Select additional pieces to move them as a chain. Advanced mode also supports target clicks and inferred moves.",
+    "out": "Seleziona un pezzo, quindi la sua destinazione. Seleziona altri pezzi per muoverli in catena. La modalità avanzata supporta anche i clic sulla destinazione e le mosse dedotte."
   },
   "validation.arimaa.INVALID_PUSH": {
     "src": "Pushes must be immediately completed by moving the pushing piece into the space vacated by the pushed enemy piece.",
@@ -9043,6 +9183,46 @@
     "src": "Place a sarsen, lay a lintel, move your Druid, or pass.",
     "out": "Posiziona un sarsen, posa un architrave, muovi il tuo Druido o passa."
   },
+  "validation.dvonn.EMPTY": {
+    "src": "There is no stack at {{where}}.",
+    "out": "Non c'è alcuna pila in {{where}}."
+  },
+  "validation.dvonn.INITIAL_INSTRUCTIONS": {
+    "src": "Click one of your stacks, then click a legal destination.",
+    "out": "Fai clic su una delle tue pile, poi fai clic su una destinazione valida."
+  },
+  "validation.dvonn.INITIAL_INSTRUCTIONS_SETUP": {
+    "src": "Click an empty intersection to place the next piece from the setup queue.",
+    "out": "Fai clic su un'intersezione vuota per piazzare il pezzo successivo dalla coda di preparazione."
+  },
+  "validation.dvonn.INVALID_MOVE": {
+    "src": "That slide is not legal.",
+    "out": "Questo scorrimento non è valido."
+  },
+  "validation.dvonn.MUST_PASS": {
+    "src": "You have no legal move; your turn will pass automatically.",
+    "out": "Non hai mosse valide; il tuo turno passerà automaticamente."
+  },
+  "validation.dvonn.NOT_YOUR_STACK": {
+    "src": "You may only move a stack you control.",
+    "out": "Puoi muovere solo una pila che controlli."
+  },
+  "validation.dvonn.NO_PASS": {
+    "src": "You must make a move when one is available.",
+    "out": "Devi effettuare una mossa quando ce n'è una disponibile."
+  },
+  "validation.dvonn.OCCUPIED": {
+    "src": "That intersection is already occupied.",
+    "out": "Quell'intersezione è già occupata."
+  },
+  "validation.dvonn.SURROUNDED": {
+    "src": "Stacks that are surrounded on six sides may not move.",
+    "out": "Le pile circondate su sei lati non possono muoversi."
+  },
+  "validation.dvonn.WRONG_SETUP_PIECE": {
+    "src": "That is not the next piece due in the setup sequence.",
+    "out": "Questo non è il pezzo successivo previsto nella sequenza di posizionamento."
+  },
   "validation.elOso.INITIAL_INSTRUCTIONS": {
     "src": "Select one of your stacks to move. Click a stack twice to pass.",
     "out": "Seleziona una delle tue pile da muovere. Fai clic due volte su una pila per passare."
@@ -11262,6 +11442,38 @@
   "validation.lox.PLACE4CAPTURE": {
     "src": "To make a capture, the cell must be suffixed with 'x'. Try '{{cell}}x'.",
     "out": "Per effettuare una cattura, la casella deve avere il suffisso 'x'. Prova con '{{cell}}x'."
+  },
+  "validation.lyngk.CLAIM_WITHOUT_MOVE": {
+    "src": "Claiming a colour requires a board move on the same turn.",
+    "out": "Rivendicare un colore richiede una mossa sulla plancia nello stesso turno."
+  },
+  "validation.lyngk.CLAIM_WITH_PASS": {
+    "src": "You cannot claim a colour when passing.",
+    "out": "Non puoi rivendicare un colore quando passi."
+  },
+  "validation.lyngk.INITIAL_INSTRUCTIONS": {
+    "src": "Click a stack you control, then click destinations along a line. Optionally claim a colour from the reserve first.",
+    "out": "Fai clic su una pila che controlli, poi fai clic sulle destinazioni lungo una linea. In alternativa, puoi prima rivendicare un colore dalla riserva."
+  },
+  "validation.lyngk.INVALID_CLAIM": {
+    "src": "You cannot claim that colour.",
+    "out": "Non puoi rivendicare quel colore."
+  },
+  "validation.lyngk.INVALID_MOVE": {
+    "src": "That move is not legal.",
+    "out": "Questa mossa non è valida."
+  },
+  "validation.lyngk.MUST_PASS": {
+    "src": "You have no legal move; your turn will pass automatically.",
+    "out": "Non hai mosse valide; il tuo turno passerà automaticamente."
+  },
+  "validation.lyngk.NO_PASS": {
+    "src": "You must make a board move when one is available.",
+    "out": "Devi effettuare una mossa sulla plancia quando ce n'è una disponibile."
+  },
+  "validation.lyngk.RESERVE_LABEL": {
+    "src": "Unclaimed colours",
+    "out": "Colori non rivendicati"
   },
   "validation.magnate.BUTTON_INSTRUCTIONS": {
     "src": "Click a button to select your next action.",
@@ -14211,6 +14423,14 @@
     "src": "That placement is valid. It's also possible to span two cards. Click \"Complete Move\" to keep the single parent, or click the adjacent card to span them both.",
     "out": "Piazzamento valido. È anche possibile sovrapporsi a due carte. Clicca su \"Completa Mossa\" per mantenere la carta genitore singola, oppure clicca sulla carta adiacente per sovrapporle entrambe."
   },
+  "validation.skisma.INSTRUCTIONS": {
+    "src": "Select an empty cell to place a stone.",
+    "out": "Seleziona una casella vuota per posizionare una pietra."
+  },
+  "validation.skisma.SUICIDE": {
+    "src": "You may not place a stone at {{where}}: it would be surrounded.",
+    "out": "Non puoi piazzare una pedina su {{where}}: verrebbe circondata."
+  },
   "validation.slimetrail.INITIAL_INSTRUCTIONS": {
     "src": "Move the ball to an adjacent empty cell.",
     "out": "Muovi la pallina in una casella adiacente vuota."
@@ -16463,6 +16683,54 @@
     "src": "You may only place one peg per turn.",
     "out": "Puoi piazzare solo un piolo per turno."
   },
+  "validation.tzaar.BLOCKED": {
+    "src": "That intersection is not on the board.",
+    "out": "Quella intersezione non è sulla plancia."
+  },
+  "validation.tzaar.INITIAL_INSTRUCTIONS": {
+    "src": "Capture an opponent's piece by sliding one of your stacks onto it.",
+    "out": "Cattura un pezzo avversario facendo scorrere una delle tue pile su di esso."
+  },
+  "validation.tzaar.INITIAL_INSTRUCTIONS_OPENING": {
+    "src": "White's opening move: make one capture.",
+    "out": "Mossa d'apertura del Bianco: effettua una cattura."
+  },
+  "validation.tzaar.INITIAL_INSTRUCTIONS_SECOND": {
+    "src": "Make a second capture, strengthen a stack, or press Pass.",
+    "out": "Effettua una seconda cattura, rinforza una pila o premi Passa."
+  },
+  "validation.tzaar.INITIAL_INSTRUCTIONS_SETUP": {
+    "src": "Click an empty intersection to choose a piece type, then click again to place it.",
+    "out": "Fai clic su un'intersezione vuota per scegliere un tipo di pezzo, poi fai di nuovo clic per posizionarlo."
+  },
+  "validation.tzaar.INVALID_LEG": {
+    "src": "That slide is not legal.",
+    "out": "Questo scorrimento non è valido."
+  },
+  "validation.tzaar.MUST_CAPTURE_FIRST": {
+    "src": "The first action of your turn must be a capture.",
+    "out": "La prima azione del tuo turno deve essere una cattura."
+  },
+  "validation.tzaar.MUST_CAPTURE_OPENING": {
+    "src": "The opening move must be a capture.",
+    "out": "La mossa d'apertura deve essere una cattura."
+  },
+  "validation.tzaar.NO_CAPTURES_FROM": {
+    "src": "There are no valid captures for the stack at {{where}}.",
+    "out": "Non ci sono catture valide per la pila in {{where}}."
+  },
+  "validation.tzaar.NO_RESERVE": {
+    "src": "You do not have that piece type left in your reserve.",
+    "out": "Non hai più quel tipo di pezzo nella tua riserva."
+  },
+  "validation.tzaar.NO_SECOND_ACTION_FROM": {
+    "src": "There are no valid captures or strengthen moves for the stack at {{where}}.",
+    "out": "Non ci sono catture o mosse di rinforzo valide per la pila in {{where}}."
+  },
+  "validation.tzaar.OCCUPIED": {
+    "src": "That intersection is already occupied.",
+    "out": "Quell'intersezione è già occupata."
+  },
   "validation.unane.INITIAL_INSTRUCTIONS": {
     "src": "Select a friendly piece.",
     "out": "Seleziona una pedina amica."
@@ -17111,6 +17379,50 @@
     "src": "In a three-player game, you must block a next-opponent win if possible.",
     "out": "In una partita a tre giocatori, devi bloccare la vittoria dell'avversario successivo, se possibile."
   },
+  "validation.yinsh.BLOCKED": {
+    "src": "That intersection is not on the board.",
+    "out": "Quella intersezione non è sulla plancia."
+  },
+  "validation.yinsh.INITIAL_INSTRUCTIONS": {
+    "src": "Click one of your rings, then click a destination along a line.",
+    "out": "Fai clic su uno dei tuoi anelli, poi fai clic su una destinazione lungo una linea."
+  },
+  "validation.yinsh.INITIAL_INSTRUCTIONS_CHOOSE_ROW": {
+    "src": "Click a highlighted row to choose which five markers to remove.",
+    "out": "Fai clic su una riga evidenziata per scegliere quali cinque marcatori rimuovere."
+  },
+  "validation.yinsh.INITIAL_INSTRUCTIONS_REMOVE_RING": {
+    "src": "Click one of your rings to score it.",
+    "out": "Fai clic su uno dei tuoi anelli per segnarlo."
+  },
+  "validation.yinsh.INITIAL_INSTRUCTIONS_ROW": {
+    "src": "Remove the five markers in the row, then remove one of your rings.",
+    "out": "Rimuovi i cinque marcatori nella riga, poi rimuovi uno dei tuoi anelli."
+  },
+  "validation.yinsh.INITIAL_INSTRUCTIONS_SEGMENT": {
+    "src": "Click markers to drop any outside the five you remove. Submit when exactly five in a row remain highlighted.",
+    "out": "Fai clic sui marcatori per deselezionare quelli al di fuori dei cinque da rimuovere. Conferma quando rimangono evidenziati esattamente cinque marcatori in fila."
+  },
+  "validation.yinsh.INITIAL_INSTRUCTIONS_SETUP": {
+    "src": "Click an empty intersection to place a ring from your reserve.",
+    "out": "Fai clic su un'intersezione vuota per posizionare un anello dalla tua riserva."
+  },
+  "validation.yinsh.MUST_RESOLVE_ROW": {
+    "src": "You must complete row removal before continuing.",
+    "out": "Devi completare la rimozione della riga prima di continuare."
+  },
+  "validation.yinsh.NOT_YOUR_RING": {
+    "src": "That is not your ring.",
+    "out": "Quello non è un tuo anello."
+  },
+  "validation.yinsh.NO_MARKERS": {
+    "src": "There are no markers left in the pool.",
+    "out": "Non ci sono più marcatori nella riserva."
+  },
+  "validation.yinsh.OCCUPIED": {
+    "src": "There is already a ring on that intersection.",
+    "out": "C'è già un anello su quell'intersezione."
+  },
   "validation.yodd.INITIAL_INSTRUCTIONS": {
     "src": "Click an empty point to place a stone in your colour. Click it again to switch to the other colour, and again to remove the stone. Use Complete Move when you are ready (one stone only on the first turn).",
     "out": "Fai clic su un punto vuoto per posizionare una pietra del tuo colore. Fai di nuovo clic per passare all'altro colore, e ancora per rimuovere la pietra. Usa Completa mossa quando sei pronto (solo una pietra al primo turno)."
@@ -17194,6 +17506,66 @@
   "validation.yonmoque.PARTIAL": {
     "src": "Select a destination.",
     "out": "Seleziona una destinazione."
+  },
+  "validation.zertz.BAD_JUMP": {
+    "src": "That jump sequence is not legal.",
+    "out": "Questa sequenza di salti non è legale."
+  },
+  "validation.zertz.BAD_PLACE": {
+    "src": "There is no vacant ring at {{where}}.",
+    "out": "Non c'è alcun anello vuoto in {{where}}."
+  },
+  "validation.zertz.CAPTURED_LABEL": {
+    "src": "{{player}}'s captured marbles",
+    "out": "Biglie catturate da {{player}}"
+  },
+  "validation.zertz.INITIAL_INSTRUCTIONS_CAPTURE": {
+    "src": "Make a capture.",
+    "out": "Esegui una cattura."
+  },
+  "validation.zertz.INITIAL_INSTRUCTIONS_CAPTURED": {
+    "src": "Choose a marble from your captured area.",
+    "out": "Scegli una biglia dalla tua area di cattura."
+  },
+  "validation.zertz.INITIAL_INSTRUCTIONS_POOL": {
+    "src": "Choose a marble from the pool.",
+    "out": "Scegli una biglia dalla riserva."
+  },
+  "validation.zertz.MUST_CHOOSE_REMOVE": {
+    "src": "You must remove a free ring after placing the marble.",
+    "out": "Devi rimuovere un anello libero dopo aver posizionato la biglia."
+  },
+  "validation.zertz.MUST_JUMP": {
+    "src": "Make a capture.",
+    "out": "Esegui una cattura."
+  },
+  "validation.zertz.NO_MARBLE": {
+    "src": "You do not have a {{colour}} marble available to play.",
+    "out": "Non hai una biglia {{colour}} disponibile da giocare."
+  },
+  "validation.zertz.PARTIAL_PLACE": {
+    "src": "Select a vacant ring for the marble.",
+    "out": "Seleziona un anello vuoto per la biglia."
+  },
+  "validation.zertz.PARTIAL_REMOVE": {
+    "src": "Select a ring to remove.",
+    "out": "Seleziona un anello da rimuovere."
+  },
+  "validation.zertz.POOL_LABEL": {
+    "src": "Pool",
+    "out": "Riserva"
+  },
+  "validation.zertz.REMOVE_OCCUPIED": {
+    "src": "The ring at {{where}} is not vacant.",
+    "out": "L'anello in {{where}} non è vuoto."
+  },
+  "validation.zertz.REMOVE_SAME_AS_PLACE": {
+    "src": "You cannot remove the ring you just placed on.",
+    "out": "Non puoi rimuovere l'anello su cui hai appena posizionato una biglia."
+  },
+  "validation.zertz.RING_NOT_FREE": {
+    "src": "The ring at {{where}} cannot be removed without disturbing other rings.",
+    "out": "L'anello in {{where}} non può essere rimosso senza spostare altri anelli."
   },
   "validation.zola.DISTANCE_CAPTURES": {
     "src": "Capture moves must not increase your distance from the centre.",
@@ -18914,6 +19286,14 @@
   "variants.druid.y-9.name": {
     "src": "Druid's Y (size 9)",
     "out": "Y di Druid (dimensione 9)"
+  },
+  "variants.dvonn.quickstart.description": {
+    "src": "The full setup is dealt at random; player 1 moves first.",
+    "out": "La disposizione iniziale viene distribuita casualmente; il giocatore 1 muove per primo."
+  },
+  "variants.dvonn.quickstart.name": {
+    "src": "Quick start",
+    "out": "Inizio rapido"
   },
   "variants.emu.#deck.name": {
     "src": "Excuse + Pawns (default)",
@@ -21571,6 +21951,38 @@
     "src": "Open hands",
     "out": "Mani scoperte"
   },
+  "variants.skisma.#board.name": {
+    "src": "Hexhex 6",
+    "out": "Hexhex 6"
+  },
+  "variants.skisma.size-7.name": {
+    "src": "Hexhex 7",
+    "out": "Hexhex 7"
+  },
+  "variants.skisma.size-8.name": {
+    "src": "Hexhex 8",
+    "out": "Hexhex 8"
+  },
+  "variants.skisma.size-9.name": {
+    "src": "Hexhex 9",
+    "out": "Hexhex 9"
+  },
+  "variants.skisma.square-11.name": {
+    "src": "Square 11x11",
+    "out": "Quadrato 11x11"
+  },
+  "variants.skisma.square-13.name": {
+    "src": "Square 13x13",
+    "out": "Quadrato 13x13"
+  },
+  "variants.skisma.square-15.name": {
+    "src": "Square 15x15",
+    "out": "Quadrato 15x15"
+  },
+  "variants.skisma.square-9.name": {
+    "src": "Square 9x9",
+    "out": "Quadrato 9x9"
+  },
   "variants.slimetrail.#board.description": {
     "src": "8x8 board game",
     "out": "Gioco su tabellone 8x8"
@@ -22715,6 +23127,26 @@
     "src": "Larger board (30x30)",
     "out": "Plancia più grande (30x30)"
   },
+  "variants.tzaar.#setup.name": {
+    "src": "Fixed setup",
+    "out": "Setup fisso"
+  },
+  "variants.tzaar.random.description": {
+    "src": "All pieces are placed on the board at random.",
+    "out": "Tutti i pezzi vengono posizionati sul tabellone in modo casuale."
+  },
+  "variants.tzaar.random.name": {
+    "src": "Random setup",
+    "out": "Configurazione casuale"
+  },
+  "variants.tzaar.tournament.description": {
+    "src": "Players alternate placing pieces from their reserve before play.",
+    "out": "I giocatori si alternano nel posizionare i pezzi dalla propria riserva prima di giocare."
+  },
+  "variants.tzaar.tournament.name": {
+    "src": "Tournament setup",
+    "out": "Setup da torneo"
+  },
   "variants.unane.#board.name": {
     "src": "7x8 board",
     "out": "Plancia 7x8"
@@ -22983,6 +23415,14 @@
     "src": "Star board",
     "out": "Plancia a stella"
   },
+  "variants.yinsh.blitz.description": {
+    "src": "Win by scoring one ring (forming one row of five markers).",
+    "out": "Vinci segnando un anello (formando una riga di cinque marcatori)."
+  },
+  "variants.yinsh.blitz.name": {
+    "src": "Blitz",
+    "out": "Blitz"
+  },
   "variants.yodd.#board.name": {
     "src": "Size-8 hex",
     "out": "Esagonale dimensione 8"
@@ -23038,6 +23478,34 @@
   "variants.yonkoma.size-12.name": {
     "src": "12x12 board",
     "out": "Tabellone 12x12"
+  },
+  "variants.zertz.#board.name": {
+    "src": "Hexhex 4 board (37 rings)",
+    "out": "Plancia Hexhex 4 (37 anelli)"
+  },
+  "variants.zertz.blitz.description": {
+    "src": "Fewer marbles and lower capture targets; default board only.",
+    "out": "Meno biglie e obiettivi di cattura inferiori; solo plancia predefinita."
+  },
+  "variants.zertz.blitz.name": {
+    "src": "Blitz",
+    "out": "Blitz"
+  },
+  "variants.zertz.oversize.description": {
+    "src": "Hexhex 5 board (61 rings)",
+    "out": "Plancia Hexhex 5 (61 anelli)"
+  },
+  "variants.zertz.oversize.name": {
+    "src": "Oversize board",
+    "out": "Plancia oversize"
+  },
+  "variants.zertz.tournament.description": {
+    "src": "Larger alternating hex-of-tri board (48 rings)",
+    "out": "Plancia più grande a esagono di triangoli alternati (48 anelli)"
+  },
+  "variants.zertz.tournament.name": {
+    "src": "Tournament board",
+    "out": "Plancia da torneo"
   },
   "variants.zola.#board.name": {
     "src": "6x6 board",

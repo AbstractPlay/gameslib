@@ -1,4 +1,4 @@
-import type { GipfGraph } from "../../common/graphs/gipf.js";
+import type { GipfGraph } from "./graph.js";
 import type { CapturableRow, CellPiece, playerid, RulesVariant } from "./types.js";
 
 function rowId(owner: playerid, cells: string[]): string {

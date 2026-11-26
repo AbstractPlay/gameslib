@@ -42,12 +42,17 @@ export interface CapturePending {
     chooseRowPeers?: string[];
 }
 
-export const GIPF_P1 = "#ffffff";
-export const GIPF_P2 = "#000000";
+/** Theme player 1 red (`#e31a1c`). */
+export const GIPF_P1 = "#e31a1c";
+/** Theme player 2 blue (`#1f78b4`). */
+export const GIPF_P2 = "#1f78b4";
+
+/** Default outline on basic (single) pieces for both players. */
+export const GIPF_PIECE_BORDER = "#000000";
 
 /** Default chariot outer ring for both players. */
 export const GIPF_CHARIOT_BORDER = "#000000";
 /** Default chariot inner rings on player 1 GIPF-pieces. */
 export const GIPF_P1_CHARIOT_INNER = "#000000";
 /** Default chariot inner rings on player 2 GIPF-pieces. */
-export const GIPF_P2_CHARIOT_INNER = "#ffffff";
+export const GIPF_P2_CHARIOT_INNER = "#000000";

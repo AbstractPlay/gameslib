@@ -263,7 +263,7 @@ export function discoverGameApgamesEnOverlay() {
         if (!plain) {
             continue;
         }
-        for (const section of ["validation", "variants", "displays", "buttons", "status"]) {
+        for (const section of ["validation", "variants", "displays", "buttons", "status", "inputModes"]) {
             if (plain[section] !== undefined) {
                 if (!overlay[section]) {
                     overlay[section] = {};

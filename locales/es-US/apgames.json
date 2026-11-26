@@ -292,6 +292,11 @@
       "full": "Familia > Damas",
       "tag": "F: Damas"
     },
+    "family>gipf": {
+      "description": "Serie de juegos abstractos del Proyecto GIPF de Kris Burm",
+      "full": "Familia > GIPF",
+      "tag": "F: GIPF"
+    },
     "family>gomoku": {
       "description": "Juegos de colocación para formar líneas en el linaje de Gomoku / Renju / Connect6 y parientes cercanos de alineación",
       "full": "Familia > Gomoku",
@@ -545,7 +550,17 @@
   },
   "inputModes": {
     "section": "Modo de entrada",
-    "description": "Cómo interpreta el tablero tus clics en este juego."
+    "description": "Cómo interpreta el tablero tus clics en este juego.",
+    "arimaa": {
+      "basic": {
+        "name": "Básico",
+        "description": "Mueve solo las piezas que selecciones explícitamente, en el orden en que las introduzcas. Cada secuencia de clics completada tiene un resultado sin ambigüedades."
+      },
+      "advanced": {
+        "name": "Avanzado",
+        "description": "Selecciona por origen o destino y usa movimientos inferidos y controles de captura en trampa."
+      }
+    }
   },
   "status": {
     "_player": "{{player}}",
@@ -629,6 +644,9 @@
       "PLANES": "Aviones",
       "TOTAL_ALTITUDE": "Altitud total"
     },
+    "dvonn": {
+      "CONTROLLED": "Fichas controladas"
+    },
     "elOso": {
       "SKY": "Cielo",
       "CAVE": "Cueva",
@@ -686,6 +704,10 @@
     },
     "lielow": {
       "MOVESUNTILSUICIDE": "Movimientos hasta el suicidio"
+    },
+    "lyngk": {
+      "CLAIMED": "Colores reclamados",
+      "CAPTURED": "Pilas capturadas"
     },
     "meg": {
       "OFFENSE": "Jugador atacante",
@@ -757,10 +779,16 @@
       "MAJORITIES": "Mayorías ganadas",
       "MONOCHROME": "Potencial monocromático"
     },
+    "tzaar": {
+      "PIECES": "Piezas (Tott/Tzarra/Tzaar)"
+    },
     "waldmeister": {
       "COLOUR": "colores",
       "GOALS": "Objetivos",
       "HEIGHT": "alturas"
+    },
+    "yinsh": {
+      "SCORE": "Anotar"
     }
   },
   "validation": {
@@ -1011,7 +1039,7 @@
       "FROZEN": "La pieza en {{where}} está congelada. No puede moverse por sí sola.",
       "HOME_ROW": "Solo puedes colocar piezas en las dos filas más cercanas a ti.",
       "INITIAL_INSTRUCTIONS_place": "Selecciona una pieza de tu mano para colocarla en el tablero.",
-      "INITIAL_INSTRUCTIONS_play": "Haz clic en una pieza y luego en la casilla donde debe terminar el turno. También puedes señalar piezas enemigas; los empujes y jalones se calculan automáticamente.",
+      "INITIAL_INSTRUCTIONS_play": "Selecciona una pieza y luego su destino. Selecciona piezas adicionales para moverlas en cadena. El modo avanzado también admite clics de objetivo y movimientos inferidos.",
       "INVALID_PUSH": "Los empujes se deben completar inmediatamente moviendo la pieza que empuja al espacio que dejó libre la pieza enemiga empujada.",
       "INVALID_PUSHPULL": "Solo puedes mover piezas enemigas al completar un tirón o comenzar un empuje. Ninguno parece aplicarse en este caso.",
       "LABEL_STASH": "Reserva de {{player}}",
@@ -1040,9 +1068,10 @@
       "NO_MOVE_FROZEN": "La pieza en {{from}} está congelada y nada puede liberarla a tiempo.",
       "NO_MOVE_REACH": "La pieza en {{from}} no puede llegar a {{to}} dentro de {{num}} pasos.",
       "NO_MOVE_TOGETHER": "Cada uno de ellos funciona por separado, pero no todos dentro de {{num}} pasos.",
-      "AMBIGUOUS": "Eso coincide con {{count}} movimientos diferentes. Indica dónde termina otra pieza para definirlo.",
+      "AMBIGUOUS": "Eso coincide con {{count}} movimientos diferentes, y el que se muestra es el que se jugará. Indica dónde termina otra pieza para elegir otro.",
+      "IDLE": "Nada se mueve todavía. Indica dónde termina una pieza.",
       "INFERRED": "También se mueven: {{pieces}}.",
-      "INCOMPLETE": "Hay una pieza seleccionada. Haz clic en una casilla para enviarla allí o haz clic en ella de nuevo para mantenerla donde está.",
+      "INCOMPLETE": "Se ha seleccionado una pieza. Haz clic en una casilla para enviarla allí.",
       "TOO_LONG": "Lo que has dibujado necesita más de {{num}} pasos.",
       "DIE_one": "El dado permite un solo paso este turno.",
       "DIE_other": "El dado permite hasta {{count}} pasos este turno."
@@ -1793,6 +1822,18 @@
       "SELECT_LINTEL_END": "Selecciona el otro extremo del dintel.",
       "SELECT_MOVE": "Coloca un sarsen, tiende un dintel, mueve tu Druida o pasa."
     },
+    "dvonn": {
+      "INITIAL_INSTRUCTIONS_SETUP": "Haz clic en una intersección vacía para colocar la siguiente ficha de la cola de preparación.",
+      "INITIAL_INSTRUCTIONS": "Haz clic en una de tus pilas y luego en un destino válido.",
+      "NO_PASS": "Debes hacer un movimiento cuando haya uno disponible.",
+      "MUST_PASS": "No tienes movimientos válidos; tu turno pasará automáticamente.",
+      "OCCUPIED": "Esa intersección ya está ocupada.",
+      "EMPTY": "No hay ninguna pila en {{where}}.",
+      "NOT_YOUR_STACK": "Solo puedes mover una pila que controles.",
+      "INVALID_MOVE": "Ese deslizamiento no es válido.",
+      "SURROUNDED": "Las pilas que estén rodeadas por sus seis lados no pueden moverse.",
+      "WRONG_SETUP_PIECE": "Esa no es la siguiente ficha en la secuencia de preparación."
+    },
     "elOso": {
       "INITIAL_INSTRUCTIONS": "Selecciona una de tus pilas para moverla. Haz clic en una pila dos veces para pasar.",
       "VALID_PARTIAL": "Selecciona un destino. Haz clic en la misma pila de nuevo para pasar.",
@@ -2483,6 +2524,16 @@
       "INSUFFICIENT_LOS": "Se requieren {{count}} direcciones con línea de visión para capturar la casilla en {{cell}}.",
       "CAPTURE4PLACE": "Agregaste el sufijo 'x' a la casilla para indicar una captura, pero este no es un movimiento de captura. Intenta '{{cell}}'.",
       "OPPONENT_CONTROLLED": "La casilla en {{where}} está controlada por tu oponente."
+    },
+    "lyngk": {
+      "INITIAL_INSTRUCTIONS": "Haz clic en una pila que controlas y luego en los destinos a lo largo de una línea. Opcionalmente, reclama primero un color de la reserva.",
+      "NO_PASS": "Debes realizar un movimiento en el tablero cuando haya uno disponible.",
+      "MUST_PASS": "No tienes movimientos válidos; tu turno pasará automáticamente.",
+      "INVALID_MOVE": "Ese movimiento no es legal.",
+      "INVALID_CLAIM": "No puedes reclamar ese color.",
+      "CLAIM_WITHOUT_MOVE": "Reclamar un color requiere hacer un movimiento en el tablero en el mismo turno.",
+      "CLAIM_WITH_PASS": "No puedes reclamar un color al pasar.",
+      "RESERVE_LABEL": "Colores no reclamados"
     },
     "magnate": {
       "BUTTON_INSTRUCTIONS": "Haz clic en un botón para seleccionar tu siguiente acción.",
@@ -3377,6 +3428,10 @@
       "LABEL_STASH": "Mano de {{player}}",
       "VALID_BUT": "Esa colocación es válida. También es posible abarcar dos cartas. Haz clic en \"Completar movimiento\" para mantener la carta base única, o haz clic en la carta adyacente para abarcarlas ambas."
     },
+    "skisma": {
+      "INSTRUCTIONS": "Selecciona una casilla vacía para colocar una piedra.",
+      "SUICIDE": "No puedes colocar una piedra en {{where}}: quedaría rodeada."
+    },
     "slimetrail": {
       "INITIAL_INSTRUCTIONS": "Mueve la bola a una casilla vacía adyacente.",
       "INVALID_MOVE": "La casilla elegida debe estar vacía y ser adyacente a la bola."
@@ -4040,6 +4095,20 @@
       "PARTIAL_OPPONENT": "No puedes reordenar las conexiones de tu oponente.",
       "TOO_MANY_PEGS": "Solo puedes colocar un pivote por turno."
     },
+    "tzaar": {
+      "INITIAL_INSTRUCTIONS": "Captura una pieza del oponente deslizando una de tus pilas sobre ella.",
+      "INITIAL_INSTRUCTIONS_SECOND": "Realiza una segunda captura, refuerza una pila o presiona Pasar.",
+      "INITIAL_INSTRUCTIONS_OPENING": "Jugada inicial de las blancas: realiza una captura.",
+      "INITIAL_INSTRUCTIONS_SETUP": "Haz clic en una intersección vacía para elegir un tipo de pieza y luego haz clic de nuevo para colocarla.",
+      "BLOCKED": "Esa intersección no está en el tablero.",
+      "OCCUPIED": "Esa intersección ya está ocupada.",
+      "MUST_CAPTURE_FIRST": "La primera acción de tu turno debe ser una captura.",
+      "MUST_CAPTURE_OPENING": "La jugada inicial debe ser una captura.",
+      "INVALID_LEG": "Ese deslizamiento no es válido.",
+      "NO_RESERVE": "No te quedan piezas de ese tipo en tu reserva.",
+      "NO_CAPTURES_FROM": "No hay capturas válidas para la pila en {{where}}.",
+      "NO_SECOND_ACTION_FROM": "No hay capturas ni movimientos de refuerzo válidos para la pila en {{where}}."
+    },
     "unane": {
       "INITIAL_INSTRUCTIONS": "Selecciona una pieza aliada.",
       "INSTRUCTIONS": "Haz clic en una pieza enemiga ortogonalmente adyacente para capturar por reemplazo. Si no es posible realizar capturas, vuelve a hacer clic en la pieza aliada para eliminarla.",
@@ -4240,6 +4309,19 @@
       "INITIAL_INSTRUCTIONS": "Haz clic en una casilla vacía para colocar una pieza.",
       "MUST_BLOCK": "En una partida de tres jugadores, debes bloquear la victoria del siguiente oponente si es posible."
     },
+    "yinsh": {
+      "INITIAL_INSTRUCTIONS_SETUP": "Haz clic en una intersección vacía para colocar un anillo de tu reserva.",
+      "INITIAL_INSTRUCTIONS": "Haz clic en uno de tus anillos y luego en un destino a lo largo de una línea.",
+      "INITIAL_INSTRUCTIONS_ROW": "Retira los cinco marcadores de la fila y luego retira uno de tus anillos.",
+      "INITIAL_INSTRUCTIONS_SEGMENT": "Haz clic en los marcadores para descartar los que estén fuera de los cinco que vas a retirar. Confirma cuando queden resaltados exactamente cinco en fila.",
+      "INITIAL_INSTRUCTIONS_CHOOSE_ROW": "Haz clic en una fila resaltada para elegir qué cinco marcadores retirar.",
+      "INITIAL_INSTRUCTIONS_REMOVE_RING": "Haz clic en uno de tus anillos para anotarlo.",
+      "BLOCKED": "Esa intersección no está en el tablero.",
+      "OCCUPIED": "Ya hay un anillo en esa intersección.",
+      "MUST_RESOLVE_ROW": "Debes completar la eliminación de la fila antes de continuar.",
+      "NO_MARKERS": "No quedan marcadores en la reserva.",
+      "NOT_YOUR_RING": "Ese no es tu anillo."
+    },
     "yodd": {
       "INITIAL_INSTRUCTIONS": "Haz clic en un punto vacío para colocar una piedra de tu color. Haz clic de nuevo para cambiar al otro color, y otra vez para quitar la piedra. Usa Completar movimiento cuando estés listo (solo una piedra en el primer turno).",
       "INITIAL_INSTRUCTIONS_yopp": "Haz clic en un punto vacío para colocar tu piedra. Haz clic de nuevo para quitarla. Usa Completar movimiento cuando estés listo (solo una piedra en el primer turno).",
@@ -4266,6 +4348,23 @@
     "yonmoque": {
       "INITIAL_INSTRUCTIONS": "Selecciona una casilla vacía para colocar una pieza o una pieza existente para iniciar un movimiento.",
       "PARTIAL": "Selecciona un destino."
+    },
+    "zertz": {
+      "INITIAL_INSTRUCTIONS_POOL": "Elige una canica de la reserva.",
+      "INITIAL_INSTRUCTIONS_CAPTURED": "Elige una canica de tu área de capturadas.",
+      "INITIAL_INSTRUCTIONS_CAPTURE": "Haz una captura.",
+      "MUST_JUMP": "Haz una captura.",
+      "BAD_JUMP": "Esa secuencia de saltos no es legal.",
+      "BAD_PLACE": "No hay ningún anillo libre en {{where}}.",
+      "NO_MARBLE": "No tienes una canica de color {{colour}} disponible para jugar.",
+      "REMOVE_SAME_AS_PLACE": "No puedes retirar el anillo sobre el que acabas de colocar una canica.",
+      "REMOVE_OCCUPIED": "El anillo en {{where}} no está libre.",
+      "RING_NOT_FREE": "El anillo en {{where}} no se puede retirar sin mover otros anillos.",
+      "MUST_CHOOSE_REMOVE": "Debes retirar un anillo libre después de colocar la canica.",
+      "PARTIAL_PLACE": "Selecciona un anillo libre para la canica.",
+      "PARTIAL_REMOVE": "Selecciona un anillo para retirar.",
+      "POOL_LABEL": "Reserva",
+      "CAPTURED_LABEL": "Canicas capturadas de {{player}}"
     },
     "zola": {
       "DISTANCE_CAPTURES": "Los movimientos de captura no deben aumentar tu distancia respecto al centro.",
@@ -4369,6 +4468,7 @@
     "domineering": "Los jugadores colocan fichas de dominó, uno verticalmente y el otro horizontalmente, hasta que alguno no pueda jugar, perdiendo así la partida.",
     "dragoneyes": "Una variante de damas con información incompleta, casillas encantadas de ojos de dragón y jugada en un tablero hexagonal.",
     "druid": "Coloca sarsenes y dinteles para conectar tus bordes del tablero. En el tablero rectangular estándar, el jugador 1 conecta este y oeste; el jugador 2 conecta norte y sur. En Druid's Y, conecta los tres lados (las esquinas cuentan para ambos bordes adyacentes). En Druid's Hex, conecta tres lados alternos (no adyacentes) cualesquiera. Solo la piedra superior de cada casilla cuenta para la conexión.",
+    "dvonn": "Apila fichas en un tablero hexagonal y mantente conectado a las fichas rojas DVONN. Aísla las pilas enemigas, controla la mayor cantidad de discos cuando ninguno de los dos jugadores pueda mover y gana.",
     "elOso": "Un juego de solitario del mundo de Carrisor. Mueve tus pilas fuera de la parte superior del tablero hacia el Cielo mientras el Oso tira los dados y avanza desde arriba. Logra diez o más piezas en el Cielo para ganar.",
     "emergo": "Una variante de damas en la que las piezas capturadas permanecen en el tablero y pueden liberarse más adelante. Captura todas las piezas enemigas para ganar. Derivado de Lasca pero con dos fases de juego y capturas máximas obligatorias.",
     "emu": "Cada ave de tu rancho está representada por una pila de cartas. Al final de la mano, el valor de un ave se determina por la suma de las cartas numéricas de la pila. El objetivo, por supuesto, es criar aves rentables. Gana la puntuación más alta después de un número de \"años\".",
@@ -4431,6 +4531,7 @@
     "loa": "Un juego clásico en el que intentas reunir todas tus piezas en un solo grupo conectado. Las piezas solo pueden moverse el número exacto de casillas igual al número de piezas que haya en la línea de movimiento. Se admite la variante de disposición inicial \"Scrambled Eggs\".",
     "logger": "Un juego con pirámides Looney donde los jugadores compiten por cultivar y cosechar más árboles que sus oponentes.",
     "lox": "Juego de conexión hexagonal con capturas inspirado en Tumbleweed. Un jugador controla una casilla si tiene más líneas de visión hacia sus propias piezas que la mitad del número de casillas vecinas que posee. Si una pieza enemiga está en tu casilla controlada, puedes capturarla reemplazándola con tu propia pieza en tu turno. El jugador que tenga una conexión sólida entre sus dos lados al inicio de su turno gana.",
+    "lyngk": "Reclama dos de cinco colores, apila y desliza piezas en un tablero hexagonal, crea cadenas a través de tu color con la regla LYNGK y suma puntos capturando pilas completas de cinco.",
     "magnate": "Un juego económico para Decktet en el que los jugadores compiten por el control de cinco distritos desarrollando secuencias de cartas. Las cartas de mayor rango cuestan más, pero contribuyen más a tus ingresos (incluso si solo están parcialmente desarrolladas) y a tu puntuación. La moneda (imponible) de la región son las fichas de palo, que se obtienen vendiendo cartas no deseadas o a través de cartas parcialmente o totalmente desarrolladas tras un lanzamiento de dados, como en Catan.",
     "majorities": "Un juego de mayorías. Una mayoría de piezas en una línea gana esa línea. Una mayoría de líneas paralelas en una dirección gana esa dirección. Una mayoría de direcciones gana el juego. El primer jugador coloca una pieza y, a partir de ahí, cada jugador coloca dos piezas por turno.",
     "manalath": "Manalath es un juego en una cuadrícula hexagonal donde puedes colocar piezas de cualquiera de los dos colores. Ganas si al final de tu turno hay un grupo de cinco piezas de tu color, pero *pierdes* si hay un grupo de cuatro fichas de tu color. ¡¿Cómo vas a lograrlo?!",
@@ -4509,6 +4610,7 @@
     "shapechess": "Shape Chess es un juego en el que los jugadores usan sus piezas para crear figuras con simetría axial. Mediante tres tipos de acciones (colocaciones, saltos, empujes), los jugadores buscan crear grupos simétricos de seis o más piezas, sumando más puntos cuanto más grandes sean los grupos.",
     "shifty": "Un juego de conexión en el que colocas una pieza ortogonalmente adyacente a una pieza aliada, o mueves una de tus piezas ortogonalmente adyacente a una pieza aliada (mediante un movimiento de reina de ajedrez) a una ubicación que no esté ortogonalmente adyacente a ninguna otra pieza aliada. Los cortes cruzados (crosscuts) son ilegales. El jugador que forme un camino ortogonal o diagonal que conecte sus dos lados gana.",
     "siegeofj": "Coloca cartas, que representan ejércitos, para ejercer presión sobre segmentos del muro alrededor de la ciudad de Jacynth. Ejerce la mayor presión sobre la mayor cantidad de segmentos para ganar.",
+    "skisma": "Rodea una piedra enemiga con un solo grupo para ganar: aíslala de la mitad del borde del tablero.",
     "slimetrail": "Empuja la ficha del balón a una casilla vacía adyacente y llévala a tu meta, o deja sin movimientos (ahoga) al adversario.",
     "slither": "Juego de conexión en tablero cuadrado con reglas actualizadas de 2018. Opcionalmente, mueve una pieza y luego coloca una pieza, de modo que dos piezas del mismo color no queden adyacentes en diagonal a menos que estén conectadas ortogonalmente por una ficha del mismo color. En Slither Avanzado, una pieza solo puede moverse si forma parte de un grupo ortogonal contiguo compuesto por piezas de ambos colores.",
     "slyde": "En Slyde, el objetivo es formar el grupo ortogonal más grande de tu color. Las piezas pueden ser fijas o móviles. El juego comienza en una posición de tablero de ajedrez y todas las piezas empiezan siendo móviles. En tu turno, puedes intercambiar una pieza móvil con una pieza móvil adyacente de tu oponente, y tu pieza se vuelve fija. El juego termina cuando un jugador se queda sin movimientos. Si el tablero está en una posición con simetría especular después del primer turno, puedes cambiar el estado de una pieza en lugar de realizar el intercambio estándar.",
@@ -4559,6 +4661,7 @@
     "tumbleweed": "Tumbleweed es un juego de línea de visión. Se construyen torres y las casillas son controladas por el jugador con más torres que puedan ver esa casilla. Compite para controlar la mayoría del tablero hexagonal.",
     "twinflames": "Los jugadores puntúan multiplicando sus dos grupos más grandes. Gana la puntuación más alta. En caso de empate, gana el segundo jugador. El juego utiliza una configuración aleatoria para colocar un número fijo de muros.",
     "twixt": "Twixt es un juego de conexión donde los jugadores alternan turnos colocando clavijas y puentes en un tablero perforado para intentar conectar sus lados opuestos.",
+    "tzaar": "Apila y captura en un tablero hexagonal. Mantén al menos un Tzaar, una Tzarra y un Tott en la parte superior, o atrapa al oponente dejándolo sin capturas válidas.",
     "unane": "Un juego de unificación inspirado en Konane.",
     "unlur": "Un juego de conexión asimétrico donde un jugador intenta formar una Y y el otro intenta conectar lados opuestos. Lograr el objetivo del oponente sin haber logrado el tuyo es una derrota. El juego comienza con una fase de contrato donde ambos jugadores colocan el color del jugador Y hasta que alguien pasa, momento en el cual el oponente se convierte en el jugador Línea.",
     "unstack": "Siembra tus torres para capturar las piezas del adversario y ser quien tenga más piezas al final.",
@@ -4577,9 +4680,11 @@
     "xana": "Un juego de apilamiento donde los jugadores tienen un número limitado de piezas y un número ilimitado de muros para conquistar territorio.",
     "y": "El clásico juego de conexión. Conecta los tres lados para ganar.",
     "yavalath": "Forma una línea de cuatro o más piezas de tu color *sin* formar primero una línea de tres piezas.",
+    "yinsh": "Coloca anillos y luego, en cada turno, coloca un marcador en un anillo y deslízalo a lo largo de una línea, volteando los marcadores saltados. Forma filas de cinco marcadores de tu color para retirarlos y anotar un anillo.",
     "yodd": "Pasa o coloca una o dos piedras de cualquier color. Después de tu turno debe haber un número impar de grupos en el tablero. Cuando ambos jugadores pasen de forma consecutiva, gana el jugador que tenga menos grupos de su color.",
     "yonkoma": "Dos fichas rojas y dos azules en un tablero ajedrezado. Una ficha se mueve a lo largo de una diagonal como un alfil, y cada movimiento debe acercar la ficha movida a las dos fichas enemigas, o bien mantener esa distancia y alejarla de su pareja. Quien complete una intersección cruzada, un bloque de 2x2 que contenga las cuatro fichas, pierde.",
     "yonmoque": "Intenta formar cuatro en línea en un juego donde no todos los espacios son iguales y las piezas enemigas se pueden convertir.",
+    "zertz": "Los jugadores comparten una reserva de canicas en un tablero hexagonal que se reduce. Captura conjuntos saltando o aislando grupos, o reuniendo suficientes canicas de un mismo color.",
     "zola": "Un juego donde tu movimiento está limitado por tu distancia desde el centro del tablero. Los movimientos de captura no deben aumentar esa distancia. Los movimientos que no son de captura deben aumentar esa distancia. La primera persona que capture todas las piezas enemigas gana."
   },
   "names": {
@@ -4675,6 +4780,7 @@
     "domineering": "Domineering",
     "dragoneyes": "Dragon Eyes",
     "druid": "Druid",
+    "dvonn": "DVONN",
     "elOso": "El Oso",
     "emergo": "Emergo",
     "emu": "Emu Ranchers",
@@ -4737,6 +4843,7 @@
     "loa": "Lines of Action",
     "logger": "Logger",
     "lox": "Lox",
+    "lyngk": "LYNGK",
     "magnate": "Magnate",
     "majorities": "Majorities",
     "manalath": "Manalath",
@@ -4815,6 +4922,7 @@
     "shapechess": "Shape Chess",
     "shifty": "Shifty",
     "siegeofj": "Siege of Jacynth",
+    "skisma": "Skisma",
     "slimetrail": "Slimetrail",
     "slither": "Advanced Slither",
     "slyde": "Slyde",
@@ -4865,6 +4973,7 @@
     "tumbleweed": "Tumbleweed",
     "twinflames": "Twin Flames",
     "twixt": "Twixt",
+    "tzaar": "TZAAR",
     "unane": "Unane",
     "unlur": "Unlur",
     "unstack": "Unstack",
@@ -4883,9 +4992,11 @@
     "xana": "Xana",
     "y": "Y",
     "yavalath": "Yavalath",
+    "yinsh": "YINSH",
     "yodd": "Yodd",
     "yonkoma": "Yonkoma",
     "yonmoque": "Yonmoque",
+    "zertz": "ZERTZ",
     "zola": "Zola"
   },
   "notes": {
@@ -4893,7 +5004,7 @@
     "akimbo": "Akimbo, diseñado por Luis Bolaños Mures en 2026, es un juego de conexión sin empates para dos jugadores. Una _diagonal desnuda_ es un par de piezas del mismo color, adyacentes en diagonal, sin ninguna otra pieza del mismo color adyacente a ambas. Un _corte cruzado_ es un área de 2×2 con dos diagonales desnudas entrelazadas de colores opuestos.\n\nEn su turno, el jugador coloca una pieza propia en una casilla vacía. Si esto completa un corte cruzado, la otra pieza en el corte cruzado se elimina. Nunca debe haber más de una diagonal desnuda de cada color en el tablero, ni siquiera de forma momentánea antes de quitar una pieza. Un jugador gana si, al final de su turno, hay una cadena de piezas de su color conectadas ortogonalmente que toque los dos bordes opuestos del tablero pertenecientes a ese jugador.\n\nOkimba es una variante donde solo puede existir como máximo una diagonal desnuda en el tablero (por lo que mientras un jugador tenga la diagonal, el adversario no puede crear otra).",
     "alta": "Hay dos formas de colocar interruptores en la interfaz gráfica: (1) selecciona la orientación del interruptor en el panel y luego haz clic en el espacio deseado en el tablero para colocarlo, o (2) haz clic en dos vértices. Los vértices se anotan con un asterisco, seguido de la notación algebraica del espacio donde el vértice se encuentra en la esquina inferior izquierda. Para alternar un interruptor, simplemente haz clic en el espacio.",
     "anache": "Esta implementación sigue el reglamento de David Ploog. Tres cambios destacables son: (1) las barreras están prohibidas, (2) en lugar de un tablero de 16x16, tenemos una variante de 15x15 donde las piezas se promocionan a caballos en la línea central y el dragón no puede saltar al espacio de 7x7 desde la otra esquina, y (3) contra las esquinas, las piezas se capturan mediante captura por aplastamiento en lugar de captura por custodia, por lo que se necesitan al menos dos piezas del oponente en línea antes de realizar una captura contra las esquinas.\n\nNota: la verificación de ahogado es costosa. Si no puedes realizar un movimiento legal, debes rendirte manualmente.",
-    "arimaa": "Disponible bajo la sección 3 de la [licencia pública de Arimaa](https://arimaa.com/arimaa/license/).\n\nDurante la preparación estándar, solo necesitas colocar tus ocho piezas que no son conejos. Una vez colocadas, Completar movimiento llena el resto de tu área de preparación con conejos. Aún puedes colocar cualquiera de los conejos o todos tú mismo primero si los quieres en un lugar en particular.\n\nPara ingresar un movimiento, haz clic en una pieza y luego en la casilla en la que deba terminar tu turno. El motor encuentra la forma legal más corta de llevarla allí, incluyendo empujes y jalones, y dibuja una flecha por pieza desde donde comenzó hasta donde termina. También puedes señalar piezas enemigas. Haz clic en la cabeza de una flecha para extenderla, o en su cola para eliminarla. Hacer clic por segunda vez en una pieza seleccionada la mantiene donde está, que es como evitas que el motor la mueva a un lado. Algunos turnos más raros necesitan un clic más; la página de la wiki de este juego los enumera todos.\n\nLos movimientos se registran en notación Lightvector, la cual nombra cada pieza y dónde termina en lugar de listar cada paso. Puedes escribirla en el cuadro de movimiento, y la notación antigua paso a paso sigue siendo aceptada. La página de la wiki explica la notación en detalle.\n\nHarlog es un método aceptado para determinar la ventaja material. Las puntuaciones positivas favorecen al Dorado y las negativas al Plateado. El rango estricto es ±112, pero en la práctica ±20 es una ventaja muy fuerte.\n\nDebido a que no podemos generar listas exhaustivas de movimientos, el sistema no puede detectar los raros casos en que tus únicos movimientos disponibles sean ilegales por repetición de posición. El sistema no te dejará realizar esas repeticiones ilegales y tendrás que rendirte manualmente.",
+    "arimaa": "Disponible bajo la sección 3 de la [licencia pública de Arimaa](https://arimaa.com/arimaa/license/).\n\nControles de entrada: Haz clic en una casilla vacía para marcar el movimiento como completado. Haz clic en una pieza oponente para deshacer el último token de movimiento.\n\nModo de entrada básico (predeterminado): Haz clic en las piezas y en el lugar al que quieras moverlas en el orden en que deban moverse según las reglas. Este modo está pensado para estar alineado con otros juegos de AP en cuanto a intuitividad y facilidad de uso. Consulta la AP Wiki para obtener más detalles.\n\nModo de entrada avanzado: Haz clic en las piezas y en el lugar donde quieras que terminen al final del turno. Para enviar una pieza a una casilla de trampa, un triángulo lleno significa capturar la pieza si es posible, un triángulo vacío significa evitar capturar la pieza si es posible, y hacer clic en cualquier otro lugar de la casilla de trampa intenta la otra opción/predeterminada, que casi siempre es lo que deseas. Haz clic en ciertas casillas vacías para agilizar determinados conjuntos de pasos (cf., AP Wiki: Clics de objetivo). El sistema infiere en gran medida los pasos necesarios para que tu entrada sea legal. Este modo busca la eficiencia de clics sin ser demasiado antiintuitivo una vez que te acostumbras. Consulta la AP Wiki para obtener más detalles (muy recomendado).\n\nLos movimientos se registran en notación Lightvector, que se basa en la notación algebraica del ajedrez, aunque es más flexible (y usa letras minúsculas para denotar piezas de plata). Es compatible con versiones anteriores de la notación de Arimaa Gameroom, y la notación heredada de AP aún se acepta. Consulta la AP Wiki para obtener más detalles.\n\nHarlog es un método para estimar la ventaja material. El color del ícono indica a quién favorece. El rango estricto para la configuración estándar es ±112, pero en la práctica ±20 es una ventaja muy fuerte.\n\nEn Movimientos arriesgados (Dicey Moves), un jugador cuyo dado permite un solo paso no tiene movimiento (y pierde), si solo quedan empujes y jalones.\n\nDebido a que no podemos generar listas exhaustivas de movimientos, el sistema no puede detectar los raros casos en los que tus únicos movimientos disponibles son ilegales debido a la repetición de posición. El sistema no te permitirá hacer esas repeticiones ilegales y tendrás que rendirte manualmente.",
     "armadas": "Existen problemas conocidos con este juego en dispositivos iOS.\n\nEste juego ofrece dos escenarios:\n\n* El modo por defecto consiste en que cada jugador tiene dos tríos de piezas. En la fase de colocación, cada jugador debe colocar de 1 a 3 barcos hasta colocar todos los barcos.\n* La variante \"Forma libre\" te permite colocar los barcos que desees (máximo tres a la vez) hasta que ambos jugadores pasen (\"pass\"). Esto te permite crear flotas desequilibradas o asimétricas.\n\nPor defecto, las partidas tienen una isla en el centro del campo. También están disponibles las variantes \"sin islas\" y \"dos islas\". No puedes moverte ni disparar a través de las islas. Para impactar con éxito a un barco, al menos una esquina del triángulo de tu barco debe tener una vista despejada de al menos una esquina del barco objetivo.\n\n¡Recuerda que es posible ubicar tu barco en una posición contra una isla o el borde del tablero de modo que ya no puedas mover ese barco! ¡Ten cuidado!",
     "ataxx": "Al repetirse la posición tres veces, el juego termina y se calculan las puntuaciones.",
     "bao": "Los movimientos en Bao pueden ser muy complejos, e incluyen varias vueltas alrededor del tablero y cambios de dirección. Por lo tanto, las anotaciones son escasas. La casilla inicial y la dirección están resaltadas, y las casillas capturadas también están marcadas. Sin embargo, no es posible realizar una anotación detallada del movimiento. Si crees que has encontrado un error, por favor avísanos en Discord.",
@@ -4938,6 +5049,7 @@
     "lielow": "\"Movimientos hasta el suicidio\" calcula para cada jugador cuántos movimientos podría realizar aún cada una de sus pilas —creciendo en uno con cada movimiento y eligiendo siempre la dirección que sobreviva más tiempo— antes de verse obligada a retirar piezas. Ignora todas las demás pilas del tablero, ya sean propias o enemigas, por lo que es una medida aproximada de qué tan expuestas están las piezas de un jugador, y no un conteo de los movimientos legales restantes.",
     "linage": "Linage es un juego de 2016 diseñado por Luis Bolaños Mures. El juego se basa en las siguientes definiciones: Una **región** es un conjunto máximo de puntos vacíos contiguos ortogonalmente. Una **línea** es un conjunto de N puntos vacíos contiguos ortogonalmente en la misma fila o columna (por defecto N=3); y una región es **propiedad** de Vertical si no contiene líneas horizontales, y de Horizontal si no contiene líneas verticales. Una región es libre si no pertenece a ningún jugador. Las regiones siempre deben tener al menos una línea.\n\nEn su turno, el jugador pasa o coloca una piedra en una región libre. El juego termina cuando ambos jugadores pasan sucesivamente, y gana quien tenga la puntuación más alta (es decir, el número de puntos en las regiones que posee el jugador, más el komi).",
     "loa": "En el centro del tablero de 9x9 hay un \"agujero negro\". Caer en el agujero negro significa que la pieza se elimina del juego. Las conexiones simultáneas se puntúan como un empate.",
+    "lyngk": "Reclamar usa los números de paleta 1–5 en el registro de movimientos y en el chat (prefijo de reclamación opcional, luego una coma y después la cadena de casillas; p. ej., `4,e7-d8`). Por defecto, 1 es rojo, 2 es azul, 3 es verde, 4 es amarillo y 5 es morado. Los comodines son la paleta 6 (patrón de puntos por defecto) y no se reclaman. Un color activo permanece neutral durante toda la partida.",
     "magnate": "La terminología de algunas acciones de Magnate se ha modificado para mayor claridad y brevedad. Desarrollar por completo una nueva propiedad se llama la acción \"Comprar\"; adquirir una escritura para una nueva propiedad se llama \"Escriturar\", desarrollar escrituras (es decir, agregar fichas a una propiedad escriturada, resulte o no en que la escritura se desarrolle por completo) se llama \"Agregar\". (Vender una carta y cambiar fichas de palo 3 por 1 permanecen sin cambios).\n\nCon el fin de acelerar el proceso de lanzar por recursos, hay dos acciones adicionales:\n* \"Preferir\" es para establecer tu preferencia sobre qué ficha de palo tomar cuando una escritura paga en el lanzamiento de tu oponente. Si no defines una preferencia explícita, el código elegirá la ficha más rara según tus palos sin corona y tu reserva actual de fichas. La ficha preferida actualmente está rodeada con un círculo en la UI, pero tu preferencia personal nunca es visible para el otro jugador.\n* \"Elegir\" es una primera acción obligatoria para recolectar fichas de palo cuando una escritura paga en tu propio lanzamiento. (En todos los casos en los que necesites elegir una ficha de palo que aún no esté entre tus fichas, sigues haciendo clic en la pila de fichas correspondiente).\n\nDado que puedes realizar varias acciones durante un turno en cualquier orden, también hay una acción de \"Deshacer\" para revertir tu acción más reciente, independientemente de si se completó o no.\n\nTen en cuenta que solo se muestra el resultado final del dado de recursos, pero la distribución de los resultados esperados sigue siendo la de lanzar 2d10 y tomar el valor más alto. La tributación ocurre cuando el menor de los 2d10 resulta en 1; se lanza un dado de palo (o dos, en la variante de doble tributación), y los palos se mostrarán debajo del resultado de recursos. El lanzamiento se registra al final del turno de un jugador y se atribuye al siguiente jugador (quien habría lanzado en el juego físico). Salvo por un \"Elegir\", no se requiere ninguna acción del usuario; los recursos son añadidos o removidos automáticamente por el servidor entre turnos.\n\nCuando un jugador va a la cabeza en un distrito, el Peón o la Excusa para ese distrito se delinea con el color de ese jugador. La primera puntuación de desempate (valor total de la propiedad) se muestra entre paréntesis después de la puntuación del distrito. El segundo desempate es el número total de fichas restantes.",
     "mchess": "Si ha habido siete turnos consecutivos sin una captura, alguien puede \"pedir el reloj\" agregando un asterisco (*) al final de su movimiento. Esto solo se puede hacer seleccionando el movimiento de la lista desplegable. Después de otros siete turnos sin captura, la partida terminará y se puntuará.",
     "mirador": "Declarar consume todo tu turno. Completa primero tu conexión inexpugnable y luego declara en tu siguiente turno; no puedes colocar un mirador y declarar en el mismo turno.",
@@ -4966,6 +5078,7 @@
     "sentinel": "Los juegos de vigilia (Vigil Games) son una clase de juegos de estrategia en los que los jugadores deben mantener una línea de visión ininterrumpida entre sus piezas y un punto de referencia o región designada del tablero. El primer juego de vigilia registrado es Kastellet de 1892.\n\nSentinel es un juego de vigilia donde los jugadores siempre necesitan tener al menos una línea de visión hacia el centro del tablero. ¡Sentinel es el segundo juego abstracto de este género (después de más de 130 años!), mezclando ludemas típicos de movimiento y captura con un control permanente de la línea de visión de la casilla central.\n\nEl juego combina el movimiento hacia adelante con la siembra de pilas, que son la única forma en que los ejércitos aumentan su tamaño.",
     "shapechess": "Shape Chess, 形棋 (juego de tablero de formas), fue diseñado c. 2010 por 日出 (Richu) de Guangzhou, China. El juego ha evolucionado a su forma actual a través de años de refinamiento dentro de la comunidad de diseño de juegos china (citado de Kanare_Abstract). Este no es un juego similar al ajedrez, sino uno que utiliza un concepto muy original al hacer que los jugadores construyan formas con simetría reflexiva. Esta implementación incluye varios tamaños de tablero y también diferentes puntuaciones de victoria para jugadores que prefieren partidas más cortas o más largas.",
     "siegeofj": "Puedes encontrar más información sobre el sistema Decktet en el [sitio web oficial de Decktet](https://www.decktet.com). Las cartas en las manos de los jugadores están ocultas para los observadores y permanecen ocultas para los oponentes hasta que el mazo se agota, momento en el cual los jugadores tienen información perfecta, por lo que las manos se revelan.",
+    "skisma": "Una piedra está rodeada cuando, a causa de un solo grupo enemigo, puede alcanzar menos de la mitad de las casillas del borde. Los caminos pueden pasar por cualquier casilla excepto por las piedras de ese grupo. No puedes colocar una piedra donde quedaría rodeada, a menos que esa jugada te dé la victoria. Un jugador sin movimientos legales pierde, también cuando el tablero está lleno: quien ocupe la última casilla gana y no hay empates. En tableros cuadrados, las piedras se conectan en grupos tanto en diagonal como en ortogonal, pero los caminos solo van en ortogonal, por lo que una cadena diagonal es una pared.",
     "slimetrail": "Slimetrail fue diseñado por Bill Taylor en 1992. Inicialmente el juego se jugaba en un tablero hexagonal y un ahogado se consideraba empate. El juego evolucionó para jugarse en un tablero de 8x8, donde el jugador ahogado pierde la partida. Esta versión se utilizó en el Torneo Portugués de Juegos de Tablero durante varios años. Existen algunos precursores de este tema de la década de 1970, como Knight Chase, Blokeo, ZigZag y Tesoro (cf. página de WAG en los enlaces).",
     "soccolot": "Soccolot es un juego de 1972 diseñado por David Wilson. El juego original se jugaba en un tablero de 8x8 con seis fichas por equipo. Los jugadores pueden moverse o interactuar con el balón, ya sea disparándolo (patear) o moviéndolo junto con una de las fichas de su equipo (driblar). Hay una lucha constante por obtener el control del tablero y encontrar un espacio para mover o disparar el balón a la fila inicial del oponente. La variante principal es más rápida y se juega en un tablero de 7x7 para una mejor interacción entre las piezas. Robert A. Kraus implementó ambas variantes para [Zillions](https://www.zillions-of-games.com/cgi-bin/zilligames/submissions.cgi?do=show;id=802).",
     "spire": "En esta implementación, si seleccionas un solo casillero, se asume que colocaste la bola de tu color, y si seleccionas dos casilleros, el primer casillero es para la bola neutral y el segundo casillero es para la bola de tu color. Si el primer clic es en un casillero donde solo la bola neutral o la bola de tu color es válida, se enviará automáticamente esa bola.",
@@ -5340,6 +5453,12 @@
         "name": "Ocultar todos los indicadores de control"
       }
     },
+    "lyngk": {
+      "hide-stack-owner": {
+        "name": "Ocultar propietario de la pila",
+        "description": "No marcar el disco superior de las pilas que controlas."
+      }
+    },
     "margo": {
       "orb-3d": {
         "description": "Usar texturas simples de orbes en 3D.",
@@ -5456,6 +5575,12 @@
       "hide-highlights": {
         "description": "No resaltar las regiones reclamadas.",
         "name": "Ocultar resaltados"
+      }
+    },
+    "skisma": {
+      "hide-enclosed": {
+        "name": "Ocultar zonas encerradas",
+        "description": "No sombrear las zonas encerradas por los grupos de cada jugador, donde el otro jugador solo puede realizar un movimiento ganador."
       }
     },
     "spire": {
@@ -5597,6 +5722,16 @@
       "hide-diagonals": {
         "description": "No mostrar líneas diagonales.",
         "name": "Ocultar diagonales"
+      }
+    },
+    "tzaar": {
+      "#projection": {
+        "name": "Vista plana",
+        "description": "Solo la pieza superior de cada pila, con la altura mostrada con un número cuando es mayor que uno."
+      },
+      "stacked": {
+        "name": "Vista apilada",
+        "description": "Pilas escalonadas que muestran cada disco de la pila."
       }
     },
     "upperhand": {
@@ -6807,6 +6942,12 @@
       },
       "#ruleset": {
         "name": "Conjunto de reglas por defecto"
+      }
+    },
+    "dvonn": {
+      "quickstart": {
+        "name": "Inicio rápido",
+        "description": "La preparación completa se reparte al azar; el jugador 1 mueve primero."
       }
     },
     "emu": {
@@ -8613,6 +8754,32 @@
         "description": "Reparte las 24 cartas a los jugadores al comienzo de la partida. Todas las manos están visibles."
       }
     },
+    "skisma": {
+      "#board": {
+        "name": "Hexhex 6"
+      },
+      "size-7": {
+        "name": "Hexhex 7"
+      },
+      "size-8": {
+        "name": "Hexhex 8"
+      },
+      "size-9": {
+        "name": "Hexhex 9"
+      },
+      "square-9": {
+        "name": "Cuadrado 9x9"
+      },
+      "square-11": {
+        "name": "Cuadrado 11x11"
+      },
+      "square-13": {
+        "name": "Cuadrado 13x13"
+      },
+      "square-15": {
+        "name": "Cuadrado 15x15"
+      }
+    },
     "slimetrail": {
       "#board": {
         "description": "Juego en tablero de 8x8",
@@ -9379,6 +9546,19 @@
         "name": "Tablero más grande (30x30)"
       }
     },
+    "tzaar": {
+      "#setup": {
+        "name": "Configuración fija"
+      },
+      "random": {
+        "name": "Disposición aleatoria",
+        "description": "Todas las piezas se colocan en el tablero al azar."
+      },
+      "tournament": {
+        "name": "Configuración de torneo",
+        "description": "Los jugadores alternan la colocación de piezas desde su reserva antes de comenzar la partida."
+      }
+    },
     "unane": {
       "size-6": {
         "name": "Tablero de 5x6"
@@ -9580,6 +9760,12 @@
         "name": "Progresivo con restricción de grupo"
       }
     },
+    "yinsh": {
+      "blitz": {
+        "name": "Blitz",
+        "description": "Gana anotando un anillo (formando una fila de cinco marcadores)."
+      }
+    },
     "yodd": {
       "hex-6": {
         "name": "Hexagonal de tamaño 6"
@@ -9622,6 +9808,23 @@
       },
       "size-12": {
         "name": "Tablero de 12x12"
+      }
+    },
+    "zertz": {
+      "#board": {
+        "name": "Tablero Hexhex 4 (37 anillos)"
+      },
+      "tournament": {
+        "name": "Tablero de torneo",
+        "description": "Tablero hex-de-tri alternado más grande (48 anillos)"
+      },
+      "oversize": {
+        "name": "Tablero gigante",
+        "description": "Tablero Hexhex 5 (61 anillos)"
+      },
+      "blitz": {
+        "name": "Blitz",
+        "description": "Menos canicas y objetivos de captura más bajos; solo tablero predeterminado."
       }
     },
     "zola": {

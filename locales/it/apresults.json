@@ -685,6 +685,19 @@
       "sarsen": "{{player}} ha posizionato un sarsen in {{where}}."
     }
   },
+  "dvonn": {
+    "REMOVE": {
+      "isolated_one": "1 pila è stata rimossa per aver perso il contatto con DVONN.",
+      "isolated_other": "{{count}} pile sono state rimosse per aver perso il contatto con DVONN."
+    },
+    "PASS": {
+      "skipped": "{{player}} non aveva mosse legali e ha passato."
+    },
+    "EOG": {
+      "score": "{{player}} vince con {{count}} pezzi controllati.",
+      "tie": "La partita finisce in parità con {{count}} pezzi controllati ciascuno."
+    }
+  },
   "elOso": {
     "ACTOR": {
       "bear": "L'Orso"
@@ -1057,6 +1070,29 @@
       "logger": "{{player}} ha posizionato il proprio boscaiolo in {{where}}.",
       "plant": "{{player}} ha piantato un germoglio in {{where}}.",
       "spawn": "Un nuovo germoglio è spuntato in {{where}}."
+    }
+  },
+  "lyngk": {
+    "COLOUR": {
+      "1": "rosso",
+      "2": "blu",
+      "3": "verde",
+      "4": "giallo",
+      "5": "viola"
+    },
+    "CLAIM": {
+      "default": "{{player}} ha rivendicato il colore {{colourName}}."
+    },
+    "MOVE": {
+      "default": "{{player}} ha mosso {{cells}}."
+    },
+    "CAPTURE": {
+      "default": "{{player}} ha catturato una pila in {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} vince con {{count}} pile catturate.",
+      "tiebreak": "{{player}} vince allo spareggio.",
+      "draw": "La partita termina in parità."
     }
   },
   "magnate": {
@@ -1467,6 +1503,11 @@
       "default": "{{player}} ha posizionato \"{{what}}\" accanto a {{where}}."
     }
   },
+  "skisma": {
+    "EOG": {
+      "surround": "La partita è terminata perché una pietra avversaria è stata circondata."
+    }
+  },
   "slyde": {
     "MOVE": {
       "default": "{{player}} ha fatto scivolare un pezzo da {{from}} a {{to}}."
@@ -1808,6 +1849,20 @@
       "default": "{{player}} ha rimosso un collegamento in {{where}}."
     }
   },
+  "tzaar": {
+    "PLACE": {
+      "default": "{{player}} ha piazzato un {{piece}} in {{where}}."
+    },
+    "MOVE": {
+      "capture": "{{player}} ha mosso da {{from}} a {{to}}, catturando un {{piece}}.",
+      "strengthen": "{{player}} ha rinforzato da {{from}} a {{to}}.",
+      "pass": "{{player}} ha passato la seconda azione."
+    },
+    "EOG": {
+      "types": "{{player}} vince — l'avversario non ha più tutti e tre i tipi di pedine sulla plancia.",
+      "immobilize": "{{player}} vince — l'avversario non può effettuare una cattura obbligatoria."
+    }
+  },
   "unane": {
     "PLACE": {
       "default": "{{player}} ha effettuato un'autocattura in {{where}}."
@@ -1882,6 +1937,20 @@
       "default": "{{player}} ha cambiato posto, scegliendo di giocare per primo."
     }
   },
+  "yinsh": {
+    "MOVE": {
+      "ring": "{{player}} ha mosso un anello da {{from}} a {{to}}."
+    },
+    "ROW": {
+      "markers": "{{player}} ha rimosso una fila di marcatori: {{cells}}.",
+      "ring": "{{player}} ha totalizzato un anello da {{where}}."
+    },
+    "EOG": {
+      "score": "{{player}} vince con {{count}} anelli totalizzati.",
+      "pool": "La riserva di marcatori è vuota; {{player}} vince con più anelli totalizzati.",
+      "draw": "La riserva di marcatori è vuota e il numero di anelli totalizzati è pari; la partita termina in pareggio."
+    }
+  },
   "yonkoma": {
     "EOG": {
       "crosscut": "{{player}} ha completato un taglio incrociato e perde la partita."
@@ -1891,6 +1960,25 @@
     "EOG": {
       "four": "La partita è terminata perché un giocatore ha fatto quattro in fila.",
       "five": "La partita è terminata perché un giocatore ha fatto cinque in fila."
+    }
+  },
+  "zertz": {
+    "MOVE": {
+      "place": "{{player}} ha piazzato {{colour}} in {{where}}.",
+      "remove": "{{player}} ha rimosso l'anello in {{where}}.",
+      "jump": "{{player}} ha saltato da {{from}} a {{to}}."
+    },
+    "CAPTURE": {
+      "jump": "{{player}} ha catturato una biglia {{colour}} in {{where}}.",
+      "isolation": "{{player}} ha isolato e catturato {{colour}} in {{where}}."
+    },
+    "EOG": {
+      "each": "{{player}} vince catturando {{count}} biglie di ogni colore.",
+      "white": "{{player}} vince catturando {{count}} biglie bianche.",
+      "grey": "{{player}} vince catturando {{count}} biglie grigie.",
+      "black": "{{player}} vince catturando {{count}} biglie nere.",
+      "full": "{{player}} vince — la plancia è piena.",
+      "repetition": "La partita è patta per ripetizione."
     }
   }
 }

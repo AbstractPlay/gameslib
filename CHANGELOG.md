@@ -13,18 +13,21 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
-- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, GIPF, Ice Palace, Polypods, Squares.
+- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, DVONN, GIPF, Ice Palace, LYNGK, Polypods, Skisma, Squares, TZAAR, YINSH, ZERTZ.
 
-## [1.0.0-ci] - 2026-11-21
+## [1.0.0-ci] - 2026-11-26
 
 ### Added
 
+- **New games (experimental):** LYNGK — GIPF Project #7 on the 43-intersection hex-of-tri board with colour claiming, LYNGK chains, stack capture scoring, and capture/tiebreak endgame.
 - **New games:** Bashni, Counterflow, Croda, Dama, QBF
 - **New games:** Bricka, Neutron, Outbound, Thricewise
 - **Input modes (catalogue + contract):** optional **`inputModes`** on game metadata (schema/registry), optional **`inputMode`** on **`IHandleClickUi`** for `handleClick`; shared **`apgames:inputModes`** copy for picker UI; **`sanitizeInputModeForGame`** and related helpers exported for clients; playground persists selected mode and passes **`ui.inputMode`** when a game declares modes.
 - **New games:** Clear Path, Kill-All Go, Selfo, Thue-Morse Go, Yodd, Yonkoma (Kill-All Go handicap opening variant remains unrated).
 - **Quax:** optional **Diamond board** display (`squares-diamonds` with connection flood fill; vertex board remains default).
 - **Locale tooling:** `npm run audit-locale` (dev-only catalog/shape/stale-MT audit with `locale-src/en/_locale-audit-allowlist.json`); `npm test` includes full-registry **missing catalog key** checks for runtime i18n.
+- **Arimaa: Dicey Moves**
+  - Roll a weighted d4 (weights {1, 1, 1, 3}) and take up to that number of steps each turn (see wiki for details)
 
 ### Fixed
 
@@ -38,8 +41,10 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **Bricka:** skip blocked-region flood markers when `lastmove` is a special move (`resign`, `timeout`, etc.) so render JSON validates after resignation.
 - **Mixtour:** reject stack moves that restore the board to the position before the opponent's previous turn (rules no-takeback).
 - **Thricewise:** move log and ply export attribute compound placements (and related flat `_results`) using stored `who`, not `currplayer`, so the inactive seat’s elim token on simultaneous wire no longer credits the wrong player.
+- **Thricewise:** end the game when hands are exhausted even if deferred cards remain unplaced (last-round tied ranks with an empty deck); avoids a stuck simultaneous select with no legal submission.
 - **Buku:** move log uses `TAKE.row` / `TAKE.col` and `CLAIM.singletons` / `CLAIM.repetition` i18n stems so take and claim lines translate instead of showing raw keys.
 - **Yonkoma:** `eogSubjectSeat()` reports the crosscut loser for completed-game indexes; completed-game lists interpolate `{{player}}` when `gameEndPlayer` is present (with front/backend support).
+- **LYNGK:** claim-prefixed turns evaluate legality as if the reserve claim already applied, so LYNGK chains and landings that require owning the top colour (e.g. claim green then move `b3` with green on top) appear in the move list and click handler.
 
 ### Changed
 
@@ -52,6 +57,21 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **`handleClick` API:** optional fifth argument **`IHandleClickUi`** (`panelId`, `board` as **`IClickBoardContext`**) for composite panels and draw-grid-aware board clicks; clients pass `ui.board` from the visible `APRenderRep.board` (Abstract Play front and playground ship this for Quax diamond-board).
 - **Render annotations:** connection paths, win lines, and other undirected polylines use `type: "line"` instead of `type: "move"` with `arrow: false` (dozens of games; piece-slide highlights unchanged in Tintas, Chase, and Swarm; Even at Odds unchanged; Fractured score-track shifts stay `move` with arrows; Sentinel lines-of-sight stay `move` without arrowheads).
 - **Clear Path:** after a cut-off win the board no longer draws the winner's sealing chain (which steps diagonally and could pass a crosscut); it draws one of the winner's remaining possible connections instead, the one needing the fewest further stones, as a dashed line with the stones still to be placed shown faintly. A completed winning path is still drawn as a solid line. Game description states the cut-off ending, and the move-log line names the winner and the dashed line (`version` `20261117`).
+- **Arimaa Input Update:**
+  - Control Inputs (lowest priority; actual input takes precedence)
+    - Click on an empty square to mark the move complete
+    - Click on an opposing piece to undo the last move token
+  - Basic Input Mode (default)
+    - Click on a piece and then its destination to move it (and never any other piece) there
+    - "Chains" work, except for the 2-piece loop chain, which was deemed too easy to accidentally input and get surprised by for Basic Mode (it works in Advanced Mode)
+    - Pushes and Pulls can be input in either order
+    - The order you move pieces in determines which pieces are captured and not captured in traps
+  - Advanced Input Mode
+    - Click on a piece and then its final destination to move it there
+    - "Chains" work
+    - Moves which are necessary to make your input legal are inferred
+    - When a triangle appears in the corner of a trap square, click it when it's hollow to try to not capture the piece you're moving there, click it when it's filled to try to capture the piece you're moving there
+    - Clicking on an empty square you can move a piece to without selecting a piece first (called a "target" click/move internally) moves a piece there if it can narrow your intention down to one possibility (see wiki for exact hierarchy)
 
 ### Fixed
 

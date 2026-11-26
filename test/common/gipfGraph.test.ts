@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import "mocha";
-import { GipfGraph } from "../../src/common/graphs/gipf.js";
+import { GipfGraph } from "../../src/games/gipf/graph.js";
 
 describe("GipfGraph", () => {
     const g = new GipfGraph();

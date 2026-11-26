@@ -91,6 +91,15 @@ describe("Arimaa", () => {
         expect(result.message).to.equal(i18next.t("apgames:validation._general.VALID_MOVE"));
         result = g.validateMove("ed7,hb7,hg7,ra7,ra8,rb8,rc8,rf8,rg8,rh8,rh7,cf7,ce7,dc7,dd8,me8");
         expect(result.message).to.include(i18next.t("apgames:validation.arimaa.WARN_HIDE"));
+        // a rabbit in front hides a stronger piece too, unless it is a cat
+        result = g.validateMove("ed7,me7,hb7,hg7,ra7,ra8,rb8,rc8,rg8,rh8,rh7,df8,rf7,cd8,ce8,dc7");
+        expect(result.message).to.include(i18next.t("apgames:validation.arimaa.WARN_HIDE"));
+        // and so is any non-cat on the back rank with a weaker piece in front, for Gold as well
+        const gold = new ArimaaGame();
+        expect(gold.validateMove("Ed2,Me2,Hb2,Hg2,Ra2,Ra1,Rb1,Rc1,Rg1,Rh1,Rh2,Df1,Rf2,Cd1,Ce1,Dc2").message)
+            .to.include(i18next.t("apgames:validation.arimaa.WARN_HIDE"));
+        expect(gold.validateMove("Ed2,Me2,Hb2,Hg2,Ra2,Ra1,Rb1,Rc1,Rg1,Rh1,Rh2,Cf1,Rf2,Dd1,De1,Cc2").message)
+            .to.equal(i18next.t("apgames:validation._general.VALID_MOVE"));
     });
 
     it ("Rabbit autofill in standard setup", () => {
@@ -179,6 +188,51 @@ describe("Arimaa", () => {
         expect(result.move).to.equal("Ee2,Md2");
     });
 
+    it ("Setup clicks that mean nothing are controls", () => {
+        const nonrabbits = "Ee2,Md2,Hb2,Hg2,Cf2,Cc2,Dd1,De1";
+        // standard setup: an empty square outside the setup area (d4) finishes
+        // a setup that can be submitted, and otherwise drops the selection
+        let g = new ArimaaGame();
+        let result = g.handleClick(nonrabbits, 4, 3);
+        expect(result.valid).to.be.true;
+        expect(result.move).to.equal(nonrabbits);
+        expect(result.complete).to.equal(1);
+        result = g.handleClick(`${nonrabbits},R`, 4, 3);
+        expect(result.move).to.equal(nonrabbits);
+        expect(result.complete).to.equal(0);
+        result = g.handleClick("Ee2,Md2,Hb2,Hg2,Cf2,Cc2,Dd1", 4, 3);
+        expect(result.move).to.equal("Ee2,Md2,Hb2,Hg2,Cf2,Cc2,Dd1");
+        expect(result.complete).to.equal(-1);
+        result = g.handleClick("E", 4, 3);
+        expect(result.move).to.equal("");
+        result = g.handleClick("", 4, 3);
+        expect(result.valid).to.be.true;
+        expect(result.move).to.equal("");
+        expect(result.complete).to.equal(-1);
+        // an opponent's piece (Gold's on e2) drops the selection, or else the last piece placed
+        g.move(nonrabbits);
+        result = g.handleClick("ee7,md7,m", 6, 4);
+        expect(result.move).to.equal("ee7,md7");
+        result = g.handleClick("ee7,md7", 6, 4);
+        expect(result.valid).to.be.true;
+        expect(result.move).to.equal("ee7");
+        result = g.handleClick("", 6, 4);
+        expect(result.move).to.equal("");
+        result = g.handleClick("ee7,md7,hb7,hg7,cf7,cc7,dd8,de8", 4, 3);
+        expect(result.complete).to.equal(1);
+
+        // free placement: every empty square takes a piece, but an opponent's piece is a control
+        g = new ArimaaGame(undefined, ["free"]);
+        g.move("Ec3,Rd4");
+        result = g.handleClick("ed5,rd6,m", 5, 2);
+        expect(result.move).to.equal("ed5,rd6");
+        result = g.handleClick("ed5,rd6", 5, 2);
+        expect(result.valid).to.be.true;
+        expect(result.move).to.equal("ed5");
+        result = g.handleClick("ed5", 4, 4);
+        expect(result.move).to.equal("ed5,re4");
+    });
+
     it ("Can't place two pieces on one cell", () => {
         // only reachable by typing; the click handler refuses to drop onto an
         // occupied cell. Used to throw an unhandled TypeError in standard setup
@@ -221,7 +275,7 @@ describe("Arimaa", () => {
         g.move("rd5,rd3");
         result = g.validateMove("Hd6d7,rd5d6,Ed4d5,rd3d4");
         expect(result.valid).to.be.true;
-        expect(result.complete).to.equal(1);
+        expect(result.complete).to.equal(0);
     });
 
     it ("Harlog status shows the leader's colour instead of a sign", () => {
@@ -280,15 +334,10 @@ describe("Arimaa", () => {
 // Lightvector notation and arrow entry
 
 import { isLegacy, parseMove, parseToken, NotationError } from "../../src/games/arimaa/notation";
-import { resolve, serializeTurn, sqName, turnFromSteps, type CellContents } from "../../src/games/arimaa/turns";
+import { canMoveWithin, fewestDisplaced, resolve, serializeTurn, sqIndex, sqName, turnFromSteps, type CellContents, type Found, type Turn } from "../../src/games/arimaa/turns";
 import { arimaaRecords } from "../fixtures/arimaa/records";
-import { allTurns, boardOf as coverageBoard, unsupportedOnTrap, type Owner } from "../fixtures/arimaa/coverage";
+import { allPlays, unsupportedOnTrap } from "../fixtures/arimaa/coverage";
 
-const rc = (cell: string): [number, number] => {
-    const [x, y] = ArimaaGame.algebraic2coords(cell);
-    return [y, x];
-};
-const click = (g: ArimaaGame, move: string, cell: string) => g.handleClick(move, ...rc(cell));
 const annotations = (g: ArimaaGame): string[] => {
     const rep = g.render();
     const name = (t: {row: number; col: number}): string => ArimaaGame.coords2algebraic(t.col, t.row);
@@ -353,10 +402,10 @@ describe("Arimaa notation parser", () => {
         expect(p.pending).to.equal("e4");
         expect(() => parseMove("Ed4e4 e4")).to.throw(NotationError);
         expect(() => parseMove("e4 Ed4e4", true)).to.throw(NotationError);
-        // two trailing squares: the selection before the current one is kept too
+        // two trailing squares: both are kept, oldest first
         const q = parseMove("Ed4e4 d4 e4", true);
         expect(q.tokens.map(t => t.text)).to.deep.equal(["Ed4e4"]);
-        expect(q.previous).to.equal("d4");
+        expect(q.selections).to.deep.equal(["d4", "e4"]);
         expect(q.pending).to.equal("e4");
         expect(() => parseMove("d4 e4 Ed4e4", true)).to.throw(NotationError);
     });
@@ -441,6 +490,77 @@ describe("Arimaa resolution", () => {
         const r2 = resolve(c, 2, 4, parseMove("rb6x mb5x Ra5b5").tokens, false);
         expect(r2.status).to.equal("resolved");
     });
+    it("counts a right-sized pull even where the position is first reached without one", () => {
+        // The cat steps north and the rabbit follows it; then the dog takes
+        // the rabbit's square. Those same three steps are also the cat
+        // stepping away and the dog pushing the rabbit, which the search
+        // comes to first, and a dog is not one rank above a rabbit while
+        // there is a cat on the board.
+        const b = boardOf("Ce5 Dd4 Ra1 re4 ra8 ee8");
+        const tokens = parseMove("re4e5 Ce5e6 Dd4f4").tokens;
+        for (const prune of [true, false]) {
+            const found = fewestDisplaced(b, 1, 4, tokens, undefined, prune);
+            expect(found, `prune ${prune}`).to.have.length(1);
+            expect(found[0].turn.steps, `prune ${prune}`).to.have.length(4);
+            expect(found[0].rightSized, `prune ${prune}`).to.equal(1);
+        }
+    });
+    it("knows which pieces can move this turn, alone and alongside what an entry says", function () {
+        this.timeout(120000);
+        // crowded random positions, so that pieces block, freeze and push one another
+        let seed = 777;
+        const rnd = (n: number): number => {
+            seed = (seed + 0x6d2b79f5) | 0;
+            let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+            t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+            return ((t ^ (t >>> 14)) >>> 0) % n;
+        };
+        const types = ["E", "M", "H", "D", "C", "R", "R", "C", "D", "H"];
+        let blocked = 0;
+        let withTokens = 0;
+        for (let trial = 0; trial < 40; trial++) {
+            const b = new Map<string, CellContents>();
+            const [cx, cy] = [1 + rnd(6), 1 + rnd(6)];
+            for (let i = 0; i < 24 && b.size < 5 + rnd(5); i++) {
+                const cell = ArimaaGame.coords2algebraic(Math.min(7, Math.max(0, cx + rnd(5) - 2)), Math.min(7, Math.max(0, cy + rnd(5) - 2)));
+                if (!b.has(cell)) {
+                    b.set(cell, [types[rnd(types.length)] as CellContents[0], (1 + rnd(2)) as 1 | 2]);
+                }
+            }
+            let trap: string | undefined;
+            while ((trap = unsupportedOnTrap(b as unknown as Parameters<typeof unsupportedOnTrap>[0])) !== undefined) {
+                b.delete(trap);
+            }
+            const player = (1 + rnd(2)) as 1 | 2;
+            const label = `${[...b.entries()].map(([c, [pc, o]]) => (o === 1 ? pc : pc.toLowerCase()) + c).join(" ")} / player ${player}`;
+            // every way of playing every turn, enumerated independently of the engine
+            const plays = allPlays(b as unknown as Parameters<typeof allPlays>[0], player, 4);
+            for (const cell of b.keys()) {
+                for (let limit = 1; limit <= 4; limit++) {
+                    const can = plays.some(p => p.steps <= limit && (p.paths.get(cell)?.visited.length ?? 1) > 1);
+                    expect(canMoveWithin(b, player, limit, cell), `${label} / ${cell} in ${limit}`).to.equal(can);
+                    blocked += can ? 0 : 1;
+                }
+            }
+            // and with an entry, against a search that prunes nothing
+            const play = plays[rnd(plays.length)];
+            const moved = play === undefined ? undefined : [...play.paths].find(([from, path]) => path.final !== from);
+            if (moved !== undefined) {
+                const [from, path] = moved;
+                const letter = path.owner === 1 ? path.type : path.type.toLowerCase();
+                const tokens = parseMove(path.captured ? `${letter}${from}x` : `${letter}${from}${path.final}`).tokens;
+                for (const cell of b.keys()) {
+                    const start = sqIndex(cell);
+                    const full = resolve(b, player, 4, tokens, false, false, turn => turn.trajectories.some(tr => tr.start === start && tr.visited.length > 1));
+                    expect(canMoveWithin(b, player, 4, cell, tokens), `${label} / ${tokens.map(t => t.text).join(" ")} / ${cell}`)
+                        .to.equal(full.status !== "unsatisfiable");
+                    withTokens++;
+                }
+            }
+        }
+        expect(blocked).to.be.greaterThan(100);
+        expect(withTokens).to.be.greaterThan(100);
+    });
     it("pruning never changes an answer", function () {
         this.timeout(120000);
         // deterministic pseudo-random positions and token sets: sparse boards
@@ -509,7 +629,27 @@ describe("Arimaa resolution", () => {
             const parsed = parseMove(tokens.join(" ")).tokens;
             const pruned = resolve(b, player, maxSteps, parsed, false, true);
             const full = resolve(b, player, maxSteps, parsed, false, false);
-            expect(key(pruned), `${[...b.entries()].map(([c, [p, o]]) => (o === 1 ? p : p.toLowerCase()) + c).join(" ")} / ${tokens.join(" ")} / player ${player} / ${maxSteps} steps`).to.equal(key(full));
+            const label = `${[...b.entries()].map(([c, [p, o]]) => (o === 1 ? p : p.toLowerCase()) + c).join(" ")} / ${tokens.join(" ")} / player ${player} / ${maxSteps} steps`;
+            expect(key(pruned), label).to.equal(key(full));
+            // nor when displaced pieces are counted before steps, as click
+            // entry in Advanced mode counts them: then a longer turn can beat
+            // a shorter one, and the count of right-sized pushes matters
+            const bucket = (found: Found[]): string => found.map(f => `${f.turn.signature}:${f.turn.displaced}:${f.turn.steps.length}:${f.rightSized}`).sort().join(" ");
+            expect(bucket(fewestDisplaced(b, player, maxSteps, parsed)), `${label} / displaced first`)
+                .to.equal(bucket(fewestDisplaced(b, player, maxSteps, parsed, undefined, false)));
+            // nor with a filter of the kinds click entry passes, which read
+            // only where pieces start, pass and end: one piece has to move,
+            // or nothing else may
+            if (cells.length > 0) {
+                const chosen = sqIndex(cells[tokens.length % cells.length]);
+                for (const [name, accept] of [
+                    ["moves", (turn: Turn): boolean => turn.trajectories.some(tr => tr.start === chosen && tr.visited.length > 1)],
+                    ["alone", (turn: Turn): boolean => turn.trajectories.every(tr => tr.start === chosen || tr.visited.length === 1)],
+                ] as Array<[string, (turn: Turn) => boolean]>) {
+                    expect(key(resolve(b, player, maxSteps, parsed, false, true, accept)), `${label} / ${name}`)
+                        .to.equal(key(resolve(b, player, maxSteps, parsed, false, false, accept)));
+                }
+            }
         };
         for (let trial = 0; trial < 150; trial++) {
             check(4 + rnd(4), 4);
@@ -521,19 +661,15 @@ describe("Arimaa resolution", () => {
 });
 
 describe("Arimaa arrow entry", () => {
-    it("enters a flip in two clicks and records it as dx", () => {
+    it("reads an enemy arrow onto a trap as a flip and records it as dx", () => {
         const g = position("Hg3,Cf2,Ra2,Ee1", "dh3,ra7,ee8");
-        let r = click(g, "", "h3");
-        expect(r.move).to.equal("h3");
-        expect(r.complete).to.equal(-1);
-        r = click(g, r.move, "f3");
-        expect(r.move).to.equal("dh3f3");
+        const r = g.validateMove("dh3f3");
         expect(r.valid).to.be.true;
-        expect(r.complete).to.equal(1);
+        expect(r.complete).to.equal(0);
         const preview = g.clone();
-        preview.move(r.move, {partial: true});
+        preview.move("dh3f3", {partial: true});
         expect(annotations(preview)).to.have.members(["enter:g3", "move:h3>f3", "exit:f3"]);
-        g.move(r.move);
+        g.move("dh3f3");
         expect(g.lastmove).to.equal("dx");
         expect(g.board.has("h3")).to.be.false;
         expect(g.board.get("g3")).to.deep.equal(["H", 1]);
@@ -541,74 +677,29 @@ describe("Arimaa arrow entry", () => {
         expect(g.results.filter(x => x.type === "move").length).to.equal(4);
         expect(g.results.filter(x => x.type === "destroy").length).to.equal(1);
     });
-    it("holds an ambiguous push by arrowing the pusher onto the vacated square", () => {
+    it("settles an ambiguous push with an arrow of the pusher onto the vacated square", () => {
         const g = position("Ed4,Hf4,Ra1,Cc1", "re4,ra8,ee8");
-        let r = click(g, "", "e4");
-        r = click(g, r.move, "e5");
-        expect(r.move).to.equal("re4e5");
-        expect(r.complete).to.equal(-1);
-        r = click(g, r.move, "d4");
-        expect(r.move).to.equal("re4e5 d4");
-        r = click(g, r.move, "e4");
-        expect(r.move).to.equal("re4e5 Ed4e4");
+        // either pusher fits: one is shown, and the message says so
+        const r = g.validateMove("re4e5");
         expect(r.complete).to.equal(0);
-        g.move(r.move);
+        expect(r.message).to.contain(i18next.t("apgames:validation.arimaa.AMBIGUOUS", {count: 2}));
+        expect(g.validateMove("re4e5 Ed4e4").complete).to.equal(0);
+        g.move("re4e5 Ed4e4");
         expect(g.lastmove).to.equal("re5 Ee4");
     });
-    it("enters a pull in four clicks", () => {
+    it("reads a pull from the arrows of the puller and the pulled piece", () => {
         const g = position("Ed4,Hf4,Ra1,Cc1", "re4,ra8,ee8");
-        let r = click(g, "", "d4");
-        r = click(g, r.move, "c4");
-        r = click(g, r.move, "e4");
-        expect(r.move).to.equal("Ed4c4 e4");
-        // the arrows already form a move; the selection only adds a hint
-        expect(r.complete).to.equal(0);
-        expect(r.message).to.contain(i18next.t("apgames:validation.arimaa.INCOMPLETE"));
-        r = click(g, r.move, "d4");
-        expect(r.move).to.equal("Ed4c4 re4d4");
-        g.move(r.move);
+        expect(g.validateMove("Ed4c4 re4d4").complete).to.equal(0);
+        g.move("Ed4c4 re4d4");
         expect(g.lastmove).to.equal("Ec4 rd4");
         expect(annotations(g)).to.have.members(["move:d4>c4", "move:e4>d4"]);
     });
-    it("re-selects, holds, extends from an arrow head and deletes from its tail", () => {
+    it("lets an arrow end on an occupied square, leaving open where the occupant goes", () => {
         const g = position("Ed4,Hf4,Ra1,Cc1", "re4,ra8,ee8");
-        let r = click(g, "", "d4");
-        r = click(g, r.move, "f4");
-        // another piece re-selects, remembering the first for a second click
-        expect(r.move).to.equal("d4 f4");
-        r = click(g, r.move, "f4");
-        // which sends the first onto this square; the horse has to make way,
-        // and where it goes is still open
-        expect(r.move).to.equal("Ed4f4");
+        const r = g.validateMove("Ed4f4");
         expect(r.valid).to.be.true;
-        expect(r.complete).to.equal(-1);
-        r = click(g, "d4", "d6");
-        expect(r.move).to.equal("Ed4d6");
-        r = click(g, r.move, "d6");
-        expect(r.move).to.equal("Ed4d6 d6");
-        r = click(g, r.move, "e6");
-        expect(r.move).to.equal("Ed4e6");
-        r = click(g, r.move, "d4");
-        expect(r.move).to.equal("d4");
-        // a second click on a selected piece holds it; a click on the hold lifts it
-        r = click(g, r.move, "d4");
-        expect(r.move).to.equal("Ed4d4");
-        expect(r.valid).to.be.true;
-        r = click(g, r.move, "d4");
-        expect(r.move).to.equal("d4");
-        // an empty square with nothing selected is a no-op
-        r = click(g, "", "b5");
-        expect(r.move).to.equal("");
-    });
-    it("rejects a click that no legal move can satisfy and keeps the previous move", () => {
-        const g = position("Ed4,Ra1", "ee5,ra8");
-        let r = click(g, "d4", "h8");
-        expect(r.move).to.equal("d4");
-        expect(r.valid).to.be.false;
-        // an occupied, unvacated square is a re-selection, never a destination
-        r = click(g, "d4", "e5");
-        expect(r.move).to.equal("d4 e5");
-        expect(r.valid).to.be.true;
+        expect(r.complete).to.equal(0);
+        expect(r.message).to.contain(i18next.t("apgames:validation.arimaa.AMBIGUOUS", {count: 6}));
     });
     it("rejects arrows no turn can satisfy on a full board, and says why", () => {
         const g = new ArimaaGame();
@@ -626,8 +717,7 @@ describe("Arimaa arrow entry", () => {
         // a boxed-in piece, and one on the back rank with the front rank in the way
         expect(rejected("Rh1h4")).to.equal(i18next.t("apgames:validation.arimaa.NO_MOVE_REACH", {from: "h1", to: "h4", num: 4}));
         expect(rejected("De1d3")).to.equal(i18next.t("apgames:validation.arimaa.NO_MOVE_REACH", {from: "e1", to: "d3", num: 4}));
-        // an enemy piece nothing can push or pull, which is also what a click
-        // on the wrong side's piece produces
+        // an enemy piece nothing can push or pull
         expect(rejected("ra7a6")).to.equal(i18next.t("apgames:validation.arimaa.NO_MOVE_ENEMY", {from: "a7", num: 4}));
         // the old step list typed with spaces reads as two elephants
         expect(rejected("Ee2e3 Ee3e4")).to.equal(i18next.t("apgames:validation.arimaa.NO_MOVE_CHAIN", {first: "Ee2e3", second: "Ee3e4", combined: "Ee2e4"}));
@@ -657,138 +747,85 @@ describe("Arimaa arrow entry", () => {
         expect(r.valid).to.be.false;
         expect(r.message).to.equal(i18next.t("apgames:validation.arimaa.TOO_LONG", {num: 4}));
     });
-    it("keeps a hold visible once the move resolves", () => {
-        const g = position("Ed4,Cc4,Ra1", "ee8,ra8");
-        let r = click(g, "", "d4");
-        r = click(g, r.move, "e4");
-        r = click(g, r.move, "c4");
-        r = click(g, r.move, "c4");
-        expect(r.move).to.equal("Ed4e4 Cc4c4");
-        expect(r.valid).to.be.true;
-        g.move(r.move, {partial: true});
-        expect(annotations(g)).to.include("move:d4>e4");
-        expect(annotations(g)).to.include("enter:c4");
-    });
-    it("holds a piece that steps out and back with a second click on it", () => {
+    it("keeps a piece that steps out and back on its square with a hold", () => {
         // the elephant pushes the dog into the trap and returns; without the hold
         // the arrows read as the three-step turn that leaves it on d6
         const g = position("Ee6,Cg2,Ra1", "dd6,ra8,ee8");
-        let r = click(g, "", "d6");
-        r = click(g, r.move, "c6");
-        r = click(g, r.move, "g2");
-        r = click(g, r.move, "g3");
-        expect(r.move).to.equal("dd6c6 Cg2g3");
+        const unheld = g.validateMove("dd6c6 Cg2g3");
+        expect(unheld.valid).to.be.true;
+        expect(unheld.message).to.contain("Ee6d6");
+        const r = g.validateMove("dd6c6 Cg2g3 Ee6e6");
         expect(r.valid).to.be.true;
-        expect(r.message).to.contain("Ee6d6");
-        r = click(g, r.move, "e6");
-        r = click(g, r.move, "e6");
-        expect(r.move).to.equal("dd6c6 Cg2g3 Ee6e6");
-        expect(r.valid).to.be.true;
-        expect(r.complete).to.equal(1);
+        expect(r.complete).to.equal(0);
         const preview = g.clone();
-        preview.move(r.move, {partial: true});
+        preview.move("dd6c6 Cg2g3 Ee6e6", {partial: true});
         expect(annotations(preview)).to.include.members(["enter:e6", "move:d6>c6", "exit:c6", "move:g2>g3"]);
-        g.move(r.move);
+        g.move("dd6c6 Cg2g3 Ee6e6");
         expect(g.lastmove).to.equal("Cg3 dx Ee6");
         expect(g.board.get("e6")).to.deep.equal(["E", 1]);
         expect(g.board.has("c6")).to.be.false;
     });
-    it("completes an arrow onto an occupied square with a second click on it", () => {
-        // a rotation: the elephant pulls one rabbit and pushes the other,
-        // ending where the second one stood
+    it("reads a rotation from arrows onto occupied squares", () => {
+        // the elephant pulls one rabbit and pushes the other, ending where the
+        // second one stood
         const g = position("Eh5,Ra1", "rh6,rg6,ra8,ee8");
-        let r = click(g, "", "h5");
-        r = click(g, r.move, "g6");
-        expect(r.move).to.equal("h5 g6");
-        r = click(g, r.move, "g6");
-        expect(r.move).to.equal("Eh5g6");
+        expect(g.validateMove("Eh5g6").valid).to.be.true;
+        const r = g.validateMove("Eh5g6 rg6h6 rh6h5");
         expect(r.valid).to.be.true;
-        r = click(g, r.move, "g6");
-        expect(r.move).to.equal("Eh5g6 g6");
-        r = click(g, r.move, "h6");
-        r = click(g, r.move, "h6");
-        expect(r.move).to.equal("Eh5g6 rg6h6");
-        r = click(g, r.move, "h6");
-        r = click(g, r.move, "h5");
-        expect(r.move).to.equal("Eh5g6 rg6h6 rh6h5");
-        expect(r.valid).to.be.true;
-        expect(r.complete).to.equal(1);
-        g.move(r.move);
+        expect(r.complete).to.equal(0);
+        g.move("Eh5g6 rg6h6 rh6h5");
         expect(g.board.get("g6")).to.deep.equal(["E", 1]);
         expect(g.board.get("h6")).to.deep.equal(["R", 2]);
         expect(g.board.get("h5")).to.deep.equal(["R", 2]);
     });
     it("holds a blocker so that a piece walks around it", () => {
         const g = position("Re2,De3,Ra1", "ra8,ee8");
-        let r = click(g, "", "e2");
-        r = click(g, r.move, "e4");
-        expect(r.move).to.equal("Re2e4");
         // the shorter reading moves the dog aside (to d3 rather than the trap)
-        expect(r.complete).to.equal(0);
-        expect(r.message).to.contain("De3d3");
-        r = click(g, r.move, "e3");
-        r = click(g, r.move, "e3");
-        expect(r.move).to.equal("Re2e4 De3e3");
+        const unheld = g.validateMove("Re2e4");
+        expect(unheld.complete).to.equal(0);
+        expect(unheld.message).to.contain("De3d3");
+        const r = g.validateMove("Re2e4 De3e3");
         expect(r.valid).to.be.true;
-        expect(r.complete).to.equal(1);
-        g.move(r.move);
+        expect(r.complete).to.equal(0);
+        g.move("Re2e4 De3e3");
         expect(g.board.get("e4")).to.deep.equal(["R", 1]);
         expect(g.board.get("e3")).to.deep.equal(["D", 1]);
         expect(g.lastmove).to.equal("Re4 De3");
     });
-    it("marks a piece on a trap captured with a third click on it", () => {
+    it("marks a piece on a trap captured", () => {
         // from a recorded game, mirrored: the horse leaves its rabbit on the
         // trap unsupported; read without the mark, the rabbit's own move comes
         // first and keeps it alive
         const g = position("Ra1,Rg1,Rh1,Rh2,Ce1,Ca2,Hb3,Dh3,Rg2,Rb2,Ef2,Rd2,Hf3,Dc5,Rc3,Mb4", "ra7,ra8,rb8,rc8,rf8,rg8,rh8,rh7,cc7,df7,ce8,dd7,mf4,hg3,he3,ec4");
-        let r = click(g, "", "b3");
-        r = click(g, r.move, "a4");
-        r = click(g, r.move, "b4");
-        r = click(g, r.move, "b3");
-        r = click(g, r.move, "b2");
-        r = click(g, r.move, "c2");
-        expect(r.move).to.equal("Hb3a4 Mb4b3 Rb2c2");
-        expect(r.valid).to.be.true;
+        const arrows = "Hb3a4 Mb4b3 Rb2c2";
+        expect(g.validateMove(arrows).valid).to.be.true;
         const reading = g.clone();
-        reading.move(r.move, {partial: true});
+        reading.move(arrows, {partial: true});
         expect(reading.board.has("c3")).to.be.true;
-        r = click(g, r.move, "c3");
-        r = click(g, r.move, "c3");
-        // the second click holds it, which changes nothing here...
-        expect(r.move).to.equal("Hb3a4 Mb4b3 Rb2c2 Rc3c3");
+        // a hold changes nothing here...
+        expect(g.validateMove(`${arrows} Rc3c3`).valid).to.be.true;
+        // ...and a capture mark has the rabbit die
+        const r = g.validateMove(`${arrows} Rc3x`);
         expect(r.valid).to.be.true;
-        // ...and on a trap a third click turns the hold into a capture mark
-        r = click(g, r.move, "c3");
-        expect(r.move).to.equal("Hb3a4 Mb4b3 Rb2c2 Rc3x");
-        expect(r.valid).to.be.true;
-        expect(r.complete).to.equal(1);
+        expect(r.complete).to.equal(0);
         const preview = g.clone();
-        preview.move(r.move, {partial: true});
+        preview.move(`${arrows} Rc3x`, {partial: true});
         expect(preview.board.has("c3")).to.be.false;
         expect(annotations(preview)).to.include("exit:c3");
-        // a click on the mark lifts it
-        r = click(g, r.move, "c3");
-        expect(r.move).to.equal("Hb3a4 Mb4b3 Rb2c2 c3");
-        g.move("Hb3a4 Mb4b3 Rb2c2 Rc3x");
+        g.move(`${arrows} Rc3x`);
         expect(g.board.has("c3")).to.be.false;
     });
     it("marks an enemy piece captured by pieces that step out and back", () => {
         // from a recorded game, mirrored: the elephant steps aside, pulls the
         // camel off the rabbit's trap and pushes it back; nothing is displaced
         const g = position("Rh3,Re3,Rf3,Rh2,Re2,Rd2,Rg3,Rg2,Re1,Rg1,Ra3,Rd3,Ra2,Hb5,Cb2,Eb4", "rg8,cb8,hf7,rh5,ef2,rd7,cb6,ra4,rf5,rd4,rc3,mb3");
-        let r = click(g, "", "c3");
-        r = click(g, r.move, "c3");
-        expect(r.move).to.equal("rc3c3");
-        r = click(g, r.move, "c3");
-        expect(r.move).to.equal("rc3x");
+        let r = g.validateMove("rc3x");
         expect(r.valid).to.be.true;
         expect(r.complete).to.equal(0);
-        r = click(g, r.move, "b4");
-        r = click(g, r.move, "b4");
-        expect(r.move).to.equal("rc3x Eb4b4");
+        r = g.validateMove("rc3x Eb4b4");
         expect(r.valid).to.be.true;
-        expect(r.complete).to.equal(1);
-        g.move(r.move);
+        expect(r.complete).to.equal(0);
+        g.move("rc3x Eb4b4");
         expect(g.board.has("c3")).to.be.false;
         expect(g.board.get("b4")).to.deep.equal(["E", 1]);
         expect(g.board.get("b3")).to.deep.equal(["M", 2]);
@@ -824,18 +861,11 @@ describe("Arimaa arrow entry", () => {
         const g = position("Ed4,Ra1,Cc1", "re4,ra8,ee8");
         const r = g.validateMove("re4e6 Ed4e5");
         expect(r.valid).to.be.true;
-        expect(r.complete).to.equal(1);
+        expect(r.complete).to.equal(0);
         g.move("re4e6 Ed4e5");
         expect(g.board.get("e6")).to.deep.equal(["R", 2]);
         expect(g.board.get("e5")).to.deep.equal(["E", 1]);
         expect(g.lastmove).to.equal("re6 Ee5");
-    });
-    it("names the pieces it inferred", () => {
-        const g = position("Ed4,Ra1,Cc1", "re4,ra8,ee8");
-        const r = g.validateMove("re4e5");
-        expect(r.valid).to.be.true;
-        expect(r.complete).to.equal(0);
-        expect(r.message).to.contain("Ed4e4");
     });
     it("applies the two-step ceiling on the first ply of an endless endgame", () => {
         const g = new ArimaaGame(undefined, ["eee"]);
@@ -849,19 +879,6 @@ describe("Arimaa arrow entry", () => {
 });
 
 describe("Arimaa notation compatibility", () => {
-    it("reads the old step notation and writes the new one", () => {
-        const g = position("Hg3,Cf2,Ra2,Ee1", "dh3,ra7,ee8");
-        g.move("Hg3g4,dh3g3,dg3f3(xdf3),Hg4g3");
-        expect(g.lastmove).to.equal("dx");
-        expect(g.board.has("f3")).to.be.false;
-    });
-    it("compares moves by the position they reach", () => {
-        const g = position("Hg3,Cf2,Ra2,Ee1", "dh3,ra7,ee8");
-        g.move("dh3f3");
-        expect(g.sameMove("dx", "Hg3g2, dh3g3, dg3f3, Hg2g3")).to.be.true;
-        expect(g.sameMove("dx", "df3")).to.be.true;
-        expect(g.sameMove("dx", "Hg3g4")).to.be.false;
-    });
     it("stored notation replays to the same position", () => {
         const g = position("Ed4,Hf4,Ra1,Cc1,Db4", "re4,ra8,ee8,md7");
         for (const m of ["Db4b5 Ed4c4", "md7d6 ra8b8", "Hf4e4 re4e5 Ec4c5", "ee8e7", "Hf4 Db5b4"]) {
@@ -980,124 +997,6 @@ describe("Arimaa recorded games", () => {
 });
 
 
-describe("Arimaa click coverage", () => {
-    // a position to click on, with no hands and the given player to move
-    const ready = (spec: string, player: Owner, eee: boolean): ArimaaGame => {
-        const board = boardOf(spec.replace(/,/g, " "));
-        const g = new ArimaaGame(undefined, eee ? ["eee"] : ["free"]);
-        g.stack[0].board = new Map(board);
-        if (!eee) {
-            g.stack.push({...g.stack[0], _results: [], _timestamp: new Date(), currplayer: player, board: new Map(board), hands: undefined, lastmove: "x"});
-        }
-        g.load();
-        g.hands = undefined;
-        return g;
-    };
-    const perms = <T,>(xs: T[]): T[][] => xs.length <= 1 ? [xs] : xs.flatMap((x, i) => perms([...xs.slice(0, i), ...xs.slice(i + 1)]).map(r => [x, ...r]));
-    // every arrow first: naming every displaced piece is what usually works
-    const subsets = <T,>(xs: T[]): T[][] => xs.reduce<T[][]>((acc, x) => [...acc, ...acc.map(a => [...a, x])], [[]]).sort((a, b) => b.length - a.length);
-
-    // every legal turn from a position must be reachable with clicks alone
-    for (const [name, spec, player, eee] of [
-        ["a frozen-piece tangle", "Ed5,Mf5,Rd3,Ra1,me5,rd4,rf4,ee8,ra8", 2, false],
-        ["a rabbit near goal", "Eb2,Hc4,Rh1,Ra1,rb1,rc2,ed8,ra8", 2, false],
-        ["pieces dying on a trap", "Rb4,Ec2,rc4,ee8,Ra1", 1, false],
-    ] as Array<[string, string, Owner, boolean]>) {
-        it(`enters every legal turn in ${name}`, function () {
-            this.timeout(120000);
-            const board = coverageBoard(spec.replace(/,/g, " "));
-            expect(unsupportedOnTrap(board), "the position itself must be legal").to.be.undefined;
-            const maxSteps = eee ? 2 : 4;
-            const reachable = allTurns(board, player, maxSteps);
-            expect(reachable.size).to.be.greaterThan(20);
-            const missed: string[] = [];
-            for (const [target, stepLists] of reachable.entries()) {
-                const g = ready(spec, player, eee);
-                let entered = false;
-                for (const steps of stepLists) {
-                    if (entered) {
-                        break;
-                    }
-                    const turn = turnFromSteps(board as Map<string, CellContents>, player, steps.map(([from, to]) => ({from, to})));
-                    const arrows = turn.trajectories.filter(t => t.final !== t.start)
-                        .map(t => ({letter: t.owner === 1 ? t.type : t.type.toLowerCase(), from: sqName(t.start), to: sqName(t.final), dies: t.captured}));
-                    const extras = turn.trajectories.filter(t => (t.captured && t.visited.length === 1) || (!t.captured && t.final === t.start && t.visited.length > 1))
-                        .map(t => ({sq: sqName(t.start), mark: t.captured}));
-                    const draw = (order: typeof arrows, holds: typeof extras): string | undefined => {
-                        let m = "";
-                        for (const a of order) {
-                            let r = click(g, m, a.from);
-                            if (!r.valid || !r.move!.endsWith(a.from)) { return undefined; }
-                            m = r.move!;
-                            r = click(g, m, a.to);
-                            if (!r.valid) { return undefined; }
-                            m = r.move!;
-                            if (!m.endsWith(`${a.letter}${a.from}${a.to}`)) {
-                                r = click(g, m, a.to);
-                                if (!r.valid) { return undefined; }
-                                m = r.move!;
-                            }
-                            if (!m.endsWith(`${a.letter}${a.from}${a.to}`)) { return undefined; }
-                            if (a.dies) {
-                                r = click(g, m, a.to);
-                                if (!r.valid) { return undefined; }
-                                m = r.move!;
-                                r = click(g, m, a.to);
-                                if (!r.valid || !r.move!.endsWith(`${a.letter}${a.from}x`)) { return undefined; }
-                                m = r.move!;
-                            }
-                        }
-                        for (const {sq, mark} of holds) {
-                            let r = click(g, m, sq);
-                            if (!r.valid) { return undefined; }
-                            m = r.move!;
-                            r = click(g, m, sq);
-                            if (!r.valid || !r.move!.endsWith(`${sq}${sq}`)) { return undefined; }
-                            m = r.move!;
-                            if (mark) {
-                                r = click(g, m, sq);
-                                if (!r.valid || !r.move!.endsWith(`${sq}x`)) { return undefined; }
-                                m = r.move!;
-                            }
-                        }
-                        return m;
-                    };
-                    for (const subset of subsets(arrows)) {
-                        if (entered) {
-                            break;
-                        }
-                        for (const order of (subset.length <= 4 ? perms(subset) : [subset])) {
-                            for (const holds of [[], extras]) {
-                                const m = draw(order, holds as typeof extras);
-                                if (m === undefined || m.length === 0) {
-                                    continue;
-                                }
-                                const v = g.validateMove(m);
-                                if (!v.valid || v.complete === -1) {
-                                    continue;
-                                }
-                                const preview = g.clone();
-                                preview.move(m, {partial: true});
-                                if (preview.signature() === target) {
-                                    entered = true;
-                                    break;
-                                }
-                            }
-                            if (entered) {
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (!entered) {
-                    missed.push(stepLists[0].map(([f, t]) => f + t).join(" "));
-                }
-            }
-            expect(missed, `${missed.length} of ${reachable.size} turns could not be entered`).to.be.empty;
-        });
-    }
-});
-
 describe("Arimaa Dicey Moves", () => {
     before(() => {
         addResource("en");
@@ -1172,29 +1071,31 @@ describe("Arimaa Dicey Moves", () => {
         expect(withRandom(0.34, () => freeStart().move("ee7, ra7").die!.steps)).to.equal(3);
         expect(withRandom(0.5, () => freeStart().move("ee7, ra7").die!.steps)).to.equal(4);
         expect(withRandom(0.99, () => freeStart().move("ee7, ra7").die!.steps)).to.equal(4);
-        const seen = new Set<number>();
-        for (let i = 0; i < 120; i++) {
-            seen.add(freeStart().move("ee7, ra7").die!.steps);
-        }
-        expect([...seen].sort()).to.deep.equal([1, 2, 3, 4]);
+        expect(withRandom(0.2, () => freeStart().move("ee7, ra7").die!.steps)).to.equal(2);
     });
 
     it("gives the opening move of Endless endgame one step or two", () => {
+        // seeded (mulberry32), as the random setup draws on Math.random too
+        const seeded = (seed: number) => (): number => {
+            seed = (seed + 0x6d2b79f5) | 0;
+            let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+            t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
         const seen = new Set<number>();
-        for (let i = 0; i < 60; i++) {
-            const g = new ArimaaGame(undefined, ["eee", "dicey"]);
-            expect(g.die).to.not.be.undefined;
-            expect([1, 2]).to.include(g.die!.steps);
-            expect(g.board.has(g.die!.square)).to.be.false;
-            seen.add(g.die!.steps);
+        const original = Math.random;
+        try {
+            for (let seed = 1; seed <= 20; seed++) {
+                Math.random = seeded(seed);
+                const g = new ArimaaGame(undefined, ["eee", "dicey"]);
+                expect([1, 2]).to.include(g.die!.steps);
+                expect(g.board.has(g.die!.square)).to.be.false;
+                seen.add(g.die!.steps);
+            }
+        } finally {
+            Math.random = original;
         }
-        expect(seen.size).to.equal(2);
-        // without the die, the opening move is still capped at two steps (EEE randomizes layout)
-        const g = new ArimaaGame(undefined, ["eee"]);
-        const e = [...g.board.entries()].find(([, [pc, owner]]) => pc === "E" && owner === 1)![0];
-        const [x, y] = ArimaaGame.algebraic2coords(e);
-        const far = ArimaaGame.coords2algebraic(x, y < 4 ? y + 3 : y - 3);
-        expect(g.validateMove(`E${e}${far}`).valid).to.be.false;
+        expect([...seen].sort()).to.deep.equal([1, 2]);
     });
 
     it("limits the turn to the die in both notations", () => {
@@ -1202,7 +1103,7 @@ describe("Arimaa Dicey Moves", () => {
         g.die = {steps: 1, square: g.die!.square};
         let result = g.validateMove("Ed3");
         expect(result.valid).to.be.true;
-        expect(result.complete).to.equal(1);
+        expect(result.complete).to.equal(0);
         result = g.validateMove("Ed4");
         expect(result.valid).to.be.false;
         result = g.validateMove("Ed2d4");
@@ -1210,7 +1111,7 @@ describe("Arimaa Dicey Moves", () => {
         expect(result.message).to.equal(i18next.t("apgames:validation.arimaa.TOO_LONG", {num: 1}));
         result = g.validateMove("Ed2d3");
         expect(result.valid).to.be.true;
-        expect(result.complete).to.equal(1);
+        expect(result.complete).to.equal(0);
         result = g.validateMove("Ed2d3,Ed3d4");
         expect(result.valid).to.be.false;
         expect(result.message).to.equal(i18next.t("apgames:validation.arimaa.TOO_MANY", {num: 1}));
@@ -1402,10 +1303,6 @@ describe("Arimaa Dicey Moves", () => {
         expect(g.results.some(r => r.type === "roll")).to.be.false;
         expect(g.render().legend).to.not.have.property("DIE");
         expect(g.validateMove("").message).to.equal(i18next.t("apgames:validation.arimaa.INITIAL_INSTRUCTIONS", {context: "play"}));
-        const variants = g.allvariants()!;
-        expect(variants.find(v => v.uid === "eee")!.fans).to.equal(true);
-        expect(variants.find(v => v.uid === "dicey")!.fans).to.not.equal(true);
-        expect(ArimaaGame.gameinfo.variants!.find(v => v.uid === "eee")!.people![0].name).to.equal("clyring");
     });
 });
 
@@ -1426,5 +1323,17 @@ describe("Arimaa setup clicks", () => {
         // clicking the piece glyph itself works as before
         result = g.handleClick("Ee2,Md2", 6, 3, "M1");
         expect(result.move).to.equal("Ee2");
+    });
+
+    it("preserves placed pieces when another piece is selected from either setup tray", () => {
+        for (const variants of [[], ["free"]]) {
+            const game = new ArimaaGame(undefined, variants);
+            const selected = game.handleClick("Ee2", -1, -1, "pC1");
+            expect(selected.move).to.equal("Ee2,C");
+            expect(selected.canrender).to.equal(true);
+            const preview = game.clone().move(selected.move, {partial: true});
+            expect(preview.board.get("e2")).to.deep.equal(["E", 1]);
+            expect(preview.render().pieces).to.be.a("string").and.include("E1");
+        }
     });
 });

@@ -900,6 +900,26 @@
       "repetition": "La partie est terminée car la même position a été répétée (superko)."
     }
   },
+  "golomb": {
+    "SELECT": {
+      "default": "{{player}} a choisi le pentomino {{what}}."
+    },
+    "PLACE": {
+      "default": "{{player}} a placé le pentomino {{what}} sur {{where}}."
+    },
+    "REMOVE": {
+      "default": "{{player}} a retiré le pentomino {{what}} du plateau."
+    },
+    "CAPTURE": {
+      "default": "{{player}} a capturé le pentomino {{what}}."
+    },
+    "SWAP": {
+      "default": "{{player}} a passé et a échangé les mains."
+    },
+    "EOG": {
+      "repetition": "La partie s'est terminée par une égalité car la même position s'est produite cinq fois avec le même joueur ayant le trait."
+    }
+  },
   "gonnect": {
     "EOG": {
       "cascading_subboard": "{{player}} a gagné sur le sous-plateau {{size}}x{{size}}.",

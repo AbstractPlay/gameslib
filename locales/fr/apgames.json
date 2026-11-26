@@ -2163,6 +2163,30 @@
       "KO": "Règle du Ko : vous ne pouvez pas recapturer immédiatement la pierre unique de votre adversaire s'il vient de l'utiliser pour capturer la vôtre.",
       "SELF_CAPTURE": "Vous ne pouvez pas placer vos pierres en auto-capture."
     },
+    "golomb": {
+      "INITIAL_INSTRUCTIONS": "Cliquez sur les cases vides que votre pentomino couvrira. Lorsqu'un seul placement convient, cliquez sur n'importe quelle autre case vide pour confirmer, ou cliquez sur une autre pièce pour recommencer.",
+      "INITIAL_INSTRUCTIONS_CAPTURE": "Cliquez sur les cases vides que votre pentomino couvrira. Avant cela, vous pouvez cliquer sur les pièces que vous avez capturées pour les retirer du plateau ; elles retourneront dans la réserve après votre coup. Lorsqu'un seul placement convient, cliquez sur n'importe quelle autre case vide pour confirmer.",
+      "INITIAL_INSTRUCTIONS_CHOOSE": "Cliquez sur un pentomino dans la réserve pour l'ajouter à votre main.",
+      "INITIAL_INSTRUCTIONS_SWAP": "Placez un pentomino pour garder votre main, ou appuyez sur le bouton pour passer et échanger vos mains avec votre adversaire.",
+      "INITIAL_INSTRUCTIONS_SWAP_CHOOSE": "Choisissez un pentomino pour garder votre main, ou appuyez sur le bouton pour passer et échanger vos mains avec votre adversaire.",
+      "PARTIAL": "Continuez de cliquer sur les cases que le pentomino couvrira jusqu'à ce qu'un seul placement convienne.",
+      "UNIQUE": "Un seul placement convient. Cliquez sur n'importe quelle autre case vide pour confirmer, ou cliquez sur une autre pièce pour recommencer.",
+      "BAD_TOKEN": "\"{{token}}\" n'est pas une case, un retrait ou un pentomino.",
+      "OFF_BOARD": "{{cell}} n'est pas une case de ce plateau.",
+      "OCCUPIED": "{{cell}} est déjà occupée.",
+      "DUPLICATE": "{{cell}} a été sélectionnée plus d'une fois.",
+      "NO_PLACEMENT": "Aucun de vos pentominos disponibles ne peut couvrir toutes les cases sélectionnées.",
+      "NO_REMOVAL": "Les pièces ne peuvent être retirées que dans la variante Capture.",
+      "NOT_CAPTURED": "Vous ne pouvez retirer que des pièces que vous avez capturées, et la pièce en {{cell}} n'en fait pas partie.",
+      "DUPLICATE_REMOVAL": "La pièce en {{cell}} est déjà en cours de retrait.",
+      "MUST_CHOOSE": "Vous devez choisir un pentomino dans la réserve avant le début de la partie.",
+      "NOT_CHOOSING": "Les pentominos ne peuvent être choisis qu'avant le début de la partie.",
+      "UNAVAILABLE": "Ce pentomino n'est pas dans la réserve.",
+      "NO_SWAP": "Vous ne pouvez passer pour échanger vos mains que juste après le premier coup de votre adversaire.",
+      "LABEL_HAND": "Main de {{player}}",
+      "LABEL_POOL": "Réserve",
+      "LABEL_UNSEEN": "Pièces cachées"
+    },
     "gonnect": {
       "INITIAL_INSTRUCTIONS": "Sélectionnez une intersection pour placer une pierre.",
       "INVALID_PASS": "Vous ne pouvez pas passer pour le moment.",
@@ -4498,6 +4522,7 @@
     "gipf": "Les joueurs poussent des pièces depuis les points d'entrée sur un plateau hexagonal, formant des alignements de quatre pièces à capturer. Gagnez en vidant la réserve de l'adversaire ou en retirant sa dernière pièce GIPF.",
     "gliss": "Établissez des bases et déployez des planeurs pour capturer les planeurs adverses et contrôler des tours. Éliminez toutes les bases adverses ou établissez un nombre critique de tours de contrôle pour l'emporter.",
     "go": "Le jeu traditionnel de Go",
+    "golomb": "Les joueurs placent à tour de rôle des pentominos sur le plateau. Le dernier joueur capable d'en placer un gagne.",
     "gomoku": "Un jeu classique où vous essayez d'aligner exactement cinq pierres. Une ligne de six ne compte pas comme une victoire. La partie se termine par une égalité si aucun joueur n'obtient un alignement de cinq pierres ou après deux passes consécutives.",
     "gonnect": "Gonnect est un jeu de connexion dans lequel les joueurs tentent de relier deux côtés opposés. Toutes les règles du Go s'appliquent, sauf que les joueurs ne peuvent pas passer.",
     "gorogo": "Une variante du Go jouée sur un petit plateau où le but est de capturer plus de pièces que votre adversaire, plutôt que de revendiquer du territoire.",
@@ -5033,6 +5058,7 @@
     "forms": "Forms a été conçu par Steven Meyers en 2007. Après chaque coup, toutes les pièces situées en dehors du groupe contenant la dernière pièce déplacée sont capturées. Le dernier joueur à jouer perd (Forms est donc un jeu misère). La première version permettait à une pièce de capturer n'importe quelle pièce adverse. Plus tard, en 2011, Meyers a développé une seconde version, **Advanced Forms**, dans laquelle vous ne pouviez capturer que des pièces orthogonalement adjacentes, mais une pièce pouvait aussi se déplacer vers une case vide si les deux étaient reliées par une séquence de déplacements orthogonaux sur des cases vides. La disposition initiale a également changé pour un motif en damier. Cette seconde version est la variante par défaut ici sur AP. Plus d'informations sont disponibles sur [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
     "frogger": "Comme dans les autres jeux du Decktet sur Abstract Play, le paquet est affiché en bas du plateau et comprend à la fois les cartes de la pioche et les cartes inconnues dans la main des autres joueurs. Après la première main, toutes les cartes sont tirées de la réserve ouverte, de sorte que les mains deviennent progressivement visibles. La pile de défausse est également affichée.\n\nLes passes forcées ne sont plus utilisées lorsqu'un joueur remplit la réserve de pioche (et valide) au milieu de son tour. Le second tour partiel de ce joueur est géré automatiquement par le serveur. Il existe également une variante de la réserve qui évite le double demi-coup, si désiré.\n\nLa variante Crocodiles est de Jorge Arroyo, le traducteur des règles en anglais. Les règles avancées et d'autres variantes mineures sont de P. D. Magnus ; elles apparaissent dans The Decktet Book, où le jeu est appelé Xing.",
     "garden": "Pour rendre très clair ce qui s'est passé lors du tour précédent, chaque coup est affiché sur quatre plateaux distincts. Le premier plateau montre le jeu après la pose initiale de la pièce. Le deuxième plateau montre l'état après le retournement des pièces adjacentes. Le troisième plateau montre les récoltes éventuelles. Le quatrième plateau est l'état final du jeu et c'est là que vous jouez vos coups.\n\nDans notre implémentation, le noir est toujours la couleur « tome » ou de départage. Le dernier joueur à avoir récolté du noir aura un `0.1` ajouté à son score.",
+    "golomb": "Pour placer un pentomino, cliquez sur les cases vides qu'il couvrira. Une fois qu'un seul placement légal couvre toutes les cases sélectionnées, le coup est prêt et la pièce est affichée comme posée, ainsi que tout ce qu'elle capturerait : cliquez sur n'importe quelle autre case vide pour confirmer, ou cliquez sur une autre pièce pour recommencer. Dans la notation des coups, un placement liste les 5 cases couvertes, et un retrait dans la variante Capture est un `x` suivi de la première case de la pièce retirée, comme dans `xa1`. À 3 ou 4 joueurs, la partie se termine dès que le joueur dont c'est le tour n'a aucun coup légal : le dernier joueur à avoir joué gagne ou, en Misère, le joueur qui ne peut pas jouer gagne. Dans Capture, les pièces retirées pendant la saisie du coup sont barrées dans la réserve, car elles ne peuvent pas être placées avant le tour suivant, et une position qui se produit pour la cinquième fois avec le même joueur à jouer met fin à la partie par une égalité. La règle du gâteau (« Simple pie ») ne s'applique qu'aux parties à 2 joueurs et est ignorée dans les parties à plus de joueurs.",
     "gonnect": "Dans le jeu de base, passer son tour n'est pas autorisé. La variante **Cascading Connection Goals** autorise à passer et se termine après deux passes consécutives. Une connexion directe donne la victoire immédiatement ; sinon, cherchez le plus grand sous-plateau centré dans lequel exactement un joueur relie des côtés opposés : ce joueur gagne.",
     "guerrilla": "Un joueur gagne en retirant toutes les pièces de son adversaire. Le joueur de la sécurité gagne également s'il survit jusqu'à ce que les insurgés n'aient plus de pierres à poser.\n\nPar défaut, un match se compose de deux parties avec inversion des rôles. Chaque joueur joue une partie en tant qu'insurgés et une en tant que sécurité. Lorsque les deux joueurs gagnent en tant qu'insurgés, le match est remporté par celui qui a utilisé le moins de pierres (`66 − restantes` à la fin de cette partie ; le score le plus bas l'emporte). Des scores d'insurgés égaux constituent la seule égalité possible dans ce cas. Une victoire de la sécurité dans une partie rapporte 67 points. Si un joueur remporte les deux parties (gagne en tant qu'insurgés dans l'une et en sécurité dans l'autre), il remporte directement le match. Si les deux joueurs ne gagnent qu'en tant que sécurité, le match est nul.",
     "gyges": "Les cases de but sont adjacentes à toutes les cases de la rangée arrière. Le moteur d'affichage ne peut pas gérer les cases « flottantes » pour le moment.",
@@ -7243,6 +7269,60 @@
       "positional": {
         "description": "Décompte par surface ; superko positionnel",
         "name": "Superko positionnel"
+      }
+    },
+    "golomb": {
+      "size-7x7": {
+        "name": "7x7",
+        "description": "Recommandé pour la variante Capture."
+      },
+      "size-8x7": {
+        "name": "8x7"
+      },
+      "#board": {
+        "name": "8x8"
+      },
+      "center-blocked": {
+        "name": "8x8 (centre bloqué)",
+        "description": "Un plateau 8x8 auquel il manque les 4 cases centrales."
+      },
+      "size-10x6": {
+        "name": "10x6"
+      },
+      "#blockers": {
+        "name": "Sans bloqueurs"
+      },
+      "random-blockers": {
+        "name": "Bloqueurs aléatoires",
+        "description": "Avant le début de la partie, des bloqueurs sont placés sur des cases aléatoires : un pour chaque case au-delà de 60, et au moins un."
+      },
+      "#distribution": {
+        "name": "Réserve commune",
+        "description": "Les joueurs placent des pentominos depuis une réserve commune."
+      },
+      "random-hands": {
+        "name": "Distribution aléatoire",
+        "description": "Les 12 pentominos sont distribués équitablement entre les joueurs avant le début de la partie."
+      },
+      "choose-up": {
+        "name": "Choix alterné",
+        "description": "Avant le début de la partie, les joueurs choisissent leurs pentominos chacun leur tour."
+      },
+      "concealed": {
+        "name": "Mains cachées",
+        "description": "Les joueurs ne peuvent voir que leurs propres pentominos. Dans les parties à 2 joueurs, 2 pentominos sont mis de côté face cachée et ne sont pas utilisés."
+      },
+      "capture": {
+        "name": "Capture",
+        "description": "Un placement qui partage 3 côtés ou plus avec une pièce posée précédemment capture cette pièce, qui prend la couleur du joueur capturant. Les pièces capturées peuvent être recapturées. Avant de placer une pièce, vous pouvez retirer n'importe quelle pièce que vous avez capturée ; elle retourne dans la réserve après votre coup. Une position qui se produit pour la cinquième fois avec le même joueur à jouer entraîne une égalité."
+      },
+      "misere": {
+        "name": "Misère",
+        "description": "Le dernier joueur à jouer perd : le premier joueur n'ayant aucun coup légal gagne."
+      },
+      "simple-pie": {
+        "name": "Gâteau simple",
+        "description": "Parties à 2 joueurs uniquement. Après le choix ou le placement du premier pentomino, le second joueur peut passer pour échanger les mains au lieu de jouer un coup."
       }
     },
     "gomoku": {

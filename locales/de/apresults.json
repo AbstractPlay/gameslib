@@ -900,6 +900,26 @@
       "repetition": "Das Spiel ist beendet, da sich dieselbe Stellung wiederholt hat (Super-Ko)."
     }
   },
+  "golomb": {
+    "SELECT": {
+      "default": "{{player}} hat das {{what}}-Pentomino ausgewählt."
+    },
+    "PLACE": {
+      "default": "{{player}} hat das {{what}}-Pentomino auf {{where}} platziert."
+    },
+    "REMOVE": {
+      "default": "{{player}} hat das {{what}}-Pentomino vom Spielbrett entfernt."
+    },
+    "CAPTURE": {
+      "default": "{{player}} hat das {{what}}-Pentomino geschlagen."
+    },
+    "SWAP": {
+      "default": "{{player}} hat gepasst und die Hände getauscht."
+    },
+    "EOG": {
+      "repetition": "Das Spiel endete unentschieden, da dieselbe Stellung fünfmal mit demselben Spieler am Zug aufgetreten ist."
+    }
+  },
   "gonnect": {
     "EOG": {
       "cascading_subboard": "{{player}} hat auf dem {{size}}x{{size}}-Teilbrett gewonnen.",

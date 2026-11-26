@@ -2163,6 +2163,30 @@
       "KO": "Regola del Ko: non puoi ricatturare immediatamente la singola pietra del tuo avversario se l'ha appena usata per catturarne una delle tue.",
       "SELF_CAPTURE": "Non puoi piazzare le tue pietre in autocattura."
     },
+    "golomb": {
+      "INITIAL_INSTRUCTIONS": "Fai clic sulle caselle vuote che il tuo pentamino coprirà. Quando solo un posizionamento è possibile, fai clic su qualsiasi altra casella vuota per confermare, oppure fai clic su un altro pezzo per ricominciare.",
+      "INITIAL_INSTRUCTIONS_CAPTURE": "Fai clic sulle caselle vuote che il tuo pentamino coprirà. Prima di farlo, puoi fare clic sui pezzi che hai catturato per rimuoverli dal tabellone; torneranno nella riserva dopo la tua mossa. Quando solo un posizionamento è possibile, fai clic su qualsiasi altra casella vuota per confermare.",
+      "INITIAL_INSTRUCTIONS_CHOOSE": "Fai clic su un pentamino nella riserva per aggiungerlo alla tua mano.",
+      "INITIAL_INSTRUCTIONS_SWAP": "Posiziona un pentamino per tenere la tua mano, oppure premi il pulsante per passare e scambiare le mani con il tuo avversario.",
+      "INITIAL_INSTRUCTIONS_SWAP_CHOOSE": "Scegli un pentamino per tenere la tua mano, oppure premi il pulsante per passare e scambiare le mani con il tuo avversario.",
+      "PARTIAL": "Continua a fare clic sulle caselle che il pentamino coprirà finché solo un posizionamento risulta possibile.",
+      "UNIQUE": "Solo un posizionamento è possibile. Fai clic su qualsiasi altra casella vuota per confermare, oppure fai clic su un altro pezzo per ricominciare.",
+      "BAD_TOKEN": "\"{{token}}\" non è una casella, una rimozione o un pentamino.",
+      "OFF_BOARD": "{{cell}} non è una casella di questo tabellone.",
+      "OCCUPIED": "{{cell}} è già occupata.",
+      "DUPLICATE": "{{cell}} è stata selezionata più di una volta.",
+      "NO_PLACEMENT": "Nessuno dei tuoi pentamini disponibili può coprire tutte le caselle selezionate.",
+      "NO_REMOVAL": "I pezzi possono essere rimossi solo nella variante Cattura.",
+      "NOT_CAPTURED": "Puoi rimuovere solo i pezzi che hai catturato, e il pezzo in {{cell}} non è tra questi.",
+      "DUPLICATE_REMOVAL": "Il pezzo in {{cell}} è già in fase di rimozione.",
+      "MUST_CHOOSE": "Devi scegliere un pentamino dalla riserva prima dell'inizio della partita.",
+      "NOT_CHOOSING": "I pentamini possono essere scelti solo prima dell'inizio della partita.",
+      "UNAVAILABLE": "Quel pentamino non è presente nella riserva.",
+      "NO_SWAP": "Puoi passare per scambiare le mani solo subito dopo la prima mossa del tuo avversario.",
+      "LABEL_HAND": "Mano di {{player}}",
+      "LABEL_POOL": "Riserva",
+      "LABEL_UNSEEN": "Pezzi nascosti"
+    },
     "gonnect": {
       "INITIAL_INSTRUCTIONS": "Seleziona un'intersezione per piazzare un pezzo.",
       "INVALID_PASS": "Al momento non puoi passare.",
@@ -4498,6 +4522,7 @@
     "gipf": "I giocatori spingono pezzi dai punti su un tabellone a linee esagonali, formando file di quattro pezzi per catturare. Si vince svuotando la riserva dell'avversario o rimuovendo il suo ultimo pezzo GIPF.",
     "gliss": "Stabilisci basi e schiera alianti per catturare gli alianti avversari e controllare le torri. Elimina tutte le basi avversarie o stabilisci un numero critico di torri di controllo per vincere.",
     "go": "Il gioco tradizionale del Go.",
+    "golomb": "I giocatori, a turno, posizionano pentamini sul tabellone. L'ultimo giocatore in grado di posizionarne uno vince.",
     "gomoku": "Un classico gioco in cui l'obiettivo è allineare esattamente cinque pietre in fila. Sei pietre in fila non contano come vittoria. La partita termina in patta se nessun giocatore ottiene un cinque in fila o dopo due passi consecutivi.",
     "gonnect": "Gonnect è un gioco di connessione in cui i giocatori cercano di collegare due lati opposti qualsiasi. Si applicano tutte le regole del Go, tranne che i giocatori non possono passare.",
     "gorogo": "Una variante del Go giocata su un tabellone piccolo in cui l'obiettivo è catturare più pezzi dell'avversario, invece di conquistare territorio.",
@@ -5033,6 +5058,7 @@
     "forms": "Forms è stato progettato da Steven Meyers nel 2007. Dopo ogni mossa, tutti i pezzi all'esterno del gruppo che contiene l'ultimo pezzo mosso vengono catturati. L'ultimo giocatore a muovere perde (Forms è quindi un gioco misère). La prima versione permettava a un pezzo di catturare qualsiasi pezzo avversario. Più tardi, nel 2011, Meyers ha sviluppato una seconda versione, **Advanced Forms**, in cui si potevano catturare solo i pezzi ortogonalmente adiacenti, ma un pezzo poteva anche muoversi su una casella vuota se entrambe erano collegate da una sequenza di passi ortogonali su caselle vuote. Anche la disposizione iniziale è cambiata in uno schema a scacchiera. Questa seconda versione è la variante predefinita qui su AP. Maggiori informazioni sono disponibili su [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
     "frogger": "Come in altri giochi Decktet su Abstract Play, il mazzo è mostrato nella parte inferiore del tabellone e include sia le carte presenti nel mazzo sia le carte sconosciute nelle mani degli altri giocatori. Dopo la prima mano, tutte le carte vengono pescate dalla riserva di pesca scoperta, quindi le mani diventano gradualmente scoperte. Viene mostrata anche la pila degli scarti.\n\nI passi forzati non vengono più usati quando un giocatore riempie la riserva di pesca (e invia la mossa) a metà del proprio turno. Il secondo turno parziale di quel giocatore viene gestito automaticamente dal server. Se lo si desidera, è disponibile anche una variante della riserva di pesca che evita il doppio semiturno.\n\nLa variante Coccodrilli è di Jorge Arroyo, il traduttore del regolamento inglese. Le regole avanzate e le altre varianti minori sono di P. D. Magnus; compaiono in The Decktet Book, dove il gioco è chiamato Xing.",
     "garden": "Per rendere molto chiaro quanto accaduto nel turno precedente, ogni mossa viene mostrata su quattro tabelloni separati. Il primo tabellone mostra il gioco subito dopo il posizionamento del pezzo. Il secondo tabellone mostra lo stato dopo il ribaltamento dei pezzi adiacenti. Il terzo tabellone mostra eventuali raccolti. Il quarto tabellone è lo stato finale del gioco ed è quello su cui esegui le tue mosse.\n\nNella nostra implementazione, il nero è sempre il colore \"tome\" o di spareggio. L'ultimo giocatore a raccogliere il nero avrà un `0.1` dopo il proprio punteggio.",
+    "golomb": "Per posizionare un pentamino, fai clic sulle caselle vuote che coprirà. Quando una sola collocazione legale copre tutte le caselle selezionate, la mossa è pronta e il pezzo viene mostrato come posizionato, insieme a tutto ciò che catturerebbe: fai clic su un'altra casella vuota per confermare, o fai clic su un altro pezzo per ricominciare. Nella notazione delle mosse, un posizionamento elenca tutte e 5 le caselle coperte, e una rimozione nella variante Cattura è una `x` seguita dalla prima casella del pezzo rimosso, come in `xa1`. Con 3 o 4 giocatori, la partita termina non appena il giocatore di turno non ha più mosse legali: vince l'ultimo giocatore ad aver mosso, oppure, in Misère, vince il giocatore che non può muovere. In Cattura, i pezzi rimossi durante l'inserimento della mossa vengono barrati nella riserva, poiché non possono essere posizionati fino al turno successivo, e una posizione che si verifica per la quinta volta con lo stesso giocatore di turno fa terminare la partita in patta. La regola Simple pie si applica solo alle partite a 2 giocatori e viene ignorata in quelle con più giocatori.",
     "gonnect": "Nel gioco base non è consentito passare. La variante **Cascading Connection Goals** consente di passare e termina dopo due passi consecutivi. Una connessione diretta vince immediatamente; altrimenti, si individua il sottotabellone centrato più grande in cui esattamente un giocatore collega i lati opposti: quel giocatore vince.",
     "guerrilla": "Ciascun giocatore vince rimuovendo tutte le pedine dell'avversario. Il giocatore della sicurezza vince anche se sopravvive abbastanza a lungo da far esaurire le pietre da piazzare agli insorti.\n\nPer impostazione predefinita, un incontro consiste in due partite a ruoli invertiti. Ciascun giocatore gioca una partita come insorti e una come sicurezza. Quando entrambi i giocatori vincono come insorti, l'incontro va a chi ha usato meno pietre (`66 − rimanenti` alla fine di quella partita; vince il punteggio più basso). Punteggi uguali degli insorti sono l'unica patta in tal caso. Una vittoria della sicurezza in una partita assegna 67 punti. Se un giocatore vince entrambe le partite (come insorti in una e come sicurezza nell'altra), vince direttamente l'incontro. Se entrambi i giocatori vincono solo come sicurezza, l'incontro finisce in patta.",
     "gyges": "Le caselle di arrivo sono adiacenti a tutte le caselle dell'ultima traversa. Il motore grafico attualmente non può gestire caselle \"fluttuanti\".",
@@ -7243,6 +7269,60 @@
       "positional": {
         "description": "Punteggio ad area; superko posizionale",
         "name": "Superko posizionale"
+      }
+    },
+    "golomb": {
+      "size-7x7": {
+        "name": "7x7",
+        "description": "Consigliato per la variante Cattura."
+      },
+      "size-8x7": {
+        "name": "8x7"
+      },
+      "#board": {
+        "name": "8x8"
+      },
+      "center-blocked": {
+        "name": "8x8 (centro bloccato)",
+        "description": "Un tabellone 8x8 senza le sue 4 caselle centrali."
+      },
+      "size-10x6": {
+        "name": "10x6"
+      },
+      "#blockers": {
+        "name": "Senza ostacoli"
+      },
+      "random-blockers": {
+        "name": "Ostacoli casuali",
+        "description": "Prima dell'inizio della partita, vengono posizionati degli ostacoli su caselle casuali: uno per ogni casella oltre le 60, e almeno uno."
+      },
+      "#distribution": {
+        "name": "Riserva comune",
+        "description": "I giocatori posizionano pentamini da una riserva comune."
+      },
+      "random-hands": {
+        "name": "Distribuzione casuale",
+        "description": "I 12 pentamini vengono distribuiti equamente tra i giocatori prima dell'inizio della partita."
+      },
+      "choose-up": {
+        "name": "Scelta alternata",
+        "description": "Prima dell'inizio della partita, i giocatori scelgono i propri pentamini a turno."
+      },
+      "concealed": {
+        "name": "Mani nascoste",
+        "description": "I giocatori possono vedere solo i propri pentamini. Nelle partite a 2 giocatori, 2 pentamini vengono messi da parte coperti e non utilizzati."
+      },
+      "capture": {
+        "name": "Cattura",
+        "description": "Un posizionamento che condivide 3 o più bordi con un pezzo posizionato in precedenza cattura quel pezzo, che prende il colore del giocatore che cattura. I pezzi catturati possono essere ricatturati. Prima di posizionare, puoi rimuovere tutti i pezzi che hai catturato; torneranno nella riserva dopo la tua mossa. Una posizione che si verifica per la quinta volta con lo stesso giocatore di turno è una patta."
+      },
+      "misere": {
+        "name": "Misère",
+        "description": "L'ultimo giocatore a muovere perde: vince il primo giocatore che non ha mosse legali."
+      },
+      "simple-pie": {
+        "name": "Torta semplice",
+        "description": "Solo per partite a 2 giocatori. Dopo che il primo pentamino è stato scelto o posizionato, il secondo giocatore può passare per scambiare le mani invece di muovere."
       }
     },
     "gomoku": {

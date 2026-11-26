@@ -2163,6 +2163,30 @@
       "KO": "Ko-Regel: Du darfst einen einzelnen Stein deines Gegners nicht sofort wieder schlagen, wenn er ihn gerade benutzt hat, um einen deiner Steine zu schlagen.",
       "SELF_CAPTURE": "Du darfst deine Steine nicht in eine Selbstschlag-Stellung setzen."
     },
+    "golomb": {
+      "INITIAL_INSTRUCTIONS": "Klicke auf die leeren Felder, die dein Pentomino verdecken wird. Sobald nur noch eine Platzierung passt, klicke auf ein beliebiges anderes leeres Feld, um zu bestätigen, oder klicke auf ein anderes Teil, um von vorn zu beginnen.",
+      "INITIAL_INSTRUCTIONS_CAPTURE": "Klicke auf die leeren Felder, die dein Pentomino verdecken wird. Davor kannst du auf Teile klicken, die du geschlagen hast, um sie vom Spielfeld zu entfernen; sie kehren nach deinem Zug in den Vorrat zurück. Sobald nur noch eine Platzierung passt, klicke auf ein beliebiges anderes leeres Feld, um zu bestätigen.",
+      "INITIAL_INSTRUCTIONS_CHOOSE": "Klicke auf ein Pentomino im Vorrat, um es deiner Hand hinzuzufügen.",
+      "INITIAL_INSTRUCTIONS_SWAP": "Platziere ein Pentomino, um deine Hand zu behalten, oder drücke die Taste, um zu passen und die Hände mit deinem Gegner zu tauschen.",
+      "INITIAL_INSTRUCTIONS_SWAP_CHOOSE": "Wähle ein Pentomino, um deine Hand zu behalten, oder drücke die Taste, um zu passen und die Hände mit deinem Gegner zu tauschen.",
+      "PARTIAL": "Klicke weiter auf Felder, die das Pentomino verdecken soll, bis nur noch eine Platzierung passt.",
+      "UNIQUE": "Nur eine Platzierung passt. Klicke auf ein beliebiges anderes leeres Feld, um zu bestätigen, oder klicke auf ein anderes Teil, um von vorn zu beginnen.",
+      "BAD_TOKEN": "\"{{token}}\" ist weder ein Feld noch ein Entfernen oder ein Pentomino.",
+      "OFF_BOARD": "{{cell}} ist kein Feld auf diesem Spielfeld.",
+      "OCCUPIED": "{{cell}} ist bereits besetzt.",
+      "DUPLICATE": "{{cell}} wurde mehr als einmal ausgewählt.",
+      "NO_PLACEMENT": "Keines deiner verfügbaren Pentominos kann alle ausgewählten Felder verdecken.",
+      "NO_REMOVAL": "Teile können nur in der Schlagen-Variante entfernt werden.",
+      "NOT_CAPTURED": "Du kannst nur Teile entfernen, die du geschlagen hast, und das Teil auf {{cell}} gehört nicht dazu.",
+      "DUPLICATE_REMOVAL": "Das Teil auf {{cell}} wird bereits entfernt.",
+      "MUST_CHOOSE": "Du musst vor Spielbeginn ein Pentomino aus dem Vorrat wählen.",
+      "NOT_CHOOSING": "Pentominos können nur vor Spielbeginn gewählt werden.",
+      "UNAVAILABLE": "Dieses Pentomino befindet sich nicht im Vorrat.",
+      "NO_SWAP": "Du kannst nur direkt nach dem ersten Zug deines Gegners passen, um die Hände zu tauschen.",
+      "LABEL_HAND": "Hand von {{player}}",
+      "LABEL_POOL": "Vorrat",
+      "LABEL_UNSEEN": "Verdeckte Teile"
+    },
     "gonnect": {
       "INITIAL_INSTRUCTIONS": "Wähle einen Schnittpunkt, um einen Stein zu platzieren.",
       "INVALID_PASS": "Du kannst derzeit nicht passen.",
@@ -4498,6 +4522,7 @@
     "gipf": "Spieler schieben Steine von Punkten auf ein Hex-Linien-Spielfeld, um Viererreihen zum Entfernen zu bilden. Sie gewinnen, indem sie den Vorrat des Gegners leeren oder dessen letzten GIPF-Stein vom Feld nehmen.",
     "gliss": "Errichte Basen und setze Gleiter ein, um gegnerische Gleiter zu schlagen und Kontrolltürme zu besetzen. Eliminiere alle gegnerischen Basen oder errichte eine kritische Anzahl von Kontrolltürmen, um zu gewinnen.",
     "go": "Das traditionelle Go-Spiel",
+    "golomb": "Die Spieler platzieren abwechselnd Pentominos auf dem Spielfeld. Es gewinnt der letzte Spieler, der noch ein Pentomino platzieren kann.",
     "gomoku": "Ein klassisches Spiel, bei dem versucht wird, genau fünf Steine in eine Reihe zu bringen. Sechs in einer Reihe gelten nicht als Sieg. Das Spiel endet unentschieden, wenn kein Spieler eine Fünferreihe bildet oder nach zwei aufeinanderfolgenden Passzügen.",
     "gonnect": "Gonnect ist ein Verbindungsspiel, bei dem die Spieler versuchen, zwei beliebige gegenüberliegende Seiten zu verbinden. Es gelten alle Regeln von Go, außer dass die Spieler nicht passen dürfen.",
     "gorogo": "Eine Go-Variante auf einem kleinen Spielbrett, bei der das Ziel darin besteht, mehr Steine als der Gegner zu schlagen, anstatt Territorium zu erobern.",
@@ -5033,6 +5058,7 @@
     "forms": "Forms wurde 2007 von Steven Meyers entworfen. Nach jedem Zug werden alle Steine außerhalb der Gruppe geschlagen, die den zuletzt bewegten Stein enthält. Der letzte Spieler, der zieht, verliert (Forms ist also ein Misère-Spiel). Die erste Version erlaubte es einem Stein, jeden gegnerischen Stein zu schlagen. Später, im Jahr 2011, entwickelte Meyers eine zweite Version, **Advanced Forms**, bei der man nur orthogonal angrenzende Steine schlagen konnte, sich ein Stein aber auch auf ein leeres Feld bewegen konnte, wenn beide durch eine Sequenz orthogonaler Schritte über leere Felder verbunden waren. Der Aufbau änderte sich ebenfalls zu einem Schachbrettmuster. Diese zweite Version ist die Standardvariante hier bei AP. Weitere Informationen finden Sie bei [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
     "frogger": "Wie bei anderen Decktet-Spielen auf Abstract Play wird das Deck am unteren Rand des Spielbretts angezeigt und enthält sowohl Karten im Deck als auch unbekannte Karten auf den Händen der anderen Spieler. Nach der ersten Hand werden alle Karten aus dem offenen Ziehpool gezogen, sodass die Hände nach und nach offen werden. Der Ablagestapel wird ebenfalls angezeigt.\n\nErzwungene Pässe werden nicht mehr verwendet, wenn ein Spieler mitten in seinem Zug den Ziehpool auffüllt (und bestätigt). Der zweite Teilzug dieses Spielers wird automatisch vom Server abgewickelt. Es gibt auf Wunsch auch eine Ziehpool-Variante, die den Doppelzug vermeidet.\n\nDie Krokodil-Variante stammt von Jorge Arroyo, dem Übersetzer der englischen Regeln. Die Fortgeschrittenen-Regeln und weitere kleinere Varianten stammen von P. D. Magnus; sie erscheinen in \"The Decktet Book\", wo das Spiel Xing heißt.",
     "garden": "Um sehr deutlich zu machen, was im vorherigen Zug passiert ist, wird jeder Zug auf vier separaten Spielbrettern dargestellt. Das erste Spielbrett zeigt das Spiel nach dem ersten Platzieren des Steins. Das zweite Spielbrett zeigt den Zustand, nachdem angrenzende Steine umgedreht wurden. Das dritte Spielbrett zeigt etwaige Ernten. Das vierte Spielbrett zeigt den finalen Spielzustand und ist die Stelle, an der Sie Ihre Züge ausführen.\n\nIn unserer Implementierung ist Schwarz immer die \"Tome\"- oder Gleichstands-Farbe. Der letzte Spieler, der Schwarz erntet, erhält ein `0.1` hinter seiner Punktzahl.",
+    "golomb": "Um ein Pentomino zu platzieren, klicke auf die leeren Felder, die es verdecken soll. Sobald nur noch eine regelkonforme Platzierung alle ausgewählten Felder überdeckt, ist der Zug bereit und das Teil wird als platziert angezeigt, zusammen mit allem, was es schlagen würde: Klicke auf ein beliebiges anderes leeres Feld, um zu bestätigen, oder klicke auf ein anderes Teil, um von vorn zu beginnen. In der Zugnotation listet eine Platzierung alle 5 überdeckten Felder auf, und das Entfernen in der Schlagen-Variante ist ein `x` gefolgt vom ersten Feld des entfernten Teils, wie in `xa1`. Bei 3 oder 4 Spielern endet das Spiel, sobald der Spieler am Zug keinen regelkonformen Zug mehr hat: Es gewinnt der Spieler, der zuletzt gezogen hat, oder in Misère der Spieler, der nicht mehr ziehen kann. Beim Schlagen werden Teile, die während des eingegebenen Zugs entfernt werden, im Vorrat durchgestrichen, da sie erst in der nächsten Runde platziert werden können, und eine Stellung, die zum fünften Mal mit demselben Spieler am Zug auftritt, endet unentschieden. Die einfache Pie-Regel gilt nur für Spiele mit 2 Spielern und wird in größeren Spielen ignoriert.",
     "gonnect": "Im Grundspiel ist Passen nicht erlaubt. Die Variante **Cascading Connection Goals** erlaubt Passen und endet nach zwei aufeinanderfolgenden Passzügen. Eine direkte Verbindung gewinnt sofort; andernfalls wird das größte zentrierte Teilbrett ermittelt, auf dem genau ein Spieler gegenüberliegende Seiten verbindet: Dieser Spieler gewinnt.",
     "guerrilla": "Ein Spieler gewinnt, indem er alle Steine des Gegners entfernt. Der Sicherheitsspieler gewinnt auch, wenn er lange genug überlebt, bis den Aufständischen die Steine zum Setzen ausgehen.\n\nStandardmäßig besteht ein Match aus zwei Spielen mit vertauschten Rollen. Jeder Spieler spielt ein Spiel als Aufständische und eines als Sicherheitskräfte. Wenn beide Spieler als Aufständische gewinnen, geht das Match an denjenigen, der weniger Steine verbraucht hat (`66 − verbleibend` am Ende dieses Spiels; die niedrigere Punktzahl gewinnt). Gleiche Aufständischen-Punktzahlen sind in diesem Fall das einzige Unentschieden. Ein Sieg der Sicherheitskräfte in einem Spiel bringt 67 Punkte. Wenn ein Spieler beide Spiele gewinnt (eines als Aufständische und eines als Sicherheitskräfte), gewinnt er das Match direkt. Wenn beide Spieler nur als Sicherheitskräfte gewinnen, endet das Match unentschieden.",
     "gyges": "Die Zielfelder grenzen an alle Felder in der hintersten Reihe an. Der Renderer kann derzeit keine \"schwebenden\" Felder darstellen.",
@@ -7243,6 +7269,60 @@
       "positional": {
         "description": "Flächenwertung; positionelles Superko",
         "name": "Positionelles Superko"
+      }
+    },
+    "golomb": {
+      "size-7x7": {
+        "name": "7x7",
+        "description": "Empfohlen für die Schlagen-Variante."
+      },
+      "size-8x7": {
+        "name": "8x7"
+      },
+      "#board": {
+        "name": "8x8"
+      },
+      "center-blocked": {
+        "name": "8x8 (Zentrum blockiert)",
+        "description": "Ein 8x8-Spielfeld, dem die 4 mittleren Felder fehlen."
+      },
+      "size-10x6": {
+        "name": "10x6"
+      },
+      "#blockers": {
+        "name": "Keine Blocker"
+      },
+      "random-blockers": {
+        "name": "Zufällige Blocker",
+        "description": "Vor Spielbeginn werden Blocker auf zufälligen Feldern platziert: einer für jedes Feld über 60 hinaus, mindestens jedoch einer."
+      },
+      "#distribution": {
+        "name": "Gemeinsamer Vorrat",
+        "description": "Die Spieler platzieren Pentominos aus einem gemeinsamen Vorrat."
+      },
+      "random-hands": {
+        "name": "Zufällige Verteilung",
+        "description": "Die 12 Pentominos werden vor Spielbeginn gleichmäßig unter den Spielern verteilt."
+      },
+      "choose-up": {
+        "name": "Auswahl",
+        "description": "Vor Spielbeginn wählen die Spieler abwechselnd ihre Pentominos aus."
+      },
+      "concealed": {
+        "name": "Verdeckte Hände",
+        "description": "Die Spieler können nur ihre eigenen Pentominos sehen. In Spielen mit 2 Spielern werden 2 Pentominos ungesehen beiseitegelegt und nicht verwendet."
+      },
+      "capture": {
+        "name": "Schlagen",
+        "description": "Eine Platzierung, die 3 oder mehr Kanten mit einem zuvor platzierten Teil teilt, schlägt dieses Teil, welches die Farbe des schlagenden Spielers annimmt. Geschlagene Teile können erneut geschlagen werden. Vor dem Platzieren kannst du alle geschlagenen Teile entfernen; sie kehren nach deinem Zug in den Vorrat zurück. Eine Stellung, die zum fünften Mal mit demselben Spieler am Zug auftritt, endet unentschieden."
+      },
+      "misere": {
+        "name": "Misère",
+        "description": "Der letzte Spieler, der zieht, verliert: Es gewinnt der erste Spieler ohne regelkonformen Zug."
+      },
+      "simple-pie": {
+        "name": "Einfaches Pie",
+        "description": "Nur für Spiele mit 2 Spielern. Nachdem das erste Pentomino gewählt oder platziert wurde, kann der zweite Spieler passen, um die Hände zu tauschen, anstatt zu ziehen."
       }
     },
     "gomoku": {

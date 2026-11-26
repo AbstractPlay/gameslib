@@ -70,7 +70,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
     - Click on a piece and then its final destination to move it there
     - "Chains" work
     - Moves which are necessary to make your input legal are inferred
-    - When a triangle appears in the corner of a trap square, click it when it's hollow to try to not capture the piece you're moving there, click it when it's filled to try to capture the piece you're moving there
+    - The capture triangle stays in the upper-right corner of the trap square as the board rotates. Click a hollow triangle to try to spare the piece and a filled triangle to try to capture it.
     - Clicking on an empty square you can move a piece to without selecting a piece first (called a "target" click/move internally) moves a piece there if it can narrow your intention down to one possibility (see wiki for exact hierarchy)
 
 ### Fixed

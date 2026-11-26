@@ -69,6 +69,7 @@ describe("Arimaa input modes", () => {
 
     it("defaults to Basic, with Advanced on request", () => {
         const g = position("Ed4,Ra1", "ra8,ee8");
+        expect(g.inputModes()?.map(({uid}) => uid)).to.deep.equal(["basic", "advanced"]);
         expect(g.resolveActiveInputMode(undefined)).to.equal("basic");
         expect(g.resolveActiveInputMode("advanced")).to.equal("advanced");
     });
@@ -916,7 +917,7 @@ describe("Arimaa input modes", () => {
             const before = g.serialize();
             const preview = g.clone().move("g2", {partial: true});
             const advanced = preview.render({inputMode: "advanced"});
-            expect(advanced.legend?.[ARIMAA_CAPTURE_CHOICE]).not.to.equal(undefined);
+            expect(advanced.legend?.[ARIMAA_CAPTURE_CHOICE]).to.include({orientation: "vertical"});
             const layers = advanced.pieces as string[][][];
             expect(layers).to.have.length(8);
             expect(layers[5][5]).to.deep.equal([ARIMAA_CAPTURE_CHOICE]); // f3
@@ -937,7 +938,7 @@ describe("Arimaa input modes", () => {
         it("is drawn as the other glyph where clicking it keeps the piece alive", () => {
             const g = position("Cg2,Rf1,Ra1", "ra8,ee8");
             const rep = g.clone().move("g2", {partial: true}).render({inputMode: "advanced"});
-            expect(rep.legend?.[ARIMAA_SPARE_CHOICE]).not.to.equal(undefined);
+            expect(rep.legend?.[ARIMAA_SPARE_CHOICE]).to.include({orientation: "vertical"});
             expect(rep.legend?.[ARIMAA_CAPTURE_CHOICE]).to.equal(undefined);
             expect((rep.pieces as string[][][])[5][5]).to.deep.equal([ARIMAA_SPARE_CHOICE]); // f3
             // either key is the triangle's click

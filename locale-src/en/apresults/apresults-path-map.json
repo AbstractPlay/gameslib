@@ -3833,6 +3833,66 @@
       "english": "The game has ended because the same position was repeated (super-ko)."
     },
     {
+      "oldPath": "CAPTURE.golomb",
+      "oldFullKey": "apresults:CAPTURE.golomb",
+      "uid": "golomb",
+      "resultType": "CAPTURE",
+      "newLeaf": "default",
+      "newPath": "golomb.CAPTURE.default",
+      "newFullKey": "apresults:golomb.CAPTURE.default",
+      "english": "{{player}} captured the {{what}} pentomino."
+    },
+    {
+      "oldPath": "EOG.golomb_repetition",
+      "oldFullKey": "apresults:EOG.golomb_repetition",
+      "uid": "golomb",
+      "resultType": "EOG",
+      "newLeaf": "repetition",
+      "newPath": "golomb.EOG.repetition",
+      "newFullKey": "apresults:golomb.EOG.repetition",
+      "english": "The game has ended in a draw because the same position occurred five times with the same player to move."
+    },
+    {
+      "oldPath": "PLACE.golomb",
+      "oldFullKey": "apresults:PLACE.golomb",
+      "uid": "golomb",
+      "resultType": "PLACE",
+      "newLeaf": "default",
+      "newPath": "golomb.PLACE.default",
+      "newFullKey": "apresults:golomb.PLACE.default",
+      "english": "{{player}} placed the {{what}} pentomino on {{where}}."
+    },
+    {
+      "oldPath": "REMOVE.golomb",
+      "oldFullKey": "apresults:REMOVE.golomb",
+      "uid": "golomb",
+      "resultType": "REMOVE",
+      "newLeaf": "default",
+      "newPath": "golomb.REMOVE.default",
+      "newFullKey": "apresults:golomb.REMOVE.default",
+      "english": "{{player}} removed the {{what}} pentomino from the board."
+    },
+    {
+      "oldPath": "SELECT.golomb",
+      "oldFullKey": "apresults:SELECT.golomb",
+      "uid": "golomb",
+      "resultType": "SELECT",
+      "newLeaf": "default",
+      "newPath": "golomb.SELECT.default",
+      "newFullKey": "apresults:golomb.SELECT.default",
+      "english": "{{player}} chose the {{what}} pentomino."
+    },
+    {
+      "oldPath": "SWAP.golomb",
+      "oldFullKey": "apresults:SWAP.golomb",
+      "uid": "golomb",
+      "resultType": "SWAP",
+      "newLeaf": "default",
+      "newPath": "golomb.SWAP.default",
+      "newFullKey": "apresults:golomb.SWAP.default",
+      "english": "{{player}} passed and swapped hands."
+    },
+    {
       "oldPath": "EOG.gonnect_cascading_subboard",
       "oldFullKey": "apresults:EOG.gonnect_cascading_subboard",
       "uid": "gonnect",

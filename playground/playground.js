@@ -3369,11 +3369,8 @@ function updatePlaygroundInputModeOptions(gameEngine) {
 
     const { groups, ungrouped } = partitionInputModes(rootModes);
 
-    // Match the site picker: an entirely ungrouped list selects one input mode.
-    const flat = groups.size === 0;
-    const radioGroups = flat ? [["", ungrouped]] : groups;
-    const singleGroupOnly = flat || (groups.size === 1 && ungrouped.length === 0);
-    for (const [groupName, members] of radioGroups) {
+    const singleGroupOnly = groups.size === 1 && ungrouped.length === 0;
+    for (const [groupName, members] of groups) {
         const radioName = singleGroupOnly ? "inputModeOption" : `inputModeOption_${groupName}`;
         for (const mode of members) {
             const value = inputModeOptionRadioValue(mode);
@@ -3389,7 +3386,7 @@ function updatePlaygroundInputModeOptions(gameEngine) {
         }
     }
 
-    for (const mode of flat ? [] : ungrouped) {
+    for (const mode of ungrouped) {
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.value = mode.uid;

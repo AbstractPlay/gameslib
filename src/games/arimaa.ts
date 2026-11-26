@@ -12,7 +12,7 @@ import { baseMove, classify, validateLegacyMovement, type StepKind } from "./ari
 import { endlessEndgame, fillRabbits, placing, setupClick, standardSetup, validateSetup } from "./arimaa/setup.js";
 export const gameApgamesEn = {
     inputModes: {
-        basic: {
+        "#entry": {
             name: "Basic",
             description: "Move only pieces you explicitly select, in the order you enter them. Every completed click sequence has an unambiguous result.",
         },
@@ -227,8 +227,8 @@ export class ArimaaGame extends GameBase {
             },
         ],
         inputModes: [
-            {uid: "basic"}, // The first mode is the fallback.
-            {uid: "advanced"},
+            {uid: "#entry", group: "entry"},
+            {uid: "advanced", group: "entry"},
         ],
         categories: ["goal>breakthrough", "goal>cripple", "goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>coopt", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>chess"],
         flags: ["perspective", "no-moves", "custom-buttons", "random-start", "custom-colours"]

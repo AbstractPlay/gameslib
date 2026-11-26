@@ -69,8 +69,8 @@ describe("Arimaa input modes", () => {
 
     it("defaults to Basic, with Advanced on request", () => {
         const g = position("Ed4,Ra1", "ra8,ee8");
-        expect(g.inputModes()?.map(({uid}) => uid)).to.deep.equal(["basic", "advanced"]);
-        expect(g.resolveActiveInputMode(undefined)).to.equal("basic");
+        expect(g.inputModes()?.map(({uid}) => uid)).to.deep.equal(["#entry", "advanced"]);
+        expect(g.resolveActiveInputMode(undefined)).to.equal(undefined);
         expect(g.resolveActiveInputMode("advanced")).to.equal("advanced");
     });
 

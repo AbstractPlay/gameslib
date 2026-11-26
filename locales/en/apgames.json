@@ -552,7 +552,7 @@
     "section": "Input mode",
     "description": "How the board interprets your clicks for this game.",
     "arimaa": {
-      "basic": {
+      "#entry": {
         "name": "Basic",
         "description": "Move only pieces you explicitly select, in the order you enter them. Every completed click sequence has an unambiguous result."
       },

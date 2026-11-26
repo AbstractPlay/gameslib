@@ -3535,6 +3535,14 @@
     "src": "Isometric: Subtle Elevation",
     "out": "Isometrisch: Dezente Erhöhung"
   },
+  "inputModes.arimaa.#entry.description": {
+    "src": "Move only pieces you explicitly select, in the order you enter them. Every completed click sequence has an unambiguous result.",
+    "out": "Bewege nur Figuren, die du explizit auswählst, in der Reihenfolge deiner Eingabe. Jede abgeschlossene Klicksequenz führt zu einem eindeutigen Ergebnis."
+  },
+  "inputModes.arimaa.#entry.name": {
+    "src": "Basic",
+    "out": "Basis"
+  },
   "inputModes.arimaa.advanced.description": {
     "src": "Select by origin or target, and use inferred movements and trap-capture controls.",
     "out": "Wähle über Start- oder Zielfeld und nutze abgeleitete Züge sowie die Fallen-Schlag-Steuerung."
@@ -3542,14 +3550,6 @@
   "inputModes.arimaa.advanced.name": {
     "src": "Advanced",
     "out": "Fortgeschritten"
-  },
-  "inputModes.arimaa.basic.description": {
-    "src": "Move only pieces you explicitly select, in the order you enter them. Every completed click sequence has an unambiguous result.",
-    "out": "Bewege nur Figuren, die du explizit auswählst, in der Reihenfolge deiner Eingabe. Jede vollständige Klicksequenz hat ein eindeutiges Ergebnis."
-  },
-  "inputModes.arimaa.basic.name": {
-    "src": "Basic",
-    "out": "Basis"
   },
   "inputModes.description": {
     "src": "How the board interprets your clicks for this game.",
@@ -5192,8 +5192,8 @@
     "out": "Die Attentat-Variante wird in [diesem BGG-Thread](https://boardgamegeek.com/thread/551125/variant-for-more-aggressive-less-drawish-play) beschrieben und unten zusammengefasst:\n\n- Gerade nach oben müssen Sie größer sein, oder ein Stein kleinster Größe kann einen Stein größter Größe meucheln.\n\n- Auf derselben Ebene (nur orthogonal angrenzend) müssen Sie mindestens dieselbe Größe haben.\n\n- Diagonal nach unten dürfen Sie einen Rang kleiner sein."
   },
   "notes.thricewise": {
-    "src": "With 2 or 4 players the opening grid is 2×2; with 3 or 5 players it is 2×3. Short labels appear beneath cards in your hand. \"Sel\" indicates the card chosen in the last selection phase (including an uncommitted partial select) and \"Def\" indicates cards deferred from an earlier tied selection. More information on the Decktet is on the [Decktet wiki](https://decktet.wikidot.com/).",
-    "out": "Bei 2 oder 4 Spielern ist das Startraster 2×2; bei 3 oder 5 Spielern ist es 2×3. Kurze Beschriftungen erscheinen unter den Karten auf deiner Hand. \"Sel\" markiert die in der letzten Auswahlphase gewählte Karte (einschließlich einer nicht bestätigten Teilauswahl) und \"Def\" markiert Karten, die aus einer früheren unentschiedenen Auswahl zurückgestellt wurden. Weitere Informationen zum Decktet findest du im [Decktet-Wiki](https://decktet.wikidot.com/)."
+    "src": "With 2 or 4 players the opening grid is 2×2; with 3 or 5 players it is 2×3. Short labels appear beneath cards in your hand. \"Sel\" indicates the card chosen in the last selection phase (including an uncommitted partial select) and \"Def\" indicates cards deferred from an earlier tied selection. The game usually ends when the 6×6 grid is full or when players have played the last cards from their hands; if the deck cannot deal another round and hands are empty, any deferred cards left unplaced are not played and highest score wins. More information on the Decktet is on the [Decktet wiki](https://decktet.wikidot.com/).",
+    "out": "Bei 2 oder 4 Spielern beträgt das Startraster 2×2; bei 3 oder 5 Spielern 2×3. Kurze Beschriftungen erscheinen unter den Karten auf deiner Hand. \"Sel\" zeigt die in der letzten Auswahlphase gewählte Karte an (einschließlich einer noch nicht bestätigten Teilauswahl) und \"Def\" zeigt Karten an, die aus einer früheren unentschiedenen Auswahl zurückgestellt wurden. Das Spiel endet normalerweise, wenn das 6×6-Raster voll ist oder wenn die Spieler die letzten Karten auf ihrer Hand gespielt haben; wenn der Stapel keine weitere Runde ausgeben kann und die Hände leer sind, werden etwaige unplatzierte zurückgestellte Karten nicht mehr gespielt und die höchste Punktzahl gewinnt. Weitere Informationen zum Decktet findest du im [Decktet-Wiki](https://decktet.wikidot.com/)."
   },
   "notes.thuemorsego": {
     "src": "Placement `n` (counting from 0) belongs to Player 1 when `n` has an even number of `1` bits in binary and to Player 2 when `n` has an odd number of `1` bits in binary. The TMS Tracker fronts this with a stylized representation of `n` in hexadecimal, while the default tracker more straightforwardly shows the next 16 placements.\n\nThe game ends after two passes which agree on which strings are dead. If one or both players resume the game after the agreement phase, players must manually capture all dead stones: two passes at that point will score the game as is with all strings considered alive.\n\nIn Handicap Stone and/or Reverse Komi games, Player 2 is the stronger player and chooses the relevant value(s) on their first turn; except in Kill-All games, where Player 1 is the stronger player and chooses the number of handicap stones on their first turn.\n\nThe Thue-Morse order appears to have been independently proposed for Go by atimholt and TheElvenAngelCatboy on r/baduk, and by BHydden on the Online Go Forum, each pointing to the same Stand-up Maths video about the sequence; the forum community then built tools for playing it on OGS, ran tournaments, and worked out the rules implemented here. The Balanced Marseillais order comes from chess: Marseillais Chess (AABB) is attributed either to Albert Fortis with J. Rossow or to Jehan de Queylar, and Robert Bruce first proposed the ABBA correction that balances it.",

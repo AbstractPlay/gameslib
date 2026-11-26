@@ -50,8 +50,9 @@ export function assertValidInputModeSelection(
 
 /**
  * Resolve stored preference to at most one valid mode uid, or undefined when the game has no input modes.
- * Uses constraint sanitization; if nothing survives (unknown/invalid stored value), picks the first
- * non-`#group` sentinel from gameinfo.
+ * Uses constraint sanitization. When nothing is stored (or the stored uid is unknown), returns
+ * `undefined` if the catalogue declares a `#{group}` default sentinel — the default radio choice
+ * is not a concrete uid. Otherwise falls back to the first non-sentinel uid (ungrouped single mode).
  */
 export function sanitizeInputModeForGame(
     modes: InputMode[] | undefined,
@@ -69,6 +70,9 @@ export function sanitizeInputModeForGame(
     const sanitized = sanitizeUidSelection(modes, incoming);
     if (sanitized.length > 0) {
         return sanitized[0];
+    }
+    if ((modes ?? []).some((m) => m.uid.startsWith("#"))) {
+        return undefined;
     }
     const first = modes.find((m) => !m.uid.startsWith("#"));
     return first?.uid;

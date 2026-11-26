@@ -13,7 +13,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
-- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, DVONN, GIPF, Ice Palace, LYNGK, Polypods, Skisma, Squares, TZAAR, YINSH, ZERTZ.
+- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, DVONN, GIPF, Golomb's Game, Ice Palace, LYNGK, Polypods, Skisma, Squares, TZAAR, YINSH, ZERTZ.
 
 ## [1.0.0-ci] - 2026-11-26
 

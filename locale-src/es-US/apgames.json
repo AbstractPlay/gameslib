@@ -4047,6 +4047,10 @@
     "src": "Go",
     "out": "Go"
   },
+  "names.golomb": {
+    "src": "Golomb's Game",
+    "out": "Golomb's Game"
+  },
   "names.gomoku": {
     "src": "Gomoku",
     "out": "Gomoku"

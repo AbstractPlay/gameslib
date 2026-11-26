@@ -223,7 +223,7 @@ export class ThricewiseGame extends GameBaseSequenced {
         version: "20260925",
         dateAdded: "2026-11-06",
         description: "A fast-paced Decktet tableau game: each turn everyone secretly chooses a card, then non-deferred plays go onto the grid in rank order. Score whenever your play completes a line of three (flush, set, or straight). Highest score when the grid fills or hands are empty wins.",
-        notes: "With 2 or 4 players the opening grid is 2×2; with 3 or 5 players it is 2×3. Short labels appear beneath cards in your hand. \"Sel\" indicates the card chosen in the last selection phase (including an uncommitted partial select) and \"Def\" indicates cards deferred from an earlier tied selection. More information on the Decktet is on the [Decktet wiki](https://decktet.wikidot.com/).",
+        notes: "With 2 or 4 players the opening grid is 2×2; with 3 or 5 players it is 2×3. Short labels appear beneath cards in your hand. \"Sel\" indicates the card chosen in the last selection phase (including an uncommitted partial select) and \"Def\" indicates cards deferred from an earlier tied selection. The game usually ends when the 6×6 grid is full or when players have played the last cards from their hands; if the deck cannot deal another round and hands are empty, any deferred cards left unplaced are not played and highest score wins. More information on the Decktet is on the [Decktet wiki](https://decktet.wikidot.com/).",
         urls: [
             "https://decktet.wikidot.com/game:thricewise",
             "https://boardgamegeek.com/boardgame/42900/thricewise",
@@ -949,9 +949,6 @@ export class ThricewiseGame extends GameBaseSequenced {
 
     /** No cards left to deal into hands, or the deck is empty while a seat has no hand cards. */
     private stockExhausted(): boolean {
-        if (this.deferred.some(d => d.length > 0)) {
-            return false;
-        }
         if (this.phase === "place" && this.playQueue.length > 0) {
             return false;
         }

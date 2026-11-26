@@ -452,6 +452,28 @@ describe("Thricewise", () => {
         expect(click.move).to.equal(`${t1};${threes[0]}@${e2[0]}.${e2[1]}`);
     });
 
+    it("ends the game after the last placement when only deferred cards remain in stock", () => {
+        const g = new ThricewiseGame(3);
+        const eightYk = cardsBasic.find(c => c.uid === "8YK")!;
+        const crownK = cardsBasic.find(c => c.uid === "NK")!;
+        const crownS = cardsBasic.find(c => c.uid === "NS")!;
+        g.phase = "place";
+        g.currplayer = 2;
+        g.playQueue = [2];
+        g.trickCard = [undefined, eightYk.uid, undefined];
+        g.hands = [[], [], []];
+        g.deferred = [[crownK.uid], [], [crownS.uid]];
+        g.scores = [34, 39, 26];
+        const empty = g.legalEmpties().find(([x, y]) =>
+            g.validateMove(`${eightYk.uid}@${x}.${y}`, 2).valid,
+        )!;
+        const wire = `${SIMULTANEOUS_ELIM_TOKEN},${eightYk.uid}@${empty[0]}.${empty[1]},${SIMULTANEOUS_ELIM_TOKEN}`;
+        g.move(wire);
+        expect(g.gameover).to.equal(true);
+        expect(g.winner).to.deep.equal([2]);
+        expect(g.deferred.flat().filter(uid => uid != null && uid !== "")).to.have.length(2);
+    });
+
     it("allows placement preview moves when hands are empty but the trick is still placing", () => {
         const g = new ThricewiseGame(2);
         g.phase = "place";

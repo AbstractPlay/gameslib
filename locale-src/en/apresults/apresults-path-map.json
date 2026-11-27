@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25",
+  "generatedAt": "2026-11-27",
   "schemaVersion": 1,
   "entries": [
     {
@@ -2501,6 +2501,126 @@
       "newPath": "clearpath.EOG.cutoff",
       "newFullKey": "apresults:clearpath.EOG.cutoff",
       "english": "{{player}} no longer has any possible connection, so {{winner}} cannot be stopped. The dashed line shows one of the possible connections still open to {{winner}}."
+    },
+    {
+      "oldPath": "CLAIM.colorfield_cubes_one",
+      "oldFullKey": "apresults:CLAIM.colorfield_cubes_one",
+      "uid": "colorfield",
+      "resultType": "CLAIM",
+      "newLeaf": "cubes_one",
+      "newPath": "colorfield.CLAIM.cubes_one",
+      "newFullKey": "apresults:colorfield.CLAIM.cubes_one",
+      "english": "{{player}} claimed a volume of {{count}} cube with {{red}} red segments to {{blue}} blue."
+    },
+    {
+      "oldPath": "CLAIM.colorfield_cubes_other",
+      "oldFullKey": "apresults:CLAIM.colorfield_cubes_other",
+      "uid": "colorfield",
+      "resultType": "CLAIM",
+      "newLeaf": "cubes_other",
+      "newPath": "colorfield.CLAIM.cubes_other",
+      "newFullKey": "apresults:colorfield.CLAIM.cubes_other",
+      "english": "{{player}} claimed a volume of {{count}} cubes with {{red}} red segments to {{blue}} blue."
+    },
+    {
+      "oldPath": "CLAIM.colorfield_region_one",
+      "oldFullKey": "apresults:CLAIM.colorfield_region_one",
+      "uid": "colorfield",
+      "resultType": "CLAIM",
+      "newLeaf": "region_one",
+      "newPath": "colorfield.CLAIM.region_one",
+      "newFullKey": "apresults:colorfield.CLAIM.region_one",
+      "english": "{{player}} claimed a region of {{count}} square, bordered by {{red}} red segments and {{blue}} blue segments."
+    },
+    {
+      "oldPath": "CLAIM.colorfield_region_other",
+      "oldFullKey": "apresults:CLAIM.colorfield_region_other",
+      "uid": "colorfield",
+      "resultType": "CLAIM",
+      "newLeaf": "region_other",
+      "newPath": "colorfield.CLAIM.region_other",
+      "newFullKey": "apresults:colorfield.CLAIM.region_other",
+      "english": "{{player}} claimed a region of {{count}} squares, bordered by {{red}} red segments and {{blue}} blue segments."
+    },
+    {
+      "oldPath": "CLAIM.colorfield_units_one",
+      "oldFullKey": "apresults:CLAIM.colorfield_units_one",
+      "uid": "colorfield",
+      "resultType": "CLAIM",
+      "newLeaf": "units_one",
+      "newPath": "colorfield.CLAIM.units_one",
+      "newFullKey": "apresults:colorfield.CLAIM.units_one",
+      "english": "{{player}} claimed a volume of {{count}} unit with {{red}} red segments to {{blue}} blue."
+    },
+    {
+      "oldPath": "CLAIM.colorfield_units_other",
+      "oldFullKey": "apresults:CLAIM.colorfield_units_other",
+      "uid": "colorfield",
+      "resultType": "CLAIM",
+      "newLeaf": "units_other",
+      "newPath": "colorfield.CLAIM.units_other",
+      "newFullKey": "apresults:colorfield.CLAIM.units_other",
+      "english": "{{player}} claimed a volume of {{count}} units with {{red}} red segments to {{blue}} blue."
+    },
+    {
+      "oldPath": "EOG.colorfield_cubes",
+      "oldFullKey": "apresults:EOG.colorfield_cubes",
+      "uid": "colorfield",
+      "resultType": "EOG",
+      "newLeaf": "cubes",
+      "newPath": "colorfield.EOG.cubes",
+      "newFullKey": "apresults:colorfield.EOG.cubes",
+      "english": "{{player}} owns more than half of the cubes."
+    },
+    {
+      "oldPath": "EOG.colorfield_squares",
+      "oldFullKey": "apresults:EOG.colorfield_squares",
+      "uid": "colorfield",
+      "resultType": "EOG",
+      "newLeaf": "squares",
+      "newPath": "colorfield.EOG.squares",
+      "newFullKey": "apresults:colorfield.EOG.squares",
+      "english": "{{player}} owns more than half of the squares."
+    },
+    {
+      "oldPath": "EOG.colorfield_units",
+      "oldFullKey": "apresults:EOG.colorfield_units",
+      "uid": "colorfield",
+      "resultType": "EOG",
+      "newLeaf": "units",
+      "newPath": "colorfield.EOG.units",
+      "newFullKey": "apresults:colorfield.EOG.units",
+      "english": "{{player}} owns more than half of the units."
+    },
+    {
+      "oldPath": "PASS.colorfield_skipped",
+      "oldFullKey": "apresults:PASS.colorfield_skipped",
+      "uid": "colorfield",
+      "resultType": "PASS",
+      "newLeaf": "skipped",
+      "newPath": "colorfield.PASS.skipped",
+      "newFullKey": "apresults:colorfield.PASS.skipped",
+      "english": "{{player}} had no available move, so the turn was skipped."
+    },
+    {
+      "oldPath": "PLACE.colorfield_connector",
+      "oldFullKey": "apresults:PLACE.colorfield_connector",
+      "uid": "colorfield",
+      "resultType": "PLACE",
+      "newLeaf": "connector",
+      "newPath": "colorfield.PLACE.connector",
+      "newFullKey": "apresults:colorfield.PLACE.connector",
+      "english": "{{player}} formed the connector {{where}}."
+    },
+    {
+      "oldPath": "PLACE.colorfield_segment",
+      "oldFullKey": "apresults:PLACE.colorfield_segment",
+      "uid": "colorfield",
+      "resultType": "PLACE",
+      "newLeaf": "segment",
+      "newPath": "colorfield.PLACE.segment",
+      "newFullKey": "apresults:colorfield.PLACE.segment",
+      "english": "{{player}} drew the segment {{where}}."
     },
     {
       "oldPath": "CLAIM.conhex",

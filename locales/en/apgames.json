@@ -1600,6 +1600,18 @@
       "PARTIAL": "Select an orthogonally adjacent piece to capture (yours or your opponent's).",
       "SINGLE_GROUP": "After your capture, there must be only one orthogonally connected group that contains your own checkers."
     },
+    "colorfield": {
+      "INITIAL_INSTRUCTIONS": "Click near the middle of a segment to draw it. A black dotted line marks a segment you must not draw.",
+      "CONNECTOR_INSTRUCTIONS": "Click near the middle of a segment to draw it, or click a dot to form the connector at that dot. Black dotted marks show what you must not draw.",
+      "INVALID_SEGMENT": "{{move}} is not a segment of this board. A segment is written as the names of the two dots it connects, for example {{example}}.",
+      "ALREADY_DRAWN": "The segment {{where}} has already been drawn.",
+      "SUBDIVIDE": "You must not draw the segment {{where}}. It would subdivide an enclosed region.",
+      "EQUAL_REGION": "You must not draw the segment {{where}}. It would form an enclosure bordered by {{num}} red segments and {{num}} blue segments - an equal number.",
+      "EQUAL_VOLUME": "You must not draw the segment {{where}}. It would enclose a volume with {{num}} red segments and {{num}} blue segments - an equal number.",
+      "NO_PASS": "Passing is not allowed. You have an available move.",
+      "MUST_PASS": "You have no available move. Your turn is skipped.",
+      "LABEL_BOARD": "Board {{num}}"
+    },
     "compart": {
       "INSTRUCTIONS_one": "Place one piece on the last viable area.",
       "INSTRUCTIONS_other": "Place {{count}} pieces, one on each friendly viable area (connected groups of friendly pieces and empty cells).",
@@ -4466,6 +4478,7 @@
     "clearcut": "Connect opposite sides of the board. Lines of pieces may cross in some circumstances, and this results in the removal of some opposing pieces.",
     "clearpath": "An orthogonal connection game on the points of a square grid. Red connects the top and bottom edges, Blue the left and right edges, with a chain of orthogonally adjacent stones. Each turn you place one stone. A point is vital to a player if every possible connection of theirs passes through it. You may not place on a point vital to your opponent unless it is also vital to you, or your placement completes your connection. Crosscuts are allowed. A placement that leaves your opponent without any possible connection wins at once, since your opponent can never connect.",
     "clusterfuss": "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
+    "colorfield": "A dot connection and enclosure game with two colours of line segments. Red and Blue take turns drawing unit length segments of their own colour on a grid of dots. When a region is enclosed, it is owned by whoever has more segments bordering the enclosure, and an enclosure bordered by an equal number of red and blue segments must not be formed. Whoever owns the most territory wins. Colorfield can also be played on 3D and 4D grids.",
     "compart": "Play on each viable area, but be the one with fewer pieces at the end.",
     "complica": "A simple connect-4 game played on a narrow field where the columns never fill up.",
     "conect": "A connection game played on the curved surface of a cone. The goal is to create a closed loop from the player's edge to the centre, or to connect a path to the centre. The game can be played on a projection, which is isomorphic to the usual Hex rhombus with some cells overlapping or removed.",
@@ -4779,6 +4792,7 @@
     "clearcut": "Halfcut",
     "clearpath": "Clear Path",
     "clusterfuss": "Clusterfuss",
+    "colorfield": "Colorfield",
     "compart": "Compart",
     "complica": "Complica",
     "conect": "Conect",
@@ -5266,6 +5280,12 @@
       "hide-markers": {
         "description": "Don't show visual markers for the location of the corridor and scored tiles.",
         "name": "Hide markers"
+      }
+    },
+    "colorfield": {
+      "stacked": {
+        "name": "4D boards stacked",
+        "description": "On the 4D board, show Board 2 below Board 1 instead of beside it. This suits a narrow screen."
       }
     },
     "compart": {
@@ -6594,6 +6614,36 @@
       },
       "#board": {
         "name": "Default board (8x8)"
+      }
+    },
+    "colorfield": {
+      "#board": {
+        "name": "2D: 6x6",
+        "description": "A 6x6 grid of dots outlining 25 squares."
+      },
+      "size-8": {
+        "name": "2D: 8x8",
+        "description": "An 8x8 grid of dots outlining 49 squares."
+      },
+      "size-10": {
+        "name": "2D: 10x10",
+        "description": "A 10x10 grid of dots outlining 81 squares."
+      },
+      "size-12": {
+        "name": "2D: 12x12",
+        "description": "A 12x12 grid of dots outlining 121 squares."
+      },
+      "3d-4x4x2": {
+        "name": "3D: 4x4x2",
+        "description": "A 4x4 front grid and a 4x4 back grid outlining 9 cubes."
+      },
+      "3d-6x6x2": {
+        "name": "3D: 6x6x2",
+        "description": "A 6x6 front grid and a 6x6 back grid outlining 25 cubes."
+      },
+      "4d-4x4x2x2": {
+        "name": "4D: 4x4x2x2",
+        "description": "Two 4x4x2 boards side by side, together outlining 9 units."
       }
     },
     "compart": {

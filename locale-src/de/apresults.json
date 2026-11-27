@@ -999,6 +999,54 @@
     "src": "{{player}} no longer has any possible connection, so {{winner}} cannot be stopped. The dashed line shows one of the possible connections still open to {{winner}}.",
     "out": "{{player}} hat keine mögliche Verbindung mehr, daher kann {{winner}} nicht mehr aufgehalten werden. Die gestrichelte Linie zeigt eine der für {{winner}} noch offenen Verbindungen."
   },
+  "colorfield.CLAIM.cubes_one": {
+    "src": "{{player}} claimed a volume of {{count}} cube with {{red}} red segments to {{blue}} blue.",
+    "out": "{{player}} hat ein Volumen von {{count}} Würfel mit {{red}} roten zu {{blue}} blauen Segmenten beansprucht."
+  },
+  "colorfield.CLAIM.cubes_other": {
+    "src": "{{player}} claimed a volume of {{count}} cubes with {{red}} red segments to {{blue}} blue.",
+    "out": "{{player}} hat ein Volumen von {{count}} Würfeln mit {{red}} roten zu {{blue}} blauen Segmenten beansprucht."
+  },
+  "colorfield.CLAIM.region_one": {
+    "src": "{{player}} claimed a region of {{count}} square, bordered by {{red}} red segments and {{blue}} blue segments.",
+    "out": "{{player}} hat eine Region von {{count}} Feld beansprucht, begrenzt von {{red}} roten Segmenten und {{blue}} blauen Segmenten."
+  },
+  "colorfield.CLAIM.region_other": {
+    "src": "{{player}} claimed a region of {{count}} squares, bordered by {{red}} red segments and {{blue}} blue segments.",
+    "out": "{{player}} hat eine Region von {{count}} Feldern beansprucht, begrenzt von {{red}} roten Segmenten und {{blue}} blauen Segmenten."
+  },
+  "colorfield.CLAIM.units_one": {
+    "src": "{{player}} claimed a volume of {{count}} unit with {{red}} red segments to {{blue}} blue.",
+    "out": "{{player}} hat ein Volumen von {{count}} Einheit mit {{red}} roten zu {{blue}} blauen Segmenten beansprucht."
+  },
+  "colorfield.CLAIM.units_other": {
+    "src": "{{player}} claimed a volume of {{count}} units with {{red}} red segments to {{blue}} blue.",
+    "out": "{{player}} hat ein Volumen von {{count}} Einheiten mit {{red}} roten zu {{blue}} blauen Segmenten beansprucht."
+  },
+  "colorfield.EOG.cubes": {
+    "src": "{{player}} owns more than half of the cubes.",
+    "out": "{{player}} besitzt mehr als die Hälfte der Würfel."
+  },
+  "colorfield.EOG.squares": {
+    "src": "{{player}} owns more than half of the squares.",
+    "out": "{{player}} besitzt mehr als die Hälfte der Felder."
+  },
+  "colorfield.EOG.units": {
+    "src": "{{player}} owns more than half of the units.",
+    "out": "{{player}} besitzt mehr als die Hälfte der Einheiten."
+  },
+  "colorfield.PASS.skipped": {
+    "src": "{{player}} had no available move, so the turn was skipped.",
+    "out": "{{player}} hatte keinen möglichen Zug, daher wurde der Zug übersprungen."
+  },
+  "colorfield.PLACE.connector": {
+    "src": "{{player}} formed the connector {{where}}.",
+    "out": "{{player}} hat das Verbindungsstück {{where}} gebildet."
+  },
+  "colorfield.PLACE.segment": {
+    "src": "{{player}} drew the segment {{where}}.",
+    "out": "{{player}} hat das Segment {{where}} gezogen."
+  },
   "conhex.CLAIM.default": {
     "src": "{{player}} claimed the space at ({{where}}).",
     "out": "{{player}} hat das Feld auf ({{where}}) beansprucht."

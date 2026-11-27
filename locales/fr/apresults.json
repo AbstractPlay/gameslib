@@ -555,6 +555,28 @@
       "cutoff": "{{player}} n'a plus aucune connexion possible, donc {{winner}} ne peut plus être arrêté. La ligne en pointillés montre l'une des connexions encore ouvertes pour {{winner}}."
     }
   },
+  "colorfield": {
+    "PLACE": {
+      "segment": "{{player}} a tracé le segment {{where}}.",
+      "connector": "{{player}} a formé le connecteur {{where}}."
+    },
+    "CLAIM": {
+      "region_one": "{{player}} a revendiqué une région de {{count}} case, délimitée par {{red}} segments rouges et {{blue}} segments bleus.",
+      "region_other": "{{player}} a revendiqué une région de {{count}} cases, délimitée par {{red}} segments rouges et {{blue}} segments bleus.",
+      "cubes_one": "{{player}} a revendiqué un volume de {{count}} cube avec {{red}} segments rouges contre {{blue}} bleus.",
+      "cubes_other": "{{player}} a revendiqué un volume de {{count}} cubes avec {{red}} segments rouges contre {{blue}} bleus.",
+      "units_one": "{{player}} a revendiqué un volume de {{count}} unité avec {{red}} segments rouges contre {{blue}} bleus.",
+      "units_other": "{{player}} a revendiqué un volume de {{count}} unités avec {{red}} segments rouges contre {{blue}} bleus."
+    },
+    "PASS": {
+      "skipped": "{{player}} n'avait aucun coup disponible, le tour a donc été passé."
+    },
+    "EOG": {
+      "squares": "{{player}} possède plus de la moitié des cases.",
+      "cubes": "{{player}} possède plus de la moitié des cubes.",
+      "units": "{{player}} possède plus de la moitié des unités."
+    }
+  },
   "conhex": {
     "CLAIM": {
       "default": "{{player}} a réclamé l'emplacement en ({{where}})."

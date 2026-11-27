@@ -555,6 +555,28 @@
       "cutoff": "{{player}} hat keine mögliche Verbindung mehr, daher kann {{winner}} nicht mehr aufgehalten werden. Die gestrichelte Linie zeigt eine der für {{winner}} noch offenen Verbindungen."
     }
   },
+  "colorfield": {
+    "PLACE": {
+      "segment": "{{player}} hat das Segment {{where}} gezogen.",
+      "connector": "{{player}} hat das Verbindungsstück {{where}} gebildet."
+    },
+    "CLAIM": {
+      "region_one": "{{player}} hat eine Region von {{count}} Feld beansprucht, begrenzt von {{red}} roten Segmenten und {{blue}} blauen Segmenten.",
+      "region_other": "{{player}} hat eine Region von {{count}} Feldern beansprucht, begrenzt von {{red}} roten Segmenten und {{blue}} blauen Segmenten.",
+      "cubes_one": "{{player}} hat ein Volumen von {{count}} Würfel mit {{red}} roten zu {{blue}} blauen Segmenten beansprucht.",
+      "cubes_other": "{{player}} hat ein Volumen von {{count}} Würfeln mit {{red}} roten zu {{blue}} blauen Segmenten beansprucht.",
+      "units_one": "{{player}} hat ein Volumen von {{count}} Einheit mit {{red}} roten zu {{blue}} blauen Segmenten beansprucht.",
+      "units_other": "{{player}} hat ein Volumen von {{count}} Einheiten mit {{red}} roten zu {{blue}} blauen Segmenten beansprucht."
+    },
+    "PASS": {
+      "skipped": "{{player}} hatte keinen möglichen Zug, daher wurde der Zug übersprungen."
+    },
+    "EOG": {
+      "squares": "{{player}} besitzt mehr als die Hälfte der Felder.",
+      "cubes": "{{player}} besitzt mehr als die Hälfte der Würfel.",
+      "units": "{{player}} besitzt mehr als die Hälfte der Einheiten."
+    }
+  },
   "conhex": {
     "CLAIM": {
       "default": "{{player}} hat das Feld auf ({{where}}) beansprucht."

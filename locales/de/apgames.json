@@ -1600,6 +1600,18 @@
       "PARTIAL": "Wähle einen orthogonal angrenzenden Stein zum Schlagen (deinen eigenen oder den deines Gegners).",
       "SINGLE_GROUP": "Nach deinem Schlagzug darf es nur eine zusammenhängende Gruppe geben, die deine eigenen Spielsteine enthält."
     },
+    "colorfield": {
+      "INITIAL_INSTRUCTIONS": "Klicke nahe der Mitte eines Segments, um es zu zeichnen. Eine schwarz gestrichelte Linie markiert ein Segment, das du nicht zeichnen darfst.",
+      "CONNECTOR_INSTRUCTIONS": "Klicke nahe der Mitte eines Segments, um es zu zeichnen, oder klicke auf einen Punkt, um den Verbinder an diesem Punkt zu bilden. Schwarz gestrichelte Markierungen zeigen, was du nicht zeichnen darfst.",
+      "INVALID_SEGMENT": "{{move}} ist kein Segment dieses Spielfelds. Ein Segment wird als die Namen der zwei Punkte geschrieben, die es verbindet, zum Beispiel {{example}}.",
+      "ALREADY_DRAWN": "Das Segment {{where}} wurde bereits gezeichnet.",
+      "SUBDIVIDE": "Du darfst das Segment {{where}} nicht zeichnen. Es würde eine bereits eingeschlossene Region unterteilen.",
+      "EQUAL_REGION": "Du darfst das Segment {{where}} nicht zeichnen. Es würde eine Einschließung bilden, die an {{num}} rote Segmente und {{num}} blaue Segmente grenzt – eine gleiche Anzahl.",
+      "EQUAL_VOLUME": "Du darfst das Segment {{where}} nicht zeichnen. Es würde ein Volumen mit {{num}} roten Segmenten und {{num}} blauen Segmenten einschließen – eine gleiche Anzahl.",
+      "NO_PASS": "Passen ist nicht erlaubt. Du hast einen verfügbaren Zug.",
+      "MUST_PASS": "Du hast keinen möglichen Zug. Dein Zug wird übersprungen.",
+      "LABEL_BOARD": "Brett {{num}}"
+    },
     "compart": {
       "INSTRUCTIONS_one": "Platziere einen Stein auf dem letzten lebensfähigen Bereich.",
       "INSTRUCTIONS_other": "Platziere {{count}} Steine, jeweils einen auf jedem eigenen lebensfähigen Bereich (zusammenhängende Gruppen eigener Steine und leerer Felder).",
@@ -4466,6 +4478,7 @@
     "clearcut": "Verbinde gegenüberliegende Seiten des Bretts. Linien von Steinen können sich unter bestimmten Umständen kreuzen, was zur Entfernung einiger gegnerischer Steine führt.",
     "clearpath": "Ein orthogonales Verbindungsspiel auf den Punkten eines quadratischen Gitters. Rot verbindet den oberen und unteren Rand, Blau den linken und rechten Rand mit einer Kette von orthogonal angrenzenden Steinen. In jedem Zug setzt du einen Stein. Ein Punkt ist für einen Spieler vital, wenn jede seiner möglichen Verbindungen durch ihn verläuft. Du darfst nicht auf einen Punkt setzen, der für deinen Gegner vital ist, außer er ist auch für dich vital oder dein Zug vollendet deine Verbindung. Crosscuts sind erlaubt. Ein Zug, der deinen Gegner ohne jegliche mögliche Verbindung zurücklässt, gewinnt sofort, da der Gegner sich nie mehr verbinden kann.",
     "clusterfuss": "Schlage kontinuierlich Steine mit dem Ziel, Gruppen gegnerischer Steine abzutrennen (und dadurch zu eliminieren). Sei der Letzte, der noch steht!",
+    "colorfield": "Ein Punkte-Verbindungs- und Einschließungsspiel mit zwei Farben von Liniensegmenten. Rot und Blau zeichnen abwechselnd Segmente der Länge 1 in ihrer eigenen Farbe auf ein Punkteraster. Wenn eine Region eingeschlossen wird, gehört sie der Person, die mehr angrenzende Segmente an der Einschließung hat. Eine Einschließung mit einer gleichen Anzahl roter und blauer Segmente darf nicht gebildet werden. Wer das meiste Territorium besitzt, gewinnt. Colorfield kann auch auf 3D- und 4D-Rastern gespielt werden.",
     "compart": "Spiele auf jedem nutzbaren Bereich, aber sei derjenige mit weniger Steinen am Ende.",
     "complica": "Ein einfaches Vier-gewinnt-Spiel auf einem schmalen Feld, bei dem die Spalten nie voll werden.",
     "conect": "Ein Verbindungsspiel auf der gekrümmten Oberfläche eines Kegels. Das Ziel ist es, eine geschlossene Schleife vom Rand des Spielers zur Mitte zu bilden oder einen Pfad zur Mitte zu verbinden. Das Spiel kann auf einer Projektion gespielt werden, die isomorph zum üblichen Hex-Rhombus ist, wobei einige Zellen überlappen oder entfernt sind.",
@@ -5267,6 +5280,12 @@
       "hide-markers": {
         "description": "Visuelle Markierungen für die Position des Korridors und gewertete Plättchen ausblenden.",
         "name": "Markierungen ausblenden"
+      }
+    },
+    "colorfield": {
+      "stacked": {
+        "name": "4D-Bretter gestapelt",
+        "description": "Zeige auf dem 4D-Spielfeld Brett 2 unterhalb von Brett 1 anstatt daneben. Dies eignet sich für schmale Bildschirme."
       }
     },
     "compart": {
@@ -6595,6 +6614,36 @@
       },
       "#board": {
         "name": "Standardbrett (8x8)"
+      }
+    },
+    "colorfield": {
+      "#board": {
+        "name": "2D: 6x6",
+        "description": "Ein 6x6-Punkteraster, das 25 Quadrate begrenzt."
+      },
+      "size-8": {
+        "name": "2D: 8x8",
+        "description": "Ein 8x8-Punkteraster, das 49 Quadrate begrenzt."
+      },
+      "size-10": {
+        "name": "2D: 10x10",
+        "description": "Ein 10x10-Punkteraster, das 81 Quadrate begrenzt."
+      },
+      "size-12": {
+        "name": "2D: 12x12",
+        "description": "Ein 12x12-Punkteraster, das 121 Quadrate begrenzt."
+      },
+      "3d-4x4x2": {
+        "name": "3D: 4x4x2",
+        "description": "Ein vorderes 4x4-Raster und ein hinteres 4x4-Raster, die 9 Würfel begrenzen."
+      },
+      "3d-6x6x2": {
+        "name": "3D: 6x6x2",
+        "description": "Ein vorderes 6x6-Raster und ein hinteres 6x6-Raster, die 25 Würfel begrenzen."
+      },
+      "4d-4x4x2x2": {
+        "name": "4D: 4x4x2x2",
+        "description": "Zwei 4x4x2-Spielfelder nebeneinander, die zusammen 9 Einheiten begrenzen."
       }
     },
     "compart": {

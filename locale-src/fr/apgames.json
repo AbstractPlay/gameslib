@@ -1619,6 +1619,10 @@
     "src": "Continually capture pieces with the aim of detaching (and thereby eliminating) groups of opposing pieces. Be the last man standing!",
     "out": "Capturez continuellement des pièces dans le but de détacher (et ainsi éliminer) des groupes de pièces adverses. Soyez le dernier survivant !"
   },
+  "descriptions.colorfield": {
+    "src": "A dot connection and enclosure game with two colours of line segments. Red and Blue take turns drawing unit length segments of their own colour on a grid of dots. When a region is enclosed, it is owned by whoever has more segments bordering the enclosure, and an enclosure bordered by an equal number of red and blue segments must not be formed. Whoever owns the most territory wins. Colorfield can also be played on 3D and 4D grids.",
+    "out": "Un jeu de connexion de points et d'encerclement utilisant des segments de deux couleurs. Rouge et Bleu tracent à tour de rôle un segment de longueur unitaire de leur couleur sur une grille de points. Lorsqu'une région est encerclée, elle appartient au joueur qui possède le plus de segments bordant la zone encerclée ; il est interdit de former une zone encerclée bordée par un nombre égal de segments rouges et bleus. Le joueur qui contrôle le plus de territoire l'emporte. Colorfield peut également se jouer sur des grilles en 3D et 4D."
+  },
   "descriptions.compart": {
     "src": "Play on each viable area, but be the one with fewer pieces at the end.",
     "out": "Jouez sur chaque zone viable, mais soyez celui qui a le moins de pièces à la fin."
@@ -2774,6 +2778,14 @@
   "displays.ccorridor.hide-markers.name": {
     "src": "Hide markers",
     "out": "Masquer les repères"
+  },
+  "displays.colorfield.stacked.description": {
+    "src": "On the 4D board, show Board 2 below Board 1 instead of beside it. This suits a narrow screen.",
+    "out": "Sur le plateau 4D, afficher le Plateau 2 sous le Plateau 1 au lieu de le placer à côté. Adapté aux écrans étroits."
+  },
+  "displays.colorfield.stacked.name": {
+    "src": "4D boards stacked",
+    "out": "Plateaux 4D empilés"
   },
   "displays.compart.show-viable-areas.description": {
     "src": "Highlight viable areas where placements are required.",
@@ -8518,6 +8530,46 @@
   "validation.clusterfuss.SINGLE_GROUP": {
     "src": "After your capture, there must be only one orthogonally connected group that contains your own checkers.",
     "out": "Après votre capture, il ne doit y avoir qu'un seul groupe connecté orthogonalement contenant vos propres pions."
+  },
+  "validation.colorfield.ALREADY_DRAWN": {
+    "src": "The segment {{where}} has already been drawn.",
+    "out": "Le segment {{where}} a déjà été tracé."
+  },
+  "validation.colorfield.CONNECTOR_INSTRUCTIONS": {
+    "src": "Click near the middle of a segment to draw it, or click a dot to form the connector at that dot. Black dotted marks show what you must not draw.",
+    "out": "Cliquez près du milieu d'un segment pour le tracer, ou cliquez sur un point pour former le connecteur à ce point. Les marques en pointillés noirs indiquent les segments qu'il ne faut pas tracer."
+  },
+  "validation.colorfield.EQUAL_REGION": {
+    "src": "You must not draw the segment {{where}}. It would form an enclosure bordered by {{num}} red segments and {{num}} blue segments - an equal number.",
+    "out": "Vous ne pouvez pas tracer le segment {{where}}. Cela formerait une zone encerclée bordée par {{num}} segments rouges et {{num}} segments bleus (un nombre égal)."
+  },
+  "validation.colorfield.EQUAL_VOLUME": {
+    "src": "You must not draw the segment {{where}}. It would enclose a volume with {{num}} red segments and {{num}} blue segments - an equal number.",
+    "out": "Vous ne pouvez pas tracer le segment {{where}}. Cela encerclerait un volume avec {{num}} segments rouges et {{num}} segments bleus (un nombre égal)."
+  },
+  "validation.colorfield.INITIAL_INSTRUCTIONS": {
+    "src": "Click near the middle of a segment to draw it. A black dotted line marks a segment you must not draw.",
+    "out": "Cliquez près du milieu d'un segment pour le tracer. Une ligne pointillée noire indique un segment qu'il ne faut pas tracer."
+  },
+  "validation.colorfield.INVALID_SEGMENT": {
+    "src": "{{move}} is not a segment of this board. A segment is written as the names of the two dots it connects, for example {{example}}.",
+    "out": "{{move}} n'est pas un segment de ce plateau. Un segment s'écrit avec les noms des deux points qu'il relie, par exemple {{example}}."
+  },
+  "validation.colorfield.LABEL_BOARD": {
+    "src": "Board {{num}}",
+    "out": "Plateau {{num}}"
+  },
+  "validation.colorfield.MUST_PASS": {
+    "src": "You have no available move. Your turn is skipped.",
+    "out": "Vous n'avez aucun coup possible. Votre tour est passé."
+  },
+  "validation.colorfield.NO_PASS": {
+    "src": "Passing is not allowed. You have an available move.",
+    "out": "Passer son tour n'est pas autorisé. Vous avez un coup disponible."
+  },
+  "validation.colorfield.SUBDIVIDE": {
+    "src": "You must not draw the segment {{where}}. It would subdivide an enclosed region.",
+    "out": "Vous ne pouvez pas tracer le segment {{where}}. Cela subdiviserait une région déjà encerclée."
   },
   "validation.compart.INSTRUCTIONS_ANY": {
     "src": "Place one piece on any empty cell.",
@@ -18858,6 +18910,62 @@
   "variants.clusterfuss.10.name": {
     "src": "Larger board (10x10)",
     "out": "Grand plateau (10x10)"
+  },
+  "variants.colorfield.#board.description": {
+    "src": "A 6x6 grid of dots outlining 25 squares.",
+    "out": "Une grille de points de 6x6 délimitant 25 carrés."
+  },
+  "variants.colorfield.#board.name": {
+    "src": "2D: 6x6",
+    "out": "2D : 6x6"
+  },
+  "variants.colorfield.3d-4x4x2.description": {
+    "src": "A 4x4 front grid and a 4x4 back grid outlining 9 cubes.",
+    "out": "Une grille avant de 4x4 et une grille arrière de 4x4 délimitant 9 cubes."
+  },
+  "variants.colorfield.3d-4x4x2.name": {
+    "src": "3D: 4x4x2",
+    "out": "3D : 4x4x2"
+  },
+  "variants.colorfield.3d-6x6x2.description": {
+    "src": "A 6x6 front grid and a 6x6 back grid outlining 25 cubes.",
+    "out": "Une grille avant de 6x6 et une grille arrière de 6x6 délimitant 25 cubes."
+  },
+  "variants.colorfield.3d-6x6x2.name": {
+    "src": "3D: 6x6x2",
+    "out": "3D : 6x6x2"
+  },
+  "variants.colorfield.4d-4x4x2x2.description": {
+    "src": "Two 4x4x2 boards side by side, together outlining 9 units.",
+    "out": "Deux plateaux 4x4x2 côte à côte, délimitant ensemble 9 unités."
+  },
+  "variants.colorfield.4d-4x4x2x2.name": {
+    "src": "4D: 4x4x2x2",
+    "out": "4D : 4x4x2x2"
+  },
+  "variants.colorfield.size-10.description": {
+    "src": "A 10x10 grid of dots outlining 81 squares.",
+    "out": "Une grille de points de 10x10 délimitant 81 carrés."
+  },
+  "variants.colorfield.size-10.name": {
+    "src": "2D: 10x10",
+    "out": "2D : 10x10"
+  },
+  "variants.colorfield.size-12.description": {
+    "src": "A 12x12 grid of dots outlining 121 squares.",
+    "out": "Une grille de points de 12x12 délimitant 121 carrés."
+  },
+  "variants.colorfield.size-12.name": {
+    "src": "2D: 12x12",
+    "out": "2D : 12x12"
+  },
+  "variants.colorfield.size-8.description": {
+    "src": "An 8x8 grid of dots outlining 49 squares.",
+    "out": "Une grille de points de 8x8 délimitant 49 carrés."
+  },
+  "variants.colorfield.size-8.name": {
+    "src": "2D: 8x8",
+    "out": "2D : 8x8"
   },
   "variants.compart.#board.name": {
     "src": "9x9 board",

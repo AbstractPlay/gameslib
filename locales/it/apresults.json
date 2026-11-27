@@ -555,6 +555,28 @@
       "cutoff": "{{player}} non ha più alcuna connessione possibile, quindi {{winner}} non può essere fermato. La linea tratteggiata mostra una delle possibili connessioni ancora aperte per {{winner}}."
     }
   },
+  "colorfield": {
+    "PLACE": {
+      "segment": "{{player}} ha tracciato il segmento {{where}}.",
+      "connector": "{{player}} ha formato il connettore {{where}}."
+    },
+    "CLAIM": {
+      "region_one": "{{player}} ha conquistato una regione di {{count}} casella, delimitata da {{red}} segmenti rossi e {{blue}} segmenti blu.",
+      "region_other": "{{player}} ha conquistato una regione di {{count}} caselle, delimitata da {{red}} segmenti rossi e {{blue}} segmenti blu.",
+      "cubes_one": "{{player}} ha conquistato un volume di {{count}} cubo con {{red}} segmenti rossi contro {{blue}} blu.",
+      "cubes_other": "{{player}} ha conquistato un volume di {{count}} cubi con {{red}} segmenti rossi contro {{blue}} blu.",
+      "units_one": "{{player}} ha conquistato un volume di {{count}} unità con {{red}} segmenti rossi contro {{blue}} blu.",
+      "units_other": "{{player}} ha conquistato un volume di {{count}} unità con {{red}} segmenti rossi contro {{blue}} blu."
+    },
+    "PASS": {
+      "skipped": "{{player}} non aveva alcuna mossa disponibile, quindi il turno è stato saltato."
+    },
+    "EOG": {
+      "squares": "{{player}} possiede più della metà delle caselle.",
+      "cubes": "{{player}} possiede più della metà dei cubi.",
+      "units": "{{player}} possiede più della metà delle unità."
+    }
+  },
   "conhex": {
     "CLAIM": {
       "default": "{{player}} ha reclamato lo spazio in ({{where}})."

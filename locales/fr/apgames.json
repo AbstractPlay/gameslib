@@ -1600,6 +1600,18 @@
       "PARTIAL": "Sélectionnez une pièce adjacente orthogonalement à capturer (la vôtre ou celle de votre adversaire).",
       "SINGLE_GROUP": "Après votre capture, il ne doit y avoir qu'un seul groupe connecté orthogonalement contenant vos propres pions."
     },
+    "colorfield": {
+      "INITIAL_INSTRUCTIONS": "Cliquez près du milieu d'un segment pour le tracer. Une ligne pointillée noire indique un segment qu'il ne faut pas tracer.",
+      "CONNECTOR_INSTRUCTIONS": "Cliquez près du milieu d'un segment pour le tracer, ou cliquez sur un point pour former le connecteur à ce point. Les marques en pointillés noirs indiquent les segments qu'il ne faut pas tracer.",
+      "INVALID_SEGMENT": "{{move}} n'est pas un segment de ce plateau. Un segment s'écrit avec les noms des deux points qu'il relie, par exemple {{example}}.",
+      "ALREADY_DRAWN": "Le segment {{where}} a déjà été tracé.",
+      "SUBDIVIDE": "Vous ne pouvez pas tracer le segment {{where}}. Cela subdiviserait une région déjà encerclée.",
+      "EQUAL_REGION": "Vous ne pouvez pas tracer le segment {{where}}. Cela formerait une zone encerclée bordée par {{num}} segments rouges et {{num}} segments bleus (un nombre égal).",
+      "EQUAL_VOLUME": "Vous ne pouvez pas tracer le segment {{where}}. Cela encerclerait un volume avec {{num}} segments rouges et {{num}} segments bleus (un nombre égal).",
+      "NO_PASS": "Passer son tour n'est pas autorisé. Vous avez un coup disponible.",
+      "MUST_PASS": "Vous n'avez aucun coup possible. Votre tour est passé.",
+      "LABEL_BOARD": "Plateau {{num}}"
+    },
     "compart": {
       "INSTRUCTIONS_one": "Placez une pièce sur la dernière zone viable.",
       "INSTRUCTIONS_other": "Placez {{count}} pièces, une sur chaque zone viable alliée (groupes connectés de pièces alliées et de cases vides).",
@@ -4466,6 +4478,7 @@
     "clearcut": "Reliez les côtés opposés du plateau. Les lignes de pièces peuvent se croiser dans certaines circonstances, ce qui entraîne le retrait de certaines pièces adverses.",
     "clearpath": "Un jeu de connexion orthogonale sur les points d'une grille carrée. Le joueur Rouge relie les bords supérieur et inférieur, et le joueur Bleu les bords gauche et droit, avec une chaîne de pierres orthogonalement adjacentes. À chaque tour, vous posez une pierre. Un point est vital pour un joueur si chacune de ses connexions possibles passe par ce point. Vous ne pouvez pas poser de pierre sur un point vital pour votre adversaire, sauf s'il est également vital pour vous ou si votre coup complète votre connexion. Les croisements sont autorisés. Un coup qui laisse votre adversaire sans aucune connexion possible gagne immédiatement, car votre adversaire ne pourra plus jamais se connecter.",
     "clusterfuss": "Capturez continuellement des pièces dans le but de détacher (et ainsi éliminer) des groupes de pièces adverses. Soyez le dernier survivant !",
+    "colorfield": "Un jeu de connexion de points et d'encerclement utilisant des segments de deux couleurs. Rouge et Bleu tracent à tour de rôle un segment de longueur unitaire de leur couleur sur une grille de points. Lorsqu'une région est encerclée, elle appartient au joueur qui possède le plus de segments bordant la zone encerclée ; il est interdit de former une zone encerclée bordée par un nombre égal de segments rouges et bleus. Le joueur qui contrôle le plus de territoire l'emporte. Colorfield peut également se jouer sur des grilles en 3D et 4D.",
     "compart": "Jouez sur chaque zone viable, mais soyez celui qui a le moins de pièces à la fin.",
     "complica": "Un jeu simple de Puissance 4 joué sur un terrain étroit où les colonnes ne se remplissent jamais.",
     "conect": "Un jeu de connexion joué sur la surface courbe d'un cône. Le but est de créer une boucle fermée allant du bord du joueur jusqu'au centre, ou de connecter un chemin jusqu'au centre. Le jeu peut être joué sur une projection, isomorphe au losange classique de Hex avec certaines cases se chevauchant ou supprimées.",
@@ -5267,6 +5280,12 @@
       "hide-markers": {
         "description": "Ne pas afficher les repères visuels pour l'emplacement du couloir et des tuiles marquées.",
         "name": "Masquer les repères"
+      }
+    },
+    "colorfield": {
+      "stacked": {
+        "name": "Plateaux 4D empilés",
+        "description": "Sur le plateau 4D, afficher le Plateau 2 sous le Plateau 1 au lieu de le placer à côté. Adapté aux écrans étroits."
       }
     },
     "compart": {
@@ -6595,6 +6614,36 @@
       },
       "#board": {
         "name": "Plateau par défaut (8x8)"
+      }
+    },
+    "colorfield": {
+      "#board": {
+        "name": "2D : 6x6",
+        "description": "Une grille de points de 6x6 délimitant 25 carrés."
+      },
+      "size-8": {
+        "name": "2D : 8x8",
+        "description": "Une grille de points de 8x8 délimitant 49 carrés."
+      },
+      "size-10": {
+        "name": "2D : 10x10",
+        "description": "Une grille de points de 10x10 délimitant 81 carrés."
+      },
+      "size-12": {
+        "name": "2D : 12x12",
+        "description": "Une grille de points de 12x12 délimitant 121 carrés."
+      },
+      "3d-4x4x2": {
+        "name": "3D : 4x4x2",
+        "description": "Une grille avant de 4x4 et une grille arrière de 4x4 délimitant 9 cubes."
+      },
+      "3d-6x6x2": {
+        "name": "3D : 6x6x2",
+        "description": "Une grille avant de 6x6 et une grille arrière de 6x6 délimitant 25 cubes."
+      },
+      "4d-4x4x2x2": {
+        "name": "4D : 4x4x2x2",
+        "description": "Deux plateaux 4x4x2 côte à côte, délimitant ensemble 9 unités."
       }
     },
     "compart": {

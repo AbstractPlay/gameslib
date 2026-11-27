@@ -1600,6 +1600,18 @@
       "PARTIAL": "Selecciona una pieza ortogonalmente adyacente para capturar (tuya o de tu oponente).",
       "SINGLE_GROUP": "Después de tu captura, solo debe haber un grupo ortogonalmente conectado que contenga tus propias fichas."
     },
+    "colorfield": {
+      "INITIAL_INSTRUCTIONS": "Haz clic cerca del centro de un segmento para dibujarlo. Una línea punteada negra marca un segmento que no debes dibujar.",
+      "CONNECTOR_INSTRUCTIONS": "Haz clic cerca del centro de un segmento para dibujarlo, o haz clic en un punto para formar el conector en ese punto. Las marcas punteadas en negro muestran lo que no debes dibujar.",
+      "INVALID_SEGMENT": "{{move}} no es un segmento de este tablero. Un segmento se escribe como los nombres de los dos puntos que conecta; por ejemplo, {{example}}.",
+      "ALREADY_DRAWN": "El segmento {{where}} ya ha sido dibujado.",
+      "SUBDIVIDE": "No debes dibujar el segmento {{where}}. Subdividiría una región encerrada.",
+      "EQUAL_REGION": "No debes dibujar el segmento {{where}}. Formaría un encierro bordeado por {{num}} segmentos rojos y {{num}} segmentos azules (una cantidad igual).",
+      "EQUAL_VOLUME": "No debes dibujar el segmento {{where}}. Encerraría un volumen con {{num}} segmentos rojos y {{num}} segmentos azules (una cantidad igual).",
+      "NO_PASS": "No se permite pasar. Tienes un movimiento disponible.",
+      "MUST_PASS": "No tienes movimientos disponibles. Se salta tu turno.",
+      "LABEL_BOARD": "Tablero {{num}}"
+    },
     "compart": {
       "INSTRUCTIONS_one": "Coloca una pieza en la última área viable.",
       "INSTRUCTIONS_other": "Coloca {{count}} piezas, una en cada área viable aliada (grupos conectados de piezas aliadas y casillas vacías).",
@@ -4466,6 +4478,7 @@
     "clearcut": "Conecta lados opuestos del tablero. Las líneas de piezas pueden cruzarse en algunas circunstancias, lo que resulta en la eliminación de algunas piezas enemigas.",
     "clearpath": "Un juego de conexión ortogonal sobre los puntos de una cuadrícula cuadrada. El jugador Rojo conecta los bordes superior e inferior, y el Azul los bordes izquierdo y derecho, mediante una cadena de fichas ortogonalmente adyacentes. En cada turno colocas una ficha. Un punto es vital para un jugador si todas sus conexiones posibles pasan por él. No puedes colocar en un punto vital para tu oponente a menos que también sea vital para ti, o que tu jugada complete tu conexión. Se permiten los cortes cruzados. Una jugada que deje a tu oponente sin ninguna conexión posible gana de inmediato, ya que tu oponente ya nunca podrá conectarse.",
     "clusterfuss": "Captura piezas continuamente con el objetivo de separar (y por lo tanto eliminar) grupos de piezas enemigas. ¡Sé el último en quedar en pie!",
+    "colorfield": "Un juego de conectar puntos y encerrar regiones con segmentos de línea de dos colores. Rojo y Azul se turnan para dibujar segmentos de longitud unitaria de su propio color en una cuadrícula de puntos. Cuando una región se encierra, pertenece a quien tenga más segmentos bordeando el encierro, y no se debe formar un encierro bordeado por una cantidad igual de segmentos rojos y azules. Gana quien posea la mayor cantidad de territorio. Colorfield también se puede jugar en cuadrículas 3D y 4D.",
     "compart": "Juega en cada área viable, pero sé quien tenga menos piezas al final.",
     "complica": "Un juego sencillo tipo 4 en línea que se juega en un campo estrecho donde las columnas nunca se llenan.",
     "conect": "Un juego de conexión que se juega en la superficie curva de un cono. El objetivo es crear un bucle cerrado desde el borde del jugador hasta el centro, o conectar un camino hacia el centro. El juego se puede jugar sobre una proyección, que es isomórfica al rombo habitual de Hex con algunas celdas superpuestas o eliminadas.",
@@ -5267,6 +5280,12 @@
       "hide-markers": {
         "description": "No mostrar marcadores visuales para la ubicación del corredor y fichas puntuadas.",
         "name": "Ocultar marcadores"
+      }
+    },
+    "colorfield": {
+      "stacked": {
+        "name": "Tableros 4D apilados",
+        "description": "En el tablero 4D, muestra el Tablero 2 debajo del Tablero 1 en lugar de al lado. Esto se adapta mejor a una pantalla estrecha."
       }
     },
     "compart": {
@@ -6595,6 +6614,36 @@
       },
       "#board": {
         "name": "Tablero predeterminado (8x8)"
+      }
+    },
+    "colorfield": {
+      "#board": {
+        "name": "2D: 6x6",
+        "description": "Una cuadrícula de puntos de 6x6 que delimita 25 cuadrados."
+      },
+      "size-8": {
+        "name": "2D: 8x8",
+        "description": "Una cuadrícula de puntos de 8x8 que delimita 49 cuadrados."
+      },
+      "size-10": {
+        "name": "2D: 10x10",
+        "description": "Una cuadrícula de puntos de 10x10 que delimita 81 cuadrados."
+      },
+      "size-12": {
+        "name": "2D: 12x12",
+        "description": "Una cuadrícula de puntos de 12x12 que delimita 121 cuadrados."
+      },
+      "3d-4x4x2": {
+        "name": "3D: 4x4x2",
+        "description": "Una cuadrícula frontal de 4x4 y una cuadrícula posterior de 4x4 que delimitan 9 cubos."
+      },
+      "3d-6x6x2": {
+        "name": "3D: 6x6x2",
+        "description": "Una cuadrícula frontal de 6x6 y una cuadrícula posterior de 6x6 que delimitan 25 cubos."
+      },
+      "4d-4x4x2x2": {
+        "name": "4D: 4x4x2x2",
+        "description": "Dos tableros de 4x4x2 uno al lado del otro, que juntos delimitan 9 unidades."
       }
     },
     "compart": {

@@ -1600,6 +1600,18 @@
       "PARTIAL": "Seleziona un pezzo ortogonalmente adiacente da catturare (tuo o del tuo avversario).",
       "SINGLE_GROUP": "Dopo la tua cattura, deve esserci un solo gruppo connesso ortogonalmente che contenga le tue pedine."
     },
+    "colorfield": {
+      "INITIAL_INSTRUCTIONS": "Fai clic vicino al centro di un segmento per tracciarlo. Una linea tratteggiata nera indica un segmento che non devi tracciare.",
+      "CONNECTOR_INSTRUCTIONS": "Fai clic vicino al centro di un segmento per tracciarlo, oppure fai clic su un punto per formare il connettore in quel punto. I segni tratteggiati neri mostrano ciò che non devi tracciare.",
+      "INVALID_SEGMENT": "{{move}} non è un segmento di questa plancia. Un segmento viene scritto indicando i nomi dei due punti che collega, ad esempio {{example}}.",
+      "ALREADY_DRAWN": "Il segmento {{where}} è già stato tracciato.",
+      "SUBDIVIDE": "Non puoi tracciare il segmento {{where}}. Suddividerebbe una regione già racchiusa.",
+      "EQUAL_REGION": "Non puoi tracciare il segmento {{where}}. Formerebbe un racchiudimento delimitato da {{num}} segmenti rossi e {{num}} segmenti blu - un numero uguale.",
+      "EQUAL_VOLUME": "Non puoi tracciare il segmento {{where}}. Racchiuderebbe un volume con {{num}} segmenti rossi e {{num}} segmenti blu - un numero uguale.",
+      "NO_PASS": "Passare il turno non è consentito. Hai una mossa disponibile.",
+      "MUST_PASS": "Non hai mosse disponibili. Il tuo turno viene saltato.",
+      "LABEL_BOARD": "Plancia {{num}}"
+    },
     "compart": {
       "INSTRUCTIONS_one": "Posiziona un pezzo sull'ultima area vitale.",
       "INSTRUCTIONS_other": "Posiziona {{count}} pezzi, uno su ciascuna area vitale amica (gruppi connessi di pezzi amici e celle vuote).",
@@ -4466,6 +4478,7 @@
     "clearcut": "Connetti i lati opposti del tavoliere. Le linee di pezzi possono incrociarsi in alcune circostanze, e questo comporta la rimozione di alcuni pezzi avversari.",
     "clearpath": "Un gioco di connessione ortogonale sui punti di una griglia quadrata. Il Rosso collega i bordi superiore e inferiore, il Blu i bordi sinistro e destro, con una catena di pedine ortogonalmente adiacenti. Ad ogni turno si posiziona una pedina. Un punto è vitale per un giocatore se ogni sua possibile connessione vi passa attraverso. Non puoi posizionare su un punto vitale per il tuo avversario a meno che non sia vitale anche per te, oppure che la tua mossa completi la tua connessione. I tagli incrociati sono consentiti. Un posizionamento che lascia il tuo avversario senza alcuna connessione possibile vince immediatamente, poiché l'avversario non potrà mai connettersi.",
     "clusterfuss": "Cattura continuamente pezzi con l'obiettivo di staccare (ed eliminare) gruppi di pezzi avversari. Sii l'ultimo a rimanere in piedi!",
+    "colorfield": "Un gioco di collegamento di punti e racchiudimento con segmenti di due colori. Rosso e Blu a turno tracciano segmenti di lunghezza unitaria del proprio colore su una griglia di punti. Quando una regione viene racchiusa, appartiene a chi possiede più segmenti che la delimitano, e non è possibile formare un racchiudimento delimitato da un numero uguale di segmenti rossi e blu. Chi possiede più territorio vince. Colorfield può essere giocato anche su griglie 3D e 4D.",
     "compart": "Gioca su ogni area praticabile, ma sii quello con meno pezzi alla fine.",
     "complica": "Un semplice gioco di forza 4 giocato su un campo stretto dove le colonne non si riempiono mai.",
     "conect": "Un gioco di connessione giocato sulla superficie curva di un cono. L'obiettivo è creare un anello chiuso dal bordo del giocatore al centro, oppure connettere un percorso al centro. Il gioco può essere giocato su una proiezione, che è isomorfa al solito rombo di Hex con alcune celle sovrapposte o rimosse.",
@@ -5267,6 +5280,12 @@
       "hide-markers": {
         "description": "Non mostrare indicatori visivi per la posizione del corridoio e delle tessere che hanno ottenuto punti.",
         "name": "Nascondi indicatori"
+      }
+    },
+    "colorfield": {
+      "stacked": {
+        "name": "Plance 4D impilate",
+        "description": "Sulla plancia 4D, mostra la Plancia 2 sotto la Plancia 1 invece che a fianco. Questo si adatta meglio agli schermi stretti."
       }
     },
     "compart": {
@@ -6595,6 +6614,36 @@
       },
       "#board": {
         "name": "Tabellone predefinito (8x8)"
+      }
+    },
+    "colorfield": {
+      "#board": {
+        "name": "2D: 6x6",
+        "description": "Una griglia di punti 6x6 che delimita 25 quadrati."
+      },
+      "size-8": {
+        "name": "2D: 8x8",
+        "description": "Una griglia di punti 8x8 che delimita 49 quadrati."
+      },
+      "size-10": {
+        "name": "2D: 10x10",
+        "description": "Una griglia di punti 10x10 che delimita 81 quadrati."
+      },
+      "size-12": {
+        "name": "2D: 12x12",
+        "description": "Una griglia di punti 12x12 che delimita 121 quadrati."
+      },
+      "3d-4x4x2": {
+        "name": "3D: 4x4x2",
+        "description": "Una griglia frontale 4x4 e una griglia posteriore 4x4 che delimitano 9 cubi."
+      },
+      "3d-6x6x2": {
+        "name": "3D: 6x6x2",
+        "description": "Una griglia frontale 6x6 e una griglia posteriore 6x6 che delimitano 25 cubi."
+      },
+      "4d-4x4x2x2": {
+        "name": "4D: 4x4x2x2",
+        "description": "Due plance 4x4x2 affiancate, che insieme delimitano 9 unità."
       }
     },
     "compart": {

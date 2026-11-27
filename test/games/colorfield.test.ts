@@ -637,7 +637,7 @@ describe("Colorfield", () => {
             expect(g.moves()).to.include("a1-b1");
             expect(g.getPlayerScore(1)).to.equal(0);
             expect(g.gameover).to.be.false;
-            expect(ColorfieldGame.gameinfo.flags).to.include.members(["experimental", "pie", "autopass", "scores"]);
+            expect(ColorfieldGame.gameinfo.flags).to.include.members(["pie", "autopass", "scores"]);
         });
 
         it("honours the board variants", () => {

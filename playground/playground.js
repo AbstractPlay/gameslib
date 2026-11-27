@@ -3208,7 +3208,7 @@ function readPlaygroundInputModeSelection() {
     return active;
 }
 
-function restorePlaygroundInputModeSelection(groups, ungrouped, defs) {
+function restorePlaygroundInputModeSelection(groups, defs) {
     let saved = readStoredPlaygroundInputModeUids();
     if (!Array.isArray(saved) || saved.length === 0) {
         saved = APGames.sanitizeInputModeSelection(defs, []);
@@ -3396,7 +3396,7 @@ function updatePlaygroundInputModeOptions(gameEngine) {
     }
 
     container.appendChild(fieldset);
-    restorePlaygroundInputModeSelection(groups, ungrouped, defs);
+    restorePlaygroundInputModeSelection(groups, defs);
     writeStoredPlaygroundInputModeUids(readPlaygroundInputModeSelection());
     container.style.display = "block";
 }

@@ -552,9 +552,9 @@
     "section": "Modo de entrada",
     "description": "Cómo interpreta el tablero tus clics en este juego.",
     "arimaa": {
-      "basic": {
+      "#entry": {
         "name": "Básico",
-        "description": "Mueve solo las piezas que selecciones explícitamente, en el orden en que las introduzcas. Cada secuencia de clics completada tiene un resultado sin ambigüedades."
+        "description": "Mueve solo las piezas que selecciones explícitamente, en el orden en que las ingreses. Cada secuencia de clics completada tiene un resultado inequívoco."
       },
       "advanced": {
         "name": "Avanzado",
@@ -2162,6 +2162,30 @@
       "KOMI_CHOICE": "Puedes hacer el primer movimiento en el tablero y dejar que tu oponente se quede con los puntos de bonificación (un entero) o puedes elegir \"Jugar segundo\" y tomar los puntos de bonificación para ti.",
       "KO": "Regla de Ko: no puedes recapturar inmediatamente la piedra individual de tu oponente si la acaba de usar para capturar una de las tuyas.",
       "SELF_CAPTURE": "No puedes colocar tus piedras en autocaptura."
+    },
+    "golomb": {
+      "INITIAL_INSTRUCTIONS": "Haz clic en las casillas vacías que cubrirá tu pentominó. Una vez que solo encaje una colocación, haz clic en cualquier otra casilla vacía para confirmar o haz clic en otra pieza para comenzar de nuevo.",
+      "INITIAL_INSTRUCTIONS_CAPTURE": "Haz clic en las casillas vacías que cubrirá tu pentominó. Antes de eso, puedes hacer clic en las piezas que hayas capturado para retirarlas del tablero; volverán a la reserva después de tu movimiento. Una vez que solo encaje una colocación, haz clic en cualquier otra casilla vacía para confirmar.",
+      "INITIAL_INSTRUCTIONS_CHOOSE": "Haz clic en un pentominó de la reserva para agregarlo a tu mano.",
+      "INITIAL_INSTRUCTIONS_SWAP": "Coloca un pentominó para conservar tu mano, o presiona el botón para pasar e intercambiar manos con tu oponente.",
+      "INITIAL_INSTRUCTIONS_SWAP_CHOOSE": "Elige un pentominó para conservar tu mano, o presiona el botón para pasar e intercambiar manos con tu oponente.",
+      "PARTIAL": "Sigue haciendo clic en las casillas que cubrirá el pentominó hasta que solo encaje una colocación.",
+      "UNIQUE": "Solo encaja una colocación. Haz clic en cualquier otra casilla vacía para confirmar o haz clic en otra pieza para comenzar de nuevo.",
+      "BAD_TOKEN": "\"{{token}}\" no es una casilla, una eliminación ni un pentominó.",
+      "OFF_BOARD": "{{cell}} no es una casilla de este tablero.",
+      "OCCUPIED": "{{cell}} ya está ocupada.",
+      "DUPLICATE": "{{cell}} se seleccionó más de una vez.",
+      "NO_PLACEMENT": "Ninguno de tus pentominós disponibles puede cubrir todas las casillas seleccionadas.",
+      "NO_REMOVAL": "Las piezas solo se pueden retirar en la variante Captura.",
+      "NOT_CAPTURED": "Solo puedes retirar piezas que hayas capturado, y la pieza en {{cell}} no es una de ellas.",
+      "DUPLICATE_REMOVAL": "La pieza en {{cell}} ya se está eliminando.",
+      "MUST_CHOOSE": "Debes elegir un pentominó de la reserva antes de que comience el juego.",
+      "NOT_CHOOSING": "Los pentominós solo se pueden elegir antes de que comience el juego.",
+      "UNAVAILABLE": "Ese pentominó no está en la reserva.",
+      "NO_SWAP": "Solo puedes pasar para intercambiar manos justo después del primer movimiento de tu oponente.",
+      "LABEL_HAND": "Mano de {{player}}",
+      "LABEL_POOL": "Reserva",
+      "LABEL_UNSEEN": "Piezas no vistas"
     },
     "gonnect": {
       "INITIAL_INSTRUCTIONS": "Selecciona una intersección para colocar una pieza.",
@@ -4498,6 +4522,7 @@
     "gipf": "Los jugadores empujan piezas desde los puntos hacia un tablero de líneas hexagonales, formando filas de cuatro para capturar. Gana vaciando la reserva del oponente o eliminando su última pieza GIPF.",
     "gliss": "Establece bases y despliega planeadores para capturar los planeadores del rival y controlar torres. Elimina todas las bases enemigas o establece un número crítico de torres de control para ganar.",
     "go": "El tradicional juego de Go",
+    "golomb": "Los jugadores se turnan para colocar pentominós en el tablero. Gana el último jugador que pueda colocar uno.",
     "gomoku": "Un juego clásico en el que intentas formar una línea exacta de cinco fichas. Seis en fila no cuenta como victoria. El juego termina en empate si ningún jugador logra cinco en fila o tras dos pases consecutivos.",
     "gonnect": "Gonnect es un juego de conexión en el que los jugadores intentan conectar dos lados opuestos cualesquiera. Se aplican todas las reglas del Go, excepto que los jugadores no pueden pasar.",
     "gorogo": "Una variante del Go jugada en un tablero pequeño donde el objetivo es capturar más piezas que tu oponente, en lugar de dominar territorio.",
@@ -4810,6 +4835,7 @@
     "gipf": "GIPF",
     "gliss": "Gliss",
     "go": "Go",
+    "golomb": "Golomb's Game",
     "gomoku": "Gomoku",
     "gonnect": "Gonnect",
     "gorogo": "GoRoGo",
@@ -5032,6 +5058,7 @@
     "forms": "Forms fue diseñado por Steven Meyers en 2007. Después de cada movimiento, todas las piezas fuera del grupo que contiene la última pieza movida son capturadas. El último jugador en mover pierde (por lo que Forms es un juego misère). La primera versión permitía que una pieza capturara cualquier pieza del oponente. Más tarde, en 2011, Meyers desarrolló una segunda versión, **Advanced Forms**, donde solo podías capturar piezas adyacentes ortogonalmente, pero una pieza también podía moverse a una casilla vacía si ambas estaban conectadas por una secuencia de pasos ortogonales sobre casillas vacías. La preparación inicial también cambió a un patrón ajedrezado. Esta segunda versión es la variante predeterminada aquí en AP. Se puede encontrar más información en [WAG](https://jpneto.github.io/world_abstract_games/forms.htm).",
     "frogger": "Al igual que en otros juegos de Decktet en Abstract Play, el mazo se muestra en la parte inferior del tablero e incluye tanto las cartas del mazo como las cartas desconocidas en las manos de los demás jugadores. Después de la primera mano, todas las cartas se roban de la reserva de robo abierta, por lo que las manos se vuelven abiertas gradualmente. También se muestra la pila de descartes.\n\nYa no se usan pases obligatorios cuando un jugador rellena la reserva de robo (y confirma) a mitad de su turno. El segundo turno parcial de ese jugador lo gestiona automáticamente el servidor. También hay una variante de la reserva de robo que evita la doble jugada, si lo deseas.\n\nLa variante Cocodrilos es de Jorge Arroyo, el traductor de las reglas en inglés. Las reglas avanzadas y otras variantes menores son de P. D. Magnus; aparecen en The Decktet Book, donde el juego se llama Xing.",
     "garden": "Para dejar muy claro qué sucedió en un turno anterior, cada movimiento se muestra a lo largo de cuatro tableros separados. El primer tablero muestra la partida justo después de colocar la pieza. El segundo tablero muestra el estado después de voltear las piezas adyacentes. El tercer tablero muestra cualquier cosecha. El cuarto tablero es el estado final del juego y es donde haces tus movimientos.\n\nEn nuestra implementación, el negro es siempre el color del \"tomo\" o desempate. El último jugador en cosechar negro tendrá un `0.1` después de su puntuación.",
+    "golomb": "Para colocar un pentominó, haz clic en las casillas vacías que cubrirá. Una vez que solo una colocación legal cubra todas las casillas seleccionadas, el movimiento estará listo y la pieza se mostrará como colocada, junto con todo lo que capturaría: haz clic en cualquier otra casilla vacía para confirmarlo, o haz clic en otra pieza para comenzar de nuevo. En la notación de movimientos, una colocación enumera las 5 casillas cubiertas, y la eliminación en la variante de captura es una `x` seguida de la primera casilla de la pieza eliminada, como en `xa1`. Con 3 o 4 jugadores, el juego termina tan pronto como el jugador al que le toca mover no tenga movimientos legales: gana el último jugador que movió o, en Misère, gana el jugador que no pueda mover. En Captura, las piezas eliminadas durante el movimiento que se está ingresando se tachan en la reserva, ya que no se pueden colocar hasta el siguiente turno, y una posición que se repita por quinta vez con el mismo jugador al que le toca mover finaliza la partida en empate. La regla del pastel simple solo se aplica a juegos de 2 jugadores y se ignora en juegos más grandes.",
     "gonnect": "En el juego base, no se permite pasar. La variante **Objetivos de conexión en cascada** permite pasar y termina después de dos pases consecutivos. Una conexión directa gana de inmediato; de lo contrario, encuentra el subtablero centrado más grande donde exactamente un jugador conecte lados opuestos: ese jugador gana.",
     "guerrilla": "Cualquier jugador gana al eliminar todas las piezas del oponente. El jugador de seguridad también gana si sobrevive lo suficiente como para que a los insurgentes se les acaben las piedras para colocar.\n\nPor defecto, una partida consta de dos juegos con los roles invertidos. Cada jugador juega un juego como insurgentes y uno como seguridad. Cuando ambos jugadores ganan como insurgentes, la partida es para quien haya usado menos piedras (`66 − remaining` al final de ese juego; gana la puntuación más baja). Puntuaciones iguales de los insurgentes son el único empate en ese caso. Una victoria de seguridad en un juego otorga 67 puntos. Si un jugador gana ambos juegos (gana como insurgentes en uno y como seguridad en el otro), gana la partida rotundamente. Si ambos jugadores solo ganan como seguridad, la partida termina en empate.",
     "gyges": "Las casillas de meta son adyacentes a todas las casillas de la fila trasera. El renderizador actualmente no puede manejar casillas \"flotantes\".",
@@ -5098,7 +5125,7 @@
     "tanbo": "Tanbo (田んぼ, japonés para arrozal) es un juego de raíces. O más precisamente, grupos con forma de raíz. El tablero comienza poblado con fichas negras y blancas intercaladas holgadamente. Colocas una ficha ortogonalmente adyacente a exactamente una de tus fichas en el tablero. Esto evita que las raíces se fusionen y que se formen aglomeraciones. Cuando las raíces quedan delimitadas (es decir, no tienen espacio para crecer), se eliminan. Si la raíz actual (la que se amplió durante tu turno) se encuentra entre las raíces delimitadas, solo esa se elimina, liberando así cualquier otra raíz delimitada. El objetivo es ser el último jugador con raíces aún en el tablero.\n\nTanbo fue el segundo juego inventado por Mark Steere y sigue siendo uno de sus mejores trabajos.",
     "tbt": "Cuando sea tu turno, verás el dado con el que cuentas, pero una vez que completes tu movimiento, el dado se volverá a lanzar. Probar movimientos no sirve de nada porque la tirada de dado no se finaliza hasta después de enviar la jugada. Conforme te desplazas hacia atrás en el historial del juego, el dado que ves es el del *siguiente* turno. El dado usado para hacer el movimiento que estás viendo se muestra debajo del tablero.",
     "terrace": "La variante Asesinato se describe en [este hilo de BGG](https://boardgamegeek.com/thread/551125/variant-for-more-aggressive-less-drawish-play), resumida a continuación:\n\n- Hacia arriba en línea recta, debes ser de mayor tamaño o la pieza de menor tamaño puede asesinar a la pieza de mayor tamaño.\n\n- En el mismo nivel (solo ortogonalmente adyacente), debes ser al menos del mismo tamaño.\n\n- Hacia abajo en diagonal, puedes ser un rango más pequeño.",
-    "thricewise": "Con 2 o 4 jugadores, la cuadrícula inicial es de 2×2; con 3 o 5 jugadores, es de 2×3. Aparecen etiquetas cortas debajo de las cartas de tu mano. \"Sel\" indica la carta elegida en la última fase de selección (incluida una selección parcial no confirmada) y \"Def\" indica las cartas diferidas de una selección empatada anterior. Hay más información sobre Decktet en la [wiki de Decktet](https://decktet.wikidot.com/).",
+    "thricewise": "Con 2 o 4 jugadores, la cuadrícula inicial es de 2×2; con 3 o 5 jugadores, es de 2×3. Debajo de las cartas en tu mano aparecen etiquetas cortas. \"Sel\" indica la carta elegida en la última fase de selección (incluida una selección parcial no confirmada) y \"Def\" indica las cartas diferidas de una selección previa empatada. Por lo general, el juego termina cuando la cuadrícula de 6×6 está llena o cuando los jugadores han jugado las últimas cartas de sus manos; si el mazo no puede repartir otra ronda y las manos están vacías, las cartas diferidas no colocadas no se juegan y gana la puntuación más alta. Hay más información sobre el Decktet en la [wiki de Decktet](https://decktet.wikidot.com/).",
     "thuemorsego": "La colocación `n` (contando desde 0) pertenece al Jugador 1 cuando `n` tiene un número par de bits `1` en binario y al Jugador 2 cuando `n` tiene un número impar de bits `1` en binario. El rastreador TMS presenta esto con una representación estilizada de `n` en hexadecimal, mientras que el rastreador predeterminado muestra de forma más directa las siguientes 16 colocaciones.\n\nEl juego termina tras dos pases en los que ambos estén de acuerdo sobre qué cadenas están muertas. Si uno o ambos jugadores reanudan el juego después de la fase de acuerdo, los jugadores deben capturar manualmente todas las piedras muertas: dos pases en ese punto puntuarán la partida tal como está, considerando vivas todas las cadenas.\n\nEn partidas con piedras de hándicap o komi inverso, el Jugador 2 es el jugador más fuerte y elige los valores correspondientes en su primer turno; excepto en partidas de Matar Todo (Kill-All), donde el Jugador 1 es el jugador más fuerte y elige la cantidad de piedras de hándicap en su primer turno.\n\nEl orden Thue-Morse parece haber sido propuesto independientemente para el Go por atimholt y TheElvenAngelCatboy en r/baduk, y por BHydden en el Online Go Forum, apuntando cada uno al mismo video de Stand-up Maths sobre la secuencia; luego, la comunidad del foro creó herramientas para jugarlo en OGS, organizó torneos y definió las reglas implementadas aquí. El orden Marsellés Equilibrado proviene del ajedrez: el Ajedrez Marsellés (AABB) se atribuye a Albert Fortis con J. Rossow o a Jehan de Queylar, y Robert Bruce fue el primero en proponer la corrección ABBA que lo equilibra.",
     "toguz": "Representar los cambios de estado en los juegos de siembra es un desafío. El hoyo inicial elegido queda marcado, así como cualquier captura. Aparecen números pequeños para mostrar el cambio en la cantidad de fichas en cada hoyo. Si crees haber encontrado un error, avísanos en Discord.",
     "tricouleur": "Tricouleur es un juego de 2005 diseñado por Bill Taylor. Cada jugador tiene un ejército de tres tipos de piezas capaces de capturar al siguiente tipo de forma cíclica: piensa en Piedra-Papel-Tijera (Círculo-Cuadrado-X). La secuencia de movimientos es 12*, donde un jugador debe usar piezas diferentes (también es posible pasar el turno completo). Una pieza puede moverse a una casilla vecina vacía (en cuyo caso deja una copia sin mover atrás) o a una casilla vacía entre las doce vecinas de 2.º grado, independientemente de lo que haya en medio. Cualquier pieza rival más débil a la que la pieza movida quede adyacente cambia al color de la pieza que se movió. Cualquier pieza rival de la misma fuerza a la que la pieza movida quede adyacente se elimina del tablero.\n\nEl juego termina cuando (a) ambos jugadores pasan consecutivamente, (b) el tablero está lleno, (c) se destruye un ejército, o (d) se repite una posición tres veces. Gana quien tenga más piezas de sus propios colores en total.",
@@ -7242,6 +7269,60 @@
       "positional": {
         "description": "Puntuación por área; superko posicional",
         "name": "Superko posicional"
+      }
+    },
+    "golomb": {
+      "size-7x7": {
+        "name": "7x7",
+        "description": "Recomendado para la variante Captura."
+      },
+      "size-8x7": {
+        "name": "8x7"
+      },
+      "#board": {
+        "name": "8x8"
+      },
+      "center-blocked": {
+        "name": "8x8 (centro bloqueado)",
+        "description": "Un tablero de 8x8 sin sus 4 casillas centrales."
+      },
+      "size-10x6": {
+        "name": "10x6"
+      },
+      "#blockers": {
+        "name": "Sin bloqueadores"
+      },
+      "random-blockers": {
+        "name": "Bloqueadores aleatorios",
+        "description": "Antes de comenzar el juego, se colocan bloqueadores en casillas aleatorias: uno por cada casilla por encima de 60, y al menos uno."
+      },
+      "#distribution": {
+        "name": "Reserva compartida",
+        "description": "Los jugadores colocan pentominós desde una reserva compartida."
+      },
+      "random-hands": {
+        "name": "Distribución aleatoria",
+        "description": "Los 12 pentominós se reparten por igual entre los jugadores antes de comenzar el juego."
+      },
+      "choose-up": {
+        "name": "Elección por turnos",
+        "description": "Antes de comenzar el juego, los jugadores se turnan para elegir sus pentominós."
+      },
+      "concealed": {
+        "name": "Manos ocultas",
+        "description": "Los jugadores solo pueden ver sus propios pentominós. En partidas de 2 jugadores, se dejan a un lado 2 pentominós sin ver y no se utilizan."
+      },
+      "capture": {
+        "name": "Captura",
+        "description": "Una colocación que comparta 3 o más bordes con una pieza colocada previamente captura esa pieza, la cual toma el color del jugador que captura. Las piezas capturadas se pueden recapturar. Antes de colocar, puedes retirar cualquier pieza que hayas capturado; volverá a la reserva después de tu movimiento. Una posición que ocurra por quinta vez con el mismo jugador al que le toca mover es un empate."
+      },
+      "misere": {
+        "name": "Misère",
+        "description": "El último jugador en mover pierde: el primer jugador que no tenga movimientos legales gana."
+      },
+      "simple-pie": {
+        "name": "Pastel simple",
+        "description": "Solo para partidas de 2 jugadores. Después de elegir o colocar el primer pentominó, el segundo jugador puede pasar para intercambiar manos en lugar de mover."
       }
     },
     "gomoku": {

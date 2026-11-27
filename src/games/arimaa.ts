@@ -12,7 +12,7 @@ import { baseMove, classify, validateLegacyMovement, type StepKind } from "./ari
 import { endlessEndgame, fillRabbits, placing, setupClick, standardSetup, validateSetup } from "./arimaa/setup.js";
 export const gameApgamesEn = {
     inputModes: {
-        basic: {
+        "#entry": {
             name: "Basic",
             description: "Move only pieces you explicitly select, in the order you enter them. Every completed click sequence has an unambiguous result.",
         },
@@ -227,7 +227,7 @@ export class ArimaaGame extends GameBase {
             },
         ],
         inputModes: [
-            {uid: "basic", group: "entry"},
+            {uid: "#entry", group: "entry"},
             {uid: "advanced", group: "entry"},
         ],
         categories: ["goal>breakthrough", "goal>cripple", "goal>immobilize", "mechanic>capture", "mechanic>move", "mechanic>coopt", "mechanic>random>setup", "board>shape>rect", "board>connect>rect", "components>chess"],
@@ -1190,14 +1190,14 @@ export class ArimaaGame extends GameBase {
                         viewBox: [0, 0, 100, 100],
                         markup: '<polygon points="50,0 100,0 100,50" fill="#ffffff" data-slot-fill="fill"/>',
                     };
-                    legend[ARIMAA_CAPTURE_CHOICE] = {def: "arimaa-trap-choice", scale: 1 / 0.85, paint: {fill: paint}};
+                    legend[ARIMAA_CAPTURE_CHOICE] = {def: "arimaa-trap-choice", orientation: "vertical", scale: 1 / 0.85, paint: {fill: paint}};
                 }
                 if ([...choices.values()].includes(false)) {
                     rep.glyphDefs["arimaa-trap-spare"] = {
                         viewBox: [0, 0, 100, 100],
                         markup: '<polygon points="62,5 95,5 95,38" fill="#ffffff" fill-opacity="0" stroke="#ffffff" stroke-width="10" stroke-linejoin="round" data-slot-stroke="fill"/>',
                     };
-                    legend[ARIMAA_SPARE_CHOICE] = {def: "arimaa-trap-spare", scale: 1 / 0.85, paint: {fill: paint}};
+                    legend[ARIMAA_SPARE_CHOICE] = {def: "arimaa-trap-spare", orientation: "vertical", scale: 1 / 0.85, paint: {fill: paint}};
                 }
                 // This is a render-only extra layer. The actual game board,
                 // saved moves and the mode-independent pieces stay unchanged.

@@ -1843,6 +1843,10 @@
     "src": "The traditional game of Go",
     "out": "Le jeu traditionnel de Go"
   },
+  "descriptions.golomb": {
+    "src": "Players take turns placing pentominoes on the board. The last player able to place one wins.",
+    "out": "Les joueurs placent à tour de rôle des pentominos sur le plateau. Le dernier joueur capable d'en placer un gagne."
+  },
   "descriptions.gomoku": {
     "src": "A classic game where you try to get exactly five stones in a row. Six in a row does not count as a win. The game ends in a draw if no player gets a five-in-a-row or on two consecutive passes.",
     "out": "Un jeu classique où vous essayez d'aligner exactement cinq pierres. Une ligne de six ne compte pas comme une victoire. La partie se termine par une égalité si aucun joueur n'obtient un alignement de cinq pierres ou après deux passes consécutives."
@@ -3535,6 +3539,14 @@
     "src": "Isometric: Subtle Elevation",
     "out": "Isométrique : Élévation subtile"
   },
+  "inputModes.arimaa.#entry.description": {
+    "src": "Move only pieces you explicitly select, in the order you enter them. Every completed click sequence has an unambiguous result.",
+    "out": "Ne déplacez que les pièces que vous sélectionnez explicitement, dans l'ordre où vous les entrez. Chaque séquence de clics terminée a un résultat sans ambiguïté."
+  },
+  "inputModes.arimaa.#entry.name": {
+    "src": "Basic",
+    "out": "De base"
+  },
   "inputModes.arimaa.advanced.description": {
     "src": "Select by origin or target, and use inferred movements and trap-capture controls.",
     "out": "Sélectionnez par origine ou destination, et utilisez les mouvements déduits et les commandes de capture par piège."
@@ -3542,14 +3554,6 @@
   "inputModes.arimaa.advanced.name": {
     "src": "Advanced",
     "out": "Avancé"
-  },
-  "inputModes.arimaa.basic.description": {
-    "src": "Move only pieces you explicitly select, in the order you enter them. Every completed click sequence has an unambiguous result.",
-    "out": "Déplacez uniquement les pièces que vous sélectionnez explicitement, dans l'ordre où vous les entrez. Chaque séquence de clics terminée a un résultat non ambigu."
-  },
-  "inputModes.arimaa.basic.name": {
-    "src": "Basic",
-    "out": "De base"
   },
   "inputModes.description": {
     "src": "How the board interprets your clicks for this game.",
@@ -4046,6 +4050,10 @@
   "names.go": {
     "src": "Go",
     "out": "Go"
+  },
+  "names.golomb": {
+    "src": "Golomb's Game",
+    "out": "Golomb's Game"
   },
   "names.gomoku": {
     "src": "Gomoku",
@@ -4927,6 +4935,10 @@
     "src": "To make it very clear what happened on a previous turn, each move is displayed over four separate boards. The first board shows the game after the piece was first placed. The second board shows the state after adjacent pieces were flipped. The third board shows any harvests. The fourth board is the final game state and is where you make your moves.\n\nIn our implementation, black is always the \"tome\" or tie-breaker colour. The last player to harvest black will have a `0.1` after their score.",
     "out": "Pour rendre très clair ce qui s'est passé lors du tour précédent, chaque coup est affiché sur quatre plateaux distincts. Le premier plateau montre le jeu après la pose initiale de la pièce. Le deuxième plateau montre l'état après le retournement des pièces adjacentes. Le troisième plateau montre les récoltes éventuelles. Le quatrième plateau est l'état final du jeu et c'est là que vous jouez vos coups.\n\nDans notre implémentation, le noir est toujours la couleur « tome » ou de départage. Le dernier joueur à avoir récolté du noir aura un `0.1` ajouté à son score."
   },
+  "notes.golomb": {
+    "src": "To place a pentomino, click the empty squares it will cover. Once only one legal placement covers every selected square, the move is ready and the piece is shown as placed, along with anything it would capture: click any other empty square to confirm it, or click another piece to start over. In move notation, a placement lists all 5 covered squares, and a capture-variant removal is an `x` followed by the removed piece's first square, as in `xa1`. With 3 or 4 players, the game ends as soon as the player to move has no legal move: the last player who moved wins, or, in Misère, the player who cannot move wins. In Capture, pieces removed during the move being entered are crossed out in the pool, since they cannot be placed until the next turn, and a position that occurs for the fifth time with the same player to move ends the game in a draw. Simple pie only applies to 2-player games and is ignored in larger games.",
+    "out": "Pour placer un pentomino, cliquez sur les cases vides qu'il couvrira. Une fois qu'un seul placement légal couvre toutes les cases sélectionnées, le coup est prêt et la pièce est affichée comme posée, ainsi que tout ce qu'elle capturerait : cliquez sur n'importe quelle autre case vide pour confirmer, ou cliquez sur une autre pièce pour recommencer. Dans la notation des coups, un placement liste les 5 cases couvertes, et un retrait dans la variante Capture est un `x` suivi de la première case de la pièce retirée, comme dans `xa1`. À 3 ou 4 joueurs, la partie se termine dès que le joueur dont c'est le tour n'a aucun coup légal : le dernier joueur à avoir joué gagne ou, en Misère, le joueur qui ne peut pas jouer gagne. Dans Capture, les pièces retirées pendant la saisie du coup sont barrées dans la réserve, car elles ne peuvent pas être placées avant le tour suivant, et une position qui se produit pour la cinquième fois avec le même joueur à jouer met fin à la partie par une égalité. La règle du gâteau (« Simple pie ») ne s'applique qu'aux parties à 2 joueurs et est ignorée dans les parties à plus de joueurs."
+  },
   "notes.gonnect": {
     "src": "In the base game, passing is not allowed. The **Cascading Connection Goals** variant allows passing and ends after two consecutive passes. An outright connection wins immediately, otherwise find the largest centered subboard where exactly one player connects opposite sides: that player wins.",
     "out": "Dans le jeu de base, passer son tour n'est pas autorisé. La variante **Cascading Connection Goals** autorise à passer et se termine après deux passes consécutives. Une connexion directe donne la victoire immédiatement ; sinon, cherchez le plus grand sous-plateau centré dans lequel exactement un joueur relie des côtés opposés : ce joueur gagne."
@@ -5192,8 +5204,8 @@
     "out": "La variante Assassinat est décrite dans [ce fil BGG](https://boardgamegeek.com/thread/551125/variant-for-more-aggressive-less-drawish-play), résumée ci-dessous :\n\n- En montée droite, vous devez être plus grand, ou une pièce de la plus petite taille peut assassiner une pièce de la plus grande taille.\n\n- Même niveau (orthogonalement adjacent uniquement), vous devez être au moins de la même taille.\n\n- En descente diagonale, vous pouvez être d'un rang plus petit."
   },
   "notes.thricewise": {
-    "src": "With 2 or 4 players the opening grid is 2×2; with 3 or 5 players it is 2×3. Short labels appear beneath cards in your hand. \"Sel\" indicates the card chosen in the last selection phase (including an uncommitted partial select) and \"Def\" indicates cards deferred from an earlier tied selection. More information on the Decktet is on the [Decktet wiki](https://decktet.wikidot.com/).",
-    "out": "À 2 ou 4 joueurs, la grille de départ est de 2×2 ; à 3 ou 5 joueurs, elle est de 2×3. De courtes étiquettes apparaissent sous les cartes de votre main. \"Sel\" indique la carte choisie lors de la dernière phase de sélection (y compris une sélection partielle non confirmée) et \"Def\" indique les cartes différées d'une précédente sélection à égalité. Plus d'informations sur le Decktet sont disponibles sur le [wiki Decktet](https://decktet.wikidot.com/)."
+    "src": "With 2 or 4 players the opening grid is 2×2; with 3 or 5 players it is 2×3. Short labels appear beneath cards in your hand. \"Sel\" indicates the card chosen in the last selection phase (including an uncommitted partial select) and \"Def\" indicates cards deferred from an earlier tied selection. The game usually ends when the 6×6 grid is full or when players have played the last cards from their hands; if the deck cannot deal another round and hands are empty, any deferred cards left unplaced are not played and highest score wins. More information on the Decktet is on the [Decktet wiki](https://decktet.wikidot.com/).",
+    "out": "À 2 ou 4 joueurs, la grille de départ est de 2×2 ; à 3 ou 5 joueurs, elle est de 2×3. De courtes étiquettes apparaissent sous les cartes de votre main. \"Sel\" indique la carte choisie lors de la dernière phase de sélection (y compris une sélection partielle non confirmée) et \"Def\" indique les cartes différées d'une sélection antérieure avec égalité. La partie se termine généralement lorsque la grille 6×6 est pleine ou lorsque les joueurs ont joué les dernières cartes de leur main ; si la pioche ne peut pas distribuer une nouvelle manche et que les mains sont vides, les cartes différées restées non placées ne sont pas jouées et le score le plus élevé l'emporte. Pour plus d'informations sur le Decktet, consultez le [wiki Decktet](https://decktet.wikidot.com/)."
   },
   "notes.thuemorsego": {
     "src": "Placement `n` (counting from 0) belongs to Player 1 when `n` has an even number of `1` bits in binary and to Player 2 when `n` has an odd number of `1` bits in binary. The TMS Tracker fronts this with a stylized representation of `n` in hexadecimal, while the default tracker more straightforwardly shows the next 16 placements.\n\nThe game ends after two passes which agree on which strings are dead. If one or both players resume the game after the agreement phase, players must manually capture all dead stones: two passes at that point will score the game as is with all strings considered alive.\n\nIn Handicap Stone and/or Reverse Komi games, Player 2 is the stronger player and chooses the relevant value(s) on their first turn; except in Kill-All games, where Player 1 is the stronger player and chooses the number of handicap stones on their first turn.\n\nThe Thue-Morse order appears to have been independently proposed for Go by atimholt and TheElvenAngelCatboy on r/baduk, and by BHydden on the Online Go Forum, each pointing to the same Stand-up Maths video about the sequence; the forum community then built tools for playing it on OGS, ran tournaments, and worked out the rules implemented here. The Balanced Marseillais order comes from chess: Marseillais Chess (AABB) is attributed either to Albert Fortis with J. Rossow or to Jehan de Queylar, and Robert Bruce first proposed the ABBA correction that balances it.",
@@ -10306,6 +10318,94 @@
   "validation.go.SELF_CAPTURE": {
     "src": "You may not place your stones in self-capture.",
     "out": "Vous ne pouvez pas placer vos pierres en auto-capture."
+  },
+  "validation.golomb.BAD_TOKEN": {
+    "src": "\"{{token}}\" is not a square, a removal, or a pentomino.",
+    "out": "\"{{token}}\" n'est pas une case, un retrait ou un pentomino."
+  },
+  "validation.golomb.DUPLICATE": {
+    "src": "{{cell}} was selected more than once.",
+    "out": "{{cell}} a été sélectionnée plus d'une fois."
+  },
+  "validation.golomb.DUPLICATE_REMOVAL": {
+    "src": "The piece at {{cell}} is already being removed.",
+    "out": "La pièce en {{cell}} est déjà en cours de retrait."
+  },
+  "validation.golomb.INITIAL_INSTRUCTIONS": {
+    "src": "Click the empty squares your pentomino will cover. Once only one placement fits, click any other empty square to confirm, or click another piece to start over.",
+    "out": "Cliquez sur les cases vides que votre pentomino couvrira. Lorsqu'un seul placement convient, cliquez sur n'importe quelle autre case vide pour confirmer, ou cliquez sur une autre pièce pour recommencer."
+  },
+  "validation.golomb.INITIAL_INSTRUCTIONS_CAPTURE": {
+    "src": "Click the empty squares your pentomino will cover. Before that, you may click pieces you have captured to remove them from the board; they return to the pool after your move. Once only one placement fits, click any other empty square to confirm.",
+    "out": "Cliquez sur les cases vides que votre pentomino couvrira. Avant cela, vous pouvez cliquer sur les pièces que vous avez capturées pour les retirer du plateau ; elles retourneront dans la réserve après votre coup. Lorsqu'un seul placement convient, cliquez sur n'importe quelle autre case vide pour confirmer."
+  },
+  "validation.golomb.INITIAL_INSTRUCTIONS_CHOOSE": {
+    "src": "Click a pentomino in the pool to add it to your hand.",
+    "out": "Cliquez sur un pentomino dans la réserve pour l'ajouter à votre main."
+  },
+  "validation.golomb.INITIAL_INSTRUCTIONS_SWAP": {
+    "src": "Place a pentomino to keep your hand, or press the button to pass and swap hands with your opponent.",
+    "out": "Placez un pentomino pour garder votre main, ou appuyez sur le bouton pour passer et échanger vos mains avec votre adversaire."
+  },
+  "validation.golomb.INITIAL_INSTRUCTIONS_SWAP_CHOOSE": {
+    "src": "Choose a pentomino to keep your hand, or press the button to pass and swap hands with your opponent.",
+    "out": "Choisissez un pentomino pour garder votre main, ou appuyez sur le bouton pour passer et échanger vos mains avec votre adversaire."
+  },
+  "validation.golomb.LABEL_HAND": {
+    "src": "{{player}}'s hand",
+    "out": "Main de {{player}}"
+  },
+  "validation.golomb.LABEL_POOL": {
+    "src": "Pool",
+    "out": "Réserve"
+  },
+  "validation.golomb.LABEL_UNSEEN": {
+    "src": "Unseen pieces",
+    "out": "Pièces cachées"
+  },
+  "validation.golomb.MUST_CHOOSE": {
+    "src": "You must choose a pentomino from the pool before play begins.",
+    "out": "Vous devez choisir un pentomino dans la réserve avant le début de la partie."
+  },
+  "validation.golomb.NOT_CAPTURED": {
+    "src": "You can only remove pieces you have captured, and the piece at {{cell}} is not one of them.",
+    "out": "Vous ne pouvez retirer que des pièces que vous avez capturées, et la pièce en {{cell}} n'en fait pas partie."
+  },
+  "validation.golomb.NOT_CHOOSING": {
+    "src": "Pentominoes can only be chosen before play begins.",
+    "out": "Les pentominos ne peuvent être choisis qu'avant le début de la partie."
+  },
+  "validation.golomb.NO_PLACEMENT": {
+    "src": "None of your available pentominoes can cover all of the selected squares.",
+    "out": "Aucun de vos pentominos disponibles ne peut couvrir toutes les cases sélectionnées."
+  },
+  "validation.golomb.NO_REMOVAL": {
+    "src": "Pieces can only be removed in the Capture variant.",
+    "out": "Les pièces ne peuvent être retirées que dans la variante Capture."
+  },
+  "validation.golomb.NO_SWAP": {
+    "src": "You can only pass to swap hands right after your opponent's first move.",
+    "out": "Vous ne pouvez passer pour échanger vos mains que juste après le premier coup de votre adversaire."
+  },
+  "validation.golomb.OCCUPIED": {
+    "src": "{{cell}} is already occupied.",
+    "out": "{{cell}} est déjà occupée."
+  },
+  "validation.golomb.OFF_BOARD": {
+    "src": "{{cell}} is not a square on this board.",
+    "out": "{{cell}} n'est pas une case de ce plateau."
+  },
+  "validation.golomb.PARTIAL": {
+    "src": "Keep clicking squares the pentomino will cover until only one placement fits.",
+    "out": "Continuez de cliquer sur les cases que le pentomino couvrira jusqu'à ce qu'un seul placement convienne."
+  },
+  "validation.golomb.UNAVAILABLE": {
+    "src": "That pentomino is not in the pool.",
+    "out": "Ce pentomino n'est pas dans la réserve."
+  },
+  "validation.golomb.UNIQUE": {
+    "src": "Only one placement fits. Click any other empty square to confirm, or click another piece to start over.",
+    "out": "Un seul placement convient. Cliquez sur n'importe quelle autre case vide pour confirmer, ou cliquez sur une autre pièce pour recommencer."
   },
   "validation.gonnect.INITIAL_INSTRUCTIONS": {
     "src": "Select an intersection to place a piece.",
@@ -19742,6 +19842,102 @@
   "variants.go.size-9.name": {
     "src": "9x9 board",
     "out": "Plateau 9x9"
+  },
+  "variants.golomb.#blockers.name": {
+    "src": "No blockers",
+    "out": "Sans bloqueurs"
+  },
+  "variants.golomb.#board.name": {
+    "src": "8x8",
+    "out": "8x8"
+  },
+  "variants.golomb.#distribution.description": {
+    "src": "Players place pentominoes from a shared pool.",
+    "out": "Les joueurs placent des pentominos depuis une réserve commune."
+  },
+  "variants.golomb.#distribution.name": {
+    "src": "Shared pool",
+    "out": "Réserve commune"
+  },
+  "variants.golomb.capture.description": {
+    "src": "A placement that shares 3 or more edges with a previously placed piece captures that piece, which takes the capturing player's colour. Captured pieces can be recaptured. Before placing, you may remove any pieces you have captured; they return to the pool after your move. A position that occurs for the fifth time with the same player to move is a draw.",
+    "out": "Un placement qui partage 3 côtés ou plus avec une pièce posée précédemment capture cette pièce, qui prend la couleur du joueur capturant. Les pièces capturées peuvent être recapturées. Avant de placer une pièce, vous pouvez retirer n'importe quelle pièce que vous avez capturée ; elle retourne dans la réserve après votre coup. Une position qui se produit pour la cinquième fois avec le même joueur à jouer entraîne une égalité."
+  },
+  "variants.golomb.capture.name": {
+    "src": "Capture",
+    "out": "Capture"
+  },
+  "variants.golomb.center-blocked.description": {
+    "src": "An 8x8 board missing its 4 center squares.",
+    "out": "Un plateau 8x8 auquel il manque les 4 cases centrales."
+  },
+  "variants.golomb.center-blocked.name": {
+    "src": "8x8 (center blocked)",
+    "out": "8x8 (centre bloqué)"
+  },
+  "variants.golomb.choose-up.description": {
+    "src": "Before the game starts, players take turns choosing their pentominoes.",
+    "out": "Avant le début de la partie, les joueurs choisissent leurs pentominos chacun leur tour."
+  },
+  "variants.golomb.choose-up.name": {
+    "src": "Choose up",
+    "out": "Choix alterné"
+  },
+  "variants.golomb.concealed.description": {
+    "src": "Players can only see their own pentominoes. In 2-player games, 2 pentominoes are set aside unseen and not used.",
+    "out": "Les joueurs ne peuvent voir que leurs propres pentominos. Dans les parties à 2 joueurs, 2 pentominos sont mis de côté face cachée et ne sont pas utilisés."
+  },
+  "variants.golomb.concealed.name": {
+    "src": "Concealed hands",
+    "out": "Mains cachées"
+  },
+  "variants.golomb.misere.description": {
+    "src": "The last player to move loses: the first player with no legal move wins.",
+    "out": "Le dernier joueur à jouer perd : le premier joueur n'ayant aucun coup légal gagne."
+  },
+  "variants.golomb.misere.name": {
+    "src": "Misère",
+    "out": "Misère"
+  },
+  "variants.golomb.random-blockers.description": {
+    "src": "Before the game starts, blockers are placed on random squares: one for each square beyond 60, and at least one.",
+    "out": "Avant le début de la partie, des bloqueurs sont placés sur des cases aléatoires : un pour chaque case au-delà de 60, et au moins un."
+  },
+  "variants.golomb.random-blockers.name": {
+    "src": "Random blockers",
+    "out": "Bloqueurs aléatoires"
+  },
+  "variants.golomb.random-hands.description": {
+    "src": "The 12 pentominoes are dealt evenly among the players before the game starts.",
+    "out": "Les 12 pentominos sont distribués équitablement entre les joueurs avant le début de la partie."
+  },
+  "variants.golomb.random-hands.name": {
+    "src": "Random distribution",
+    "out": "Distribution aléatoire"
+  },
+  "variants.golomb.simple-pie.description": {
+    "src": "2-player games only. After the first pentomino is chosen or placed, the second player may pass to swap hands instead of moving.",
+    "out": "Parties à 2 joueurs uniquement. Après le choix ou le placement du premier pentomino, le second joueur peut passer pour échanger les mains au lieu de jouer un coup."
+  },
+  "variants.golomb.simple-pie.name": {
+    "src": "Simple pie",
+    "out": "Gâteau simple"
+  },
+  "variants.golomb.size-10x6.name": {
+    "src": "10x6",
+    "out": "10x6"
+  },
+  "variants.golomb.size-7x7.description": {
+    "src": "Recommended for the Capture variant.",
+    "out": "Recommandé pour la variante Capture."
+  },
+  "variants.golomb.size-7x7.name": {
+    "src": "7x7",
+    "out": "7x7"
+  },
+  "variants.golomb.size-8x7.name": {
+    "src": "8x7",
+    "out": "8x7"
   },
   "variants.gomoku.#board.name": {
     "src": "Default 15x15 board",

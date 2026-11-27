@@ -13,9 +13,9 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Added
 
-- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, DVONN, GIPF, Ice Palace, LYNGK, Polypods, Skisma, Squares, TZAAR, YINSH, ZERTZ.
+- **New games (dev / experimental only):** Agents of MARS, Bagh Chal, DVONN, GIPF, Golomb's Game, Ice Palace, LYNGK, Polypods, Skisma, Squares, TZAAR, YINSH, ZERTZ.
 
-## [1.0.0-ci] - 2026-11-26
+## [1.0.0-ci] - 2026-11-27
 
 ### Added
 
@@ -31,6 +31,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Fixed
 
+- **GameBase:** default **`eogSubjectSeat()`** is the winner seat so completed-game **How ended** rows interpolate `{{player}}` without per-game boilerplate (Yonkoma crosscut still overrides with the loser).
 - **Agents of MARS:** pyramid moves and board swaps may jump over intervening pyramids when landing exactly face-value steps away in a cardinal direction; optional **Slide move** variant restores clear-path sliding.
 - **Tumbleweed (fog):** off-line-of-sight captures tombstone the victim seat’s `fogMemory` at the captured cell so stripped client boards and LOS no longer keep a phantom stack; `repairTumbleweedFogStack` / `repairTumbleweedFogStackJson` replay stacks to refresh `fogMemory` on every ply (node-backend one-shot `backfill-tumbleweed-fog` script), including resign/timeout/draw/abandoned endings.
 - **Chameleon:** end-of-game reason distinguishes annihilation (no pieces left) from stalemate (no legal moves); infiltration wins use the correct opposing back rank for player 1; one-time ops backfill patches legacy terminal `eog` results on completed games (see node-backend).
@@ -70,7 +71,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
     - Click on a piece and then its final destination to move it there
     - "Chains" work
     - Moves which are necessary to make your input legal are inferred
-    - When a triangle appears in the corner of a trap square, click it when it's hollow to try to not capture the piece you're moving there, click it when it's filled to try to capture the piece you're moving there
+    - The capture triangle stays in the upper-right corner of the trap square as the board rotates. Click a hollow triangle to try to spare the piece and a filled triangle to try to capture it.
     - Clicking on an empty square you can move a piece to without selecting a piece first (called a "target" click/move internally) moves a piece there if it can narrow your intention down to one possibility (see wiki for exact hierarchy)
 
 ### Fixed

@@ -961,10 +961,6 @@ export class ZertzGame extends GameBase {
         };
     }
 
-    public eogSubjectSeat(): number | undefined {
-        return this.winner.length > 0 ? this.winner[0] : undefined;
-    }
-
     public moveState(): IMoveState {
         return {
             _version: ZertzGame.gameinfo.version,

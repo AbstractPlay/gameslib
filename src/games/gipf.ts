@@ -1839,10 +1839,6 @@ export class GipfGame extends GameBaseSequenced {
         };
     }
 
-    public eogSubjectSeat(): number | undefined {
-        return this.winner.length > 0 ? this.winner[0] : undefined;
-    }
-
     public state(): IGipfState {
         return {
             game: GipfGame.gameinfo.uid,

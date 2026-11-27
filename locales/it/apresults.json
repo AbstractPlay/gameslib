@@ -900,6 +900,26 @@
       "repetition": "La partita è terminata perché la stessa posizione è stata ripetuta (super-ko)."
     }
   },
+  "golomb": {
+    "SELECT": {
+      "default": "{{player}} ha scelto il pentomino {{what}}."
+    },
+    "PLACE": {
+      "default": "{{player}} ha posizionato il pentomino {{what}} su {{where}}."
+    },
+    "REMOVE": {
+      "default": "{{player}} ha rimosso il pentomino {{what}} dalla plancia."
+    },
+    "CAPTURE": {
+      "default": "{{player}} ha catturato il pentomino {{what}}."
+    },
+    "SWAP": {
+      "default": "{{player}} ha passato e scambiato le mani."
+    },
+    "EOG": {
+      "repetition": "La partita è terminata in patta perché la stessa posizione si è verificata cinque volte con lo stesso giocatore di turno."
+    }
+  },
   "gonnect": {
     "EOG": {
       "cascading_subboard": "{{player}} ha vinto sul sotto-tabellone {{size}}x{{size}}.",

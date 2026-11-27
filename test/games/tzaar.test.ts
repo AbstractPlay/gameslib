@@ -287,6 +287,24 @@ describe("TzaarGame", () => {
         expect(trinityWinner(board, 1)).to.equal(1);
     });
 
+    it("eogSubjectSeat is the winner for completed-game indexes", () => {
+        const g = new TzaarGame();
+        g.phase = "play";
+        g.currplayer = 2;
+        g.board = new Map([
+            ["i3", { owner: 2 as const, pieces: ["tott" as const] }],
+            ["i5", { owner: 2 as const, pieces: ["tzaar" as const] }],
+            ["i4", { owner: 2 as const, pieces: ["tzarra" as const] }],
+            ["d8", { owner: 2 as const, pieces: ["tzarra" as const] }],
+            ["h4", { owner: 1 as const, pieces: ["tzaar" as const] }],
+            ["c4", { owner: 1 as const, pieces: ["tzaar" as const] }],
+            ["b5", { owner: 1 as const, pieces: ["tott" as const] }],
+            ["c3", { owner: 1 as const, pieces: ["tzarra" as const] }],
+        ]);
+        g.move("i4-h4,i3-i5", { trusted: true });
+        expect(g.eogSubjectSeat()).to.equal(1);
+    });
+
     it("ends when mover buries their own last visible tzaar", () => {
         const g = new TzaarGame();
         g.phase = "play";

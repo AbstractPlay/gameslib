@@ -900,6 +900,26 @@
       "repetition": "The game has ended because the same position was repeated (super-ko)."
     }
   },
+  "golomb": {
+    "SELECT": {
+      "default": "{{player}} chose the {{what}} pentomino."
+    },
+    "PLACE": {
+      "default": "{{player}} placed the {{what}} pentomino on {{where}}."
+    },
+    "REMOVE": {
+      "default": "{{player}} removed the {{what}} pentomino from the board."
+    },
+    "CAPTURE": {
+      "default": "{{player}} captured the {{what}} pentomino."
+    },
+    "SWAP": {
+      "default": "{{player}} passed and swapped hands."
+    },
+    "EOG": {
+      "repetition": "The game has ended in a draw because the same position occurred five times with the same player to move."
+    }
+  },
   "gonnect": {
     "EOG": {
       "cascading_subboard": "{{player}} won on the {{size}}x{{size}} subboard.",

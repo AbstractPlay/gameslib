@@ -1531,6 +1531,30 @@
     "src": "The game has ended because the same position was repeated (super-ko).",
     "out": "El juego ha terminado porque se repitió la misma posición (super-ko)."
   },
+  "golomb.CAPTURE.default": {
+    "src": "{{player}} captured the {{what}} pentomino.",
+    "out": "{{player}} capturó el pentominó {{what}}."
+  },
+  "golomb.EOG.repetition": {
+    "src": "The game has ended in a draw because the same position occurred five times with the same player to move.",
+    "out": "El juego ha terminado en empate porque la misma posición ocurrió cinco veces con el mismo jugador por mover."
+  },
+  "golomb.PLACE.default": {
+    "src": "{{player}} placed the {{what}} pentomino on {{where}}.",
+    "out": "{{player}} colocó el pentominó {{what}} en {{where}}."
+  },
+  "golomb.REMOVE.default": {
+    "src": "{{player}} removed the {{what}} pentomino from the board.",
+    "out": "{{player}} retiró el pentominó {{what}} del tablero."
+  },
+  "golomb.SELECT.default": {
+    "src": "{{player}} chose the {{what}} pentomino.",
+    "out": "{{player}} eligió el pentominó {{what}}."
+  },
+  "golomb.SWAP.default": {
+    "src": "{{player}} passed and swapped hands.",
+    "out": "{{player}} pasó e intercambió manos."
+  },
   "gonnect.EOG.cascading_subboard": {
     "src": "{{player}} won on the {{size}}x{{size}} subboard.",
     "out": "{{player}} ganó en el subtablero de {{size}}x{{size}}."

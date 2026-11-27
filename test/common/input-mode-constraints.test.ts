@@ -18,12 +18,17 @@ describe("input-mode-constraints", () => {
         expect(sanitizeInputModeForGame(modes, "b")).to.equal("b");
     });
 
-    it("falls back to first concrete mode when stored is unknown", () => {
-        expect(sanitizeInputModeForGame(modes, "nope")).to.equal("a");
+    it("falls back to group-sentinel default when stored is unknown", () => {
+        expect(sanitizeInputModeForGame(modes, "nope")).to.equal(undefined);
     });
 
-    it("falls back to first concrete mode when stored is empty", () => {
-        expect(sanitizeInputModeForGame(modes, "")).to.equal("a");
-        expect(sanitizeInputModeForGame(modes, undefined)).to.equal("a");
+    it("falls back to group-sentinel default when stored is empty", () => {
+        expect(sanitizeInputModeForGame(modes, "")).to.equal(undefined);
+        expect(sanitizeInputModeForGame(modes, undefined)).to.equal(undefined);
+    });
+
+    it("falls back to the sole ungrouped mode when there is no sentinel", () => {
+        const flat: InputMode[] = [{ uid: "only" }];
+        expect(sanitizeInputModeForGame(flat, undefined)).to.equal("only");
     });
 });

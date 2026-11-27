@@ -1386,11 +1386,12 @@ export abstract class GameBase  {
     }
 
     /**
-     * 1-based seat for the primary `{{player}}` param on the terminal EOG catalog line,
-     * when that line is seat-specific (completed-game indexes, list “how ended”).
+     * 1-based seat for the primary `{{player}}` param on the terminal EOG catalog line
+     * (completed-game indexes, list “how ended”). Default: sole winner when present.
+     * Override when copy names a different seat (e.g. Yonkoma crosscut loser).
      */
     public eogSubjectSeat(): number | undefined {
-        return undefined;
+        return this.winner.length > 0 ? this.winner[0] : undefined;
     }
 
     /**

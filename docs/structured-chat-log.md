@@ -234,7 +234,7 @@ formatChatLogEntryNodes(game.chatLogEntries(playerNames), playerNames, t);
 
 Games may push `{ type: "eog", reason?: string }` on the final ply. User-facing copy lives in **`gameApresultsEn.EOG.<leaf>`** or shared **`apresults:_general.EOG.*`**. Normalize machine tokens to catalog leaves (lowercase; spaces/`-`/`.` → `_`; camelCase → snake_case). Legacy tokens stay on the wire — map them with **`eogReasonAliases()`** on the game class.
 
-Default **`collectChatLogLine`** resolves reasons via **`collectEogChatLogLine`**. Branching endings (seat-specific loser, cascade wins) override **`eogChatLineOverride`** and optional **`eogSubjectSeat()`** (1-based seat for `{{player}}` on the EOG catalog line — used when indexing completed games). The front game-over status calls **`formatEogSummary(players, t)`**, which must match the move-log EOG line for the same frame.
+Default **`collectChatLogLine`** resolves reasons via **`collectEogChatLogLine`**. Branching endings override **`eogChatLineOverride`**. **`eogSubjectSeat()`** defaults to the winner seat for completed-game **`{{player}}`** interpolation; override when catalog copy names another seat (e.g. crosscut loser). In-game game-over UI uses **`formatEogSummary(players, t)`**, which must match the move-log EOG line for the same frame.
 
 Audit: `node scripts/audit-eog-reasons.mjs`. Progress checklist: [EOG reason catalog](/gameslib/eog-reason-catalog/).
 

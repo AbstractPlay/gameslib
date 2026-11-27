@@ -15,7 +15,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, DVONN, GIPF, Golomb's Game, Ice Palace, LYNGK, Polypods, Skisma, Squares, TZAAR, YINSH, ZERTZ.
 
-## [1.0.0-ci] - 2026-11-26
+## [1.0.0-ci] - 2026-11-27
 
 ### Added
 
@@ -31,6 +31,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 ### Fixed
 
+- **GameBase:** default **`eogSubjectSeat()`** is the winner seat so completed-game **How ended** rows interpolate `{{player}}` without per-game boilerplate (Yonkoma crosscut still overrides with the loser).
 - **Agents of MARS:** pyramid moves and board swaps may jump over intervening pyramids when landing exactly face-value steps away in a cardinal direction; optional **Slide move** variant restores clear-path sliding.
 - **Tumbleweed (fog):** off-line-of-sight captures tombstone the victim seat’s `fogMemory` at the captured cell so stripped client boards and LOS no longer keep a phantom stack; `repairTumbleweedFogStack` / `repairTumbleweedFogStackJson` replay stacks to refresh `fogMemory` on every ply (node-backend one-shot `backfill-tumbleweed-fog` script), including resign/timeout/draw/abandoned endings.
 - **Chameleon:** end-of-game reason distinguishes annihilation (no pieces left) from stalemate (no legal moves); infiltration wins use the correct opposing back rank for player 1; one-time ops backfill patches legacy terminal `eog` results on completed games (see node-backend).

@@ -15,7 +15,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 
 - **New games (dev / experimental only):** Agents of MARS, Bagh Chal, Colorfield, DVONN, GIPF, Golomb's Game, Ice Palace, LYNGK, Polypods, Skisma, Squares, TZAAR, YINSH, ZERTZ.
 
-## [1.0.0-ci] - 2026-11-27
+## [1.0.0-ci] - 2026-11-28
 
 ### Added
 
@@ -58,6 +58,7 @@ Since the `1.0.0-beta` release, the version in `package.json` has stayed at `1.0
 - **`handleClick` API:** optional fifth argument **`IHandleClickUi`** (`panelId`, `board` as **`IClickBoardContext`**) for composite panels and draw-grid-aware board clicks; clients pass `ui.board` from the visible `APRenderRep.board` (Abstract Play front and playground ship this for Quax diamond-board).
 - **Render annotations:** connection paths, win lines, and other undirected polylines use `type: "line"` instead of `type: "move"` with `arrow: false` (dozens of games; piece-slide highlights unchanged in Tintas, Chase, and Swarm; Even at Odds unchanged; Fractured score-track shifts stay `move` with arrows; Sentinel lines-of-sight stay `move` without arrowheads).
 - **Clear Path:** after a cut-off win the board no longer draws the winner's sealing chain (which steps diagonally and could pass a crosscut); it draws one of the winner's remaining possible connections instead, the one needing the fewest further stones, as a dashed line with the stones still to be placed shown faintly. A completed winning path is still drawn as a solid line. Game description states the cut-off ending, and the move-log line names the winner and the dashed line (`version` `20261117`).
+- **Clear Path:** the dots now mark the vital points of both players at all times, whoever is to move: red for a point vital to Red, blue for one vital to Blue, and a larger purple dot for a point vital to both. Before, only the placements illegal for the player to move were dotted (`version` `20261128`).
 - **Arimaa Input Update:**
   - Control Inputs (lowest priority; actual input takes precedence)
     - Click on an empty square to mark the move complete

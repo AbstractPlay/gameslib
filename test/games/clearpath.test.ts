@@ -28,11 +28,24 @@ function cellsOf(g: ClearPathGame): Uint8Array {
 }
 
 /** The dot markers of the rendered board, with the points in algebraic notation. */
-function dotsOf(g: ClearPathGame): Array<{colour: number | string | undefined; points: string[]}> {
-    const board = g.render().board as {markers?: Array<{type: string; colour?: number | string; points?: Array<{row: number; col: number}>}>};
+function dotsOf(g: ClearPathGame): Array<{colour: number | string | undefined; size: number | undefined; points: string[]}> {
+    const board = g.render().board as {markers?: Array<{type: string; colour?: number | string; size?: number; points?: Array<{row: number; col: number}>}>};
     return (board.markers ?? [])
         .filter(m => m.type === "dots")
-        .map(m => ({colour: m.colour, points: m.points!.map(p => g.coords2algebraic(p.col, p.row))}));
+        .map(m => ({colour: m.colour, size: m.size, points: m.points!.map(p => g.coords2algebraic(p.col, p.row))}));
+}
+
+const RED_DOT = 1;
+const BLUE_DOT = 2;
+const BOTH_DOT = "#800080";   // a point vital to both players: purple and larger
+
+/** The dots expected for the given vital points: red, blue, both (each list in row-major order, empty lists omitted). */
+function expectedDots(red: string[], blue: string[], both: string[]): Array<{colour: number | string; size: number; points: string[]}> {
+    const out: Array<{colour: number | string; size: number; points: string[]}> = [];
+    if (red.length > 0) { out.push({colour: RED_DOT, size: 0.35, points: red}); }
+    if (blue.length > 0) { out.push({colour: BLUE_DOT, size: 0.35, points: blue}); }
+    if (both.length > 0) { out.push({colour: BOTH_DOT, size: 0.40, points: both}); }
+    return out;
 }
 
 /** The winning path drawn as a solid line at the end of the game, in algebraic notation. */
@@ -123,9 +136,13 @@ describe("Clear Path", () => {
             expect(() => g.move("c3")).to.throw();
         });
 
-        it("marks the illegal placement with a dot in the opponent's colour", () => {
+        it("marks the vital point with a dot in its owner's colour, whoever is to move", () => {
             const g = play(5, wall);
-            expect(dotsOf(g)).to.deep.equal([{colour: 2, points: ["c3"]}]);
+            // c3 is vital to Blue; Red has several disjoint possible connections, so no point is vital to Red
+            expect(dotsOf(g)).to.deep.equal(expectedDots([], ["c3"], []));
+            const asBlue = g.clone();
+            asBlue.currplayer = 2;
+            expect(dotsOf(asBlue)).to.deep.equal(expectedDots([], ["c3"], []));
         });
 
         it("lets the other player use their own vital point", () => {
@@ -140,10 +157,12 @@ describe("Clear Path", () => {
             const g = play(5, ["c1", "a1", "c2", "a2", "c4", "e1", "c5", "e2"]);
             expect(g.currplayer).to.equal(1);
             expect(g.moves()).to.include("c3");
-            // c3 is legal for Red (it wins), so it gets no dot.  b3 and d3
-            // are also vital to Blue (every Blue path through c3 enters and
-            // leaves through them) and illegal for Red, so they are dotted.
-            expect(dotsOf(g)).to.deep.equal([{colour: 2, points: ["b3", "d3"]}]);
+            // b3, c3 and d3 are vital to Blue (every Blue path crosses column
+            // c at c3 and enters and leaves it through b3 and d3), so all three
+            // carry a blue dot, c3 included although Red may win there.  Red
+            // has other possible connections (down column a and b, say), so no
+            // point is vital to Red.
+            expect(dotsOf(g)).to.deep.equal(expectedDots([], ["b3", "c3", "d3"], []));
             g.move("c3");
             expect(g.gameover).to.be.true;
             expect(g.winner).to.deep.equal([1]);
@@ -167,11 +186,12 @@ describe("Clear Path", () => {
             const g = play(5, ["a5", "a1", "b4", "b2", "d2", "d4", "e1", "e5"]);
             expect(g.currplayer).to.equal(1);
             expect(g.moves()).to.include("c3");
-            // a point vital to both is legal, so it gets no dot
-            expect(dotsOf(g)).to.deep.equal([]);
+            // a point vital to both players carries the larger purple dot, for either player to move
+            expect(dotsOf(g)).to.deep.equal(expectedDots([], [], ["c3"]));
             const asBlue = g.clone();
             asBlue.currplayer = 2;
             expect(asBlue.moves()).to.include("c3");
+            expect(dotsOf(asBlue)).to.deep.equal(expectedDots([], [], ["c3"]));
             // Red takes it: Blue has no possible connecting path left, so Red wins at once
             g.move("c3");
             expect(g.gameover).to.be.true;
@@ -185,11 +205,13 @@ describe("Clear Path", () => {
     });
 
     describe("Dots", () => {
-        it("dots only the placements that are illegal for the player to move", () => {
+        it("dots a point vital to the opponent even where the player to move may win on it", () => {
             // 7x7, Red to move.  Every possible Blue connection runs through
-            // a1, b1 and c1, so all three are vital to Blue and none is vital
-            // to Red.  A red stone on b1 completes Red's winning path, so b1
-            // is legal for Red and must not be dotted.  a1 and c1 are not.
+            // a1, b1 and c1, so all three are vital to Blue and carry a blue
+            // dot.  A red stone on b1 completes Red's winning path, so b1 is
+            // legal for Red all the same; a1 and c1 are not.  Red has a
+            // possible connection down the empty g column among others, so
+            // no point is vital to Red.
             const g = play(7, ["d7", "e6", "e7", "e5", "d6", "f5", "d5", "d4", "c5", "f4", "c4", "c3", "b4", "f3", "b3", "c2", "b2", "e3"]);
             expect(g.currplayer).to.equal(1);
             const cells = cellsOf(g);
@@ -199,7 +221,7 @@ describe("Clear Path", () => {
             expect(g.moves()).to.include("b1");
             expect(g.moves()).to.not.include("a1");
             expect(g.moves()).to.not.include("c1");
-            expect(dotsOf(g)).to.deep.equal([{colour: 2, points: ["a1", "c1"]}]);
+            expect(dotsOf(g)).to.deep.equal(expectedDots([], ["a1", "b1", "c1"], []));
             g.move("b1");
             expect(g.winner).to.deep.equal([1]);
         });
@@ -207,7 +229,54 @@ describe("Clear Path", () => {
         it("dots every empty point when the player to move has no legal placement", () => {
             const g = play(4, cutOffTurn);
             expect(g.moves()).to.deep.equal(["pass"]);
-            expect(dotsOf(g)).to.deep.equal([{colour: 2, points: ["a4", "b3", "c3", "d3"]}]);
+            // all four empty points are vital to Blue; Red's possible connections
+            // (a4 a3 b3 b2 b1, c4 c3 b3 b2 b1, c4 c3 d3 d2 d1) share no point
+            expect(dotsOf(g)).to.deep.equal(expectedDots([], ["a4", "b3", "c3", "d3"], []));
+        });
+
+        it("shows the vital points of both players at once, in three colours", () => {
+            // 5x5, Red to move.  Red: c1, a5, d5, c3, d4.  Blue: d3, c2, b4, e2, a3.
+            // Every possible Red connection runs c4 c3 b3 b2 and then b1 or a2 a1,
+            // so c4, b3 and b2 are vital to Red.  Every possible Blue connection
+            // reaches c2 through b2 and leaves it through d2, so b2 and d2 are
+            // vital to Blue.  b2 is vital to both.
+            const g = play(5, ["c1", "d3", "a5", "c2", "d5", "b4", "c3", "e2", "d4", "a3"]);
+            expect(g.currplayer).to.equal(1);
+            const cells = cellsOf(g);
+            const at = (mask: Uint8Array, cell: string) => { const [x, y] = g.algebraic2coords(cell); return mask[y * 5 + x]; };
+            const vitalRed = cpVitalPoints(cells, 5, 5, 1);
+            const vitalBlue = cpVitalPoints(cells, 5, 5, 2);
+            expect(["c4", "b3", "b2"].map(c => at(vitalRed, c))).to.deep.equal([1, 1, 1]);
+            expect(["b2", "d2"].map(c => at(vitalBlue, c))).to.deep.equal([1, 1]);
+            expect(at(vitalRed, "d2")).to.equal(0);
+            expect(at(vitalBlue, "c4")).to.equal(0);
+            const dots = expectedDots(["c4", "b3"], ["d2"], ["b2"]);
+            expect(dotsOf(g)).to.deep.equal(dots);
+            // the same dots on Blue's turn
+            const asBlue = g.clone();
+            asBlue.currplayer = 2;
+            expect(dotsOf(asBlue)).to.deep.equal(dots);
+            // and the placements they forbid: a point vital to the opponent alone
+            expect(g.moves()).to.not.include("d2");
+            expect(g.moves()).to.include.members(["b2", "c4", "b3"]);
+            expect(asBlue.moves()).to.not.include.members(["c4", "b3"]);
+            expect(asBlue.moves()).to.include.members(["b2", "d2"]);
+        });
+
+        it("marks every point vital to both players, there can be more than one", () => {
+            // 3x3, Blue to move.  Red: a2, c3, a1.  Blue: a3, c2.  Every possible
+            // Red connection runs c3 b3 b2, every possible Blue connection runs
+            // a3 b3 b2, so b3 and b2 are both vital to both players.
+            const g = play(3, ["a2", "a3", "c3", "c2", "a1"]);
+            expect(g.currplayer).to.equal(2);
+            expect(dotsOf(g)).to.deep.equal(expectedDots([], [], ["b3", "b2"]));
+            expect(g.moves()).to.include.members(["b3", "b2"]);
+            // Blue takes b2: Red has no possible connection left, so Blue wins at once
+            g.move("b2");
+            expect(g.gameover).to.be.true;
+            expect(g.winner).to.deep.equal([2]);
+            expect(cpConnects(cellsOf(g), 3, 3, 1, true)).to.be.false;
+            expect(dotsOf(g)).to.deep.equal([]);
         });
     });
 
@@ -367,7 +436,8 @@ describe("Clear Path", () => {
     });
 
     describe("Random play", () => {
-        it("always ends with exactly one winner, by connection or by cut-off", () => {
+        it("always ends with exactly one winner, by connection or by cut-off", function () {
+            this.timeout(20_000);   // the dots are recomputed at every position of every game
             let cutoffs = 0;
             for (let i = 0; i < 30; i++) {
                 const g = new ClearPathGame(undefined, ["size-7"]);
@@ -375,6 +445,20 @@ describe("Clear Path", () => {
                 while (!g.gameover) {
                     const moves = g.moves();
                     expect(moves.length).to.be.greaterThan(0);
+                    // the dots are the vital points of both players, whoever is to move
+                    const cells = cellsOf(g);
+                    const vitalRed = cpVitalPoints(cells, 7, 7, 1);
+                    const vitalBlue = cpVitalPoints(cells, 7, 7, 2);
+                    const red: string[] = [], blue: string[] = [], both: string[] = [];
+                    for (let idx = 0; idx < 49; idx++) {
+                        const c = g.coords2algebraic(idx % 7, Math.floor(idx / 7));
+                        if (vitalRed[idx] === 1 && vitalBlue[idx] === 1) { both.push(c); } else if (vitalRed[idx] === 1) { red.push(c); } else if (vitalBlue[idx] === 1) { blue.push(c); }
+                    }
+                    const expected = expectedDots(red, blue, both);
+                    expect(dotsOf(g)).to.deep.equal(expected);
+                    const other = g.clone();
+                    other.currplayer = g.currplayer === 1 ? 2 : 1;
+                    expect(dotsOf(other)).to.deep.equal(expected);
                     g.move(moves[Math.floor(Math.random() * moves.length)]);
                     plies++;
                     expect(plies).to.be.lessThan(200);

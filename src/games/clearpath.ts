@@ -303,10 +303,10 @@ export class ClearPathGame extends GameBase {
         name: "Clear Path",
         uid: "clearpath",
         playercounts: [2],
-        version: "20261117",
+        version: "20261128",
         dateAdded: "2026-11-01",
         description: "An orthogonal connection game on the points of a square grid. Red connects the top and bottom edges, Blue the left and right edges, with a chain of orthogonally adjacent stones. Each turn you place one stone. A point is vital to a player if every possible connection of theirs passes through it. You may not place on a point vital to your opponent unless it is also vital to you, or your placement completes your connection. Crosscuts are allowed. A placement that leaves your opponent without any possible connection wins at once, since your opponent can never connect.",
-        notes: "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe dots mark the points where the player to move may not place. Each dotted point is vital to the opponent (every possible connection of the opponent passes through it), not vital to the player to move, and not a winning placement. A point vital to both players is not dotted, since either player may take it, and neither is a point where the player to move completes a winning path. The dots are drawn in the opponent's colour. A player who no longer has any possible connection has no vital points.\n\nA placement that leaves the opponent without any possible connecting path ends the game at once, and the player who placed wins: the opponent can never connect and can never take the winner's vital points, so the winner's connection can no longer be stopped. A completed winning path is drawn as a solid line through its stones. After a cut-off there is no winning path yet. A dashed line then shows one of the winner's remaining possible connections, the one needing the fewest further stones, with those stones drawn faintly.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.",
+        notes: "Clear Path was designed by Mark Steere in September 2026, in collaboration with Claude Fable 5.1, an AI model made by Anthropic.\n\nThe dots mark the vital points of both players at all times, whoever is to move. A red dot marks a point vital to Red (every possible connection of Red passes through it), a blue dot a point vital to Blue, and a larger purple dot a point vital to both players, which either player may take. A player may not place on a point marked only in the opponent's colour, except to complete a winning path. A player who no longer has any possible connection has no vital points.\n\nA placement that leaves the opponent without any possible connecting path ends the game at once, and the player who placed wins: the opponent can never connect and can never take the winner's vital points, so the winner's connection can no longer be stopped. A completed winning path is drawn as a solid line through its stones. After a cut-off there is no winning path yet. A dashed line then shows one of the winner's remaining possible connections, the one needing the fewest further stones, with those stones drawn faintly.\n\nPassing is not allowed, but a player with no legal placement has their turn skipped. The pass is submitted automatically.",
         urls: [
             "https://www.marksteeregames.com/Clear_Path_rules.pdf",
             "https://www.marksteeregames.com",
@@ -704,26 +704,33 @@ export class ClearPathGame extends GameBase {
             pstr.push(line);
         }
 
-        // Mark the points where the player to move may not place: every
-        // empty point that is vital to the opponent, not vital to the mover,
-        // and not a winning placement for the mover.  The dots are drawn in
-        // the opponent's colour, since they are the opponent's vital points.
-        // A point vital to both players gets no dot (either player may take
-        // it), nor does a winning placement.  Nothing is marked once the
-        // game is over.
-        const illegal: RowCol[] = [];
-        const opponent: playerid = this.currplayer === 1 ? 2 : 1;
+        // Mark the vital points of both players, whoever is to move: a red
+        // dot on a point vital to Red (every possible connection of Red
+        // passes through it), a blue dot on a point vital to Blue, and a
+        // larger purple dot on a point vital to both.  A cut-off player has
+        // no vital points.  Nothing is marked once the game is over.
+        const vitalRed: RowCol[] = [];
+        const vitalBlue: RowCol[] = [];
+        const vitalBoth: RowCol[] = [];
         if (!this.gameover) {
             const cells = this.toCells();
-            const legal = cpLegalPlacements(cells, n, n, this.currplayer);
+            const red = cpVitalPoints(cells, n, n, 1);
+            const blue = cpVitalPoints(cells, n, n, 2);
             for (let idx = 0; idx < cells.length; idx++) {
-                if (cells[idx] === 0 && legal[idx] === 0) {
-                    const x = idx % n;
-                    const y = (idx - x) / n;
-                    illegal.push({row: y, col: x});
+                if (red[idx] === 0 && blue[idx] === 0) { continue; }
+                const x = idx % n;
+                const point: RowCol = {row: (idx - x) / n, col: x};
+                if (red[idx] === 1 && blue[idx] === 1) {
+                    vitalBoth.push(point);
+                } else if (red[idx] === 1) {
+                    vitalRed.push(point);
+                } else {
+                    vitalBlue.push(point);
                 }
             }
         }
+        const dots = (points: RowCol[], colour: number | string, size: number) =>
+            points.length > 0 ? [{ type: "dots" as const, colour, size, points: points as [RowCol, ...RowCol[]] }] : [];
 
         // Build rep
         const rep: APRenderRep =  {
@@ -737,7 +744,9 @@ export class ClearPathGame extends GameBase {
                     { type: "edge", edge: "S", colour: 1 },
                     { type: "edge", edge: "E", colour: 2 },
                     { type: "edge", edge: "W", colour: 2 },
-                    ...(illegal.length > 0 ? [{ type: "dots" as const, colour: opponent, size: 0.35, points: illegal as [RowCol, ...RowCol[]] }] : []),
+                    ...dots(vitalRed, 1, 0.35),
+                    ...dots(vitalBlue, 2, 0.35),
+                    ...dots(vitalBoth, "#800080", 0.40),
                 ],
             },
             legend: {

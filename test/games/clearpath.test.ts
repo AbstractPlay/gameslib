@@ -44,7 +44,7 @@ function expectedDots(red: string[], blue: string[], both: string[]): Array<{col
     const out: Array<{colour: number | string; size: number; points: string[]}> = [];
     if (red.length > 0) { out.push({colour: RED_DOT, size: 0.35, points: red}); }
     if (blue.length > 0) { out.push({colour: BLUE_DOT, size: 0.35, points: blue}); }
-    if (both.length > 0) { out.push({colour: BOTH_DOT, size: 0.45, points: both}); }
+    if (both.length > 0) { out.push({colour: BOTH_DOT, size: 0.40, points: both}); }
     return out;
 }
 

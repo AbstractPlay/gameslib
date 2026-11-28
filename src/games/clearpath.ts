@@ -746,7 +746,7 @@ export class ClearPathGame extends GameBase {
                     { type: "edge", edge: "W", colour: 2 },
                     ...dots(vitalRed, 1, 0.35),
                     ...dots(vitalBlue, 2, 0.35),
-                    ...dots(vitalBoth, "#800080", 0.45),
+                    ...dots(vitalBoth, "#800080", 0.40),
                 ],
             },
             legend: {
